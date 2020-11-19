@@ -1,0 +1,54 @@
+<GuiXml>
+    <Controls>
+<!-- ======================================================================================================================= -->
+        <TopLevelControl name="CrutchNotificationsContainer" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
+            <Dimensions x="40" y="40"/>
+            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
+            <OnMoveStop>
+                <!-- CrutchNotifications.SavePosition() -->
+            </OnMoveStop>
+            <Controls>
+                <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" hidden="true">
+                    <AnchorFill/>
+                    <Edge edgeSize="1"/>
+                    <Controls>
+                        <Texture name="$(parent)Alert" textureFile="esoui/art/miscellaneous/gamepad/gp_icon_new.dds" hidden="false">
+                            <Dimensions x="40" y="40"/>
+                            <Anchor point="CENTER" offsetX="0" offsetY="0"/>
+                        </Texture>
+                    </Controls>
+                </Backdrop>
+            </Controls>
+        </TopLevelControl>
+
+         <Control name="CrutchNotifications_Line_Template" virtual="true">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" />
+            <Dimensions x="600" y="36" />
+            <Controls>
+                <Texture name="$(parent)Icon" textureFile="esoui/art/icons/ability/ability_weapon_001.dds" hidden="false">
+                    <Dimensions x="36" y="36"/>
+                    <Anchor point="RIGHT" relativeTo="$(parent)Label" relativePoint="LEFT"/>
+                    <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls>
+                </Texture>
+                <Label name="$(parent)Label" fontName="ZoFontWinH1" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ffffff"
+                    text="Devastate" verticalAlignment="TOP" horizontalAlignment="CENTER" hidden="false">
+                    <Dimensions x="600" y="36"/>
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                    <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
+                </Label>
+                <Label name="$(parent)Timer" fontName="ZoFontWinH1" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ff0000"
+                    text="" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
+                    <Dimensions x="600" y="36"/>
+                    <Anchor point="LEFT" relativeTo="$(parent)Label" relativePoint="RIGHT"/>
+                    <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
+                </Label>
+                <Label name="$(parent)Id" fontName="ZoFontWinH1" font="$(BOLD_FONT)|12|soft-shadow-thick" color="888888"
+                    text="12345 (1200ms) from The Abomination (54321)" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
+                    <Dimensions x="600" y="36"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Label" relativePoint="BOTTOMLEFT"/>
+                    <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
+                </Label>
+            </Controls>
+        </Control>
+    </Controls>
+</GuiXml>

@@ -1,0 +1,14 @@
+## Title: CrutchNotifications
+## This addon is a crutch
+## Author: Kyzeragon
+## Version: 0.0.0
+## APIVersion: 100032
+
+## SavedVariables: CrutchNotificationsSavedVariables
+
+CrutchNotifications.lua
+CrutchNotifications.xml
+
+src/core.lua
+src/events.lua
+src/data.lua
