@@ -1,5 +1,5 @@
-CrutchNotifications = CrutchNotifications or {}
-local Crutch = CrutchNotifications
+CrutchAlerts = CrutchAlerts or {}
+local Crutch = CrutchAlerts
 
 -- true = ignore
 -- false = needs testing

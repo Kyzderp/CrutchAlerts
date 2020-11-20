@@ -1,11 +1,11 @@
 -----------------------------------------------------------
--- CrutchNotifications
+-- CrutchAlerts
 -- @author Kyzeragon
 -----------------------------------------------------------
 
-CrutchNotifications = CrutchNotifications or {}
-local Crutch = CrutchNotifications
-Crutch.name = "CrutchNotifications"
+CrutchAlerts = CrutchAlerts or {}
+local Crutch = CrutchAlerts
+Crutch.name = "CrutchAlerts"
 
 -- Defaults
 local defaultOptions = {
@@ -21,12 +21,12 @@ local defaultOptions = {
 -- Initialize 
 local function Initialize()
     -- Settings and saved variables
-    Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchNotificationsSavedVariables", 1, "Options", defaultOptions)
+    Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
 
     -- Position
-    CrutchNotificationsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
-    CrutchNotificationsContainer:SetHidden(not Crutch.savedOptions.display.enable)
-    CrutchNotificationsContainerBackdrop:SetHidden(not Crutch.savedOptions.display.unlock)
+    CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
+    CrutchAlertsContainer:SetHidden(not Crutch.savedOptions.display.enable)
+    CrutchAlertsContainerBackdrop:SetHidden(not Crutch.savedOptions.display.unlock)
 
     -- Register events
     Crutch.RegisterBegin()

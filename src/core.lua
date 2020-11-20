@@ -1,5 +1,5 @@
-CrutchNotifications = CrutchNotifications or {}
-local Crutch = CrutchNotifications
+CrutchAlerts = CrutchAlerts or {}
+local Crutch = CrutchAlerts
 
 ---------------------------------------------------------------------
 -- Data
@@ -60,7 +60,7 @@ local function UpdateDisplay()
     local numActive = 0
     for i, data in pairs(freeControls) do
         if (data and data.expireTime) then
-            local lineControl = CrutchNotificationsContainer:GetNamedChild("Line" .. tostring(i))
+            local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(i))
             local millisRemaining = (data.expireTime - currTime)
             if (millisRemaining < 0) then
                 -- Hide
@@ -95,10 +95,10 @@ local function FindOrCreateControl()
     local index = #freeControls + 1
     local lineControl = CreateControlFromVirtual(
         "$(parent)Line" .. tostring(index),     -- name
-        CrutchNotificationsContainer,           -- parent
-        "CrutchNotifications_Line_Template",    -- template
+        CrutchAlertsContainer,           -- parent
+        "CrutchAlerts_Line_Template",    -- template
         "")                                     -- suffix
-    lineControl:SetAnchor(CENTER, CrutchNotificationsContainer, CENTER, 0, (index - 1) * zo_floor(fontSize * 1.5))
+    lineControl:SetAnchor(CENTER, CrutchAlertsContainer, CENTER, 0, (index - 1) * zo_floor(fontSize * 1.5))
 
     return index
 end
@@ -125,7 +125,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         index = FindOrCreateControl()
     end
 
-    local lineControl = CrutchNotificationsContainer:GetNamedChild("Line" .. tostring(index))
+    local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
     freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer}
     displaying[sourceUnitId] = index
 
@@ -172,7 +172,7 @@ function Crutch.Interrupted(targetUnitId)
         freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
 
         -- Set the text to "stopped"
-        local lineControl = CrutchNotificationsContainer:GetNamedChild("Line" .. tostring(index))
+        local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
         local labelControl = lineControl:GetNamedChild("Label")
         labelControl:SetWidth(800)
         labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")

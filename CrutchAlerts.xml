@@ -1,11 +1,11 @@
 <GuiXml>
     <Controls>
 <!-- ======================================================================================================================= -->
-        <TopLevelControl name="CrutchNotificationsContainer" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
+        <TopLevelControl name="CrutchAlertsContainer" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
             <Dimensions x="40" y="40"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
             <OnMoveStop>
-                <!-- CrutchNotifications.SavePosition() -->
+                <!-- CrutchAlerts.SavePosition() -->
             </OnMoveStop>
             <Controls>
                 <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" hidden="true">
@@ -21,7 +21,7 @@
             </Controls>
         </TopLevelControl>
 
-         <Control name="CrutchNotifications_Line_Template" virtual="true">
+         <Control name="CrutchAlerts_Line_Template" virtual="true">
             <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" />
             <Dimensions x="600" y="36" />
             <Controls>
