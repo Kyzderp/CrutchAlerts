@@ -52,7 +52,11 @@ end
 function Crutch.RegisterEffectChanged()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED,
         function(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, unitName, unitId, abilityId, sourceType)
-            Crutch.groupMembers[unitId] = GetUnitDisplayName(unitTag) or zo_strformat("<<1>>", unitName)
+            local displayName = GetUnitDisplayName(unitTag) or zo_strformat("<<1>>", unitName)
+            Crutch.groupMembers[unitId] = displayName
+            if (not string.sub(displayName, 1, 1) == "@") then
+                d(string.format("Received non-@ for %s from %s, result %s", unitTag, GetAbilityName(abilityId), displayName))
+            end
         end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
@@ -64,10 +68,10 @@ end
 ---------------------------------------------------------------------
 
 ---------------------------------------------------------------------
--- ALL ACTION_RESULT_BEGIN
+-- ALL ACTION_RESULT_BEGIN/GAINED/GAINED_DURATION
 
--- MAIN FUNCTION where all ACTION_RESULT_BEGIN will pass through
-local function OnCombatEventBegin(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+-- MAIN FUNCTION where all ACTION_RESULT_BEGIN/GAINED/GAINED_DURATION will pass through
+local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
     -- Several immediate light attacks are 75ms
     if (hitValue <= 75) then return end
 
@@ -81,24 +85,48 @@ local function OnCombatEventBegin(_, result, isError, abilityName, _, _, sourceN
     Crutch.DisplayNotification(abilityId, GetAbilityName(abilityId), hitValue, sourceUnitId, sourceName, sourceType, result)
 end
 
-function Crutch.RegisterBegin()
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, OnCombatEventBegin)
+function Crutch.RegisterBegin(fromNoneOnly)
+    if (Crutch.registered.begin) then return end
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, OnCombatEventAll)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
+    if (fromNoneOnly) then EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) end -- from enemy
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN) -- Begin, usually
 
-    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, OnCombatEventBegin)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-
-    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, OnCombatEventBegin)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    Crutch.registered.begin = true
 end
 
 function Crutch.UnregisterBegin()
+    if (not Crutch.registered.begin) then return end
+
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT)
-    -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT)
-    -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT)
+
+    Crutch.registered.begin = false
+end
+
+function Crutch.RegisterGained(fromNoneOnly)
+    if (Crutch.registered.gained) then return end
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, OnCombatEventAll)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
+    if (fromNoneOnly) then EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) end -- from enemy
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, OnCombatEventAll)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
+    if (fromNoneOnly) then EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) end -- from enemy
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+
+    Crutch.registered.gained = true
+end
+
+function Crutch.UnregisterGained()
+    if (not Crutch.registered.gained) then return end
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT)
+
+    Crutch.registered.gained = false
 end
 
 
@@ -117,10 +145,24 @@ local function OnInterrupted(_, result, isError, abilityName, _, _, sourceName, 
 end
 
 function Crutch.RegisterInterrupts()
+    if (Crutch.registered.interrupts) then return end
+
     for result, name in pairs(InterruptedResults) do
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, OnInterrupted)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, result)
     end
+
+    Crutch.registered.interrupts = true
+end
+
+function Crutch.UnregisterInterrupts()
+    if (not Crutch.registered.interrupts) then return end
+
+    for result, name in pairs(InterruptedResults) do
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT)
+    end
+
+    Crutch.registered.interrupts = false
 end
 
 
@@ -148,11 +190,19 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
 end
 
 function Crutch.RegisterTest()
+    if (Crutch.registered.test) then return end
+
     RegisterData(Crutch.testing, "Test", nil, COMBAT_UNIT_TYPE_PLAYER, OnCombatEventTest)
+
+    Crutch.registered.test = true
 end
 
 function Crutch.UnregisterTest()
+    if (not Crutch.registered.test) then return end
+
     UnregisterData(Crutch.testing, "Test")
+
+    Crutch.registered.test = false
 end
 
 
@@ -174,14 +224,22 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
 end
 
 function Crutch.RegisterOthers()
+    if (Crutch.registered.others) then return end
+
     RegisterData(Crutch.others, "OthersBegin", ACTION_RESULT_BEGIN, nil, OnCombatEventOthers)
     RegisterData(Crutch.others, "OthersGained", ACTION_RESULT_EFFECT_GAINED, nil, OnCombatEventOthers)
     RegisterData(Crutch.others, "OthersGainedDuration", ACTION_RESULT_EFFECT_GAINED_DURATION, nil, OnCombatEventOthers)
+
+    Crutch.registered.others = true
 end
 
 function Crutch.UnregisterOthers()
+    if (not Crutch.registered.others) then return end
+
     UnregisterData(Crutch.others, "OthersBegin")
     UnregisterData(Crutch.others, "OthersGained")
     UnregisterData(Crutch.others, "OthersGainedDuration")
+
+    Crutch.registered.others = false
 end
 

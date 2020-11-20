@@ -7,6 +7,35 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
 
+Crutch.registered = {
+    begin = false,
+    test = false,
+    others = false,
+    interrupts = false,
+}
+
+--[[
+    general
+        unlock
+        debug line
+        debug chat spam
+        other debug
+    all
+        show begin
+            hide from self
+        show gained
+            hide from self
+        hide hitvalue below X
+            use ability whitelist
+        extend 1ms hitvalues by X
+        use self/group ability blacklist
+        use enemy ability blacklist
+    trials
+        mol
+        as
+        etc
+--]]
+
 -- Defaults
 local defaultOptions = {
     display = {
@@ -22,6 +51,7 @@ local defaultOptions = {
 local function Initialize()
     -- Settings and saved variables
     Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
+    Crutch:CreateSettingsMenu()
 
     -- Position
     CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)

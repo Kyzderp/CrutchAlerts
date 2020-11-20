@@ -4,11 +4,14 @@
 ## Version: 0.0.0
 ## APIVersion: 100032
 
+## DependsOn: LibAddonMenu-2.0>=31
+
 ## SavedVariables: CrutchAlertsSavedVariables
 
 CrutchAlerts.lua
 CrutchAlerts.xml
 
+src/settings.lua
 src/core.lua
 src/events.lua
 src/data.lua

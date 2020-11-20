@@ -5,6 +5,7 @@ local Crutch = CrutchAlerts
 -- false = needs testing
 ---------------------------------------------------------------------
 -- Blacklist
+-- TODO: separate into self-sourced and enemy blacklists
 Crutch.blacklist = {
 -- Self-sourced
     [ 37059] = true, -- Mount Up
@@ -27,6 +28,7 @@ Crutch.testing = {
 
 ---------------------------------------------------------------------
 -- Show when the target is other people too
+-- TODO: show only when in the zone
 Crutch.others = {
 -- Sunspire
     [121833] = true, [121849] = true, [115587] = true, [123042] = true,--Wing Thrash
