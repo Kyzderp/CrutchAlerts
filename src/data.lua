@@ -29,6 +29,7 @@ Crutch.testing = {
 ---------------------------------------------------------------------
 -- Show when the target is other people too
 -- TODO: show only when in the zone
+-- TODO: check being in a trial but without a group - remove it from others events instead of all?
 Crutch.others = {
 -- Sunspire
     [121833] = true, [121849] = true, [115587] = true, [123042] = true,--Wing Thrash

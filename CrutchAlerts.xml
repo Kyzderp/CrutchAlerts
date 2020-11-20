@@ -1,11 +1,11 @@
 <GuiXml>
     <Controls>
 <!-- ======================================================================================================================= -->
-        <TopLevelControl name="CrutchAlertsContainer" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
+        <TopLevelControl name="CrutchAlertsContainer" clampedToScreen="true" mouseEnabled="true" movable="false" hidden="false">
             <Dimensions x="40" y="40"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
             <OnMoveStop>
-                <!-- CrutchAlerts.SavePosition() -->
+                CrutchAlerts:SavePosition()
             </OnMoveStop>
             <Controls>
                 <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" hidden="true">

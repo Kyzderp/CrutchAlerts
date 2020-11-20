@@ -15,12 +15,11 @@ Crutch.registered = {
 }
 
 --[[
+    unlock
+    debug line
+    debug chat spam
+    other debug
     general
-        unlock
-        debug line
-        debug chat spam
-        other debug
-    all
         show begin
             hide from self
         show gained
@@ -31,9 +30,18 @@ Crutch.registered = {
         use self/group ability blacklist
         use enemy ability blacklist
     trials
+        hrc
+        aa
+        so
         mol
         as
-        etc
+        hof
+        cr
+        ss
+        ka
+        ma
+        brp
+        vh
 --]]
 
 -- Defaults
@@ -41,10 +49,41 @@ local defaultOptions = {
     display = {
         x = 0,
         y = GuiRoot:GetHeight() / 3,
-        enable = true,
-        unlock = false,
+    },
+    unlock = false,
+    debugLine = false,
+    debugChatSpam = false,
+    debugOther = false,
+    general = {
+        showBegin = true,
+            beginHideSelf = false,
+        showGained = true,
+        hitValueThreshold = 75,
+            hitValueUseWhitelist = true,
+        useNonNoneBlacklist = true,
+        useNoneBlacklist = true,
+    },
+    instance = {
+        hrc = true,
+        aa = true,
+        so = true,
+        mol = true,
+        as = true,
+        hof = true,
+        cr = true,
+        ss = true,
+        ka = true,
+        ma = true,
+        brp = true,
+        vh = true,
     },
 }
+
+function CrutchAlerts:SavePosition()
+    local x, y = CrutchAlertsContainer:GetCenter()
+    Crutch.savedOptions.display.x = x
+    Crutch.savedOptions.display.y = y
+end
 
 ---------------------------------------------------------------------
 -- Initialize 
@@ -55,11 +94,15 @@ local function Initialize()
 
     -- Position
     CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
-    CrutchAlertsContainer:SetHidden(not Crutch.savedOptions.display.enable)
     CrutchAlertsContainerBackdrop:SetHidden(not Crutch.savedOptions.display.unlock)
 
     -- Register events
-    Crutch.RegisterBegin()
+    if (Crutch.savedOptions.general.showBegin) then
+        Crutch.RegisterBegin()
+    end
+    if (Crutch.savedOptions.general.showGained) then
+        Crutch.RegisterGained()
+    end
     Crutch.RegisterInterrupts()
     Crutch.RegisterTest()
     Crutch.RegisterOthers()

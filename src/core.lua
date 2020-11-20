@@ -118,7 +118,9 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     local index = 0
     -- Maybe fixes the spam for Throw Dagger?
     if (displaying[sourceUnitId]) then
-        -- d(string.format("Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
+        if (Crutch.savedOptions.debugChatSpam) then
+            d(string.format("Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
+        end
         index = displaying[sourceUnitId]
         return
     else
@@ -148,7 +150,11 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     lineControl:GetNamedChild("Timer"):SetText(string.format("%.1f", timer / 1000))
     lineControl:GetNamedChild("Timer"):SetWidth(fontSize * 4)
     lineControl:GetNamedChild("Icon"):SetTexture(GetAbilityIcon(abilityId))
-    lineControl:GetNamedChild("Id"):SetText(string.format("%d (%d) [%s%s]%s", abilityId, timer, sourceName, sourceString, resultString))
+    if (Crutch.savedOptions.debugLine) then
+        lineControl:GetNamedChild("Id"):SetText(string.format("%d (%d) [%s%s]%s", abilityId, timer, sourceName, sourceString, resultString))
+    else
+        lineControl:GetNamedChild("Id"):SetText("")
+    end
 
     -- Reanchor
     lineControl:GetNamedChild("Icon"):SetAnchor(RIGHT, labelControl, LEFT, -8, 3)
