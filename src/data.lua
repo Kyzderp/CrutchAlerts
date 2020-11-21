@@ -6,6 +6,7 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 -- Blacklist
 -- TODO: separate into self-sourced and enemy blacklists
+-- TODO: wtf is this??? [17:00:09] Interrupted (0): Off-Balance Exploit(44364) on (15536) HitValue 0 Type NONE Result STUNNED
 Crutch.blacklist = {
 -- Self-sourced
     [ 37059] = true, -- Mount Up
@@ -36,16 +37,17 @@ Crutch.others = {
     [122012] = true,--Storm Crush (Gale-Claw) -- 103
     [120890] = true,--Crush (Fire-Fang) -- 103
     [122309] = true,--Flaming Bat
-    [119549] = true,--Emberstorm
-    [121723] = true,--Fire Breath
+    [119549] = true, -- Emberstorm
+    [121723] = true, -- Fire Breath
     [121722] = true,--Focus Fire -- 106.3
     [120505] = true,--Meteor
     [122216] = true,--Blast Furnace
-    [119283] = true,--Frost Breath
-    [121980] = true,--Searing Breath
+    [119283] = true, -- Frost Breath
+    [121980] = true, -- Searing Breath
     [121676] = true,--Time Shift
     [121271] = true,--Lightning Storm
-    [121436] = true,--Translation Apocalypse
+    [121411] = true, -- Negate Field
+    [121436] = true, -- Translation Apocalypse
 
     --200
     [114085] = true,--Frost Atro Init
@@ -58,6 +60,7 @@ Crutch.others = {
 
 -- Kyne's Aegis
     [132468] = true, -- Sanguine Prison
+    [135991] = true, -- Toppling Blow (Storm Twin)
 
 -- Asylum Sanctorium
     --300

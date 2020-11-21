@@ -119,7 +119,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     -- Maybe fixes the spam for Throw Dagger?
     if (displaying[sourceUnitId]) then
         if (Crutch.savedOptions.debugChatSpam) then
-            d(string.format("Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
+            d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
         end
         index = displaying[sourceUnitId]
         return

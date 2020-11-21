@@ -68,8 +68,8 @@ function Crutch.RegisterEffectChanged()
         function(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, unitName, unitId, abilityId, sourceType)
             local displayName = GetUnitDisplayName(unitTag) or zo_strformat("<<1>>", unitName)
             Crutch.groupMembers[unitId] = displayName
-            if (not string.sub(displayName, 1, 1) == "@") then
-                d(string.format("Received non-@ for %s from %s, result %s", unitTag, GetAbilityName(abilityId), displayName))
+            if (not string.sub(displayName, 1, 1) == "@" and Crutch.savedOptions.debugOther) then
+                d(string.format("|c88FFFF[CO]|r Received non-@ for %s from %s, result %s", unitTag, GetAbilityName(abilityId), displayName))
             end
         end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
@@ -131,7 +131,7 @@ end
 
 function Crutch.RegisterBegin()
     if (Crutch.registered.begin) then return end
-    if (Crutch.savedOptions.debugOther) then d("Registered Begin") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Begin") end
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, OnCombatEventAll)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
@@ -143,7 +143,7 @@ end
 
 function Crutch.UnregisterBegin()
     if (not Crutch.registered.begin) then return end
-    if (Crutch.savedOptions.debugOther) then d("Unregistered Begin") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Begin") end
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT)
 
@@ -152,7 +152,7 @@ end
 
 function Crutch.RegisterGained()
     if (Crutch.registered.gained) then return end
-    if (Crutch.savedOptions.debugOther) then d("Registered Gained") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Gained") end
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, OnCombatEventAll)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
@@ -169,7 +169,7 @@ end
 
 function Crutch.UnregisterGained()
     if (not Crutch.registered.gained) then return end
-    if (Crutch.savedOptions.debugOther) then d("Unregistered Gained") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Gained") end
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT)
@@ -190,37 +190,38 @@ local InterruptedResults = {
 
 local function OnInterrupted(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
     -- Spammy debug
-    if (Crutch.savedOptions.debugChatSpam) then
-        local resultString = ""
-        if (result) then
-            resultString = (InterruptedResults[result] or tostring(result))
-        end
+    -- if (Crutch.savedOptions.debugChatSpam) then
+    --     local resultString = ""
+    --     if (result) then
+    --         resultString = (InterruptedResults[result] or tostring(result))
+    --     end
 
-        local sourceString = ""
-        if (sourceType) then
-            sourceString = (sourceStrings[sourceType] or tostring(sourceType))
-        end
-        d(string.format("Interrupted %s(%d): %s(%d) on %s(%d) HitValue %d Type %s Result %s",
-            sourceName,
-            sourceUnitId,
-            GetAbilityName(abilityId),
-            abilityId,
-            targetName,
-            targetUnitId,
-            hitValue,
-            sourceString,
-            resultString))
-    end
+    --     local sourceString = ""
+    --     if (sourceType) then
+    --         sourceString = (sourceStrings[sourceType] or tostring(sourceType))
+    --     end
+    --     d(string.format("Interrupted %s(%d): %s(%d) on %s(%d) HitValue %d Type %s Result %s",
+    --         sourceName,
+    --         sourceUnitId,
+    --         GetAbilityName(abilityId),
+    --         abilityId,
+    --         targetName,
+    --         targetUnitId,
+    --         hitValue,
+    --         sourceString,
+    --         resultString))
+    -- end
 
     Crutch.Interrupted(targetUnitId)
 end
 
 function Crutch.RegisterInterrupts()
     if (Crutch.registered.interrupts) then return end
-    if (Crutch.savedOptions.debugOther) then d("Registered Interrupts") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Interrupts") end
 
     for result, name in pairs(InterruptedResults) do
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, OnInterrupted)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- interrupted enemies only
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, result)
     end
 
@@ -229,7 +230,7 @@ end
 
 function Crutch.UnregisterInterrupts()
     if (not Crutch.registered.interrupts) then return end
-    if (Crutch.savedOptions.debugOther) then d("Unregistered Interrupts") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Interrupts") end
 
     for result, name in pairs(InterruptedResults) do
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT)
@@ -287,7 +288,7 @@ end
 
 function Crutch.RegisterTest()
     if (Crutch.registered.test) then return end
-    if (Crutch.savedOptions.debugOther) then d("Registered Test") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Test") end
 
     RegisterData(Crutch.testing, "Test", nil, COMBAT_UNIT_TYPE_PLAYER, OnCombatEventTest)
 
@@ -296,7 +297,7 @@ end
 
 function Crutch.UnregisterTest()
     if (not Crutch.registered.test) then return end
-    if (Crutch.savedOptions.debugOther) then d("Unregistered Test") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Test") end
 
     UnregisterData(Crutch.testing, "Test")
 
@@ -346,7 +347,7 @@ end
 
 function Crutch.RegisterOthers()
     if (Crutch.registered.others) then return end
-    if (Crutch.savedOptions.debugOther) then d("Registered Others") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Others") end
 
     RegisterData(Crutch.others, "OthersBegin", ACTION_RESULT_BEGIN, nil, OnCombatEventOthers)
     RegisterData(Crutch.others, "OthersGained", ACTION_RESULT_EFFECT_GAINED, nil, OnCombatEventOthers)
@@ -357,7 +358,7 @@ end
 
 function Crutch.UnregisterOthers()
     if (not Crutch.registered.others) then return end
-    if (Crutch.savedOptions.debugOther) then d("Unregistered Others") end
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Others") end
 
     UnregisterData(Crutch.others, "OthersBegin")
     UnregisterData(Crutch.others, "OthersGained")

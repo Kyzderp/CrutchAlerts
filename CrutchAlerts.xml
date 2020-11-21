@@ -42,8 +42,8 @@
                     <Anchor point="LEFT" relativeTo="$(parent)Label" relativePoint="RIGHT"/>
                     <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
                 </Label>
-                <Label name="$(parent)Id" fontName="ZoFontWinH1" font="$(BOLD_FONT)|12|soft-shadow-thick" color="888888"
-                    text="12345 (1200ms) from The Abomination (54321)" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
+                <Label name="$(parent)Id" fontName="ZoFontWinH1" font="$(BOLD_FONT)|14|shadow" color="888888"
+                    text="debug ID 12345" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="TOPLEFT" relativeTo="$(parent)Label" relativePoint="BOTTOMLEFT"/>
                     <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
