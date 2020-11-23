@@ -15,16 +15,19 @@ Crutch.blacklist = {
     [ 23316] = true, -- Summon Volatile Familiar
     [ 87875] = true, -- Betty Netch
     [ 86103] = true, -- Bull Netch
+    [ 26792] = true, -- Biting Jabs
     [ 26797] = true, -- Puncturing Sweep
 
 -- Enemies
     [ 45508] = true, -- Passing Through (assassin jumpflip)
+    -- [ 25926] = true, -- Flare (Flame Atronach) TODO: tank mode?
 }
 
 ---------------------------------------------------------------------
 -- Needs testing
 Crutch.testing = {
     [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)
+    [147873] = true, -- Force Overflow
 }
 
 ---------------------------------------------------------------------
@@ -34,12 +37,12 @@ Crutch.testing = {
 Crutch.others = {
 -- Sunspire
     [121833] = true, [121849] = true, [115587] = true, [123042] = true,--Wing Thrash
-    [122012] = true,--Storm Crush (Gale-Claw) -- 103
-    [120890] = true,--Crush (Fire-Fang) -- 103
-    [122309] = true,--Flaming Bat
+    [122012] = true, -- Storm Crush (Gale-Claw)
+    [120890] = true, -- Crush (Fire-Fang)
+    [122309] = true, -- Flaming Bat
     [119549] = true, -- Emberstorm
     [121723] = true, -- Fire Breath
-    [121722] = true,--Focus Fire -- 106.3
+    [121722] = true, -- Focus Fire
     [120505] = true,--Meteor
     [122216] = true,--Blast Furnace
     [119283] = true, -- Frost Breath
@@ -104,6 +107,8 @@ Crutch.others = {
     [107196]=true,--Shade Baneful Mark
 
 -- Blackrose Prison
+    [111283] = true, -- Tremors (Imperial Cleaver) TODO: timer?
+    [114629] = true, -- Void (Drakeeh)
     --300
     [114453]=true,--Chill Spear  [114455]=true,
     --100
@@ -166,6 +171,7 @@ Crutch.others = {
     [70723]=true,--Rupturing Fog
 
 --Maw of Lorkhaj
+    [ 73700] = true, -- Eclipse Field
     --300
     [74035]=true,--Darkness Falls -- 302
     [73741]=true,--Threshing Wings

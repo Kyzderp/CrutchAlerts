@@ -5,6 +5,8 @@ local resultStrings = {
     [ACTION_RESULT_BEGIN] = "BEGIN",
     [ACTION_RESULT_EFFECT_GAINED] = "GAINED",
     [ACTION_RESULT_EFFECT_GAINED_DURATION] = "DURATION",
+    [ACTION_RESULT_EFFECT_FADED] = "FADED",
+    [ACTION_RESULT_DAMAGE] = "DAMAGE",
 }
 
 local sourceStrings = {
@@ -15,6 +17,8 @@ local sourceStrings = {
     [COMBAT_UNIT_TYPE_TARGET_DUMMY] = "DUMMY",
     [COMBAT_UNIT_TYPE_OTHER] = "OTHER",
 }
+
+Crutch.currentAttacks = {}
 
 ---------------------------------------------------------------------
 -- Utility
@@ -93,6 +97,9 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
         return
     end
 
+    -- Ignore abilities that are blacklisted
+    if (Crutch.blacklist[abilityId]) then return end
+
     -- Spammy debug
     if (Crutch.savedOptions.debugChatSpam) then
         local resultString = ""
@@ -118,9 +125,6 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
 
     -- Several immediate light attacks are 75ms
     if (hitValue <= 75) then return end
-
-    -- Ignore abilities that are blacklisted
-    if (Crutch.blacklist[abilityId]) then return end
 
     -- Ignore abilities that are in the "others" because they will be displayed from there
     if (Crutch.others[abilityId]) then return end
@@ -255,7 +259,7 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
         if (sourceType) then
             sourceString = (sourceStrings[sourceType] or tostring(sourceType))
         end
-        d(string.format("Test %s(%d): %s(%d) in %dms on %s(%d). Type %s Result %s",
+        d(string.format("|cFF8888Test %s(%d): %s(%d) in %dms on %s(%d). Type %s Result %s|r",
             sourceName,
             sourceUnitId,
             GetAbilityName(abilityId),
@@ -268,20 +272,12 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
     end
 
     if (result == ACTION_RESULT_BEGIN) then
-
-        -- Autodetect
-        if (timer == true) then
-            timer = hitValue
-        elseif (timer == false) then
-            timer = hitValue
-            currentAttacks[sourceUnitId] = GetGameTimeMilliseconds()
-        end
-
-        d(string.format("%s (%d) starting", abilityName, abilityId))
+        Crutch.currentAttacks[sourceUnitId] = GetGameTimeMilliseconds()
+        d(string.format("|cFF8888%s (%d) starting from %d|r", abilityName, abilityId, sourceUnitId))
     elseif (result == ACTION_RESULT_DAMAGE or result == ACTION_RESULT_DODGED) then
-        local beginTime = currentAttacks[sourceUnitId]
+        local beginTime = Crutch.currentAttacks[sourceUnitId]
         if (beginTime) then
-            d(string.format("%d %s took %d", result, abilityName, (GetGameTimeMilliseconds() - beginTime)))
+            d(string.format("|cFF8888%d %s from %d took %d|r", result, abilityName, sourceUnitId, (GetGameTimeMilliseconds() - beginTime)))
         end
     end
 end
@@ -290,7 +286,7 @@ function Crutch.RegisterTest()
     if (Crutch.registered.test) then return end
     if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Test") end
 
-    RegisterData(Crutch.testing, "Test", nil, COMBAT_UNIT_TYPE_PLAYER, OnCombatEventTest)
+    RegisterData(Crutch.testing, "Test", nil, nil, OnCombatEventTest)
 
     Crutch.registered.test = true
 end
@@ -320,7 +316,10 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
     end
 
     -- Spammy debug
-    if (Crutch.savedOptions.debugChatSpam) then
+    if (Crutch.savedOptions.debugChatSpam
+        and abilityId ~= 114578 -- BRP Portal Spawn
+        and abilityId ~= 72057 -- MA Portal Spawn
+        ) then
         local resultString = ""
         if (result) then
             resultString = (resultStrings[result] or tostring(result))

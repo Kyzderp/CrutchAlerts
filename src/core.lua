@@ -13,9 +13,6 @@ local displaying = {}
 -- Poll every 100ms when one is active
 local isPolling = false
 
--- Debug purposes? {[sourceunitId] = beginTime}
-local currentAttacks = {}
-
 local fontSize = 32
 
 -- Cache group members by using status effects, so we know the unit IDs
@@ -118,7 +115,10 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     local index = 0
     -- Maybe fixes the spam for Throw Dagger?
     if (displaying[sourceUnitId]) then
-        if (Crutch.savedOptions.debugChatSpam) then
+        if (Crutch.savedOptions.debugChatSpam
+            and abilityId ~= 114578 -- BRP Portal Spawn
+            and abilityId ~= 72057 -- MA Portal Spawn
+            ) then
             d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
         end
         index = displaying[sourceUnitId]

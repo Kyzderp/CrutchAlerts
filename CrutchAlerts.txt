@@ -15,3 +15,4 @@ src/settings.lua
 src/core.lua
 src/events.lua
 src/data.lua
+src/format.lua
