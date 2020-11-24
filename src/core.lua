@@ -113,7 +113,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     sourceName = zo_strformat("<<1>>", sourceName)
 
     local index = 0
-    -- Maybe fixes the spam for Throw Dagger?
+    -- Maybe fixes the spam for Throw Dagger? TODO: key it with abilityId too
     if (displaying[sourceUnitId]) then
         if (Crutch.savedOptions.debugChatSpam
             and abilityId ~= 114578 -- BRP Portal Spawn
@@ -122,11 +122,17 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
             d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
         end
         index = displaying[sourceUnitId]
-        return
     else
         index = FindOrCreateControl()
     end
 
+    -- Check for special format
+    local customTime, customColor, hideTimer, alertType = Crutch.GetFormatInfo(abilityId)
+    if (customTime ~= 0) then
+        timer = customTime
+    end
+
+    -- Set the time and make some strings
     local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
     freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer}
     displaying[sourceUnitId] = index

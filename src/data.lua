@@ -68,7 +68,7 @@ Crutch.others = {
 -- Asylum Sanctorium
     --300
     [ 15954] = true,--Ordinated Protector
-    [ 95545] = true, --Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses 307
+    [ 95545] = true, --Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
     [ 99027] = true,--Manifest Wrath (Saint Felms the Bold)
 
     --100
@@ -77,7 +77,7 @@ Crutch.others = {
 
 -- Cloudrest
     --300
-    [103531]=true,[110431]=true,--Roaring Flare 307
+    [103531]=true,[110431]=true,--Roaring Flare
 
     --200
     [105890]=true,--Set Start CD of SRealm
@@ -87,17 +87,17 @@ Crutch.others = {
 
     --100
     [105780]=true,--Shocking Smash
-    [103946]=true,--Shadow Realm Cast 102
+    [103946]=true,--Shadow Realm Cast
     [105291]=true,--SUM Shadow Beads
 
     --true
-    [103760]=true,--Hoarfrost --[103760]=7,--Hoarfrost
+    [103760]=true,--Hoarfrost
     [106375]=true,--Ravaging Blow
     [105574]=true,--Lava Whip
     [104755]=true,--Scalding Sunder
     [104535]=true,--Nocturnal's Favor
     [106374]=true,--Chilling Comet
-    [105239]=true,--Crushing Darkness -- [105239]=10,--Crushing Darkness
+    [105239]=true,--Crushing Darkness
     [105120]=true,--SotDead Proj to Corpse
     [105673]=true,--Talon Slice
     [105975]=true,--Baneful Barb (Monstrosity)
@@ -127,7 +127,7 @@ Crutch.others = {
 
 --Sanctum Ophidia
     --300
-    [56857]=true,--Emerald Eclipse (Serpent) -- 305
+    [56857]=true,--Emerald Eclipse (Serpent)
     [54125]=true,--Quake (Mantikora)
     [52442]=true,--Leaping Crush
     [52447]=true,--Ground Slam
@@ -147,15 +147,15 @@ Crutch.others = {
 
 --Aetherian Archive
     --300
-    [47898]=true,--Lightning Storm (Storm Atronach) -- 310
-    [48240]=true,--Boulder Storm (Stone Atronach) -- 310
+    [47898]=true,--Lightning Storm (Storm Atronach)
+    [48240]=true,--Boulder Storm (Stone Atronach)
     [49583]=true,--Impending Storm (Storm Atronach)
 
     --200
     [49506]=true,[49508]=true,[49669]=true,--Conjure Axe (Celestial Mage)
 
     --100
-    [49098]=true,--Big Quake (Stone Atronach) -- 110
+    [49098]=true,--Big Quake (Stone Atronach)
 
 --Dragonstar Arena
     --300
@@ -173,12 +173,12 @@ Crutch.others = {
 --Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
     --300
-    [74035]=true,--Darkness Falls -- 302
+    [74035]=true,--Darkness Falls
     [73741]=true,--Threshing Wings
 
     --Custom true
     [74488]=true,--Unstable Void (Rakkhat)
-    [74384]=true,[74385]=true,[74388]=true,[74390]=true,[74391]=true,[74392]=true,[75965]=true,[75966]=true,[75967]=true,[75968]=true,[78015]=true,[74389]=true,--Dark Barrage -- 5
+    [74384]=true,[74385]=true,[74388]=true,[74390]=true,[74391]=true,[74392]=true,[75965]=true,[75966]=true,[75967]=true,[75968]=true,[78015]=true,[74389]=true,--Dark Barrage
 
 --Halls of Fabrication
     --300

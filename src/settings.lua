@@ -12,6 +12,7 @@ function Crutch:CreateSettingsMenu()
         registerForDefaults = true,
     }
 
+-- TODO: extend hitvalue by X
 --[[
 local defaultOptions = {
     display = {
