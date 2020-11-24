@@ -4,10 +4,10 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 -- Data
 
--- Currently unused controls for notifications: {[1] = {source = sourceUnitId, expireTime = 1235345, interrupted = true}}
+-- Currently unused controls for notifications: {[1] = {source = sourceUnitId, expireTime = 1235345, interrupted = true, abilityId = 12345}}
 local freeControls = {}
 
--- Currently displaying source to index {[sourceUnitId] = index}
+-- Currently displaying source to index {[sourceUnitId] = {[abilityId] = index,}}
 local displaying = {}
 
 -- Poll every 100ms when one is active
@@ -48,6 +48,16 @@ local function GetTimerColor(timer)
     end
 end
 
+local function GetNumEntries(tab)
+    local count = 0
+    for k, v in pairs(tab) do
+        if (v) then
+            count = count + 1
+        end
+    end
+    return count
+end
+
 
 ---------------------------------------------------------------------
 -- Display
@@ -63,7 +73,10 @@ local function UpdateDisplay()
                 -- Hide
                 lineControl:SetHidden(true)
                 freeControls[i] = false
-                displaying[data.source] = nil
+                displaying[data.source][data.abilityId] = nil
+                if (GetNumEntries(displaying[data.source]) == 0) then
+                    displaying[data.source] = nil
+                end
             else
                 numActive = numActive + 1
                 if (not data.interrupted) then
@@ -114,14 +127,14 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
 
     local index = 0
     -- Maybe fixes the spam for Throw Dagger? TODO: key it with abilityId too
-    if (displaying[sourceUnitId]) then
+    if (displaying[sourceUnitId] and displaying[sourceUnitId][abilityId]) then
         if (Crutch.savedOptions.debugChatSpam
             and abilityId ~= 114578 -- BRP Portal Spawn
             and abilityId ~= 72057 -- MA Portal Spawn
             ) then
             d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
         end
-        index = displaying[sourceUnitId]
+        index = displaying[sourceUnitId][abilityId]
     else
         index = FindOrCreateControl()
     end
@@ -134,8 +147,11 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
 
     -- Set the time and make some strings
     local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
-    freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer}
-    displaying[sourceUnitId] = index
+    freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer, abilityId = abilityId}
+    if (not displaying[sourceUnitId]) then
+        displaying[sourceUnitId] = {}
+    end
+    displaying[sourceUnitId][abilityId] = index
 
     local resultString = ""
     if (result) then
@@ -178,17 +194,22 @@ end
 
 -- To be called when an enemy is interrupted
 function Crutch.Interrupted(targetUnitId)
-    local index = displaying[targetUnitId]
-    if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
-        freeControls[index].interrupted = true
-        freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
+    if (not displaying[targetUnitId]) then
+        return
+    end
 
-        -- Set the text to "stopped"
-        local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
-        local labelControl = lineControl:GetNamedChild("Label")
-        labelControl:SetWidth(800)
-        labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
-        labelControl:SetWidth(labelControl:GetTextWidth())
-        lineControl:GetNamedChild("Timer"):SetText("")
+    for abilityId, index in pairs(displaying[targetUnitId]) do
+        if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
+            freeControls[index].interrupted = true
+            freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
+
+            -- Set the text to "stopped"
+            local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
+            local labelControl = lineControl:GetNamedChild("Label")
+            labelControl:SetWidth(800)
+            labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
+            labelControl:SetWidth(labelControl:GetTextWidth())
+            lineControl:GetNamedChild("Timer"):SetText("")
+        end
     end
 end
