@@ -58,8 +58,9 @@ local defaultOptions = {
         showBegin = true,
             beginHideSelf = false,
         showGained = true,
-        hitValueThreshold = 75,
+        hitValueBelowThreshold = 75,
             hitValueUseWhitelist = true,
+        hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
         useNonNoneBlacklist = true,
         useNoneBlacklist = true,
     },

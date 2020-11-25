@@ -6,7 +6,7 @@ local Crutch = CrutchAlerts
 -- 0     1          1      07.5
 -- 01107.5
 -- 
--- Type: 0 = normal alert, 1 = secondary
+-- Type: 0 = normal alert, 1 = secondary, 2 = normal overwrite
 -- HideTimer: 0 = false, 1 = true
 -- Color: 0 = white, 1 = ?
 -- Timer: actual number
@@ -20,7 +20,7 @@ Crutch.format = {
     [121722] = 6.3, -- Focus Fire (Yolnahkriin)
 
 -- Asylum Sanctorium
-    [ 95545] =   7, -- Defiling Dye Blast (Saint Llothis)
+    [ 95545] = 4.4, -- Defiling Dye Blast (Saint Llothis)
 
 -- Cloudrest
     [103946] =   2, -- Shadow Realm Cast (Z'Maja)

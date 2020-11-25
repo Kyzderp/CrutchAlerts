@@ -72,7 +72,7 @@ Crutch.others = {
     [ 99027] = true,--Manifest Wrath (Saint Felms the Bold)
 
     --100
-    [ 95585] = true,--Soul Stained Corruption
+    -- [ 95585] = true,--Soul Stained Corruption
     [ 98582] = true,--Trial by Fire
 
 -- Cloudrest
@@ -83,28 +83,17 @@ Crutch.others = {
     [105890]=true,--Set Start CD of SRealm
     [105016]=true,--SUM Lrg Tentacle
     [106023]=true,--ZMaja Break Amulet
-    [103980]=true,--Grant Malevolent Core
 
     --100
-    [105780]=true,--Shocking Smash
     [103946]=true,--Shadow Realm Cast
     [105291]=true,--SUM Shadow Beads
 
     --true
-    [103760]=true,--Hoarfrost
-    [106375]=true,--Ravaging Blow
-    [105574]=true,--Lava Whip
-    [104755]=true,--Scalding Sunder
-    [104535]=true,--Nocturnal's Favor
     [106374]=true,--Chilling Comet
-    [105239]=true,--Crushing Darkness
     [105120]=true,--SotDead Proj to Corpse
     [105673]=true,--Talon Slice
-    [105975]=true,--Baneful Barb (Monstrosity)
-    [103555]=true,--Voltaic Current -- [103555]=3,--Voltaic Current
-    [ 87346]=true,--Voltaic Overload --[87346]=10,--Voltaic Overload
-    [107082]=true,--Baneful Mark
-    [107196]=true,--Shade Baneful Mark
+    -- [107082]=true,--Baneful Mark
+    -- [107196]=true,--Shade Baneful Mark
 
 -- Blackrose Prison
     [111283] = true, -- Tremors (Imperial Cleaver) TODO: timer?

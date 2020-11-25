@@ -306,9 +306,7 @@ end
 
 local function OnCombatEventOthers(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)
     -- Actual display
-    if (not targetName or targetName == "") then
-        targetName = Crutch.groupMembers[targetUnitId]
-    end
+    targetName = Crutch.groupMembers[targetUnitId]
     if (targetName) then
         targetName = " |cAAAAAAon " .. zo_strformat("<<1>>", targetName) .. "|r"
     else
