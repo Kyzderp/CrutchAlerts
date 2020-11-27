@@ -6,13 +6,15 @@ local Crutch = CrutchAlerts
 -- 0     1          1      07.5
 -- 01107.5
 -- 
--- Type: 0 = normal alert, 1 = secondary, 2 = normal overwrite
+-- Type: 0 = normal alert, 1 = secondary, 2 = prevent overwrite
 -- HideTimer: 0 = false, 1 = true
 -- Color: 0 = white, 1 = ?
 -- Timer: actual number
 
 Crutch.format = {
+-- Testing The Abomination
     [  8244] =  10, -- Devastate
+    [  8247] = 20005, -- Vomit
 
 -- Sunspire
     [122012] = 2.5, -- Storm Crush (Gale-Claw)
@@ -20,7 +22,7 @@ Crutch.format = {
     [121722] = 6.3, -- Focus Fire (Yolnahkriin)
 
 -- Asylum Sanctorium
-    [ 95545] = 4.4, -- Defiling Dye Blast (Saint Llothis)
+    [ 95545] = 20006.2, -- Defiling Dye Blast (Saint Llothis)
 
 -- Cloudrest
     [103946] =   2, -- Shadow Realm Cast (Z'Maja)
@@ -56,6 +58,9 @@ Crutch.format = {
     [ 75967] =   5, -- Dark Barrage
     [ 75968] =   5, -- Dark Barrage
     [ 78015] =   5, -- Dark Barrage
+
+-- Maelstrom Arena
+    [ 72057] =   20003, -- Portal Spawn
 }
 
 function Crutch.GetFormatInfo(abilityId)

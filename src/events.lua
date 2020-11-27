@@ -190,6 +190,7 @@ local InterruptedResults = {
     [ACTION_RESULT_INTERRUPT] = "INTERRUPT",
     [ACTION_RESULT_DIED] = "DIED",
     [ACTION_RESULT_DIED_XP] = "DIED_XP",
+    -- TODO: effect ended
 }
 
 local function OnInterrupted(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
@@ -273,11 +274,11 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
 
     if (result == ACTION_RESULT_BEGIN) then
         Crutch.currentAttacks[sourceUnitId] = GetGameTimeMilliseconds()
-        d(string.format("|cFF8888%s (%d) starting from %d|r", abilityName, abilityId, sourceUnitId))
+        d(string.format("|cFFFF88%s (%d) starting from %d|r", abilityName, abilityId, sourceUnitId))
     elseif (result == ACTION_RESULT_DAMAGE or result == ACTION_RESULT_DODGED) then
         local beginTime = Crutch.currentAttacks[sourceUnitId]
         if (beginTime) then
-            d(string.format("|cFF8888%d %s from %d took %d|r", result, abilityName, sourceUnitId, (GetGameTimeMilliseconds() - beginTime)))
+            d(string.format("|cFFFF88%d %s from %d took %d|r", result, abilityName, sourceUnitId, (GetGameTimeMilliseconds() - beginTime)))
         end
     end
 end

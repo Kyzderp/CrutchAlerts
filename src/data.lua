@@ -27,7 +27,6 @@ Crutch.blacklist = {
 -- Needs testing
 Crutch.testing = {
     [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)
-    [147873] = true, -- Force Overflow
 }
 
 ---------------------------------------------------------------------
@@ -68,7 +67,7 @@ Crutch.others = {
 -- Asylum Sanctorium
     --300
     [ 15954] = true,--Ordinated Protector
-    [ 95545] = true, --Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
+    [ 95545] = true,--Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
     [ 99027] = true,--Manifest Wrath (Saint Felms the Bold)
 
     --100

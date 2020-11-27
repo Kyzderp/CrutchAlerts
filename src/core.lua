@@ -118,16 +118,26 @@ end
 -- Outside calling
 
 function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, result)
+    -- Check for special format
+    local customTime, customColor, hideTimer, alertType = Crutch.GetFormatInfo(abilityId)
+    if (customTime ~= 0) then
+        timer = customTime
+    end
+
     if (type(timer) ~="number") then
         timer = 1000
         d("Warning: timer is not number, setting to 1000")
     end
-
     sourceName = zo_strformat("<<1>>", sourceName)
 
     local index = 0
-    -- Maybe fixes the spam for Throw Dagger? TODO: key it with abilityId too
+    -- Overwrite existing cast of the same ability
     if (displaying[sourceUnitId] and displaying[sourceUnitId][abilityId]) then
+        -- Don't overwrite for type == 2
+        if (alertType == 2) then
+            return
+        end
+
         if (Crutch.savedOptions.debugChatSpam
             and abilityId ~= 114578 -- BRP Portal Spawn
             and abilityId ~= 72057 -- MA Portal Spawn
@@ -137,12 +147,6 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         index = displaying[sourceUnitId][abilityId]
     else
         index = FindOrCreateControl()
-    end
-
-    -- Check for special format
-    local customTime, customColor, hideTimer, alertType = Crutch.GetFormatInfo(abilityId)
-    if (customTime ~= 0) then
-        timer = customTime
     end
 
     -- Set the time and make some strings
