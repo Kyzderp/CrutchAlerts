@@ -61,6 +61,7 @@ Crutch.format = {
 
 -- Maelstrom Arena
     [ 72057] =   20003, -- Portal Spawn
+    [ 70723] =   01003, -- Rupturing Fog
 }
 
 function Crutch.GetFormatInfo(abilityId)

@@ -79,7 +79,7 @@ local function UpdateDisplay()
                 end
             else
                 numActive = numActive + 1
-                if (not data.interrupted) then
+                if (not data.interrupted and lineControl:GetNamedChild("Timer") ~= "") then
                     lineControl:GetNamedChild("Timer"):SetText(string.format("%.1f", millisRemaining / 1000))
                     lineControl:GetNamedChild("Timer"):SetColor(unpack(GetTimerColor(millisRemaining)))
                 end
@@ -173,8 +173,13 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     labelControl:SetText(textLabel)
     labelControl:SetWidth(labelControl:GetTextWidth())
 
-    lineControl:GetNamedChild("Timer"):SetText(string.format("%.1f", timer / 1000))
-    lineControl:GetNamedChild("Timer"):SetWidth(fontSize * 4)
+    if (hideTimer == 1) then
+        lineControl:GetNamedChild("Timer"):SetHidden(true)
+    else
+        lineControl:GetNamedChild("Timer"):SetHidden(false)
+        lineControl:GetNamedChild("Timer"):SetText(string.format("%.1f", timer / 1000))
+        lineControl:GetNamedChild("Timer"):SetWidth(fontSize * 4)
+    end
     lineControl:GetNamedChild("Icon"):SetTexture(GetAbilityIcon(abilityId))
     if (Crutch.savedOptions.debugLine) then
         lineControl:GetNamedChild("Id"):SetText(string.format("%d (%d) [%s%s]%s", abilityId, timer, sourceName, sourceString, resultString))

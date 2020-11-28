@@ -126,6 +126,17 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     -- Several immediate light attacks are 75ms
     if (hitValue <= 75) then return end
 
+    if (hitValue >= Crutch.savedOptions.general.hitValueAboveThreshold) then
+        if (Crutch.savedOptions.debugOther) then
+            d(string.format("|c88FFFF[CO]|r Capping hitValue for %s(%d) at %d from %d",
+                abilityName,
+                abilityId,
+                Crutch.savedOptions.general.hitValueAboveThreshold,
+                hitValue))
+        end
+        hitValue = Crutch.savedOptions.general.hitValueAboveThreshold
+    end
+
     -- Ignore abilities that are in the "others" because they will be displayed from there
     if (Crutch.others[abilityId]) then return end
 
