@@ -6,6 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
+Crutch.version = "0.0.1"
 
 Crutch.registered = {
     begin = false,
@@ -82,7 +83,9 @@ local defaultOptions = {
 
 function CrutchAlerts:SavePosition()
     local x, y = CrutchAlertsContainer:GetCenter()
-    Crutch.savedOptions.display.x = x
+    local oX, _ = GuiRoot:GetCenter()
+    -- x is the offset from the center
+    Crutch.savedOptions.display.x = x - oX
     Crutch.savedOptions.display.y = y
 end
 

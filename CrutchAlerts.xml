@@ -25,10 +25,10 @@
             <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" />
             <Dimensions x="600" y="36" />
             <Controls>
-                <Texture name="$(parent)Icon" textureFile="esoui/art/icons/ability/ability_weapon_001.dds" hidden="false">
+                <Texture name="$(parent)Icon" textureFile="esoui/art/icons/ability/ability_weapon_001.dds" hidden="false" tier="LOW">
                     <Dimensions x="36" y="36"/>
                     <Anchor point="RIGHT" relativeTo="$(parent)Label" relativePoint="LEFT"/>
-                    <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls>
+                    <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls>
                 </Texture>
                 <Label name="$(parent)Label" fontName="ZoFontWinH1" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ffffff"
                     text="Devastate" verticalAlignment="TOP" horizontalAlignment="CENTER" hidden="false">
