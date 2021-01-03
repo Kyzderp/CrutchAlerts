@@ -55,13 +55,19 @@ local defaultOptions = {
         {
             type = "checkbox",
             name = "Unlock",
-            tooltip = "Unlock the alert frame for moving",
+            tooltip = "Unlock the alert frames for moving",
             default = false,
             getFunc = function() return Crutch.savedOptions.unlock end,
             setFunc = function(value)
                 Crutch.savedOptions.unlock = value
                 CrutchAlertsContainer:SetMovable(value)
+                CrutchAlertsContainer:SetMouseEnabled(value)
                 CrutchAlertsContainerBackdrop:SetHidden(not value)
+
+                CrutchAlertsDamageable:SetMovable(value)
+                CrutchAlertsDamageable:SetMouseEnabled(value)
+                CrutchAlertsDamageableBackdrop:SetHidden(not value)
+                CrutchAlertsDamageableLabel:SetHidden(not value)
             end,
             width = "full",
         },
@@ -154,6 +160,6 @@ local defaultOptions = {
         }
     }
 
-    SetCollectionMarker.addonPanel = LAM:RegisterAddonPanel("CrutchAlertsOptions", panelData)
+    CrutchAlerts.addonPanel = LAM:RegisterAddonPanel("CrutchAlertsOptions", panelData)
     LAM:RegisterOptionControls("CrutchAlertsOptions", optionsData)
 end

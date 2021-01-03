@@ -11,23 +11,52 @@ Crutch.blacklist = {
 -- Self-sourced
     [ 37059] = true, -- Mount Up
     [103706] = true, -- Channeled Acceleration
-    [ 24636] = true, -- Summon Twilight Tormentor
     [ 23316] = true, -- Summon Volatile Familiar
+    [ 23319] = true, -- Summon Unstable Clannfear
+    [ 24636] = true, -- Summon Twilight Tormentor
     [ 87875] = true, -- Betty Netch
     [ 86103] = true, -- Bull Netch
     [ 26792] = true, -- Biting Jabs
     [ 26797] = true, -- Puncturing Sweep
+    [ 31816] = true, -- Stone Giant
+
+-- Other player-sourced
+    [107579] = true, -- Mend Wounds
+    [107630] = true, -- Mend Spirit
+    [107637] = true, -- Symbiosis
 
 -- Enemies
     [ 45508] = true, -- Passing Through (assassin jumpflip)
-    -- [ 25926] = true, -- Flare (Flame Atronach) TODO: tank mode?
+    [ 25926] = true, -- Flare (Flame Atronach) TODO: tank mode?
+    [113195] = true, -- Ice Bolt (Ghost) in BRP
 }
+
 
 ---------------------------------------------------------------------
 -- Needs testing
 Crutch.testing = {
     [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)
+    -- [102027] = true, -- Caluurion Fire
+    -- [102032] = true, -- Caluurion Frost
+    -- [102033] = true, -- Caluurion Disease
+    -- [102034] = true, -- Caluurion Shock
+
+    -- [ 26770] = true, -- Resurrect
+
+    -- [142318] = true, -- Sanguine Burst (Lady Thorn Synergy)
+    -- [88887] = true, -- Icy Escape
+    -- [88892] = true, -- Icy Escape
+    -- [103321] = true, -- Icy Escape
 }
+
+
+---------------------------------------------------------------------
+-- Don't display chat spam in these zones
+Crutch.noSpamZone = {
+    [1000] = true, -- Asylum Sanctorium
+    [1082] = true, -- Blackrose Prison
+}
+
 
 ---------------------------------------------------------------------
 -- Show when the target is other people too
@@ -169,12 +198,12 @@ Crutch.others = {
     [74384]=true,[74385]=true,[74388]=true,[74390]=true,[74391]=true,[74392]=true,[75965]=true,[75966]=true,[75967]=true,[75968]=true,[78015]=true,[74389]=true,--Dark Barrage
 
 --Halls of Fabrication
+    [ 90499] = true, -- Fabricant Spawn
+    [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
+    [ 91454] = true, -- Stomp (Assembly General)
     --300
     [91781]=true,--Conduit Spawn
 
     --200
     [90715]=true,--Reclaimer Overcharge
-
-    --100
-    [90499]=true,--Fabricant Spawn
 }

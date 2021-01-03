@@ -13,8 +13,8 @@ local Crutch = CrutchAlerts
 
 Crutch.format = {
 -- Testing The Abomination
-    [  8244] =  10, -- Devastate
-    [  8247] = 20005, -- Vomit
+    -- [  8244] =  10, -- Devastate
+    [  8247] = 20002.5, -- Vomit
 
 -- Sunspire
     [122012] = 2.5, -- Storm Crush (Gale-Claw)
@@ -25,7 +25,7 @@ Crutch.format = {
     [ 95545] = 20006.2, -- Defiling Dye Blast (Saint Llothis)
 
 -- Cloudrest
-    [103946] =   2, -- Shadow Realm Cast (Z'Maja)
+    [103946] =  10, -- Shadow Realm Cast (Z'Maja) TODO: check
     [103760] =   7, -- Hoarfrost
     [103531] =   7, -- Roaring Flare
     [110431] =   7, -- Roaring Flare

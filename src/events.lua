@@ -101,7 +101,8 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     if (Crutch.blacklist[abilityId]) then return end
 
     -- Spammy debug
-    if (Crutch.savedOptions.debugChatSpam) then
+    if (Crutch.savedOptions.debugChatSpam
+        and not Crutch.noSpamZone[Crutch.zoneId]) then
         local resultString = ""
         if (result) then
             resultString = (resultStrings[result] or tostring(result))
@@ -329,6 +330,7 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
     if (Crutch.savedOptions.debugChatSpam
         and abilityId ~= 114578 -- BRP Portal Spawn
         and abilityId ~= 72057 -- MA Portal Spawn
+        and not Crutch.noSpamZone[Crutch.zoneId]
         ) then
         local resultString = ""
         if (result) then
@@ -376,3 +378,35 @@ function Crutch.UnregisterOthers()
     Crutch.registered.others = false
 end
 
+
+function Crutch.RegisterUnitId(unitId)
+    function HandleTest(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+        if (sourceUnitId ~= unitId and targetUnitId ~= unitId) then
+            return
+        end
+
+        -- Spammy debug
+        if (Crutch.savedOptions.debugChatSpam) then
+            local resultString = ""
+            if (result) then
+                resultString = (resultStrings[result] or tostring(result))
+            end
+
+            local sourceString = ""
+            if (sourceType) then
+                sourceString = (sourceStrings[sourceType] or tostring(sourceType))
+            end
+            d(string.format("|cFF8888Test %s(%d): %s(%d) in %dms on %s(%d). Type %s Result %s|r",
+                sourceName,
+                sourceUnitId,
+                GetAbilityName(abilityId),
+                abilityId,
+                hitValue,
+                targetName,
+                targetUnitId,
+                sourceString,
+                resultString))
+        end
+    end
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "RezStopped", EVENT_COMBAT_EVENT, HandleTest)
+end

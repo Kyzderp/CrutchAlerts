@@ -50,6 +50,11 @@ local defaultOptions = {
     display = {
         x = 0,
         y = GuiRoot:GetHeight() / 3,
+        unlock = false,
+    },
+    damageableDisplay = {
+        x = 0,
+        y = GuiRoot:GetHeight() / 5,
     },
     unlock = false,
     debugLine = false,
@@ -83,10 +88,14 @@ local defaultOptions = {
 
 function CrutchAlerts:SavePosition()
     local x, y = CrutchAlertsContainer:GetCenter()
-    local oX, _ = GuiRoot:GetCenter()
+    local oX, oY = GuiRoot:GetCenter()
     -- x is the offset from the center
     Crutch.savedOptions.display.x = x - oX
     Crutch.savedOptions.display.y = y
+
+    x, y = CrutchAlertsDamageable:GetCenter()
+    Crutch.savedOptions.damageableDisplay.x = x - oX
+    Crutch.savedOptions.damageableDisplay.y = y - oY
 end
 
 ---------------------------------------------------------------------
@@ -99,6 +108,8 @@ local function Initialize()
     -- Position
     CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
     CrutchAlertsContainerBackdrop:SetHidden(not Crutch.savedOptions.display.unlock)
+    CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
+    CrutchAlertsDamageableBackdrop:SetHidden(not Crutch.savedOptions.display.unlock)
 
     -- Register events
     if (Crutch.savedOptions.general.showBegin) then
@@ -107,6 +118,8 @@ local function Initialize()
     if (Crutch.savedOptions.general.showGained) then
         Crutch.RegisterGained()
     end
+
+    Crutch.InitializeDamageable()
     Crutch.RegisterInterrupts()
     Crutch.RegisterTest()
     Crutch.RegisterOthers()
@@ -117,6 +130,7 @@ local function Initialize()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED,
         function(_, initial)
             Crutch.groupMembers = {} -- clear the cache
+            Crutch.zoneId = GetZoneId(GetUnitZoneIndex("player"))
         end)
 end
 
