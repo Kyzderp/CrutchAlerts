@@ -12,11 +12,11 @@ local SUBTITLE_TIMES = {
 -- HoF
     ["Assembly General"] = {
         -- Triplets
-        ["Reprocessing yard contamination critical. Disassembly status suspended. Mass reactivation initiated."] = 9.3, -- TODO
+        ["Reprocessing yard contamination critical. Disassembly status suspended. Mass reactivation initiated."] = 10.2, -- TODO
     },
     ["Divayth Fyr"] = {
         -- Pinnacle
-        ["Interesting. These devices have all reset themselves. I didn't do that."] = 16.0, -- TODO
+        ["Interesting. These devices have all reset themselves. I didn't do that."] = 16.0,
     },
 
 -- MoL
@@ -32,10 +32,16 @@ local SUBTITLE_TIMES = {
 -- SS
     ["Nahviintaas"] = {
         -- Nahviintaas
-        ["To restore the natural order. To reclaim all that was and will be. To correct the mortal mistake."] = 21.2, -- TODO
+        ["To restore the natural order. To reclaim all that was and will be. To correct the mortal mistake."] = 22.2, -- TODO
     },
 
 -- CR
+
+-- VH
+    ["Aydolan"] = {
+        -- Maebroogha the Void Lich
+        ["You made it all the way to the end! Only one final challenge left. Me!"] = 12.7,
+    },
 
 
 -- Overland

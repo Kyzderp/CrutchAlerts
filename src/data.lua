@@ -35,7 +35,7 @@ Crutch.blacklist = {
 ---------------------------------------------------------------------
 -- Needs testing
 Crutch.testing = {
-    [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)
+    -- [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)
     -- [102027] = true, -- Caluurion Fire
     -- [102032] = true, -- Caluurion Frost
     -- [102033] = true, -- Caluurion Disease
@@ -47,6 +47,11 @@ Crutch.testing = {
     -- [88887] = true, -- Icy Escape
     -- [88892] = true, -- Icy Escape
     -- [103321] = true, -- Icy Escape
+
+    -- [112889] = true, -- sigil
+    -- [112900] = true, -- sigil
+    -- [112908] = true, -- sigil
+    -- [112871] = true, -- sigil
 }
 
 
@@ -179,6 +184,7 @@ Crutch.others = {
     [52041]=true,--Blink Strike (Arena 9)
     [55442]=true,--Heat Wave
     [52773]=true,--Ice Comet
+    [ 12459] = true, -- Winter's Reach (Regulated Frost mage)
 
 --Maelstrom Arena
     --100
