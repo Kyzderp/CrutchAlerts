@@ -43,6 +43,12 @@ local SUBTITLE_TIMES = {
         ["You made it all the way to the end! Only one final challenge left. Me!"] = 12.7,
     },
 
+-- Castle Thorn
+    ["Lady Thorn"] = {
+        -- Blood Twilight
+        ["Well done, Talfyg. You brought me a daughter of Verandis, as requested. She will complement our lord's army well."] = 19.2,
+    },
+
 
 -- Overland
     ["K'Tora"] = {
@@ -59,6 +65,8 @@ local SUBTITLE_TIMES = {
         ["K'Tora summons Vsskalvor to protect this geyser!"] = 5.5,
     },
 }
+
+local spooderPulled = false
 
 local isPolling = false
 local pollTime = 0
@@ -143,6 +151,31 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
 
 end
 
+---------------------------------------------------------------------
+-- EVENT_PLAYER_COMBAT_STATE (number eventCode, boolean inCombat)
+local function HandleCombatState(_, inCombat)
+    if (not inCombat) then
+        -- Reset one-time vars
+        spooderPulled = false
+    end
+end
+
+---------------------------------------------------------------------
+local function HandleOverheadRail()
+    if (spooderPulled) then
+        return
+    end
+
+    spooderPulled = true
+    Crutch.DisplayDamageable(22.1) -- TODO
+end
+
+---------------------------------------------------------------------
 function Crutch.InitializeDamageable()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ChatHandler", EVENT_CHAT_MESSAGE_CHANNEL, HandleChat)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DamageableCombatState", EVENT_PLAYER_COMBAT_STATE, HandleCombatState)
+
+    -- TODO: only register this in HoF
+    EVENT_MANAGER:RegisterForEvent(Crutch.name.."Spooder", EVENT_COMBAT_EVENT, HandleOverheadRail)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name.."Spooder", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 94805)
 end

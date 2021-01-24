@@ -207,9 +207,18 @@ Crutch.others = {
     [ 90499] = true, -- Fabricant Spawn
     [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
     [ 91454] = true, -- Stomp (Assembly General)
-    --300
-    [91781]=true,--Conduit Spawn
+    [ 91781] = true, -- Lightning Spear (Pinnacle Factotum conduit)
 
-    --200
-    [90715]=true,--Reclaimer Overcharge
+---------------------------------------------------------------------
+-- Dungeons
+
+-- Fang Lair
+    [ 98597] = true, -- Haunting Spectre (Sabina)
+    [102615] = true, -- Spectral Chains (Sabina)
+
+-- Wayrest Sewers
+    [  5699] = true, -- Shadowstep (Allene Pellingare)
+
+-- Frostvault
+    [113465] = true, -- Reckless Charge (Warlord Tzogvin)
 }
