@@ -1,6 +1,8 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
+-- Also see format.lua for formatting, damageable.lua for boss timer data, and prominent.lua for prominent alerts data
+
 -- true = ignore
 -- false = needs testing
 ---------------------------------------------------------------------
@@ -29,6 +31,17 @@ Crutch.blacklist = {
     [ 45508] = true, -- Passing Through (assassin jumpflip)
     [ 25926] = true, -- Flare (Flame Atronach) TODO: tank mode?
     [113195] = true, -- Ice Bolt (Ghost) in BRP
+
+    [ 74388] = true, -- Dark Barrage
+    [ 74389] = true, -- Dark Barrage
+    [ 74390] = true, -- Dark Barrage
+    [ 74391] = true, -- Dark Barrage
+    [ 74392] = true, -- Dark Barrage
+    [ 75965] = true, -- Dark Barrage
+    [ 75966] = true, -- Dark Barrage
+    [ 75967] = true, -- Dark Barrage
+    [ 75968] = true, -- Dark Barrage
+    [ 78015] = true, -- Dark Barrage
 }
 
 
@@ -52,8 +65,18 @@ Crutch.testing = {
     -- [112900] = true, -- sigil
     -- [112908] = true, -- sigil
     -- [112871] = true, -- sigil
+
+    -- [111779] = true, -- Spirit Ignition - count the ghosts?
 }
 
+---------------------------------------------------------------------
+-- Testing stacks of effects
+Crutch.stacks = {
+    [111783] = true, -- Spirit Energy (Drakeeh absorbed ghosts)
+    -- [ 61905] = true, -- Grim Focus
+    -- [ 61920] = true, -- Grim Focus
+    -- [ 61928] = true, -- Grim Focus
+}
 
 ---------------------------------------------------------------------
 -- Don't display chat spam in these zones
@@ -202,9 +225,10 @@ Crutch.others = {
     --Custom true
     [74488]=true,--Unstable Void (Rakkhat)
     [74384]=true,[74385]=true,[74388]=true,[74390]=true,[74391]=true,[74392]=true,[75965]=true,[75966]=true,[75967]=true,[75968]=true,[78015]=true,[74389]=true,--Dark Barrage
+    [ 74384] = true, -- Dark Barrage (initial)
 
 --Halls of Fabrication
-    [ 90499] = true, -- Fabricant Spawn
+    [ 90499] = true, -- Reclaim the Ruined (Adds spawn)
     [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
     [ 91454] = true, -- Stomp (Assembly General)
     [ 91781] = true, -- Lightning Spear (Pinnacle Factotum conduit)
@@ -221,4 +245,7 @@ Crutch.others = {
 
 -- Frostvault
     [113465] = true, -- Reckless Charge (Warlord Tzogvin)
+
+-- Elden Hollow
+    [  9944] = true, -- Necrotic Burst (Canonreeve Oraneth)
 }

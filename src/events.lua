@@ -315,6 +315,31 @@ end
 
 
 ---------------------------------------------------------------------
+-- Test ability stacks
+
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnStackChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, unitName, unitId, abilityId)
+    if (Crutch.savedOptions.debugChatSpam) then
+        local stacks = changeType == EFFECT_RESULT_FADED and 0 or stackCount
+        d(string.format("|ca182ff%s(%s)(%d) has %d stacks of %s(%d)|r",
+            unitName,
+            unitTag,
+            unitId,
+            stacks,
+            GetAbilityName(abilityId),
+            abilityId))
+    end
+end
+
+function Crutch.RegisterStacks()
+    for abilityId in pairs(Crutch.stacks) do
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Stacks" .. abilityId, EVENT_EFFECT_CHANGED, OnStackChanged)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Stacks" .. abilityId, EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, abilityId)
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Crutch.others (on group or others)
 
 local function OnCombatEventOthers(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)

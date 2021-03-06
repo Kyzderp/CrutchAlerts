@@ -23,10 +23,12 @@ local SUBTITLE_TIMES = {
     ["Mirarro"] = {
         -- Zhaj'hassa
         ["Don't .... It's ... trap."] = 15.6, -- TODO
+        ["He's coming!"] = 15.6, -- TODO
     },
     ["Kulan-Dro"] = {
         -- Rakkhat
         ["Have you not heard me? Have I not made your choice plain? You will listen, mortals ... even if it means peeling the ears from your scalps and shouting Namiira's will into whatever's left of your broken skulls!"] = 24.4, -- TODO
+        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals"] = 24.4, -- TODO
     },
 
 -- SS
@@ -167,7 +169,7 @@ local function HandleOverheadRail()
     end
 
     spooderPulled = true
-    Crutch.DisplayDamageable(22.1) -- TODO
+    Crutch.DisplayDamageable(23.2) -- TODO
 end
 
 ---------------------------------------------------------------------

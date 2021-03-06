@@ -46,18 +46,6 @@ Crutch.format = {
 
 -- Maw of Lorkhaj
     [ 74035] =   2, -- Darkness Falls
-    [ 74384] =   5, -- Dark Barrage
-    [ 74385] =   5, -- Dark Barrage
-    [ 74388] =   5, -- Dark Barrage
-    [ 74389] =   5, -- Dark Barrage
-    [ 74390] =   5, -- Dark Barrage
-    [ 74391] =   5, -- Dark Barrage
-    [ 74392] =   5, -- Dark Barrage
-    [ 75965] =   5, -- Dark Barrage
-    [ 75966] =   5, -- Dark Barrage
-    [ 75967] =   5, -- Dark Barrage
-    [ 75968] =   5, -- Dark Barrage
-    [ 78015] =   5, -- Dark Barrage
 
 -- Maelstrom Arena
     [ 72057] =   20003, -- Portal Spawn

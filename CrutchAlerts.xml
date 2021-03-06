@@ -30,19 +30,19 @@
                     <Anchor point="RIGHT" relativeTo="$(parent)Label" relativePoint="LEFT"/>
                     <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls>
                 </Texture>
-                <Label name="$(parent)Label" fontName="ZoFontWinH1" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ffffff"
+                <Label name="$(parent)Label" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ffffff"
                     text="Devastate" verticalAlignment="TOP" horizontalAlignment="CENTER" hidden="false">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                     <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
                 </Label>
-                <Label name="$(parent)Timer" fontName="ZoFontWinH1" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ff0000"
+                <Label name="$(parent)Timer" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ff0000"
                     text="" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="LEFT" relativeTo="$(parent)Label" relativePoint="RIGHT"/>
                     <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
                 </Label>
-                <Label name="$(parent)Id" fontName="ZoFontWinH1" font="$(BOLD_FONT)|14|shadow" color="888888"
+                <Label name="$(parent)Id" font="$(BOLD_FONT)|14|shadow" color="888888"
                     text="debug ID 12345" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="TOPLEFT" relativeTo="$(parent)Label" relativePoint="BOTTOMLEFT"/>
@@ -65,6 +65,60 @@
                 <Label name="$(parent)Label" font="ZoFontWinH1" color="FFFFFF" text="Boss in |cffee003.0|r" verticalAlignment="CENTER" horizontalAlignment="CENTER" hidden="true">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                </Label>
+            </Controls>
+        </TopLevelControl>
+
+<!-- ======================================================================================================================= -->
+        <TopLevelControl name="CrutchAlertsProminent1" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="true">
+            <Dimensions x="40" y="40"/>
+            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
+            <Controls>
+                <Label name="$(parent)LeftMid" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="0"/>
+                </Label>
+                <Label name="$(parent)LeftTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="300"/>
+                </Label>
+                <Label name="$(parent)LeftBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="-300"/>
+                </Label>
+                <Label name="$(parent)RightMid" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="0"/>
+                </Label>
+                <Label name="$(parent)RightTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="300"/>
+                </Label>
+                <Label name="$(parent)RightBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="-300"/>
+                </Label>
+            </Controls>
+        </TopLevelControl>
+        <TopLevelControl name="CrutchAlertsProminent2" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="true">
+            <Dimensions x="40" y="40"/>
+            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
+            <Controls>
+                <Label name="$(parent)LeftTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="150"/>
+                </Label>
+                <Label name="$(parent)LeftBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="-150"/>
+                </Label>
+                <Label name="$(parent)RightTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="150"/>
+                </Label>
+                <Label name="$(parent)RightBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="-150"/>
                 </Label>
             </Controls>
         </TopLevelControl>

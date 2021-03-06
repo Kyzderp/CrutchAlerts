@@ -80,8 +80,15 @@ local function UpdateDisplay()
             else
                 numActive = numActive + 1
                 if (not data.interrupted and lineControl:GetNamedChild("Timer") ~= "") then
+                    -- Update the timer
                     lineControl:GetNamedChild("Timer"):SetText(string.format("%.1f", millisRemaining / 1000))
                     lineControl:GetNamedChild("Timer"):SetColor(unpack(GetTimerColor(millisRemaining)))
+
+                    -- Also display prominent alert if applicable
+                    -- TODO: timer 500ms
+                    if (millisRemaining <= 1000 and Crutch.prominent[data.abilityId] and not Crutch.prominentDisplaying[data.abilityId]) then
+                        Crutch.DisplayProminent(data.abilityId)
+                    end
                 end
             end
         end
@@ -219,6 +226,14 @@ function Crutch.Interrupted(targetUnitId)
             labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
             labelControl:SetWidth(labelControl:GetTextWidth())
             lineControl:GetNamedChild("Timer"):SetText("")
+        end
+
+        if (Crutch.prominentDisplaying[abilityId]) then
+            local slot = Crutch.prominentDisplaying[abilityId]
+            local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
+            control:SetHidden(true)
+            Crutch.prominentDisplaying[abilityId] = nil
+            EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "Prominent" .. tostring(slot))
         end
     end
 end

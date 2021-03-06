@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.0.2"
+Crutch.version = "0.1.0"
 
 Crutch.registered = {
     begin = false,
@@ -123,6 +123,7 @@ local function Initialize()
     Crutch.RegisterInterrupts()
     Crutch.RegisterTest()
     Crutch.RegisterOthers()
+    Crutch.RegisterStacks()
 
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
 

@@ -1,7 +1,7 @@
 ## Title: CrutchAlerts
 ## This addon is a crutch
 ## Author: Kyzeragon
-## Version: 0.0.2
+## Version: 0.1.0
 ## APIVersion: 100033
 
 ## DependsOn: LibAddonMenu-2.0>=31
@@ -17,3 +17,4 @@ src/events.lua
 src/data.lua
 src/format.lua
 src/damageable.lua
+src/prominent.lua
