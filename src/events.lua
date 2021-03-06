@@ -127,6 +127,9 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     -- Several immediate light attacks are 75ms
     if (hitValue <= 75) then return end
 
+    -- Specific abilities should ignore hitValues that are below certain thresholds
+    if (Crutch.threshold[abilityId] and hitValue < Crutch.threshold[abilityId]) then return end
+
     if (hitValue >= Crutch.savedOptions.general.hitValueAboveThreshold) then
         if (Crutch.savedOptions.debugOther) then
             d(string.format("|c88FFFF[CO]|r Capping hitValue for %s(%d) at %d from %d",

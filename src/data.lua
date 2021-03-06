@@ -46,6 +46,13 @@ Crutch.blacklist = {
 
 
 ---------------------------------------------------------------------
+-- For specific abilities, only alert if the hitValue is at least threshold
+Crutch.threshold = {
+    [ 73741] = 1900, -- Threshing Wings (only get the initial cast, not the weird other parts that are cast on everyone)
+}
+
+
+---------------------------------------------------------------------
 -- Needs testing
 Crutch.testing = {
     -- [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)
@@ -219,13 +226,13 @@ Crutch.others = {
 --Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
     --300
-    [74035]=true,--Darkness Falls
+    [ 74035] = true, -- Darkness Falls
     [73741]=true,--Threshing Wings
 
     --Custom true
-    [74488]=true,--Unstable Void (Rakkhat)
-    [74384]=true,[74385]=true,[74388]=true,[74390]=true,[74391]=true,[74392]=true,[75965]=true,[75966]=true,[75967]=true,[75968]=true,[78015]=true,[74389]=true,--Dark Barrage
+    [ 74488] = true, -- Unstable Void (Rakkhat)
     [ 74384] = true, -- Dark Barrage (initial)
+    [ 74385] = true, -- Dark Barrage (start)
 
 --Halls of Fabrication
     [ 90499] = true, -- Reclaim the Ruined (Adds spawn)

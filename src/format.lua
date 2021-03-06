@@ -44,12 +44,9 @@ Crutch.format = {
     [ 48240] =  10, -- Boulder Storm (Stone Atronach)
     [ 49098] =  10, -- Big Quake (Stone Atronach)
 
--- Maw of Lorkhaj
-    [ 74035] =   2, -- Darkness Falls
-
 -- Maelstrom Arena
-    [ 72057] =   20003, -- Portal Spawn
-    [ 70723] =   01003, -- Rupturing Fog
+    [ 72057] = 20003, -- Portal Spawn
+    [ 70723] = 01003, -- Rupturing Fog
 }
 
 function Crutch.GetFormatInfo(abilityId)
