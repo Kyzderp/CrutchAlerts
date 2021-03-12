@@ -28,7 +28,12 @@ Crutch.prominent = {
 
 -- SS    
     [117075] = {text = "SHIELD CHARGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Shield Charge (Ruin of Alkosh)
+
+-- MoL
     [73721] = {text = "VOID RUSH", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Void Rush (Dro-m'Athra Shadowguard)
+
+-- BDV
+    [150380] = {text = "DODGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Glacial Gash (Sentinel Aksalaz)
 }
 -- /script CrutchAlerts.DisplayProminent(117075)
 

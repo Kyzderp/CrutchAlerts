@@ -219,17 +219,13 @@ Crutch.others = {
 --Maelstrom Arena
     --100
     [72057]=true,--Portal Spawn
-    --[15954]=100,--Boss (Clockwork Sentry)
     [68011]=true,--Web Up Artifact
     [70723]=true,--Rupturing Fog
 
 --Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
-    --300
     [ 74035] = true, -- Darkness Falls
     [73741]=true,--Threshing Wings
-
-    --Custom true
     [ 74488] = true, -- Unstable Void (Rakkhat)
     [ 74384] = true, -- Dark Barrage (initial)
     [ 74385] = true, -- Dark Barrage (start)
@@ -255,4 +251,7 @@ Crutch.others = {
 
 -- Elden Hollow
     [  9944] = true, -- Necrotic Burst (Canonreeve Oraneth)
+
+-- The Cauldron
+    [146179] = true, -- Galvanic Blow (Baron Zaudrus conal that applies Galvanic Burst)
 }
