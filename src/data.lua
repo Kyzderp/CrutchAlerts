@@ -49,6 +49,8 @@ Crutch.blacklist = {
 -- For specific abilities, only alert if the hitValue is at least threshold
 Crutch.threshold = {
     [ 73741] = 1900, -- Threshing Wings (only get the initial cast, not the weird other parts that are cast on everyone)
+    [103946] = 2500, -- Shadow Realm Cast (only initial cast)
+    [105291] = 1250, -- SUM Shadow Beads (only initial cast)
 }
 
 
@@ -139,24 +141,22 @@ Crutch.others = {
     [ 98582] = true,--Trial by Fire
 
 -- Cloudrest
-    --300
-    [103531]=true,[110431]=true,--Roaring Flare
+    [103531] = true, -- Roaring Flare
+    [110431] = true, -- Roaring Flare
+    [103946] = true, -- Shadow Realm Cast
+    [105291] = true, -- SUM Shadow Beads
 
     --200
     [105890]=true,--Set Start CD of SRealm
     [105016]=true,--SUM Lrg Tentacle
     [106023]=true,--ZMaja Break Amulet
 
-    --100
-    [103946]=true,--Shadow Realm Cast
-    [105291]=true,--SUM Shadow Beads
-
     --true
     [106374]=true,--Chilling Comet
     [105120]=true,--SotDead Proj to Corpse
     [105673]=true,--Talon Slice
-    -- [107082]=true,--Baneful Mark
-    -- [107196]=true,--Shade Baneful Mark
+
+    [105380] = true, -- Direct Current (Relequen interruptible)
 
 -- Blackrose Prison
     [111283] = true, -- Tremors (Imperial Cleaver) TODO: timer?

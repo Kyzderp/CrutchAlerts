@@ -25,13 +25,12 @@ Crutch.format = {
     [ 95545] = 20006.2, -- Defiling Dye Blast (Saint Llothis)
 
 -- Cloudrest
-    [103946] =  10, -- Shadow Realm Cast (Z'Maja) TODO: check
-    [103760] =   7, -- Hoarfrost
-    [103531] =   7, -- Roaring Flare
-    [110431] =   7, -- Roaring Flare
-    [105239] =  10, -- Crushing Darkness
-    [103555] =   3, -- Voltaic Current
-    [ 87346] =  10, -- Voltaic Overload
+    [103760] =     7, -- Hoarfrost
+    [103531] = 20007, -- Roaring Flare
+    [110431] = 20007, -- Roaring Flare
+    [105239] =    10, -- Crushing Darkness
+    [103555] =     3, -- Voltaic Current
+    [ 87346] =    10, -- Voltaic Overload
 
 -- Blackrose Prison
     [111283] =   2, -- Tremors (Imperial Cleaver) TODO: check
