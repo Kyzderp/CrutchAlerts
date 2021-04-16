@@ -76,6 +76,8 @@ Crutch.testing = {
     -- [112871] = true, -- sigil
 
     -- [111779] = true, -- Spirit Ignition - count the ghosts?
+
+    -- [52790] = true, -- Taunt Counter
 }
 
 ---------------------------------------------------------------------
@@ -85,6 +87,7 @@ Crutch.stacks = {
     -- [ 61905] = true, -- Grim Focus
     -- [ 61920] = true, -- Grim Focus
     -- [ 61928] = true, -- Grim Focus
+    [52790] = true, -- Taunt Counter
 }
 
 ---------------------------------------------------------------------
@@ -142,7 +145,7 @@ Crutch.others = {
 
 -- Cloudrest
     [103531] = true, -- Roaring Flare
-    [110431] = true, -- Roaring Flare
+    [110431] = true, -- Roaring Flare (execute 2nd flare)
     [103946] = true, -- Shadow Realm Cast
     [105291] = true, -- SUM Shadow Beads
 

@@ -334,10 +334,29 @@ local function OnStackChanged(_, changeType, _, _, unitTag, _, _, stackCount, _,
     end
 end
 
+-- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+local function OnStackCombat(_, result, _, _, _, _, _, _, targetName, _, stackCount, _, _, _, _, targetUnitId, abilityId)
+    if (Crutch.savedOptions.debugChatSpam) then
+        if (result ~= ACTION_RESULT_EFFECT_GAINED and result ~= ACTION_RESULT_EFFECT_FADED) then
+            return
+        end
+        local stacks = result == ACTION_RESULT_EFFECT_FADED and 0 or stackCount
+        d(string.format("|ca182ff%s(%d) has %d stacks of %s(%d)|r",
+            targetName,
+            targetUnitId,
+            stacks,
+            GetAbilityName(abilityId),
+            abilityId))
+    end
+end
+
 function Crutch.RegisterStacks()
     for abilityId in pairs(Crutch.stacks) do
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Stacks" .. abilityId, EVENT_EFFECT_CHANGED, OnStackChanged)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Stacks" .. abilityId, EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, abilityId)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StacksCombat" .. abilityId, EVENT_COMBAT_EVENT, OnStackCombat)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StacksCombat" .. abilityId, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StacksCombat" .. abilityId, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
     end
 end
 
