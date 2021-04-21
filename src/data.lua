@@ -87,7 +87,7 @@ Crutch.stacks = {
     -- [ 61905] = true, -- Grim Focus
     -- [ 61920] = true, -- Grim Focus
     -- [ 61928] = true, -- Grim Focus
-    [52790] = true, -- Taunt Counter
+    -- [52790] = true, -- Taunt Counter
 }
 
 ---------------------------------------------------------------------
@@ -119,6 +119,7 @@ Crutch.others = {
     [121271] = true,--Lightning Storm
     [121411] = true, -- Negate Field
     [121436] = true, -- Translation Apocalypse
+    [120359] = true, -- Relentless Gale (Lokkestiiz)
 
     --200
     [114085] = true,--Frost Atro Init
@@ -233,7 +234,7 @@ Crutch.others = {
     [ 74384] = true, -- Dark Barrage (initial)
     [ 74385] = true, -- Dark Barrage (start)
 
---Halls of Fabrication
+-- Halls of Fabrication
     [ 90499] = true, -- Reclaim the Ruined (Adds spawn)
     [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
     [ 91454] = true, -- Stomp (Assembly General)

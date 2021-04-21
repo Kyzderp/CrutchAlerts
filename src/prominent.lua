@@ -24,6 +24,7 @@ Crutch.prominent = {
 
 -- HoF
     [ 90499] = {text = "ADDS", color = {1, 0.2, 0.2}, slot = 1, millis = 6000}, -- Reclaim the Ruined (Adds spawn)
+    [ 90876] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Direct Current (Pinnacle interruptible)
     [ 91454] = {text = "BLOCK", color = {1, 0.2, 0.2}, slot = 1, playSound = true}, -- Stomp (Assembly General)
 
 -- SS    

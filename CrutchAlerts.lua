@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.1.0"
+Crutch.version = "0.2.0"
 
 Crutch.registered = {
     begin = false,
@@ -86,6 +86,9 @@ local defaultOptions = {
     },
 }
 
+local trialUnregisters = {}
+local trialRegisters = {}
+
 function CrutchAlerts:SavePosition()
     local x, y = CrutchAlertsContainer:GetCenter()
     local oX, oY = GuiRoot:GetCenter()
@@ -96,6 +99,23 @@ function CrutchAlerts:SavePosition()
     x, y = CrutchAlertsDamageable:GetCenter()
     Crutch.savedOptions.damageableDisplay.x = x - oX
     Crutch.savedOptions.damageableDisplay.y = y - oY
+end
+
+local function OnPlayerActivated(_, initial)
+    Crutch.groupMembers = {} -- clear the cache
+    local zoneId = GetZoneId(GetUnitZoneIndex("player"))
+
+    -- Unregister previous active trial, if applicable
+    if (trialUnregisters[Crutch.zoneId]) then
+        trialUnregisters[Crutch.zoneId]()
+    end
+
+    -- Register current active trial, if applicable
+    if (trialRegisters[zoneId]) then
+        trialRegisters[zoneId]()
+    end
+
+    Crutch.zoneId = zoneId
 end
 
 ---------------------------------------------------------------------
@@ -119,20 +139,48 @@ local function Initialize()
         Crutch.RegisterGained()
     end
 
+    -- Init general
     Crutch.InitializeDamageable()
     Crutch.RegisterInterrupts()
     Crutch.RegisterTest()
     Crutch.RegisterOthers()
     Crutch.RegisterStacks()
-
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
 
     -- Register for when entering zone
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED,
-        function(_, initial)
-            Crutch.groupMembers = {} -- clear the cache
-            Crutch.zoneId = GetZoneId(GetUnitZoneIndex("player"))
-        end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
+
+    trialUnregisters = {
+        -- [635 ] = true,  -- Dragonstar Arena
+        -- [636 ] = true,  -- Hel Ra Citadel
+        -- [638 ] = true,  -- Aetherian Archive
+        -- [639 ] = true,  -- Sanctum Ophidia
+        -- [677 ] = true,  -- Maelstrom Arena
+        -- [725 ] = true,  -- Maw of Lorkhaj
+        -- [975 ] = true,  -- Halls of Fabrication
+        -- [1000] = true,  -- Asylum Sanctorium
+        [1051] = Crutch.UnregisterCloudrest,  -- Cloudrest
+        -- [1082] = true,  -- Blackrose Prison
+        -- [1121] = true,  -- Sunspire
+        -- [1196] = true,  -- Kyne's Aegis
+        -- [1227] = true,  -- Vateshran Hollows
+    }
+
+    trialRegisters = {
+        -- [635 ] = true,  -- Dragonstar Arena
+        -- [636 ] = true,  -- Hel Ra Citadel
+        -- [638 ] = true,  -- Aetherian Archive
+        -- [639 ] = true,  -- Sanctum Ophidia
+        -- [677 ] = true,  -- Maelstrom Arena
+        -- [725 ] = true,  -- Maw of Lorkhaj
+        -- [975 ] = true,  -- Halls of Fabrication
+        -- [1000] = true,  -- Asylum Sanctorium
+        [1051] = Crutch.RegisterCloudrest,  -- Cloudrest
+        -- [1082] = true,  -- Blackrose Prison
+        -- [1121] = true,  -- Sunspire
+        -- [1196] = true,  -- Kyne's Aegis
+        -- [1227] = true,  -- Vateshran Hollows
+    }
 end
 
 
