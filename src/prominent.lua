@@ -40,6 +40,7 @@ Crutch.prominent = {
 
 -- RG
     [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
+    [149316] = {text = "STOMP", color = {1, 0.7, 0.2}, slot = 1, playSound = true}, -- Emblazoned Stomp (Havocrel Butcher)
     [152414] = {text = "METEOR", color = {1, 0.7, 0.2}, slot = 1, playSound = true}, -- Meteor Call (Havocrel Torchcaster)
 
 -------------------

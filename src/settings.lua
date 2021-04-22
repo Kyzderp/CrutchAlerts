@@ -167,9 +167,9 @@ local defaultOptions = {
                     name = "Show subtitles in chat",
                     tooltip = "Show NPC dialogue subtitles in chat. The color formatting will be weird if there are multiple lines",
                     default = true,
-                    getFunc = function() return Crutch.savedOptions.general.showSubtitles end,
+                    getFunc = function() return Crutch.savedOptions.showSubtitles end,
                     setFunc = function(value)
-                        Crutch.savedOptions.general.showSubtitles = value
+                        Crutch.savedOptions.showSubtitles = value
                     end,
                     width = "full",
                 },
