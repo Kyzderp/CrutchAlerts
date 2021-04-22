@@ -19,6 +19,7 @@ Crutch.prominent = {
     [ 15164] = {text = "HEAT WAVE", color = {1, 0.3, 0.1}, slot = 1,
         zoneIds = {
             [1227] = true, -- Vateshran Hollows
+            [ 677] = true, -- Maelstrom Arena
             [ 635] = true, -- Dragonstar Arena
         }}, -- Heat Wave (Dremora Kyngald, etc.)
 
@@ -27,7 +28,7 @@ Crutch.prominent = {
     [ 90876] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Direct Current (Pinnacle interruptible)
     [ 91454] = {text = "BLOCK", color = {1, 0.2, 0.2}, slot = 1, playSound = true}, -- Stomp (Assembly General)
 
--- SS    
+-- SS
     [117075] = {text = "SHIELD CHARGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Shield Charge (Ruin of Alkosh)
 
 -- MoL
@@ -35,7 +36,13 @@ Crutch.prominent = {
 
 -- CR
     [105380] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Direct Current (Relequen interruptible)
+    [106405] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Glacial Spikes (Galenwe interruptible)
 
+-- RG
+    [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
+    [152414] = {text = "METEOR", color = {1, 0.7, 0.2}, slot = 1, playSound = true}, -- Meteor Call (Havocrel Torchcaster)
+
+-------------------
 -- BDV
     [150380] = {text = "DODGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Glacial Gash (Sentinel Aksalaz)
 }

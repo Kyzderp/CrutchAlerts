@@ -11,6 +11,7 @@ Crutch.version = "0.2.0"
 Crutch.registered = {
     begin = false,
     test = false,
+    enemy = false,
     others = false,
     interrupts = false,
 }

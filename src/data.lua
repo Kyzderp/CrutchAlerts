@@ -78,6 +78,8 @@ Crutch.testing = {
     -- [111779] = true, -- Spirit Ignition - count the ghosts?
 
     -- [52790] = true, -- Taunt Counter
+
+    [4771] = true, -- Fiery Breath (Daedroth)
 }
 
 ---------------------------------------------------------------------
@@ -99,7 +101,7 @@ Crutch.noSpamZone = {
 
 
 ---------------------------------------------------------------------
--- Show when the target is other people too
+-- Show when the target is anyone
 -- TODO: show only when in the zone
 -- TODO: check being in a trial but without a group - remove it from others events instead of all?
 Crutch.others = {
@@ -161,6 +163,7 @@ Crutch.others = {
     [105673]=true,--Talon Slice
 
     [105380] = true, -- Direct Current (Relequen interruptible)
+    [106405] = true, -- Glacial Spikes (Galenwe interruptible)
 
 -- Blackrose Prison
     [111283] = true, -- Tremors (Imperial Cleaver) TODO: timer?
@@ -239,6 +242,27 @@ Crutch.others = {
     [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
     [ 91454] = true, -- Stomp (Assembly General)
     [ 91781] = true, -- Lightning Spear (Pinnacle Factotum conduit)
+
+-- Rockgrove
+    [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)
+    [157466] = true, -- Soul Remnant (Sul-Xan Soulweaver)
+
+    [149316] = true, -- Emblazoned Stomp (Havocrel Butcher)
+
+    [152496] = true, -- Taking Aim on self (Sul-Xan Bloodseeker / Basks-In-Snakes)
+    [157248] = true, -- Taking Aim on player (Sul-Xan Bloodseeker)
+
+    [157267] = true, -- Lash (Giant Snake cleave)
+
+    [149414] = true, -- Savage Blitz (Oaxiltso)
+    [152688] = true, -- Cinder Cleave (Havocrel Annihilator)
+
+    [152463] = true, -- Skull Salvo (Flame-Herald Bahsei)
+
+    [157482] = true, -- Molten Rain (Ash Titan)
+    [152414] = true, -- Meteor Call (Havocrel Torchcaster)
+
+    -- TODO: meteor spawn
 
 ---------------------------------------------------------------------
 -- Dungeons

@@ -362,7 +362,8 @@ end
 
 
 ---------------------------------------------------------------------
--- Crutch.others (on group or others)
+-- Crutch.others (on anyone)
+---------------------------------------------------------------------
 
 local function OnCombatEventOthers(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)
     -- Actual display
