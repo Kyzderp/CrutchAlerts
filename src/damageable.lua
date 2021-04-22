@@ -22,13 +22,13 @@ local SUBTITLE_TIMES = {
 -- MoL
     ["Mirarro"] = {
         -- Zhaj'hassa
-        ["Don't .... It's ... trap."] = 15.6, -- TODO
-        ["He's coming!"] = 15.6, -- TODO
+        ["Don't .... It's ... trap."] = 16.8, -- TODO
+        ["He's coming!"] = 16.8, -- TODO
     },
     ["Kulan-Dro"] = {
         -- Rakkhat
-        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals ... even if it means peeling the ears from your scalps and shouting Namiira's will into whatever's left of your broken skulls!"] = 24.4, -- TODO
-        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals"] = 24.4, -- TODO
+        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals ... even if it means peeling the ears from your scalps and shouting Namiira's will into whatever's left of your broken skulls!"] = 26.4, -- TODO
+        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals"] = 26.4, -- TODO
     },
 
 -- SS
@@ -122,8 +122,9 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
     end
 
     local name = zo_strformat("<<1>>", fromName)
-    -- TODO: add setting for this
-    d(string.format("|c88FFFF%s: |cAAAAAA%s", name, text))
+    if (Crutch.savedOptions.showSubtitles) then
+        d(string.format("|c88FFFF%s: |cAAAAAA%s", name, text))
+    end
 
     -- Dialogue NPC matches
     local lines = SUBTITLE_TIMES[name]
@@ -133,13 +134,13 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
 
     local time = lines[text]
     if (time) then
-        d("Found time using exact string")
+        -- d("Found time using exact string")
     else
         -- Check each one using string.find
         for line, t in pairs(lines) do
             if (string.find(text, line, 1, true)) then
                 time = t
-                d("Found time using find")
+                -- d("Found time using find")
             end
         end
 

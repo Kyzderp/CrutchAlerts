@@ -61,6 +61,7 @@ local defaultOptions = {
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
+    showSubtitles = true,
     general = {
         showBegin = true,
             beginHideSelf = false,
