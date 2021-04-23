@@ -85,7 +85,6 @@ local function UpdateDisplay()
                     lineControl:GetNamedChild("Timer"):SetColor(unpack(GetTimerColor(millisRemaining)))
 
                     -- Also display prominent alert if applicable
-                    -- TODO: timer 500ms
                     local prominentThreshold = 1000
                     if (Crutch.prominent[data.abilityId] and Crutch.prominent[data.abilityId].preMillis) then
                         prominentThreshold = Crutch.prominent[data.abilityId].preMillis
