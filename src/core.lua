@@ -7,7 +7,7 @@ local Crutch = CrutchAlerts
 -- Currently unused controls for notifications: {[1] = {source = sourceUnitId, expireTime = 1235345, interrupted = true, abilityId = 12345}}
 local freeControls = {}
 
--- Currently displaying source to index {[sourceUnitId] = {[abilityId] = index,}}
+-- Currently displaying source to index {[sourceUnitId] = {[abilityId] = {index = index, preventOverwrite = true},}}
 local displaying = {}
 
 -- Poll every 100ms when one is active
@@ -124,7 +124,7 @@ end
 ---------------------------------------------------------------------
 -- Outside calling
 
-function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, result)
+function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, result, preventOverwrite)
     -- Check for special format
     local customTime, customColor, hideTimer, alertType = Crutch.GetFormatInfo(abilityId)
     if (customTime ~= 0) then
@@ -141,17 +141,17 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     -- Overwrite existing cast of the same ability
     if (displaying[sourceUnitId] and displaying[sourceUnitId][abilityId]) then
         -- Don't overwrite for type == 2
-        if (alertType == 2) then
+        if ((not preventOverwrite and alertType == 2) or displaying[sourceUnitId][abilityId].preventOverwrite) then
             return
         end
 
-        -- if (Crutch.savedOptions.debugChatSpam
-        --     and abilityId ~= 114578 -- BRP Portal Spawn
-        --     and abilityId ~= 72057 -- MA Portal Spawn
-        --     ) then
-        --     d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
-        -- end
-        index = displaying[sourceUnitId][abilityId]
+        if (Crutch.savedOptions.debugChatSpam
+            and abilityId ~= 114578 -- BRP Portal Spawn
+            and abilityId ~= 72057 -- MA Portal Spawn
+            ) then
+            d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
+        end
+        index = displaying[sourceUnitId][abilityId].index
     else
         index = FindOrCreateControl()
     end
@@ -162,7 +162,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     if (not displaying[sourceUnitId]) then
         displaying[sourceUnitId] = {}
     end
-    displaying[sourceUnitId][abilityId] = index
+    displaying[sourceUnitId][abilityId] = {index = index, preventOverwrite = preventOverwrite}
 
     local resultString = ""
     if (result) then
@@ -214,7 +214,8 @@ function Crutch.Interrupted(targetUnitId)
         return
     end
 
-    for abilityId, index in pairs(displaying[targetUnitId]) do
+    for abilityId, data in pairs(displaying[targetUnitId]) do
+        local index = data.index
         if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
             freeControls[index].interrupted = true
             freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second

@@ -426,7 +426,21 @@ function Crutch.UnregisterOthers()
     Crutch.registered.others = false
 end
 
+---------------------------------------------------------------------
+--[[
+/script CrutchAlerts.Test()
+]]
+function Crutch.Test()
+    Crutch.groupMembers[-420] = "@TheClawlessConqueror"
+    Crutch.groupMembers[-421] = "@Kyzeragon"
+    CrutchAlerts.DisplayNotification(103531, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |caaaaaaLEFT|r", "@TheClawlessConqueror"), 1, 0, 0, 0, 0, true)
+    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_GROUP, 250, 0, -420, 103531)
+    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
+    CrutchAlerts.DisplayNotification(110431, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", "@Kyzeragon"), 1, 0, 0, 0, 0, true)
+    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
+end
 
+---------------------------------------------------------------------
 function Crutch.RegisterUnitId(unitId)
     function HandleTest(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
         if (sourceUnitId ~= unitId and targetUnitId ~= unitId) then
