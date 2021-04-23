@@ -5,6 +5,19 @@ local Crutch = CrutchAlerts
 local amuletSmashed = false
 
 ---------------------------------------------------------------------
+local function IsInShadowWorld()
+    for i = 1, GetNumBuffs("player") do
+        -- string buffName, number timeStarted, number timeEnding, number buffSlot, number stackCount, textureName iconFilename, string buffType, number BuffEffectType effectType, number AbilityType abilityType, number StatusEffectType statusEffectType, number abilityId, boolean canClickOff, boolean castByPlayer
+        local buffName, _, _, _, _, iconFilename, _, _, _, _, abilityId, _, _ = GetUnitBuffInfo("player", i)
+        if (abilityId == 108045) then
+            return true
+        end
+    end
+    return false
+end
+Crutch.IsInShadowWorld = IsInShadowWorld
+
+---------------------------------------------------------------------
 local function OnCombatStateChanged(_, inCombat)
     -- Reset
     if (not inCombat) then

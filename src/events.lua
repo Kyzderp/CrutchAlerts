@@ -401,6 +401,13 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
             resultString))
     end
 
+    -- Don't show Rele and Galenwe interruptibles while in portal
+    if (abilityId == 105380 or abilityId == 106405) then
+        if (Crutch.IsInShadowWorld()) then
+            return
+        end
+    end
+
     Crutch.DisplayNotification(abilityId, GetAbilityName(abilityId) .. targetName, hitValue, sourceUnitId, sourceName, sourceType, result)
 end
 
