@@ -51,6 +51,7 @@ Crutch.threshold = {
     [ 73741] = 1900, -- Threshing Wings (only get the initial cast, not the weird other parts that are cast on everyone)
     [103946] = 2500, -- Shadow Realm Cast (only initial cast)
     [105291] = 1250, -- SUM Shadow Beads (only initial cast)
+    [105380] = 2000, -- Direct Current (Relequen, only after he actually starts channeling, not the 250ms cast time)
 }
 
 
@@ -79,7 +80,7 @@ Crutch.testing = {
 
     -- [52790] = true, -- Taunt Counter
 
-    [4771] = true, -- Fiery Breath (Daedroth)
+    [106405] = true, -- Glacial Spikes (Galenwe interruptible)
 }
 
 ---------------------------------------------------------------------

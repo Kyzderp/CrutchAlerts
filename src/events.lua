@@ -438,6 +438,8 @@ function Crutch.Test()
     OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
     CrutchAlerts.DisplayNotification(110431, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", "@Kyzeragon"), 1, 0, 0, 0, 0, true)
     OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
+
+    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Glacial Spikes", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 6000, 0, 0, 106405)
 end
 
 ---------------------------------------------------------------------

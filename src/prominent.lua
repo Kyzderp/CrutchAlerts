@@ -36,7 +36,7 @@ Crutch.prominent = {
 
 -- CR
     [105380] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Direct Current (Relequen interruptible)
-    [106405] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Glacial Spikes (Galenwe interruptible)
+    [106405] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 1, playSound = true, preMillis = 6000, millis = 6000}, -- Glacial Spikes (Galenwe interruptible)
 
 -- RG
     [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)

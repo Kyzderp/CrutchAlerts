@@ -86,7 +86,11 @@ local function UpdateDisplay()
 
                     -- Also display prominent alert if applicable
                     -- TODO: timer 500ms
-                    if (millisRemaining <= 1000 and Crutch.prominent[data.abilityId] and not Crutch.prominentDisplaying[data.abilityId]) then
+                    local prominentThreshold = 1000
+                    if (Crutch.prominent[data.abilityId] and Crutch.prominent[data.abilityId].preMillis) then
+                        prominentThreshold = Crutch.prominent[data.abilityId].preMillis
+                    end
+                    if (millisRemaining <= prominentThreshold and Crutch.prominent[data.abilityId] and not Crutch.prominentDisplaying[data.abilityId]) then
                         Crutch.DisplayProminent(data.abilityId)
                     end
                 end
