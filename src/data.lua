@@ -155,24 +155,26 @@ Crutch.others = {
 
     --200
     [105890]=true,--Set Start CD of SRealm
-    [105016]=true,--SUM Lrg Tentacle
-    [106023]=true,--ZMaja Break Amulet
+    [105016] = true,--SUM Lrg Tentacle
+    [106023] = true,--ZMaja Break Amulet
 
     --true
     [106374]=true,--Chilling Comet
     [105120]=true,--SotDead Proj to Corpse
     [105673]=true,--Talon Slice
 
+    -- [105239]=true,--Crushing Darkness
     [105380] = true, -- Direct Current (Relequen interruptible)
     [106405] = true, -- Glacial Spikes (Galenwe interruptible)
 
 -- Blackrose Prison
-    [111283] = true, -- Tremors (Imperial Cleaver) TODO: timer?
+    [111283] = true, -- Tremors (Imperial Cleaver)
     [114629] = true, -- Void (Drakeeh)
     --300
-    [114453]=true,--Chill Spear  [114455]=true,
+    [114447] = true, -- Haunting Spectre (Soul of Void)
+    [114453] = true, -- Chill Spear
     --100
-    [111659]=true,--Bat Swarm
+    [111659] = true, -- Bat Swarm
     [114578]=true,--Portal Spawn
     [ 71787]=true,--Impending Storm
     [113208]=true,--Shockwave
