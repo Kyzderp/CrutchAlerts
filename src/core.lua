@@ -73,9 +73,11 @@ local function UpdateDisplay()
                 -- Hide
                 lineControl:SetHidden(true)
                 freeControls[i] = false
-                displaying[data.source][data.abilityId] = nil
-                if (GetNumEntries(displaying[data.source]) == 0) then
-                    displaying[data.source] = nil
+                if (displaying[data.source]) then
+                    displaying[data.source][data.abilityId] = nil
+                    if (GetNumEntries(displaying[data.source]) == 0) then
+                        displaying[data.source] = nil
+                    end
                 end
             else
                 numActive = numActive + 1
@@ -129,14 +131,21 @@ end
 
 function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, result, preventOverwrite)
     -- Check for special format
-    local customTime, customColor, hideTimer, alertType = Crutch.GetFormatInfo(abilityId)
+    local customTime, customColor, hideTimer, alertType, resultFilter = Crutch.GetFormatInfo(abilityId)
+
+    -- Result filter
+    if (resultFilter == 1 and result ~= ACTION_RESULT_BEGIN) then
+        return
+    end
+
+    -- Custom timer
     if (customTime ~= 0) then
         timer = customTime
     end
 
-    if (type(timer) ~="number") then
+    if (type(timer) ~= "number") then
         timer = 1000
-        d("Warning: timer is not number, setting to 1000")
+        d("|cFF0000Warning: timer is not number, setting to 1000|r")
     end
     sourceName = zo_strformat("<<1>>", sourceName)
 
@@ -148,13 +157,18 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
             return
         end
 
-        if (Crutch.savedOptions.debugChatSpam
-            and abilityId ~= 114578 -- BRP Portal Spawn
-            and abilityId ~= 72057 -- MA Portal Spawn
-            ) then
-            d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
+        -- Do not overwrite for alert type 3 and instead display a second possibly duplicate alert
+        if (alertType == 3) then
+            index = FindOrCreateControl()
+        else
+            if (Crutch.savedOptions.debugChatSpam
+                and abilityId ~= 114578 -- BRP Portal Spawn
+                and abilityId ~= 72057 -- MA Portal Spawn
+                ) then
+                d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
+            end
+            index = displaying[sourceUnitId][abilityId].index
         end
-        index = displaying[sourceUnitId][abilityId].index
     else
         index = FindOrCreateControl()
     end
@@ -180,7 +194,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     -- Set the items
     local labelControl = lineControl:GetNamedChild("Label")
     labelControl:SetWidth(600)
-    labelControl:SetText(textLabel)
+    labelControl:SetText(customColor and ("|c" .. customColor .. textLabel .. "|r") or textLabel)
     labelControl:SetWidth(labelControl:GetTextWidth())
 
     if (hideTimer == 1) then

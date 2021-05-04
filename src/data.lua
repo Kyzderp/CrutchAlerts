@@ -163,7 +163,7 @@ Crutch.others = {
     [105120]=true,--SotDead Proj to Corpse
     [105673]=true,--Talon Slice
 
-    -- [105239]=true,--Crushing Darkness
+    [105239] = true, -- Crushing Darkness
     [105380] = true, -- Direct Current (Relequen interruptible)
     [106405] = true, -- Glacial Spikes (Galenwe interruptible)
 

@@ -440,13 +440,24 @@ end
 function Crutch.Test()
     Crutch.groupMembers[-420] = "@TheClawlessConqueror"
     Crutch.groupMembers[-421] = "@Kyzeragon"
-    CrutchAlerts.DisplayNotification(103531, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |caaaaaaLEFT|r", "@TheClawlessConqueror"), 1, 0, 0, 0, 0, true)
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_GROUP, 250, 0, -420, 103531)
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
-    CrutchAlerts.DisplayNotification(110431, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", "@Kyzeragon"), 1, 0, 0, 0, 0, true)
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
+    -- CrutchAlerts.DisplayNotification(103531, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |caaaaaaLEFT|r", "@TheClawlessConqueror"), 1, 0, 0, 0, 0, true)
+    -- OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_GROUP, 250, 0, -420, 103531)
+    -- OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
+    -- CrutchAlerts.DisplayNotification(110431, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", "@Kyzeragon"), 1, 0, 0, 0, 0, true)
+    -- OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
 
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Glacial Spikes", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 6000, 0, 0, 106405)
+    -- OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Glacial Spikes", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 6000, 0, 0, 106405)
+
+
+    OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1, 0, 0, 120890)
+    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
+    OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED_DURATION, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
+
+    OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1, 0, 0, 120890)
+    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
+    OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED_DURATION, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
+
+    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Focus Fire", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, 0, 0, 121722)
 end
 
 ---------------------------------------------------------------------
