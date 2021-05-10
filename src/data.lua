@@ -21,6 +21,9 @@ Crutch.blacklist = {
     [ 26792] = true, -- Biting Jabs
     [ 26797] = true, -- Puncturing Sweep
     [ 31816] = true, -- Stone Giant
+    [ 59525] = true, -- Arcane Engine Guardian
+    [ 59539] = true, -- Robust Engine Guardian
+    [ 59541] = true, -- Healthy Engine Guardian
 
 -- Other player-sourced
     [107579] = true, -- Mend Wounds
@@ -107,10 +110,12 @@ Crutch.noSpamZone = {
 -- TODO: check being in a trial but without a group - remove it from others events instead of all?
 Crutch.others = {
 -- Sunspire
-    [121833] = true, [121849] = true, [115587] = true, [123042] = true,--Wing Thrash
+    [121833] = true, [121849] = true, [115587] = true, [123042] = true, --Wing Thrash
     [122012] = true, -- Storm Crush (Gale-Claw)
     [120890] = true, -- Crush (Fire-Fang)
     [122309] = true, -- Flaming Bat
+    [116836] = true, -- Storm Leap
+
     [119549] = true, -- Emberstorm
     [121723] = true, -- Fire Breath
     [121722] = true, -- Focus Fire
@@ -118,18 +123,15 @@ Crutch.others = {
     [122216] = true,--Blast Furnace
     [119283] = true, -- Frost Breath
     [121980] = true, -- Searing Breath
-    [121676] = true,--Time Shift
-    [121271] = true,--Lightning Storm
+    [121676] = true, -- Time Shift
+    [121271] = true, -- Lightning Storm
     [121411] = true, -- Negate Field
     [121436] = true, -- Translation Apocalypse
     [120359] = true, -- Relentless Gale (Lokkestiiz)
-
-    --200
-    [114085] = true,--Frost Atro Init
+    [120783] = true, -- Hail of Stone (Vigil Statue)
 
     --300
     [115702] = true,--Storm Fury   Effect:115858
-    [119632] = true,--Frozen Tomb
     [118562] = true,--Thrash
     [118743] = true, [120188] = true,--Sweeping Breath
 
