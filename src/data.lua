@@ -101,6 +101,7 @@ Crutch.stacks = {
 Crutch.noSpamZone = {
     [1000] = true, -- Asylum Sanctorium
     [1082] = true, -- Blackrose Prison
+    [1121] = true, -- Sunspire
 }
 
 
@@ -128,7 +129,7 @@ Crutch.others = {
     [121411] = true, -- Negate Field
     [121436] = true, -- Translation Apocalypse
     [120359] = true, -- Relentless Gale (Lokkestiiz)
-    [120783] = true, -- Hail of Stone (Vigil Statue)
+    [120783] = true, -- Hail of Stone (Vigil Statue) - starts with a 3 second cast and then becomes 17 seconds
 
     --300
     [115702] = true,--Storm Fury   Effect:115858

@@ -10,7 +10,7 @@ local Crutch = CrutchAlerts
 -- Type: 0 = normal alert, 1 = secondary, 2 = prevent overwrite, 3 = always display even if already displaying
 -- HideTimer: 0 = false, 1 = true
 -- Color: 0 = white, 1 = ...
--- Timer: actual number
+-- Timer: actual number, or 0
 
 Crutch.format = {
 -- Testing The Abomination
@@ -21,6 +21,7 @@ Crutch.format = {
     [122012] = 130402.5, -- Storm Crush (Gale-Claw)
     [120890] = 130302.5, -- Crush (Fire-Fang)
     [121722] =      6.3, -- Focus Fire (Yolnahkriin)
+    [120783] = 030000.0, -- Hail of Stone (Vigil Statue)
 
 -- Asylum Sanctorium
     [ 95545] =  20206.2, -- Defiling Dye Blast (Saint Llothis)
@@ -90,6 +91,7 @@ local colors = {
     [2] = "64c200", -- Green, poison
     [3] = "f4f2e8", -- Tan, physical
     [4] = "8ef5f5", -- Light blue, shock
+    [5] = "ff00ff", -- Magenta
 }
 
 
