@@ -163,9 +163,10 @@ local function Initialize()
         -- [1000] = true,  -- Asylum Sanctorium
         [1051] = Crutch.UnregisterCloudrest,  -- Cloudrest
         -- [1082] = true,  -- Blackrose Prison
-        -- [1121] = true,  -- Sunspire
+        [1121] = Crutch.UnregisterSunspire,  -- Sunspire
         -- [1196] = true,  -- Kyne's Aegis
         -- [1227] = true,  -- Vateshran Hollows
+        -- [1263] = true,  -- Rockgrove
     }
 
     trialRegisters = {
@@ -179,9 +180,10 @@ local function Initialize()
         -- [1000] = true,  -- Asylum Sanctorium
         [1051] = Crutch.RegisterCloudrest,  -- Cloudrest
         -- [1082] = true,  -- Blackrose Prison
-        -- [1121] = true,  -- Sunspire
+        [1121] = Crutch.RegisterSunspire,  -- Sunspire
         -- [1196] = true,  -- Kyne's Aegis
         -- [1227] = true,  -- Vateshran Hollows
+        -- [1263] = true,  -- Rockgrove
     }
 end
 

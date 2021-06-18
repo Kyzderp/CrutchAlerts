@@ -5,6 +5,7 @@
 ## APIVersion: 100034
 
 ## DependsOn: LibAddonMenu-2.0>=31
+## OptionalDependsOn: OdySupportIcons
 
 ## SavedVariables: CrutchAlertsSavedVariables
 
@@ -12,6 +13,7 @@ CrutchAlerts.lua
 CrutchAlerts.xml
 
 trials/cloudrest.lua
+trials/sunspire.lua
 
 src/settings.lua
 src/core.lua
