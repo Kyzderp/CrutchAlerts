@@ -52,6 +52,10 @@ Crutch.prominent = {
 -------------------
 -- MA
     [75277] = {text = "AMBUSH", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Teleport Strike (Dremora Kynlurker) TOOD: zoneId maybe?
+
+-------------------
+-- Custom
+    [888001] = {text = "BOOGER", color = {255/255, 0, 0}, slot = 1, playSound = true, millis = 2000}, -- Booger phase ended in Falgravn 2nd floor
 }
 -- /script CrutchAlerts.DisplayProminent(117075)
 

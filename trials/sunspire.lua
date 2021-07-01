@@ -25,11 +25,13 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
 
     -- Clear icons 7 seconds later
     if (OSI) then
+        OSI.SetMechanicIconSize(200)
         EVENT_MANAGER:RegisterForUpdate(CrutchAlerts.name .. "ClearIcons", 7000, function()
                 EVENT_MANAGER:UnregisterForUpdate(CrutchAlerts.name .. "ClearIcons")
                 for _, name in pairs(toClear) do
                     OSI.RemoveMechanicIconForUnit(name)
                 end
+                OSI.ResetMechanicIconSize()
             end)
     end
 end
