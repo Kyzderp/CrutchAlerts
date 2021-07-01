@@ -48,6 +48,9 @@ Crutch.format = {
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn
     [ 70723] = 01203, -- Rupturing Fog
+
+-- Rockgrove
+    [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
 }
 
 
