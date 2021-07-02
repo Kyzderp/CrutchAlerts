@@ -23,3 +23,4 @@ src/data.lua
 src/format.lua
 src/damageable.lua
 src/prominent.lua
+src/worldIcons.lua
