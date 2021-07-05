@@ -84,6 +84,10 @@ end
 
 -------------------------------------------------------------------------------
 function Crutch.DisplayProminent(abilityId)
+    if (not Crutch.savedOptions.general.showProminent) then
+        return
+    end
+
     local data = Crutch.prominent[abilityId]
     if (not data) then
         d("|cFF5555WARNING: tried to DisplayProminent without abilityId in data|r")

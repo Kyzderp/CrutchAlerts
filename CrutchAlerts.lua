@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.2.2"
+Crutch.version = "0.3.0"
 
 Crutch.registered = {
     begin = false,
@@ -66,6 +66,7 @@ local defaultOptions = {
         showBegin = true,
             beginHideSelf = false,
         showGained = true,
+        showProminent = true,
         hitValueBelowThreshold = 75,
             hitValueUseWhitelist = true,
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?

@@ -156,6 +156,17 @@ local defaultOptions = {
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Prominent Alerts",
+                    tooltip = "Show VERY large letters and in some cases a ding sound for certain alerts",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.showProminent end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showProminent = value
+                    end,
+                    width = "full",
+                },
             }
         },
         {
