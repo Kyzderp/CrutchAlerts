@@ -16,6 +16,7 @@ trials/cloudrest.lua
 trials/sunspire.lua
 trials/kynesAegis.lua
 
+src/messaging.lua
 src/settings.lua
 src/core.lua
 src/events.lua

@@ -17,10 +17,14 @@ function Crutch.RegisterKynesAegis()
     EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "BoogerTimerFade", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
     EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "BoogerTimerFade", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 136548)
 
-    Crutch.EnableIcon("Falgravn2ndFloor1")
-    Crutch.EnableIcon("Falgravn2ndFloor2")
-    Crutch.EnableIcon("Falgravn2ndFloor3")
-    Crutch.EnableIcon("Falgravn2ndFloor4")
+    if (not Crutch.WorldIconsEnabled()) then
+        Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+    else
+        Crutch.EnableIcon("Falgravn2ndFloor1")
+        Crutch.EnableIcon("Falgravn2ndFloor2")
+        Crutch.EnableIcon("Falgravn2ndFloor3")
+        Crutch.EnableIcon("Falgravn2ndFloor4")
+    end
 end
 
 function Crutch.UnregisterKynesAegis()

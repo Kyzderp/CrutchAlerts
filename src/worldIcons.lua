@@ -13,9 +13,13 @@ local data = {
 
 
 ---------------------------------------------------------------------
+function Crutch.WorldIconsEnabled()
+    return OSI ~= nil and OSI.CreatePositionIcon ~= nil
+end
+
+---------------------------------------------------------------------
 function Crutch.EnableIcon(name)
-    if (not OSI or not OSI.CreatePositionIcon) then
-        d("|cFF0000Requires OdySupportIcons to display in-world icons|r")
+    if (not Crutch.WorldIconsEnabled()) then
         return
     end
 
@@ -30,7 +34,7 @@ function Crutch.EnableIcon(name)
 end
 
 function Crutch.DisableIcon(name)
-    if (not OSI or not OSI.CreatePositionIcon) then
+    if (not Crutch.WorldIconsEnabled()) then
         return
     end
 
