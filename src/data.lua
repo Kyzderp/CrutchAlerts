@@ -83,7 +83,7 @@ Crutch.testing = {
 
     -- [52790] = true, -- Taunt Counter
 
-    [106405] = true, -- Glacial Spikes (Galenwe interruptible)
+    -- [106405] = true, -- Glacial Spikes (Galenwe interruptible)
 }
 
 ---------------------------------------------------------------------
@@ -120,8 +120,7 @@ Crutch.others = {
     [119549] = true, -- Emberstorm
     [121723] = true, -- Fire Breath
     [121722] = true, -- Focus Fire
-    [120505] = true,--Meteor
-    [122216] = true,--Blast Furnace
+    [122216] = true, -- Blast Furnace
     [119283] = true, -- Frost Breath
     [121980] = true, -- Searing Breath
     [121676] = true, -- Time Shift
@@ -130,42 +129,27 @@ Crutch.others = {
     [121436] = true, -- Translation Apocalypse
     [120359] = true, -- Relentless Gale (Lokkestiiz)
     [120783] = true, -- Hail of Stone (Vigil Statue) - starts with a 3 second cast and then becomes 17 seconds
-
-    --300
-    [115702] = true,--Storm Fury   Effect:115858
-    [118562] = true,--Thrash
-    [118743] = true, [120188] = true,--Sweeping Breath
+    [115702] = true, -- Storm Fury
+    [118562] = true, -- Thrash
 
 -- Kyne's Aegis
     [132468] = true, -- Sanguine Prison
     [135991] = true, -- Toppling Blow (Storm Twin)
 
 -- Asylum Sanctorium
-    --300
-    [ 15954] = true,--Ordinated Protector
-    [ 95545] = true,--Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
-    [ 99027] = true,--Manifest Wrath (Saint Felms the Bold)
-
-    --100
-    -- [ 95585] = true,--Soul Stained Corruption
-    [ 98582] = true,--Trial by Fire
+    [ 95545] = true, -- Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
+    [ 99027] = true, -- Manifest Wrath
+    [ 98582] = true, -- Trial by Fire
 
 -- Cloudrest
     [103531] = true, -- Roaring Flare
     [110431] = true, -- Roaring Flare (execute 2nd flare)
     [103946] = true, -- Shadow Realm Cast
     [105291] = true, -- SUM Shadow Beads
-
-    --200
-    [105890]=true,--Set Start CD of SRealm
-    [105016] = true,--SUM Lrg Tentacle
-    [106023] = true,--ZMaja Break Amulet
-
-    --true
-    [106374]=true,--Chilling Comet
-    [105120]=true,--SotDead Proj to Corpse
-    [105673]=true,--Talon Slice
-
+    [105890] = true, -- Set Start CD of SRealm
+    [105016] = true, -- SUM Lrg Tentacle
+    [106023] = true, -- ZMaja Break Amulet
+    [105673] = true, -- Talon Slice
     [105239] = true, -- Crushing Darkness
     [105380] = true, -- Direct Current (Relequen interruptible)
     [106405] = true, -- Glacial Spikes (Galenwe interruptible)
@@ -173,41 +157,30 @@ Crutch.others = {
 -- Blackrose Prison
     [111283] = true, -- Tremors (Imperial Cleaver)
     [114629] = true, -- Void (Drakeeh)
-    --300
     [114447] = true, -- Haunting Spectre (Soul of Void)
     [114453] = true, -- Chill Spear
-    --100
     [111659] = true, -- Bat Swarm
-    [114578]=true,--Portal Spawn
-    [ 71787]=true,--Impending Storm
-    [113208]=true,--Shockwave
-    [110181]=true,--Bug Bomb
-    [114443]=true,--Stone Totem
-    [114803]=true,--Defiling Eruption
-    [111315]=true,--Summon Troll
-    [111329]=true,--Summon Wamasu
-    [111332]=true,--Summon Haj Mota
-    [114213]=true,--Summon Infuser
-    [114223]=true,[114230]=true,[114236]=true,--Summon Colossus
+    [ 71787] = true, -- Impending Storm
+    [113208] = true, -- Shockwave
+    [110181] = true, -- Bug Bomb
+    [114443] = true, -- Stone Totem (short timer)
+    [114803] = true, -- Defiling Eruption
+    [111315] = true, -- Summon Troll
+    [111329] = true, -- Summon Wamasu
+    [111332] = true, -- Summon Haj Mota
+    [114213] = true, -- Summon Infuser
+    [114223] = true, [114230] = true, [114236] = true, -- Summon Colossus
 
 --Sanctum Ophidia
-    --300
-    [56857]=true,--Emerald Eclipse (Serpent)
-    [54125]=true,--Quake (Mantikora)
-    [52442]=true,--Leaping Crush
-    [52447]=true,--Ground Slam
-    [57839]=true,[57861]=true,--Trapping Bolts (Ozara)
-
-    --100
-    [56324]=true,--Spear (Mantikora)
-    [53786]=true,--Poison Mist
-
-    --Custom true
-    -- [58218]=14,--Overcharge (Overcharger) TODO
-    -- [79390]=10,--Call Lightning (Overcharger) TODO
+    [56857] = true, -- Emerald Eclipse (Serpent)
+    [54125] = true, -- Quake (Mantikora)
+    [52442] = true, -- Leaping Crush
+    [52447] = true, -- Ground Slam
+    [57839] = true, [57861] = true, -- Trapping Bolts (Ozara)
+    [56324] = true, -- Spear (Mantikora)
+    [53786] = true, -- Poison Mist
 
 --Hel Ra
-    --300
     [47975]=true,[48267]=true,--Shield Throw
 
 --Aetherian Archive
@@ -224,21 +197,21 @@ Crutch.others = {
 
 --Dragonstar Arena
     --300
-    [52041]=true,--Blink Strike (Arena 9)
-    [55442]=true,--Heat Wave
-    [52773]=true,--Ice Comet
-    [ 12459] = true, -- Winter's Reach (Regulated Frost mage)
+    [52041] = true, -- Blink Strike (Arena 9)
+    [55442] = true, -- Heat Wave
+    [52773] = true, -- Ice Comet
+    [12459] = true, -- Winter's Reach (Regulated Frost mage)
 
 --Maelstrom Arena
     --100
-    [72057]=true,--Portal Spawn
-    [68011]=true,--Web Up Artifact
-    [70723]=true,--Rupturing Fog
+    [72057] = true, -- Portal Spawn
+    [68011] = true, -- Web Up Artifact
+    [70723] = true, -- Rupturing Fog
 
 --Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
     [ 74035] = true, -- Darkness Falls
-    [73741]=true,--Threshing Wings
+    [ 73741] = true, -- Threshing Wings
     [ 74488] = true, -- Unstable Void (Rakkhat)
     [ 74384] = true, -- Dark Barrage (initial)
     [ 74385] = true, -- Dark Barrage (start)
@@ -267,8 +240,6 @@ Crutch.others = {
 
     [157482] = true, -- Molten Rain (Ash Titan)
     [152414] = true, -- Meteor Call (Havocrel Torchcaster)
-
-    -- TODO: meteor spawn
 
 ---------------------------------------------------------------------
 -- Dungeons

@@ -51,7 +51,7 @@ Crutch.prominent = {
 
 -------------------
 -- MA
-    [75277] = {text = "AMBUSH", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Teleport Strike (Dremora Kynlurker) TOOD: zoneId maybe?
+    [75277] = {text = "AMBUSH", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Teleport Strike (Dremora Kynlurker) TODO: zoneId maybe?
 
 -------------------
 -- Custom

@@ -4,10 +4,7 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 local function OnBoogerTimerFaded()
     if (GetSelectedLFGRole() == LFG_ROLE_TANK) then
-        d("GET BOOGER")
         Crutch.DisplayProminent(888001)
-    else
-        d("skipping because not tank")
     end
 end
 
