@@ -24,6 +24,9 @@ Crutch.blacklist = {
     [ 59525] = true, -- Arcane Engine Guardian
     [ 59539] = true, -- Robust Engine Guardian
     [ 59541] = true, -- Healthy Engine Guardian
+    [ 32986] = true, -- Mist Form
+    [ 38965] = true, -- Blood Mist
+    [ 38963] = true, -- Elusive Mist
 
 -- Other player-sourced
     [107579] = true, -- Mend Wounds
@@ -82,6 +85,8 @@ Crutch.testing = {
     -- [111779] = true, -- Spirit Ignition - count the ghosts?
 
     -- [52790] = true, -- Taunt Counter
+    -- [52788] = true, -- Taunt Immunity
+    -- [38541] = true, -- Taunt (self?)
 
     -- [106405] = true, -- Glacial Spikes (Galenwe interruptible)
 }
@@ -102,6 +107,7 @@ Crutch.noSpamZone = {
     [1000] = true, -- Asylum Sanctorium
     [1082] = true, -- Blackrose Prison
     [1121] = true, -- Sunspire
+    [1196] = true, -- Kyne's Aegis
 }
 
 
@@ -131,8 +137,10 @@ Crutch.others = {
     [120783] = true, -- Hail of Stone (Vigil Statue) - starts with a 3 second cast and then becomes 17 seconds
     [115702] = true, -- Storm Fury
     [118562] = true, -- Thrash
+    -- [121422] = true, -- Sundering Gale TODO: this also displays upstairs, need to do buff check
 
 -- Kyne's Aegis
+    [132511] = true, -- Toxic Tide
     [132468] = true, -- Sanguine Prison
     [135991] = true, -- Toppling Blow (Storm Twin)
 
