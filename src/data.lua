@@ -267,4 +267,7 @@ Crutch.others = {
 
 -- The Cauldron
     [146179] = true, -- Galvanic Blow (Baron Zaudrus conal that applies Galvanic Burst)
+
+-- Red Petal Bastion
+    [157573] = true, -- Dire Gaze (watcher during Rogerain fight)
 }

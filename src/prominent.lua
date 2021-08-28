@@ -102,6 +102,9 @@ function Crutch.DisplayProminent(abilityId)
         return
     end
 
+    if (Crutch.savedOptions.debugChatSpam) then
+        d(string.format("|cFF8888[P] DisplayProminent %d|r", abilityId))
+    end
     if (data.playSound) then
         PlaySound(SOUNDS.DUEL_START)
     end

@@ -91,8 +91,14 @@ local function UpdateDisplay()
                     if (Crutch.prominent[data.abilityId] and Crutch.prominent[data.abilityId].preMillis) then
                         prominentThreshold = Crutch.prominent[data.abilityId].preMillis
                     end
-                    if (millisRemaining <= prominentThreshold and Crutch.prominent[data.abilityId] and not Crutch.prominentDisplaying[data.abilityId]) then
-                        Crutch.DisplayProminent(data.abilityId)
+                    if (millisRemaining <= prominentThreshold and Crutch.prominent[data.abilityId]) then
+                        if (Crutch.prominentDisplaying[data.abilityId]) then
+                            if (Crutch.savedOptions.debugChatSpam) then
+                                d(Crutch.prominentDisplaying)
+                            end
+                        else
+                            Crutch.DisplayProminent(data.abilityId)
+                        end
                     end
                 end
             end
