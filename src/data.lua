@@ -148,6 +148,7 @@ Crutch.others = {
     [ 95545] = true, -- Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
     [ 99027] = true, -- Manifest Wrath
     [ 98582] = true, -- Trial by Fire
+    [ 95482] = true, -- Exhaustive Charges
 
 -- Cloudrest
     [103531] = true, -- Roaring Flare
@@ -161,6 +162,12 @@ Crutch.others = {
     [105239] = true, -- Crushing Darkness
     [105380] = true, -- Direct Current (Relequen interruptible)
     [106405] = true, -- Glacial Spikes (Galenwe interruptible)
+
+    [104019] = true, -- cloudrest.olorime_spears
+    [104017] = true, -- cloudrest.olorime_spears_synergized
+    [104036] = true, -- cast welkynar's light
+    [103980] = true, -- Grant Malevolent Core
+    [104047] = true, -- Shadow Piercer Exit
 
 -- Blackrose Prison
     [111283] = true, -- Tremors (Imperial Cleaver)
@@ -269,5 +276,8 @@ Crutch.others = {
     [146179] = true, -- Galvanic Blow (Baron Zaudrus conal that applies Galvanic Burst)
 
 -- Red Petal Bastion
-    [157573] = true, -- Dire Gaze (watcher during Rogerain fight)
+    [157573] = true, -- Dire Gaze (watcher interruptible during Rogerain fight)
+
+-- The Dread Cellar
+    [156509] = true, -- Deluge of Pain (Scorion Broodlord interruptible)
 }

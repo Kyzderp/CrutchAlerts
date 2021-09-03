@@ -5,6 +5,8 @@ local Crutch = CrutchAlerts
 local amuletSmashed = false
 
 ---------------------------------------------------------------------
+-- PLAYER STATE
+---------------------------------------------------------------------
 local function IsInShadowWorld()
     for i = 1, GetNumBuffs("player") do
         -- string buffName, number timeStarted, number timeEnding, number buffSlot, number stackCount, textureName iconFilename, string buffType, number BuffEffectType effectType, number AbilityType abilityType, number StatusEffectType statusEffectType, number abilityId, boolean canClickOff, boolean castByPlayer
@@ -17,13 +19,16 @@ local function IsInShadowWorld()
 end
 Crutch.IsInShadowWorld = IsInShadowWorld
 
----------------------------------------------------------------------
 local function OnCombatStateChanged(_, inCombat)
     -- Reset
     if (not inCombat) then
         amuletSmashed = false
     end
 end
+
+---------------------------------------------------------------------
+-- EXECUTE FLARES
+---------------------------------------------------------------------
 
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
@@ -45,13 +50,33 @@ local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceTyp
         local label = string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", targetName)
         Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, true)
         -- /script CrutchAlerts.DisplayNotification(110431, string.format("|cff7700%s |caaaaaaRIGHT |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t|r", "@Kyzeragon"), 1, 0, 0, 0, 0)
-    else
-        d("|cFF0000SHOULD NOT BE POSSIBLE")
     end
 end
 
 local function OnAmuletSmashed()
     amuletSmashed = true
+end
+
+
+---------------------------------------------------------------------
+-- SPEARS
+---------------------------------------------------------------------
+local spearsRevealed = 0
+local spearsSent = 0
+
+-- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+local function OnOlorimeSpears(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+    if (abilityId == 104019) then
+        -- Spear has appeared
+        d("|c00FF00SPEAR APPEARED|r")
+        spearsRevealed = spearsRevealed + 1
+
+    elseif (abilityId == 104036) then
+        -- Spear has been sent
+        d("|c00FF00SPEAR SENT|r")
+        spearsSent = spearsSent + 1
+        if (spearsRevealed < spearsSent) then spearsRevealed = spearsSent end
+    end
 end
 
 ---------------------------------------------------------------------
@@ -75,6 +100,18 @@ function Crutch.RegisterCloudrest()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 110431) -- Flare 2 in execute
+
+    -- Register Olorime Spears - spear appearing
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, OnOlorimeSpears)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 104019) -- Olorime Spears, hitvalue 1
+
+    -- Register Welkynar's Light, 1250ms duration on person who sent spear
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT, OnOlorimeSpears)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 104036) -- hitvalue 1250
 end
 
 function Crutch.UnregisterCloudrest()
