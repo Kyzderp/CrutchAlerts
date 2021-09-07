@@ -33,7 +33,7 @@ Crutch.format = {
     [105239] =    10, -- Crushing Darkness
     [103555] =     3, -- Voltaic Current
     [ 87346] =    10, -- Voltaic Overload
-    [104019] =  1003, -- Olorime Spears
+    [104019] = 31003, -- Olorime Spears
 
 -- Blackrose Prison
     [111283] =   2, -- Tremors (Imperial Cleaver)

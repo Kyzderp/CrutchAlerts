@@ -73,29 +73,41 @@ local function OnOlorimeSpears(_, result, _, _, _, _, sourceName, sourceType, ta
     if (abilityId == 104019) then
         -- Spear has appeared
         spearsRevealed = spearsRevealed + 1
-        Crutch.UpdateSpearsDisplay()
-        -- TODO: sound effect
+        Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
+        if (Crutch.savedOptions.cloudrest.spearsSound) then
+            PlaySound(SOUNDS.CHAMPION_POINTS_COMMITTED)
+        end
+        local label = string.format("|cFFEA00Olorime Spear!|r (%d)", spearsRevealed)
+        Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, false)
 
     elseif (abilityId == 104036) then
         -- Spear has been sent
         spearsSent = spearsSent + 1
         if (spearsRevealed < spearsSent) then spearsRevealed = spearsSent end
-        Crutch.UpdateSpearsDisplay()
+        Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
 
     elseif (abilityId == 104047) then
         -- Orb has been dunked
         orbsDunked = orbsDunked + 1
-        Crutch.UpdateSpearsDisplay()
+        Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
     end
 end
+-- /script CrutchAlerts.OnOlorimeSpears(104019)
+function Crutch.OnOlorimeSpears(abilityId)
+    OnOlorimeSpears(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, abilityId)
+end
 
-local function UpdateSpearsDisplay()
+local function UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
     CrutchAlertsCloudrestSpear1:SetHidden(true)
     CrutchAlertsCloudrestSpear2:SetHidden(true)
     CrutchAlertsCloudrestSpear3:SetHidden(true)
     CrutchAlertsCloudrestCheck1:SetHidden(true)
     CrutchAlertsCloudrestCheck2:SetHidden(true)
     CrutchAlertsCloudrestCheck3:SetHidden(true)
+
+    if (not Crutch.savedOptions.cloudrest.showSpears) then
+        return
+    end
 
     if (spearsRevealed == 0) then
         return

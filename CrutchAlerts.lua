@@ -16,6 +16,8 @@ Crutch.registered = {
     interrupts = false,
 }
 
+Crutch.unlock = false
+
 --[[
     unlock
     debug line
@@ -51,13 +53,15 @@ local defaultOptions = {
     display = {
         x = 0,
         y = GuiRoot:GetHeight() / 3,
-        unlock = false,
     },
     damageableDisplay = {
         x = 0,
         y = GuiRoot:GetHeight() / 5,
     },
-    unlock = false,
+    spearsDisplay = {
+        x = GuiRoot:GetWidth() / 4,
+        y = 0,
+    },
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
@@ -72,6 +76,10 @@ local defaultOptions = {
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
         useNonNoneBlacklist = true,
         useNoneBlacklist = true,
+    },
+    cloudrest = {
+        showSpears = true,
+        spearsSound = true,
     },
     instance = {
         hrc = true,
@@ -102,6 +110,10 @@ function CrutchAlerts:SavePosition()
     x, y = CrutchAlertsDamageable:GetCenter()
     Crutch.savedOptions.damageableDisplay.x = x - oX
     Crutch.savedOptions.damageableDisplay.y = y - oY
+
+    x, y = CrutchAlertsCloudrest:GetCenter()
+    Crutch.savedOptions.spearsDisplay.x = x - oX
+    Crutch.savedOptions.spearsDisplay.y = y - oY
 end
 
 local function OnPlayerActivated(_, initial)
@@ -130,9 +142,8 @@ local function Initialize()
 
     -- Position
     CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
-    CrutchAlertsContainerBackdrop:SetHidden(not Crutch.savedOptions.display.unlock)
     CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
-    CrutchAlertsDamageableBackdrop:SetHidden(not Crutch.savedOptions.display.unlock)
+    CrutchAlertsCloudrest:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.spearsDisplay.x, Crutch.savedOptions.spearsDisplay.y)
 
     -- Register events
     if (Crutch.savedOptions.general.showBegin) then

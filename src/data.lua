@@ -162,10 +162,7 @@ Crutch.others = {
     [105239] = true, -- Crushing Darkness
     [105380] = true, -- Direct Current (Relequen interruptible)
     [106405] = true, -- Glacial Spikes (Galenwe interruptible)
-
-    [104019] = true, -- cloudrest.olorime_spears
-    [104017] = true, -- cloudrest.olorime_spears_synergized
-    [104036] = true, -- cast welkynar's light
+    [104036] = true, -- Welkynar's Light (synergized with spear)
     [103980] = true, -- Grant Malevolent Core
     [104047] = true, -- Shadow Piercer Exit
 

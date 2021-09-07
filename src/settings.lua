@@ -19,7 +19,6 @@ local defaultOptions = {
         x = 0,
         y = GuiRoot:GetHeight() / 3,
     },
-    unlock = false,
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
@@ -55,11 +54,11 @@ local defaultOptions = {
         {
             type = "checkbox",
             name = "Unlock",
-            tooltip = "Unlock the alert frames for moving",
+            tooltip = "Unlock the frames for moving",
             default = false,
-            getFunc = function() return Crutch.savedOptions.unlock end,
+            getFunc = function() return Crutch.unlock end,
             setFunc = function(value)
-                Crutch.savedOptions.unlock = value
+                Crutch.unlock = value
                 CrutchAlertsContainer:SetMovable(value)
                 CrutchAlertsContainer:SetMouseEnabled(value)
                 CrutchAlertsContainerBackdrop:SetHidden(not value)
@@ -68,12 +67,21 @@ local defaultOptions = {
                 CrutchAlertsDamageable:SetMouseEnabled(value)
                 CrutchAlertsDamageableBackdrop:SetHidden(not value)
                 CrutchAlertsDamageableLabel:SetHidden(not value)
+
+                CrutchAlertsCloudrest:SetMovable(value)
+                CrutchAlertsCloudrest:SetMouseEnabled(value)
+                CrutchAlertsCloudrestBackdrop:SetHidden(not value)
+                if (value) then
+                    Crutch.UpdateSpearsDisplay(3, 2, 1)
+                else
+                    Crutch.UpdateSpearsDisplay(0, 0, 0)
+                end
             end,
             width = "full",
         },
         {
             type = "checkbox",
-            name = "Show Debug on Alert",
+            name = "Show debug on alert",
             tooltip = "Add a small line of text on alerts that shows IDs and other debug information",
             default = false,
             getFunc = function() return Crutch.savedOptions.debugLine end,
@@ -84,7 +92,7 @@ local defaultOptions = {
         },
         {
             type = "checkbox",
-            name = "Show Debug Chat Spam",
+            name = "Show debug chat spam",
             tooltip = "Display a chat message every time any event is procced -- very spammy!",
             default = false,
             getFunc = function() return Crutch.savedOptions.debugChatSpam end,
@@ -95,7 +103,7 @@ local defaultOptions = {
         },
         {
             type = "checkbox",
-            name = "Show Other Debug",
+            name = "Show other debug",
             tooltip = "Display other debug messages",
             default = false,
             getFunc = function() return Crutch.savedOptions.debugOther end,
@@ -112,7 +120,7 @@ local defaultOptions = {
             controls = {
                 {
                     type = "checkbox",
-                    name = "Show Begin Casts",
+                    name = "Show begin casts",
                     tooltip = "Show alerts when you are targeted by the beginning of a cast (ACTION_RESULT_BEGIN)",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.general.showBegin end,
@@ -128,7 +136,7 @@ local defaultOptions = {
                 },
                 {
                     type = "checkbox",
-                    name = "      Ignore Non-Enemy Casts",
+                    name = "      Ignore non-enemy casts",
                     tooltip = "Don't show alerts for beginning of a cast if it is not from an enemy, e.g. player-sourced",
                     default = false,
                     getFunc = function() return Crutch.savedOptions.general.beginHideSelf end,
@@ -142,7 +150,7 @@ local defaultOptions = {
                 },
                 {
                     type = "checkbox",
-                    name = "Show Gained Casts",
+                    name = "Show gained casts",
                     tooltip = "Show alerts when you \"Gain\" a cast from an enemy (ACTION_RESULT_GAINED / ACTION_RESULT_GAINED_DURATION)",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.general.showGained end,
@@ -158,7 +166,7 @@ local defaultOptions = {
                 },
                 {
                     type = "checkbox",
-                    name = "Show Prominent Alerts",
+                    name = "Show prominent alerts",
                     tooltip = "Show VERY large letters and in some cases a ding sound for certain alerts",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.general.showProminent end,
@@ -185,7 +193,43 @@ local defaultOptions = {
                     width = "full",
                 },
             }
-        }
+        },
+---------------------------------------------------------------------
+-- trials
+        {
+            type = "description",
+            title = "Trials",
+            text = "Below are settings for special mechanics in specific trials.",
+            width = "full",
+        },
+        {
+            type = "submenu",
+            name = "Cloudrest",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show spears indicator",
+                    tooltip = "Show an indicator for how many spears are revealed, sent, and orbs dunked",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.showSpears end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.showSpears = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Play spears sound",
+                    tooltip = "Plays the champion point committed sound when a spear is revealed",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.spearsSound end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.spearsSound = value
+                    end,
+                    width = "full",
+                },
+            }
+        },
     }
 
     CrutchAlerts.addonPanel = LAM:RegisterAddonPanel("CrutchAlertsOptions", panelData)
