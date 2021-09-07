@@ -12,6 +12,8 @@
 CrutchAlerts.lua
 CrutchAlerts.xml
 
+trials/cloudrest.xml
+
 trials/cloudrest.lua
 trials/sunspire.lua
 trials/kynesAegis.lua
