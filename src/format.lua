@@ -36,15 +36,15 @@ Crutch.format = {
     [104019] = 31003, -- Olorime Spears
 
 -- Blackrose Prison
-    [111283] =   2, -- Tremors (Imperial Cleaver)
+    [111283] = 2, -- Tremors (Imperial Cleaver)
 
 -- Sanctum Ophidia
-    [ 56857] =   205, -- Emerald Eclipse (The Serpent)
+    [ 56857] = 205, -- Emerald Eclipse (The Serpent)
 
 -- Aetherian Archive
-    [ 47898] =  10, -- Lightning Storm (Storm Atronach)
-    [ 48240] =  10, -- Boulder Storm (Stone Atronach)
-    [ 49098] =  10, -- Big Quake (Stone Atronach)
+    [ 47898] = 10, -- Lightning Storm (Storm Atronach)
+    [ 48240] = 10, -- Boulder Storm (Stone Atronach)
+    [ 49098] = 10, -- Big Quake (Stone Atronach)
 
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn
