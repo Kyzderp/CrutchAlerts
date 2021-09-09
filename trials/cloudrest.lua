@@ -28,7 +28,8 @@ local function OnCombatStateChanged(_, inCombat)
         amuletSmashed = false
         spearsRevealed = 0
         spearsSent = 0
-        Crutch.UpdateSpearsDisplay()
+        orbsDunked = 0
+        Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
     end
 end
 
@@ -192,7 +193,7 @@ function Crutch.RegisterCloudrest()
         spearsRevealed = 0
         spearsSent = 0
         orbsDunked = 0
-        Crutch.UpdateSpearsDisplay()
+        Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103946)
 end
