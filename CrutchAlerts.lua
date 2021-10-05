@@ -160,7 +160,6 @@ local function Initialize()
     Crutch.RegisterOthers()
     Crutch.RegisterStacks()
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
-    -- Crutch.InitializeSpamWindow()
 
     -- Register for when entering zone
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
