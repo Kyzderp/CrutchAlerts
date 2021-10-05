@@ -6,7 +6,7 @@ local Crutch = CrutchAlerts
 -- 0        0     1          1      07.5
 -- 001107.5
 -- 
--- Result: 0 = any, 1 = BEGIN only
+-- Result: 0 = any, 1 = BEGIN only, 2 = GAINED only
 -- Type: 0 = normal alert, 1 = secondary, 2 = prevent overwrite, 3 = always display even if already displaying
 -- HideTimer: 0 = false, 1 = true
 -- Color: 0 = white, 1 = ...
@@ -27,10 +27,9 @@ Crutch.format = {
     [ 95545] =  20206.2, -- Defiling Dye Blast (Saint Llothis)
 
 -- Cloudrest
-    [103760] =     7, -- Hoarfrost
-    [103531] = 20107, -- Roaring Flare
-    [110431] = 20107, -- Roaring Flare
-    [105239] =    10, -- Crushing Darkness
+    [103531] = 100107, -- Roaring Flare
+    [110431] = 100107, -- Roaring Flare
+    [105239] = 200010, -- Crushing Darkness
     [103555] =     3, -- Voltaic Current
     [ 87346] =    10, -- Voltaic Overload
     [104019] = 31003, -- Olorime Spears
@@ -48,7 +47,7 @@ Crutch.format = {
 
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn
-    [ 70723] = 01203, -- Rupturing Fog
+    [ 70723] =  1203, -- Rupturing Fog
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)

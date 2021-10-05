@@ -1,0 +1,44 @@
+<GuiXml>
+    <Controls>
+<!-- ======================================================================================================================= -->
+        <TopLevelControl name="CrutchAlertsSpam" clampedToScreen="false" mouseEnabled="false" movable="true" hidden="false">
+            <Dimensions x="520" y="700"/>
+            <Anchor point="LEFT" relativeTo="GuiRoot" relativePoint="RIGHT" offsetX="0" offsetY="-70"/>
+            <OnInitialized>
+                HUD_SCENE:AddFragment(ZO_SimpleSceneFragment:New(self))
+                HUD_UI_SCENE:AddFragment(ZO_SimpleSceneFragment:New(self))
+            </OnInitialized>
+            <Controls>
+                <Control name="$(parent)Sidebar" mouseEnabled="true">
+                    <Dimensions x="30" y="700"/>
+                    <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="LEFT"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="99000000" edgeColor="00000000" hidden="false">
+                            <AnchorFill/>
+                            <Edge edgeSize="1"/>
+                        </Backdrop>
+                        <Label name="$(parent)Label" font="ZoFontGameBold" text="Crutch Alerts Spam" horizontalAlignment="LEFT">
+                            <Dimensions x="400"/>
+                            <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="-40"/>
+                            <OnInitialized>
+                                self:SetTransformRotationZ(math.rad(90))
+                            </OnInitialized>
+                        </Label>
+                    </Controls>
+                    <OnMouseUp>
+                        CrutchAlerts.OnSpamSidebarClicked()
+                    </OnMouseUp>
+                </Control>
+                <TextBuffer name="$(parent)Buffer" font="ZoFontGameSmall" linkEnabled="false" maxHistoryLines="200">
+                    <Dimensions x="510" y="700"/>
+                    <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="RIGHT"/>
+                </TextBuffer>
+                <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="00000000" hidden="false">
+                    <AnchorFill/>
+                    <Edge edgeSize="1"/>
+                </Backdrop>
+            </Controls>
+        </TopLevelControl>
+
+    </Controls>
+</GuiXml>

@@ -160,6 +160,7 @@ local function Initialize()
     Crutch.RegisterOthers()
     Crutch.RegisterStacks()
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
+    -- Crutch.InitializeSpamWindow()
 
     -- Register for when entering zone
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
@@ -170,7 +171,7 @@ local function Initialize()
         -- [638 ] = true,  -- Aetherian Archive
         -- [639 ] = true,  -- Sanctum Ophidia
         -- [677 ] = true,  -- Maelstrom Arena
-        -- [725 ] = true,  -- Maw of Lorkhaj
+        [725 ] = Crutch.UnregisterMawOfLorkhaj,  -- Maw of Lorkhaj
         -- [975 ] = true,  -- Halls of Fabrication
         -- [1000] = true,  -- Asylum Sanctorium
         [1051] = Crutch.UnregisterCloudrest,  -- Cloudrest
@@ -187,7 +188,7 @@ local function Initialize()
         -- [638 ] = true,  -- Aetherian Archive
         -- [639 ] = true,  -- Sanctum Ophidia
         -- [677 ] = true,  -- Maelstrom Arena
-        -- [725 ] = true,  -- Maw of Lorkhaj
+        [725 ] = Crutch.RegisterMawOfLorkhaj,  -- Maw of Lorkhaj
         -- [975 ] = true,  -- Halls of Fabrication
         -- [1000] = true,  -- Asylum Sanctorium
         [1051] = Crutch.RegisterCloudrest,  -- Cloudrest
