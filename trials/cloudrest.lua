@@ -8,17 +8,46 @@ local spearsSent = 0
 local orbsDunked = 0
 
 ---------------------------------------------------------------------
+local effectResults = {
+    [EFFECT_RESULT_FADED] = "FADED",
+    [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
+    [EFFECT_RESULT_GAINED] = "GAINED",
+    [EFFECT_RESULT_TRANSFER] = "TRANSFER",
+    [EFFECT_RESULT_UPDATED] = "UPDATED",
+}
+
+local groupShadowWorld = {}
+
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnShadowWorldChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
+    if (Crutch.savedOptions.debugOther) then
+        d(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
+    end
+
+    if (changeType == EFFECT_RESULT_GAINED) then
+        groupShadowWorld[unitTag] = true
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        groupShadowWorld[unitTag] = false
+    end
+end
+
+---------------------------------------------------------------------
 -- PLAYER STATE
 ---------------------------------------------------------------------
-local function IsInShadowWorld()
-    for i = 1, GetNumBuffs("player") do
-        -- string buffName, number timeStarted, number timeEnding, number buffSlot, number stackCount, textureName iconFilename, string buffType, number BuffEffectType effectType, number AbilityType abilityType, number StatusEffectType statusEffectType, number abilityId, boolean canClickOff, boolean castByPlayer
-        local buffName, _, _, _, _, iconFilename, _, _, _, _, abilityId, _, _ = GetUnitBuffInfo("player", i)
-        if (abilityId == 108045) then
-            return true
-        end
-    end
+local function IsInShadowWorld(unitTag)
+    if (not unitTag) then unitTag = Crutch.playerGroupTag end
+
+    if (groupShadowWorld[unitTag]) then return true end
     return false
+
+    -- for i = 1, GetNumBuffs(unitTag) do
+    --     -- string buffName, number timeStarted, number timeEnding, number buffSlot, number stackCount, textureName iconFilename, string buffType, number BuffEffectType effectType, number AbilityType abilityType, number StatusEffectType statusEffectType, number abilityId, boolean canClickOff, boolean castByPlayer
+    --     local buffName, _, _, _, _, iconFilename, _, _, _, _, abilityId, _, _ = GetUnitBuffInfo(unitTag, i)
+    --     if (abilityId == 108045) then
+    --         return true
+    --     end
+    -- end
+    -- return false
 end
 Crutch.IsInShadowWorld = IsInShadowWorld
 
@@ -152,6 +181,8 @@ Crutch.UpdateSpearsDisplay = UpdateSpearsDisplay
 
 ---------------------------------------------------------------------
 -- Register/Unregister
+local origOSIUnitErrorCheck = nil
+
 function Crutch.RegisterCloudrest()
     if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Registered Cloudrest") end
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
@@ -188,6 +219,12 @@ function Crutch.RegisterCloudrest()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 104047) -- hitvalue 500
 
+    -- Register for Shadow World effect gained/faded
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, OnShadowWorldChanged)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 108045)
+
     -- Register summoning portal
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, function()
         spearsRevealed = 0
@@ -196,9 +233,39 @@ function Crutch.RegisterCloudrest()
         Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103946)
+
+    -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
+    if (OSI) then
+        if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck") end
+        origOSIUnitErrorCheck = OSI.UnitErrorCheck
+        OSI.UnitErrorCheck = function(unitTag)
+            local error = origOSIUnitErrorCheck(unitTag)
+            if (error ~= 0) then
+                return error
+            end
+            if (IsInShadowWorld() ~= IsInShadowWorld(unitTag)) then
+                return 8
+            else
+                return 0
+            end
+        end
+    end
 end
 
 function Crutch.UnregisterCloudrest()
     if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Cloudrest") end
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestCombatState", EVENT_PLAYER_COMBAT_STATE)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
+
+    if (OSI and origOSIUnitErrorCheck) then
+        if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck") end
+        OSI.UnitErrorCheck = origOSIUnitErrorCheck
+    end
 end

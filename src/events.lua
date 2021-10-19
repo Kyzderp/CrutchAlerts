@@ -19,6 +19,7 @@ local sourceStrings = {
 }
 
 Crutch.currentAttacks = {}
+Crutch.playerGroupTag = "player"
 
 ---------------------------------------------------------------------
 -- Utility
@@ -71,6 +72,9 @@ function Crutch.RegisterEffectChanged()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED,
         function(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, unitName, unitId, abilityId, sourceType)
             local displayName = GetUnitDisplayName(unitTag) or zo_strformat("<<1>>", unitName)
+            if (displayName == GetUnitDisplayName("player")) then
+                Crutch.playerGroupTag = unitTag
+            end
             Crutch.groupMembers[unitId] = displayName
             if (not string.sub(displayName, 1, 1) == "@" and Crutch.savedOptions.debugOther) then
                 d(string.format("|c88FFFF[CO]|r Received non-@ for %s from %s, result %s", unitTag, GetAbilityName(abilityId), displayName))
