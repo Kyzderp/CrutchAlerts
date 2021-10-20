@@ -52,12 +52,14 @@ Crutch.blacklist = {
 
 
 ---------------------------------------------------------------------
--- For specific abilities, only alert if the hitValue is at least threshold
-Crutch.threshold = {
-    [ 73741] = 1900, -- Threshing Wings (only get the initial cast, not the weird other parts that are cast on everyone)
-    [103946] = 2500, -- Shadow Realm Cast (only initial cast)
-    [105291] = 1250, -- SUM Shadow Beads (only initial cast)
-    [105380] = 2000, -- Direct Current (Relequen, only after he actually starts channeling, not the 250ms cast time)
+-- For specific abilities, some filters are required
+Crutch.filter = {
+    [ 73741] = function(hitValue) return hitValue >= 1900 end, -- Threshing Wings (only get the initial cast, not the weird other parts that are cast on everyone)
+    [103946] = function(hitValue) return hitValue >= 2500 end, -- Shadow Realm Cast (only initial cast)
+    [105291] = function(hitValue) return hitValue >= 1250 end, -- SUM Shadow Beads (only initial cast)
+    [105380] = function(hitValue) return hitValue >= 2000 and not Crutch.IsInShadowWorld() end, -- Direct Current (Relequen, only after he actually starts channeling, not the 250ms cast time)
+    [106405] = function(hitValue) return not Crutch.IsInShadowWorld() end, -- Glacial Spikes (Galenwe)
+    [121422] = function(hitValue) return Crutch.IsInNahvPortal() end, -- Sundering Gale (Eternal Servant, only display if self is in portal)
 }
 
 
@@ -65,14 +67,9 @@ Crutch.threshold = {
 -- Needs testing
 Crutch.testing = {
     -- [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)
-    -- [102027] = true, -- Caluurion Fire
-    -- [102032] = true, -- Caluurion Frost
-    -- [102033] = true, -- Caluurion Disease
-    -- [102034] = true, -- Caluurion Shock
 
     -- [ 26770] = true, -- Resurrect
 
-    -- [142318] = true, -- Sanguine Burst (Lady Thorn Synergy)
     -- [88887] = true, -- Icy Escape
     -- [88892] = true, -- Icy Escape
     -- [103321] = true, -- Icy Escape
@@ -82,13 +79,9 @@ Crutch.testing = {
     -- [112908] = true, -- sigil
     -- [112871] = true, -- sigil
 
-    -- [111779] = true, -- Spirit Ignition - count the ghosts?
-
     -- [52790] = true, -- Taunt Counter
     -- [52788] = true, -- Taunt Immunity
     -- [38541] = true, -- Taunt (self?)
-
-    -- [106405] = true, -- Glacial Spikes (Galenwe interruptible)
 
     [59640] = true, -- Lunar Aspect
     [59639] = true, -- Shadow Aspect
@@ -123,11 +116,11 @@ Crutch.stacks = {
 }
 
 ---------------------------------------------------------------------
--- Don't display chat spam in these zones
+-- Don't display chat spam in these zones, self testing purposes
 Crutch.noSpamZone = {
     [1000] = true, -- Asylum Sanctorium
     [1082] = true, -- Blackrose Prison
-    [1121] = true, -- Sunspire
+    -- [1121] = true, -- Sunspire
     [1196] = true, -- Kyne's Aegis
 }
 
@@ -158,7 +151,8 @@ Crutch.others = {
     [120783] = true, -- Hail of Stone (Vigil Statue) - starts with a 3 second cast and then becomes 17 seconds
     [115702] = true, -- Storm Fury
     [118562] = true, -- Thrash
-    -- [121422] = true, -- Sundering Gale TODO: this also displays upstairs, need to do buff check
+    [121422] = true, -- Sundering Gale
+    [122598] = true, -- Cataclysm
 
 -- Kyne's Aegis
     [132511] = true, -- Toxic Tide

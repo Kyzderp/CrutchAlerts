@@ -132,7 +132,14 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     if (hitValue <= 75) then return end
 
     -- Specific abilities should ignore hitValues that are below certain thresholds
-    if (Crutch.threshold[abilityId] and hitValue < Crutch.threshold[abilityId]) then return end
+    if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue)) then
+        if (Crutch.savedOptions.debugOther) then
+            d(string.format("|c88FFFF[CO]|r Skipping %s (%d) because of filter",
+                abilityName,
+                abilityId))
+        end
+        return
+    end
 
     if (hitValue >= Crutch.savedOptions.general.hitValueAboveThreshold) then
         if (Crutch.savedOptions.debugOther) then
@@ -405,11 +412,14 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
             resultString))
     end
 
-    -- Don't show Rele and Galenwe interruptibles while in portal
-    if (abilityId == 105380 or abilityId == 106405) then
-        if (Crutch.IsInShadowWorld()) then
-            return
+    -- Specific abilities should ignore hitValues that are below certain thresholds
+    if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue)) then
+        if (Crutch.savedOptions.debugOther) then
+            d(string.format("|c88FFFF[CO]|r Skipping %s (%d) because of filter",
+                abilityName,
+                abilityId))
         end
+        return
     end
 
     Crutch.DisplayNotification(abilityId, GetAbilityName(abilityId) .. targetName, hitValue, sourceUnitId, sourceName, sourceType, result)

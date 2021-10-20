@@ -38,6 +38,7 @@ local function IsInShadowWorld(unitTag)
     if (not unitTag) then unitTag = Crutch.playerGroupTag end
 
     if (groupShadowWorld[unitTag]) then return true end
+
     return false
 
     -- for i = 1, GetNumBuffs(unitTag) do
@@ -55,6 +56,7 @@ local function OnCombatStateChanged(_, inCombat)
     -- Reset
     if (not inCombat) then
         amuletSmashed = false
+        groupShadowWorld = {}
         spearsRevealed = 0
         spearsSent = 0
         orbsDunked = 0
@@ -253,7 +255,6 @@ function Crutch.RegisterCloudrest()
 end
 
 function Crutch.UnregisterCloudrest()
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Cloudrest") end
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestCombatState", EVENT_PLAYER_COMBAT_STATE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT)
@@ -268,4 +269,6 @@ function Crutch.UnregisterCloudrest()
         if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck") end
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
     end
+
+    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Cloudrest") end
 end
