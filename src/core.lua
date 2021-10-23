@@ -146,6 +146,9 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     if (resultFilter == 2 and result ~= ACTION_RESULT_EFFECT_GAINED) then
         return
     end
+    if (resultFilter == 3 and result ~= ACTION_RESULT_EFFECT_GAINED_DURATION) then
+        return
+    end
 
     -- Custom timer
     if (customTime ~= 0) then

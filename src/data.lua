@@ -59,7 +59,7 @@ Crutch.filter = {
     [105291] = function(hitValue) return hitValue >= 1250 end, -- SUM Shadow Beads (only initial cast)
     [105380] = function(hitValue) return hitValue >= 2000 and not Crutch.IsInShadowWorld() end, -- Direct Current (Relequen, only after he actually starts channeling, not the 250ms cast time)
     [106405] = function(hitValue) return not Crutch.IsInShadowWorld() end, -- Glacial Spikes (Galenwe)
-    [121422] = function(hitValue) return Crutch.IsInNahvPortal() end, -- Sundering Gale (Eternal Servant, only display if self is in portal)
+    [121422] = function(hitValue) return hitValue >= 1800 and Crutch.IsInNahvPortal() end, -- Sundering Gale (Eternal Servant, only display if self is in portal)
 }
 
 
@@ -103,6 +103,11 @@ Crutch.testing = {
     [75456] = true, -- Lunar Conversion? from RN
     [59698] = true, -- Shadow Conversion? from RN
     [59699] = true, -- Shadow Conversion? from RN
+
+    -- [86774] = true, -- Mudball
+    -- [89372] = true, -- Pelted!
+    -- [116879] = true, -- Alliance Pie (EP?)
+    -- [118833] = true, -- Piessive (EP?)
 }
 
 ---------------------------------------------------------------------

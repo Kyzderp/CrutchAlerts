@@ -37,8 +37,8 @@ Crutch.prominent = {
     [ 73721] = {text = "VOID RUSH", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Void Rush (Dro-m'Athra Shadowguard)
 
 -- CR
-    [105380] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true}, -- Direct Current (Relequen interruptible)
-    [106405] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 6000}, -- Glacial Spikes (Galenwe interruptible)
+    [105380] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 3000}, -- Direct Current (Relequen interruptible)
+    [106405] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 3000}, -- Glacial Spikes (Galenwe interruptible)
     [105016] = {text = "CREEPER", color = {0.5, 1, 0.5}, slot = 1, playSound = true, preMillis = 6000, millis = 6000}, -- Creeper spawn
 
 -- RG

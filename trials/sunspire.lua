@@ -131,6 +131,9 @@ function Crutch.RegisterSunspire()
         Crutch.EnableIcon("YolWing2")
         Crutch.EnableIcon("YolWing3")
         Crutch.EnableIcon("YolWing4")
+        Crutch.EnableIcon("YolHead2")
+        Crutch.EnableIcon("YolHead3")
+        Crutch.EnableIcon("YolHead4")
     end
 end
 
@@ -157,6 +160,9 @@ function Crutch.UnregisterSunspire()
     Crutch.DisableIcon("YolWing2")
     Crutch.DisableIcon("YolWing3")
     Crutch.DisableIcon("YolWing4")
+    Crutch.DisableIcon("YolHead2")
+    Crutch.DisableIcon("YolHead3")
+    Crutch.DisableIcon("YolHead4")
 
     if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Sunspire") end
 end

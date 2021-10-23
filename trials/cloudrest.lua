@@ -37,7 +37,7 @@ end
 local function IsInShadowWorld(unitTag)
     if (not unitTag) then unitTag = Crutch.playerGroupTag end
 
-    if (groupShadowWorld[unitTag]) then return true end
+    if (groupShadowWorld[unitTag] == true) then return true end
 
     return false
 

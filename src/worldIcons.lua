@@ -20,11 +20,15 @@ local data = {
     ["LokkBeam8"] = {x = 115192, y = 56100, z = 105091, texture = "odysupporticons/icons/squares/squaretwo_red_eight.dds", size = 200, color = {1, 1, 1}},
     ["LokkBeamLH"] = {x = 115556, y = 56100, z = 105441, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = 200, color = {1, 1, 1}},
     ["LokkBeamRH"] = {x = 115443, y = 56100, z = 106676, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = 200, color = {1, 1, 1}},
-    
+
     -- ["YolWing1"] = {x = 96021, y = 49697, z = 108422, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = 200, color = {1, 1, 1}},
     ["YolWing2"] = {x = 97803, y = 49685, z = 108988, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = 200, color = {1, 1, 1}},
     ["YolWing3"] = {x = 97121, y = 49722, z = 110613, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = 200, color = {1, 1, 1}},
     ["YolWing4"] = {x = 95580, y = 49669, z = 110308, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = 200, color = {1, 1, 1}},
+    -- ["YolHead1"] = {x = 96004, y = 49690, z = 109008, texture = "odysupporticons/icons/squares/squaretwo_blue_one.dds", size = 200, color = {1, 1, 1}},
+    ["YolHead2"] = {x = 97188, y = 49703, z = 109064, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds", size = 200, color = {1, 1, 1}},
+    ["YolHead3"] = {x = 97196, y = 49689, z = 110024, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds", size = 200, color = {1, 1, 1}},
+    ["YolHead4"] = {x = 96109, y = 49669, z = 110270, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
 }
 
 
