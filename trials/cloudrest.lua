@@ -16,7 +16,32 @@ local effectResults = {
     [EFFECT_RESULT_UPDATED] = "UPDATED",
 }
 
-local groupShadowWorld = {}
+local groupShadowWorld = {
+    group1 = false,
+    group2 = false,
+    group3 = false,
+    group4 = false,
+    group5 = false,
+    group6 = false,
+    group7 = false,
+    group8 = false,
+    group9 = false,
+    group10 = false,
+    group11 = false,
+    group12 = false,
+}
+
+local function DebugShadowWorld()
+    local result = {}
+    for unitTag, inShadowWorld in pairs(groupShadowWorld) do
+        table.insert(result, string.format("|cAAAAAA%s |c44FF44%s |r%s - %d", unitTag, GetUnitDisplayName(unitTag), inShadowWorld and "portal" or "up", OSI.UnitErrorCheck(unitTag)))
+    end
+
+    local resultString = table.concat(result, "\n") .. "\nplayerGroupTag = " .. Crutch.playerGroupTag
+
+    Crutch.DebugUI(resultString)
+end
+Crutch.DebugShadowWorld = DebugShadowWorld
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnShadowWorldChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
@@ -29,6 +54,8 @@ local function OnShadowWorldChanged(_, changeType, _, _, unitTag, _, _, stackCou
     elseif (changeType == EFFECT_RESULT_FADED) then
         groupShadowWorld[unitTag] = false
     end
+
+    DebugShadowWorld()
 end
 
 ---------------------------------------------------------------------
@@ -56,11 +83,24 @@ local function OnCombatStateChanged(_, inCombat)
     -- Reset
     if (not inCombat) then
         amuletSmashed = false
-        groupShadowWorld = {}
         spearsRevealed = 0
         spearsSent = 0
         orbsDunked = 0
         Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
+        groupShadowWorld = {
+            group1 = false,
+            group2 = false,
+            group3 = false,
+            group4 = false,
+            group5 = false,
+            group6 = false,
+            group7 = false,
+            group8 = false,
+            group9 = false,
+            group10 = false,
+            group11 = false,
+            group12 = false,
+        }
     end
 end
 
@@ -245,10 +285,10 @@ function Crutch.RegisterCloudrest()
             if (error ~= 0) then
                 return error
             end
-            if (IsInShadowWorld() ~= IsInShadowWorld(unitTag)) then
-                return 8
-            else
+            if (IsInShadowWorld(Crutch.playerGroupTag) == IsInShadowWorld(unitTag)) then
                 return 0
+            else
+                return 8
             end
         end
     end

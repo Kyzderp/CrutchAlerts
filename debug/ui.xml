@@ -1,0 +1,18 @@
+<GuiXml>
+    <Controls>
+        <TopLevelControl name="CrutchAlertsDebugContainer" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="false">
+            <OnInitialized>
+                HUD_SCENE:AddFragment(ZO_SimpleSceneFragment:New(self))
+                HUD_UI_SCENE:AddFragment(ZO_SimpleSceneFragment:New(self))
+            </OnInitialized>
+            <Controls>
+<!-- ======================================================================================================================= -->
+                <Label name="CrutchAlertsDebug" font="$(MEDIUM_FONT)|$(KB_10)|soft-shadow-thin" text="test" horizontalAlignment="LEFT" mouseEnabled="false" movable="true">
+                    <Dimensions x="250" y="400"/>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="GuiRoot" relativePoint="RIGHT" offsetY="200"/>
+                </Label>
+<!-- ======================================================================================================================= -->
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

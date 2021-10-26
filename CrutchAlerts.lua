@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.5.0"
+Crutch.version = "0.5.1"
 
 Crutch.registered = {
     begin = false,
@@ -65,6 +65,7 @@ local defaultOptions = {
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
+    debugUi = false,
     showSubtitles = true,
     general = {
         showBegin = true,
@@ -160,6 +161,7 @@ local function Initialize()
     Crutch.RegisterOthers()
     Crutch.RegisterStacks()
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
+    Crutch.InitializeDebug()
 
     -- Register for when entering zone
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
