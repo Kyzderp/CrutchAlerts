@@ -16,25 +16,14 @@ local effectResults = {
     [EFFECT_RESULT_UPDATED] = "UPDATED",
 }
 
-local groupShadowWorld = {
-    group1 = false,
-    group2 = false,
-    group3 = false,
-    group4 = false,
-    group5 = false,
-    group6 = false,
-    group7 = false,
-    group8 = false,
-    group9 = false,
-    group10 = false,
-    group11 = false,
-    group12 = false,
-}
+local groupShadowWorld = {}
 
 local function DebugShadowWorld()
     local result = {}
     for unitTag, inShadowWorld in pairs(groupShadowWorld) do
-        table.insert(result, string.format("|cAAAAAA%s |c44FF44%s |r%s - %d", unitTag, GetUnitDisplayName(unitTag), inShadowWorld and "portal" or "up", OSI.UnitErrorCheck(unitTag)))
+        if (DoesUnitExist(unitTag)) then
+            table.insert(result, string.format("|cAAAAAA%s |c44FF44%s |r%s - %d", unitTag, GetUnitDisplayName(unitTag), inShadowWorld and "portal" or "up", OSI.UnitErrorCheck(unitTag)))
+        end
     end
 
     local resultString = table.concat(result, "\n") .. "\nplayerGroupTag = " .. Crutch.playerGroupTag
@@ -67,40 +56,26 @@ local function IsInShadowWorld(unitTag)
     if (groupShadowWorld[unitTag] == true) then return true end
 
     return false
-
-    -- for i = 1, GetNumBuffs(unitTag) do
-    --     -- string buffName, number timeStarted, number timeEnding, number buffSlot, number stackCount, textureName iconFilename, string buffType, number BuffEffectType effectType, number AbilityType abilityType, number StatusEffectType statusEffectType, number abilityId, boolean canClickOff, boolean castByPlayer
-    --     local buffName, _, _, _, _, iconFilename, _, _, _, _, abilityId, _, _ = GetUnitBuffInfo(unitTag, i)
-    --     if (abilityId == 108045) then
-    --         return true
-    --     end
-    -- end
-    -- return false
 end
 Crutch.IsInShadowWorld = IsInShadowWorld
 
-local function OnCombatStateChanged(_, inCombat)
+local function OnWipe()
     -- Reset
-    if (not inCombat) then
+    if (not IsUnitInCombat("player")) then
+        if (Crutch.savedOptions.debugOther) then d("|cFF7777Resetting because wipe?|r") end
         amuletSmashed = false
         spearsRevealed = 0
         spearsSent = 0
         orbsDunked = 0
         Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
-        groupShadowWorld = {
-            group1 = false,
-            group2 = false,
-            group3 = false,
-            group4 = false,
-            group5 = false,
-            group6 = false,
-            group7 = false,
-            group8 = false,
-            group9 = false,
-            group10 = false,
-            group11 = false,
-            group12 = false,
-        }
+    end
+end
+
+local function OnCombatStateChanged(_, inCombat)
+    -- This is weird because we exit combat when entering portal, so it shouldn't
+    -- actually trigger a reset. Check again 3 seconds later whether we're out
+    if (not inCombat) then
+        zo_callLater(OnWipe, 3000)
     end
 end
 

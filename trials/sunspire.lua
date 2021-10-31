@@ -2,6 +2,8 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 ---------------------------------------------------------------------
+-- Time Breach
+---------------------------------------------------------------------
 local effectResults = {
     [EFFECT_RESULT_FADED] = "FADED",
     [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
@@ -34,13 +36,176 @@ local function IsInNahvPortal(unitTag)
 end
 Crutch.IsInNahvPortal = IsInNahvPortal
 
-local function OnCombatStateChanged(_, inCombat)
-    -- Reset
-    if (not inCombat) then
-        groupTimeBreach = {}
+---------------------------------------------------------------------
+-- Lokkestiiz Icons
+---------------------------------------------------------------------
+local atLokk = false
+local lokkHM = false
+local lokkBeamPhase = false
+
+local function EnableLokkIcons()
+    Crutch.EnableIcon("LokkBeam1")
+    Crutch.EnableIcon("LokkBeam2")
+    Crutch.EnableIcon("LokkBeam3")
+    Crutch.EnableIcon("LokkBeam4")
+    Crutch.EnableIcon("LokkBeam5")
+    Crutch.EnableIcon("LokkBeam6")
+    Crutch.EnableIcon("LokkBeam7")
+    Crutch.EnableIcon("LokkBeam8")
+    Crutch.EnableIcon("LokkBeamLH")
+    Crutch.EnableIcon("LokkBeamRH")
+end
+Crutch.EnableLokkIcons = EnableLokkIcons
+
+local function DisableLokkIcons()
+    Crutch.DisableIcon("LokkBeam1")
+    Crutch.DisableIcon("LokkBeam2")
+    Crutch.DisableIcon("LokkBeam3")
+    Crutch.DisableIcon("LokkBeam4")
+    Crutch.DisableIcon("LokkBeam5")
+    Crutch.DisableIcon("LokkBeam6")
+    Crutch.DisableIcon("LokkBeam7")
+    Crutch.DisableIcon("LokkBeam8")
+    Crutch.DisableIcon("LokkBeamLH")
+    Crutch.DisableIcon("LokkBeamRH")
+end
+Crutch.DisableLokkIcons = DisableLokkIcons
+
+local function UpdateLokkIcons()
+    d(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
+    if (atLokk and lokkHM and lokkBeamPhase) then
+        EnableLokkIcons()
+    else
+        DisableLokkIcons()
     end
 end
 
+local function OnLokkFly()
+    d("flying")
+    lokkBeamPhase = true
+    UpdateLokkIcons()
+end
+
+local function OnLokkBeam()
+    d("beam")
+    zo_callLater(function()
+        lokkBeamPhase = false
+        UpdateLokkIcons()
+    end, 15000)
+end
+
+local function OnDifficultyChanged(text)
+    if (text == "Lokkestiiz Difficulty Increased") then
+        lokkHM = true
+        UpdateLokkIcons()
+    elseif (text == "Lokkestiiz Difficulty Decreased") then
+        lokkHM = false
+        UpdateLokkIcons()
+    end
+end
+
+---------------------------------------------------------------------
+-- Yolnahkriin Icons
+---------------------------------------------------------------------
+local function EnableYolIcons()
+    Crutch.EnableIcon("YolWing2")
+    Crutch.EnableIcon("YolWing3")
+    Crutch.EnableIcon("YolWing4")
+    Crutch.EnableIcon("YolHead2")
+    Crutch.EnableIcon("YolHead3")
+    Crutch.EnableIcon("YolHead4")
+end
+Crutch.EnableYolIcons = EnableYolIcons
+
+local function DisableYolIcons()
+    Crutch.DisableIcon("YolWing2")
+    Crutch.DisableIcon("YolWing3")
+    Crutch.DisableIcon("YolWing4")
+    Crutch.DisableIcon("YolHead2")
+    Crutch.DisableIcon("YolHead3")
+    Crutch.DisableIcon("YolHead4")
+end
+Crutch.DisableYolIcons = DisableYolIcons
+
+local function OnYolFly75()
+    d("75 fly")
+    Crutch.EnableIcon("YolWing2")
+    Crutch.EnableIcon("YolHead2")
+    zo_callLater(function()
+        d("75 land")
+        Crutch.DisableIcon("YolWing2")
+        Crutch.DisableIcon("YolHead2")
+    end, 25000)
+end
+
+local function OnYolFly50()
+    d("50 fly")
+    Crutch.EnableIcon("YolWing3")
+    Crutch.EnableIcon("YolHead3")
+    zo_callLater(function()
+        d("50 land")
+        Crutch.DisableIcon("YolWing3")
+        Crutch.DisableIcon("YolHead3")
+    end, 25000)
+end
+
+local function OnYolFly25()
+    d("25 fly")
+    Crutch.EnableIcon("YolWing4")
+    Crutch.EnableIcon("YolHead4")
+    zo_callLater(function()
+        d("25 land")
+        Crutch.DisableIcon("YolWing4")
+        Crutch.DisableIcon("YolHead4")
+    end, 25000)
+end
+
+local function OnYolFly()
+    d("|cFF0000turn off aim?|r")
+    local currHealth, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local percent = currHealth / maxHealth
+    if (percent < 0.3) then
+        OnYolFly25()
+    elseif (percent < 0.55) then
+        OnYolFly50()
+    elseif (percent < 0.8) then
+        OnYolFly75()
+    else
+        d("|cFF0000??????????????????????|r")
+    end
+end
+
+local prevBoss = nil
+local function OnBossesChanged()
+    -- Lokk: 86.2m / 107.8m
+    -- Yol: 129.4m / 161.7m
+    -- Nahv: 103.5m / 129.4m
+    local bossName = GetUnitName("boss1")
+    if (prevBoss == bossName) then return end
+
+    if (bossName == "Lokkestiiz") then
+        d("arrived Lokk")
+        atLokk = true
+        UpdateLokkIcons()
+    else
+        d("left Lokk")
+        atLokk = false
+        UpdateLokkIcons()
+    end
+
+    if (bossName == "Yolnahkriin") then
+        d("arrived Yol")
+        -- EnableYolIcons()
+    else
+        d("left Yol")
+        DisableYolIcons()
+    end
+
+    prevBoss = bossName
+end
+
+---------------------------------------------------------------------
+-- Focused Fire
 ---------------------------------------------------------------------
 -- Check each group member to see who has the Focused Fire DEBUFF
 local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
@@ -77,13 +242,32 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
 end
 
 ---------------------------------------------------------------------
+-- General Listeners
+---------------------------------------------------------------------
+local function OnCombatStateChanged(_, inCombat)
+    -- Reset
+    if (not inCombat) then
+        groupTimeBreach = {}
+        -- Enable them if wipe TODO: is this needed? the bosses change right?
+        -- EnableLokkIcons()
+    else
+        -- Disable them as combat starts
+        DisableLokkIcons()
+    end
+end
+
+---------------------------------------------------------------------
+-- Init
+---------------------------------------------------------------------
 -- Register/Unregister
 local origOSIUnitErrorCheck = nil
+local origQueueMessage = nil
 
 function Crutch.RegisterSunspire()
     if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Registered Sunspire") end
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
 
     EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
     EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
@@ -95,6 +279,30 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 121216)
+
+    -- Register for Lokk flying (Gravechill)
+    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Gravechill80", EVENT_COMBAT_EVENT, OnLokkFly)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Gravechill80", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122820)
+    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Gravechill50", EVENT_COMBAT_EVENT, OnLokkFly)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Gravechill50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122821)
+    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Gravechill20", EVENT_COMBAT_EVENT, OnLokkFly)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Gravechill20", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122822)
+
+    -- Register for Lokk beam (Storm Fury)
+    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "StormFury", EVENT_COMBAT_EVENT, OnLokkBeam)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 115702)
+
+    -- Register for Yol flying (Takeoff)
+    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Takeoff75", EVENT_COMBAT_EVENT, OnYolFly75)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Takeoff75", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124910)
+    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Takeoff50", EVENT_COMBAT_EVENT, OnYolFly50)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Takeoff50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124915)
+    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Takeoff25", EVENT_COMBAT_EVENT, OnYolFly25)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Takeoff25", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124916)
+
+    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "TurnOffAim", EVENT_COMBAT_EVENT, OnYolFly)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 125693)
 
      -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
@@ -113,27 +321,17 @@ function Crutch.RegisterSunspire()
         end
     end
 
+    -- Hook into CSA display to get Lokk difficulty change
+    origQueueMessage = CENTER_SCREEN_ANNOUNCE.QueueMessage
+    CENTER_SCREEN_ANNOUNCE.QueueMessage = function(s, messageParams)
+        OnDifficultyChanged(messageParams:GetMainText())
+        return origQueueMessage(s, messageParams)
+    end
+
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
     else
-        -- TODO: only show these in vet, and HM, and optionally only during flight phase
-        Crutch.EnableIcon("LokkBeam1")
-        Crutch.EnableIcon("LokkBeam2")
-        Crutch.EnableIcon("LokkBeam3")
-        Crutch.EnableIcon("LokkBeam4")
-        Crutch.EnableIcon("LokkBeam5")
-        Crutch.EnableIcon("LokkBeam6")
-        Crutch.EnableIcon("LokkBeam7")
-        Crutch.EnableIcon("LokkBeam8")
-        Crutch.EnableIcon("LokkBeamLH")
-        Crutch.EnableIcon("LokkBeamRH")
-
-        Crutch.EnableIcon("YolWing2")
-        Crutch.EnableIcon("YolWing3")
-        Crutch.EnableIcon("YolWing4")
-        Crutch.EnableIcon("YolHead2")
-        Crutch.EnableIcon("YolHead3")
-        Crutch.EnableIcon("YolHead4")
+        -- EnableYolIcons()
     end
 end
 
@@ -146,23 +344,13 @@ function Crutch.UnregisterSunspire()
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
     end
 
-    Crutch.DisableIcon("LokkBeam1")
-    Crutch.DisableIcon("LokkBeam2")
-    Crutch.DisableIcon("LokkBeam3")
-    Crutch.DisableIcon("LokkBeam4")
-    Crutch.DisableIcon("LokkBeam5")
-    Crutch.DisableIcon("LokkBeam6")
-    Crutch.DisableIcon("LokkBeam7")
-    Crutch.DisableIcon("LokkBeam8")
-    Crutch.DisableIcon("LokkBeamLH")
-    Crutch.DisableIcon("LokkBeamRH")
+    if (origQueueMessage) then
+        if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Restoring CSA.QueueMessage") end
+        CENTER_SCREEN_ANNOUNCE.QueueMessage = origQueueMessage
+    end
 
-    Crutch.DisableIcon("YolWing2")
-    Crutch.DisableIcon("YolWing3")
-    Crutch.DisableIcon("YolWing4")
-    Crutch.DisableIcon("YolHead2")
-    Crutch.DisableIcon("YolHead3")
-    Crutch.DisableIcon("YolHead4")
+    DisableLokkIcons()
+    DisableYolIcons()
 
     if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Sunspire") end
 end
