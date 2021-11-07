@@ -221,27 +221,29 @@ local InterruptedResults = {
 
 local function OnInterrupted(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
     -- Spammy debug
-    -- if (Crutch.savedOptions.debugChatSpam) then
-    --     local resultString = ""
-    --     if (result) then
-    --         resultString = (InterruptedResults[result] or tostring(result))
-    --     end
+    if (Crutch.savedOptions.debugChatSpam
+        and (abilityId == 103531 or abilityId == 110431) -- Roaring Flare
+        ) then
+        local resultString = ""
+        if (result) then
+            resultString = (InterruptedResults[result] or tostring(result))
+        end
 
-    --     local sourceString = ""
-    --     if (sourceType) then
-    --         sourceString = (sourceStrings[sourceType] or tostring(sourceType))
-    --     end
-    --     d(string.format("Interrupted %s(%d): %s(%d) on %s(%d) HitValue %d Type %s Result %s",
-    --         sourceName,
-    --         sourceUnitId,
-    --         GetAbilityName(abilityId),
-    --         abilityId,
-    --         targetName,
-    --         targetUnitId,
-    --         hitValue,
-    --         sourceString,
-    --         resultString))
-    -- end
+        local sourceString = ""
+        if (sourceType) then
+            sourceString = (sourceStrings[sourceType] or tostring(sourceType))
+        end
+        d(string.format("Interrupted %s(%d): %s(%d) on %s(%d) HitValue %d Type %s Result %s",
+            sourceName,
+            sourceUnitId,
+            GetAbilityName(abilityId),
+            abilityId,
+            targetName,
+            targetUnitId,
+            hitValue,
+            sourceString,
+            resultString))
+    end
 
     Crutch.Interrupted(targetUnitId)
 end

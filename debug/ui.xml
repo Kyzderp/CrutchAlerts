@@ -7,7 +7,7 @@
             </OnInitialized>
             <Controls>
 <!-- ======================================================================================================================= -->
-                <Label name="CrutchAlertsDebug" font="$(MEDIUM_FONT)|$(KB_10)|soft-shadow-thin" text="test" horizontalAlignment="LEFT" mouseEnabled="false" movable="true">
+                <Label name="CrutchAlertsDebug" font="$(MEDIUM_FONT)|$(KB_10)|soft-shadow-thin" text="" horizontalAlignment="LEFT" mouseEnabled="false" movable="false">
                     <Dimensions x="250" y="400"/>
                     <Anchor point="BOTTOMRIGHT" relativeTo="GuiRoot" relativePoint="RIGHT" offsetY="200"/>
                 </Label>

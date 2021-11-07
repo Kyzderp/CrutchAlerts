@@ -43,6 +43,11 @@ function Crutch.EnableIcon(name)
         return
     end
 
+    if (icons[name]) then
+        d("|cFF0000Icon already enabled " .. name .. "|r")
+        return
+    end
+
     local iconData = data[name]
     if (not iconData) then
         d("|cFF0000Invalid icon name " .. name .. "|r")

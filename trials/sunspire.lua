@@ -1,6 +1,8 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
+local isInCombat = false
+
 ---------------------------------------------------------------------
 -- Time Breach
 ---------------------------------------------------------------------
@@ -44,6 +46,7 @@ local lokkHM = false
 local lokkBeamPhase = false
 
 local function EnableLokkIcons()
+    if (not Crutch.savedOptions.sunspire.showLokkIcons) then return end
     Crutch.EnableIcon("LokkBeam1")
     Crutch.EnableIcon("LokkBeam2")
     Crutch.EnableIcon("LokkBeam3")
@@ -69,11 +72,12 @@ local function DisableLokkIcons()
     Crutch.DisableIcon("LokkBeamLH")
     Crutch.DisableIcon("LokkBeamRH")
 end
-Crutch.DisableLokkIcons = DisableLokkIcons
 
 local function UpdateLokkIcons()
-    d(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
-    if (atLokk and lokkHM and lokkBeamPhase) then
+    if (Crutch.savedOptions.debugOther) then
+        d(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
+    end
+    if (atLokk and lokkHM and (lokkBeamPhase or not isInCombat)) then
         EnableLokkIcons()
     else
         DisableLokkIcons()
@@ -81,13 +85,11 @@ local function UpdateLokkIcons()
 end
 
 local function OnLokkFly()
-    d("flying")
     lokkBeamPhase = true
     UpdateLokkIcons()
 end
 
 local function OnLokkBeam()
-    d("beam")
     zo_callLater(function()
         lokkBeamPhase = false
         UpdateLokkIcons()
@@ -107,16 +109,6 @@ end
 ---------------------------------------------------------------------
 -- Yolnahkriin Icons
 ---------------------------------------------------------------------
-local function EnableYolIcons()
-    Crutch.EnableIcon("YolWing2")
-    Crutch.EnableIcon("YolWing3")
-    Crutch.EnableIcon("YolWing4")
-    Crutch.EnableIcon("YolHead2")
-    Crutch.EnableIcon("YolHead3")
-    Crutch.EnableIcon("YolHead4")
-end
-Crutch.EnableYolIcons = EnableYolIcons
-
 local function DisableYolIcons()
     Crutch.DisableIcon("YolWing2")
     Crutch.DisableIcon("YolWing3")
@@ -125,43 +117,38 @@ local function DisableYolIcons()
     Crutch.DisableIcon("YolHead3")
     Crutch.DisableIcon("YolHead4")
 end
-Crutch.DisableYolIcons = DisableYolIcons
 
 local function OnYolFly75()
-    d("75 fly")
+    if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
     Crutch.EnableIcon("YolWing2")
     Crutch.EnableIcon("YolHead2")
     zo_callLater(function()
-        d("75 land")
         Crutch.DisableIcon("YolWing2")
         Crutch.DisableIcon("YolHead2")
     end, 25000)
 end
 
 local function OnYolFly50()
-    d("50 fly")
+    if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
     Crutch.EnableIcon("YolWing3")
     Crutch.EnableIcon("YolHead3")
     zo_callLater(function()
-        d("50 land")
         Crutch.DisableIcon("YolWing3")
         Crutch.DisableIcon("YolHead3")
     end, 25000)
 end
 
 local function OnYolFly25()
-    d("25 fly")
+    if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
     Crutch.EnableIcon("YolWing4")
     Crutch.EnableIcon("YolHead4")
     zo_callLater(function()
-        d("25 land")
         Crutch.DisableIcon("YolWing4")
         Crutch.DisableIcon("YolHead4")
     end, 25000)
 end
 
 local function OnYolFly()
-    d("|cFF0000turn off aim?|r")
     local currHealth, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
     local percent = currHealth / maxHealth
     if (percent < 0.3) then
@@ -171,7 +158,9 @@ local function OnYolFly()
     elseif (percent < 0.8) then
         OnYolFly75()
     else
-        d("|cFF0000??????????????????????|r")
+        if (Crutch.savedOptions.debugOther) then
+            d("|cFF0000[CA] ??????????????????????|r")
+        end
     end
 end
 
@@ -184,21 +173,11 @@ local function OnBossesChanged()
     if (prevBoss == bossName) then return end
 
     if (bossName == "Lokkestiiz") then
-        d("arrived Lokk")
         atLokk = true
         UpdateLokkIcons()
     else
-        d("left Lokk")
         atLokk = false
         UpdateLokkIcons()
-    end
-
-    if (bossName == "Yolnahkriin") then
-        d("arrived Yol")
-        -- EnableYolIcons()
-    else
-        d("left Yol")
-        DisableYolIcons()
     end
 
     prevBoss = bossName
@@ -246,6 +225,7 @@ end
 ---------------------------------------------------------------------
 local function OnCombatStateChanged(_, inCombat)
     -- Reset
+    isInCombat = inCombat
     if (not inCombat) then
         groupTimeBreach = {}
         -- Enable them if wipe TODO: is this needed? the bosses change right?
@@ -302,6 +282,7 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Takeoff25", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124916)
 
     EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "TurnOffAim", EVENT_COMBAT_EVENT, OnYolFly)
+    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
     EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 125693)
 
      -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
@@ -330,8 +311,6 @@ function Crutch.RegisterSunspire()
 
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
-    else
-        -- EnableYolIcons()
     end
 end
 

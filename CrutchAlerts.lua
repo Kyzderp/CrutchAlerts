@@ -82,6 +82,10 @@ local defaultOptions = {
         showSpears = true,
         spearsSound = true,
     },
+    sunspire = {
+        showLokkIcons = true,
+        showYolIcons = true,
+    },
     instance = {
         hrc = true,
         aa = true,

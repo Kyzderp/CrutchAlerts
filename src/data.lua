@@ -108,6 +108,9 @@ Crutch.testing = {
     -- [89372] = true, -- Pelted!
     -- [116879] = true, -- Alliance Pie (EP?)
     -- [118833] = true, -- Piessive (EP?)
+
+    -- [163359] = true, -- Aura of Pride (on self when wearing Spaulder)
+    -- [163401] = true, -- Aura of Pride (on other person when self wearing Spaulder)
 }
 
 ---------------------------------------------------------------------

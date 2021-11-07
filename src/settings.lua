@@ -242,6 +242,34 @@ local defaultOptions = {
                 },
             }
         },
+        {
+            type = "submenu",
+            name = "Sunspire",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show Lokkestiiz HM beam position icons",
+                    tooltip = "During flight phase on Lokkestiiz hardmode, shows 1~8 DPS and 2 healer positions in the world for Storm Fury. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sunspire.showLokkIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.showLokkIcons = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Yolnahkriin position icons",
+                    tooltip = "During flight phase on Yolnahkriin, shows icons in the world for where the next head stack and (right) wing stack will be when Yolnahkriin lands. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sunspire.showYolIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.showYolIcons = value
+                    end,
+                    width = "full",
+                },
+            }
+        },
     }
 
     CrutchAlerts.addonPanel = LAM:RegisterAddonPanel("CrutchAlertsOptions", panelData)
