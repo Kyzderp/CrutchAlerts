@@ -3,19 +3,19 @@ local Crutch = CrutchAlerts
 
 local resultStrings = {
     [ACTION_RESULT_BEGIN] = "BEGIN",
-    [ACTION_RESULT_EFFECT_GAINED] = "GAINED",
-    [ACTION_RESULT_EFFECT_GAINED_DURATION] = "DURATION",
+    [ACTION_RESULT_EFFECT_GAINED] = "GAIN",
+    [ACTION_RESULT_EFFECT_GAINED_DURATION] = "DUR",
     [ACTION_RESULT_EFFECT_FADED] = "FADED",
     [ACTION_RESULT_DAMAGE] = "DAMAGE",
 }
 
 local sourceStrings = {
-    [COMBAT_UNIT_TYPE_NONE] = "NONE",
-    [COMBAT_UNIT_TYPE_PLAYER] = "PLAYER",
+    [COMBAT_UNIT_TYPE_NONE] = "N",
+    [COMBAT_UNIT_TYPE_PLAYER] = "P",
     [COMBAT_UNIT_TYPE_PLAYER_PET] = "PET",
-    [COMBAT_UNIT_TYPE_GROUP] = "GROUP",
-    [COMBAT_UNIT_TYPE_TARGET_DUMMY] = "DUMMY",
-    [COMBAT_UNIT_TYPE_OTHER] = "OTHER",
+    [COMBAT_UNIT_TYPE_GROUP] = "G",
+    [COMBAT_UNIT_TYPE_TARGET_DUMMY] = "D",
+    [COMBAT_UNIT_TYPE_OTHER] = "O",
 }
 
 Crutch.currentAttacks = {}
@@ -76,8 +76,8 @@ function Crutch.RegisterEffectChanged()
                 Crutch.playerGroupTag = unitTag
             end
             Crutch.groupMembers[unitId] = displayName
-            if (not string.sub(displayName, 1, 1) == "@" and Crutch.savedOptions.debugOther) then
-                d(string.format("|c88FFFF[CO]|r Received non-@ for %s from %s, result %s", unitTag, GetAbilityName(abilityId), displayName))
+            if (not string.sub(displayName, 1, 1) == "@") then
+                Crutch.dbgOther(string.format("Received non-@ for %s from %s, result %s", unitTag, GetAbilityName(abilityId), displayName))
             end
         end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
@@ -116,7 +116,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
         if (sourceType) then
             sourceString = (sourceStrings[sourceType] or tostring(sourceType))
         end
-        d(string.format("All %s(%d): %s(%d) in %dms on %s(%d). Type %s Result %s",
+        Crutch.dbgSpam(string.format("A %s(%d): %s(%d) in %d on %s (%d). %s %s",
             sourceName,
             sourceUnitId,
             GetAbilityName(abilityId),
@@ -133,22 +133,18 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
 
     -- Specific abilities should ignore hitValues that are below certain thresholds
     if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue)) then
-        if (Crutch.savedOptions.debugOther) then
-            d(string.format("|c88FFFF[CO]|r Skipping %s (%d) because of filter",
-                abilityName,
-                abilityId))
-        end
+        Crutch.dbgOther(string.format("Skipping %s (%d) because of filter",
+            abilityName,
+            abilityId))
         return
     end
 
     if (hitValue >= Crutch.savedOptions.general.hitValueAboveThreshold) then
-        if (Crutch.savedOptions.debugOther) then
-            d(string.format("|c88FFFF[CO]|r Capping hitValue for %s(%d) at %d from %d",
-                abilityName,
-                abilityId,
-                Crutch.savedOptions.general.hitValueAboveThreshold,
-                hitValue))
-        end
+        Crutch.dbgOther(string.format("Capping hitValue for %s(%d) at %d from %d",
+            abilityName,
+            abilityId,
+            Crutch.savedOptions.general.hitValueAboveThreshold,
+            hitValue))
         hitValue = Crutch.savedOptions.general.hitValueAboveThreshold
     end
 
@@ -161,7 +157,7 @@ end
 
 function Crutch.RegisterBegin()
     if (Crutch.registered.begin) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Begin") end
+    Crutch.dbgOther("Registered Begin")
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, OnCombatEventAll)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
@@ -173,7 +169,7 @@ end
 
 function Crutch.UnregisterBegin()
     if (not Crutch.registered.begin) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Begin") end
+    Crutch.dbgOther("Unregistered Begin")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT)
 
@@ -182,7 +178,7 @@ end
 
 function Crutch.RegisterGained()
     if (Crutch.registered.gained) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Gained") end
+    Crutch.dbgOther("Registered Gained")
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, OnCombatEventAll)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
@@ -199,7 +195,7 @@ end
 
 function Crutch.UnregisterGained()
     if (not Crutch.registered.gained) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Gained") end
+    Crutch.dbgOther("Unregistered Gained")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT)
@@ -233,7 +229,7 @@ local function OnInterrupted(_, result, isError, abilityName, _, _, sourceName, 
         if (sourceType) then
             sourceString = (sourceStrings[sourceType] or tostring(sourceType))
         end
-        d(string.format("Interrupted %s(%d): %s(%d) on %s(%d) HitValue %d Type %s Result %s",
+        Crutch.dbgSpam(string.format("Interrupted %s(%d): %s(%d) on %s (%d) HitValue %d %s %s",
             sourceName,
             sourceUnitId,
             GetAbilityName(abilityId),
@@ -250,7 +246,7 @@ end
 
 function Crutch.RegisterInterrupts()
     if (Crutch.registered.interrupts) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Interrupts") end
+    Crutch.dbgOther("Registered Interrupts")
 
     for result, name in pairs(InterruptedResults) do
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, OnInterrupted)
@@ -263,7 +259,7 @@ end
 
 function Crutch.UnregisterInterrupts()
     if (not Crutch.registered.interrupts) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Interrupts") end
+    Crutch.dbgOther("Unregistered Interrupts")
 
     for result, name in pairs(InterruptedResults) do
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT)
@@ -288,7 +284,7 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
         if (sourceType) then
             sourceString = (sourceStrings[sourceType] or tostring(sourceType))
         end
-        d(string.format("|cFF8888Test %s(%d): %s(%d) in %dms on %s(%d). Type %s Result %s|r",
+        Crutch.dbgSpam(string.format("|cFF8888Test %s(%d): %s(%d) in %d on %s (%d). %s %s|r",
             sourceName,
             sourceUnitId,
             GetAbilityName(abilityId),
@@ -313,7 +309,7 @@ end
 
 function Crutch.RegisterTest()
     if (Crutch.registered.test) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Test") end
+    Crutch.dbgOther("Registered Test")
 
     RegisterData(Crutch.testing, "Test", nil, nil, OnCombatEventTest)
 
@@ -322,7 +318,7 @@ end
 
 function Crutch.UnregisterTest()
     if (not Crutch.registered.test) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Test") end
+    Crutch.dbgOther("Unregistered Test")
 
     UnregisterData(Crutch.testing, "Test")
 
@@ -335,32 +331,28 @@ end
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnStackChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, unitName, unitId, abilityId)
-    if (Crutch.savedOptions.debugChatSpam) then
-        local stacks = changeType == EFFECT_RESULT_FADED and 0 or stackCount
-        d(string.format("|ca182ff%s(%s)(%d) has %d stacks of %s(%d)|r",
-            unitName,
-            unitTag,
-            unitId,
-            stacks,
-            GetAbilityName(abilityId),
-            abilityId))
-    end
+    local stacks = changeType == EFFECT_RESULT_FADED and 0 or stackCount
+    Crutch.dbgSpam(string.format("|ca182ff%s(%s)(%d) has %d stacks of %s(%d)|r",
+        unitName,
+        unitTag,
+        unitId,
+        stacks,
+        GetAbilityName(abilityId),
+        abilityId))
 end
 
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnStackCombat(_, result, _, _, _, _, _, _, targetName, _, stackCount, _, _, _, _, targetUnitId, abilityId)
-    if (Crutch.savedOptions.debugChatSpam) then
-        if (result ~= ACTION_RESULT_EFFECT_GAINED and result ~= ACTION_RESULT_EFFECT_FADED) then
-            return
-        end
-        local stacks = result == ACTION_RESULT_EFFECT_FADED and 0 or stackCount
-        d(string.format("|ca182ff%s(%d) has %d stacks of %s(%d)|r",
-            targetName,
-            targetUnitId,
-            stacks,
-            GetAbilityName(abilityId),
-            abilityId))
+    if (result ~= ACTION_RESULT_EFFECT_GAINED and result ~= ACTION_RESULT_EFFECT_FADED) then
+        return
     end
+    local stacks = result == ACTION_RESULT_EFFECT_FADED and 0 or stackCount
+    Crutch.dbgSpam(string.format("|ca182ff%s(%d) has %d stacks of %s(%d)|r",
+        targetName,
+        targetUnitId,
+        stacks,
+        GetAbilityName(abilityId),
+        abilityId))
 end
 
 function Crutch.RegisterStacks()
@@ -402,7 +394,7 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
         if (sourceType) then
             sourceString = (sourceStrings[sourceType] or tostring(sourceType))
         end
-        d(string.format("Others %s(%d): %s(%d) in %dms on %s(%d). Type %s Result %s",
+        Crutch.dbgSpam(string.format("O %s(%d): %s(%d) in %d on %s (%d). %s %s",
             sourceName,
             sourceUnitId,
             GetAbilityName(abilityId),
@@ -416,11 +408,9 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
 
     -- Specific abilities should ignore hitValues that are below certain thresholds
     if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue)) then
-        if (Crutch.savedOptions.debugOther) then
-            d(string.format("|c88FFFF[CO]|r Skipping %s (%d) because of filter",
-                abilityName,
-                abilityId))
-        end
+        Crutch.dbgOther(string.format("Skipping %s (%d) because of filter",
+            abilityName,
+            abilityId))
         return
     end
 
@@ -429,7 +419,7 @@ end
 
 function Crutch.RegisterOthers()
     if (Crutch.registered.others) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Registered Others") end
+    Crutch.dbgOther("Registered Others")
 
     RegisterData(Crutch.others, "OthersBegin", ACTION_RESULT_BEGIN, nil, OnCombatEventOthers)
     RegisterData(Crutch.others, "OthersGained", ACTION_RESULT_EFFECT_GAINED, nil, OnCombatEventOthers)
@@ -440,7 +430,7 @@ end
 
 function Crutch.UnregisterOthers()
     if (not Crutch.registered.others) then return end
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CO]|r Unregistered Others") end
+    Crutch.dbgOther("Unregistered Others")
 
     UnregisterData(Crutch.others, "OthersBegin")
     UnregisterData(Crutch.others, "OthersGained")
@@ -494,7 +484,7 @@ function Crutch.RegisterUnitId(unitId)
             if (sourceType) then
                 sourceString = (sourceStrings[sourceType] or tostring(sourceType))
             end
-            d(string.format("|cFF8888Test %s(%d): %s(%d) in %dms on %s(%d). Type %s Result %s|r",
+            Crutch.dbgSpam(string.format("|cFF8888Test %s(%d): %s(%d) in %d on %s (%d). %s %s|r",
                 sourceName,
                 sourceUnitId,
                 GetAbilityName(abilityId),

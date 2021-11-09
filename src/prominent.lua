@@ -96,15 +96,10 @@ function Crutch.DisplayProminent(abilityId)
     end
 
     if (data.zoneIds ~= nil and not data.zoneIds[GetZoneId(GetUnitZoneIndex("player"))]) then
-        if (Crutch.savedOptions.debugChatSpam) then
-            -- d(string.format("|cCEFA8C[P] Skipped displaying %s because not in zoneIds|r", data.text))
-        end
         return
     end
 
-    if (Crutch.savedOptions.debugChatSpam) then
-        d(string.format("|cFF8888[P] DisplayProminent %d|r", abilityId))
-    end
+    Crutch.dbgSpam(string.format("|cFF8888[P] DisplayProminent %d|r", abilityId))
     if (data.playSound) then
         PlaySound(SOUNDS.DUEL_START)
     end

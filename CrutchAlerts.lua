@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.5.1"
+Crutch.version = "0.5.2"
 
 Crutch.registered = {
     begin = false,
@@ -105,6 +105,9 @@ local defaultOptions = {
 local trialUnregisters = {}
 local trialRegisters = {}
 
+local crutchLFCPFilter = nil
+
+---------------------------------------------------------------------
 function CrutchAlerts:SavePosition()
     local x, y = CrutchAlertsContainer:GetCenter()
     local oX, oY = GuiRoot:GetCenter()
@@ -121,6 +124,24 @@ function CrutchAlerts:SavePosition()
     Crutch.savedOptions.spearsDisplay.y = y - oY
 end
 
+---------------------------------------------------------------------
+function Crutch.dbgOther(text)
+    if (Crutch.savedOptions.debugOther) then
+        d("|c88FFFF[CO]|r " .. tostring(text))
+    end
+end
+
+function Crutch.dbgSpam(text)
+    if (Crutch.savedOptions.debugChatSpam) then
+        if (crutchLFCPFilter) then
+            crutchLFCPFilter:AddMessage(text)
+        else
+            d(text)
+        end
+    end
+end
+
+---------------------------------------------------------------------
 local function OnPlayerActivated(_, initial)
     Crutch.groupMembers = {} -- clear the cache
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
@@ -166,6 +187,11 @@ local function Initialize()
     Crutch.RegisterStacks()
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
     Crutch.InitializeDebug()
+
+    -- Debug chat panel
+    if (LibFilteredChatPanel) then
+        crutchLFCPFilter = LibFilteredChatPanel:CreateFilter(Crutch.name, "/esoui/art/ava/ava_rankicon64_volunteer.dds", {0.7, 0.7, 0.7}, false)
+    end
 
     -- Register for when entering zone
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)

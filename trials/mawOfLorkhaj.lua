@@ -23,9 +23,9 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 -- Register/Unregister
 function Crutch.RegisterMawOfLorkhaj()
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Registered Maw of Lorkhaj") end
+    Crutch.dbgOther("|c88FFFF[CT]|r Registered Maw of Lorkhaj")
 end
 
 function Crutch.UnregisterMawOfLorkhaj()
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Maw of Lorkhaj") end
+    Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Maw of Lorkhaj")
 end

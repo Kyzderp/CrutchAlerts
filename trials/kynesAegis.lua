@@ -11,7 +11,7 @@ end
 ---------------------------------------------------------------------
 -- Register/Unregister
 function Crutch.RegisterKynesAegis()
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Registered Kyne's Aegis") end
+    Crutch.dbgOther("|c88FFFF[CT]|r Registered Kyne's Aegis")
 
     EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "BoogerTimerFade", EVENT_COMBAT_EVENT, OnBoogerTimerFaded)
     EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "BoogerTimerFade", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
@@ -35,5 +35,5 @@ function Crutch.UnregisterKynesAegis()
     Crutch.DisableIcon("Falgravn2ndFloor3")
     Crutch.DisableIcon("Falgravn2ndFloor4")
 
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Kyne's Aegis") end
+    Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Kyne's Aegis")
 end

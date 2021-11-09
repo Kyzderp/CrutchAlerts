@@ -34,9 +34,7 @@ Crutch.DebugShadowWorld = DebugShadowWorld
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnShadowWorldChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
-    if (Crutch.savedOptions.debugOther) then
-        d(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
-    end
+    Crutch.dbgOther(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
 
     if (changeType == EFFECT_RESULT_GAINED) then
         groupShadowWorld[unitTag] = true
@@ -62,7 +60,7 @@ Crutch.IsInShadowWorld = IsInShadowWorld
 local function OnWipe()
     -- Reset
     if (not IsUnitInCombat("player")) then
-        if (Crutch.savedOptions.debugOther) then d("|cFF7777Resetting because wipe?|r") end
+        Crutch.dbgOther("|cFF7777Resetting Cloudrest values|r")
         amuletSmashed = false
         spearsRevealed = 0
         spearsSent = 0
@@ -201,7 +199,7 @@ Crutch.UpdateSpearsDisplay = UpdateSpearsDisplay
 local origOSIUnitErrorCheck = nil
 
 function Crutch.RegisterCloudrest()
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Registered Cloudrest") end
+    Crutch.dbgOther("|c88FFFF[CT]|r Registered Cloudrest")
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
 
     -- Register break amulet
@@ -253,7 +251,7 @@ function Crutch.RegisterCloudrest()
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
-        if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck") end
+        Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
         origOSIUnitErrorCheck = OSI.UnitErrorCheck
         OSI.UnitErrorCheck = function(unitTag)
             local error = origOSIUnitErrorCheck(unitTag)
@@ -281,9 +279,9 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
-        if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck") end
+        Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
     end
 
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Cloudrest") end
+    Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Cloudrest")
 end

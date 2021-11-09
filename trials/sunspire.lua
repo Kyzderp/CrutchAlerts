@@ -18,9 +18,7 @@ local groupTimeBreach = {}
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnTimeBreachChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
-    if (Crutch.savedOptions.debugOther) then
-        d(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
-    end
+    Crutch.dbgOther(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
 
     if (changeType == EFFECT_RESULT_GAINED) then
         groupTimeBreach[unitTag] = true
@@ -74,9 +72,7 @@ local function DisableLokkIcons()
 end
 
 local function UpdateLokkIcons()
-    if (Crutch.savedOptions.debugOther) then
-        d(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
-    end
+    Crutch.dbgOther(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
     if (atLokk and lokkHM and (lokkBeamPhase or not isInCombat)) then
         EnableLokkIcons()
     else
@@ -158,9 +154,7 @@ local function OnYolFly()
     elseif (percent < 0.8) then
         OnYolFly75()
     else
-        if (Crutch.savedOptions.debugOther) then
-            d("|cFF0000[CA] ??????????????????????|r")
-        end
+        Crutch.dbgOther("|cFF0000??????????????????????|r")
     end
 end
 
@@ -244,7 +238,7 @@ local origOSIUnitErrorCheck = nil
 local origQueueMessage = nil
 
 function Crutch.RegisterSunspire()
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Registered Sunspire") end
+    Crutch.dbgOther("|c88FFFF[CT]|r Registered Sunspire")
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
@@ -287,7 +281,7 @@ function Crutch.RegisterSunspire()
 
      -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
-        if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck") end
+        Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
         origOSIUnitErrorCheck = OSI.UnitErrorCheck
         OSI.UnitErrorCheck = function(unitTag)
             local error = origOSIUnitErrorCheck(unitTag)
@@ -319,17 +313,17 @@ function Crutch.UnregisterSunspire()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, OnTimeBreachChanged)
 
     if (OSI and origOSIUnitErrorCheck) then
-        if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck") end
+        Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
     end
 
     if (origQueueMessage) then
-        if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Restoring CSA.QueueMessage") end
+        Crutch.dbgOther("|c88FFFF[CT]|r Restoring CSA.QueueMessage")
         CENTER_SCREEN_ANNOUNCE.QueueMessage = origQueueMessage
     end
 
     DisableLokkIcons()
     DisableYolIcons()
 
-    if (Crutch.savedOptions.debugOther) then d("|c88FFFF[CT]|r Unregistered Sunspire") end
+    Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Sunspire")
 end

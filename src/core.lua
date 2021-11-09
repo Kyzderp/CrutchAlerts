@@ -169,11 +169,10 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         if (alertType == 3) then
             index = FindOrCreateControl()
         else
-            if (Crutch.savedOptions.debugChatSpam
-                and abilityId ~= 114578 -- BRP Portal Spawn
+            if (abilityId ~= 114578 -- BRP Portal Spawn
                 and abilityId ~= 72057 -- MA Portal Spawn
                 ) then
-                d(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
+                Crutch.dbgSpam(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
             end
             index = displaying[sourceUnitId][abilityId].index
         end
