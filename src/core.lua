@@ -200,7 +200,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
 
     -- Set the items
     local labelControl = lineControl:GetNamedChild("Label")
-    labelControl:SetWidth(600)
+    labelControl:SetWidth(1200)
     labelControl:SetText(customColor and ("|c" .. customColor .. textLabel .. "|r") or textLabel)
     labelControl:SetWidth(labelControl:GetTextWidth())
 

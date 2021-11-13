@@ -18,7 +18,9 @@ trials/cloudrest.lua
 trials/sunspire.lua
 trials/kynesAegis.lua
 trials/mawOfLorkhaj.lua
+trials/rockgrove.lua
 
+src/util.lua
 src/messaging.lua
 src/settings.lua
 src/core.lua

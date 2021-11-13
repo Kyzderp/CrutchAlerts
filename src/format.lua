@@ -51,6 +51,7 @@ Crutch.format = {
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
+    [157860] = 1000, -- Noxious Sludge (hide because of sides)
 }
 
 

@@ -96,6 +96,7 @@ local defaultOptions = {
         cr = true,
         ss = true,
         ka = true,
+        rg = true,
         ma = true,
         brp = true,
         vh = true,
@@ -190,7 +191,7 @@ local function Initialize()
 
     -- Debug chat panel
     if (LibFilteredChatPanel) then
-        crutchLFCPFilter = LibFilteredChatPanel:CreateFilter(Crutch.name, "/esoui/art/ava/ava_rankicon64_volunteer.dds", {0.7, 0.7, 0.7}, false)
+        crutchLFCPFilter = LibFilteredChatPanel:CreateFilter(Crutch.name, "/esoui/art/ava/ava_rankicon64_volunteer.dds", {0.7, 0.7, 0.5}, false)
     end
 
     -- Register for when entering zone
@@ -210,7 +211,7 @@ local function Initialize()
         [1121] = Crutch.UnregisterSunspire,  -- Sunspire
         [1196] = Crutch.UnregisterKynesAegis,  -- Kyne's Aegis
         -- [1227] = true,  -- Vateshran Hollows
-        -- [1263] = true,  -- Rockgrove
+        [1263] = Crutch.UnregisterRockgrove,  -- Rockgrove
     }
 
     trialRegisters = {
@@ -227,7 +228,7 @@ local function Initialize()
         [1121] = Crutch.RegisterSunspire,  -- Sunspire
         [1196] = Crutch.RegisterKynesAegis,  -- Kyne's Aegis
         -- [1227] = true,  -- Vateshran Hollows
-        -- [1263] = true,  -- Rockgrove
+        [1263] = Crutch.RegisterRockgrove,  -- Rockgrove
     }
 end
 

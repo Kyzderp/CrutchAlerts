@@ -126,10 +126,10 @@ Crutch.stacks = {
 ---------------------------------------------------------------------
 -- Don't display chat spam in these zones, self testing purposes
 Crutch.noSpamZone = {
-    [1000] = true, -- Asylum Sanctorium
-    [1082] = true, -- Blackrose Prison
+    -- [1000] = true, -- Asylum Sanctorium
+    -- [1082] = true, -- Blackrose Prison
     -- [1121] = true, -- Sunspire
-    [1196] = true, -- Kyne's Aegis
+    -- [1196] = true, -- Kyne's Aegis
 }
 
 

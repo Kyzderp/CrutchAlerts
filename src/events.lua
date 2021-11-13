@@ -133,7 +133,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
 
     -- Specific abilities should ignore hitValues that are below certain thresholds
     if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue)) then
-        Crutch.dbgOther(string.format("Skipping %s (%d) because of filter",
+        Crutch.dbgSpam(string.format("Skipping %s (%d) because of filter",
             abilityName,
             abilityId))
         return
@@ -408,7 +408,7 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
 
     -- Specific abilities should ignore hitValues that are below certain thresholds
     if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue)) then
-        Crutch.dbgOther(string.format("Skipping %s (%d) because of filter",
+        Crutch.dbgSpam(string.format("Skipping %s (%d) because of filter",
             abilityName,
             abilityId))
         return

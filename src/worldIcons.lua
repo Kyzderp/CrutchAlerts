@@ -29,6 +29,12 @@ local data = {
     ["YolHead2"] = {x = 97188, y = 49703, z = 109064, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds", size = 200, color = {1, 1, 1}},
     ["YolHead3"] = {x = 97196, y = 49689, z = 110024, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds", size = 200, color = {1, 1, 1}},
     ["YolHead4"] = {x = 96109, y = 49669, z = 110270, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
+
+    ["Xalvakka2Exit"] = {x = 158843, y = 34494, z = 160757, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
+    ["Xalvakka2Entrance"] = {x = 161078, y = 34500, z = 160616, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
+    ["Xalvakka2Window"] = {x = 160272, y = 34500, z = 158733, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
+
+    ["Xalvakka3Window"] = {x = 161726, y = 38507, z = 159346, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
 }
 
 
