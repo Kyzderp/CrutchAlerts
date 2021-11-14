@@ -22,7 +22,7 @@ local function DebugShadowWorld()
     local result = {}
     for unitTag, inShadowWorld in pairs(groupShadowWorld) do
         if (DoesUnitExist(unitTag)) then
-            table.insert(result, string.format("|cAAAAAA%s |c44FF44%s |r%s - %d", unitTag, GetUnitDisplayName(unitTag), inShadowWorld and "portal" or "up", OSI.UnitErrorCheck(unitTag)))
+            table.insert(result, string.format("|cAAAAAA%s |c44FF44%s |r%s - %d", unitTag, GetUnitDisplayName(unitTag), inShadowWorld and "portal" or "up", (OSI == nil) and "?" or OSI.UnitErrorCheck(unitTag)))
         end
     end
 
