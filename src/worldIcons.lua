@@ -34,6 +34,8 @@ local data = {
     ["Xalvakka2Entrance"] = {x = 161078, y = 34500, z = 160616, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
     ["Xalvakka2Window"] = {x = 160272, y = 34500, z = 158733, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
 
+    ["Xalvakka3Exit"] = {x = 158610, y = 38507, z = 158745, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
+    ["Xalvakka3Entrance"] = {x = 159816, y = 38507, z = 161625, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
     ["Xalvakka3Window"] = {x = 161726, y = 38507, z = 159346, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 200, color = {1, 1, 1}},
 }
 
@@ -50,7 +52,7 @@ function Crutch.EnableIcon(name)
     end
 
     if (icons[name]) then
-        d("|cFF0000Icon already enabled " .. name .. "|r")
+        Crutch.dbgOther("|cFF0000Icon already enabled " .. name .. "|r")
         return
     end
 

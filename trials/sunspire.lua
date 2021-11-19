@@ -322,6 +322,9 @@ function Crutch.UnregisterSunspire()
         CENTER_SCREEN_ANNOUNCE.QueueMessage = origQueueMessage
     end
 
+    atLokk = false
+    lokkHM = false
+    lokkBeamPhase = false
     DisableLokkIcons()
     DisableYolIcons()
 

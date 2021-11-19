@@ -300,4 +300,10 @@ Crutch.others = {
 
 -- The Dread Cellar
     [156509] = true, -- Deluge of Pain (Scorion Broodlord interruptible)
+
+---------------------------------------------------------------------
+-- Overland
+
+-- The Deadlands
+    [154246] = true, -- Bloodstream (Havocrels)
 }
