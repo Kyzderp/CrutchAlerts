@@ -18,6 +18,14 @@ local sourceStrings = {
     [COMBAT_UNIT_TYPE_OTHER] = "O",
 }
 
+local effectResults = {
+    [EFFECT_RESULT_FADED] = "FADED",
+    [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
+    [EFFECT_RESULT_GAINED] = "GAINED",
+    [EFFECT_RESULT_TRANSFER] = "TRANSFER",
+    [EFFECT_RESULT_UPDATED] = "UPDATED",
+}
+
 Crutch.currentAttacks = {}
 Crutch.playerGroupTag = "player"
 
@@ -274,37 +282,55 @@ end
 
 local function OnCombatEventTest(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)
     -- Spammy debug
-    if (Crutch.savedOptions.debugChatSpam) then
-        local resultString = ""
-        if (result) then
-            resultString = (resultStrings[result] or tostring(result))
-        end
+    if (not Crutch.savedOptions.debugChatSpam) then return end
 
-        local sourceString = ""
-        if (sourceType) then
-            sourceString = (sourceStrings[sourceType] or tostring(sourceType))
-        end
-        Crutch.dbgSpam(string.format("|cFF8888Test %s(%d): %s(%d) in %d on %s (%d). %s %s|r",
-            sourceName,
-            sourceUnitId,
-            GetAbilityName(abilityId),
-            abilityId,
-            hitValue,
-            targetName,
-            targetUnitId,
-            sourceString,
-            resultString))
+    local resultString = ""
+    if (result) then
+        resultString = (resultStrings[result] or tostring(result))
     end
+
+    local sourceString = ""
+    if (sourceType) then
+        sourceString = (sourceStrings[sourceType] or tostring(sourceType))
+    end
+    Crutch.dbgSpam(string.format("|cFF8888Test %s(%d): %s(%d) in %d on %s (%d). %s %s|r",
+        sourceName,
+        sourceUnitId,
+        GetAbilityName(abilityId),
+        abilityId,
+        hitValue,
+        targetName,
+        targetUnitId,
+        sourceString,
+        resultString))
 
     if (result == ACTION_RESULT_BEGIN) then
         Crutch.currentAttacks[sourceUnitId] = GetGameTimeMilliseconds()
-        d(string.format("|cFFFF88%s (%d) starting from %d|r", abilityName, abilityId, sourceUnitId))
+        Crutch.dbgSpam(string.format("|cFFFF88%s (%d) starting from %d|r", abilityName, abilityId, sourceUnitId))
     elseif (result == ACTION_RESULT_DAMAGE or result == ACTION_RESULT_DODGED) then
         local beginTime = Crutch.currentAttacks[sourceUnitId]
         if (beginTime) then
-            d(string.format("|cFFFF88%d %s from %d took %d|r", result, abilityName, sourceUnitId, (GetGameTimeMilliseconds() - beginTime)))
+            Crutch.dbgSpam(string.format("|cFFFF88%d %s from %d took %d|r", result, abilityName, sourceUnitId, (GetGameTimeMilliseconds() - beginTime)))
         end
     end
+end
+
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnEffectChangedTest(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId, abilityId, _)
+    -- Spammy debug
+    if (not Crutch.savedOptions.debugChatSpam) then return end
+
+    local resultString = ""
+    if (changeType) then
+        resultString = effectResults[changeType] or tostring(changeType)
+    end
+
+    Crutch.dbgSpam(string.format("|cFF8888TestEffect %s(%d): %s(%d) %s|r",
+        (unitTag ~= nil) and GetUnitDisplayName(unitTag) or "",
+        unitId,
+        GetAbilityName(abilityId),
+        abilityId,
+        resultString))
 end
 
 function Crutch.RegisterTest()
@@ -313,15 +339,24 @@ function Crutch.RegisterTest()
 
     RegisterData(Crutch.testing, "Test", nil, nil, OnCombatEventTest)
 
+    for abilityId, _ in pairs(Crutch.testing) do
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TestEffect" .. tostring(abilityId), EVENT_EFFECT_CHANGED, OnEffectChangedTest)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TestEffect" .. tostring(abilityId), EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, abilityId)
+    end
+
     Crutch.registered.test = true
 end
 
 function Crutch.UnregisterTest()
     if (not Crutch.registered.test) then return end
-    Crutch.dbgOther("Unregistered Test")
 
     UnregisterData(Crutch.testing, "Test")
 
+    for abilityId, _ in pairs(Crutch.testing) do
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TestEffect" .. tostring(abilityId), EVENT_EFFECT_CHANGED)
+    end
+
+    Crutch.dbgOther("Unregistered Test")
     Crutch.registered.test = false
 end
 
