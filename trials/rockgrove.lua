@@ -11,7 +11,8 @@ local sludgeTag1 = nil
 local lastSludge = 0 -- for resetting
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-local function OnNoxiousSludgeGained(_, _, _, _, unitTag)
+local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
+    if (changeType ~= EFFECT_RESULT_GAINED) then return end
     Crutch.dbgSpam(string.format("|c00FF00Noxious Sludge: %s (%s)|r", GetUnitDisplayName(unitTag), unitTag))
 
     local currSeconds = GetGameTimeSeconds()
@@ -59,7 +60,6 @@ function Crutch.RegisterRockgrove()
     -- Register the Noxious Sludge
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, OnNoxiousSludgeGained)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 157860)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_COMBAT_RESULT, EFFECT_RESULT_GAINED)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 end
 
