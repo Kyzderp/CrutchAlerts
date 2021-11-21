@@ -204,8 +204,8 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
     -- Clear icons 7 seconds later
     if (OSI) then
         OSI.SetMechanicIconSize(200)
-        EVENT_MANAGER:RegisterForUpdate(CrutchAlerts.name .. "ClearIcons", 7000, function()
-                EVENT_MANAGER:UnregisterForUpdate(CrutchAlerts.name .. "ClearIcons")
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "ClearIcons", 7000, function()
+                EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "ClearIcons")
                 for _, name in pairs(toClear) do
                     OSI.RemoveMechanicIconForUnit(name)
                 end
@@ -243,9 +243,9 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
 
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 121722)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 121722)
     -- TODO: only show for self option
 
     -- Register for Time Breach effect gained/faded
@@ -255,29 +255,29 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 121216)
 
     -- Register for Lokk flying (Gravechill)
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Gravechill80", EVENT_COMBAT_EVENT, OnLokkFly)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Gravechill80", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122820)
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Gravechill50", EVENT_COMBAT_EVENT, OnLokkFly)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Gravechill50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122821)
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Gravechill20", EVENT_COMBAT_EVENT, OnLokkFly)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Gravechill20", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122822)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT, OnLokkFly)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122820)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT, OnLokkFly)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122821)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT, OnLokkFly)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122822)
 
     -- Register for Lokk beam (Storm Fury)
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "StormFury", EVENT_COMBAT_EVENT, OnLokkBeam)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 115702)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, OnLokkBeam)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 115702)
 
     -- Register for Yol flying (Takeoff)
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Takeoff75", EVENT_COMBAT_EVENT, OnYolFly75)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Takeoff75", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124910)
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Takeoff50", EVENT_COMBAT_EVENT, OnYolFly50)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Takeoff50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124915)
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "Takeoff25", EVENT_COMBAT_EVENT, OnYolFly25)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "Takeoff25", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124916)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT, OnYolFly75)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124910)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT, OnYolFly50)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124915)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT, OnYolFly25)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124916)
 
-    EVENT_MANAGER:RegisterForEvent(CrutchAlerts.name .. "TurnOffAim", EVENT_COMBAT_EVENT, OnYolFly)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-    EVENT_MANAGER:AddFilterForEvent(CrutchAlerts.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 125693)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, OnYolFly)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 125693)
 
      -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
@@ -309,8 +309,20 @@ function Crutch.RegisterSunspire()
 end
 
 function Crutch.UnregisterSunspire()
-    EVENT_MANAGER:UnregisterForEvent(CrutchAlerts.name .. "FocusFireBegin", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, OnTimeBreachChanged)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SunspireCombatState", EVENT_PLAYER_COMBAT_STATE)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")
