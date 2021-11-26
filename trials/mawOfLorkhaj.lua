@@ -53,28 +53,7 @@ local function ResetTwins()
     end
 end
 
----------------------------------------------------------------------
--- General Listeners
----------------------------------------------------------------------
-local isInCombat = false
-local function OnCombatStateChanged(_, inCombat)
-    -- Reset
-    isInCombat = inCombat
-    if (not inCombat) then
-        -- TODO: see if this is necessary
-        -- ResetTwins()
-    else
-    end
-end
-
----------------------------------------------------------------------
--- Register/Unregister
-function Crutch.RegisterMawOfLorkhaj()
-    Crutch.dbgOther("|c88FFFF[CT]|r Registered Maw of Lorkhaj")
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
-
-    -- Twins icons
+local function RegisterTwins()
     if (OSI and OSI.SetMechanicIconForUnit) then
         OSI.SetMechanicIconSize(200)
 
@@ -96,16 +75,47 @@ function Crutch.RegisterMawOfLorkhaj()
     end
 end
 
-function Crutch.UnregisterMawOfLorkhaj()
+local function UnregisterTwins()
     if (OSI and OSI.SetMechanicIconForUnit) then
         OSI.ResetMechanicIconSize()
 
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_EFFECT_CHANGED)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_EFFECT_CHANGED)
     end
+end
+
+---------------------------------------------------------------------
+-- General Listeners
+---------------------------------------------------------------------
+local isInCombat = false
+local function OnCombatStateChanged(_, inCombat)
+    -- Reset
+    isInCombat = inCombat
+    if (not inCombat) then
+        -- TODO: see if this is necessary, it wasn't necessary on kill
+        -- ResetTwins()
+    else
+    end
+end
+
+---------------------------------------------------------------------
+-- Register/Unregister
+function Crutch.RegisterMawOfLorkhaj()
+    Crutch.dbgOther("|c88FFFF[CT]|r Registered Maw of Lorkhaj")
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+
+    -- Twins icons
+    RegisterTwins()
+end
+
+function Crutch.UnregisterMawOfLorkhaj()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE)
+
+    -- Twins icons
+    UnregisterTwins()
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Maw of Lorkhaj")
 end

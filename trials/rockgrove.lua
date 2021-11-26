@@ -36,9 +36,11 @@ local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
     -- We have sludgeTag1, and unitTag is second player
     -- Using the same logic as QRH to sort players
     -- QRH does this by checking who is closer to exit left pool
-    -- Could be problematic because of latency, but oh well
-    if (Crutch.GetSquaredDistance(p1x, p1y, p1z, exitLeftPool.x, exitLeftPool.y, exitLeftPool.z)
-        < Crutch.GetSquaredDistance(p2x, p2y, p2z, exitLeftPool.x, exitLeftPool.y, exitLeftPool.z)) then
+    -- Is problematic because of latency, but oh well
+    local p1Dist = Crutch.GetSquaredDistance(p1x, p1y, p1z, exitLeftPool.x, exitLeftPool.y, exitLeftPool.z)
+    local p2Dist = Crutch.GetSquaredDistance(p2x, p2y, p2z, exitLeftPool.x, exitLeftPool.y, exitLeftPool.z)
+    Crutch.dbgOther(string.format("squared dist between: %f", Crutch.GetSquaredDistance(p1x, p1y, p1z, p2x, p2y, p2z)))
+    if (p1Dist < p2Dist) then
         leftPlayer = sludgeTag1
         rightPlayer = unitTag
     else

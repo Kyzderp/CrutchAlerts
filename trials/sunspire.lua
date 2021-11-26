@@ -222,8 +222,7 @@ local function OnCombatStateChanged(_, inCombat)
     isInCombat = inCombat
     if (not inCombat) then
         groupTimeBreach = {}
-        -- Enable them if wipe TODO: is this needed? the bosses change right?
-        -- EnableLokkIcons()
+        lokkBeamPhase = false
     else
         -- Disable them as combat starts
         DisableLokkIcons()
