@@ -109,7 +109,7 @@ Crutch.testing = {
     -- [116879] = true, -- Alliance Pie (EP?)
     -- [118833] = true, -- Piessive (EP?)
 
-    [40195] = true, -- camo hunter
+    -- [40195] = true, -- camo hunter
 
     -- [163359] = true, -- Aura of Pride (on self when wearing Spaulder)
     -- [163401] = true, -- Aura of Pride (on other person when self wearing Spaulder)
@@ -238,6 +238,7 @@ Crutch.others = {
     [55442] = true, -- Heat Wave
     [52773] = true, -- Ice Comet
     [12459] = true, -- Winter's Reach (Regulated Frost mage)
+    [54411] = true, -- Celestial Blast (Shadowcaster)
 
 --Maelstrom Arena
     --100
@@ -295,6 +296,7 @@ Crutch.others = {
     [  9944] = true, -- Necrotic Burst (Canonreeve Oraneth)
 
 -- The Cauldron
+    [146314] = true, -- Execute (Taskmaster Viccia interruptible "oneshot" but is blockable)
     [146179] = true, -- Galvanic Blow (Baron Zaudrus conal that applies Galvanic Burst)
 
 -- Red Petal Bastion

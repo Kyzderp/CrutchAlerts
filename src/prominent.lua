@@ -31,7 +31,6 @@ Crutch.prominent = {
 -- SS
     [117075] = {text = "SHIELD CHARGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Shield Charge (Ruin of Alkosh)
     [121422] = {text = "CONE", color = {0.5, 1, 1}, slot = 1, playSound = true, preMillis = 1000}, -- Sundering Gale (Eternal Servant)
-    -- [120783] = {text = "HAIL", color = {244/255, 242/255, 232/255}, slot = 1, playSound = true, preMillis = 3000, millis = 2000}, -- Hail of Stone (Vigil Statue)
 
 -- MoL
     [ 73721] = {text = "VOID RUSH", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Void Rush (Dro-m'Athra Shadowguard)
@@ -43,8 +42,9 @@ Crutch.prominent = {
 
 -- RG
     [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
-    -- [149316] = {text = "STOMP", color = {1, 0.7, 0.2}, slot = 1, playSound = true}, -- Emblazoned Stomp (Havocrel Butcher)
-    -- [152414] = {text = "METEOR", color = {1, 0.7, 0.2}, slot = 1, playSound = true}, -- Meteor Call (Havocrel Torchcaster)
+
+-- BRP
+    [111161] = {text = "LAVA WHIP", color = {1, 0.6, 0}, slot = 1, playSound= true}, -- Lava Whip (Imperial Dread Knight)
 
 -------------------
 -- BDV
@@ -56,9 +56,9 @@ Crutch.prominent = {
 
 -------------------
 -- Custom
-    [888001] = {text = "BOOGER", color = {255/255, 0, 0}, slot = 1, playSound = true, millis = 2000}, -- Booger phase ended in Falgravn 2nd floor
+    [888001] = {text = "BOOGER", color = {1, 0, 0}, slot = 1, playSound = true, millis = 2000}, -- Booger phase ended in Falgravn 2nd floor
+    [888002] = {text = "BAD", color = {1, 0, 0}, slot = 2, playSound = false, millis = 1000}, -- Called from damageTaken.lua
 }
--- /script CrutchAlerts.DisplayProminent(117075)
 
 Crutch.prominentDisplaying = {} -- {[12459] = 1,}
 

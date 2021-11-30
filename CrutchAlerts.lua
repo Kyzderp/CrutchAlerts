@@ -182,6 +182,7 @@ local function Initialize()
 
     -- Init general
     Crutch.InitializeDamageable()
+    Crutch.InitializeDamageTaken()
     Crutch.RegisterInterrupts()
     Crutch.RegisterTest()
     Crutch.RegisterOthers()
