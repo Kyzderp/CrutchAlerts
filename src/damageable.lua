@@ -122,8 +122,8 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
     end
 
     local name = zo_strformat("<<1>>", fromName)
-    if (Crutch.savedOptions.showSubtitles) then
-        d(string.format("|c88FFFF%s: |cAAAAAA%s", name, text))
+    if (Crutch.savedOptions.showSubtitles and not Crutch.savedOptions.subtitlesIgnoredZones[GetZoneId(GetUnitZoneIndex("player"))]) then
+        CHAT_SYSTEM:AddMessage(string.format("|c88FFFF%s: |cAAAAAA%s", name, text))
     end
 
     -- Dialogue NPC matches

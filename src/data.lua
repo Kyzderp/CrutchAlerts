@@ -239,12 +239,14 @@ Crutch.others = {
     [52773] = true, -- Ice Comet
     [12459] = true, -- Winter's Reach (Regulated Frost mage)
     [54411] = true, -- Celestial Blast (Shadowcaster)
+    [91937] = true, -- Burst of Embers (Daedroth)
 
 --Maelstrom Arena
     --100
     [72057] = true, -- Portal Spawn
     [68011] = true, -- Web Up Artifact
     [70723] = true, -- Rupturing Fog
+    [72446] = true, -- Smash Iceberg
 
 --Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
@@ -262,7 +264,7 @@ Crutch.others = {
 
 -- Rockgrove
     [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)
-    [157466] = true, -- Soul Remnant (Sul-Xan Soulweaver)
+    -- [157466] = true, -- Soul Remnant (Sul-Xan Soulweaver) too spammy
 
     [149316] = true, -- Emblazoned Stomp (Havocrel Butcher)
 

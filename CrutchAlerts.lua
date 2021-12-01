@@ -67,6 +67,7 @@ local defaultOptions = {
     debugOther = false,
     debugUi = false,
     showSubtitles = true,
+    subtitlesIgnoredZones = {},
     general = {
         showBegin = true,
             beginHideSelf = false,

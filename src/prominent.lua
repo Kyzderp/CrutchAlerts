@@ -11,7 +11,7 @@ local postMillis = 200
 -- Data for prominent display of notifications
 Crutch.prominent = {
 -- Screw these
-    [ 12459] = {text = "WINTER'S REACH", color = {0.5, 1, 1}, slot = 1,
+    [ 12459] = {text = "WINTER'S REACH", color = {0.5, 1, 1}, slot = 1, preMillis = 1500,
         zoneIds = {
             [1227] = true, -- Vateshran Hollows
             [ 635] = true, -- Dragonstar Arena
@@ -44,7 +44,7 @@ Crutch.prominent = {
     [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
 
 -- BRP
-    [111161] = {text = "LAVA WHIP", color = {1, 0.6, 0}, slot = 1, playSound= true}, -- Lava Whip (Imperial Dread Knight)
+    [111161] = {text = "LAVA WHIP", color = {1, 0.6, 0}, slot = 1, playSound = true}, -- Lava Whip (Imperial Dread Knight)
 
 -------------------
 -- BDV
