@@ -217,17 +217,18 @@ Crutch.others = {
     [56324] = true, -- Spear (Mantikora)
     [53786] = true, -- Poison Mist
 
---Hel Ra
-    [47975]=true,[48267]=true,--Shield Throw
+--Hel Ra Citadel
+    [47975] = true, -- Shield Throw
+    [48267] = true, -- Shield Throw
 
 --Aetherian Archive
     --300
-    [47898]=true,--Lightning Storm (Storm Atronach)
-    [48240]=true,--Boulder Storm (Stone Atronach)
-    [49583]=true,--Impending Storm (Storm Atronach)
+    [47898] = true, -- Lightning Storm (Storm Atronach)
+    [49583] = true, -- Impending Storm (Storm Atronach)
+    [48240] = true, -- Boulder Storm (Stone Atronach)
 
     --200
-    [49506]=true,[49508]=true,[49669]=true,--Conjure Axe (Celestial Mage)
+    [49506] = true, [49508] = true, [49669] = true, --Conjure Axe (Celestial Mage)
 
     --100
     [49098]=true,--Big Quake (Stone Atronach)

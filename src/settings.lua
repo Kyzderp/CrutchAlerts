@@ -1,6 +1,16 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
+local function GetNoSubtitlesZoneIdsAndNames()
+    local ids = {}
+    local names = {}
+    for zoneId, _ in pairs(Crutch.savedOptions.subtitlesIgnoredZones) do
+        table.insert(ids, zoneId)
+        table.insert(names, string.format("%s (%d)", GetZoneNameById(zoneId), zoneId))
+    end
+    return ids, names
+end
+
 function Crutch:CreateSettingsMenu()
     local LAM = LibAddonMenu2
     local panelData = {
@@ -11,44 +21,6 @@ function Crutch:CreateSettingsMenu()
         registerForRefresh = true,
         registerForDefaults = true,
     }
-
--- TODO: extend hitvalue by X
---[[
-local defaultOptions = {
-    display = {
-        x = 0,
-        y = GuiRoot:GetHeight() / 3,
-    },
-    debugLine = false,
-    debugChatSpam = false,
-    debugOther = false,
-    general = {
-        showBegin = true,
-            beginHideSelf = false,
-        showGained = true,
-            gainedHideSelf = false,
-        hitValueBelowThreshold = 75,
-            hitValueUseWhitelist = true,
-        hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
-        useNonNoneBlacklist = true,
-        useNoneBlacklist = true,
-    },
-    instance = {
-        hrc = true,
-        aa = true,
-        so = true,
-        mol = true,
-        as = true,
-        hof = true,
-        cr = true,
-        ss = true,
-        ka = true,
-        ma = true,
-        brp = true,
-        vh = true,
-    },
-}
---]]
 
     local optionsData = {
         {
@@ -203,6 +175,48 @@ local defaultOptions = {
                         Crutch.savedOptions.showSubtitles = value
                     end,
                     width = "full",
+                },
+                {
+                    type = "dropdown",
+                    name = "No-subtitles zones",
+                    tooltip = "Subtitles will not be displayed in chat while in these zones. Select one from this dropdown to remove it",
+                    choices = {},
+                    choicesValues = {},
+                    getFunc = function()
+                        local ids, names = GetNoSubtitlesZoneIdsAndNames()
+                        CrutchAlerts_NoSubtitlesZones:UpdateChoices(names, ids)
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.subtitlesIgnoredZones[value] = nil
+                        CHAT_SYSTEM:AddMessage(string.format("Removed %s(%d) from subtitles ignored zones.", GetZoneNameById(value), value))
+                        local ids, names = GetNoSubtitlesZoneIdsAndNames()
+                        CrutchAlerts_NoSubtitlesZones:UpdateChoices(names, ids)
+                    end,
+                    width = "full",
+                    reference = "CrutchAlerts_NoSubtitlesZones",
+                    disabled = function() return not Crutch.savedOptions.showSubtitles end,
+                },
+                {
+                    type = "editbox",
+                    name = "Add no-subtitles zone ID",
+                    tooltip = "Enter a zone ID to add to the ignore list",
+                    getFunc = function()
+                        return ""
+                    end,
+                    setFunc = function(value)
+                        local zoneId = tonumber(value)
+                        local zoneName = GetZoneNameById(zoneId)
+                        if (not zoneId or not zoneName or zoneName == "") then
+                            CHAT_SYSTEM:AddMessage(value .. " is not a valid zone ID!")
+                            return
+                        end
+                        Crutch.savedOptions.subtitlesIgnoredZones[zoneId] = true
+                        CHAT_SYSTEM:AddMessage(string.format("Added %s(%d) to subtitles ignored zones.", zoneName, zoneId))
+                    end,
+                    isMultiline = false,
+                    isExtraWide = false,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.showSubtitles end,
                 },
             }
         },
