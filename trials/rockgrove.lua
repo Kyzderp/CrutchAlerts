@@ -30,8 +30,15 @@ local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
     end
 
     local leftPlayer, rightPlayer
+
+    -- TODO: update this if QRH updates. For now, QRH has a bug that doesn't actually check
+    -- the positions, so we'll just go by order of events received
+    leftPlayer = sludgeTag1
+    rightPlayer = unitTag
+--[[
     local _, p1x, p1y, p1z = GetUnitWorldPosition(sludgeTag1)
     local _, p2x, p2y, p2z = GetUnitWorldPosition(unitTag)
+    Crutch.dbgOther(GetUnitDisplayName(sludgeTag1), GetUnitDisplayName(unitTag))
 
     -- We have sludgeTag1, and unitTag is second player
     -- Using the same logic as QRH to sort players
@@ -47,7 +54,10 @@ local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
         leftPlayer = unitTag
         rightPlayer = sludgeTag1
     end
-
+    Crutch.dbgOther(string.format("%f", p1Dist))
+    Crutch.dbgOther(string.format("%f", p2Dist))
+]]
+    Crutch.dbgOther(GetUnitDisplayName(leftPlayer) .. "< >" .. GetUnitDisplayName(rightPlayer))
     local label = string.format("|c00FF00%s |c00d60b|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |c00FF00Noxious Sludge|r |c00d60b|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |c00FF00%s|r", GetUnitDisplayName(leftPlayer), GetUnitDisplayName(rightPlayer))
     Crutch.DisplayNotification(157860, label, 5000, 0, 0, 0, 0, true)
 end
