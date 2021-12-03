@@ -411,6 +411,23 @@ function Crutch:CreateSettingsMenu()
                 },
             }
         },
+        {
+            type = "submenu",
+            name = "Dragonstar Arena",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Alert for NORMAL damage taken",
+                    tooltip = "Displays annoying text and rings alarm bells if you start taking damage to certain abilities in NORMAL Dragonstar Arena. This is to facilitate afk farming, notifying you if manual intervention is needed. Included abilities: Nature's Blessing",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.dragonstar.normalDamageTaken end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dragonstar.normalDamageTaken = value
+                    end,
+                    width = "full",
+                },
+            }
+        },
     }
 
     CrutchAlerts.addonPanel = LAM:RegisterAddonPanel("CrutchAlertsOptions", panelData)

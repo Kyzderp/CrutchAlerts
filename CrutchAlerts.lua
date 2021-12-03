@@ -87,9 +87,6 @@ local defaultOptions = {
         showLokkIcons = true,
         showYolIcons = true,
     },
-    dragonstar = {
-        normalDamageTaken = false,
-    },
     maelstrom = {
         normalDamageTaken = false,
         showRounds = true,
@@ -100,8 +97,11 @@ local defaultOptions = {
         stage5Boss = "Equip boss setup!",
         stage6Boss = "Equip boss setup!",
         stage7Boss = "Equip boss setup!",
-        stage8Boss = "Stuck in combat :(",
+        stage8Boss = "",
         stage9Boss = "Equip boss setup!",
+    },
+    dragonstar = {
+        normalDamageTaken = false,
     },
     instance = {
         hrc = true,
