@@ -398,6 +398,17 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Alert for NORMAL damage taken",
+                    tooltip = "Displays annoying text and rings alarm bells if you start taking damage to certain abilities in NORMAL Maelstrom Arena. This is to facilitate afk farming, notifying you if manual intervention is needed. Included abilities: Frigid Waters, Infectious Bite, Volatile Poison, Standard of Might, Molten Destruction",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.normalDamageTaken end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.normalDamageTaken = value
+                    end,
+                    width = "full",
+                },
             }
         },
     }

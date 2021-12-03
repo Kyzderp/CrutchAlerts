@@ -8,29 +8,29 @@ local damageTakenData = {
 -- Dragonstar Arena
     [83468] = { -- Nature's Blessing (AOE left by beasts)
         prominent = true, sound = SOUNDS.DUEL_START,
-        preqFunc = function() return GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
+        preqFunc = function() return Crutch.savedOptions.dragonstar.normalDamageTaken and GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
     },
 
 -- Maelstrom Arena
     [72525] = { -- Frigid Waters
         prominent = true, sound = SOUNDS.DUEL_START,
-        preqFunc = function() return GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
+        preqFunc = function() return Crutch.savedOptions.maelstrom.normalDamageTaken and GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
     },
     [70822] = { -- Infectious Bite
         prominent = true, sound = SOUNDS.DUEL_START,
-        preqFunc = function() return GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
+        preqFunc = function() return Crutch.savedOptions.maelstrom.normalDamageTaken and GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
     },
     [69855] = { -- Volatile Poison
         prominent = true, sound = SOUNDS.DUEL_START, isDot = true,
-        preqFunc = function() return GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
+        preqFunc = function() return Crutch.savedOptions.maelstrom.normalDamageTaken and GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
     },
     [71862] = { -- Standard of Might
         prominent = true, sound = SOUNDS.DUEL_START,
-        preqFunc = function() return GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
+        preqFunc = function() return Crutch.savedOptions.maelstrom.normalDamageTaken and GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
     },
     [70765] = { -- Molten Destruction
         prominent = true, sound = SOUNDS.DUEL_START,
-        preqFunc = function() return GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
+        preqFunc = function() return Crutch.savedOptions.maelstrom.normalDamageTaken and GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN end,
     },
 }
 

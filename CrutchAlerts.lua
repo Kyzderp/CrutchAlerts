@@ -87,7 +87,11 @@ local defaultOptions = {
         showLokkIcons = true,
         showYolIcons = true,
     },
+    dragonstar = {
+        normalDamageTaken = false,
+    },
     maelstrom = {
+        normalDamageTaken = false,
         showRounds = true,
         stage1Boss = "Equip boss setup!",
         stage2Boss = "Equip boss setup!",
