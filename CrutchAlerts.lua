@@ -87,6 +87,18 @@ local defaultOptions = {
         showLokkIcons = true,
         showYolIcons = true,
     },
+    maelstrom = {
+        showRounds = true,
+        stage1Boss = "Equip boss setup!",
+        stage2Boss = "Equip boss setup!",
+        stage3Boss = "Equip boss setup!",
+        stage4Boss = "Equip boss setup!",
+        stage5Boss = "Equip boss setup!",
+        stage6Boss = "Equip boss setup!",
+        stage7Boss = "Equip boss setup!",
+        stage8Boss = "Stuck in combat :(",
+        stage9Boss = "Equip boss setup!",
+    },
     instance = {
         hrc = true,
         aa = true,
@@ -103,6 +115,7 @@ local defaultOptions = {
         vh = true,
     },
 }
+Crutch.defaultOptions = defaultOptions
 
 local trialUnregisters = {}
 local trialRegisters = {}
@@ -204,7 +217,7 @@ local function Initialize()
         -- [636 ] = true,  -- Hel Ra Citadel
         -- [638 ] = true,  -- Aetherian Archive
         -- [639 ] = true,  -- Sanctum Ophidia
-        -- [677 ] = true,  -- Maelstrom Arena
+        [677 ] = Crutch.UnregisterMaelstromArena,  -- Maelstrom Arena
         [725 ] = Crutch.UnregisterMawOfLorkhaj,  -- Maw of Lorkhaj
         -- [975 ] = true,  -- Halls of Fabrication
         -- [1000] = true,  -- Asylum Sanctorium
@@ -221,7 +234,7 @@ local function Initialize()
         -- [636 ] = true,  -- Hel Ra Citadel
         -- [638 ] = true,  -- Aetherian Archive
         -- [639 ] = true,  -- Sanctum Ophidia
-        -- [677 ] = true,  -- Maelstrom Arena
+        [677 ] = Crutch.RegisterMaelstromArena,  -- Maelstrom Arena
         [725 ] = Crutch.RegisterMawOfLorkhaj,  -- Maw of Lorkhaj
         -- [975 ] = true,  -- Halls of Fabrication
         -- [1000] = true,  -- Asylum Sanctorium

@@ -284,6 +284,122 @@ function Crutch:CreateSettingsMenu()
                 },
             }
         },
+        {
+            type = "submenu",
+            name = "Maelstrom Arena",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show the current round",
+                    tooltip = "Displays a message in chat when a round starts. Also shows a message for final round soonTM, 15 seconds after the start of the second-to-last round",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.showRounds end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.showRounds = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 1 extra text",
+                    tooltip = "Extra text to display alongside the stage 1 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage1Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage1Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage1Boss = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 2 extra text",
+                    tooltip = "Extra text to display alongside the stage 2 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage2Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage2Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage2Boss = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 3 extra text",
+                    tooltip = "Extra text to display alongside the stage 3 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage3Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage3Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage3Boss = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 4 extra text",
+                    tooltip = "Extra text to display alongside the stage 4 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage4Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage4Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage4Boss = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 5 extra text",
+                    tooltip = "Extra text to display alongside the stage 5 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage5Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage5Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage5Boss = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 6 extra text",
+                    tooltip = "Extra text to display alongside the stage 6 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage6Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage6Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage6Boss = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 7 extra text",
+                    tooltip = "Extra text to display alongside the stage 7 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage7Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage7Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage7Boss = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 8 extra text",
+                    tooltip = "Extra text to display alongside the stage 8 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage8Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage8Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage8Boss = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Stage 9 extra text",
+                    tooltip = "Extra text to display alongside the stage 9 final round soonTM alert",
+                    default = Crutch.defaultOptions.maelstrom.stage9Boss,
+                    getFunc = function() return Crutch.savedOptions.maelstrom.stage9Boss end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.maelstrom.stage9Boss = value
+                    end,
+                    width = "full",
+                },
+            }
+        },
     }
 
     CrutchAlerts.addonPanel = LAM:RegisterAddonPanel("CrutchAlertsOptions", panelData)

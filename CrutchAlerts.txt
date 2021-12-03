@@ -19,6 +19,7 @@ trials/sunspire.lua
 trials/kynesAegis.lua
 trials/mawOfLorkhaj.lua
 trials/rockgrove.lua
+trials/maelstromArena.lua
 
 src/util.lua
 src/messaging.lua
