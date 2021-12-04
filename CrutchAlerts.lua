@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.7.0"
+Crutch.version = "0.8.0"
 
 Crutch.registered = {
     begin = false,
@@ -161,7 +161,21 @@ function Crutch.dbgSpam(text)
 end
 
 ---------------------------------------------------------------------
+-- Zone change
+---------------------------------------------------------------------
+local function GetGroupMembersSize()
+    local groupMembersSize = 0
+    for _, _ in pairs(Crutch.groupMembers) do
+        groupMembersSize = groupMembersSize + 1
+    end
+    return groupMembersSize
+end
+Crutch.GetGroupMembersSize = GetGroupMembersSize
+-- /script d(CrutchAlerts.GetGroupMembersSize())
+
 local function OnPlayerActivated(_, initial)
+    Crutch.dbgSpam("groupMembersSize: " .. tostring(GetGroupMembersSize()))
+
     Crutch.groupMembers = {} -- clear the cache
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
