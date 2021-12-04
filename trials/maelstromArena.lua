@@ -21,7 +21,7 @@ local stagesData = {
         stage = 4,
         numRounds = 4,
     },
-    [989] = { -- Rink of Frozen Blood
+    [976] = { -- Rink of Frozen Blood
         stage = 5,
         numRounds = 5,
     },
