@@ -27,6 +27,9 @@ Crutch.blacklist = {
     [ 32986] = true, -- Mist Form
     [ 38965] = true, -- Blood Mist
     [ 38963] = true, -- Elusive Mist
+    [103492] = true, -- Meditate
+    [103652] = true, -- Deep Thoughts
+    [103665] = true, -- Introspection
 
 -- Other player-sourced
     [107579] = true, -- Mend Wounds

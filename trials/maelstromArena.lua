@@ -64,6 +64,11 @@ local function OnCSA(_, title, description)
                 local extraText = Crutch.savedOptions.maelstrom["stage" .. stage .. "Boss"]
                 CHAT_SYSTEM:AddMessage(string.format("|c3bdb5e[Crutch Alerts] |cAAAAAAFinal round soonTM!%s|r",
                     (extraText ~= "") and (" |cFF00FF" .. extraText) or ""))
+
+                -- Behold my stuff
+                if (stage == 9 and GetUnitDisplayName("player") == "@Kyzeragon") then
+                    d("|t24:24:esoui/art/icons/ability_sorcerer_daedric_minefield.dds|t |t24:24:esoui/art/icons/ability_sorcerer_lightning_flood.dds|t |t24:24:esoui/art/icons/ability_ava_001_b.dds|t |t24:24:esoui/art/icons/ability_destructionstaff_013_b.dds|t |t24:24:esoui/art/icons/ability_destructionstaff_004_a.dds|t STUN")
+                end
             end, 15000)
         end
     end
@@ -75,11 +80,11 @@ end
 function Crutch.RegisterMaelstromArena()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MAAnnouncement", EVENT_DISPLAY_ANNOUNCEMENT, OnCSA)
 
-    Crutch.dbgOther("|c88FFFF[CT]|r Registered Maelstrom Arena")
+    Crutch.dbgSpam("|c88FFFF[CT]|r Registered Maelstrom Arena")
 end
 
 function Crutch.UnregisterMaelstromArena()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MAAnnouncement", EVENT_DISPLAY_ANNOUNCEMENT)
 
-    Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Maelstrom Arena")
+    Crutch.dbgSpam("|c88FFFF[CT]|r Unregistered Maelstrom Arena")
 end
