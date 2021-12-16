@@ -2,7 +2,7 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 ---------------------------------------------------------------------
-local exitLeftPool = {x = 91973, y = 35751, z = 81764}  -- from QRH so that we use the same sorting
+local EXIT_LEFT_POOL = {x = 91973, y = 35751, z = 81764}  -- from QRH so that we use the same sorting
 
 ---------------------------------------------------------------------
 -- OAXILTSO: NOXIOUS SLUDGE SIDES
@@ -14,6 +14,8 @@ local lastSludge = 0 -- for resetting
 local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
     if (changeType ~= EFFECT_RESULT_GAINED) then return end
     Crutch.dbgSpam(string.format("|c00FF00Noxious Sludge: %s (%s)|r", GetUnitDisplayName(unitTag), unitTag))
+
+    if (not Crutch.savedOptions.rockgrove.sludgeSides) then return end
 
     local currSeconds = GetGameTimeSeconds()
     if (currSeconds - lastSludge > 10) then
@@ -35,18 +37,16 @@ local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
     -- the positions, so we'll just go by order of events received
     leftPlayer = sludgeTag1
     rightPlayer = unitTag
---[[
     local _, p1x, p1y, p1z = GetUnitWorldPosition(sludgeTag1)
     local _, p2x, p2y, p2z = GetUnitWorldPosition(unitTag)
-    Crutch.dbgOther(GetUnitDisplayName(sludgeTag1), GetUnitDisplayName(unitTag))
 
     -- We have sludgeTag1, and unitTag is second player
     -- Using the same logic as QRH to sort players
     -- QRH does this by checking who is closer to exit left pool
     -- Is problematic because of latency, but oh well
-    local p1Dist = Crutch.GetSquaredDistance(p1x, p1y, p1z, exitLeftPool.x, exitLeftPool.y, exitLeftPool.z)
-    local p2Dist = Crutch.GetSquaredDistance(p2x, p2y, p2z, exitLeftPool.x, exitLeftPool.y, exitLeftPool.z)
-    Crutch.dbgOther(string.format("squared dist between: %f", Crutch.GetSquaredDistance(p1x, p1y, p1z, p2x, p2y, p2z)))
+    local p1Dist = Crutch.GetSquaredDistance(p1x, p1y, p1z, EXIT_LEFT_POOL.x, EXIT_LEFT_POOL.y, EXIT_LEFT_POOL.z)
+    local p2Dist = Crutch.GetSquaredDistance(p2x, p2y, p2z, EXIT_LEFT_POOL.x, EXIT_LEFT_POOL.y, EXIT_LEFT_POOL.z)
+    -- Crutch.dbgOther(string.format("squared dist between: %f", Crutch.GetSquaredDistance(p1x, p1y, p1z, p2x, p2y, p2z)))
     if (p1Dist < p2Dist) then
         leftPlayer = sludgeTag1
         rightPlayer = unitTag
@@ -54,9 +54,8 @@ local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
         leftPlayer = unitTag
         rightPlayer = sludgeTag1
     end
-    Crutch.dbgOther(string.format("%f", p1Dist))
-    Crutch.dbgOther(string.format("%f", p2Dist))
-]]
+    -- Crutch.dbgOther(string.format("%f", p1Dist))
+    -- Crutch.dbgOther(string.format("%f", p2Dist))
     Crutch.dbgOther(GetUnitDisplayName(leftPlayer) .. "< >" .. GetUnitDisplayName(rightPlayer))
     local label = string.format("|c00FF00%s |c00d60b|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |c00FF00Noxious Sludge|r |c00d60b|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |c00FF00%s|r", GetUnitDisplayName(leftPlayer), GetUnitDisplayName(rightPlayer))
     Crutch.DisplayNotification(157860, label, 5000, 0, 0, 0, 0, true)

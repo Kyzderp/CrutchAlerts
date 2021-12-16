@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.8.0"
+Crutch.version = "0.8.1"
 
 Crutch.registered = {
     begin = false,
@@ -82,6 +82,9 @@ local defaultOptions = {
     cloudrest = {
         showSpears = true,
         spearsSound = true,
+    },
+    rockgrove = {
+        sludgeSides = true,
     },
     sunspire = {
         showLokkIcons = true,

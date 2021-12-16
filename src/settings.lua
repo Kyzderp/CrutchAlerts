@@ -258,6 +258,23 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Rockgrove",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show Noxious Sludge sides",
+                    tooltip = "Displays who should go left and who should go right for Noxious Sludge, matching Qcell's Rockgrove Helper",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.sludgeSides end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.sludgeSides = value
+                    end,
+                    width = "full",
+                },
+            }
+        },
+        {
+            type = "submenu",
             name = "Sunspire",
             controls = {
                 {
