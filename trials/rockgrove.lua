@@ -33,8 +33,8 @@ local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
 
     local leftPlayer, rightPlayer
 
-    -- TODO: update this if QRH updates. For now, QRH has a bug that doesn't actually check
-    -- the positions, so we'll just go by order of events received
+    -- TODO: update this if QRH updates. QRH currently sends whoever is closer to
+    -- exit left pool to the left
     leftPlayer = sludgeTag1
     rightPlayer = unitTag
     local _, p1x, p1y, p1z = GetUnitWorldPosition(sludgeTag1)
@@ -63,6 +63,7 @@ end
 
 ---------------------------------------------------------------------
 -- Register/Unregister
+---------------------------------------------------------------------
 local origOSIUnitErrorCheck = nil
 
 function Crutch.RegisterRockgrove()

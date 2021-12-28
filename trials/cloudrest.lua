@@ -195,8 +195,29 @@ end
 Crutch.UpdateSpearsDisplay = UpdateSpearsDisplay
 
 ---------------------------------------------------------------------
+-- Shade
+---------------------------------------------------------------------
+local groupShadowOfTheFallen = {}
+
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnShadowOfTheFallenChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
+    Crutch.dbgOther(string.format("|cFF00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
+
+    if (changeType == EFFECT_RESULT_GAINED) then
+        groupShadowOfTheFallen[unitTag] = true
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        groupShadowOfTheFallen[unitTag] = false
+    end
+end
+
+local function IsShadeUp(unitTag)
+    return groupShadowOfTheFallen[unitTag] == true
+end
+
+---------------------------------------------------------------------
 -- Register/Unregister
 local origOSIUnitErrorCheck = nil
+local origOSIGetIconDataForPlayer = nil
 
 function Crutch.RegisterCloudrest()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Cloudrest")
@@ -240,6 +261,12 @@ function Crutch.RegisterCloudrest()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 108045)
 
+    -- Register for Shadow of the Fallen effect gained/faded
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, OnShadowOfTheFallenChanged)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 102271)
+
     -- Register summoning portal
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, function()
         spearsRevealed = 0
@@ -251,7 +278,7 @@ function Crutch.RegisterCloudrest()
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
-        Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
+        Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
         origOSIUnitErrorCheck = OSI.UnitErrorCheck
         OSI.UnitErrorCheck = function(unitTag)
             local error = origOSIUnitErrorCheck(unitTag)
@@ -263,6 +290,19 @@ function Crutch.RegisterCloudrest()
             else
                 return 8
             end
+        end
+
+        -- Override the dead icon to be purple with shade up
+        origOSIGetIconDataForPlayer = OSI.GetIconDataForPlayer
+        OSI.GetIconDataForPlayer = function(displayName, config, unitTag)
+            local icon, color, size, anim, offset = origOSIGetIconDataForPlayer(displayName, config, unitTag)
+
+            local isDead = unitTag and IsUnitDead(unitTag) or false
+            if (config.dead and isDead and IsShadeUp(unitTag)) then
+                color = {0.8, 0.2, 1} -- Puuuuurpl
+            end
+
+            return icon, color, size, anim, offset
         end
     end
 end
@@ -279,8 +319,9 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
-        Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")
+        Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
+        OSI.GetIconDataForPlayer = origOSIGetIconDataForPlayer
     end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Cloudrest")
