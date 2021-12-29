@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.8.2"
+Crutch.version = "0.9.0"
 
 Crutch.registered = {
     begin = false,
@@ -82,6 +82,7 @@ local defaultOptions = {
     cloudrest = {
         showSpears = true,
         spearsSound = true,
+        deathIconColor = true,
     },
     rockgrove = {
         sludgeSides = true,
@@ -246,7 +247,7 @@ local function Initialize()
         -- [1082] = true,  -- Blackrose Prison
         [1121] = Crutch.UnregisterSunspire,  -- Sunspire
         [1196] = Crutch.UnregisterKynesAegis,  -- Kyne's Aegis
-        [1227] = Crutch.UnregisterVateshran,  -- Vateshran Hollows
+        -- [1227] = Crutch.UnregisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.UnregisterRockgrove,  -- Rockgrove
     }
 
@@ -263,7 +264,7 @@ local function Initialize()
         -- [1082] = true,  -- Blackrose Prison
         [1121] = Crutch.RegisterSunspire,  -- Sunspire
         [1196] = Crutch.RegisterKynesAegis,  -- Kyne's Aegis
-        [1227] = Crutch.RegisterVateshran,  -- Vateshran Hollows
+        -- [1227] = Crutch.RegisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.RegisterRockgrove,  -- Rockgrove
     }
 end

@@ -254,6 +254,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Color Ody death icon",
+                    tooltip = "Colors the OdySupportIcons death icon purple if a player's shade is still up. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.deathIconColor end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.deathIconColor = value
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
             }
         },
         {
@@ -287,6 +299,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.sunspire.showLokkIcons = value
                     end,
                     width = "full",
+                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",
@@ -298,6 +311,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.sunspire.showYolIcons = value
                     end,
                     width = "full",
+                    disabled = function() return OSI == nil end,
                 },
             }
         },

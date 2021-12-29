@@ -298,7 +298,7 @@ function Crutch.RegisterCloudrest()
             local icon, color, size, anim, offset = origOSIGetIconDataForPlayer(displayName, config, unitTag)
 
             local isDead = unitTag and IsUnitDead(unitTag) or false
-            if (config.dead and isDead and IsShadeUp(unitTag)) then
+            if (config.dead and isDead and IsShadeUp(unitTag) and Crutch.savedOptions.cloudrest.deathIconColor) then
                 color = {0.8, 0.2, 1} -- Puuuuurpl
             end
 
