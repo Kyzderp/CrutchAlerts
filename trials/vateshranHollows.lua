@@ -237,22 +237,22 @@ local function OnScoreBatch()
                 local missedChampion = 0
 
                 while (not baselineData.boss) do
-                    missedNormal = missedNormal + baselineData.normal
-                    missedBannermen = missedBannermen + baselineData.bannermen
-                    missedChampion = missedChampion + baselineData.champion
+                    missedNormal = missedNormal + (baselineData.normal or 0)
+                    missedBannermen = missedBannermen + (baselineData.bannermen or 0)
+                    missedChampion = missedChampion + (baselineData.champion or 0)
                     gateIndex = gateIndex + 1
                     baselineData = ADDS[wing][gateIndex]
                 end
 
                 local message = ""
                 if (missedNormal ~= 0) then
-                    message = string.format("%s; |cFF5555%d|r normal adds (%s)", message, missedNormal)
+                    message = string.format("%s; |cFF5555%d|r normal adds", message, missedNormal)
                 end
                 if (missedBannermen ~= 0) then
-                    message = string.format("%s; |cFF5555%d|r bannermen (%s)", message, missedBannermen)
+                    message = string.format("%s; |cFF5555%d|r bannermen", message, missedBannermen)
                 end
                 if (missedChampion ~= 0) then
-                    message = string.format("%s; |cFF5555%d|r champions (%s)", message, missedChampion)
+                    message = string.format("%s; |cFF5555%d|r champions", message, missedChampion)
                 end
                 if (message ~= "") then
                     CHAT_SYSTEM:AddMessage("Missed adds (lots of skipping)" .. message)

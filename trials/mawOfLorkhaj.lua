@@ -25,21 +25,21 @@ local currentlyDisplayingAbility = {}
 local aspectIcons = {
     [59639] = "odysupporticons/icons/squares/squaretwo_blue.dds", -- Shadow Aspect
     [59640] = "odysupporticons/icons/squares/squaretwo_yellow.dds", -- Lunar Aspect
-    [59699] = "odysupporticons/icons/squares/squaretwo_blue.dds", -- Conversion (to shadow)
-    [75460] = "odysupporticons/icons/squares/squaretwo_yellow.dds", -- Conversion (to lunar)
+    [59699] = "odysupporticons/icons/squares/square_blue.dds", -- Conversion (to shadow)
+    [75460] = "odysupporticons/icons/squares/square_yellow.dds", -- Conversion (to lunar)
 }
 
-local function OnAspectOrConversion(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId, abilityId, _)
+local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId, abilityId, _)
     local atName = GetUnitDisplayName(unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
-        -- Gained an aspect or conversion, so we should change the displayed icon for the player
+        -- Gained an aspect, so we should change the displayed icon for the player
         local iconPath = aspectIcons[abilityId]
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
         OSI.SetMechanicIconForUnit(atName, iconPath)
     elseif (changeType == EFFECT_RESULT_FADED) then
-        -- The aspect or conversion faded, but we should only remove the icon if it's the currently displayed one
+        -- The aspect faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
             OSI.RemoveMechanicIconForUnit(atName)
@@ -47,6 +47,30 @@ local function OnAspectOrConversion(_, changeType, _, _, unitTag, _, _, _, _, _,
     end
 end
 
+local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId, abilityId)
+    local atName = Crutch.groupMembers[targetUnitId]
+    if (not atName) then
+        Crutch.dbgSpam(string.format("couldn't find atName for %d", targetUnitId))
+        return
+    end
+
+    if (result == ACTION_RESULT_EFFECT_GAINED_DURATION) then
+        -- Gained conversion, so we should change the displayed icon for the player
+        local iconPath = aspectIcons[abilityId]
+        currentlyDisplayingAbility[atName] = abilityId
+
+        Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
+        OSI.SetMechanicIconForUnit(atName, iconPath)
+    elseif (result == ACTION_RESULT_EFFECT_FADED) then
+        -- The conversion faded, but we should only remove the icon if it's the currently displayed one
+        if (abilityId == currentlyDisplayingAbility[atName]) then
+            Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
+            OSI.RemoveMechanicIconForUnit(atName)
+        end
+    end
+end
+
+-- TODO: it doesn't show up after self death?
 local function ResetTwins()
     for atName, _ in pairs(currentlyDisplayingAbility) do
         OSI.RemoveMechanicIconForUnit(atName)
@@ -55,23 +79,21 @@ end
 
 local function RegisterTwins()
     if (OSI and OSI.SetMechanicIconForUnit) then
-        OSI.SetMechanicIconSize(200)
+        OSI.SetMechanicIconSize(100)
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, OnAspectOrConversion)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, OnAspect)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59639) -- Shadow Aspect (duration)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, OnAspectOrConversion)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, OnAspect)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59640) -- Lunar Aspect (duration)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_EFFECT_CHANGED, OnAspectOrConversion)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59699) -- Conversion (to shadow)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_COMBAT_EVENT, OnConversion)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 59699) -- Conversion (to shadow)
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_EFFECT_CHANGED, OnAspectOrConversion)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 75460) -- Conversion (to lunar)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, OnConversion)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 75460) -- Conversion (to lunar)
     end
 end
 

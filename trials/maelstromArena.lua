@@ -66,9 +66,9 @@ local function OnCSA(_, title, description)
                     (extraText ~= "") and (" |cFF00FF" .. extraText) or ""))
 
                 -- Behold my stuff
-                if (stage == 9 and GetUnitDisplayName("player") == "@Kyzeragon") then
-                    d("|t24:24:esoui/art/icons/ability_sorcerer_daedric_minefield.dds|t |t24:24:esoui/art/icons/ability_sorcerer_lightning_flood.dds|t |t24:24:esoui/art/icons/ability_ava_001_b.dds|t |t24:24:esoui/art/icons/ability_destructionstaff_013_b.dds|t |t24:24:esoui/art/icons/ability_destructionstaff_004_a.dds|t STUN")
-                end
+                -- if (stage == 9 and GetUnitDisplayName("player") == "@Kyzeragon") then
+                --     d("|t24:24:esoui/art/icons/ability_sorcerer_daedric_minefield.dds|t |t24:24:esoui/art/icons/ability_sorcerer_lightning_flood.dds|t |t24:24:esoui/art/icons/ability_ava_001_b.dds|t |t24:24:esoui/art/icons/ability_destructionstaff_013_b.dds|t |t24:24:esoui/art/icons/ability_destructionstaff_004_a.dds|t |t24:24:esoui/art/icons/ability_sorcerer_daedric_minefield.dds|t STUN")
+                -- end
             end, 15000)
         end
     end

@@ -247,7 +247,7 @@ local function Initialize()
         -- [1082] = true,  -- Blackrose Prison
         [1121] = Crutch.UnregisterSunspire,  -- Sunspire
         [1196] = Crutch.UnregisterKynesAegis,  -- Kyne's Aegis
-        -- [1227] = Crutch.UnregisterVateshran,  -- Vateshran Hollows
+        [1227] = Crutch.UnregisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.UnregisterRockgrove,  -- Rockgrove
     }
 
@@ -264,7 +264,7 @@ local function Initialize()
         -- [1082] = true,  -- Blackrose Prison
         [1121] = Crutch.RegisterSunspire,  -- Sunspire
         [1196] = Crutch.RegisterKynesAegis,  -- Kyne's Aegis
-        -- [1227] = Crutch.RegisterVateshran,  -- Vateshran Hollows
+        [1227] = Crutch.RegisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.RegisterRockgrove,  -- Rockgrove
     }
 end
