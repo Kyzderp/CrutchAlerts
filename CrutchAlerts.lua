@@ -178,8 +178,6 @@ Crutch.GetGroupMembersSize = GetGroupMembersSize
 -- /script d(CrutchAlerts.GetGroupMembersSize())
 
 local function OnPlayerActivated(_, initial)
-    Crutch.dbgSpam("groupMembersSize: " .. tostring(GetGroupMembersSize()))
-
     Crutch.groupMembers = {} -- clear the cache
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
@@ -217,6 +215,7 @@ local function Initialize()
     end
 
     -- Init general
+    Crutch.InitializeHooks()
     Crutch.InitializeDamageable()
     Crutch.InitializeDamageTaken()
     Crutch.RegisterInterrupts()

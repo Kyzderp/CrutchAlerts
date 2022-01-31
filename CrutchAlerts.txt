@@ -33,6 +33,7 @@ src/damageable.lua
 src/prominent.lua
 src/worldIcons.lua
 src/damageTaken.lua
+src/hooks.lua
 
 debug/init.lua
 debug/ui.xml

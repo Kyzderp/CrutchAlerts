@@ -22,7 +22,7 @@ local Crutch = CrutchAlerts
 -- lunar duration -> shadow conversion duration -> lunar faded -> shadow duration -> conversion faded
 local currentlyDisplayingAbility = {}
 
-local aspectIcons = {
+local ASPECT_ICONS = {
     [59639] = "odysupporticons/icons/squares/squaretwo_blue.dds", -- Shadow Aspect
     [59640] = "odysupporticons/icons/squares/squaretwo_yellow.dds", -- Lunar Aspect
     [59699] = "odysupporticons/icons/squares/square_blue.dds", -- Conversion (to shadow)
@@ -33,7 +33,7 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
     local atName = GetUnitDisplayName(unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
         -- Gained an aspect, so we should change the displayed icon for the player
-        local iconPath = aspectIcons[abilityId]
+        local iconPath = ASPECT_ICONS[abilityId]
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
@@ -43,6 +43,7 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
         if (abilityId == currentlyDisplayingAbility[atName]) then
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
             OSI.RemoveMechanicIconForUnit(atName)
+            currentlyDisplayingAbility[atName] = nil
         end
     end
 end
@@ -56,7 +57,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
 
     if (result == ACTION_RESULT_EFFECT_GAINED_DURATION) then
         -- Gained conversion, so we should change the displayed icon for the player
-        local iconPath = aspectIcons[abilityId]
+        local iconPath = ASPECT_ICONS[abilityId]
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
@@ -66,21 +67,26 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
         if (abilityId == currentlyDisplayingAbility[atName]) then
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
             OSI.RemoveMechanicIconForUnit(atName)
+            currentlyDisplayingAbility[atName] = nil
         end
     end
 end
 
--- TODO: it doesn't show up after self death?
-local function ResetTwins()
-    for atName, _ in pairs(currentlyDisplayingAbility) do
-        OSI.RemoveMechanicIconForUnit(atName)
+local function ReassignTwins()
+    Crutch.dbgSpam("reassigning twins")
+    for atName, abilityId in pairs(currentlyDisplayingAbility) do
+        local iconPath = ASPECT_ICONS[abilityId]
+        Crutch.dbgSpam(string.format("Reassigning |t100%%:100%%:%s|t for %s", iconPath, atName))
+        OSI.SetMechanicIconForUnit(atName, iconPath)
     end
 end
 
+---------------------------------------------------------------------
+-- Init
+---------------------------------------------------------------------
+local origOSIGetIconDataForPlayer = nil
 local function RegisterTwins()
     if (OSI and OSI.SetMechanicIconForUnit) then
-        OSI.SetMechanicIconSize(100)
-
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, OnAspect)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59639) -- Shadow Aspect (duration)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
@@ -94,48 +100,59 @@ local function RegisterTwins()
 
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, OnConversion)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 75460) -- Conversion (to lunar)
+
+        -- Override the dead icon to be whichever color
+        Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.GetIconDataForPlayer")
+        origOSIGetIconDataForPlayer = OSI.GetIconDataForPlayer
+        OSI.GetIconDataForPlayer = function(displayName, config, unitTag)
+            local icon, color, size, anim, offset = origOSIGetIconDataForPlayer(displayName, config, unitTag)
+
+            local isDead = unitTag and IsUnitDead(unitTag) or false
+            if (config.dead and isDead) then
+                local abilityId = currentlyDisplayingAbility[displayName]
+                if (abilityId == 59639 or abilityId == 59699) then
+                    -- Shadow
+                    color = {26/255, 36/255, 1}
+                elseif (abilityId == 59640 or abilityId == 75460) then
+                    -- Lunar
+                    color = {1, 207/255, 0}
+                else
+                    -- Keep same color
+                end
+            end
+
+            return icon, color, size, anim, offset
+        end
     end
 end
 
 local function UnregisterTwins()
     if (OSI and OSI.SetMechanicIconForUnit) then
-        OSI.ResetMechanicIconSize()
+        OSI.ResetMechanicIcons()
 
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_EFFECT_CHANGED)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_EFFECT_CHANGED)
-    end
-end
 
----------------------------------------------------------------------
--- General Listeners
----------------------------------------------------------------------
-local isInCombat = false
-local function OnCombatStateChanged(_, inCombat)
-    -- Reset
-    isInCombat = inCombat
-    if (not inCombat) then
-        -- TODO: see if this is necessary, it wasn't necessary on kill
-        -- ResetTwins()
-    else
+        if (OSI and origOSIGetIconDataForPlayer) then
+        Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.GetIconDataForPlayer")
+        OSI.GetIconDataForPlayer = origOSIGetIconDataForPlayer
+    end
     end
 end
 
 ---------------------------------------------------------------------
 -- Register/Unregister
+---------------------------------------------------------------------
 function Crutch.RegisterMawOfLorkhaj()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Maw of Lorkhaj")
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
 
     -- Twins icons
     RegisterTwins()
 end
 
 function Crutch.UnregisterMawOfLorkhaj()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE)
-
     -- Twins icons
     UnregisterTwins()
 
