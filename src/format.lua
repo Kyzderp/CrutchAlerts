@@ -52,6 +52,7 @@ Crutch.format = {
 
 -- Maw of Lorkhaj
     [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
+    [ 73250] = 000315, -- Shattered (Savage)
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)

@@ -4,6 +4,28 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 
 ---------------------------------------------------------------------
+-- Trash
+---------------------------------------------------------------------
+local function OnShattered(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId, abilityId, _)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        Crutch.dbgOther("got shattered")
+        Crutch.DisplayNotification(abilityId, "|c6a00ffSHATTERED!|r", 15000, 0, 0, 0, 0, false)
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.dbgOther("no longer shattered")
+    end
+end
+
+local function RegisterTrash()
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Shattered", EVENT_EFFECT_CHANGED, OnShattered)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Shattered", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 73250) -- Shattered
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Shattered", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player") -- Self
+end
+
+local function UnregisterTrash()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Shattered", EVENT_EFFECT_CHANGED)
+end
+
+---------------------------------------------------------------------
 -- ZHAJ'HASSA
 ---------------------------------------------------------------------
 -- {
@@ -163,6 +185,9 @@ end
 function Crutch.RegisterMawOfLorkhaj()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Maw of Lorkhaj")
 
+    -- Trash
+    RegisterTrash()
+
     -- Twins icons
     RegisterTwins()
 
@@ -171,6 +196,7 @@ function Crutch.RegisterMawOfLorkhaj()
 end
 
 function Crutch.UnregisterMawOfLorkhaj()
+    UnregisterTrash()
     UnregisterTwins()
     UnregisterRakkhat()
 
