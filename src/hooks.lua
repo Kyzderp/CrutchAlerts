@@ -12,8 +12,8 @@ local function IsInEncounter()
 
     for i = 1, GetGroupSize() do
         local groupTag = "group" .. i
-        if (IsUnitInCombat(groupTag)) then
-            return true
+        if (IsUnitInCombat(groupTag) and IsUnitOnline(groupTag)) then
+            return groupTag
         end
     end
     return false
@@ -42,8 +42,9 @@ local function OnCombatStateChanged(_, inCombat)
         end
     else
         -- Exited combat, could be from dying though, or stepping through cloudrest portal too
-        if (IsInEncounter()) then
-            Crutch.dbgSpam("personally exited combat but group is in combat")
+        local inCombatUnit = IsInEncounter()
+        if (inCombatUnit) then
+            Crutch.dbgSpam(string.format("personally exited combat but %s(%s) is in combat", GetUnitDisplayName(inCombatUnit), inCombatUnit))
             -- Check again in a few seconds
             EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CombatStateUpdate", 1000, function() OnCombatStateChanged(_, IsUnitInCombat("player")) end)
         else

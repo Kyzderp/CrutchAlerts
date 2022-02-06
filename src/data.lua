@@ -18,6 +18,7 @@ Crutch.blacklist = {
     [ 24636] = true, -- Summon Twilight Tormentor
     [ 87875] = true, -- Betty Netch
     [ 86103] = true, -- Bull Netch
+    [ 26114] = true, -- Puncturing Strikes
     [ 26792] = true, -- Biting Jabs
     [ 26797] = true, -- Puncturing Sweep
     [ 31816] = true, -- Stone Giant
