@@ -50,6 +50,9 @@ Crutch.format = {
     [ 70723] =  1203, -- Rupturing Fog
     [ 72446] =   400, -- Smash Iceberg
 
+-- Maw of Lorkhaj
+    [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
+
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
     [157860] = 1000, -- Noxious Sludge (hide because of sides)
@@ -97,6 +100,7 @@ local colors = {
     [3] = "f4f2e8", -- Tan, physical
     [4] = "8ef5f5", -- Light blue, shock
     [5] = "ff00ff", -- Magenta
+    [6] = "6a00ff", -- Dark purple
 }
 
 

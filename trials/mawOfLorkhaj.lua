@@ -72,18 +72,15 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
     end
 end
 
-local function ReassignTwins()
-    Crutch.dbgSpam("reassigning twins")
-    for atName, abilityId in pairs(currentlyDisplayingAbility) do
-        local iconPath = ASPECT_ICONS[abilityId]
-        Crutch.dbgSpam(string.format("Reassigning |t100%%:100%%:%s|t for %s", iconPath, atName))
-        OSI.SetMechanicIconForUnit(atName, iconPath)
-    end
-end
+-- local function ReassignTwins()
+--     Crutch.dbgSpam("reassigning twins")
+--     for atName, abilityId in pairs(currentlyDisplayingAbility) do
+--         local iconPath = ASPECT_ICONS[abilityId]
+--         Crutch.dbgSpam(string.format("Reassigning |t100%%:100%%:%s|t for %s", iconPath, atName))
+--         OSI.SetMechanicIconForUnit(atName, iconPath)
+--     end
+-- end
 
----------------------------------------------------------------------
--- Init
----------------------------------------------------------------------
 local origOSIGetIconDataForPlayer = nil
 local function RegisterTwins()
     if (OSI and OSI.SetMechanicIconForUnit) then
@@ -136,10 +133,28 @@ local function UnregisterTwins()
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_EFFECT_CHANGED)
 
         if (OSI and origOSIGetIconDataForPlayer) then
-        Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.GetIconDataForPlayer")
-        OSI.GetIconDataForPlayer = origOSIGetIconDataForPlayer
+            Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.GetIconDataForPlayer")
+            OSI.GetIconDataForPlayer = origOSIGetIconDataForPlayer
+        end
     end
-    end
+end
+
+---------------------------------------------------------------------
+-- Rakkhat
+---------------------------------------------------------------------
+local function OnVoidShackleDamage()
+    Crutch.DisplayNotification(75507, "|c6a00ffTETHERED!|r", 1100, 0, 0, 0, 0, false)
+end
+
+local function RegisterRakkhat()
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, OnVoidShackleDamage)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 75507) -- Void Shackle (tether)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE)
+end
+
+local function UnregisterRakkhat()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT)
 end
 
 ---------------------------------------------------------------------
@@ -150,11 +165,14 @@ function Crutch.RegisterMawOfLorkhaj()
 
     -- Twins icons
     RegisterTwins()
+
+    -- Rakkhat
+    RegisterRakkhat()
 end
 
 function Crutch.UnregisterMawOfLorkhaj()
-    -- Twins icons
     UnregisterTwins()
+    UnregisterRakkhat()
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Maw of Lorkhaj")
 end

@@ -1,6 +1,10 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
+-- TODO: chaurus totem dodge
+
+---------------------------------------------------------------------
+-- Falgravn
 ---------------------------------------------------------------------
 local function OnBoogerTimerFaded()
     if (GetSelectedLFGRole() == LFG_ROLE_TANK) then
@@ -10,6 +14,7 @@ end
 
 ---------------------------------------------------------------------
 -- Register/Unregister
+---------------------------------------------------------------------
 function Crutch.RegisterKynesAegis()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Kyne's Aegis")
 
