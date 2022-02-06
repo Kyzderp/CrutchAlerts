@@ -444,6 +444,24 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Vateshran Hollows",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show missed score adds",
+                    tooltip = "Works only in veteran, and should be used only if going for score. Skipped adds may be inaccurate if you skip entire pulls. The missed adds detection assumes that you do the secret blue side pull before the final blue side pull prior to Iozuzzunth",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.vateshran.showMissedAdds end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.vateshran.showMissedAdds = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+            }
+        },
+        {
+            type = "submenu",
             name = "Dragonstar Arena",
             controls = {
                 {

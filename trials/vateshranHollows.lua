@@ -314,7 +314,6 @@ end
 ---------------------------------------------------------------------
 -- EVENT_RAID_TRIAL_STARTED (number eventCode, string trialName, boolean weekly)
 local function OnStarted()
-    -- TODO: do something
     scoreBatch = {}
     currentWing = wing
     gateIndex = 0
@@ -327,10 +326,11 @@ end
 function Crutch.RegisterVateshran()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Vateshran Hollows")
 
-    -- TODO: do we need to check for vet?
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "VHStarted", EVENT_RAID_TRIAL_STARTED, OnStarted)
+    if (Crutch.savedOptions.vateshran.showMissedAdds) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "VHStarted", EVENT_RAID_TRIAL_STARTED, OnStarted)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "VHScore", EVENT_RAID_TRIAL_SCORE_UPDATE, OnScoreUpdate)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "VHScore", EVENT_RAID_TRIAL_SCORE_UPDATE, OnScoreUpdate)
+    end
 end
 
 function Crutch.UnregisterVateshran()

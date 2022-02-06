@@ -107,6 +107,9 @@ local defaultOptions = {
     dragonstar = {
         normalDamageTaken = false,
     },
+    vateshran = {
+        showMissedAdds = false,
+    },
     instance = {
         hrc = true,
         aa = true,
@@ -177,7 +180,7 @@ end
 Crutch.GetGroupMembersSize = GetGroupMembersSize
 -- /script d(CrutchAlerts.GetGroupMembersSize())
 
-local function OnPlayerActivated(_, initial)
+local function OnPlayerActivated()
     Crutch.groupMembers = {} -- clear the cache
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
@@ -193,6 +196,7 @@ local function OnPlayerActivated(_, initial)
 
     Crutch.zoneId = zoneId
 end
+Crutch.OnPlayerActivated = OnPlayerActivated
 
 ---------------------------------------------------------------------
 -- Initialize 
