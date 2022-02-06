@@ -225,7 +225,9 @@ local function OnCombatStateChanged(_, inCombat)
         lokkBeamPhase = false
     else
         -- Disable them as combat starts
+        Crutch.dbgOther("disabling lokk icons because combat start")
         DisableLokkIcons()
+        UpdateLokkIcons()
     end
 end
 
