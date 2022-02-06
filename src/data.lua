@@ -59,6 +59,9 @@ Crutch.blacklist = {
 -- For specific abilities, some filters are required
 Crutch.filter = {
     [ 73741] = function(hitValue) return hitValue >= 1900 end, -- Threshing Wings (only get the initial cast, not the weird other parts that are cast on everyone)
+    [ 74488] = function(hitValue, targetUnitTag) return true end, -- Unstable Void (Rakkhat)
+    [ 74384] = function(hitValue, targetUnitTag) return true end, -- Dark Barrage (initial)
+    [ 74385] = function(hitValue, targetUnitTag) return true end, -- Dark Barrage (start)
     [103946] = function(hitValue) return hitValue >= 2500 end, -- Shadow Realm Cast (only initial cast)
     [105291] = function(hitValue) return hitValue >= 1250 end, -- SUM Shadow Beads (only initial cast)
     [105380] = function(hitValue) return hitValue >= 2000 and not Crutch.IsInShadowWorld() end, -- Direct Current (Relequen, only after he actually starts channeling, not the 250ms cast time)

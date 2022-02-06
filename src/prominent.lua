@@ -34,6 +34,7 @@ Crutch.prominent = {
 
 -- MoL
     [ 73721] = {text = "VOID RUSH", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Void Rush (Dro-m'Athra Shadowguard)
+    [ 73741] = {text = "BLOCK", color = {1, 0.9, 170/255}, slot = 1, playSound = true}, -- Threshing Wings (Rakkhat)
 
 -- CR
     [105380] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 6000}, -- Direct Current (Relequen interruptible)
