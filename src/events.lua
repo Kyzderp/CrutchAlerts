@@ -79,14 +79,16 @@ end
 function Crutch.RegisterEffectChanged()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED,
         function(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, unitName, unitId, abilityId, sourceType)
-            local displayName = GetUnitDisplayName(unitTag) or zo_strformat("<<1>>", unitName)
-            if (displayName == GetUnitDisplayName("player")) then
+            if (GetUnitDisplayName(unitTag) == GetUnitDisplayName("player")) then
                 Crutch.playerGroupTag = unitTag
             end
-            Crutch.groupMembers[unitId] = displayName
-            if (not string.sub(displayName, 1, 1) == "@") then
-                Crutch.dbgOther(string.format("Received non-@ for %s from %s, result %s", unitTag, GetAbilityName(abilityId), displayName))
+
+            local oldId = Crutch.groupTagToId[unitTag]
+            if (oldId ~= nil and oldId ~= unitId) then
+                Crutch.groupIdToTag[oldId] = nil
             end
+            Crutch.groupIdToTag[unitId] = unitTag
+            Crutch.groupTagToId[unitTag] = unitId
         end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
@@ -140,7 +142,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     if (hitValue <= 75) then return end
 
     -- Specific abilities should ignore hitValues that are below certain thresholds
-    if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue)) then
+    if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue, "player")) then
         Crutch.dbgSpam(string.format("Skipping %s (%d) because of filter",
             abilityName,
             abilityId))
@@ -407,7 +409,7 @@ end
 
 local function OnCombatEventOthers(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)
     -- Actual display
-    targetName = Crutch.groupMembers[targetUnitId]
+    targetName = GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId])
     if (targetName) then
         targetName = " |cAAAAAAon " .. zo_strformat("<<1>>", targetName) .. "|r"
     else
@@ -442,7 +444,7 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
     end
 
     -- Specific abilities should ignore hitValues that are below certain thresholds
-    if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue)) then
+    if (Crutch.filter[abilityId] and not Crutch.filter[abilityId](hitValue, Crutch.groupIdToTag[targetUnitId])) then
         Crutch.dbgSpam(string.format("Skipping %s (%d) because of filter",
             abilityName,
             abilityId))
@@ -479,17 +481,6 @@ end
 /script CrutchAlerts.Test()
 ]]
 function Crutch.Test()
-    Crutch.groupMembers[-420] = "@TheClawlessConqueror"
-    Crutch.groupMembers[-421] = "@Kyzeragon"
-    -- CrutchAlerts.DisplayNotification(103531, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |caaaaaaLEFT|r", "@TheClawlessConqueror"), 1, 0, 0, 0, 0, true)
-    -- OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_GROUP, 250, 0, -420, 103531)
-    -- OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
-    -- CrutchAlerts.DisplayNotification(110431, string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", "@Kyzeragon"), 1, 0, 0, 0, 0, true)
-    -- OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Roaring Flare", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_PLAYER, 250, 0, -421, 110431)
-
-    -- OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Glacial Spikes", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 6000, 0, 0, 106405)
-
-
     OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1, 0, 0, 120890)
     OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
     OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED_DURATION, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)

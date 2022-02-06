@@ -49,7 +49,7 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
 end
 
 local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId, abilityId)
-    local atName = Crutch.groupMembers[targetUnitId]
+    local atName = GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId])
     if (not atName) then
         Crutch.dbgSpam(string.format("couldn't find atName for %d", targetUnitId))
         return

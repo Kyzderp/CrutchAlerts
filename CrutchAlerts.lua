@@ -170,18 +170,9 @@ end
 ---------------------------------------------------------------------
 -- Zone change
 ---------------------------------------------------------------------
-local function GetGroupMembersSize()
-    local groupMembersSize = 0
-    for _, _ in pairs(Crutch.groupMembers) do
-        groupMembersSize = groupMembersSize + 1
-    end
-    return groupMembersSize
-end
-Crutch.GetGroupMembersSize = GetGroupMembersSize
--- /script d(CrutchAlerts.GetGroupMembersSize())
-
 local function OnPlayerActivated()
-    Crutch.groupMembers = {} -- clear the cache
+    Crutch.groupIdToTag = {}
+    Crutch.groupTagToId = {} -- clear the caches
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
     -- Unregister previous active trial, if applicable

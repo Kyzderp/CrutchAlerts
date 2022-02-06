@@ -86,7 +86,7 @@ local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceTyp
     if (not amuletSmashed) then return end
 
     -- Actual display
-    targetName = Crutch.groupMembers[targetUnitId]
+    targetName = GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId])
     if (targetName) then
         targetName = zo_strformat("<<1>>", targetName)
     else

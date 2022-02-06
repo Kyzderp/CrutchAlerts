@@ -16,8 +16,8 @@ local isPolling = false
 local fontSize = 32
 
 -- Cache group members by using status effects, so we know the unit IDs
--- Crutch.groupMembers[unitId] = @Kyzeragon
-Crutch.groupMembers = {}
+Crutch.groupIdToTag = {}
+Crutch.groupTagToId = {}
 
 local resultStrings = {
     [ACTION_RESULT_BEGIN] = "begin",
