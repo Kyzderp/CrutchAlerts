@@ -9,7 +9,7 @@ local Crutch = CrutchAlerts
 local function OnShattered(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId, abilityId, _)
     if (changeType == EFFECT_RESULT_GAINED) then
         Crutch.dbgOther("got shattered")
-        Crutch.DisplayNotification(abilityId, "|c6a00ffSHATTERED!|r", 15000, 0, 0, 0, 0, false)
+        Crutch.DisplayNotification(abilityId, "|cf4f2e8SHATTERED!|r", 15000, 0, 0, 0, 0, false)
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.dbgOther("no longer shattered")
     end
