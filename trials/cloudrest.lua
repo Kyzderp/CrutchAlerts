@@ -280,8 +280,8 @@ function Crutch.RegisterCloudrest()
     if (OSI) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
         origOSIUnitErrorCheck = OSI.UnitErrorCheck
-        OSI.UnitErrorCheck = function(unitTag)
-            local error = origOSIUnitErrorCheck(unitTag)
+        OSI.UnitErrorCheck = function(unitTag, allowSelf)
+            local error = origOSIUnitErrorCheck(unitTag, allowSelf)
             if (error ~= 0) then
                 return error
             end
@@ -295,14 +295,14 @@ function Crutch.RegisterCloudrest()
         -- Override the dead icon to be purple with shade up
         origOSIGetIconDataForPlayer = OSI.GetIconDataForPlayer
         OSI.GetIconDataForPlayer = function(displayName, config, unitTag)
-            local icon, color, size, anim, offset = origOSIGetIconDataForPlayer(displayName, config, unitTag)
+            local icon, color, size, anim, offset, isMech = origOSIGetIconDataForPlayer(displayName, config, unitTag)
 
             local isDead = unitTag and IsUnitDead(unitTag) or false
             if (config.dead and isDead and IsShadeUp(unitTag) and Crutch.savedOptions.cloudrest.deathIconColor) then
                 color = {0.8, 0.2, 1} -- Puuuuurpl
             end
 
-            return icon, color, size, anim, offset
+            return icon, color, size, anim, offset, isMech
         end
     end
 end

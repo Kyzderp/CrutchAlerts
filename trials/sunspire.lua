@@ -284,8 +284,8 @@ function Crutch.RegisterSunspire()
     if (OSI) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
         origOSIUnitErrorCheck = OSI.UnitErrorCheck
-        OSI.UnitErrorCheck = function(unitTag)
-            local error = origOSIUnitErrorCheck(unitTag)
+        OSI.UnitErrorCheck = function(unitTag, allowSelf)
+            local error = origOSIUnitErrorCheck(unitTag, allowSelf)
             if (error ~= 0) then
                 return error
             end

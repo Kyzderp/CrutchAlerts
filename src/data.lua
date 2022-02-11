@@ -258,6 +258,7 @@ Crutch.others = {
 
 --Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
+    [ 73291] = true, -- Dark Fissure (Zhaj'hassa pillar)
     [ 74035] = true, -- Darkness Falls
     [ 73741] = true, -- Threshing Wings
     [ 74488] = true, -- Unstable Void (Rakkhat)

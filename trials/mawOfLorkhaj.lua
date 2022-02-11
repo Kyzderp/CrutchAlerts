@@ -124,7 +124,7 @@ local function RegisterTwins()
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.GetIconDataForPlayer")
         origOSIGetIconDataForPlayer = OSI.GetIconDataForPlayer
         OSI.GetIconDataForPlayer = function(displayName, config, unitTag)
-            local icon, color, size, anim, offset = origOSIGetIconDataForPlayer(displayName, config, unitTag)
+            local icon, color, size, anim, offset, isMech = origOSIGetIconDataForPlayer(displayName, config, unitTag)
 
             local isDead = unitTag and IsUnitDead(unitTag) or false
             if (config.dead and isDead) then
@@ -140,7 +140,7 @@ local function RegisterTwins()
                 end
             end
 
-            return icon, color, size, anim, offset
+            return icon, color, size, anim, offset, isMech
         end
     end
 end
