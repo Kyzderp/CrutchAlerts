@@ -45,6 +45,9 @@ Crutch.format = {
     [ 48240] = 10, -- Boulder Storm (Stone Atronach)
     [ 49098] = 10, -- Big Quake (Stone Atronach)
 
+-- Kyne's Aegis
+    [133515] = 100204.5, -- Chaurus Totem seems to send out first projectile ~4.5 seconds after spawn
+
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn
     [ 70723] =  1203, -- Rupturing Fog

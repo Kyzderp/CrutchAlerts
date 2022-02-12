@@ -120,6 +120,11 @@ Crutch.testing = {
 
     -- [163359] = true, -- Aura of Pride (on self when wearing Spaulder)
     -- [163401] = true, -- Aura of Pride (on other person when self wearing Spaulder)
+
+    [133045] = true, -- Dragon Totem
+    [133510] = true, -- Harpy Totem
+    [133513] = true, -- Gargoyle Totem
+    [133515] = true, -- Chaurus Totem
 }
 
 ---------------------------------------------------------------------
@@ -173,6 +178,7 @@ Crutch.others = {
 
 -- Kyne's Aegis
     [132511] = true, -- Toxic Tide
+    [133515] = true, -- Chaurus Totem
     [132468] = true, -- Sanguine Prison
     [135991] = true, -- Toppling Blow (Storm Twin)
 
