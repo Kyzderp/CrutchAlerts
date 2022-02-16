@@ -72,7 +72,7 @@ local function DisableLokkIcons()
 end
 
 local function UpdateLokkIcons()
-    Crutch.dbgOther(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
+    -- Crutch.dbgOther(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
     if (atLokk and lokkHM and (lokkBeamPhase or not isInCombat)) then
         EnableLokkIcons()
     else
@@ -93,12 +93,17 @@ local function OnLokkBeam()
 end
 
 local function OnDifficultyChanged(text)
-    if (text == "Lokkestiiz Difficulty Increased") then
-        lokkHM = true
-        UpdateLokkIcons()
-    elseif (text == "Lokkestiiz Difficulty Decreased") then
+    local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+
+    -- Lokkestiiz check
+    if (maxHealth == 86245152 and lokkHM == true) then
         lokkHM = false
         UpdateLokkIcons()
+    elseif (maxHealth == 107806440 and lokkHM == false) then
+        lokkHM = true
+        UpdateLokkIcons()
+    else
+        -- Crutch.dbgOther(string.format("maxHealth: %d lokkHM: %s", maxHealth or 0, lokkHM and "true" or "false"))
     end
 end
 
@@ -160,13 +165,16 @@ end
 
 local prevBoss = nil
 local function OnBossesChanged()
-    -- Lokk: 86.2m / 107.8m
+    -- Lokk: 86.2m / 107.8m : 86245152 / 107806440
     -- Yol: 129.4m / 161.7m
     -- Nahv: 103.5m / 129.4m
     local bossName = GetUnitName("boss1")
     if (prevBoss == bossName) then return end
 
-    if (bossName == "Lokkestiiz") then
+    local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+
+    -- Lokkestiiz check
+    if (maxHealth == 86245152 or maxHealth == 107806440) then
         atLokk = true
         UpdateLokkIcons()
     else
@@ -225,7 +233,7 @@ local function OnCombatStateChanged(_, inCombat)
         lokkBeamPhase = false
     else
         -- Disable them as combat starts
-        Crutch.dbgOther("disabling lokk icons because combat start")
+        -- Crutch.dbgOther("disabling lokk icons because combat start")
         DisableLokkIcons()
         UpdateLokkIcons()
     end
@@ -240,6 +248,8 @@ local origQueueMessage = nil
 
 function Crutch.RegisterSunspire()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Sunspire")
+
+    lokkHM = false
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
@@ -300,7 +310,10 @@ function Crutch.RegisterSunspire()
     -- Hook into CSA display to get Lokk difficulty change
     origQueueMessage = CENTER_SCREEN_ANNOUNCE.QueueMessage
     CENTER_SCREEN_ANNOUNCE.QueueMessage = function(s, messageParams)
-        OnDifficultyChanged(messageParams:GetMainText())
+        -- Call this a second later, because sometimes the health hasn't changed yet
+        zo_callLater(function()
+            OnDifficultyChanged(messageParams:GetMainText())
+        end, 1000)
         return origQueueMessage(s, messageParams)
     end
 

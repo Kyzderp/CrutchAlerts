@@ -45,12 +45,20 @@ local SUBTITLE_TIMES = {
         ["You made it all the way to the end! Only one final challenge left. Me!"] = 12.7,
     },
 
+-----------
+-- Dungeons
+
 -- Castle Thorn
     ["Lady Thorn"] = {
         -- Blood Twilight
         ["Well done, Talfyg. You brought me a daughter of Verandis, as requested. She will complement our lord's army well."] = 19.2,
     },
 
+-- Lair of Maarselok
+    ["Selene"] = {
+        -- Selene fight (bear, spider)
+        ["Now for payment in kind. It's my turn to study your insides, warlock!"] = 4.8,
+    },
 
 -- Overland
     ["K'Tora"] = {
