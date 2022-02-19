@@ -72,7 +72,7 @@ local function DisableLokkIcons()
 end
 
 local function UpdateLokkIcons()
-    -- Crutch.dbgOther(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
+    Crutch.dbgOther(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
     if (atLokk and lokkHM and (lokkBeamPhase or not isInCombat)) then
         EnableLokkIcons()
     else
@@ -80,8 +80,14 @@ local function UpdateLokkIcons()
     end
 end
 
+local function IsBossLokkHM()
+    local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    return maxHealth == 107806440
+end
+
 local function OnLokkFly()
     lokkBeamPhase = true
+    lokkHM = IsBossLokkHM()
     UpdateLokkIcons()
 end
 
@@ -103,7 +109,7 @@ local function OnDifficultyChanged(text)
         lokkHM = true
         UpdateLokkIcons()
     else
-        -- Crutch.dbgOther(string.format("maxHealth: %d lokkHM: %s", maxHealth or 0, lokkHM and "true" or "false"))
+        Crutch.dbgOther(string.format("maxHealth: %d lokkHM: %s", maxHealth or 0, lokkHM and "true" or "false"))
     end
 end
 
