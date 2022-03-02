@@ -94,15 +94,6 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
     end
 end
 
--- local function ReassignTwins()
---     Crutch.dbgSpam("reassigning twins")
---     for atName, abilityId in pairs(currentlyDisplayingAbility) do
---         local iconPath = ASPECT_ICONS[abilityId]
---         Crutch.dbgSpam(string.format("Reassigning |t100%%:100%%:%s|t for %s", iconPath, atName))
---         OSI.SetMechanicIconForUnit(atName, iconPath)
---     end
--- end
-
 local origOSIGetIconDataForPlayer = nil
 local function RegisterTwins()
     if (OSI and OSI.SetMechanicIconForUnit) then

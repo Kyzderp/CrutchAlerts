@@ -270,6 +270,39 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Kyne's Aegis",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show Falgravn 2nd floor DPS stacks",
+                    tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.kynesaegis.showFalgravnIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.kynesaegis.showFalgravnIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Falgravn icon size",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.kynesaegis.falgravnIconsSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.kynesaegis.falgravnIconsSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                },
+            },
+        },
+        {
+            type = "submenu",
             name = "Rockgrove",
             controls = {
                 {
@@ -302,6 +335,20 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return OSI == nil end,
                 },
                 {
+                    type = "slider",
+                    name = "Lokkestiiz HM icon size",
+                    tooltip = "Updated size will show after the icons are hidden and shown again",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.sunspire.lokkIconsSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.lokkIconsSize = value
+                    end,
+                },
+                {
                     type = "checkbox",
                     name = "Show Yolnahkriin position icons",
                     tooltip = "During flight phase on Yolnahkriin, shows icons in the world for where the next head stack and (right) wing stack will be when Yolnahkriin lands. Requires OdySupportIcons",
@@ -312,6 +359,19 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                     disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Yolnahkriin icon size",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.sunspire.yolIconsSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.yolIconsSize = value
+                    end,
                 },
             }
         },

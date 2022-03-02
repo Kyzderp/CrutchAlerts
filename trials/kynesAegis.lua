@@ -24,7 +24,7 @@ function Crutch.RegisterKynesAegis()
 
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
-    else
+    elseif (Crutch.savedOptions.kynesaegis.showFalgravnIcons) then
         Crutch.EnableIcon("Falgravn2ndFloor1")
         Crutch.EnableIcon("Falgravn2ndFloor2")
         Crutch.EnableIcon("Falgravn2ndFloor3")
