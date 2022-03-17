@@ -41,6 +41,9 @@ Crutch.blacklist = {
     [ 45508] = true, -- Passing Through (assassin jumpflip)
     [ 25926] = true, -- Flare (Flame Atronach) TODO: tank mode?
     [113195] = true, -- Ice Bolt (Ghost) in BRP
+    [163335] = true, -- Soul Draining (Harrowing Haunter) in SR
+    [158363] = true, -- Roll (Ascendant Pursuer / Sarydil) in CA
+    [158365] = true, -- Dodge (Ascendant Pursuer / Sarydil) in CA
 
     [ 74388] = true, -- Dark Barrage
     [ 74389] = true, -- Dark Barrage
@@ -125,6 +128,8 @@ Crutch.testing = {
     [133510] = true, -- Harpy Totem
     [133513] = true, -- Gargoyle Totem
     [133515] = true, -- Chaurus Totem
+
+    [163335] = true, -- Soul Draining
 }
 
 ---------------------------------------------------------------------
