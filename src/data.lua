@@ -93,27 +93,6 @@ Crutch.testing = {
     -- [52788] = true, -- Taunt Immunity
     -- [38541] = true, -- Taunt (self?)
 
-    -- [59640] = true, -- Lunar Aspect
-    -- [59639] = true, -- Shadow Aspect
-    -- [59472] = true, -- Lunar Aspect? from RN
-    -- [59474] = true, -- Lunar Aspect? from RN
-    -- [59534] = true, -- Lunar Aspect? from RN
-    -- [59535] = true, -- Lunar Aspect? from RN
-    -- [59536] = true, -- Lunar Aspect? from RN
-    -- [59537] = true, -- Lunar Aspect? from RN
-    -- [59538] = true, -- Lunar Aspect? from RN
-    -- [59523] = true, -- Shadow Aspect? from RN
-    -- [59524] = true, -- Shadow Aspect? from RN
-    -- [59527] = true, -- Shadow Aspect? from RN
-    -- [59528] = true, -- Shadow Aspect? from RN
-    -- [59529] = true, -- Shadow Aspect? from RN
-    -- [59629] = true, -- Shadow Aspect? from RN
-    -- [59465] = true, -- Shadow Aspect? from RN
-    -- [75460] = true, -- Lunar Conversion? from RN
-    -- [75456] = true, -- Lunar Conversion? from RN
-    -- [59698] = true, -- Shadow Conversion? from RN
-    -- [59699] = true, -- Shadow Conversion? from RN
-
     -- [86774] = true, -- Mudball
     -- [89372] = true, -- Pelted!
     -- [116879] = true, -- Alliance Pie (EP?)
@@ -130,6 +109,10 @@ Crutch.testing = {
     [133515] = true, -- Chaurus Totem
 
     [163335] = true, -- Soul Draining
+
+    -- [57470] = true, -- Grip of Lorkhaj projectile?
+    -- [57513] = true, -- Grip of Lorkhaj effect?
+    -- [57525] = true, -- Jone's Blessing
 }
 
 ---------------------------------------------------------------------

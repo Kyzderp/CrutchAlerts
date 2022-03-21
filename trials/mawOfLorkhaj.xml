@@ -1,0 +1,67 @@
+<GuiXml>
+    <Controls>
+<!-- ======================================================================================================================= -->
+        <TopLevelControl name="CrutchAlertsMawOfLorkhaj" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="true">
+            <Dimensions x="78" y="116"/>
+            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="500" offsetY="0"/>
+            <OnMoveStop>
+                CrutchAlerts:SavePosition()
+            </OnMoveStop>
+            <Controls>
+                <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" hidden="true">
+                    <AnchorFill/>
+                    <Edge edgeSize="1"/>
+                </Backdrop>
+
+                <Control name="$(parent)Pad1" hidden="false" tier="LOW">
+                    <Dimensions x="36" y="36"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="2" offsetY="2"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="75007575" edgeColor="00000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="0"/> </Backdrop>
+                        <Label name="$(parent)Label" hidden="false" tier="MEDIUM" color="FFFFFF" font="$(BOLD_FONT)|20|soft-shadow-thick" horizontalAlignment="CENTER" verticalAlignment="CENTER" text="0"> <AnchorFill/> </Label>
+                    </Controls>
+                </Control>
+                <Control name="$(parent)Pad2" hidden="false" tier="LOW">
+                    <Dimensions x="36" y="36"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Pad1" relativePoint="BOTTOMLEFT" offsetY="2"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="75007575" edgeColor="00000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="0"/> </Backdrop>
+                        <Label name="$(parent)Label" hidden="false" tier="MEDIUM" color="FFFFFF" font="$(BOLD_FONT)|20|soft-shadow-thick" horizontalAlignment="CENTER" verticalAlignment="CENTER" text="0"> <AnchorFill/> </Label>
+                    </Controls>
+                </Control>
+                <Control name="$(parent)Pad3" hidden="false" tier="LOW">
+                    <Dimensions x="36" y="36"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Pad2" relativePoint="BOTTOMLEFT" offsetY="2"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="75007575" edgeColor="00000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="0"/> </Backdrop>
+                        <Label name="$(parent)Label" hidden="false" tier="MEDIUM" color="FFFFFF" font="$(BOLD_FONT)|20|soft-shadow-thick" horizontalAlignment="CENTER" verticalAlignment="CENTER" text="0"> <AnchorFill/> </Label>
+                    </Controls>
+                </Control>
+                <Control name="$(parent)Pad6" hidden="false" tier="LOW">
+                    <Dimensions x="36" y="36"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Pad1" relativePoint="TOPRIGHT" offsetX="2"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="75007575" edgeColor="00000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="0"/> </Backdrop>
+                        <Label name="$(parent)Label" hidden="false" tier="MEDIUM" color="FFFFFF" font="$(BOLD_FONT)|20|soft-shadow-thick" horizontalAlignment="CENTER" verticalAlignment="CENTER" text="0"> <AnchorFill/> </Label>
+                    </Controls>
+                </Control>
+                <Control name="$(parent)Pad5" hidden="false" tier="LOW">
+                    <Dimensions x="36" y="36"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Pad6" relativePoint="BOTTOMLEFT" offsetY="2"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="75007575" edgeColor="00000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="0"/> </Backdrop>
+                        <Label name="$(parent)Label" hidden="false" tier="MEDIUM" color="FFFFFF" font="$(BOLD_FONT)|20|soft-shadow-thick" horizontalAlignment="CENTER" verticalAlignment="CENTER" text="0"> <AnchorFill/> </Label>
+                    </Controls>
+                </Control>
+                <Control name="$(parent)Pad4" hidden="false" tier="LOW">
+                    <Dimensions x="36" y="36"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)Pad5" relativePoint="BOTTOMLEFT" offsetY="2"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="75007575" edgeColor="00000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="0"/> </Backdrop>
+                        <Label name="$(parent)Label" hidden="false" tier="MEDIUM" color="FFFFFF" font="$(BOLD_FONT)|20|soft-shadow-thick" horizontalAlignment="CENTER" verticalAlignment="CENTER" text="0"> <AnchorFill/> </Label>
+                    </Controls>
+                </Control>
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

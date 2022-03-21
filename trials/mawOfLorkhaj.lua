@@ -25,17 +25,163 @@ local function UnregisterTrash()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Shattered", EVENT_EFFECT_CHANGED)
 end
 
+
 ---------------------------------------------------------------------
 -- ZHAJ'HASSA
 ---------------------------------------------------------------------
--- {
---     {x=0.55496829748154, y=0.29175475239754},
---     {x=0.56342494487762, y=0.25405216217041},
---     {x=0.60077518224716, y=0.24876673519611},
---     {x=0.62297391891479, y=0.26250880956650},
---     {x=0.64059197902679, y=0.29774489998817},
---     {x=0.62508809566498, y=0.32699084281921},
--- }
+-- 25 seconds cooldown
+local PAD_COORDS = {
+    [1] = {x = 104179, y = 45954, z = 130168},
+    [2] = {x = 105015, y = 45967, z = 128699},
+    [3] = {x = 104093, y = 45967, z = 126869},
+    [4] = {x = 102971, y = 45967, z = 126115},
+    [5] = {x = 100987, y = 45967, z = 126379},
+    [6] = {x = 100543, y = 45959, z = 128344},
+}
+
+local padIdToIndex = {}
+local padIndexToId = {}
+
+local isPolling = false
+local padEndTime = {}
+
+local function UpdatePadsDisplay()
+    local currTime = GetGameTimeMilliseconds()
+    local hasTimers = false
+    for index = 1, 6 do
+        local label = CrutchAlertsMawOfLorkhaj:GetNamedChild("Pad" .. tostring(index) .. "Label")
+        if (padEndTime[index] and (padEndTime[index] - currTime) > 0) then
+            local seconds = (padEndTime[index] - currTime) / 1000
+            label:SetHidden(false)
+            label:SetText(string.format("%.1f", seconds))
+            hasTimers = true
+        else
+            label:SetHidden(true)
+        end
+    end
+
+    -- If no currently running timers, we don't need to update anymore
+    if (not hasTimers) then
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "MoLPoll")
+        Crutch.dbgSpam("stop polling pads display")
+    end
+end
+
+local function StartPadCountdown(index)
+    if (not index) then return end
+    padEndTime[index] = GetGameTimeMilliseconds() + 25000
+    UpdatePadsDisplay()
+
+    if (not isPolling) then
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "MoLPoll", 100, UpdatePadsDisplay)
+        Crutch.dbgSpam("start polling pads display")
+    end
+end
+
+local function EndPadCountdown(index)
+    if (not index) then return end
+    padEndTime[index] = nil
+    UpdatePadsDisplay()
+end
+
+-- Pads fire Jone's Blessing (57525) FADED when someone takes the pad
+-- and then fire GAINED when it becomes available again
+local function FindPad(padUnitId, findNew)
+    if (padIdToIndex[padUnitId]) then
+        Crutch.dbgOther(string.format("existing pad %d -> %d", padUnitId, padIdToIndex[padUnitId]))
+        return padIdToIndex[padUnitId]
+    end
+
+    -- Do not look for new pad if it's the buff coming up, which shouldn't be possible unless
+    -- we had just wiped and new unit IDs were assigned, or if 
+    if (not findNew) then
+        Crutch.dbgOther(string.format("|cFF0000No existing pad for %d, and not finding new|r", padUnitId))
+        return
+    end
+
+    -- Since pads can be taken whether player has curse or not, don't track via curse
+    -- Instead, just find who the closest player is to any pad, and assume that the
+    -- pad has been taken by that player
+    local lowestDistance = 1000000000
+    local lowestDistanceTag, lowestDistanceIndex
+    for i, coords in pairs(PAD_COORDS) do
+        -- Only check pads that haven't been discovered
+        if (not padIndexToId[i]) then
+            for j = 1, GetGroupSize() do
+                local groupTag = "group" .. j
+                local _, x, y, z = GetUnitRawWorldPosition(groupTag)
+                local dist = Crutch.GetSquaredDistance(x, y, z, coords.x, coords.y, coords.z)
+                if (dist < lowestDistance) then
+                    lowestDistance = dist
+                    lowestDistanceTag = groupTag
+                    lowestDistanceIndex = i
+                end
+            end
+        end
+    end
+
+    -- Must be within 6 meters. If player is going fast enough, sometimes the desync means the player is already too far
+    if (lowestDistance < 360000) then
+        padIdToIndex[padUnitId] = lowestDistanceIndex
+        padIndexToId[lowestDistanceIndex] = padUnitId
+        Crutch.dbgOther(string.format("newly found pad %d -> %d used by %s", padUnitId, padIdToIndex[padUnitId], GetUnitDisplayName(lowestDistanceTag)))
+        return lowestDistanceIndex
+    end
+
+    Crutch.dbgOther(string.format("|cFF0000Couldn't find close enough pad for %d!|r", padUnitId))
+    Crutch.dbgOther(string.format("lowestDistance %d lowestDistanceIndex %d lowestDistanceTag %s", lowestDistance, lowestDistanceIndex, lowestDistanceTag))
+    return nil
+end
+
+-- When a pad's buff changes, update the UI
+local function OnPadChanged(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId, abilityId, _)
+    local padIndex
+    if (changeType == EFFECT_RESULT_GAINED) then
+        -- Pad has regenned
+        padIndex = FindPad(unitId, false)
+        EndPadCountdown(padIndex)
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        -- Pad has been taken, and its death is your calling
+        padIndex = FindPad(unitId, true)
+        StartPadCountdown(padIndex)
+    end
+
+    Crutch.dbgOther(string.format("|c00d60bpad %d changed|r", padIndex or 0))
+end
+
+local function RegisterZhajhassa()
+    if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds") then
+        -- This is Zhaj'hassa
+        CrutchAlertsMawOfLorkhaj:SetHidden(false)
+        UpdatePadsDisplay()
+    end
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE, function(_, inCombat)
+        if (not inCombat) then
+            Crutch.dbgOther("resetting because combat state")
+            padIdToIndex = {}
+            padIndexToId = {}
+        end
+    end)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLBossesChanged", EVENT_BOSSES_CHANGED, function()
+        if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds") then
+            -- This is Zhaj'hassa
+            CrutchAlertsMawOfLorkhaj:SetHidden(false)
+        else
+            CrutchAlertsMawOfLorkhaj:SetHidden(true)
+        end
+    end)
+
+    -- Jone's Blessing (57525) fires when a pad's buff is restored, with the target unit ID as the pad's ID
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED, OnPadChanged)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 57525) -- Jone's Blessing
+end
+
+local function UnregisterZhajhassa()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLBossesChanged", EVENT_BOSSES_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Grip", EVENT_EFFECT_CHANGED)
+end
 
 
 ---------------------------------------------------------------------
@@ -179,6 +325,9 @@ function Crutch.RegisterMawOfLorkhaj()
     -- Trash
     RegisterTrash()
 
+    -- Zhaj'hassa cleanse pads
+    RegisterZhajhassa()
+
     -- Twins icons
     RegisterTwins()
 
@@ -188,6 +337,7 @@ end
 
 function Crutch.UnregisterMawOfLorkhaj()
     UnregisterTrash()
+    UnregisterZhajhassa()
     UnregisterTwins()
     UnregisterRakkhat()
 

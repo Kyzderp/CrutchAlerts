@@ -62,6 +62,10 @@ local defaultOptions = {
         x = GuiRoot:GetWidth() / 4,
         y = 0,
     },
+    cursePadsDisplay = {
+        x = GuiRoot:GetWidth() / 4,
+        y = GuiRoot:GetHeight() / 4,
+    },
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
@@ -154,6 +158,10 @@ function CrutchAlerts:SavePosition()
     x, y = CrutchAlertsCloudrest:GetCenter()
     Crutch.savedOptions.spearsDisplay.x = x - oX
     Crutch.savedOptions.spearsDisplay.y = y - oY
+
+    x, y = CrutchAlertsMawOfLorkhaj:GetCenter()
+    Crutch.savedOptions.cursePadsDisplay.x = x - oX
+    Crutch.savedOptions.cursePadsDisplay.y = y - oY
 end
 
 ---------------------------------------------------------------------
@@ -206,6 +214,7 @@ local function Initialize()
     CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
     CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
     CrutchAlertsCloudrest:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.spearsDisplay.x, Crutch.savedOptions.spearsDisplay.y)
+    CrutchAlertsMawOfLorkhaj:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cursePadsDisplay.x, Crutch.savedOptions.cursePadsDisplay.y)
 
     -- Register events
     if (Crutch.savedOptions.general.showBegin) then

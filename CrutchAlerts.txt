@@ -13,6 +13,7 @@ CrutchAlerts.lua
 CrutchAlerts.xml
 
 trials/cloudrest.xml
+trials/mawOfLorkhaj.xml
 
 trials/cloudrest.lua
 trials/sunspire.lua
