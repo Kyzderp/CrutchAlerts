@@ -150,6 +150,22 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show casts on others",
+                    tooltip = "Show alerts when someone else in your group is targeted by a specific ability, or in some cases, when the enemy casts something on themselves. This is a manually curated list of abilities that are important enough to affect you, for example the Llothis cone (Defiling Dye Blast) or Galenwe's interruptible (Glacial Spikes)",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.showOthers end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showOthers = value
+                        if (value) then
+                            Crutch.RegisterOthers()
+                        else
+                            Crutch.UnregisterOthers()
+                        end
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show prominent alerts",
                     tooltip = "Show VERY large letters and in some cases a ding sound for certain alerts",
                     default = true,

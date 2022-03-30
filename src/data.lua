@@ -113,6 +113,10 @@ Crutch.testing = {
     -- [57470] = true, -- Grip of Lorkhaj projectile?
     -- [57513] = true, -- Grip of Lorkhaj effect?
     -- [57525] = true, -- Jone's Blessing
+
+    [58084] = true, -- Magicka Bomb
+    -- [165021] = true, -- Jet (Numirril)
+    -- [163676] = true, -- Jet (Numirril)
 }
 
 ---------------------------------------------------------------------
@@ -169,6 +173,7 @@ Crutch.others = {
     [133515] = true, -- Chaurus Totem
     [132468] = true, -- Sanguine Prison
     [135991] = true, -- Toppling Blow (Storm Twin)
+    [133936] = true, -- Exploding Spear
 
 -- Asylum Sanctorium
     [ 95545] = true, -- Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
@@ -309,6 +314,11 @@ Crutch.others = {
 
 -- The Dread Cellar
     [156509] = true, -- Deluge of Pain (Scorion Broodlord interruptible)
+
+-- Shipwright's Regret
+    [163676] = true, -- Jet (Numirril when he jets to a player)
+    [165021] = true, -- Jet (Numirril when he jets away)
+    [167906] = true, -- Jet (Numirril when he jets to the edge to go into immune phase)
 
 ---------------------------------------------------------------------
 -- Overland

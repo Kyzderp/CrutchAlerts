@@ -47,7 +47,7 @@ local function RegisterEvent(event, result, unitFilter, abilityId, eventHandler,
     end
 end
 
-local function UnregisterEvent(event, abilityId)
+local function UnregisterEvent(event, abilityId, eventName)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. eventName .. tostring(abilityId), event)
 end
 
@@ -159,7 +159,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     end
 
     -- Ignore abilities that are in the "others" because they will be displayed from there
-    if (Crutch.others[abilityId]) then return end
+    if (Crutch.savedOptions.general.showOthers and Crutch.others[abilityId]) then return end
 
     -- Actual display
     Crutch.DisplayNotification(abilityId, GetAbilityName(abilityId), hitValue, sourceUnitId, sourceName, sourceType, result)

@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.11.4"
+Crutch.version = "0.12.0"
 
 Crutch.registered = {
     begin = false,
@@ -76,6 +76,7 @@ local defaultOptions = {
         showBegin = true,
             beginHideSelf = false,
         showGained = true,
+        showOthers = true,
         showProminent = true,
         hitValueBelowThreshold = 75,
             hitValueUseWhitelist = true,
@@ -226,6 +227,9 @@ local function Initialize()
     if (Crutch.savedOptions.general.showGained) then
         Crutch.RegisterGained()
     end
+    if (Crutch.savedOptions.general.showOthers) then
+        Crutch.RegisterOthers()
+    end
 
     -- Init general
     Crutch.InitializeHooks()
@@ -233,7 +237,6 @@ local function Initialize()
     Crutch.InitializeDamageTaken()
     Crutch.RegisterInterrupts()
     Crutch.RegisterTest()
-    Crutch.RegisterOthers()
     Crutch.RegisterStacks()
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
     Crutch.InitializeDebug()
