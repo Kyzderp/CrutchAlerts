@@ -101,6 +101,9 @@ local defaultOptions = {
         showYolIcons = true,
         yolIconsSize = 150,
     },
+    mawoflorkhaj = {
+        showPads = true,
+    },
     maelstrom = {
         normalDamageTaken = false,
         showRounds = true,

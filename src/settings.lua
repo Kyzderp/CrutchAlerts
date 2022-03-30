@@ -303,6 +303,24 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Maw of Lorkhaj",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show Zhaj'hassa cleanse pad cooldowns",
+                    tooltip = "In the Zhaj'hassa fight, shows tiles with cooldown timers for 25 seconds (veteran)",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.mawoflorkhaj.showPads end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.mawoflorkhaj.showPads = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+            },
+        },
+        {
+            type = "submenu",
             name = "Rockgrove",
             controls = {
                 {

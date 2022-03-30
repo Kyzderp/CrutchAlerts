@@ -86,7 +86,7 @@ end
 
 -- Pads fire Jone's Blessing (57525) FADED when someone takes the pad
 -- and then fire GAINED when it becomes available again
-local function FindPad(padUnitId, findNew)
+local function FindPad(padUnitId, findNew, skipRetry)
     if (padIdToIndex[padUnitId]) then
         Crutch.dbgOther(string.format("existing pad %d -> %d", padUnitId, padIdToIndex[padUnitId]))
         return padIdToIndex[padUnitId]
@@ -103,7 +103,8 @@ local function FindPad(padUnitId, findNew)
     -- Instead, just find who the closest player is to any pad, and assume that the
     -- pad has been taken by that player
     local lowestDistance = 1000000000
-    local lowestDistanceTag, lowestDistanceIndex
+    local lowestDistanceIndex = 0
+    local lowestDistanceTag = ""
     for i, coords in pairs(PAD_COORDS) do
         -- Only check pads that haven't been discovered
         if (not padIndexToId[i]) then
@@ -130,6 +131,14 @@ local function FindPad(padUnitId, findNew)
 
     Crutch.dbgOther(string.format("|cFF0000Couldn't find close enough pad for %d!|r", padUnitId))
     Crutch.dbgOther(string.format("lowestDistance %d lowestDistanceIndex %d lowestDistanceTag %s", lowestDistance, lowestDistanceIndex, lowestDistanceTag))
+
+    Crutch.dbgOther("RESETTING")
+    padIdToIndex = {}
+    padIndexToId = {}
+
+    if (not skipRetry) then
+        return FindPad(padUnitId, findNew, true)
+    end
     return nil
 end
 
@@ -146,14 +155,18 @@ local function OnPadChanged(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _
         StartPadCountdown(padIndex)
     end
 
-    Crutch.dbgOther(string.format("|c00d60bpad %d changed|r", padIndex or 0))
+    -- Crutch.dbgOther(string.format("|c00d60bpad %d changed|r", padIndex or 0))
 end
 
 local function RegisterZhajhassa()
-    if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds") then
+    if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds"
+        and Crutch.savedOptions.mawoflorkhaj.showPads
+        and DoesUnitExist("boss1")) then
         -- This is Zhaj'hassa
         CrutchAlertsMawOfLorkhaj:SetHidden(false)
         UpdatePadsDisplay()
+    else
+        CrutchAlertsMawOfLorkhaj:SetHidden(true)
     end
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE, function(_, inCombat)
@@ -165,7 +178,9 @@ local function RegisterZhajhassa()
     end)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLBossesChanged", EVENT_BOSSES_CHANGED, function()
-        if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds") then
+        if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds"
+            and Crutch.savedOptions.mawoflorkhaj.showPads
+            and DoesUnitExist("boss1")) then
             -- This is Zhaj'hassa
             CrutchAlertsMawOfLorkhaj:SetHidden(false)
         else
