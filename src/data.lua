@@ -70,6 +70,7 @@ Crutch.filter = {
     [105380] = function(hitValue) return hitValue >= 2000 and not Crutch.IsInShadowWorld() end, -- Direct Current (Relequen, only after he actually starts channeling, not the 250ms cast time)
     [106405] = function(hitValue) return not Crutch.IsInShadowWorld() end, -- Glacial Spikes (Galenwe)
     [121422] = function(hitValue) return hitValue >= 1800 and Crutch.IsInNahvPortal() end, -- Sundering Gale (Eternal Servant, only display if self is in portal)
+    [133936] = function(hitValue) return hitValue > 1 end, -- Exploding Spear
 }
 
 
@@ -107,8 +108,6 @@ Crutch.testing = {
     [133510] = true, -- Harpy Totem
     [133513] = true, -- Gargoyle Totem
     [133515] = true, -- Chaurus Totem
-
-    [163335] = true, -- Soul Draining
 
     -- [57470] = true, -- Grip of Lorkhaj projectile?
     -- [57513] = true, -- Grip of Lorkhaj effect?
@@ -240,13 +239,13 @@ Crutch.others = {
     [49098]=true,--Big Quake (Stone Atronach)
 
 --Dragonstar Arena
-    --300
     [52041] = true, -- Blink Strike (Arena 9)
     [55442] = true, -- Heat Wave
     [52773] = true, -- Ice Comet
     [12459] = true, -- Winter's Reach (Regulated Frost mage)
     [54411] = true, -- Celestial Blast (Shadowcaster)
     [91937] = true, -- Burst of Embers (Daedroth)
+    [54841] = true, -- Ice Charge (Dwarven Ice Centurion)
 
 --Maelstrom Arena
     --100
@@ -310,7 +309,8 @@ Crutch.others = {
     [146179] = true, -- Galvanic Blow (Baron Zaudrus conal that applies Galvanic Burst)
 
 -- Red Petal Bastion
-    [157573] = true, -- Dire Gaze (watcher interruptible during Rogerain fight)
+    [157573] = true, -- Dire Gaze (watcher interruptible)
+    [154369] = true, -- Opalescent Impale
 
 -- The Dread Cellar
     [156509] = true, -- Deluge of Pain (Scorion Broodlord interruptible)
