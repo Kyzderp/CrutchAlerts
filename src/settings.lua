@@ -290,6 +290,32 @@ function Crutch:CreateSettingsMenu()
             controls = {
                 {
                     type = "checkbox",
+                    name = "Show Exploding Spear landing spot",
+                    tooltip = "On trash packs with Half-Giant Raiders, show icons at the approximate locations where Exploding Spears will land. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.kynesaegis.showSpearIcon end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.kynesaegis.showSpearIcon = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Blood Prison icon",
+                    tooltip = "Shows icon above player who is targeted by Blood Prison, slightly before the bubble even shows up. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.kynesaegis.showPrisonIcon end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.kynesaegis.showPrisonIcon = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "checkbox",
                     name = "Show Falgravn 2nd floor DPS stacks",
                     tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks. Requires OdySupportIcons",
                     default = true,

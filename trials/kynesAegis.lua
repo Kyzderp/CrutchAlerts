@@ -72,16 +72,20 @@ function Crutch.RegisterKynesAegis()
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
     else
         --Spear
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, OnExplodingSpearBegin)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 133936)
+        if (Crutch.savedOptions.kynesaegis.showSpearIcon) then
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, OnExplodingSpearBegin)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 133936)
+        end
 
         -- Prison icon
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, OnPrisonEffect)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 132473)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, OnPrisonBegin)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 132468)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
+        if (Crutch.savedOptions.kynesaegis.showPrisonIcon) then
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, OnPrisonEffect)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 132473)
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, OnPrisonBegin)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 132468)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
+        end
 
         -- Falgravn icons
         if (Crutch.savedOptions.kynesaegis.showFalgravnIcons) then
@@ -102,7 +106,7 @@ function Crutch.UnregisterKynesAegis()
 
     -- Prison icon
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PrisonCast", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT)
 
     -- Falgravn icons
     Crutch.DisableIcon("Falgravn2ndFloor1")

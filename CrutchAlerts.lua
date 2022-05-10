@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.12.0"
+Crutch.version = "0.13.0"
 
 Crutch.registered = {
     begin = false,
@@ -90,6 +90,8 @@ local defaultOptions = {
         deathIconColor = true,
     },
     kynesaegis = {
+        showSpearIcon = true,
+        showPrisonIcon = true,
         showFalgravnIcons = true,
         falgravnIconsSize = 150,
     },
