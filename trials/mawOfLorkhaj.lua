@@ -93,7 +93,7 @@ local function FindPad(padUnitId, findNew, skipRetry)
     end
 
     -- Do not look for new pad if it's the buff coming up, which shouldn't be possible unless
-    -- we had just wiped and new unit IDs were assigned, or if 
+    -- we had just wiped and new unit IDs were assigned, or if
     if (not findNew) then
         Crutch.dbgOther(string.format("|cFF0000No existing pad for %d, and not finding new|r", padUnitId))
         return
@@ -245,6 +245,11 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
         OSI.SetMechanicIconForUnit(atName, iconPath)
+
+        -- If self, display a prominent alert because COLOR SWAP!
+        if (atName == GetUnitDisplayName("player")) then
+            Crutch.DisplayProminent(888003)
+        end
     elseif (result == ACTION_RESULT_EFFECT_FADED) then
         -- The conversion faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then

@@ -47,6 +47,9 @@ Crutch.prominent = {
 -- BRP
     [111161] = {text = "LAVA WHIP", color = {1, 0.6, 0}, slot = 1, playSound = true}, -- Lava Whip (Imperial Dread Knight)
 
+-- DSA
+    [54608] = {text = "DODGE", color = {0, 0.6, 0}, slot = 1, playSound = true}, -- Draining Poison (Pacthunter Ranger)
+
 -------------------
 -- BDV
     [150380] = {text = "DODGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Glacial Gash (Sentinel Aksalaz)
@@ -59,6 +62,7 @@ Crutch.prominent = {
 -- Custom
     [888001] = {text = "BOOGER", color = {1, 0, 0}, slot = 1, playSound = true, millis = 2000}, -- Booger phase ended in Falgravn 2nd floor
     [888002] = {text = "BAD", color = {1, 0, 0}, slot = 2, playSound = false, millis = 1000}, -- Called from damageTaken.lua
+    [888003] = {text = "COLOR SWAP", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- vMol color swap
 }
 
 Crutch.prominentDisplaying = {} -- {[12459] = 1,}
