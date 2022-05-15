@@ -272,6 +272,18 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show flare sides",
+                    tooltip = "On Z'Maja during execute with +Siroria, show which side each of the two people with Roaring Flares can go to (will be same sides as RaidNotifier)",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.showFlaresSides end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.showFlaresSides = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Color Ody death icon",
                     tooltip = "Colors the OdySupportIcons death icon purple if a player's shade is still up. Requires OdySupportIcons",
                     default = true,

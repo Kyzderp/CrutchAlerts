@@ -88,6 +88,7 @@ local defaultOptions = {
         showSpears = true,
         spearsSound = true,
         deathIconColor = true,
+        showFlaresSides = true,
     },
     kynesaegis = {
         showSpearIcon = true,
