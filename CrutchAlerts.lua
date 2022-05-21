@@ -102,6 +102,7 @@ local defaultOptions = {
     sunspire = {
         showLokkIcons = true,
         lokkIconsSize = 150,
+        lokkIconsSoloHeal = false,
         showYolIcons = true,
         yolIconsSize = 150,
     },

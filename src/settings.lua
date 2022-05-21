@@ -407,6 +407,18 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return OSI == nil end,
                 },
                 {
+                    type = "checkbox",
+                    name = "Lokkestiiz icons solo heal",
+                    tooltip = "Use solo healer positions for the Lokkestiiz hardmode icons. This is for 9 damage dealers and 1 healer. If you change this option while at the Lokkestiiz fight, the new icons will show up the next time icons are displayed",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.sunspire.lokkIconsSoloHeal end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.lokkIconsSoloHeal = value
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.sunspire.showLokkIcons end,
+                },
+                {
                     type = "slider",
                     name = "Lokkestiiz HM icon size",
                     tooltip = "Updated size will show after the icons are hidden and shown again",

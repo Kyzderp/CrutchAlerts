@@ -45,20 +45,45 @@ local lokkBeamPhase = false
 
 local function EnableLokkIcons()
     if (not Crutch.savedOptions.sunspire.showLokkIcons) then return end
-    Crutch.EnableIcon("LokkBeam1")
-    Crutch.EnableIcon("LokkBeam2")
-    Crutch.EnableIcon("LokkBeam3")
-    Crutch.EnableIcon("LokkBeam4")
-    Crutch.EnableIcon("LokkBeam5")
-    Crutch.EnableIcon("LokkBeam6")
-    Crutch.EnableIcon("LokkBeam7")
-    Crutch.EnableIcon("LokkBeam8")
-    Crutch.EnableIcon("LokkBeamLH")
-    Crutch.EnableIcon("LokkBeamRH")
+
+    if (Crutch.savedOptions.sunspire.lokkIconsSoloHeal) then
+        Crutch.EnableIcon("SHLokkBeam1")
+        Crutch.EnableIcon("SHLokkBeam2")
+        Crutch.EnableIcon("SHLokkBeam3")
+        Crutch.EnableIcon("SHLokkBeam4")
+        Crutch.EnableIcon("SHLokkBeam5")
+        Crutch.EnableIcon("SHLokkBeam6")
+        Crutch.EnableIcon("SHLokkBeam7")
+        Crutch.EnableIcon("SHLokkBeam8")
+        Crutch.EnableIcon("SHLokkBeam9")
+        Crutch.EnableIcon("SHLokkBeamH")
+    else
+        Crutch.EnableIcon("LokkBeam1")
+        Crutch.EnableIcon("LokkBeam2")
+        Crutch.EnableIcon("LokkBeam3")
+        Crutch.EnableIcon("LokkBeam4")
+        Crutch.EnableIcon("LokkBeam5")
+        Crutch.EnableIcon("LokkBeam6")
+        Crutch.EnableIcon("LokkBeam7")
+        Crutch.EnableIcon("LokkBeam8")
+        Crutch.EnableIcon("LokkBeamLH")
+        Crutch.EnableIcon("LokkBeamRH")
+    end
 end
 Crutch.EnableLokkIcons = EnableLokkIcons
 
 local function DisableLokkIcons()
+    Crutch.DisableIcon("SHLokkBeam1")
+    Crutch.DisableIcon("SHLokkBeam2")
+    Crutch.DisableIcon("SHLokkBeam3")
+    Crutch.DisableIcon("SHLokkBeam4")
+    Crutch.DisableIcon("SHLokkBeam5")
+    Crutch.DisableIcon("SHLokkBeam6")
+    Crutch.DisableIcon("SHLokkBeam7")
+    Crutch.DisableIcon("SHLokkBeam8")
+    Crutch.DisableIcon("SHLokkBeam9")
+    Crutch.DisableIcon("SHLokkBeamH")
+
     Crutch.DisableIcon("LokkBeam1")
     Crutch.DisableIcon("LokkBeam2")
     Crutch.DisableIcon("LokkBeam3")
