@@ -14,35 +14,46 @@ local SUBTITLE_TIMES = {
         -- Triplets
         ["Reprocessing yard contamination critical. Disassembly status suspended. Mass reactivation initiated."] = 10.2, -- TODO
     },
+    ["Montagegeneral"] = {
+        -- Triplets
+        ["Kritische Kontamination auf dem Wertstoffhof. Ausschlachtung wird ausgesetzt. Massenreaktivierung eingeleitet."] = 10.2, -- TODO
+    },
     ["Divayth Fyr"] = {
         -- Pinnacle
         ["Interesting. These devices have all reset themselves. I didn't do that."] = 16.0,
+        ["Interessant. Diese Maschinen haben sich alle zurückgesetzt. Das war nicht ich."] = 16.0,
     },
 
 -- MoL
     ["Mirarro"] = {
         -- Zhaj'hassa
-        ["Don't .... It's ... trap."] = 16.8, -- TODO
-        ["He's coming!"] = 16.8, -- TODO
+        ["Don't .... It's ... trap."] = 16.8,
+        ["He's coming!"] = 16.8,
+        ["Nicht*… Eine*… Falle."] = 16.8,
+        ["Er kommt!"] = 16.8,
     },
     ["Kulan-Dro"] = {
         -- Rakkhat
-        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals ... even if it means peeling the ears from your scalps and shouting Namiira's will into whatever's left of your broken skulls!"] = 26.4, -- TODO
-        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals"] = 26.4, -- TODO
+        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals ... even if it means peeling the ears from your scalps and shouting Namiira's will into whatever's left of your broken skulls!"] = 26.4,
+        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals"] = 26.4,
+    },
+    ["Kulan-dro"] = {
+        -- Rakkhat
+        ["Habt Ihr mich nicht gehört? Hatte ich mich nicht klar ausgedrückt? Ihr werdet zuhören, Sterbliche"] = 26.4,
     },
 
 -- SS
     ["Nahviintaas"] = {
         -- Nahviintaas
-        ["To restore the natural order. To reclaim all that was and will be. To correct the mortal mistake."] = 22.2, -- TODO
+        ["To restore the natural order. To reclaim all that was and will be. To correct the mortal mistake."] = 22.2,
+        ["Um die natürliche Ordnung wiederherzustellen. Das, was war und sein wird. Um sterbliche Fehler zu berichtigen."] = 22.2,
     },
-
--- CR
 
 -- VH
     ["Aydolan"] = {
         -- Maebroogha the Void Lich
         ["You made it all the way to the end! Only one final challenge left. Me!"] = 12.7,
+        ["Ihr habt es ganz bis zum Ende geschafft! Nur noch eine letzte Herausforderung: Ich!"] = 12.7,
     },
 
 -----------
@@ -53,11 +64,16 @@ local SUBTITLE_TIMES = {
         -- Blood Twilight
         ["Well done, Talfyg. You brought me a daughter of Verandis, as requested. She will complement our lord's army well."] = 19.2,
     },
+    ["Fürstin Dorn"] = {
+        -- Blood Twilight
+        ["Gut gemacht, Talfyg. Ihr habt mir eine Tochter von Verandis gebracht. Wie erbeten. Sie wird die Armee unseres Fürsten gut ergänzen."] = 19.2,
+    },
 
 -- Lair of Maarselok
     ["Selene"] = {
         -- Selene fight (bear, spider)
         ["Now for payment in kind. It's my turn to study your insides, warlock!"] = 4.8,
+        ["Nun zu meiner Vergeltung. Jetzt studiere ich Eure Eingeweide, Hexer!"] = 4.8,
     },
 
 -- Overland
@@ -73,6 +89,14 @@ local SUBTITLE_TIMES = {
         ["Feel the power of Eejoba the Radiant!"] = 5.5,
         ["Tidewrack"] = 5.5,
         ["K'Tora summons Vsskalvor to protect this geyser!"] = 5.5,
+
+        -- German
+        ["Girawell, K'Tora ruft Euch zum Gefecht!"] = 5.5,
+        ["Erlaubt mir, Euch Riffhammer, den Fluch Ul'vor-Kus' vorzustellen!"] = 5.5,
+        ["Dunkelsturm"] = 5.5,
+        ["Spürt die Macht von Eejoba der Strahlenden!"] = 5.5,
+        ["Gezeitenbruch"] = 5.5,
+        ["K'Tora beschwört Vsskalvor, um diesen Geysir zu beschützen!"] = 5.5,
     },
 }
 
