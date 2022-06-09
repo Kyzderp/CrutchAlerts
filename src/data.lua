@@ -284,6 +284,8 @@ Crutch.others = {
     [152688] = true, -- Cinder Cleave (Havocrel Annihilator)
 
     [152463] = true, -- Skull Salvo (Flame-Herald Bahsei)
+    [150008] = true, -- Hemorrhaging Smack (Flesh Abomination)
+    [153175] = true, -- Scalding Strike (Fire Behemoth)
 
     [157482] = true, -- Molten Rain (Ash Titan)
     [152414] = true, -- Meteor Call (Havocrel Torchcaster)
