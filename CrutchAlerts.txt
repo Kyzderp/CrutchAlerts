@@ -1,8 +1,8 @@
 ## Title: CrutchAlerts
 ## This addon is a crutch
 ## Author: Kyzeragon
-## Version: 0.14.0
-## APIVersion: 101034 101033
+## Version: 0.14.1
+## APIVersion: 101034
 
 ## DependsOn: LibAddonMenu-2.0>=31
 ## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel
@@ -35,6 +35,7 @@ src/prominent.lua
 src/worldIcons.lua
 src/damageTaken.lua
 src/hooks.lua
+src/OSIHooks.lua
 
 debug/init.lua
 debug/ui.xml

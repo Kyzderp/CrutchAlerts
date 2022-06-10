@@ -220,12 +220,12 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-        OSI.SetMechanicIconForUnit(atName, iconPath)
+        Crutch.SetMechanicIconForUnit(atName, iconPath)
     elseif (changeType == EFFECT_RESULT_FADED) then
         -- The aspect faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
-            OSI.RemoveMechanicIconForUnit(atName)
+            Crutch.RemoveMechanicIconForUnit(atName)
             currentlyDisplayingAbility[atName] = nil
         end
     end
@@ -244,7 +244,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-        OSI.SetMechanicIconForUnit(atName, iconPath)
+        Crutch.SetMechanicIconForUnit(atName, iconPath)
 
         -- If self, display a prominent alert because COLOR SWAP!
         if (atName == GetUnitDisplayName("player")) then
@@ -254,7 +254,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
         -- The conversion faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
-            OSI.RemoveMechanicIconForUnit(atName)
+            Crutch.RemoveMechanicIconForUnit(atName)
             currentlyDisplayingAbility[atName] = nil
         end
     end
