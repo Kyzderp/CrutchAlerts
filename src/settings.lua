@@ -298,6 +298,39 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Dreadsail Reef",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Alert Building Static stacks",
+                    tooltip = "Displays a prominent alert and ding sound if you reach too many Building Static (lightning) stacks",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.alertStaticStacks end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.alertStaticStacks = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "slider",
+                    name = "Building Static stacks threshold",
+                    tooltip = "The minimum number of stacks of Building Static to show alert for",
+                    min = 4,
+                    max = 20,
+                    step = 1,
+                    default = 7,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.staticThreshold end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.staticThreshold = value
+                    end,
+                    disabled = function() return not Crutch.savedOptions.dreadsailreef.alertStaticStacks end,
+                },
+            }
+        },
+        {
+            type = "submenu",
             name = "Kyne's Aegis",
             controls = {
                 {

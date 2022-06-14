@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.14.1"
+Crutch.version = "0.15.0"
 
 Crutch.registered = {
     begin = false,
@@ -89,6 +89,10 @@ local defaultOptions = {
         spearsSound = true,
         deathIconColor = true,
         showFlaresSides = true,
+    },
+    dreadsailreef = {
+        alertStaticStacks = true,
+        staticThreshold = 7,
     },
     kynesaegis = {
         showSpearIcon = true,
@@ -268,6 +272,7 @@ local function Initialize()
         [1196] = Crutch.UnregisterKynesAegis,  -- Kyne's Aegis
         [1227] = Crutch.UnregisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.UnregisterRockgrove,  -- Rockgrove
+        [1344] = Crutch.UnregisterDreadsailReef,  -- Dreadsail Reef
     }
 
     trialRegisters = {
@@ -285,6 +290,7 @@ local function Initialize()
         [1196] = Crutch.RegisterKynesAegis,  -- Kyne's Aegis
         [1227] = Crutch.RegisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.RegisterRockgrove,  -- Rockgrove
+        [1344] = Crutch.RegisterDreadsailReef,  -- Dreadsail Reef
     }
 end
 

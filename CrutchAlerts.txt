@@ -1,7 +1,7 @@
 ## Title: CrutchAlerts
 ## This addon is a crutch
 ## Author: Kyzeragon
-## Version: 0.14.1
+## Version: 0.15.0
 ## APIVersion: 101034
 
 ## DependsOn: LibAddonMenu-2.0>=31
@@ -16,10 +16,12 @@ trials/cloudrest.xml
 trials/mawOfLorkhaj.xml
 
 trials/cloudrest.lua
-trials/sunspire.lua
+trials/dreadsailReef.lua
 trials/kynesAegis.lua
 trials/mawOfLorkhaj.lua
 trials/rockgrove.lua
+trials/sunspire.lua
+
 trials/maelstromArena.lua
 trials/vateshranHollows.lua
 
