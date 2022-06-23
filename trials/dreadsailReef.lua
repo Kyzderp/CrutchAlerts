@@ -26,8 +26,13 @@ end
 
 local function OnCombatStateChanged(_, inCombat)
     if (not inCombat) then
-        Crutch.dbgSpam("Resetting reef hearts")
-        numHearts = 0
+        -- Need to call later because combat briefly stops when accepting a rez during combat
+        zo_callLater(function()
+            if (not IsUnitInCombat("player")) then
+                Crutch.dbgSpam("Resetting reef hearts")
+                numHearts = 0
+            end
+        end, 3000)
     end
 end
 

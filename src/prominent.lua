@@ -59,6 +59,10 @@ Crutch.prominent = {
     [75277] = {text = "AMBUSH", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Teleport Strike (Dremora Kynlurker) TODO: zoneId maybe?
 
 -------------------
+-- DSR
+    [170188] = {text = "BOOT", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Cascading Boot (Dreadsail Overseer)
+
+-------------------
 -- Custom
     [888001] = {text = "BOOGER", color = {1, 0, 0}, slot = 1, playSound = true, millis = 2000}, -- Booger phase ended in Falgravn 2nd floor
     [888002] = {text = "BAD", color = {1, 0, 0}, slot = 2, playSound = false, millis = 1000}, -- Called from damageTaken.lua

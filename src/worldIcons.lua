@@ -55,6 +55,14 @@ local data = {
     ["YolHead2"] = {x = 97188, y = 49703, z = 109064, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds", size = GetYolIconsSize, color = {1, 1, 1}},
     ["YolHead3"] = {x = 97196, y = 49689, z = 110024, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds", size = GetYolIconsSize, color = {1, 1, 1}},
     ["YolHead4"] = {x = 96109, y = 49669, z = 110270, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = GetYolIconsSize, color = {1, 1, 1}},
+
+    -- Dreadsail Reef
+    -- ["1"] = {x = 165854, y = 39829, z = 82552, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
+    -- ["1"] = {x = 169034, y = 39803, z = 76927, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
+    -- ["1"] = {x = 175531, y = 39838, z = 77263, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
+    -- ["1"] = {x = 179205, y = 39803, z = 82502, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
+    -- ["1"] = {x = 175853, y = 39827, z = 87736, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
+    -- ["1"] = {x = 168984, y = 39803, z = 87860, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
 }
 
 
