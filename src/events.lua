@@ -10,12 +10,13 @@ local resultStrings = {
 }
 
 local sourceStrings = {
-    [COMBAT_UNIT_TYPE_NONE] = "N",
-    [COMBAT_UNIT_TYPE_PLAYER] = "P",
-    [COMBAT_UNIT_TYPE_PLAYER_PET] = "PET",
     [COMBAT_UNIT_TYPE_GROUP] = "G",
-    [COMBAT_UNIT_TYPE_TARGET_DUMMY] = "D",
+    [COMBAT_UNIT_TYPE_NONE] = "N",
     [COMBAT_UNIT_TYPE_OTHER] = "O",
+    [COMBAT_UNIT_TYPE_PLAYER] = "P",
+    [COMBAT_UNIT_TYPE_PLAYER_COMPANION] = "C",
+    [COMBAT_UNIT_TYPE_PLAYER_PET] = "PET",
+    [COMBAT_UNIT_TYPE_TARGET_DUMMY] = "D",
 }
 
 local effectResults = {
@@ -126,7 +127,14 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
         if (sourceType) then
             sourceString = (sourceStrings[sourceType] or tostring(sourceType))
         end
-        Crutch.dbgSpam(string.format("A %s(%d): %s(%d) in %d on %s (%d). %s %s",
+        local targetString = ""
+        if (targetType) then
+            targetString = (sourceStrings[targetType] or tostring(targetType))
+        elseif (targetType == nil) then
+            targetString = "nil"
+        end
+
+        Crutch.dbgSpam(string.format("A %s(%d): %s(%d) in %d on %s (%d). %s.%s %s",
             sourceName,
             sourceUnitId,
             GetAbilityName(abilityId),
@@ -135,6 +143,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
             targetName,
             targetUnitId,
             sourceString,
+            targetString,
             resultString))
     end
 
@@ -149,6 +158,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
         return
     end
 
+    -- Cap some really long values
     if (hitValue >= Crutch.savedOptions.general.hitValueAboveThreshold) then
         Crutch.dbgOther(string.format("Capping hitValue for %s(%d) at %d from %d",
             abilityName,
@@ -161,6 +171,9 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     -- Ignore abilities that are in the "others" because they will be displayed from there
     if (Crutch.savedOptions.general.showOthers and Crutch.others[abilityId]) then return end
 
+    -- Setting for not showing casts on self (things like Recall and others not already blacklisted)
+    if (Crutch.savedOptions.general.beginHideSelf and result == ACTION_RESULT_BEGIN and sourceType == COMBAT_UNIT_TYPE_PLAYER) then return end
+
     -- Actual display
     Crutch.DisplayNotification(abilityId, GetAbilityName(abilityId), hitValue, sourceUnitId, sourceName, sourceType, result)
 end
@@ -171,7 +184,7 @@ function Crutch.RegisterBegin()
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, OnCombatEventAll)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
-    if (Crutch.savedOptions.general.beginHideSelf) then EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) end -- from enemy
+    -- if (Crutch.savedOptions.general.beginHideSelf) then EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) end -- from enemy THIS IS BUGGY??
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN) -- Begin, usually
 
     Crutch.registered.begin = true
