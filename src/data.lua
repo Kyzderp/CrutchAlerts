@@ -116,6 +116,8 @@ Crutch.testing = {
     [58084] = true, -- Magicka Bomb
     -- [165021] = true, -- Jet (Numirril)
     -- [163676] = true, -- Jet (Numirril)
+
+    [170188] = true, -- Cascading Boot
 }
 
 ---------------------------------------------------------------------
