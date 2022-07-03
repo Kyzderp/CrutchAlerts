@@ -326,5 +326,11 @@ function Crutch.UnregisterCloudrest()
         OSI.GetIconDataForPlayer = origOSIGetIconDataForPlayer
     end
 
+    amuletSmashed = false
+    spearsRevealed = 0
+    spearsSent = 0
+    orbsDunked = 0
+    Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
+
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Cloudrest")
 end
