@@ -3,6 +3,9 @@ local Crutch = CrutchAlerts
 
 local isInCombat = false
 
+local LOKK_NONHM_HEALTH = 77620640
+local LOKK_HM_HEALTH = 97025800
+
 ---------------------------------------------------------------------
 -- Time Breach
 ---------------------------------------------------------------------
@@ -107,7 +110,7 @@ end
 
 local function IsBossLokkHM()
     local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
-    return maxHealth == 107806440
+    return maxHealth == LOKK_HM_HEALTH
 end
 
 local function OnLokkFly()
@@ -127,10 +130,10 @@ local function OnDifficultyChanged(text)
     local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
 
     -- Lokkestiiz check
-    if (maxHealth == 86245152 and lokkHM == true) then
+    if (maxHealth == LOKK_NONHM_HEALTH and lokkHM == true) then
         lokkHM = false
         UpdateLokkIcons()
-    elseif (maxHealth == 107806440 and lokkHM == false) then
+    elseif (maxHealth == LOKK_HM_HEALTH and lokkHM == false) then
         lokkHM = true
         UpdateLokkIcons()
     else
@@ -197,6 +200,7 @@ end
 local prevBoss = nil
 local function OnBossesChanged()
     -- Lokk: 86.2m / 107.8m : 86245152 / 107806440
+    -- Lost Depths: 77620640 / 97025800
     -- Yol: 129.4m / 161.7m
     -- Nahv: 103.5m / 129.4m
     local bossName = GetUnitName("boss1")
@@ -205,7 +209,7 @@ local function OnBossesChanged()
     local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
 
     -- Lokkestiiz check
-    if (maxHealth == 86245152 or maxHealth == 107806440) then
+    if (maxHealth == LOKK_NONHM_HEALTH or maxHealth == LOKK_HM_HEALTH) then
         atLokk = true
         UpdateLokkIcons()
     else
