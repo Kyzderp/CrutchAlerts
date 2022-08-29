@@ -150,8 +150,8 @@ local defaultOptions = {
 }
 Crutch.defaultOptions = defaultOptions
 
-local trialUnregisters = {}
-local trialRegisters = {}
+local zoneUnregisters = {}
+local zoneRegisters = {}
 
 local crutchLFCPFilter = nil
 
@@ -202,13 +202,13 @@ local function OnPlayerActivated()
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
     -- Unregister previous active trial, if applicable
-    if (trialUnregisters[Crutch.zoneId]) then
-        trialUnregisters[Crutch.zoneId]()
+    if (zoneUnregisters[Crutch.zoneId]) then
+        zoneUnregisters[Crutch.zoneId]()
     end
 
     -- Register current active trial, if applicable
-    if (trialRegisters[zoneId]) then
-        trialRegisters[zoneId]()
+    if (zoneRegisters[zoneId]) then
+        zoneRegisters[zoneId]()
     end
 
     Crutch.zoneId = zoneId
@@ -257,7 +257,7 @@ local function Initialize()
     -- Register for when entering zone
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 
-    trialUnregisters = {
+    zoneUnregisters = {
         -- [635 ] = true,  -- Dragonstar Arena
         -- [636 ] = true,  -- Hel Ra Citadel
         -- [638 ] = true,  -- Aetherian Archive
@@ -273,9 +273,11 @@ local function Initialize()
         [1227] = Crutch.UnregisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.UnregisterRockgrove,  -- Rockgrove
         [1344] = Crutch.UnregisterDreadsailReef,  -- Dreadsail Reef
+
+        [1302] = Crutch.UnregisterShipwrightsRegret, -- Shipwright's Regret
     }
 
-    trialRegisters = {
+    zoneRegisters = {
         -- [635 ] = true,  -- Dragonstar Arena
         -- [636 ] = true,  -- Hel Ra Citadel
         -- [638 ] = true,  -- Aetherian Archive
@@ -291,6 +293,8 @@ local function Initialize()
         [1227] = Crutch.RegisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.RegisterRockgrove,  -- Rockgrove
         [1344] = Crutch.RegisterDreadsailReef,  -- Dreadsail Reef
+
+        [1302] = Crutch.RegisterShipwrightsRegret, -- Shipwright's Regret
     }
 end
 

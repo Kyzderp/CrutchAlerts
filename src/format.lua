@@ -60,6 +60,9 @@ Crutch.format = {
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
     [157860] = 1000, -- Noxious Sludge (hide because of sides)
+
+-- Shipwright's Regret
+    [168314] = 1505, -- Soul Bomb
 }
 
 

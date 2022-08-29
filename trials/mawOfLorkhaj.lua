@@ -330,11 +330,13 @@ local function OnUnstableVoid()
 end
 
 local function RegisterRakkhat()
+    -- Void Shackle
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, OnVoidShackleDamage)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 75507) -- Void Shackle (tether)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE)
 
+    -- Unstable Void
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, OnUnstableVoid)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 74488) -- Unstable Void
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self

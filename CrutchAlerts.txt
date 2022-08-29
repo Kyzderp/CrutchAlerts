@@ -25,6 +25,8 @@ trials/sunspire.lua
 trials/maelstromArena.lua
 trials/vateshranHollows.lua
 
+dungeons/ShipwrightsRegret.lua
+
 src/util.lua
 src/messaging.lua
 src/settings.lua
