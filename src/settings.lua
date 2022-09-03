@@ -493,6 +493,12 @@ function Crutch:CreateSettingsMenu()
             }
         },
         {
+            type = "description",
+            title = "Arenas",
+            text = "Below are settings for special mechanics in specific arenas.",
+            width = "full",
+        },
+        {
             type = "submenu",
             name = "Maelstrom Arena",
             controls = {
@@ -649,6 +655,30 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.dragonstar.normalDamageTaken end,
                     setFunc = function(value)
                         Crutch.savedOptions.dragonstar.normalDamageTaken = value
+                    end,
+                    width = "full",
+                },
+            }
+        },
+        {
+            type = "description",
+            title = "Dungeons",
+            text = "Below are settings for special mechanics in specific dungeons.",
+            width = "full",
+        },
+        {
+            type = "submenu",
+            name = "Shipwright's Regret",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Suggest stacks for Soul Bomb",
+                    tooltip = "Displays a notification for suggested person to stack on for Soul Bomb on Foreman Bradiggan hardmode when there are 2 bombs. If OdySupportIcons is enabled, also shows an icon above that person's head. The suggested stack is alphabetical based on @ name",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.shipwrightsRegret.showBombStacks end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.shipwrightsRegret.showBombStacks = value
+                        Crutch.OnPlayerActivated()
                     end,
                     width = "full",
                 },

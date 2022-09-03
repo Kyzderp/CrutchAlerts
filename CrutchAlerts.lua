@@ -132,20 +132,8 @@ local defaultOptions = {
     vateshran = {
         showMissedAdds = false,
     },
-    instance = {
-        hrc = true,
-        aa = true,
-        so = true,
-        mol = true,
-        as = true,
-        hof = true,
-        cr = true,
-        ss = true,
-        ka = true,
-        rg = true,
-        ma = true,
-        brp = true,
-        vh = true,
+    shipwrightsRegret = {
+        showBombStacks = true,
     },
 }
 Crutch.defaultOptions = defaultOptions
