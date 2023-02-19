@@ -69,6 +69,7 @@ Crutch.prominent = {
     [888003] = {text = "COLOR SWAP", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- vMol color swap
     [888004] = {text = "STATIC", color = {0.5, 1, 1}, slot = 1, playSound = true, millis = 1000}, -- vDSR static stacks
     [888005] = {text = "UNSTABLE", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1500}, -- vMoL Unstable Void
+    [888006] = {text = "POISON", color = {0.5, 1, 0.5}, slot = 2, playSound = true, millis = 1000}, -- vDSR poison stacks
 }
 
 Crutch.prominentDisplaying = {} -- {[12459] = 1,}

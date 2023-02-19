@@ -97,6 +97,8 @@ local defaultOptions = {
     dreadsailreef = {
         alertStaticStacks = true,
         staticThreshold = 7,
+        alertVolatileStacks = true,
+        volatileThreshold = 7,
     },
     kynesaegis = {
         showSpearIcon = true,
