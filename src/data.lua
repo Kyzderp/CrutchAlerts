@@ -71,6 +71,7 @@ Crutch.filter = {
     [106405] = function(hitValue) return not Crutch.IsInShadowWorld() end, -- Glacial Spikes (Galenwe)
     [121422] = function(hitValue) return hitValue >= 1800 and Crutch.IsInNahvPortal() end, -- Sundering Gale (Eternal Servant, only display if self is in portal)
     [133936] = function(hitValue) return hitValue > 1 end, -- Exploding Spear
+    [168947] = function(hitValue) return hitValue == 1300 end, -- Coral Aerie Ofallo Lingering Current
 }
 
 
@@ -323,6 +324,9 @@ Crutch.others = {
     [163676] = true, -- Jet (Numirril when he jets to a player)
     [165021] = true, -- Jet (Numirril when he jets away)
     [167906] = true, -- Jet (Numirril when he jets to the edge to go into immune phase)
+
+-- Coral Aerie
+    [168947] = true, -- Lingering Current
 
 ---------------------------------------------------------------------
 -- Overland
