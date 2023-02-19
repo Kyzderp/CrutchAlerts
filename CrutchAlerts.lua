@@ -84,6 +84,10 @@ local defaultOptions = {
         useNonNoneBlacklist = true,
         useNoneBlacklist = true,
     },
+    asylumsanctorium = {
+        dingSelfCone = true,
+        dingOthersCone = false,
+    },
     cloudrest = {
         showSpears = true,
         spearsSound = true,
@@ -253,7 +257,7 @@ local function Initialize()
         [677 ] = Crutch.UnregisterMaelstromArena,  -- Maelstrom Arena
         [725 ] = Crutch.UnregisterMawOfLorkhaj,  -- Maw of Lorkhaj
         -- [975 ] = true,  -- Halls of Fabrication
-        -- [1000] = true,  -- Asylum Sanctorium
+        [1000] = Crutch.UnregisterAsylumSanctorium,  -- Asylum Sanctorium
         [1051] = Crutch.UnregisterCloudrest,  -- Cloudrest
         -- [1082] = true,  -- Blackrose Prison
         [1121] = Crutch.UnregisterSunspire,  -- Sunspire
@@ -273,7 +277,7 @@ local function Initialize()
         [677 ] = Crutch.RegisterMaelstromArena,  -- Maelstrom Arena
         [725 ] = Crutch.RegisterMawOfLorkhaj,  -- Maw of Lorkhaj
         -- [975 ] = true,  -- Halls of Fabrication
-        -- [1000] = true,  -- Asylum Sanctorium
+        [1000] = Crutch.RegisterAsylumSanctorium,  -- Asylum Sanctorium
         [1051] = Crutch.RegisterCloudrest,  -- Cloudrest
         -- [1082] = true,  -- Blackrose Prison
         [1121] = Crutch.RegisterSunspire,  -- Sunspire
