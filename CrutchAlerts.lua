@@ -98,7 +98,7 @@ local defaultOptions = {
         alertStaticStacks = true,
         staticThreshold = 7,
         alertVolatileStacks = true,
-        volatileThreshold = 7,
+        volatileThreshold = 6,
     },
     kynesaegis = {
         showSpearIcon = true,

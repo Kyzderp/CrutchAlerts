@@ -246,6 +246,34 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Asylum Sanctorium",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Play sound for cone on self",
+                    tooltip = "Play a ding sound when Llothis' Defiling Dye Blast targets you",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.asylumsanctorium.dingSelfCone end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.asylumsanctorium.dingSelfCone = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Play sound for cone on others",
+                    tooltip = "Play a ding sound when Llothis' Defiling Dye Blast targets other players",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.asylumsanctorium.dingOthersCone end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.asylumsanctorium.dingOthersCone = value
+                    end,
+                    width = "full",
+                },
+            }
+        },
+        {
+            type = "submenu",
             name = "Cloudrest",
             controls = {
                 {
@@ -326,6 +354,33 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.dreadsailreef.staticThreshold = value
                     end,
                     disabled = function() return not Crutch.savedOptions.dreadsailreef.alertStaticStacks end,
+                },
+                {
+                    type = "checkbox",
+                    name = "Alert Volatile Residue stacks",
+                    tooltip = "Displays a prominent alert and ding sound if you reach too many Volatile Residue (poison) stacks",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.alertVolatileStacks end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.alertVolatileStacks = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "slider",
+                    name = "Volatile Residue stacks threshold",
+                    tooltip = "The minimum number of stacks of Volatile Residue to show alert for",
+                    min = 4,
+                    max = 20,
+                    step = 1,
+                    default = 6,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.volatileThreshold end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.volatileThreshold = value
+                    end,
+                    disabled = function() return not Crutch.savedOptions.dreadsailreef.alertVolatileStacks end,
                 },
             }
         },
