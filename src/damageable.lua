@@ -9,6 +9,28 @@ local SUBTITLE_CHANNELS = {
 }
 
 local SUBTITLE_TIMES = {
+-- DSR
+    ["Turlassil"] = {
+        -- Lylanar and Turlassil
+        ["Fresh challengers more like."] = 15.8,
+        ["You pass. Barely"] = 5.8,
+        ["You looked a little too eager to kill our hounds for my taste."] = 5.8,
+        ["I'll take the first round, Ly."] = 5.8,
+        ["That was just a taste of what's to come."] = 5.8,
+        ["Don't get up, Ly. This will just be a moment."] = 5.8,
+    },
+    ["Lylanar"] = {
+        -- Lylanar and Turlassil
+        ["I'll call first round."] = 5.8,
+        ["Had your warm up then?"] = 5.8,
+        ["Watch me, Turli. This is how it's done!"] = 5.8,
+        ["Made it farther than the thralls do."] = 5.8,
+        ["Now the real fight begins."] = 5.8,
+    },
+    ["Fleet Queen Taleria"] = {
+        -- Taleria
+        ["Barging into a lady's private chambers. You are bold."] = 23.5,
+    },
 -- HoF
     ["Assembly General"] = {
         -- Triplets
