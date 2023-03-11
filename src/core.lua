@@ -202,7 +202,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     -- Set the items
     local labelControl = lineControl:GetNamedChild("Label")
     labelControl:SetWidth(1200)
-    labelControl:SetText(customColor and ("|c" .. customColor .. textLabel .. "|r") or textLabel)
+    labelControl:SetText(customColor and zo_strformat("|c<<1>><<2>>|r", customColor, textLabel) or zo_strformat("<<1>>", textLabel))
     labelControl:SetWidth(labelControl:GetTextWidth())
 
     if (hideTimer == 1) then
