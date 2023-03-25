@@ -12,20 +12,20 @@ local SUBTITLE_TIMES = {
 -- DSR
     ["Turlassil"] = {
         -- Lylanar and Turlassil
-        ["Fresh challengers more like."] = 15.8,
-        ["You pass. Barely"] = 5.8,
-        ["You looked a little too eager to kill our hounds for my taste."] = 5.8,
-        ["I'll take the first round, Ly."] = 5.8,
-        ["That was just a taste of what's to come."] = 5.8,
-        ["Don't get up, Ly. This will just be a moment."] = 5.8,
+        ["Fresh challengers more like."] = 16.6,
+        ["You pass. Barely"] = 6.4,
+        ["You looked a little too eager to kill our hounds for my taste."] = 6.4,
+        ["I'll take the first round, Ly."] = 6.4,
+        ["That was just a taste of what's to come."] = 6.4,
+        ["Don't get up, Ly. This will just be a moment."] = 6.4,
     },
     ["Lylanar"] = {
         -- Lylanar and Turlassil
-        ["I'll call first round."] = 5.8,
-        ["Had your warm up then?"] = 5.8,
-        ["Watch me, Turli. This is how it's done!"] = 5.8,
-        ["Made it farther than the thralls do."] = 5.8,
-        ["Now the real fight begins."] = 5.8,
+        ["I'll call first round."] = 6.4,
+        ["Had your warm up then?"] = 6.4,
+        ["Watch me, Turli. This is how it's done!"] = 6.4,
+        ["Made it farther than the thralls do."] = 6.4,
+        ["Now the real fight begins."] = 6.4,
     },
     ["Fleet Queen Taleria"] = {
         -- Taleria
@@ -101,12 +101,13 @@ local SUBTITLE_TIMES = {
 -- Scrivener’s Hall
     ["Riftmaster Naqri"] = {
         -- Riftmaster Naqri - 1st boss
-        ["No need to involve you, Magnastylus. I'll beat anyone who tries to get through here."] = 15,
+        ["No need to involve you, Magnastylus. I'll beat anyone who tries to get through here."] = 14.8,
     },
     ["Valinna"] = {
         -- Valinna - Last boss
-        ["You live? Let's fix that, shall we?"] = 15,
-        ["What are you waiting for? Keshargo? Come and get him."] = 15,
+        -- ["You live? Let's fix that, shall we?"] = 15,
+        -- ["What are you waiting for? Keshargo? Come and get him."] = 15,
+        ["Let's be done with this. I have important tasks to see to."] = 4.5, -- Last area she has a shield and heals
     },
 
 -- Overland
