@@ -98,6 +98,17 @@ local SUBTITLE_TIMES = {
         ["Nun zu meiner Vergeltung. Jetzt studiere ich Eure Eingeweide, Hexer!"] = 4.8,
     },
 
+-- Scrivener’s Hall
+    ["Riftmaster Naqri"] = {
+        -- Riftmaster Naqri - 1st boss
+        ["No need to involve you, Magnastylus. I'll beat anyone who tries to get through here."] = 15,
+    },
+    ["Valinna"] = {
+        -- Valinna - Last boss
+        ["You live? Let's fix that, shall we?"] = 15,
+        ["What are you waiting for? Keshargo? Come and get him."] = 15,
+    },
+
 -- Overland
     ["K'Tora"] = {
         -- Abyssal Geyser

@@ -328,6 +328,10 @@ Crutch.others = {
 -- Coral Aerie
     [168947] = true, -- Lingering Current
 
+-- Scrivener's Hall
+    [182334] = true, -- Rain of Fire (Valinna)
+    [182393] = true, -- Immolation Trap (Valinna)
+
 ---------------------------------------------------------------------
 -- Overland
 

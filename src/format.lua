@@ -63,6 +63,10 @@ Crutch.format = {
 
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb
+
+-- Scrivener's Hall
+    [182334] = 5.3, -- Rain of Fire (Valinna)
+    [182393] = 14.5, -- Immolation Trap (Valinna)
 }
 
 
