@@ -114,6 +114,7 @@ local defaultOptions = {
         lokkIconsSize = 150,
         lokkIconsSoloHeal = false,
         showYolIcons = true,
+        yolLeftIcons = false,
         yolIconsSize = 150,
     },
     mawoflorkhaj = {

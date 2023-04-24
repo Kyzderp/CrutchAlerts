@@ -332,6 +332,9 @@ Crutch.others = {
     [182334] = true, -- Rain of Fire (Valinna)
     [182393] = true, -- Immolation Trap (Valinna)
 
+-- Graven Deep
+    [171935] = true, -- Necrotic Rain (Varzunon)
+
 ---------------------------------------------------------------------
 -- Overland
 

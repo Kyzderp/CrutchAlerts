@@ -55,6 +55,13 @@ local data = {
     ["YolHead2"] = {x = 97188, y = 49703, z = 109064, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds", size = GetYolIconsSize, color = {1, 1, 1}},
     ["YolHead3"] = {x = 97196, y = 49689, z = 110024, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds", size = GetYolIconsSize, color = {1, 1, 1}},
     ["YolHead4"] = {x = 96109, y = 49669, z = 110270, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = GetYolIconsSize, color = {1, 1, 1}},
+    -- Left Yolnahkriin from B7TxSpeed
+    ["YolLeftWing2"] = {x = 96409, y = 49689, z = 108324, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetYolIconsSize, color = {1, 1, 1}},
+    ["YolLeftWing3"] = {x = 97863, y = 49695, z = 109303, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = GetYolIconsSize, color = {1, 1, 1}},
+    ["YolLeftWing4"] = {x = 96867, y = 49700, z = 110960, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = GetYolIconsSize, color = {1, 1, 1}},
+    ["YolLeftHead2"] = {x = 96827, y = 49689, z = 108889, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds", size = GetYolIconsSize, color = {1, 1, 1}},
+    ["YolLeftHead3"] = {x = 97502, y = 49704, z = 109702, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds", size = GetYolIconsSize, color = {1, 1, 1}},
+    ["YolLeftHead4"] = {x = 96498, y = 49694, z = 110533, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = GetYolIconsSize, color = {1, 1, 1}},
 
     -- Dreadsail Reef
     -- ["1"] = {x = 165854, y = 39829, z = 82552, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},

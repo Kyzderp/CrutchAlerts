@@ -155,31 +155,52 @@ end
 
 local function OnYolFly75()
     if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
-    Crutch.EnableIcon("YolWing2")
-    Crutch.EnableIcon("YolHead2")
+    if (Crutch.savedOptions.sunspire.yolLeftIcons) then
+        Crutch.EnableIcon("YolLeftWing2")
+        Crutch.EnableIcon("YolLeftHead2")
+    else
+        Crutch.EnableIcon("YolWing2")
+        Crutch.EnableIcon("YolHead2")
+    end
     zo_callLater(function()
         Crutch.DisableIcon("YolWing2")
         Crutch.DisableIcon("YolHead2")
+        Crutch.DisableIcon("YolLeftWing2")
+        Crutch.DisableIcon("YolLeftHead2")
     end, 25000)
 end
 
 local function OnYolFly50()
     if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
-    Crutch.EnableIcon("YolWing3")
-    Crutch.EnableIcon("YolHead3")
+    if (Crutch.savedOptions.sunspire.yolLeftIcons) then
+        Crutch.EnableIcon("YolLeftWing3")
+        Crutch.EnableIcon("YolLeftHead3")
+    else
+        Crutch.EnableIcon("YolWing3")
+        Crutch.EnableIcon("YolHead3")
+    end
     zo_callLater(function()
         Crutch.DisableIcon("YolWing3")
         Crutch.DisableIcon("YolHead3")
+        Crutch.DisableIcon("YolLeftWing3")
+        Crutch.DisableIcon("YolLeftHead3")
     end, 25000)
 end
 
 local function OnYolFly25()
     if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
-    Crutch.EnableIcon("YolWing4")
-    Crutch.EnableIcon("YolHead4")
+    if (Crutch.savedOptions.sunspire.yolLeftIcons) then
+        Crutch.EnableIcon("YolLeftWing4")
+        Crutch.EnableIcon("YolLeftHead4")
+    else
+        Crutch.EnableIcon("YolWing4")
+        Crutch.EnableIcon("YolHead4")
+    end
     zo_callLater(function()
         Crutch.DisableIcon("YolWing4")
         Crutch.DisableIcon("YolHead4")
+        Crutch.DisableIcon("YolLeftWing4")
+        Crutch.DisableIcon("YolLeftHead4")
     end, 25000)
 end
 
