@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.17.0"
+Crutch.version = "0.17.1"
 
 Crutch.registered = {
     begin = false,
@@ -70,7 +70,7 @@ local defaultOptions = {
     debugChatSpam = false,
     debugOther = false,
     debugUi = false,
-    showSubtitles = true,
+    showSubtitles = false,
     subtitlesIgnoredZones = {},
     general = {
         showBegin = true,
