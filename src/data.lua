@@ -72,6 +72,7 @@ Crutch.filter = {
     [121422] = function(hitValue) return hitValue >= 1800 and Crutch.IsInNahvPortal() end, -- Sundering Gale (Eternal Servant, only display if self is in portal)
     [133936] = function(hitValue) return hitValue > 1 end, -- Exploding Spear
     [168947] = function(hitValue) return hitValue == 1300 end, -- Coral Aerie Ofallo Lingering Current
+    [170830] = function(hitValue) return hitValue == 1000 end, -- Petrify (1 second cast, and the 11 second channel)
 }
 
 
@@ -176,6 +177,7 @@ Crutch.others = {
     [132468] = true, -- Sanguine Prison
     [135991] = true, -- Toppling Blow (Storm Twin)
     [133936] = true, -- Exploding Spear
+    [136965] = true, -- Sanguine Grasp
 
 -- Asylum Sanctorium
     [ 95545] = true, -- Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
@@ -334,6 +336,15 @@ Crutch.others = {
 
 -- Graven Deep
     [171935] = true, -- Necrotic Rain (Varzunon)
+
+-- Earthen Root Enclave
+    [170830] = true, -- Petrify (1 second cast, and the 11 second channel)
+    -- [172147] = true, -- Chin Shatter
+    -- [171742] = true, -- Boughroot Slash
+    -- [170868] = true, -- Crumble (only human form)
+    [172410] = true, -- Crumble (Archdruid Devyric rock pillar things)
+    [171127] = true, -- Guttural Roar (5 seconds channel of the cone probably)
+    [170650] = true, -- Wild Stampede (Static Stampede, GAINED / DURATION tho)
 
 ---------------------------------------------------------------------
 -- Overland

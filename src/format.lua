@@ -10,7 +10,7 @@ local Crutch = CrutchAlerts
 -- Type: 0 = normal alert, 1 = secondary, 2 = prevent overwrite, 3 = always display even if already displaying
 -- HideTimer: 0 = false, 1 = true
 -- Color: 0 = white, 1 = ...
--- Timer: actual number, or 0
+-- Timer: actual number, or 0 for auto detect
 
 Crutch.format = {
 -- Testing The Abomination
@@ -67,6 +67,9 @@ Crutch.format = {
 -- Scrivener's Hall
     [182334] = 5.3, -- Rain of Fire (Valinna)
     [182393] = 14.5, -- Immolation Trap (Valinna)
+
+-- Earthen Root Enclave
+    [172410] = 100003.3, -- Crumble (Archdruid Devyric rock pillar things)
 }
 
 
