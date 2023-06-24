@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.17.2"
+Crutch.version = "0.17.3"
 
 Crutch.registered = {
     begin = false,
@@ -75,6 +75,7 @@ local defaultOptions = {
     general = {
         showBegin = true,
             beginHideSelf = false,
+                beginHideArcanist = false,
         showGained = true,
         showOthers = true,
         showProminent = true,

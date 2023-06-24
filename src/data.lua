@@ -59,7 +59,7 @@ Crutch.blacklist = {
 
 
 ---------------------------------------------------------------------
--- For specific abilities, some filters are required
+-- For specific abilities, some filters are required. Return true to show, false to skip
 Crutch.filter = {
     [ 73741] = function(hitValue, targetUnitTag) return hitValue >= 1900 and Crutch.GetUnitTagsDistance("player", targetUnitTag) <= 30 end, -- Threshing Wings (only get the initial cast, not the weird other parts that are cast on everyone)
     [ 74488] = function(hitValue, targetUnitTag) return Crutch.GetUnitTagsDistance("player", targetUnitTag) <= 30 end, -- Unstable Void (Rakkhat)
@@ -73,6 +73,20 @@ Crutch.filter = {
     [133936] = function(hitValue) return hitValue > 1 end, -- Exploding Spear
     [168947] = function(hitValue) return hitValue == 1300 end, -- Coral Aerie Ofallo Lingering Current
     [170830] = function(hitValue) return hitValue == 1000 end, -- Petrify (1 second cast, and the 11 second channel)
+
+-- Arcanist
+    [185805] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Fatecarver (cost mag)
+    [193331] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Fatecarver (cost stam)
+    [183122] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Exhausting Fatecarver (cost mag)
+    [193397] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Exhausting Fatecarver (cost stam)
+    [186366] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Pragmatic Fatecarver (cost mag)
+    [193398] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Pragmatic Fatecarver (cost stam)
+    [183537] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Remedy Cascade (cost mag)
+    [198309] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Remedy Cascade (cost stam)
+    [186193] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Cascading Fortune (cost mag)
+    [198330] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Cascading Fortune (cost stam)
+    [186200] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Curative Surge (cost mag)
+    [198537] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Curative Surge (cost stam)
 }
 
 

@@ -131,6 +131,19 @@ function Crutch:CreateSettingsMenu()
                         Crutch.RegisterBegin()
                     end,
                     width = "full",
+                    disabled = function() return not Crutch.savedOptions.general.showBegin end
+                },
+                {
+                    type = "checkbox",
+                    name = "            Hide self arcanist casts",
+                    tooltip = "Don't show alerts for arcanist channeled abilities that you cast, i.e. Fatecarver and Remedy Cascade",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.general.beginHideArcanist end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.beginHideArcanist = value
+                    end,
+                    width = "full",
+                    disabled = function() return Crutch.savedOptions.general.beginHideSelf or not Crutch.savedOptions.general.showBegin end
                 },
                 {
                     type = "checkbox",
