@@ -295,6 +295,10 @@ Crutch.others = {
     [157482] = true, -- Molten Rain (Ash Titan)
     [152414] = true, -- Meteor Call (Havocrel Torchcaster)
 
+-- Sanity's Edge
+    [200544] = true, -- Charge (Wamasu during trash)
+    [191133] = true, -- Charge (Wamasu during boss?)
+
 ---------------------------------------------------------------------
 -- Dungeons
 

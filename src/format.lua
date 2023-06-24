@@ -13,9 +13,19 @@ local Crutch = CrutchAlerts
 -- Timer: actual number, or 0 for auto detect
 
 Crutch.format = {
--- Testing The Abomination
-    -- [  8244] =  10, -- Devastate
-    [  8247] = 20202.5, -- Vomit
+-- Arcanist
+    [185805] = 700, -- Fatecarver (cost mag)
+    [193331] = 700, -- Fatecarver (cost stam)
+    [183122] = 700, -- Exhausting Fatecarver (cost mag)
+    [193397] = 700, -- Exhausting Fatecarver (cost stam)
+    [186366] = 700, -- Pragmatic Fatecarver (cost mag)
+    [193398] = 700, -- Pragmatic Fatecarver (cost stam)
+    [183537] = 700, -- Remedy Cascade (cost mag)
+    [198309] = 700, -- Remedy Cascade (cost stam)
+    [186193] = 700, -- Cascading Fortune (cost mag)
+    [198330] = 700, -- Cascading Fortune (cost stam)
+    [186200] = 700, -- Curative Surge (cost mag)
+    [198537] = 700, -- Curative Surge (cost stam)
 
 -- Sunspire
     [122012] = 130402.5, -- Storm Crush (Gale-Claw)
@@ -115,6 +125,7 @@ local colors = {
     [4] = "8ef5f5", -- Light blue, shock
     [5] = "ff00ff", -- Magenta
     [6] = "6a00ff", -- Dark purple
+    [7] = "3fe02a", -- Green for Arcanist
 }
 
 

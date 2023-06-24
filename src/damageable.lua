@@ -104,10 +104,10 @@ local SUBTITLE_TIMES = {
         ["No need to involve you, Magnastylus. I'll beat anyone who tries to get through here."] = 14.8,
     },
     ["Valinna"] = {
-        -- Valinna - Last boss
-        -- ["You live? Let's fix that, shall we?"] = 15,
-        -- ["What are you waiting for? Keshargo? Come and get him."] = 15,
-        ["Let's be done with this. I have important tasks to see to."] = 4.5, -- Last area she has a shield and heals
+        -- Valinna - Last boss. Last area she has a shield and heals
+        ["Let's be done with this. I have important tasks to see to."] = 4.5,
+        ["What are you waiting for? Keshargo? Come and get him."] = 4.6,
+        ["You live? Let's fix that, shall we?"] = 5,
     },
 
 -- Overland
