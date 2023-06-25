@@ -245,6 +245,9 @@ local function Initialize()
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
     Crutch.InitializeDebug()
 
+    -- Boss health bar
+    Crutch.BossHealthBar.Initialize()
+
     -- Debug chat panel
     if (LibFilteredChatPanel) then
         crutchLFCPFilter = LibFilteredChatPanel:CreateFilter(Crutch.name, "/esoui/art/ava/ava_rankicon64_volunteer.dds", {0.7, 0.7, 0.5}, false)

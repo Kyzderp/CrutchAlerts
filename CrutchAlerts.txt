@@ -14,7 +14,6 @@ CrutchAlerts.xml
 
 trials/cloudrest.xml
 trials/mawOfLorkhaj.xml
-
 trials/asylumsanctorium.lua
 trials/cloudrest.lua
 trials/dreadsailReef.lua
@@ -27,6 +26,10 @@ trials/maelstromArena.lua
 trials/vateshranHollows.lua
 
 dungeons/ShipwrightsRegret.lua
+
+bosshealthbar/BossHealthBar.lua
+bosshealthbar/BossHealthBar.xml
+bosshealthbar/Thresholds.lua
 
 src/util.lua
 src/messaging.lua
