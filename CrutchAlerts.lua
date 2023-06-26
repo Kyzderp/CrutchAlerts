@@ -66,6 +66,10 @@ local defaultOptions = {
         x = GuiRoot:GetWidth() / 4,
         y = GuiRoot:GetHeight() / 4,
     },
+    bossHealthBarDisplay = {
+        x = -GuiRoot:GetWidth() / 4,
+        y = -100,
+    },
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
@@ -170,6 +174,11 @@ function CrutchAlerts:SavePosition()
     x, y = CrutchAlertsMawOfLorkhaj:GetCenter()
     Crutch.savedOptions.cursePadsDisplay.x = x - oX
     Crutch.savedOptions.cursePadsDisplay.y = y - oY
+
+    x = CrutchAlertsBossHealthBarContainer:GetLeft()
+    y = CrutchAlertsBossHealthBarContainer:GetTop()
+    Crutch.savedOptions.bossHealthBarDisplay.x = x - oX
+    Crutch.savedOptions.bossHealthBarDisplay.y = y - oY
 end
 
 ---------------------------------------------------------------------

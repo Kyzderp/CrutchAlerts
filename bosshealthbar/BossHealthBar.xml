@@ -1,23 +1,13 @@
 <GuiXml>
     <Controls>
 <!-- ======================================================================================================================= -->
-        <TopLevelControl name="CrutchAlertsBossHealthBarContainer" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
+        <TopLevelControl name="CrutchAlertsBossHealthBarContainer" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="false">
             <Dimensions x="34" y="324"/>
             <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="-400" offsetY="-100"/>
             <OnMoveStop>
                 CrutchAlerts:SavePosition()
             </OnMoveStop>
             <Controls>
-                <Backdrop name="$(parent)Backdrop" centerColor="75000000" edgeColor="88000000" hidden="true">
-                    <AnchorFill/>
-                    <Edge edgeSize="1"/>
-                    <Controls>
-                        <Texture name="$(parent)Alert" textureFile="esoui/art/miscellaneous/gamepad/gp_icon_new.dds" hidden="false">
-                            <Dimensions x="40" y="40"/>
-                            <Anchor point="CENTER" offsetX="0" offsetY="0"/>
-                        </Texture>
-                    </Controls>
-                </Backdrop>
             </Controls>
         </TopLevelControl>
 <!-- ======================================================================================================================= -->

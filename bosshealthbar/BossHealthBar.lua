@@ -92,7 +92,6 @@ local function DrawStages()
 
     -- Check the data for boss stages
     local bossName = GetUnitName("boss1")
-    -- bossName = "Exarchanic Yaseyla" -- TODO
     local data = BHB.thresholds[bossName] or BHB.thresholds[BHB.aliases[bossName]]
 
     -- If there's no stages, do a default 75, 50, 25
@@ -164,13 +163,15 @@ end
 
 -- Shows or hides hp bars for each bossX unit. It may be possible for bosses to disappear,
 -- leaving a gap (Reef Guardian?), so we can't just base it on number of bosses.
-local function ShowOrHideBars()
+local function ShowOrHideBars(showAllForMoving)
     local highestTag = 0
 
     for i = 1, MAX_BOSSES do
         local unitTag = "boss" .. tostring(i)
         local name = GetUnitName(unitTag)
-        -- name = "Unit " .. tostring(i) -- TODO
+        if (showAllForMoving) then
+            name = "Example Boss " .. tostring(i)
+        end
         if (name and name ~= "") then
             highestTag = i
             local statusBar = GetOrCreateStatusBar(i)
@@ -178,6 +179,10 @@ local function ShowOrHideBars()
 
             -- Also need to manually update the boss health to initialize
             local powerValue, powerMax, powerEffectiveMax = GetUnitPower(unitTag, POWERTYPE_HEALTH)
+            if (showAllForMoving) then
+                powerValue = math.random()
+                powerMax = 1
+            end
             OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffectiveMax)
         else
             local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(i))
@@ -234,6 +239,8 @@ function BHB.Initialize()
     EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, POWERTYPE_HEALTH)
 
     -- TODO: shields
+    CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+        Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
 
     OnBossesChanged()
 end

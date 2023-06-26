@@ -48,6 +48,14 @@ function Crutch:CreateSettingsMenu()
                 else
                     Crutch.UpdateSpearsDisplay(0, 0, 0)
                 end
+
+                CrutchAlertsBossHealthBarContainer:SetMovable(value)
+                CrutchAlertsBossHealthBarContainer:SetMouseEnabled(value)
+                if (value) then
+                    Crutch.BossHealthBar.ShowOrHideBars(true)
+                else
+                    Crutch.BossHealthBar.ShowOrHideBars()
+                end
             end,
             width = "full",
         },
