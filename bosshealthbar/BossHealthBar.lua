@@ -11,8 +11,6 @@ local BHB = Crutch.BossHealthBar
 
 -- I was really hoping to be able to use status bar gradient colors, but it seems to have really unexpected behavior with the vertical orientation
 
-local numBosses = 0
-
 ---------------------------------------------------------------------------------------------------
 -- Stages
 ---------------------------------------------------------------------------------------------------
@@ -86,26 +84,91 @@ local function DrawStages()
 end
 
 ---------------------------------------------------------------------------------------------------
-local function ShowOrHideBars()
-    -- TODO
+-- When bosses change
+---------------------------------------------------------------------------------------------------
+local function GetOrCreateStatusBar(index)
+    local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
+    if (not statusBar) then
+        statusBar = CreateControlFromVirtual(
+            "$(parent)Bar" .. tostring(index), -- name
+            CrutchAlertsBossHealthBarContainer, -- parent
+            "CrutchAlertsBossHealthBarBarTemplate", -- template
+            "") -- suffix
+        numMechanicControls = index
+    end
+    statusBar:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, (index - 1) * 36 + 2, 2)
+    statusBar:SetHidden(false)
+
+    return statusBar
 end
 
-local function OnBossesChanged()
-    numBosses = 0
+-- Shows or hides hp bars for each bossX unit. It may be possible for bosses to disappear,
+-- leaving a gap (Reef Guardian?), so we can't just base it on number of bosses.
+local function ShowOrHideBars()
+    local highestTag = 0
+
     for i = 1, MAX_BOSSES do
         local name = GetUnitName("boss" .. tostring(i))
-        if (name) then
-            numBosses = numBosses + 1
+        name = "Unit " .. tostring(i) -- TODO
+        if (name and name ~= "") then
+            highestTag = i
+            local statusBar = GetOrCreateStatusBar(i)
+            statusBar:GetNamedChild("BossName"):SetText(name)
+        else
+            local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(i))
+            if (statusBar) then
+                statusBar:SetHidden(true)
+            end
         end
     end
-    DrawStages()
-end
 
+    -- Adjust container size so the lines and text have something to anchor on the right
+    if (highestTag == 0) then
+        CrutchAlertsBossHealthBarContainer:SetWidth(34)
+    else
+        CrutchAlertsBossHealthBarContainer:SetWidth(highestTag * 36)
+    end
+
+    if (highestTag > 0) then
+        DrawStages()
+    end
+    DrawStages() -- TODO
+end
+BHB.ShowOrHideBars = ShowOrHideBars
+-- /script CrutchAlerts.BossHealthBar.ShowOrHideBars(1)
+
+local prevBosses = ""
+local function OnBossesChanged()
+    local bossHash = ""
+
+    for i = 1, MAX_BOSSES do
+        local name = GetUnitName("boss" .. tostring(i))
+        if (name and name ~= "") then
+            bossHash = bossHash .. name
+        end
+    end
+
+    -- There's no need to redraw the bars if bosses didn't change, which sometimes fires the event anyway for some reason
+    if (bossHash ~= prevBosses) then
+        prevBosses = bossHash
+        ShowOrHideBars()
+    end
+    ShowOrHideBars() -- TODO
+end
+BHB.OnBossesChanged = OnBossesChanged
+-- /script CrutchAlerts.BossHealthBar.OnBossesChanged()
+
+---------------------------------------------------------------------------------------------------
+-- When health changes
+---------------------------------------------------------------------------------------------------
 -- EVENT_POWER_UPDATE (number eventCode, string unitTag, number powerIndex, CombatMechanicType powerType, number powerValue, number powerMax, number powerEffectiveMax)
 local function OnPowerUpdate(_, unitTag, powerIndex, powerType, powerValue, powerMax, powerEffectiveMax)
     -- TODO
 end
 
+---------------------------------------------------------------------------------------------------
+-- Init
+---------------------------------------------------------------------------------------------------
 function BHB.Initialize()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Boss Health Bar")
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)

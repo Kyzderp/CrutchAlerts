@@ -3,7 +3,7 @@
 <!-- ======================================================================================================================= -->
         <TopLevelControl name="CrutchAlertsBossHealthBarContainer" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
             <Dimensions x="34" y="324"/>
-            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="-400" offsetY="0"/>
+            <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="-400" offsetY="-100"/>
             <OnMoveStop>
                 CrutchAlerts:SavePosition()
             </OnMoveStop>
@@ -18,28 +18,6 @@
                         </Texture>
                     </Controls>
                 </Backdrop>
-                <Backdrop name="$(parent)BarBg" centerColor="AA100000" edgeColor="AA100000" drawLayer="1" drawLevel="1">
-                    <AnchorFill/>
-                    <Edge edgeSize="2"/>
-                </Backdrop>
-                <StatusBar name="$(parent)Bar" orientation="VERTICAL" color="BBB31307" hidden="false" value="0.73" drawLayer="1" drawLevel="2">
-                    <Anchor point="TOPLEFT" offsetX="2" offsetY="2"/>
-                    <Anchor point="BOTTOMRIGHT" offsetX="-2" offsetY="-2"/>
-                    <Limits min="0" max="1"/>
-                    <Controls>
-                        <Label name="$(parent)BossName" font="$(BOLD_FONT)|15|shadow" color="CCCCCC" text="Exarchanic Yaseyla" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
-                            <Dimensions x="200" y="20"/>
-                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="-104"/>
-                            <OnInitialized>
-                                self:SetTransformRotationZ(math.rad(90))
-                            </OnInitialized>
-                        </Label>
-                        <Label name="$(parent)Percent" font="$(BOLD_FONT)|15|shadow" color="CCCCCC" text="73%" verticalAlignment="CENTER" horizontalAlignment="CENTER" hidden="false">
-                            <Dimensions x="40" y="16"/>
-                            <Anchor point="TOP" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="4"/>
-                        </Label>
-                    </Controls>
-                </StatusBar>
             </Controls>
         </TopLevelControl>
 <!-- ======================================================================================================================= -->
@@ -49,13 +27,35 @@
         <Label name="CrutchAlertsBossHealthBarPercentageTemplate" font="$(BOLD_FONT)|14|shadow" color="888888" text="50" verticalAlignment="CENTER" horizontalAlignment="RIGHT" hidden="false" virtual="true">
             <Dimensions x="40" y="16"/>
         </Label>
-        <Control name="CrutchAlertsBossHealthBarLineTemplate" virtual="true" drawLayer="1" drawLevel="0">
+        <Control name="CrutchAlertsBossHealthBarLineTemplate" virtual="true">
             <Controls>
-                <Backdrop centerColor="AA888888" edgeColor="AA888888" drawLayer="1" drawLevel="0">
+                <Backdrop centerColor="AA888888" edgeColor="AA888888" layer="1" level="1">
                     <AnchorFill/>
                     <Edge edgeSize="1"/>
                 </Backdrop>
             </Controls>
         </Control>
+        <StatusBar name="CrutchAlertsBossHealthBarBarTemplate" orientation="VERTICAL" color="BBB31307" hidden="false" value="0.73" layer="1" level="2" virtual="true">
+            <Dimensions x="30" y="320"/>
+            <Limits min="0" max="1"/>
+            <Controls>
+                <Backdrop centerColor="AA100000" edgeColor="AA100000" layer="1" level="0">
+                    <Anchor point="TOPLEFT" offsetX="-2" offsetY="-2"/>
+                    <Anchor point="BOTTOMRIGHT" offsetX="2" offsetY="2"/>
+                    <Edge edgeSize="2"/>
+                </Backdrop>
+                <Label name="$(parent)BossName" font="$(BOLD_FONT)|15|shadow" color="CCCCCC" text="Exarchanic Yaseyla" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
+                    <Dimensions x="200" y="20"/>
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="-104"/>
+                    <OnInitialized>
+                        self:SetTransformRotationZ(math.rad(90))
+                    </OnInitialized>
+                </Label>
+                <Label name="$(parent)Percent" font="$(BOLD_FONT)|15|shadow" color="CCCCCC" text="73%" verticalAlignment="CENTER" horizontalAlignment="CENTER" hidden="false">
+                    <Dimensions x="40" y="16"/>
+                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="2"/>
+                </Label>
+            </Controls>
+        </StatusBar>
     </Controls>
 </GuiXml>
