@@ -86,11 +86,8 @@ local function HideAllStages()
     end
 end
 
--- Draw number on the left, line through the bars, and text on the right for each boss stage threshold
-local function DrawStages()
-    HideAllStages()
-
-    -- Check the data for boss stages
+-- Check Thresholds.lua for boss stages
+local function GetBossThresholds()
     local bossName = GetUnitName("boss1")
     local data = BHB.thresholds[bossName] or BHB.thresholds[BHB.aliases[bossName]]
 
@@ -106,7 +103,18 @@ local function DrawStages()
     -- TODO: detect HM
     if (data.Hardmode) then
         data = data.Hardmode
+    elseif (data.Veteran) then
+        data = data.Veteran
     end
+
+    return data
+end
+
+-- Draw number on the left, line through the bars, and text on the right for each boss stage threshold
+local function DrawStages()
+    HideAllStages()
+
+    local data = GetBossThresholds()
 
     -- Create the controls and set the text
     local i = 1
@@ -137,7 +145,8 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
     if (statusBar) then
         -- ZO_StatusBar_SmoothTransition(self, value, max, forceInit, onStopCallback, customApproachAmountMs)
         ZO_StatusBar_SmoothTransition(statusBar, powerValue, powerMax)
-        statusBar:GetNamedChild("Percent"):SetText(zo_strformat("<<1>>%", tostring(zo_round(powerValue * 100 / powerMax))))
+        local percentText = zo_strformat("<<1>>%", tostring(zo_round(powerValue * 100 / powerMax)))
+        statusBar:GetNamedChild("Percent"):SetText(percentText)
     end
 end
 

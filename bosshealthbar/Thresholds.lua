@@ -29,6 +29,31 @@ BHB.thresholds = {
             [10] = "Wamasu",
         },
     },
+    ["Ansuul the Tormentor"] = {
+        [90] = "Manic Phobia",
+        [80] = "Maze",
+        [70] = "Manic Phobia",
+        [60] = "Maze",
+        [50] = "Manic Phobia",
+        [40] = "Maze",
+        [30] = "Manic Phobia",
+        [20] = "Split",
+        [10] = "Manic Phobia",
+    },
+    ["Corruption of Stone"] = {
+        [80] = "Rock Shower",
+        [60] = "Rock Shower",
+        [30] = "Rock Shower",
+    },
+    ["Corruption of Root"] = {
+        [70] = "Distributary", -- Unsure
+        [35] = "Distributary", -- Unsure
+    },
+    ["Archdruid Devyric"] = {
+        [65] = "Bear Form",
+        [45] = "Human Form",
+        [20] = "Bear Form",
+    },
 }
 
 BHB.aliases = {
