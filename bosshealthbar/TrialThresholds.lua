@@ -3,7 +3,14 @@ CrutchAlerts.BossHealthBar = CrutchAlerts.BossHealthBar or {}
 local Crutch = CrutchAlerts
 local BHB = Crutch.BossHealthBar
 
-BHB.thresholds = {
+BHB.thresholds = BHB.thresholds or {}
+BHB.aliases = BHB.aliases or {}
+
+---------------------------------------------------------------------
+-- Add percentage threshold + the mechanic name below
+---------------------------------------------------------------------
+local trialThresholds = {
+    -- Sanity's Edge
     ["Exarchanic Yaseyla"] = {
         ["Veteran"] = {
             [90] = "Wamasu",
@@ -40,22 +47,21 @@ BHB.thresholds = {
         [20] = "Split",
         [10] = "Manic Phobia",
     },
-    ["Corruption of Stone"] = {
-        [80] = "Rock Shower",
-        [60] = "Rock Shower",
-        [30] = "Rock Shower",
-    },
-    ["Corruption of Root"] = {
-        [70] = "Distributary", -- Unsure
-        [40] = "Distributary", -- Unsure
-    },
-    ["Archdruid Devyric"] = {
-        [65] = "Bear Form",
-        [45] = "Human Form",
-        [20] = "Bear Form",
-    },
 }
 
-BHB.aliases = {
+---------------------------------------------------------------------
+-- Other language aliases can go here
+---------------------------------------------------------------------
+local trialAliases = {
     ["L'exarchanique Yaseyla"] = "Exarchanic Yaseyla",
 }
+
+---------------------------------------------------------------------
+-- Copying into the same struct to allow better file splitting
+for k, v in pairs(trialThresholds) do
+    BHB.thresholds[k] = v
+end
+
+for k, v in pairs(trialAliases) do
+    BHB.aliases[k] = v
+end

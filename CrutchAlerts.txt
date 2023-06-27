@@ -29,7 +29,9 @@ dungeons/ShipwrightsRegret.lua
 
 bosshealthbar/BossHealthBar.lua
 bosshealthbar/BossHealthBar.xml
-bosshealthbar/Thresholds.lua
+bosshealthbar/TrialThresholds.lua
+bosshealthbar/DungeonThresholds.lua
+bosshealthbar/ArenaThresholds.lua
 
 src/util.lua
 src/messaging.lua
