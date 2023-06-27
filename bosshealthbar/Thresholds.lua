@@ -47,7 +47,7 @@ BHB.thresholds = {
     },
     ["Corruption of Root"] = {
         [70] = "Distributary", -- Unsure
-        [35] = "Distributary", -- Unsure
+        [40] = "Distributary", -- Unsure
     },
     ["Archdruid Devyric"] = {
         [65] = "Bear Form",

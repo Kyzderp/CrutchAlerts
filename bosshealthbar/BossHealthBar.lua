@@ -21,68 +21,73 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Stages
 ---------------------------------------------------------------------------------------------------
-local numMechanicControls = 0
+local mechanicControls = {} -- { [1] = { active = true, percentage = control, mechanic = control, line = control, }, }
 
--- My elementary control pool
-local function GetOrCreatePercentageAndMechanicControls(index, percentage)
-    if (not percentage) then percentage = 0 end
+-- My elementary control pool. Gets index for percentage, mechanic, and line controls, or creates new ones if none available
+local function GetUnusedControlsIndex()
+    -- First check if any existing ones are free
+    local index = 0
+    for i, controls in ipairs(mechanicControls) do
+        if (not controls.active) then
+            index = i
+            break
+        end
+    end
+
+    if (index ~= 0) then
+        return index
+    end
+
+    index = #mechanicControls + 1
+
+    -- If there are no free controls, we need to create them
+    dbg("creating new controls for index " .. tostring(index))
 
     -- Number percentage on the left of the bar
-    local percentageLabel = CrutchAlertsBossHealthBarContainer:GetNamedChild("Percent" .. tostring(index))
-    if (not percentageLabel) then
-        percentageLabel = CreateControlFromVirtual(
-            "$(parent)Percent" .. tostring(index), -- name
-            CrutchAlertsBossHealthBarContainer, -- parent
-            "CrutchAlertsBossHealthBarPercentageTemplate", -- template
-            "") -- suffix
-        if (index > numMechanicControls) then numMechanicControls = index end
-        dbg("Created new control Percent" .. tostring(index))
-    end
-    percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
-    percentageLabel:SetHidden(false)
+    local percentageLabel = CreateControlFromVirtual(
+        "$(parent)Percent" .. tostring(index), -- name
+        CrutchAlertsBossHealthBarContainer, -- parent
+        "CrutchAlertsBossHealthBarPercentageTemplate", -- template
+        "") -- suffix
 
     -- Mechanic text on the right of the bar
-    local mechanicLabel = CrutchAlertsBossHealthBarContainer:GetNamedChild("Mechanic" .. tostring(index))
-    if (not mechanicLabel) then
-        mechanicLabel = CreateControlFromVirtual(
-            "$(parent)Mechanic" .. tostring(index), -- name
-            CrutchAlertsBossHealthBarContainer, -- parent
-            "CrutchAlertsBossHealthBarMechanicTemplate", -- template
-            "") -- suffix
-        if (index > numMechanicControls) then numMechanicControls = index end
-        dbg("Created new control Mechanic" .. tostring(index))
-    end
-    mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6, (100 - percentage) / 5 * 16)
-    mechanicLabel:SetHidden(false)
+    local mechanicLabel = CreateControlFromVirtual(
+        "$(parent)Mechanic" .. tostring(index), -- name
+        CrutchAlertsBossHealthBarContainer, -- parent
+        "CrutchAlertsBossHealthBarMechanicTemplate", -- template
+        "") -- suffix
 
     -- Line marking the percentage through the bar
-    local lineControl = CrutchAlertsBossHealthBarContainer:GetNamedChild("Line" .. tostring(index))
-    if (not lineControl) then
-        lineControl = CreateControlFromVirtual(
-            "$(parent)Line" .. tostring(index), -- name
-            CrutchAlertsBossHealthBarContainer, -- parent
-            "CrutchAlertsBossHealthBarLineTemplate", -- template
-            "") -- suffix
-        if (index > numMechanicControls) then numMechanicControls = index end
-        dbg("Created new control Line" .. tostring(index))
-    end
-    lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4, (100 - percentage) / 5 * 16 + 1)
-    lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4, (100 - percentage) / 5 * 16 + 2)
-    lineControl:SetHidden(false)
+    local lineControl = CreateControlFromVirtual(
+        "$(parent)Line" .. tostring(index), -- name
+        CrutchAlertsBossHealthBarContainer, -- parent
+        "CrutchAlertsBossHealthBarLineTemplate", -- template
+        "") -- suffix
 
-    return percentageLabel, mechanicLabel, lineControl
+    -- Don't forget to put the new controls in the struct
+    mechanicControls[index] = {
+        active = false,
+        percentage = percentageLabel,
+        mechanic = mechanicLabel,
+        line = lineControl,
+    }
+
+    return index
+end
+
+-- Returns the individual controls for a stage
+local function GetStageControls()
+    local controls = mechanicControls[GetUnusedControlsIndex()]
+    controls.active = true
+    return controls.percentage, controls.mechanic, controls.line
 end
 
 local function HideAllStages()
-    if (numMechanicControls == 0) then
-        return
-    end
-
-    for i = 1, numMechanicControls do
-        local percentageLabel, mechanicLabel, lineControl = GetOrCreatePercentageAndMechanicControls(i)
-        percentageLabel:SetHidden(true)
-        mechanicLabel:SetHidden(true)
-        lineControl:SetHidden(true)
+    for _, controls in ipairs(mechanicControls) do
+        controls.active = false
+        controls.percentage:SetHidden(true)
+        controls.mechanic:SetHidden(true)
+        controls.line:SetHidden(true)
     end
 end
 
@@ -115,22 +120,26 @@ local function DrawStages()
     HideAllStages()
 
     local data = GetBossThresholds()
+    d(data)
 
-    -- Create the controls and set the text
-    local i = 1
+    -- Create the controls and set the properties
     for percentage, mechanic in pairs(data) do
-        local percentageLabel, mechanicLabel, lineControl = GetOrCreatePercentageAndMechanicControls(i, percentage)
-        percentageLabel:SetText(tostring(percentage))
-        mechanicLabel:SetText(mechanic)
-        i = i + 1
-    end
+        local percentageLabel, mechanicLabel, lineControl = GetStageControls()
 
-    -- Hide unused controls
-    for j = i, numMechanicControls do
-        local percentageLabel, mechanicLabel, lineControl = GetOrCreatePercentageAndMechanicControls(j)
-        percentageLabel:SetHidden(true)
-        mechanicLabel:SetHidden(true)
-        lineControl:SetHidden(true)
+        -- Number percentage on the left of the bar
+        percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
+        percentageLabel:SetText(tostring(percentage))
+        percentageLabel:SetHidden(false)
+
+        -- Mechanic text on the right of the bar
+        mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6, (100 - percentage) / 5 * 16)
+        mechanicLabel:SetText(mechanic)
+        mechanicLabel:SetHidden(false)
+
+        -- Line marking the percentage through the bar
+        lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4, (100 - percentage) / 5 * 16 + 1)
+        lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4, (100 - percentage) / 5 * 16 + 2)
+        lineControl:SetHidden(false)
     end
 end
 
