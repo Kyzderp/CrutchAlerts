@@ -79,7 +79,10 @@ Crutch.format = {
     [182393] = 14.5, -- Immolation Trap (Valinna)
 
 -- Earthen Root Enclave
-    [172410] = 100003.3, -- Crumble (Archdruid Devyric rock pillar things)
+    [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
+
+-- Sanity's Edge
+    [183855] = 45, -- The Ritual (Ansuul maze)
 }
 
 

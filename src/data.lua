@@ -312,6 +312,7 @@ Crutch.others = {
 -- Sanity's Edge
     [200544] = true, -- Charge (Wamasu during trash)
     [191133] = true, -- Charge (Wamasu during boss?)
+    [183855] = true, -- The Ritual (Ansuul maze)
 
 ---------------------------------------------------------------------
 -- Dungeons
@@ -363,6 +364,7 @@ Crutch.others = {
     [172410] = true, -- Crumble (Archdruid Devyric rock pillar things)
     [171127] = true, -- Guttural Roar (5 seconds channel of the cone probably)
     [170650] = true, -- Wild Stampede (Static Stampede, GAINED / DURATION tho)
+    [116859] = true, -- Crush (Monstrous Bear)
 
 ---------------------------------------------------------------------
 -- Overland
