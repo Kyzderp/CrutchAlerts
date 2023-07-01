@@ -15,6 +15,26 @@ local dungeonThresholds = {
         [55] = "Skeevatons",
     },
 
+    -- Coral Aerie
+    ["Maligalig"] = {
+        [70] = "Whirlpool",
+        [40] = "Whirlpool",
+    },
+    ["Sarydil"] = {
+        [75] = "Trash", -- Could be 77% instead? kinda weird
+        [35] = "Trash",
+    },
+    ["Varallion"] = {
+        ["Normal"] = {
+            [95] = "Gryphon",
+            [50] = "Gryphon",
+        },
+    },
+    ["Z'Baza"] = {
+        [60] = "Conduit Tendril",
+        [30] = "Conduit Tendril",
+    },
+
     -- Earthen Root Enclave
     ["Corruption of Stone"] = {
         [80] = "Rock Shower",
@@ -22,8 +42,8 @@ local dungeonThresholds = {
         [30] = "Rock Shower",
     },
     ["Corruption of Root"] = {
-        [70] = "Distributary", -- Unsure
-        [40] = "Distributary", -- Unsure
+        [75] = "Distributary", -- Unsure, could be 80?
+        [40] = "Distributary", -- Unsure, but probably correct
     },
     ["Archdruid Devyric"] = {
         [65] = "Bear Form",
