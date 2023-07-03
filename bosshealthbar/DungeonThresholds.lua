@@ -42,8 +42,8 @@ local dungeonThresholds = {
         [30] = "Rock Shower",
     },
     ["Corruption of Root"] = {
-        [75] = "Distributary", -- Unsure, could be 80?
-        [40] = "Distributary", -- Unsure, but probably correct
+        [75] = "Clones", -- Unsure, could be 80?
+        [40] = "Clones", -- Unsure, but probably correct
     },
     ["Archdruid Devyric"] = {
         [65] = "Bear Form",

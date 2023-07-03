@@ -19,7 +19,7 @@
         </Label>
         <Control name="CrutchAlertsBossHealthBarLineTemplate" virtual="true">
             <Controls>
-                <Backdrop centerColor="AA888888" edgeColor="AA888888" layer="1" level="1">
+                <Backdrop name="$(parent)Backdrop" centerColor="AA888888" edgeColor="AA888888" layer="1" level="1">
                     <AnchorFill/>
                     <Edge edgeSize="1"/>
                 </Backdrop>
@@ -43,7 +43,7 @@
                 </Label>
                 <Label name="$(parent)Percent" font="$(BOLD_FONT)|15|shadow" color="CCCCCC" text="73%" verticalAlignment="CENTER" horizontalAlignment="CENTER" hidden="false">
                     <Dimensions x="40" y="16"/>
-                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetY="2"/>
+                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="2"/>
                 </Label>
             </Controls>
         </StatusBar>

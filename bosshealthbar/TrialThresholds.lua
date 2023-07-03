@@ -10,6 +10,21 @@ BHB.aliases = BHB.aliases or {}
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local trialThresholds = {
+    -- Testing
+    ["Loremaster Trigon"] = {
+        [90] = "Test",
+        [80] = "Thingo",
+        [70] = "Blah",
+        [60] = "Yeeeeet",
+        [55] = "More mechanics",
+        [50] = "AAAAAAAAAA",
+        [35] = "Stuff",
+        [30] = "Text",
+        [25] = "Longer mechanic name",
+        [20] = "Testing",
+        [10] = "BURN IT",
+    },
+
     -- Dreadsail Reef
     ["Lylanar"] = {
         [70] = "2nd Teleports",

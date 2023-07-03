@@ -21,7 +21,7 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Stages
 ---------------------------------------------------------------------------------------------------
-local mechanicControls = {} -- { [1] = { active = true, percentage = control, mechanic = control, line = control, }, }
+local mechanicControls = {} -- { [1] = { active = true, percentNumber = 70, percentage = control, mechanic = control, line = control, }, }
 
 -- My elementary control pool. Gets index for percentage, mechanic, and line controls, or creates new ones if none available
 local function GetUnusedControlsIndex()
@@ -76,9 +76,10 @@ local function GetUnusedControlsIndex()
 end
 
 -- Returns the individual controls for a stage
-local function GetStageControls()
+local function GetStageControls(percentage)
     local controls = mechanicControls[GetUnusedControlsIndex()]
     controls.active = true
+    controls.percentNumber = percentage
     return controls.percentage, controls.mechanic, controls.line
 end
 
@@ -124,21 +125,25 @@ local function DrawStages()
 
     -- Create the controls and set the properties
     for percentage, mechanic in pairs(data) do
-        local percentageLabel, mechanicLabel, lineControl = GetStageControls()
+        local percentageLabel, mechanicLabel, lineControl = GetStageControls(percentage)
 
         -- Number percentage on the left of the bar
         percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
         percentageLabel:SetText(tostring(percentage))
+        percentageLabel:SetColor(0.53, 0.53, 0.53)
         percentageLabel:SetHidden(false)
 
         -- Mechanic text on the right of the bar
         mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6, (100 - percentage) / 5 * 16)
         mechanicLabel:SetText(mechanic)
+        mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
         mechanicLabel:SetHidden(false)
 
         -- Line marking the percentage through the bar
         lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4, (100 - percentage) / 5 * 16 + 1)
         lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4, (100 - percentage) / 5 * 16 + 2)
+        lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
+        lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
         lineControl:SetHidden(false)
     end
 end
@@ -146,6 +151,48 @@ end
 ---------------------------------------------------------------------------------------------------
 -- When health changes
 ---------------------------------------------------------------------------------------------------
+local bossHealths = {} -- { [1] = 0.7231, }
+
+-- Make stages that have already passed less obvious, and maybe highlight imminent stages
+-- Currently this doesn't really work well for encounters with multiple bosses, because I check
+-- both boss' health and take the maximum, and gray out things that haven't passed that. This means
+-- for things like Ly+Turli, the ticks don't get grayed out until both are < 70/65. Not yet sure of
+-- a good way to represent this in the data
+local function UpdateStagesWithBossHealth()
+    -- Use the maximum health
+    local highestHealth = math.max(
+        bossHealths[1] or 0,
+        bossHealths[2] or 0,
+        bossHealths[3] or 0,
+        bossHealths[4] or 0,
+        bossHealths[5] or 0,
+        bossHealths[6] or 0
+        )
+    highestHealth = zo_round(highestHealth * 100)
+
+    for _, controls in ipairs(mechanicControls) do
+        -- If the control is 2% higher than the highest health, then gray it out
+        if (controls.active) then
+            if (controls.percentNumber > highestHealth + 1) then
+                controls.percentage:SetColor(0.53, 0.53, 0.53, 0.5)
+                controls.mechanic:SetColor(0.53, 0.53, 0.53, 0.5)
+                controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.4)
+                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.4)
+            elseif (controls.percentNumber > highestHealth - 5) then
+                -- If the control is 5% lower than the highest health, highlight it
+                -- e.g. 74, 73, 72, 71, 70, 69 % would display as yellow
+                controls.percentage:SetColor(1, 1, 0, 0.5)
+                controls.mechanic:SetColor(1, 1, 0, 0.5)
+                controls.line:GetNamedChild("Backdrop"):SetCenterColor(1, 1, 0, 0.67)
+                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(1, 1, 0, 0.67)
+            else
+                -- Don't "clean" the ones that are still below the health, because if boss heals up,
+                -- this would still leave them grayed out, which is good
+            end
+        end
+    end
+end
+
 -- EVENT_POWER_UPDATE (number eventCode, string unitTag, number powerIndex, CombatMechanicType powerType, number powerValue, number powerMax, number powerEffectiveMax)
 local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffectiveMax)
     -- Still not sure the difference between powerMax and powerEffectiveMax...
@@ -156,6 +203,9 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         ZO_StatusBar_SmoothTransition(statusBar, powerValue, powerMax)
         local percentText = zo_strformat("<<1>>%", tostring(zo_round(powerValue * 100 / powerMax)))
         statusBar:GetNamedChild("Percent"):SetText(percentText)
+
+        bossHealths[index] = powerValue / powerMax
+        UpdateStagesWithBossHealth()
     end
 end
 
@@ -240,6 +290,7 @@ local function OnBossesChanged()
     -- There's no need to redraw the bars if bosses didn't change, which sometimes fires the event anyway for some reason
     if (bossHash ~= prevBosses) then
         prevBosses = bossHash
+        bossHealths = {}
         ShowOrHideBars()
     end
 end
