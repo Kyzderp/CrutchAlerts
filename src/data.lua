@@ -91,6 +91,12 @@ Crutch.filter = {
 
 
 ---------------------------------------------------------------------
+-- Some abilities show up as immediately "stopped" even though they're not interruptible
+Crutch.uninterruptible = {
+    [184540] = true, -- Chain Pull (Exarchanic Yaseyla)
+}
+
+---------------------------------------------------------------------
 -- Needs testing
 Crutch.testing = {
     -- [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)

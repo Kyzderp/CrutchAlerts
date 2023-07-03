@@ -64,7 +64,7 @@ Crutch.prominent = {
 
 -------------------
 -- SE
-    [184540] = {text = "CHAIN", color = {1, 0, 0}, slot = 1, playSound = true}, -- Chain Pull (Exarchanic Yaseyla)
+    [184540] = {text = "CHAIN", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- Chain Pull (Exarchanic Yaseyla)
 
 -------------------
 -- Custom

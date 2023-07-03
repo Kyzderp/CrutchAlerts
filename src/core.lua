@@ -240,26 +240,28 @@ function Crutch.Interrupted(targetUnitId)
     end
 
     for abilityId, data in pairs(displaying[targetUnitId]) do
-        local index = data.index
-        if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
-            freeControls[index].interrupted = true
-            freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
+        if (not Crutch.uninterruptible[abilityId]) then -- Some abilities show up as immediately interrupted, don't do that
+            local index = data.index
+            if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
+                freeControls[index].interrupted = true
+                freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
 
-            -- Set the text to "stopped"
-            local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
-            local labelControl = lineControl:GetNamedChild("Label")
-            labelControl:SetWidth(800)
-            labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
-            labelControl:SetWidth(labelControl:GetTextWidth())
-            lineControl:GetNamedChild("Timer"):SetText("")
-        end
+                -- Set the text to "stopped"
+                local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
+                local labelControl = lineControl:GetNamedChild("Label")
+                labelControl:SetWidth(800)
+                labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
+                labelControl:SetWidth(labelControl:GetTextWidth())
+                lineControl:GetNamedChild("Timer"):SetText("")
+            end
 
-        if (Crutch.prominentDisplaying[abilityId]) then
-            local slot = Crutch.prominentDisplaying[abilityId]
-            local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
-            control:SetHidden(true)
-            Crutch.prominentDisplaying[abilityId] = nil
-            EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "Prominent" .. tostring(slot))
+            if (Crutch.prominentDisplaying[abilityId]) then
+                local slot = Crutch.prominentDisplaying[abilityId]
+                local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
+                control:SetHidden(true)
+                Crutch.prominentDisplaying[abilityId] = nil
+                EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "Prominent" .. tostring(slot))
+            end
         end
     end
 end

@@ -229,7 +229,7 @@ end
 
 ---------------------------------------------------------------------
 -- Interrupted
-local InterruptedResults = {
+local interruptedResults = {
     [ACTION_RESULT_FEARED] = "FEARED",
     [ACTION_RESULT_STUNNED] = "STUNNED",
     [ACTION_RESULT_INTERRUPT] = "INTERRUPT",
@@ -245,7 +245,7 @@ local function OnInterrupted(_, result, isError, abilityName, _, _, sourceName, 
         ) then
         local resultString = ""
         if (result) then
-            resultString = (InterruptedResults[result] or tostring(result))
+            resultString = (interruptedResults[result] or tostring(result))
         end
 
         local sourceString = ""
@@ -271,7 +271,7 @@ function Crutch.RegisterInterrupts()
     if (Crutch.registered.interrupts) then return end
     Crutch.dbgOther("Registered Interrupts")
 
-    for result, name in pairs(InterruptedResults) do
+    for result, name in pairs(interruptedResults) do
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, OnInterrupted)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- interrupted enemies only
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, result)
@@ -284,7 +284,7 @@ function Crutch.UnregisterInterrupts()
     if (not Crutch.registered.interrupts) then return end
     Crutch.dbgOther("Unregistered Interrupts")
 
-    for result, name in pairs(InterruptedResults) do
+    for result, name in pairs(interruptedResults) do
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT)
     end
 
