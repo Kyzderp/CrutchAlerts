@@ -21,14 +21,18 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Stages
 ---------------------------------------------------------------------------------------------------
-local mechanicControls = {} -- { [1] = { active = true, percentNumber = 70, percentage = control, mechanic = control, line = control, }, }
+local mechanicControls = {} -- { [1] = { state = ACTIVE, percentNumber = 70, percentage = control, mechanic = control, line = control, }, }
+local INACTIVE = 0
+local ACTIVE = 1
+local IMMINENT = 2
+local PASSED = 3
 
 -- My elementary control pool. Gets index for percentage, mechanic, and line controls, or creates new ones if none available
 local function GetUnusedControlsIndex()
     -- First check if any existing ones are free
     local index = 0
     for i, controls in ipairs(mechanicControls) do
-        if (not controls.active) then
+        if (controls.state == INACTIVE) then
             index = i
             break
         end
@@ -66,7 +70,7 @@ local function GetUnusedControlsIndex()
 
     -- Don't forget to put the new controls in the struct
     mechanicControls[index] = {
-        active = false,
+        state = ACTIVE,
         percentage = percentageLabel,
         mechanic = mechanicLabel,
         line = lineControl,
@@ -76,16 +80,16 @@ local function GetUnusedControlsIndex()
 end
 
 -- Returns the individual controls for a stage
-local function GetStageControls(percentage)
+local function CreateStageControl(percentage)
     local controls = mechanicControls[GetUnusedControlsIndex()]
-    controls.active = true
+    controls.state = ACTIVE
     controls.percentNumber = percentage
     return controls.percentage, controls.mechanic, controls.line
 end
 
 local function HideAllStages()
     for _, controls in ipairs(mechanicControls) do
-        controls.active = false
+        controls.state = INACTIVE
         controls.percentage:SetHidden(true)
         controls.mechanic:SetHidden(true)
         controls.line:SetHidden(true)
@@ -125,7 +129,7 @@ local function DrawStages()
 
     -- Create the controls and set the properties
     for percentage, mechanic in pairs(data) do
-        local percentageLabel, mechanicLabel, lineControl = GetStageControls(percentage)
+        local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
 
         -- Number percentage on the left of the bar
         percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
@@ -171,16 +175,21 @@ local function UpdateStagesWithBossHealth()
     highestHealth = zo_round(highestHealth * 100)
 
     for _, controls in ipairs(mechanicControls) do
-        -- If the control is 2% higher than the highest health, then gray it out
-        if (controls.active) then
-            if (controls.percentNumber > highestHealth + 1) then
+        if (controls.state ~= INACTIVE) then
+            if (controls.state == PASSED) then
+                -- Don't redo the ones that have already passed, because if boss heals up,
+                -- this would still leave them grayed out, which is good
+            elseif (highestHealth < controls.percentNumber - 1) then
+                -- If the highest health is already more than 1% lower than mechanic, gray out mechanic
+                controls.state = PASSED
                 controls.percentage:SetColor(0.53, 0.53, 0.53, 0.5)
                 controls.mechanic:SetColor(0.53, 0.53, 0.53, 0.5)
-                controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.4)
-                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.4)
-            elseif (controls.percentNumber > highestHealth - 5) then
-                -- If the control is 5% lower than the highest health, highlight it
-                -- e.g. 74, 73, 72, 71, 70, 69 % would display as yellow
+                controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.1)
+                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.1)
+            elseif (highestHealth >= controls.percentNumber - 1 and highestHealth <= controls.percentNumber + 5) then
+                -- If the highest health is within 5% above the mechanic or 1% just after, highlight it
+                -- e.g. 75, 74, 73, 72, 71, 70, 69 % would display as yellow
+                controls.state = IMMINENT
                 controls.percentage:SetColor(1, 1, 0, 0.5)
                 controls.mechanic:SetColor(1, 1, 0, 0.5)
                 controls.line:GetNamedChild("Backdrop"):SetCenterColor(1, 1, 0, 0.67)
