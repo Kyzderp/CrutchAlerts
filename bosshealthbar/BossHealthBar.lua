@@ -110,7 +110,7 @@ local function GetBossThresholds()
         }
     end
 
-    -- TODO: detect HM
+    -- TODO: detect normal, vet, HM
     if (data.Hardmode) then
         data = data.Hardmode
     elseif (data.Veteran) then
@@ -121,11 +121,10 @@ local function GetBossThresholds()
 end
 
 -- Draw number on the left, line through the bars, and text on the right for each boss stage threshold
-local function DrawStages()
+local function RedrawStages()
     HideAllStages()
 
     local data = GetBossThresholds()
-    d(data)
 
     -- Create the controls and set the properties
     for percentage, mechanic in pairs(data) do
@@ -155,22 +154,32 @@ end
 ---------------------------------------------------------------------------------------------------
 -- When health changes
 ---------------------------------------------------------------------------------------------------
-local bossHealths = {} -- { [1] = 0.7231, }
+local bossHealths = {} -- { [1] = {current = 7231, max = 329131,}, }
+
+local function GetBossHealth(id)
+    if (not bossHealths[id]) then
+        return 0
+    end
+
+    return bossHealths[id].current / bossHealths[id].max
+end
 
 -- Make stages that have already passed less obvious, and maybe highlight imminent stages
 -- Currently this doesn't really work well for encounters with multiple bosses, because I check
 -- both boss' health and take the maximum, and gray out things that haven't passed that. This means
 -- for things like Ly+Turli, the ticks don't get grayed out until both are < 70/65. Not yet sure of
 -- a good way to represent this in the data
+-- TODO: maybe add an optional "type" to the mechanic? if it's set to "single" or whatever, gray it
+-- when one boss passes?
 local function UpdateStagesWithBossHealth()
     -- Use the maximum health
     local highestHealth = math.max(
-        bossHealths[1] or 0,
-        bossHealths[2] or 0,
-        bossHealths[3] or 0,
-        bossHealths[4] or 0,
-        bossHealths[5] or 0,
-        bossHealths[6] or 0
+        GetBossHealth(1),
+        GetBossHealth(2),
+        GetBossHealth(3),
+        GetBossHealth(4),
+        GetBossHealth(5),
+        GetBossHealth(6)
         )
     highestHealth = zo_round(highestHealth * 100)
 
@@ -213,7 +222,24 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         local percentText = zo_strformat("<<1>>%", tostring(zo_round(powerValue * 100 / powerMax)))
         statusBar:GetNamedChild("Percent"):SetText(percentText)
 
-        bossHealths[index] = powerValue / powerMax
+        -- TODO: figure out if any bosses change in max health during the fight.
+        -- Otherwise, we can naively use this as a HM detector (and therefore NOT update stages)
+
+        if (bossHealths[index]) then
+            local prevValue = bossHealths[index].current
+            local prevMax = bossHealths[index].max
+            if (powerValue > prevValue) then
+                -- The boss healed :O
+                Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d healed %d -> %d",
+                    index, prevValue, powerValue))
+            end
+            if (powerMax > prevMax) then
+                Crutch.dbgSpam(string.format("|cFF0000[BHB]|r boss %d MAX HEALTH %d -> %d",
+                    index, prevMax, powerMax))
+            end
+        end
+
+        bossHealths[index] = {current = powerValue, max = powerMax}
         UpdateStagesWithBossHealth()
     end
 end
@@ -240,7 +266,7 @@ end
 
 -- Shows or hides hp bars for each bossX unit. It may be possible for bosses to disappear,
 -- leaving a gap (Reef Guardian?), so we can't just base it on number of bosses.
-local function ShowOrHideBars(showAllForMoving)
+local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
     local highestTag = 0
 
     for i = 1, MAX_BOSSES do
@@ -277,7 +303,9 @@ local function ShowOrHideBars(showAllForMoving)
     end
 
     if (highestTag > 0) then
-        DrawStages()
+        if (not onlyReanchorStages) then
+            RedrawStages()
+        end
     else
         HideAllStages()
     end
@@ -286,6 +314,7 @@ BHB.ShowOrHideBars = ShowOrHideBars
 -- /script CrutchAlerts.BossHealthBar.ShowOrHideBars(1)
 
 local prevBosses = ""
+local prevBoss1 = ""
 local function OnBossesChanged()
     local bossHash = ""
 
@@ -299,8 +328,15 @@ local function OnBossesChanged()
     -- There's no need to redraw the bars if bosses didn't change, which sometimes fires the event anyway for some reason
     if (bossHash ~= prevBosses) then
         prevBosses = bossHash
+        local boss1 = GetUnitName("boss1") or ""
         bossHealths = {}
-        ShowOrHideBars()
+
+        -- If boss1 has not changed, don't redraw stages, because some fights like Reef Guardian triggers bosses changed when a new one spawns. The stages' anchors get automatically updated because they're based on the container
+        if (prevBoss1 == boss1) then
+            ShowOrHideBars(false, true)
+        else
+            ShowOrHideBars()
+        end
     end
 end
 BHB.OnBossesChanged = OnBossesChanged

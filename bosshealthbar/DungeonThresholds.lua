@@ -10,12 +10,12 @@ BHB.aliases = BHB.aliases or {}
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local dungeonThresholds = {
-    -- Frostvault
+-- Frostvault
     ["The Stonekeeper"] = {
         [55] = "Skeevatons",
     },
 
-    -- Coral Aerie
+-- Coral Aerie
     ["Maligalig"] = {
         [70] = "Whirlpool",
         [40] = "Whirlpool",
@@ -35,7 +35,17 @@ local dungeonThresholds = {
         [30] = "Conduit Tendril",
     },
 
-    -- Earthen Root Enclave
+-- Shipwright's Regret
+    ["Foreman Bradiggan"] = {
+        [60] = "Abomination",
+        [30] = "Abomination",
+    },
+    ["Captain Numirril"] = {
+        [85] = "Abomination",
+        [40] = "Abomination",
+    },
+
+-- Earthen Root Enclave
     ["Corruption of Stone"] = {
         [80] = "Rock Shower",
         [60] = "Rock Shower",

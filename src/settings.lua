@@ -52,7 +52,7 @@ function Crutch:CreateSettingsMenu()
                 CrutchAlertsBossHealthBarContainer:SetMovable(value)
                 CrutchAlertsBossHealthBarContainer:SetMouseEnabled(value)
                 if (value) then
-                    Crutch.BossHealthBar.ShowOrHideBars(true)
+                    Crutch.BossHealthBar.ShowOrHideBars(true, false)
                 else
                     Crutch.BossHealthBar.ShowOrHideBars()
                 end

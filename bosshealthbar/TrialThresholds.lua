@@ -25,6 +25,11 @@ local trialThresholds = {
         [10] = "BURN IT",
     },
 
+    -- Cloudrest
+    ["Shade of Siroria"] = {
+        [60] = "Siroria starts jumping",
+    },
+
     -- Dreadsail Reef
     ["Lylanar"] = {
         [70] = "2nd Teleports",
