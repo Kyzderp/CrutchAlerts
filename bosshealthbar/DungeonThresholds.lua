@@ -10,10 +10,84 @@ BHB.aliases = BHB.aliases or {}
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local dungeonThresholds = {
+-- Spindleclutch I
+-- Spindleclutch II
+-- The Banished Cells I
+-- The Banished Cells II
+-- Fungal Grotto I
+-- Fungal Grotto II
+-- Wayrest Sewers I
+-- Wayrest Sewers II
+-- Elden Hollow I
+-- Elden Hollow II
+-- Darkshade Caverns I
+-- Darkshade Caverns II
+-- Crypt of Hearts I
+-- Crypt of Hearts II
+-- City of Ash I
+-- City of Ash II (Inner Grove)
+-- Arx Corinium
+
+-- Volenfell
+    ["Quintus Verres"] = {
+        -- Normal: Quintus Verres (boss1) value: 1204050 max: 1204050 effectiveMax: 1204050
+        [60] = "Fires start",
+        [20] = "Gargoyle",
+        -- Normal: Monstrous Gargoyle (boss1) value: 1262989 max: 1262989 effectiveMax: 1262989
+        -- The gargoyle permanently flattens Quintus, replacing him as the boss. Doesn't appear to have anything special
+    },
+
+-- Tempest Island
+-- Direfrost Keep
+
+-- Blackheart Haven
+    ["Atarus"] = {
+        -- On normal, has 884093 health. Heals for 294697 (33%)
+        [30] = "Monstrous Growth", -- id 29217
+    },
+
+-- Selene's Web
+-- Blessed Crucible
+-- Vaults of Madness
+-- Imperial City Prison (Bastion)
+-- White-Gold Tower (Green Emperor Way)
+-- Ruins of Mazzatun
+-- Cradle of Shadows
+-- Bloodroot Forge
+-- Falkreath Hold
+-- Fang Lair
+-- Scalecaller Peak
+-- Moon Hunter Keep
+-- March of Sacrifices (Bloodscent Pass)
+
 -- Frostvault
     ["The Stonekeeper"] = {
         [55] = "Skeevatons",
     },
+
+-- Depths of Malatar
+-- Moongrave Fane
+
+-- Lair of Maarselok
+    -- Normal: Selene's Claws (boss1) value: 926192 max: 926192 effectiveMax: 926192
+    -- Normal: Selene's Fangs (boss1) value: 841993 max: 841993 effectiveMax: 841993
+
+-- Icereach
+
+-- Unhallowed Grave
+    ["Hakgrym the Howler"] = {
+        [71] = "Abomination",
+        [31] = "Abomination",
+        -- On normal, has 2273381 health. Heals for ~1126690 (130728 -> 1267418; 49.5%?) / ~1136690 (130486 -> 1267176; 50%)
+        [6] = "Werewolf Form",
+    },
+
+-- Stone Garden
+-- Castle Thorn
+-- Black Drake Villa
+-- The Cauldron
+-- Red Petal Bastion
+-- The Dread Cellar
 
 -- Coral Aerie
     ["Maligalig"] = {
@@ -60,6 +134,10 @@ local dungeonThresholds = {
         [45] = "Human Form",
         [20] = "Bear Form",
     },
+
+-- Graven Deep
+-- Bal Sunnar
+-- Scrivener's Hall
 }
 
 ---------------------------------------------------------------------

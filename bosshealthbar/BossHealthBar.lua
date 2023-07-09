@@ -171,6 +171,8 @@ end
 -- a good way to represent this in the data
 -- TODO: maybe add an optional "type" to the mechanic? if it's set to "single" or whatever, gray it
 -- when one boss passes?
+-- TODO: add another type that deactivates after boss heals, e.g. vUG Hakgrym goes invuln and heals
+-- at 6%, leaving the stage yellow
 local function UpdateStagesWithBossHealth()
     -- Use the maximum health
     local highestHealth = math.max(
@@ -228,14 +230,24 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         if (bossHealths[index]) then
             local prevValue = bossHealths[index].current
             local prevMax = bossHealths[index].max
+            if (powerMax > prevMax) then
+                -- The boss' max health increased
+                Crutch.dbgSpam(string.format("|cFF0000[BHB] boss %d MAX INCREASE|r %d -> %d",
+                    index, prevMax, powerMax))
+                
+                -- Do not update stages, and wait for the next event (heal) to change the bar instead
+                bossHealths[index] = {current = powerValue, max = powerMax}
+                return
+            elseif (powerMax ~= prevMax) then
+                -- Only debug
+                Crutch.dbgSpam(string.format("|c00FFFF[BHB] boss %d MAX DECREASE|r %d -> %d",
+                    index, prevMax, powerMax))
+            end
+
             if (powerValue > prevValue) then
                 -- The boss healed :O
                 Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d healed %d -> %d",
                     index, prevValue, powerValue))
-            end
-            if (powerMax > prevMax) then
-                Crutch.dbgSpam(string.format("|cFF0000[BHB]|r boss %d MAX HEALTH %d -> %d",
-                    index, prevMax, powerMax))
             end
         end
 
@@ -286,6 +298,7 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
                 powerValue = math.random()
                 powerMax = 1
             end
+            dbg(string.format("%s (%s) value: %d max: %d effectiveMax: %d", name, unitTag, powerValue, powerMax, powerEffectiveMax))
             OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffectiveMax)
         else
             local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(i))
@@ -342,15 +355,20 @@ end
 BHB.OnBossesChanged = OnBossesChanged
 -- /script CrutchAlerts.BossHealthBar.OnBossesChanged()
 
+-- TODO: check if there are any bosses that don't despawn and respawn when you wipe?
+
 ---------------------------------------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------------------------------------
 function BHB.Initialize()
     Crutch.dbgOther("|c88FFFF[CT]|r Initialized Boss Health Bar")
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
+
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, OnPowerUpdate)
     EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
     EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, POWERTYPE_HEALTH)
+
+    EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPlayerActivated", EVENT_PLAYER_ACTIVATED, OnBossesChanged)
 
     -- TODO: shields
     CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
