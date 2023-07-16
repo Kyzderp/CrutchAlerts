@@ -13,6 +13,8 @@ local function OnCone(_, _, _, _, _, _, _, _, targetName, _, hitValue, _, _, _, 
     end
 
     targetName = GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId])
+    if (not targetName) then return end
+
     if (targetName == GetUnitDisplayName("player")) then
         Crutch.dbgOther(string.format("Cone self %s", targetName))
         if (Crutch.savedOptions.asylumsanctorium.dingSelfCone) then
