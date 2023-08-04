@@ -99,6 +99,7 @@ local dungeonThresholds = {
         [35] = "Trash",
     },
     ["Varallion"] = {
+        normHealth = 4209965,
         ["Normal"] = {
             [95] = "Gryphon",
             [50] = "Gryphon",
@@ -121,9 +122,26 @@ local dungeonThresholds = {
 
 -- Earthen Root Enclave
     ["Corruption of Stone"] = {
+        -- Health isn't necessary because the stages are the same, this is just for testing
+        normHealth = 3367972,
+        vetHealth = 5413503,
+        hmHealth = 8120255,
         [80] = "Rock Shower",
         [60] = "Rock Shower",
         [30] = "Rock Shower",
+        -- TODO: remove testing
+        -- Veteran = {
+        --     [90] = "Rock Shower VETTT",
+        --     [60] = "Rock Shower VETTT",
+        --     [30] = "Rock Shower VETTT",
+        -- },
+        -- Hardmode = {
+        --     [85] = "Rock Shower HM",
+        --     [70] = "Rock Shower HMer",
+        --     [60] = "Rock Shower HMdfs",
+        --     [45] = "Rock Shower HMaasdfadf",
+        --     [30] = "Rock Shower HM",
+        -- },
     },
     ["Corruption of Root"] = {
         [75] = "Clones", -- Unsure, could be 80?

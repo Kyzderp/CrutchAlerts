@@ -11,18 +11,39 @@ BHB.aliases = BHB.aliases or {}
 ---------------------------------------------------------------------
 local trialThresholds = {
     -- Testing
-    ["Loremaster Trigon"] = {
-        [90] = "Test",
-        [80] = "Thingo",
-        [70] = "Blah",
-        [60] = "Yeeeeet",
-        [55] = "More mechanics",
-        [50] = "AAAAAAAAAA",
-        [35] = "Stuff",
-        [30] = "Text",
-        [25] = "Longer mechanic name",
-        [20] = "Testing",
-        [10] = "BURN IT",
+    -- ["Loremaster Trigon"] = {
+    --     [90] = "Test",
+    --     [80] = "Thingo",
+    --     [70] = "Blah",
+    --     [60] = "Yeeeeet",
+    --     [55] = "More mechanics",
+    --     [50] = "AAAAAAAAAA",
+    --     [35] = "Stuff",
+    --     [30] = "Text",
+    --     [25] = "Longer mechanic name",
+    --     [20] = "Testing",
+    --     [10] = "BURN IT",
+    -- },
+
+    -- Halls of Fabrication
+    ["Hunter-Killer Negatrix"] = {
+        [15] = "",
+    },
+    ["Pinnacle Factotum"] = {
+        [80] = "Simulacra",
+        [60] = "Conduits",
+        [40] = "Spinner",
+    },
+    ["Reactor"] = {
+        [70] = "Reset",
+        [40] = "Reset",
+        [20] = "Reset",
+    },
+    ["Assembly General"] = {
+        [86] = "Terminals",
+        [66] = "Terminals",
+        [46] = "Terminals",
+        [26] = "Terminals",
     },
 
     -- Cloudrest
@@ -36,16 +57,29 @@ local trialThresholds = {
         [65] = "1st Teleports",
     },
     ["Reef Guardian"] = {
+        vetHealth = 27943440,
+        hmHealth = 41915160,
         ["Veteran"] = {
+            [80] = "Big Split",
             [50] = "Split",
         },
         ["Hardmode"] = {
+            [100] = "Big Split",
             [80] = "Split",
         },
+    },
+    ["Tideborn Taleria"] = {
+        [85] = "Winter Storm",
+        [50] = "Bridge",
+        [35] = "Bridge",
+        [20] = "Bridge",
     },
 
     -- Sanity's Edge
     ["Exarchanic Yaseyla"] = {
+        -- |cFF0000[BHB] boss 1 MAX INCREASE|r 65201356 -> 97802032
+        vetHealth = 65201356,
+        hmHealth = 97802032,
         ["Veteran"] = {
             [90] = "Wamasu",
             [70] = "Wamasu",

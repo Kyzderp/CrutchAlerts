@@ -98,23 +98,40 @@ end
 
 -- Check Thresholds.lua for boss stages
 local function GetBossThresholds()
-    local bossName = GetUnitName("boss1")
+    local bossName = zo_strformat(SI_UNIT_NAME, GetUnitName("boss1"))
     local data = BHB.thresholds[bossName] or BHB.thresholds[BHB.aliases[bossName]]
 
+    -- Detect HM or vet or normal first based on boss health
+    -- If not found, prioritize HM, then vet, and finally whatever data there is
     -- If there's no stages, do a default 75, 50, 25
+    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
     if (not data) then
+        dbg(string.format("No data found for %s, using default", bossName))
         data = {
             [75] = "",
             [50] = "",
             [25] = "",
         }
-    end
-
-    -- TODO: detect normal, vet, HM
-    if (data.Hardmode) then
+    elseif (powerMax == data.hmHealth and data.Hardmode) then
+        dbg(string.format("%s hp matched HARDMODE %d", bossName, powerMax))
+        data = data.Hardmode
+    elseif (powerMax == data.vetHealth and data.Veteran) then
+        dbg(string.format("%s hp matched VETERAN %d", bossName, powerMax))
+        data = data.Veteran
+    elseif (powerMax == data.normHealth and data.Normal) then
+        dbg(string.format("%s hp matched NORMAL %d", bossName, powerMax))
+        data = data.Normal
+    elseif (data.Hardmode) then
+        dbg(string.format("No hp match for %s %d, but found Hardmode data", bossName, powerMax))
         data = data.Hardmode
     elseif (data.Veteran) then
+        dbg(string.format("No hp match for %s %d, but found Veteran data", bossName, powerMax))
         data = data.Veteran
+    elseif (data.Normal) then
+        dbg(string.format("No hp match for %s %d, but found Normal data", bossName, powerMax))
+        data = data.Normal
+    else
+        dbg(string.format("No difficulty data found for %s %d", bossName, powerMax))
     end
 
     return data
@@ -128,26 +145,28 @@ local function RedrawStages()
 
     -- Create the controls and set the properties
     for percentage, mechanic in pairs(data) do
-        local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
+        if (type(percentage) == "number") then -- Obv can't do stages for "vetHealth" etc.
+            local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
 
-        -- Number percentage on the left of the bar
-        percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
-        percentageLabel:SetText(tostring(percentage))
-        percentageLabel:SetColor(0.53, 0.53, 0.53)
-        percentageLabel:SetHidden(false)
+            -- Number percentage on the left of the bar
+            percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
+            percentageLabel:SetText(tostring(percentage))
+            percentageLabel:SetColor(0.53, 0.53, 0.53)
+            percentageLabel:SetHidden(false)
 
-        -- Mechanic text on the right of the bar
-        mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6, (100 - percentage) / 5 * 16)
-        mechanicLabel:SetText(mechanic)
-        mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
-        mechanicLabel:SetHidden(false)
+            -- Mechanic text on the right of the bar
+            mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6, (100 - percentage) / 5 * 16)
+            mechanicLabel:SetText(mechanic)
+            mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
+            mechanicLabel:SetHidden(false)
 
-        -- Line marking the percentage through the bar
-        lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4, (100 - percentage) / 5 * 16 + 1)
-        lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4, (100 - percentage) / 5 * 16 + 2)
-        lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
-        lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
-        lineControl:SetHidden(false)
+            -- Line marking the percentage through the bar
+            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4, (100 - percentage) / 5 * 16 + 1)
+            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4, (100 - percentage) / 5 * 16 + 2)
+            lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
+            lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
+            lineControl:SetHidden(false)
+        end
     end
 end
 
@@ -236,12 +255,18 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                     index, prevMax, powerMax))
                 
                 -- Do not update stages, and wait for the next event (heal) to change the bar instead
-                bossHealths[index] = {current = powerValue, max = powerMax}
+                bossHealths[index] = {current = powerValue, max = powerMax} -- TODO: possibly delete this?
+                RedrawStages() -- TODO: see if this draws correctly, the next heal may draw the wrong colors?
                 return
             elseif (powerMax ~= prevMax) then
                 -- Only debug
                 Crutch.dbgSpam(string.format("|c00FFFF[BHB] boss %d MAX DECREASE|r %d -> %d",
                     index, prevMax, powerMax))
+
+                -- Do not update stages, and wait for the next event (heal) to change the bar instead
+                bossHealths[index] = {current = powerValue, max = powerMax} -- TODO: possibly delete this?
+                RedrawStages() -- TODO: see if this draws correctly, the next heal may draw the wrong colors?
+                return
             end
 
             if (powerValue > prevValue) then
@@ -277,7 +302,7 @@ local function GetOrCreateStatusBar(index)
 end
 
 -- Shows or hides hp bars for each bossX unit. It may be possible for bosses to disappear,
--- leaving a gap (Reef Guardian?), so we can't just base it on number of bosses.
+-- leaving a gap (e.g. Reef Guardian), so we can't just base it on number of bosses.
 local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
     local highestTag = 0
 
