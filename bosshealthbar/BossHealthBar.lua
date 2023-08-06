@@ -232,6 +232,8 @@ local function UpdateStagesWithBossHealth()
     end
 end
 
+local logNextPowerUpdate = 0 -- Used to log the next X health updates after max health change because sometimes the stages get grayed out :angy:
+
 -- EVENT_POWER_UPDATE (number eventCode, string unitTag, number powerIndex, CombatMechanicType powerType, number powerValue, number powerMax, number powerEffectiveMax)
 local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffectiveMax)
     -- Still not sure the difference between powerMax and powerEffectiveMax...
@@ -240,8 +242,20 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
     if (statusBar) then
         -- ZO_StatusBar_SmoothTransition(self, value, max, forceInit, onStopCallback, customApproachAmountMs)
         ZO_StatusBar_SmoothTransition(statusBar, powerValue, powerMax)
-        local percentText = zo_strformat("<<1>>%", tostring(zo_round(powerValue * 100 / powerMax)))
+        local roundedPercent = zo_round(powerValue * 100 / powerMax)
+        local percentText = zo_strformat("<<1>>%", tostring(roundedPercent))
         statusBar:GetNamedChild("Percent"):SetText(percentText)
+
+        -- The attached percent label needs an animation, otherwise it looks choppy
+        local attachedPercent = statusBar:GetNamedChild("AttachedPercent")
+        attachedPercent:SetText(percentText)
+        local _, originY = attachedPercent:GetCenter()
+        local targetY = statusBar:GetTop() + (100 - roundedPercent) / 5 * 16 - 12
+        attachedPercent.slide:SetDeltaOffsetX(0)
+        attachedPercent.slide:SetDeltaOffsetY(targetY - originY)
+        attachedPercent.slideAnimation:PlayFromStart()
+
+        -- statusBar:GetNamedChild("AttachedPercent"):SetAnchor(CENTER, statusBar, TOP, 0, (100 - roundedPercent) / 5 * 16 - 12)
 
         -- TODO: figure out if any bosses change in max health during the fight.
         -- Otherwise, we can naively use this as a HM detector (and therefore NOT update stages)
@@ -249,22 +263,31 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         if (bossHealths[index]) then
             local prevValue = bossHealths[index].current
             local prevMax = bossHealths[index].max
+
+            if (logNextPowerUpdate > 0) then
+                dbg("|cFFFF00[BHB]|r boss %d changed %d -> %d [logNextPowerUpdate %d]",
+                    index, prevValue, powerValue, logNextPowerUpdate)
+                logNextPowerUpdate = logNextPowerUpdate - 1
+            end
+
             if (powerMax > prevMax) then
-                -- The boss' max health increased
+                -- The boss' max health increased, meaning turning on HM
                 Crutch.dbgSpam(string.format("|cFF0000[BHB] boss %d MAX INCREASE|r %d -> %d",
                     index, prevMax, powerMax))
+                logNextPowerUpdate = 5
                 
                 -- Do not update stages, and wait for the next event (heal) to change the bar instead
-                bossHealths[index] = {current = powerValue, max = powerMax} -- TODO: possibly delete this?
+                -- bossHealths[index] = {current = powerValue, max = powerMax} -- TODO: possibly delete this?
                 RedrawStages() -- TODO: see if this draws correctly, the next heal may draw the wrong colors?
                 return
-            elseif (powerMax ~= prevMax) then
-                -- Only debug
+            elseif (powerMax < prevMax) then
+                -- The boss' max health decreased, meaning turning off HM
                 Crutch.dbgSpam(string.format("|c00FFFF[BHB] boss %d MAX DECREASE|r %d -> %d",
                     index, prevMax, powerMax))
+                logNextPowerUpdate = 5
 
                 -- Do not update stages, and wait for the next event (heal) to change the bar instead
-                bossHealths[index] = {current = powerValue, max = powerMax} -- TODO: possibly delete this?
+                -- bossHealths[index] = {current = powerValue, max = powerMax} -- TODO: possibly delete this?
                 RedrawStages() -- TODO: see if this draws correctly, the next heal may draw the wrong colors?
                 return
             end

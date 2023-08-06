@@ -45,6 +45,14 @@
                     <Dimensions x="40" y="16"/>
                     <Anchor point="TOP" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="2"/>
                 </Label>
+                <Label name="$(parent)AttachedPercent" font="$(BOLD_FONT)|15|shadow" color="CCCCCC" text="73%" verticalAlignment="CENTER" horizontalAlignment="CENTER" hidden="false">
+                    <Dimensions x="40" y="16"/>
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="TOP" offsetY="-12"/>
+                    <OnInitialized>
+                        self.slideAnimation = GetAnimationManager():CreateTimelineFromVirtual("ZO_LootSlideInAnimation", self)
+                        self.slide = self.slideAnimation:GetFirstAnimation()
+                    </OnInitialized>
+                </Label>
             </Controls>
         </StatusBar>
     </Controls>
