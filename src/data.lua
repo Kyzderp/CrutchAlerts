@@ -293,6 +293,9 @@ Crutch.others = {
     [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
     [ 91454] = true, -- Stomp (Assembly General)
     [ 91781] = true, -- Lightning Spear (Pinnacle Factotum conduit)
+    [ 95135] = true, -- Charge to Center (Assembly General)
+    [ 94747] = true, -- Overheating (Reducer)
+    [ 94759] = true, -- Overloading (Reactor)
 
 -- Rockgrove
     [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)
@@ -319,6 +322,7 @@ Crutch.others = {
     [200544] = true, -- Charge (Wamasu during trash)
     [191133] = true, -- Charge (Wamasu during boss?)
     [183855] = true, -- The Ritual (Ansuul maze)
+    [184802] = true, -- True Shot (Contramagis Archer)
 
 ---------------------------------------------------------------------
 -- Dungeons
