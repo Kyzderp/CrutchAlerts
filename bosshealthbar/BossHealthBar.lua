@@ -265,8 +265,8 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
             local prevMax = bossHealths[index].max
 
             if (logNextPowerUpdate > 0) then
-                dbg("|cFFFF00[BHB]|r boss %d changed %d -> %d [logNextPowerUpdate %d]",
-                    index, prevValue, powerValue, logNextPowerUpdate)
+                dbg(string.format("|cFFFF00[BHB]|r boss %d changed %d -> %d [logNextPowerUpdate %d]",
+                    index, prevValue, powerValue, logNextPowerUpdate))
                 logNextPowerUpdate = logNextPowerUpdate - 1
             end
 
@@ -276,9 +276,9 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                     index, prevMax, powerMax))
                 logNextPowerUpdate = 5
                 
-                -- Do not update stages, and wait for the next event (heal) to change the bar instead
-                -- bossHealths[index] = {current = powerValue, max = powerMax} -- TODO: possibly delete this?
-                RedrawStages() -- TODO: see if this draws correctly, the next heal may draw the wrong colors?
+                -- Do not update stages, and wait for the next event (heal) to change the stages instead
+                bossHealths[index] = {current = powerValue, max = powerMax} -- Do NOT delete this, prevMax bases off this
+                RedrawStages()
                 return
             elseif (powerMax < prevMax) then
                 -- The boss' max health decreased, meaning turning off HM
@@ -286,9 +286,9 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                     index, prevMax, powerMax))
                 logNextPowerUpdate = 5
 
-                -- Do not update stages, and wait for the next event (heal) to change the bar instead
-                -- bossHealths[index] = {current = powerValue, max = powerMax} -- TODO: possibly delete this?
-                RedrawStages() -- TODO: see if this draws correctly, the next heal may draw the wrong colors?
+                -- Do not update stages, and wait for the next event (heal) to change the stages instead
+                bossHealths[index] = {current = powerValue, max = powerMax} -- Do NOT delete this, prevMax bases off this
+                RedrawStages()
                 return
             end
 
