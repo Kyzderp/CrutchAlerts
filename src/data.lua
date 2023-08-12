@@ -293,9 +293,10 @@ Crutch.others = {
     [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
     [ 91454] = true, -- Stomp (Assembly General)
     [ 91781] = true, -- Lightning Spear (Pinnacle Factotum conduit)
-    [ 95135] = true, -- Charge to Center (Assembly General)
-    [ 94747] = true, -- Overheating (Reducer)
-    [ 94759] = true, -- Overloading (Reactor)
+    [ 94736] = true, -- Overheating Aura (Reducer)
+    [ 94757] = true, -- Overloading Aura (Reactor)
+    [ 95135] = true, -- Charge to Center (Assembly General) TODO: doesn't seem to work
+    [ 91019] = true, -- Phase 1.1 (Assembly General)
 
 -- Rockgrove
     [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)
