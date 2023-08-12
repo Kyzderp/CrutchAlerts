@@ -14,6 +14,10 @@ local function GetYolIconsSize()
     return Crutch.savedOptions.sunspire.yolIconsSize
 end
 
+local function GetTripletsIconSize()
+    return Crutch.savedOptions.hallsoffabrication.tripletsIconSize
+end
+
 ---------------------------------------------------------------------
 local icons = {}
 
@@ -70,6 +74,9 @@ local data = {
     -- ["1"] = {x = 179205, y = 39803, z = 82502, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
     -- ["1"] = {x = 175853, y = 39827, z = 87736, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
     -- ["1"] = {x = 168984, y = 39803, z = 87860, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100, color = {1, 1, 1}},
+
+    -- Halls of Fabrication
+    ["TripletsSafe"] = {x = 29758, y = 52950, z = 73169, texture = "odysupporticons/icons/emoji-poop.dds", size = GetTripletsIconSize, color = {1, 1, 1}},
 }
 
 

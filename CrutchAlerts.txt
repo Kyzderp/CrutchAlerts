@@ -14,9 +14,11 @@ CrutchAlerts.xml
 
 trials/cloudrest.xml
 trials/mawOfLorkhaj.xml
+
 trials/asylumsanctorium.lua
 trials/cloudrest.lua
 trials/dreadsailReef.lua
+trials/hallsOfFabrication.lua
 trials/kynesAegis.lua
 trials/mawOfLorkhaj.lua
 trials/rockgrove.lua

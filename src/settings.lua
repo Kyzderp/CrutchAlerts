@@ -407,6 +407,39 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Halls of Fabrication",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show safe spot for triplets",
+                    tooltip = "In the triplets fight, shows an icon in the world that is outside of Shock Field. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.hallsoffabrication.showTripletsIcon = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Triplets icon size",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.hallsoffabrication.tripletsIconSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.hallsoffabrication.tripletsIconSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                },
+            },
+        },
+        {
+            type = "submenu",
             name = "Kyne's Aegis",
             controls = {
                 {

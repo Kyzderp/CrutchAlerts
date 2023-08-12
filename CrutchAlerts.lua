@@ -105,6 +105,10 @@ local defaultOptions = {
         alertVolatileStacks = true,
         volatileThreshold = 6,
     },
+    hallsoffabrication = {
+        showTripletsIcon = true,
+        tripletsIconSize = 150,
+    },
     kynesaegis = {
         showSpearIcon = true,
         showPrisonIcon = true,
@@ -272,7 +276,7 @@ local function Initialize()
         -- [639 ] = true,  -- Sanctum Ophidia
         [677 ] = Crutch.UnregisterMaelstromArena,  -- Maelstrom Arena
         [725 ] = Crutch.UnregisterMawOfLorkhaj,  -- Maw of Lorkhaj
-        -- [975 ] = true,  -- Halls of Fabrication
+        [975 ] = Crutch.UnregisterHallsOfFabrication,  -- Halls of Fabrication
         [1000] = Crutch.UnregisterAsylumSanctorium,  -- Asylum Sanctorium
         [1051] = Crutch.UnregisterCloudrest,  -- Cloudrest
         -- [1082] = true,  -- Blackrose Prison
@@ -292,7 +296,7 @@ local function Initialize()
         -- [639 ] = true,  -- Sanctum Ophidia
         [677 ] = Crutch.RegisterMaelstromArena,  -- Maelstrom Arena
         [725 ] = Crutch.RegisterMawOfLorkhaj,  -- Maw of Lorkhaj
-        -- [975 ] = true,  -- Halls of Fabrication
+        [975 ] = Crutch.RegisterHallsOfFabrication,  -- Halls of Fabrication
         [1000] = Crutch.RegisterAsylumSanctorium,  -- Asylum Sanctorium
         [1051] = Crutch.RegisterCloudrest,  -- Cloudrest
         -- [1082] = true,  -- Blackrose Prison
