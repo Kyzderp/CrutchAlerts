@@ -295,7 +295,6 @@ Crutch.others = {
     [ 91781] = true, -- Lightning Spear (Pinnacle Factotum conduit)
     [ 94736] = true, -- Overheating Aura (Reducer)
     [ 94757] = true, -- Overloading Aura (Reactor)
-    [ 95135] = true, -- Charge to Center (Assembly General) TODO: doesn't seem to work
     [ 91019] = true, -- Phase 1.1 (Assembly General)
 
 -- Rockgrove

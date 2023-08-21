@@ -265,7 +265,7 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
             local prevMax = bossHealths[index].max
 
             if (logNextPowerUpdate > 0) then
-                dbg(string.format("|cFFFF00[BHB]|r boss %d changed %d -> %d [logNextPowerUpdate %d]",
+                Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d changed %d -> %d [logNextPowerUpdate %d]",
                     index, prevValue, powerValue, logNextPowerUpdate))
                 logNextPowerUpdate = logNextPowerUpdate - 1
             end

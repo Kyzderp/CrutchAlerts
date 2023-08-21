@@ -56,8 +56,7 @@ Crutch.format = {
     [ 49098] = 10, -- Big Quake (Stone Atronach)
 
 -- Halls of Fabrication
-    [ 95135] = 440, -- Charge to Center (Assembly General) TODO: doesn't seem to work
-    [ 91019] = 440, -- Phase 1.1 (Assembly General)
+    [ 91019] = 430, -- Phase 1.1 (Assembly General)
     [ 94736] = 500, -- Overheating Aura (Reducer)
     [ 94757] = 500, -- Overloading Aura (Reactor)
 
