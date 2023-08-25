@@ -10,7 +10,7 @@ BHB.aliases = BHB.aliases or {}
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local trialThresholds = {
-    -- Testing
+-- Testing
     -- ["Loremaster Trigon"] = {
     --     [90] = "Test",
     --     [80] = "Thingo",
@@ -25,9 +25,37 @@ local trialThresholds = {
     --     [10] = "BURN IT",
     -- },
 
-    -- Halls of Fabrication
+-- Hel Ra Citadel
+    ["Ra Kotu"] = {
+        [35] = "Beyblade",
+    },
+    ["The Warrior"] = {
+        [85] = "Statue Smash",
+        [70] = "Statue Smash",
+        [35] = "Shockwave",
+    },
+
+-- Aetherian Archive
+    ["The Mage"] = {
+        [15] = "Arcane Vortex",
+    },
+
+-- Sanctum Ophidia
+    -- Stonebreaker has an enrage, but not sure exact %. The guides for Crag trials
+    -- aren't very helpful because they're so early and easy trials... one says 20%
+
+-- Maw of Lorkhaj
+    ["Zhaj'hassa the Forgotten"] = {
+        [70] = "Shield",
+        [30] = "Shield",
+    },
+    ["Rakkhat"] = {
+        [11] = "Execute",
+    },
+
+-- Halls of Fabrication
     ["Hunter-Killer Negatrix"] = {
-        [15] = "",
+        [15] = "", -- To help know to bring the other boss in, if killing separately
     },
     ["Pinnacle Factotum"] = {
         [80] = "Simulacra",
@@ -43,15 +71,89 @@ local trialThresholds = {
         [86] = "Terminals",
         [66] = "Terminals",
         [46] = "Terminals",
-        [26] = "Terminals",
+        [26] = "Execute",
     },
 
-    -- Cloudrest
+-- Asylum Sanctorium
+    ["Saint Olms the Just"] = {
+        [91] = "Big Jump",
+        [76] = "Big Jump",
+        [51] = "Big Jump",
+        [26] = "Big Jump",
+    },
+
+-- Cloudrest
     ["Shade of Siroria"] = {
         [60] = "Siroria starts jumping",
     },
+    -- I'd add the mini spawns for Z'Maja, but I haven't found a way to detect difficulty easily.
+    -- +0, +1, +2, +3 all have the same HP for Z'Maja. Maybe there's a missing buff somewhere?
+    -- Otherwise, I'd have to change the mechanic stages once mechs like flare, barswap, frost
+    -- start showing up, which would be... a lotta work
 
-    -- Dreadsail Reef
+-- Sunspire
+    ["Lokkestiiz"] = {
+        [80] = "Atros + Beam",
+        [50] = "Beam + Atros",
+        [20] = "Atros + Beam",
+    },
+    ["Yolnahkriin"] = {
+        [75] = "Cataclysm",
+        [50] = "Cataclysm",
+        [25] = "Cataclysm",
+    },
+    ["Nahviintaas"] = {
+        [90] = "Time Shift",
+        [80] = "Takeoff",
+        [70] = "Time Shift",
+        [60] = "Takeoff",
+        [50] = "Time Shift",
+        [40] = "Takeoff",
+    },
+
+-- Kyne's Aegis
+    ["Yandir the Butcher"] = {
+        [50] = "Enrage",
+    },
+    ["Captain Vrol"] = {
+        [50] = "Shamans",
+    },
+    ["Lord Falgravn"] = {
+        [95] = "Lieutenant",
+        [90] = "Conga Line",
+        [80] = "Conga Line",
+        [70] = "Floor Shatter",
+        [35] = "Floor Shatter",
+    },
+
+-- Rockgrove
+    ["Oaxiltso"] = {
+        [95] = "Mini",
+        [75] = "Mini",
+        [50] = "Mini",
+        [25] = "Mini",
+    },
+    ["Flame-Herald Bahsei"] = {
+        [90] = "Abomination",
+        [85] = "Abomination",
+        [80] = "Abomination",
+        [75] = "Abomination",
+        [70] = "Abomination",
+        [65] = "Abomination",
+        [60] = "Abomination",
+        [50] = "Behemoth",
+        [40] = "Behemoth",
+        [30] = "Meteor",
+        [25] = "Behemoth",
+        [20] = "Behemoth",
+        [10] = "Behemoth",
+    },
+    ["Xalvakka"] = {
+        [70] = "Run!",
+        [40] = "Run!",
+    },
+
+-- Dreadsail Reef
     ["Lylanar"] = {
         [70] = "2nd Teleports",
         [65] = "1st Teleports",
@@ -75,7 +177,7 @@ local trialThresholds = {
         [20] = "Bridge",
     },
 
-    -- Sanity's Edge
+-- Sanity's Edge
     ["Exarchanic Yaseyla"] = {
         -- |cFF0000[BHB] boss 1 MAX INCREASE|r 65201356 -> 97802032
         vetHealth = 65201356,
