@@ -71,6 +71,19 @@ local dungeonThresholds = {
 -- Lair of Maarselok
     -- Normal: Selene's Claws (boss1) value: 926192 max: 926192 effectiveMax: 926192
     -- Normal: Selene's Fangs (boss1) value: 841993 max: 841993 effectiveMax: 841993
+    -- Normal: Maarselok (boss1) value: 7409538 max: 7409538 effectiveMax: 7409538
+    -- ?? There's some kind of timer for how long the boss is damageable, but it also
+    -- cuts short when some % is passed. Not sure of the % though, 40% could be one of them
+    -- ["Azureblight Cancroid"] = {
+    -- },
+    -- Maarselok (boss1) value: 5186676 max: 7409538 effectiveMax: 7409538
+    -- Maarselok on his perches lets you dps until 60, 55, 50. It's not particularly interesting though.
+    ["Maarselok"] = {
+        [60] = "Perch",
+        [55] = "Perch",
+        [50] = "Flee",
+    },
+
 
 -- Icereach
 
@@ -129,19 +142,6 @@ local dungeonThresholds = {
         [80] = "Rock Shower",
         [60] = "Rock Shower",
         [30] = "Rock Shower",
-        -- TODO: remove testing
-        -- Veteran = {
-        --     [90] = "Rock Shower VETTT",
-        --     [60] = "Rock Shower VETTT",
-        --     [30] = "Rock Shower VETTT",
-        -- },
-        -- Hardmode = {
-        --     [85] = "Rock Shower HM",
-        --     [70] = "Rock Shower HMer",
-        --     [60] = "Rock Shower HMdfs",
-        --     [45] = "Rock Shower HMaasdfadf",
-        --     [30] = "Rock Shower HM",
-        -- },
     },
     ["Corruption of Root"] = {
         [75] = "Clones", -- Unsure, could be 80?
@@ -155,7 +155,38 @@ local dungeonThresholds = {
 
 -- Graven Deep
 -- Bal Sunnar
+    -- %s from alcast guide aren't quite right: 65, 45, 20
+    -- normal: Kovan Giryon (boss1) value: 2946975 max: 2946975 effectiveMax: 2946975
+    ["Kovan Giryon"] = {
+        [71] = "Nix-Ox",
+        [46] = "Iron Atronach",
+        [21] = "Execute",
+    },
+    ["Roksa the Warped"] = {
+        [70] = "Devour Light",
+        [40] = "Devour Light",
+    },
+    -- %s from 3 guides aren't quite right? they say 70, 35
+    ["Matriarch Lladi Telvanni"] = {
+        [75] = "Poison Storm",
+        [45] = "Poison Storm",
+    },
+
 -- Scrivener's Hall
+    -- some guides are off, alcast says 80
+    ["Riftmaster Naqri"] = {
+        [86] = "Book",
+        [56] = "Book",
+        [36] = "Book",
+    },
+    ["Ozezan the Inferno"] = { -- TODO: from guides, check. can't check on normal
+        [40] = "Atronach",
+        [20] = "Atronach",
+    },
+    ["Valinna"] = {
+        [50] = "Lamikhai leaves",
+        [55] = "Valinna leaves",
+    }
 }
 
 ---------------------------------------------------------------------

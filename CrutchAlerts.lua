@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "0.18.2"
+Crutch.version = "0.19.0"
 
 Crutch.registered = {
     begin = false,
@@ -88,6 +88,11 @@ local defaultOptions = {
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
         useNonNoneBlacklist = true,
         useNoneBlacklist = true,
+    },
+    bossHealthBar = {
+        enabled = true,
+        firstTime = true,
+        -- TODO: scale
     },
     asylumsanctorium = {
         dingSelfCone = true,
@@ -225,7 +230,20 @@ end
 Crutch.OnPlayerActivated = OnPlayerActivated
 
 ---------------------------------------------------------------------
+-- First time player activated
+---------------------------------------------------------------------
+local function OnPlayerActivatedFirstTime()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ActivatedFirstTime", EVENT_PLAYER_ACTIVATED)
+
+    if (Crutch.savedOptions.bossHealthBar.firstTime) then
+        Crutch.BossHealthBar.DisplayWarning()
+        Crutch.savedOptions.bossHealthBar.firstTime = false
+    end
+end
+
+---------------------------------------------------------------------
 -- Initialize 
+---------------------------------------------------------------------
 local function Initialize()
     -- Settings and saved variables
     Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
@@ -267,6 +285,7 @@ local function Initialize()
     end
 
     -- Register for when entering zone
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ActivatedFirstTime", EVENT_PLAYER_ACTIVATED, OnPlayerActivatedFirstTime)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 
     zoneUnregisters = {

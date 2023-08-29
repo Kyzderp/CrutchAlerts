@@ -25,7 +25,7 @@ function Crutch:CreateSettingsMenu()
     local optionsData = {
         {
             type = "checkbox",
-            name = "Unlock",
+            name = "Unlock UI",
             tooltip = "Unlock the frames for moving",
             default = false,
             getFunc = function() return Crutch.unlock end,
@@ -198,6 +198,26 @@ function Crutch:CreateSettingsMenu()
                 },
             }
         },
+-- boss health bar
+        {
+            type = "submenu",
+            name = "Vertical Boss Health Bar Settings",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show boss health bar",
+                    tooltip = "Show vertical boss health bars with markers for percentage based mechanics",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.bossHealthBar.enabled end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.bossHealthBar.enabled = value
+                        Crutch.BossHealthBar.Initialize()
+                    end,
+                    width = "full",
+                },
+            }
+        },
+-- subtitles
         {
             type = "submenu",
             name = "Miscellaneous Settings",

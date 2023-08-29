@@ -97,8 +97,9 @@ local function HideAllStages()
 end
 
 -- Check Thresholds.lua for boss stages
-local function GetBossThresholds()
-    local bossName = zo_strformat(SI_UNIT_NAME, GetUnitName("boss1"))
+-- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect boss1
+local function GetBossThresholds(optionalBossName)
+    local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetUnitName("boss1"))
     local data = BHB.thresholds[bossName] or BHB.thresholds[BHB.aliases[bossName]]
 
     -- Detect HM or vet or normal first based on boss health
@@ -137,38 +138,6 @@ local function GetBossThresholds()
     return data
 end
 
--- Draw number on the left, line through the bars, and text on the right for each boss stage threshold
-local function RedrawStages()
-    HideAllStages()
-
-    local data = GetBossThresholds()
-
-    -- Create the controls and set the properties
-    for percentage, mechanic in pairs(data) do
-        if (type(percentage) == "number") then -- Obv can't do stages for "vetHealth" etc.
-            local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
-
-            -- Number percentage on the left of the bar
-            percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
-            percentageLabel:SetText(tostring(percentage))
-            percentageLabel:SetColor(0.53, 0.53, 0.53)
-            percentageLabel:SetHidden(false)
-
-            -- Mechanic text on the right of the bar
-            mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6, (100 - percentage) / 5 * 16)
-            mechanicLabel:SetText(mechanic)
-            mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
-            mechanicLabel:SetHidden(false)
-
-            -- Line marking the percentage through the bar
-            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4, (100 - percentage) / 5 * 16 + 1)
-            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4, (100 - percentage) / 5 * 16 + 2)
-            lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
-            lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
-            lineControl:SetHidden(false)
-        end
-    end
-end
 
 ---------------------------------------------------------------------------------------------------
 -- When health changes
@@ -230,6 +199,42 @@ local function UpdateStagesWithBossHealth()
             end
         end
     end
+end
+
+-- Draw number on the left, line through the bars, and text on the right for each boss stage threshold
+-- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect boss1
+local function RedrawStages(optionalBossName)
+    HideAllStages()
+
+    local data = GetBossThresholds(optionalBossName)
+
+    -- Create the controls and set the properties
+    for percentage, mechanic in pairs(data) do
+        if (type(percentage) == "number") then -- Obv can't do stages for "vetHealth" etc.
+            local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
+
+            -- Number percentage on the left of the bar
+            percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
+            percentageLabel:SetText(tostring(percentage))
+            percentageLabel:SetColor(0.53, 0.53, 0.53)
+            percentageLabel:SetHidden(false)
+
+            -- Mechanic text on the right of the bar
+            mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6, (100 - percentage) / 5 * 16)
+            mechanicLabel:SetText(mechanic)
+            mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
+            mechanicLabel:SetHidden(false)
+
+            -- Line marking the percentage through the bar
+            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4, (100 - percentage) / 5 * 16 + 1)
+            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4, (100 - percentage) / 5 * 16 + 2)
+            lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
+            lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
+            lineControl:SetHidden(false)
+        end
+    end
+
+    UpdateStagesWithBossHealth()
 end
 
 local logNextPowerUpdate = 0 -- Used to log the next X health updates after max health change because sometimes the stages get grayed out :angy:
@@ -326,6 +331,8 @@ end
 
 -- Shows or hides hp bars for each bossX unit. It may be possible for bosses to disappear,
 -- leaving a gap (e.g. Reef Guardian), so we can't just base it on number of bosses.
+-- onlyReanchorStages: Some fights like Reef Guardian trigger BOSSES_CHANGED when one dies.
+--                     We don't want to redraw the stages for that.
 local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
     local highestTag = 0
 
@@ -365,7 +372,11 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
 
     if (highestTag > 0) then
         if (not onlyReanchorStages) then
-            RedrawStages()
+            if (showAllForMoving) then
+                RedrawStages("Example Boss 1")
+            else
+                RedrawStages()
+            end
         end
     else
         HideAllStages()
@@ -405,11 +416,36 @@ BHB.OnBossesChanged = OnBossesChanged
 
 -- TODO: check if there are any bosses that don't despawn and respawn when you wipe?
 
+
+---------------------------------------------------------------------------------------------------
+-- First time BHB
+---------------------------------------------------------------------------------------------------
+local function DisplayWarning()
+    local warningText = "CrutchAlerts has a new feature: vertical boss health bars with mechanic markers. It's still a work in progress, but I'd recommend adjusting the location on your UI or toggling it if you don't want it, before it gets in your way in real content!\nSettings > Addons > CrutchAlerts > Unlock UI / Vertical Boss Health Bar Settings."
+
+    if (not LibDialog) then
+        CHAT_SYSTEM:AddMessage(warningText)
+        return
+    end
+
+    LibDialog:RegisterDialog(
+        Crutch.name,
+        "BHBFirstTimeWarning",
+        "Vertical Boss Health Bars",
+        warningText .. "\n\nGo to settings now?",
+        function() LibAddonMenu2:OpenToPanel(Crutch.addonPanel) end,
+        nil,
+        nil,
+        true)
+    LibDialog:ShowDialog(Crutch.name, "BHBFirstTimeWarning")
+end
+BHB.DisplayWarning = DisplayWarning
+
+
 ---------------------------------------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------------------------------------
-function BHB.Initialize()
-    Crutch.dbgOther("|c88FFFF[CT]|r Initialized Boss Health Bar")
+local function RegisterEvents()
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
 
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, OnPowerUpdate)
@@ -417,10 +453,39 @@ function BHB.Initialize()
     EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, POWERTYPE_HEALTH)
 
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPlayerActivated", EVENT_PLAYER_ACTIVATED, OnBossesChanged)
+end
 
-    -- TODO: shields
+-- Don't want event overload if the health bars are off
+local function UnregisterEvents()
+    Crutch.dbgOther("|c88FFFF[CT]|r Unregistering Boss Health Bar events")
+
+    EVENT_MANAGER:UnregisterForEvent("CrutchAlertsBossHealthBarBossChange", EVENT_BOSSES_CHANGED)
+
+    EVENT_MANAGER:UnregisterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE)
+
+    EVENT_MANAGER:UnregisterForEvent("CrutchAlertsBossHealthBarPlayerActivated", EVENT_PLAYER_ACTIVATED)
+end
+
+-- Entry point
+function BHB.Initialize()
+    Crutch.dbgOther("|c88FFFF[CT]|r Initializing Boss Health Bar")
+
     CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
         Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
 
-    OnBossesChanged()
+    CrutchAlertsBossHealthBarContainer:SetHidden(not Crutch.savedOptions.bossHealthBar.enabled)
+
+    if (Crutch.savedOptions.bossHealthBar.enabled) then
+        RegisterEvents()
+        OnBossesChanged()
+        ShowOrHideBars()
+    else
+        UnregisterEvents()
+    end
+
+    -- TODO: shields
+    -- TODO: invuln indicator
+    -- TODO: skull when dead?
+    -- TODO: remove attached % when dead?
+    -- TODO: larger scale 0
 end

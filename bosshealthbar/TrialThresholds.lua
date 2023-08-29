@@ -25,6 +25,13 @@ local trialThresholds = {
     --     [10] = "BURN IT",
     -- },
 
+-- For unlock UI settings
+    ["Example Boss 1"] = {
+        [85] = "Some mechanic",
+        [70] = "Another mechanic",
+        [35] = "A mechanic",
+    },
+
 -- Hel Ra Citadel
     ["Ra Kotu"] = {
         [35] = "Beyblade",
