@@ -81,6 +81,20 @@ local SUBTITLE_TIMES = {
 -----------
 -- Dungeons
 
+-- Bal Sunnar
+    ["Kovan Giryon"] = {
+        -- Kovan Giryon
+        ["Scourge! I've waited a lifetime for you."] = 14.1,
+    },
+    ["Matriarch Lladi Telvanni"] = {
+        -- Roksa the Warped
+        ["This power is ours! I will control my own fate!"] = 18.1,
+    },
+    ["Saresea"] = {
+        -- Matriarch Lladi Telvanni
+        ["Well, I was right. Here it is."] = 9.7,
+    },
+
 -- Castle Thorn
     ["Lady Thorn"] = {
         -- Blood Twilight

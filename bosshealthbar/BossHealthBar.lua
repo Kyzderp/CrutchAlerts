@@ -233,8 +233,6 @@ local function RedrawStages(optionalBossName)
             lineControl:SetHidden(false)
         end
     end
-
-    UpdateStagesWithBossHealth()
 end
 
 local logNextPowerUpdate = 0 -- Used to log the next X health updates after max health change because sometimes the stages get grayed out :angy:
@@ -374,6 +372,7 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
         if (not onlyReanchorStages) then
             if (showAllForMoving) then
                 RedrawStages("Example Boss 1")
+                UpdateStagesWithBossHealth()
             else
                 RedrawStages()
             end
