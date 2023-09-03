@@ -79,7 +79,7 @@ local defaultOptions = {
     general = {
         showBegin = true,
             beginHideSelf = false,
-                beginHideArcanist = false,
+        beginHideArcanist = false,
         showGained = true,
         showOthers = true,
         showProminent = true,
@@ -275,6 +275,7 @@ local function Initialize()
     Crutch.RegisterStacks()
     Crutch.RegisterEffectChanged() -- TODO: only do this when in group?
     Crutch.InitializeDebug()
+    Crutch.RegisterFatecarver()
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()

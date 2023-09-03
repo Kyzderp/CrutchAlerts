@@ -143,18 +143,6 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "            Hide self arcanist casts",
-                    tooltip = "Don't show alerts for arcanist channeled abilities that you cast, i.e. Fatecarver and Remedy Cascade",
-                    default = false,
-                    getFunc = function() return Crutch.savedOptions.general.beginHideArcanist end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.general.beginHideArcanist = value
-                    end,
-                    width = "full",
-                    disabled = function() return Crutch.savedOptions.general.beginHideSelf or not Crutch.savedOptions.general.showBegin end
-                },
-                {
-                    type = "checkbox",
                     name = "Show gained casts",
                     tooltip = "Show alerts when you \"Gain\" a cast from an enemy (ACTION_RESULT_GAINED / ACTION_RESULT_GAINED_DURATION)",
                     default = true,
@@ -188,11 +176,26 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show prominent alerts",
-                    tooltip = "Show VERY large letters and in some cases a ding sound for certain alerts",
+                    tooltip = "Show VERY large letters and in some cases a ding sound for certain alerts that usually require immediate action",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.general.showProminent end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.showProminent = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show arcanist timers",
+                    tooltip = "Show alerts for arcanist-specific channeled abilities that you cast, i.e. Fatecarver and Remedy Cascade",
+                    default = true,
+                    getFunc = function() return not Crutch.savedOptions.general.beginHideArcanist end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.beginHideArcanist = not value
+                        Crutch.UnregisterFatecarver()
+                        if (value) then
+                            Crutch.RegisterFatecarver()
+                        end
                     end,
                     width = "full",
                 },

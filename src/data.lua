@@ -32,6 +32,19 @@ Crutch.blacklist = {
     [103652] = true, -- Deep Thoughts
     [103665] = true, -- Introspection
 
+    [185805] = true, -- Fatecarver (cost mag)
+    [193331] = true, -- Fatecarver (cost stam)
+    [183122] = true, -- Exhausting Fatecarver (cost mag)
+    [193397] = true, -- Exhausting Fatecarver (cost stam)
+    [186366] = true, -- Pragmatic Fatecarver (cost mag)
+    [193398] = true, -- Pragmatic Fatecarver (cost stam)
+    [183537] = true, -- Remedy Cascade (cost mag)
+    [198309] = true, -- Remedy Cascade (cost stam)
+    [186193] = true, -- Cascading Fortune (cost mag)
+    [198330] = true, -- Cascading Fortune (cost stam)
+    [186200] = true, -- Curative Surge (cost mag)
+    [198537] = true, -- Curative Surge (cost stam)
+
 -- Other player-sourced
     [107579] = true, -- Mend Wounds
     [107630] = true, -- Mend Spirit
@@ -73,20 +86,6 @@ Crutch.filter = {
     [133936] = function(hitValue) return hitValue > 1 end, -- Exploding Spear
     [168947] = function(hitValue) return hitValue == 1300 end, -- Coral Aerie Ofallo Lingering Current
     [170830] = function(hitValue) return hitValue == 1000 end, -- Petrify (1 second cast, and the 11 second channel)
-
--- Arcanist
-    [185805] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Fatecarver (cost mag)
-    [193331] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Fatecarver (cost stam)
-    [183122] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Exhausting Fatecarver (cost mag)
-    [193397] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Exhausting Fatecarver (cost stam)
-    [186366] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Pragmatic Fatecarver (cost mag)
-    [193398] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Pragmatic Fatecarver (cost stam)
-    [183537] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Remedy Cascade (cost mag)
-    [198309] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Remedy Cascade (cost stam)
-    [186193] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Cascading Fortune (cost mag)
-    [198330] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Cascading Fortune (cost stam)
-    [186200] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Curative Surge (cost mag)
-    [198537] = function() return not Crutch.savedOptions.general.beginHideArcanist end, -- Curative Surge (cost stam)
 }
 
 

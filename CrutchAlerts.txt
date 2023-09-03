@@ -48,6 +48,7 @@ src/worldIcons.lua
 src/damageTaken.lua
 src/hooks.lua
 src/OSIHooks.lua
+src/fatecarver.lua
 
 debug/init.lua
 debug/ui.xml

@@ -244,15 +244,20 @@ function Crutch.Interrupted(targetUnitId)
             local index = data.index
             if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
                 freeControls[index].interrupted = true
-                freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
 
-                -- Set the text to "stopped"
-                local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
-                local labelControl = lineControl:GetNamedChild("Label")
-                labelControl:SetWidth(800)
-                labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
-                labelControl:SetWidth(labelControl:GetTextWidth())
-                lineControl:GetNamedChild("Timer"):SetText("")
+                -- Only show "stopped" if it hasn't already expired naturally
+                -- i.e. if the current time is not yet within 100ms of the expire time
+                if (GetGameTimeMilliseconds() < freeControls[index].expireTime - 100) then
+                    freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
+
+                    -- Set the text to "stopped"
+                    local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
+                    local labelControl = lineControl:GetNamedChild("Label")
+                    labelControl:SetWidth(800)
+                    labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
+                    labelControl:SetWidth(labelControl:GetTextWidth())
+                    lineControl:GetNamedChild("Timer"):SetText("")
+                end
             end
 
             if (Crutch.prominentDisplaying[abilityId]) then
