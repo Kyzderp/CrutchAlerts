@@ -221,8 +221,7 @@ local trialThresholds = {
         [50] = "Manic Phobia",
         [40] = "Maze",
         [30] = "Manic Phobia",
-        [20] = "Split",
-        [10] = "Manic Phobia",
+        [20] = "Split / Phobia on timer",
     },
 }
 
