@@ -115,27 +115,36 @@ local dungeonThresholds = {
     },
 
 -- Fang Lair
-    ["Thurvokun"] = { -- TODO: check what bosses actually appear? and boss name, maybe resets?
-        normHealth = 1683986, -- TODO, got from log
+    -- Lizabet Charnis has 4 hp bars! They're just dummy hp bars to indicate each wave of enemies. All same amount of hp, and her clone dies when the wave is done
+    -- normal: Lizabet Charnis (boss1) value: 186642 max: 186642 effectiveMax: 186642
+    -- Menagerie doesn't seem hp based, maybe the shield is but idk
+    -- normal: Cadaverous Bear (boss1) value: 1683986 max: 1683986 effectiveMax: 1683986
+    -- Caluurion relics are on some timer. On normal, they never all activate at the same time? So no execute marker
+    -- normal: Caluurion (boss1) value: 2946975 max: 2946975 effectiveMax: 2946975
+    -- Ulfnor (boss1) value: 1473488 max: 1473488 effectiveMax: 1473488
+    -- Thurvokun turns into Orryn the Black, but the hp bar still works fine
+    -- normal: Thurvokun (boss1) value: 1683986 max: 1683986 effectiveMax: 1683986
+    ["Thurvokun"] = {
+        normHealth = 1683986,
         vetHealth = 3594564, -- TODO, got from log
         hmHealth = 5427792, -- TODO, got from log
         ["Normal"] = {
-            [85] = "Crystal",
-            [75] = "Crystal",
-            [65] = "Crystal",
-            [55] = "Crystal",
+            [86] = "Crystal",
+            [76] = "Crystal",
+            [66] = "Crystal",
+            [56] = "Crystal",
         },
         ["Veteran"] = {
-            [85] = "Crystal",
-            [75] = "Crystal",
-            [65] = "Crystal",
-            [55] = "Crystal",
+            [86] = "Crystal",
+            [76] = "Crystal",
+            [66] = "Crystal",
+            [56] = "Crystal",
         },
         ["Hardmode"] = {
-            [85] = "Crystal",
-            [75] = "Crystal",
-            [65] = "Crystal",
-            [55] = "Crystal",
+            [86] = "Crystal",
+            [76] = "Crystal",
+            [66] = "Crystal",
+            [56] = "Crystal",
             [40] = "Colossus", -- TODO
             [30] = "Colossus", -- TODO
             [20] = "Colossus", -- TODO
@@ -451,9 +460,22 @@ local dungeonThresholds = {
     },
     ["Varallion"] = {
         normHealth = 4209965,
+        vetHealth = 6766879,
+        hmHealth = 13195414,
         ["Normal"] = {
             [95] = "Gryphon",
-            [50] = "Gryphon",
+            [55] = "Gryphon", -- TODO
+        },
+        ["Veteran"] = {
+            [95] = "Gryphon", -- TODO
+            [80] = "Gryphon", -- TODO
+            [55] = "Gryphon", -- TODO
+        },
+        ["Hardmode"] = {
+            [95] = "Gryphon", -- TODO
+            [80] = "Gryphon", -- TODO
+            [55] = "Gryphon", -- TODO
+            [30] = "Kargaeda", -- TODO
         },
     },
     ["Z'Baza"] = {
@@ -524,8 +546,22 @@ local dungeonThresholds = {
         [36] = "Book",
     },
     ["Ozezan the Inferno"] = { -- TODO: from guides, check. can't check on normal
-        [40] = "Atronach", -- 35?
-        [20] = "Atronach",
+        normHealth = 4546762,
+        vetHealth = 7308229, -- TODO: from uesp
+        hmHealth = 13154812,
+        ["Normal"] = {
+            [75] = "",
+            [50] = "",
+            [25] = "",
+        },
+        ["Veteran"] = {
+            [40] = "Atronach", -- 35?
+            [20] = "Atronach",
+        },
+        ["Hardmode"] = {
+            [40] = "Atronach", -- 35?
+            [20] = "Atronach",
+        },
     },
     ["Valinna"] = {
         [50] = "Lamikhai leaves",
