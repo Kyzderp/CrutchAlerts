@@ -91,8 +91,12 @@ Crutch.filter = {
 
 ---------------------------------------------------------------------
 -- Some abilities show up as immediately "stopped" even though they're not interruptible
+-- Or sometimes get "interrupted" for some reason?
 Crutch.uninterruptible = {
     [184540] = true, -- Chain Pull (Exarchanic Yaseyla)
+    [ 94736] = true, -- Overheating Aura (Reducer)
+    [ 94757] = true, -- Overloading Aura (Reactor)
+    [ 91019] = true, -- Phase 1.1 (Assembly General)
 }
 
 ---------------------------------------------------------------------
@@ -139,6 +143,8 @@ Crutch.testing = {
     -- [163676] = true, -- Jet (Numirril)
 
     [170188] = true, -- Cascading Boot
+
+    [185071] = true, -- Vengeful Strike (Yaseyla)
 }
 
 ---------------------------------------------------------------------
