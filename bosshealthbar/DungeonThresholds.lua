@@ -545,9 +545,9 @@ local dungeonThresholds = {
         [56] = "Book",
         [36] = "Book",
     },
-    ["Ozezan the Inferno"] = { -- TODO: from guides, check. can't check on normal
+    ["Ozezan the Inferno"] = {
         normHealth = 4546762,
-        vetHealth = 7308229, -- TODO: from uesp
+        vetHealth = 7308229,
         hmHealth = 13154812,
         ["Normal"] = {
             [75] = "",
@@ -555,12 +555,16 @@ local dungeonThresholds = {
             [25] = "",
         },
         ["Veteran"] = {
-            [40] = "Atronach", -- 35?
-            [20] = "Atronach",
+            [75] = "",
+            [50] = "",
+            [25] = "",
         },
         ["Hardmode"] = {
-            [40] = "Atronach", -- 35?
-            [20] = "Atronach",
+            -- Guides say 40/35 and 20, but I think they're on a "timer" after 40 or 36, namely every time Ozezan tunnels to an edge (NOT the middle), but only if another atro isn't already up
+            -- It seems like the atro can also happen during the beam cast...
+            -- Side tunnels may be every 40s? Had 43s between two
+            -- It may also be 75% for the first burrowing to the middle succ. Most fights only have 2 Charge Boss, but one has 3?
+            [40] = "Atronachs start", -- TODO: 36?
         },
     },
     ["Valinna"] = {
