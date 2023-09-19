@@ -59,6 +59,16 @@ local arenaThresholds = {
 ---------------------------------------------------------------------
 local arenaAliases = {
     ["Der Schürfürst"] = "The Pyrelord",
+
+-- Simplified Chinese aliases from oumu
+    ["勇士马卡尔德"] = "Champion Marcauld",
+    ["大地之心骑士"] = "Earthen Heart Knight",
+    ["阿那拉·图哈"] = "Anal'a Tu'wha",
+    ["远射手皮斯娜"] = "Pishna Longshot",
+    ["马维斯·泰尔纳里斯"] = "Mavus Talnarith",
+    ["吸血鬼大君斯萨"] = "Vampire Lord Thisa",
+    ["战斗大师西亚斯"] = "Hiath the Battlemaster",
+    ["柴堆领主"] = "The Pyrelord",
 }
 
 ---------------------------------------------------------------------

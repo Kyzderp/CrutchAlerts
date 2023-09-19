@@ -230,6 +230,33 @@ local trialThresholds = {
 ---------------------------------------------------------------------
 local trialAliases = {
     ["L'exarchanique Yaseyla"] = "Exarchanic Yaseyla",
+
+-- Simplified Chinese aliases from oumu
+    ["拉·阔图"] = "Ra Kotu",
+    ["武士"] = "The Warrior",
+    ["法师"] = "The Mage",
+    ["遗忘者扎哈撒"] = "Zhaj'hassa the Forgotten",
+    ["拉卡特"] = "Rakkhat",
+    ["猎杀者聂佳特里克斯"] = "Hunter-Killer Negatrix",
+    ["巅峰机械人"] = "Pinnacle Factotum",
+    ["反应器人"] = "Reactor",
+    ["组装将军"] = "Assembly General",
+    ["公正圣徒奥尔姆斯"] = "Saint Olms the Just",
+    ["希罗利亚幽影"] = "Shade of Siroria",
+    ["洛克提兹"] = "Lokkestiiz",
+    ["尤尔纳克林"] = "Yolnahkriin",
+    ["纳温塔丝"] = "Nahviintaas",
+    ["屠夫扬迪尔"] = "Yandir the Butcher",
+    ["威若船长"] = "Captain Vrol",
+    ["法尔格拉文领主"] = "Lord Falgravn",
+    ["奥西索"] = "Oaxiltso",
+    ["烈焰先驱巴塞"] = "Flame-Herald Bahsei",
+    ["夏尔瓦卡"] = "Xalvakka",
+    ["莱拉纳尔"] = "Lylanar",
+    ["礁石守护者"] = "Reef Guardian",
+    ["泰德伯恩·塔勒里亚"] = "Tideborn Taleria",
+    ["主教亚塞拉"] = "Exarchanic Yaseyla",
+    ["折磨者安苏尔"] = "Ansuul the Tormentor",
 }
 
 ---------------------------------------------------------------------
