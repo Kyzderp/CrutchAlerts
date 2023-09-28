@@ -257,6 +257,33 @@ local trialAliases = {
     ["泰德伯恩·塔勒里亚"] = "Tideborn Taleria",
     ["主教亚塞拉"] = "Exarchanic Yaseyla",
     ["折磨者安苏尔"] = "Ansuul the Tormentor",
+
+-- German aliases from Keldorem
+    -- ["Ra Kotu"] = Same in german
+    ["Krieger"] = "The Warrior",
+    ["Magierin"] = "The Mage",
+    ["Zhaj'hassa der Vergessene"] = "Zhaj'hassa the Forgotten",
+    -- ["Rakkhat"] = Same in german
+    ["Abfänger Negatrix"] = "Hunter-Killer Negatrix",
+    ["Perfektioniertes Faktotum"] = "Pinnacle Factotum",
+    ["Reaktor"] = "Reactor",
+    ["Montagegeneral"] = "Assembly General",
+    ["Heiliger Olms der Gerechte"] = "Saint Olms the Just",
+    ["Schatten von Siroria"] = "Shade of Siroria",
+    -- ["Lokkestiiz"] = Same in german
+    -- ["Yolnahkriin"] = Same in german
+    -- ["Nahviintaas"] = Same in german
+    ["Yandir der Ausweider"] = "Yandir the Butcher",
+    ["Kapitän Vrol"] = "Captain Vrol",
+    ["Fürst Falgravn"] = "Lord Falgravn",
+    -- ["Oaxiltso"] = Same in german
+    ["Flammenheroldin Bahsei"] = "Flame-Herald Bahsei",
+    -- ["Xalvakka"] = Same in german
+    -- ["Lylanar"] = Same in german
+    ["Riffwächter"] = "Reef Guardian",
+    ["Gezeitengeborene Taleria"] = "Tideborn Taleria",
+    ["Exarchanikerin Yaseyla"] = "Exarchanic Yaseyla",
+    ["Ansuul die Quälende"] = "Ansuul the Tormentor",
 }
 
 ---------------------------------------------------------------------

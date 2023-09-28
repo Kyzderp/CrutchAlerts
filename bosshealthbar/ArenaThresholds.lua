@@ -69,6 +69,9 @@ local arenaAliases = {
     ["吸血鬼大君斯萨"] = "Vampire Lord Thisa",
     ["战斗大师西亚斯"] = "Hiath the Battlemaster",
     ["柴堆领主"] = "The Pyrelord",
+
+-- German aliases from Keldorem
+    ["Der Schürfürst"] = "The Pyrelord",
 }
 
 ---------------------------------------------------------------------
