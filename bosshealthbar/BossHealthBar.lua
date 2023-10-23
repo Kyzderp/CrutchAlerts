@@ -100,7 +100,13 @@ end
 -- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect boss1
 local function GetBossThresholds(optionalBossName)
     local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetUnitName("boss1"))
-    local data = BHB.thresholds[bossName] or BHB.thresholds[BHB.aliases[bossName]]
+    local data
+    if (GetZoneId(GetUnitZoneIndex("player")) == 1436) then
+        -- Endless Archive has different boss thresholds
+        data = BHB.eaThresholds[bossName] or BHB.eaThresholds[BHB.eaAliases[bossName]]
+    else
+        data = BHB.thresholds[bossName] or BHB.thresholds[BHB.aliases[bossName]]
+    end
 
     -- Detect HM or vet or normal first based on boss health
     -- If not found, prioritize HM, then vet, and finally whatever data there is

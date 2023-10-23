@@ -86,6 +86,7 @@ Crutch.filter = {
     [133936] = function(hitValue) return hitValue > 1 end, -- Exploding Spear
     [168947] = function(hitValue) return hitValue == 1300 end, -- Coral Aerie Ofallo Lingering Current
     [170830] = function(hitValue) return hitValue == 1000 end, -- Petrify (1 second cast, and the 11 second channel)
+    [192013] = function(hitValue) return hitValue <= 5000 end, -- Splintering Mirror (Tho'at) otherwise there's a really long one
 }
 
 
