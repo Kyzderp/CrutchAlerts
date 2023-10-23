@@ -218,6 +218,22 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "slider",
+                    name = "Size",
+                    tooltip = "The size to display the vertical boss health bars. Note: some elements may not update size properly until a reload",
+                    min = 5,
+                    max = 20,
+                    step = 1,
+                    default = 10,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.bossHealthBar.scale * 10 end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.bossHealthBar.scale = value / 10
+                        Crutch.BossHealthBar.UpdateScale()
+                    end,
+                    disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+                },
             }
         },
 -- subtitles

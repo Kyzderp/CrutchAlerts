@@ -22,11 +22,7 @@ end
 -- Scale is messy
 ---------------------------------------------------------------------------------------------------
 local function GetScale()
-    return 1
-end
-
-local function UpdateScale()
-    CrutchAlertsBossHealthBarContainer:SetHeight(324 * GetScale())
+    return Crutch.savedOptions.bossHealthBar.scale
 end
 
 local function GetScaledFont(size)
@@ -68,9 +64,6 @@ local function GetUnusedControlsIndex()
         CrutchAlertsBossHealthBarContainer, -- parent
         "CrutchAlertsBossHealthBarPercentageTemplate", -- template
         "") -- suffix
-    percentageLabel:SetWidth(40 * GetScale())
-    percentageLabel:SetHeight(16 * GetScale())
-    percentageLabel:SetFont(GetScaledFont(14))
 
     -- Mechanic text on the right of the bar
     local mechanicLabel = CreateControlFromVirtual(
@@ -78,9 +71,6 @@ local function GetUnusedControlsIndex()
         CrutchAlertsBossHealthBarContainer, -- parent
         "CrutchAlertsBossHealthBarMechanicTemplate", -- template
         "") -- suffix
-    mechanicLabel:SetWidth(600 * GetScale())
-    mechanicLabel:SetHeight(16 * GetScale())
-    mechanicLabel:SetFont(GetScaledFont(14))
 
     -- Line marking the percentage through the bar
     local lineControl = CreateControlFromVirtual(
@@ -88,7 +78,6 @@ local function GetUnusedControlsIndex()
         CrutchAlertsBossHealthBarContainer, -- parent
         "CrutchAlertsBossHealthBarLineTemplate", -- template
         "") -- suffix
-    -- lineControl:GetNamedChild("Backdrop"):SetEdgeSize(GetScale()) TODO
 
     -- Don't forget to put the new controls in the struct
     mechanicControls[index] = {
@@ -243,12 +232,18 @@ local function RedrawStages(optionalBossName)
 
             -- Number percentage on the left of the bar
             percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
+            percentageLabel:SetWidth(40 * GetScale())
+            percentageLabel:SetHeight(16 * GetScale())
+            percentageLabel:SetFont(GetScaledFont(14))
             percentageLabel:SetText(tostring(percentage))
             percentageLabel:SetColor(0.53, 0.53, 0.53)
             percentageLabel:SetHidden(false)
 
             -- Mechanic text on the right of the bar
             mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
+            mechanicLabel:SetWidth(600 * GetScale())
+            mechanicLabel:SetHeight(16 * GetScale())
+            mechanicLabel:SetFont(GetScaledFont(14))
             mechanicLabel:SetText(mechanic)
             mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
             mechanicLabel:SetHidden(false)
@@ -492,6 +487,16 @@ BHB.DisplayWarning = DisplayWarning
 
 
 ---------------------------------------------------------------------------------------------------
+-- Scale, pt. 2
+---------------------------------------------------------------------------------------------------
+local function UpdateScale()
+    CrutchAlertsBossHealthBarContainer:SetHeight(324 * GetScale())
+    OnBossesChanged()
+    ShowOrHideBars(true)
+end
+BHB.UpdateScale = UpdateScale
+
+---------------------------------------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------------------------------------
 local function RegisterEvents()
@@ -518,8 +523,6 @@ end
 -- Entry point
 function BHB.Initialize()
     Crutch.dbgOther("|c88FFFF[CT]|r Initializing Boss Health Bar")
-
-    UpdateScale()
 
     CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
         Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)

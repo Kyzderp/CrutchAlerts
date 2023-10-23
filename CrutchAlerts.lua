@@ -92,7 +92,7 @@ local defaultOptions = {
     bossHealthBar = {
         enabled = true,
         firstTime = true,
-        -- TODO: scale
+        scale = 1,
     },
     asylumsanctorium = {
         dingSelfCone = true,
