@@ -391,14 +391,9 @@ local dungeonThresholds = {
     },
 
 -- Castle Thorn
-    ["Vaduroth"] = {
-        [75] = "Scythe", -- TODO
-        [50] = "Scythe", -- TODO
-        [25] = "Scythe", -- TODO
-    },
     ["Lady Thorn"] = {
         [60] = "Batdance", -- TODO
-        [60] = "Batdance", -- TODO
+        [20] = "Batdance", -- TODO
     },
 
 -- Black Drake Villa
