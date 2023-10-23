@@ -19,6 +19,21 @@ local function dbg(msg)
 end
 
 ---------------------------------------------------------------------------------------------------
+-- Scale is messy
+---------------------------------------------------------------------------------------------------
+local function GetScale()
+    return 1
+end
+
+local function UpdateScale()
+    CrutchAlertsBossHealthBarContainer:SetHeight(324 * GetScale())
+end
+
+local function GetScaledFont(size)
+    return string.format("$(BOLD_FONT)|%d|shadow", math.floor(size * GetScale()))
+end
+
+---------------------------------------------------------------------------------------------------
 -- Stages
 ---------------------------------------------------------------------------------------------------
 local mechanicControls = {} -- { [1] = { state = ACTIVE, percentNumber = 70, percentage = control, mechanic = control, line = control, }, }
@@ -53,6 +68,9 @@ local function GetUnusedControlsIndex()
         CrutchAlertsBossHealthBarContainer, -- parent
         "CrutchAlertsBossHealthBarPercentageTemplate", -- template
         "") -- suffix
+    percentageLabel:SetWidth(40 * GetScale())
+    percentageLabel:SetHeight(16 * GetScale())
+    percentageLabel:SetFont(GetScaledFont(14))
 
     -- Mechanic text on the right of the bar
     local mechanicLabel = CreateControlFromVirtual(
@@ -60,6 +78,9 @@ local function GetUnusedControlsIndex()
         CrutchAlertsBossHealthBarContainer, -- parent
         "CrutchAlertsBossHealthBarMechanicTemplate", -- template
         "") -- suffix
+    mechanicLabel:SetWidth(600 * GetScale())
+    mechanicLabel:SetHeight(16 * GetScale())
+    mechanicLabel:SetFont(GetScaledFont(14))
 
     -- Line marking the percentage through the bar
     local lineControl = CreateControlFromVirtual(
@@ -67,6 +88,7 @@ local function GetUnusedControlsIndex()
         CrutchAlertsBossHealthBarContainer, -- parent
         "CrutchAlertsBossHealthBarLineTemplate", -- template
         "") -- suffix
+    -- lineControl:GetNamedChild("Backdrop"):SetEdgeSize(GetScale()) TODO
 
     -- Don't forget to put the new controls in the struct
     mechanicControls[index] = {
@@ -220,20 +242,20 @@ local function RedrawStages(optionalBossName)
             local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
 
             -- Number percentage on the left of the bar
-            percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5, (100 - percentage) / 5 * 16)
+            percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
             percentageLabel:SetText(tostring(percentage))
             percentageLabel:SetColor(0.53, 0.53, 0.53)
             percentageLabel:SetHidden(false)
 
             -- Mechanic text on the right of the bar
-            mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6, (100 - percentage) / 5 * 16)
+            mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
             mechanicLabel:SetText(mechanic)
             mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
             mechanicLabel:SetHidden(false)
 
             -- Line marking the percentage through the bar
-            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4, (100 - percentage) / 5 * 16 + 1)
-            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4, (100 - percentage) / 5 * 16 + 2)
+            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
+            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
             lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
             lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
             lineControl:SetHidden(false)
@@ -259,7 +281,7 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         local attachedPercent = statusBar:GetNamedChild("AttachedPercent")
         attachedPercent:SetText(percentText)
         local _, originY = attachedPercent:GetCenter()
-        local targetY = statusBar:GetTop() + (100 - roundedPercent) / 5 * 16 - 12
+        local targetY = statusBar:GetTop() + (100 - roundedPercent) / 5 * 16 * GetScale() - 12 * GetScale()
         attachedPercent.slide:SetDeltaOffsetX(0)
         attachedPercent.slide:SetDeltaOffsetY(targetY - originY)
         attachedPercent.slideAnimation:PlayFromStart()
@@ -327,7 +349,29 @@ local function GetOrCreateStatusBar(index)
         numMechanicControls = index
         dbg("Created new control Bar" .. tostring(index))
     end
-    statusBar:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, (index - 1) * 36 + 2, 2)
+    -- Scale-related changes
+    statusBar:SetWidth(30 * GetScale())
+    statusBar:SetHeight(320 * GetScale())
+    statusBar:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, (index - 1) * 36 * GetScale() + 2 * GetScale(), 2 * GetScale())
+
+    statusBar:GetNamedChild("Backdrop"):SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), -2 * GetScale())
+    statusBar:GetNamedChild("Backdrop"):SetAnchor(BOTTOMRIGHT, statusBar, BOTTOMRIGHT, 2 * GetScale(), 2 * GetScale())
+
+    statusBar:GetNamedChild("BossName"):SetFont(GetScaledFont(16))
+    statusBar:GetNamedChild("BossName"):SetWidth(200 * GetScale())
+    statusBar:GetNamedChild("BossName"):SetHeight(20 * GetScale())
+    statusBar:GetNamedChild("BossName"):SetAnchor(CENTER, statusBar, BOTTOM, 0, -104 * GetScale())
+
+    statusBar:GetNamedChild("Percent"):SetFont(GetScaledFont(15))
+    statusBar:GetNamedChild("Percent"):SetWidth(40 * GetScale())
+    statusBar:GetNamedChild("Percent"):SetHeight(16 * GetScale())
+    statusBar:GetNamedChild("Percent"):SetAnchor(TOP, statusBar, BOTTOM, 0, 2 * GetScale())
+
+    statusBar:GetNamedChild("AttachedPercent"):SetFont(GetScaledFont(15))
+    statusBar:GetNamedChild("AttachedPercent"):SetWidth(40 * GetScale())
+    statusBar:GetNamedChild("AttachedPercent"):SetHeight(16 * GetScale())
+    statusBar:GetNamedChild("AttachedPercent"):SetAnchor(CENTER, statusBar, TOP, 0, -12 * GetScale())
+
     statusBar:SetHidden(false)
 
     return statusBar
@@ -369,9 +413,9 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
 
     -- Adjust container size so the lines and text have something to anchor on the right
     if (highestTag == 0) then
-        CrutchAlertsBossHealthBarContainer:SetWidth(36)
+        CrutchAlertsBossHealthBarContainer:SetWidth(36 * GetScale())
     else
-        CrutchAlertsBossHealthBarContainer:SetWidth(highestTag * 36)
+        CrutchAlertsBossHealthBarContainer:SetWidth(highestTag * 36 * GetScale())
     end
 
     if (highestTag > 0) then
@@ -474,6 +518,8 @@ end
 -- Entry point
 function BHB.Initialize()
     Crutch.dbgOther("|c88FFFF[CT]|r Initializing Boss Health Bar")
+
+    UpdateScale()
 
     CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
         Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)

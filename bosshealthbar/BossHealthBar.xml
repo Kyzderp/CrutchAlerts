@@ -29,7 +29,7 @@
             <Dimensions x="30" y="320"/>
             <Limits min="0" max="1"/>
             <Controls>
-                <Backdrop centerColor="AA100000" edgeColor="AA100000" layer="1" level="0">
+                <Backdrop name="$(parent)Backdrop" centerColor="AA100000" edgeColor="AA100000" layer="1" level="0">
                     <Anchor point="TOPLEFT" offsetX="-2" offsetY="-2"/>
                     <Anchor point="BOTTOMRIGHT" offsetX="2" offsetY="2"/>
                     <Edge edgeSize="2"/>
