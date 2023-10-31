@@ -103,49 +103,14 @@ Crutch.uninterruptible = {
 ---------------------------------------------------------------------
 -- Needs testing
 Crutch.testing = {
-    -- [ 54027] = true, -- Divine Leap (initial hitValue shows 1500 which is the cast)
-
-    -- [ 26770] = true, -- Resurrect
-
-    -- [88887] = true, -- Icy Escape
-    -- [88892] = true, -- Icy Escape
-    -- [103321] = true, -- Icy Escape
-
-    -- [112889] = true, -- sigil
-    -- [112900] = true, -- sigil
-    -- [112908] = true, -- sigil
-    -- [112871] = true, -- sigil
-
-    -- [52790] = true, -- Taunt Counter
-    -- [52788] = true, -- Taunt Immunity
-    -- [38541] = true, -- Taunt (self?)
-
-    -- [86774] = true, -- Mudball
-    -- [89372] = true, -- Pelted!
-    -- [116879] = true, -- Alliance Pie (EP?)
-    -- [118833] = true, -- Piessive (EP?)
-
-    -- [40195] = true, -- camo hunter
-
-    -- [163359] = true, -- Aura of Pride (on self when wearing Spaulder)
-    -- [163401] = true, -- Aura of Pride (on other person when self wearing Spaulder)
-
     [133045] = true, -- Dragon Totem
     [133510] = true, -- Harpy Totem
     [133513] = true, -- Gargoyle Totem
     [133515] = true, -- Chaurus Totem
 
-    -- [57470] = true, -- Grip of Lorkhaj projectile?
-    -- [57513] = true, -- Grip of Lorkhaj effect?
-    -- [57525] = true, -- Jone's Blessing
-
     [58084] = true, -- Magicka Bomb
-    -- [165021] = true, -- Jet (Numirril)
-    -- [163676] = true, -- Jet (Numirril)
 
     [170188] = true, -- Cascading Boot
-
-    [185071] = true, -- Vengeful Strike (Yaseyla)
 }
 
 ---------------------------------------------------------------------
@@ -173,37 +138,15 @@ Crutch.noSpamZone = {
 -- TODO: show only when in the zone
 -- TODO: check being in a trial but without a group - remove it from others events instead of all?
 Crutch.others = {
--- Sunspire
-    [121833] = true, [121849] = true, [115587] = true, [123042] = true, --Wing Thrash
-    [122012] = true, -- Storm Crush (Gale-Claw)
-    [120890] = true, -- Crush (Fire-Fang)
-    [122309] = true, -- Flaming Bat
-    [116836] = true, -- Storm Leap
+---------------------------------------------------------------------
+-- Trials
 
-    [119549] = true, -- Emberstorm
-    [121723] = true, -- Fire Breath
-    [121722] = true, -- Focus Fire
-    [122216] = true, -- Blast Furnace
-    [119283] = true, -- Frost Breath
-    [121980] = true, -- Searing Breath
-    [121676] = true, -- Time Shift
-    [121271] = true, -- Lightning Storm
-    [121411] = true, -- Negate Field
-    [121436] = true, -- Translation Apocalypse
-    [120359] = true, -- Relentless Gale (Lokkestiiz)
-    [120783] = true, -- Hail of Stone (Vigil Statue) - starts with a 3 second cast and then becomes 17 seconds
-    [115702] = true, -- Storm Fury
-    [118562] = true, -- Thrash
-    [121422] = true, -- Sundering Gale
-    [122598] = true, -- Cataclysm
-
--- Kyne's Aegis
-    [132511] = true, -- Toxic Tide
-    [133515] = true, -- Chaurus Totem
-    [132468] = true, -- Sanguine Prison
-    [135991] = true, -- Toppling Blow (Storm Twin)
-    [133936] = true, -- Exploding Spear
-    [136965] = true, -- Sanguine Grasp
+-- Aetherian Archive
+    [47898] = true, -- Lightning Storm (Storm Atronach)
+    [49583] = true, -- Impending Storm (Storm Atronach)
+    [48240] = true, -- Boulder Storm (Stone Atronach)
+    [49506] = true, [49508] = true, [49669] = true, -- Conjure Axe (Celestial Mage)
+    [49098] = true, -- Big Quake (Stone Atronach)
 
 -- Asylum Sanctorium
     [ 95545] = true, -- Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses
@@ -227,6 +170,92 @@ Crutch.others = {
     [103980] = true, -- Grant Malevolent Core
     [104047] = true, -- Shadow Piercer Exit
 
+-- Halls of Fabrication
+    [ 90499] = true, -- Reclaim the Ruined (Adds spawn)
+    [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
+    [ 91454] = true, -- Stomp (Assembly General)
+    [ 91781] = true, -- Lightning Spear (Pinnacle Factotum conduit)
+    [ 94736] = true, -- Overheating Aura (Reducer)
+    [ 94757] = true, -- Overloading Aura (Reactor)
+    [ 91019] = true, -- Phase 1.1 (Assembly General)
+
+-- Hel Ra Citadel
+    [47975] = true, -- Shield Throw
+    [48267] = true, -- Shield Throw
+
+-- Kyne's Aegis
+    [132511] = true, -- Toxic Tide
+    [133515] = true, -- Chaurus Totem
+    [132468] = true, -- Sanguine Prison
+    [135991] = true, -- Toppling Blow (Storm Twin)
+    [133936] = true, -- Exploding Spear
+    [136965] = true, -- Sanguine Grasp
+
+-- Maw of Lorkhaj
+    [ 73700] = true, -- Eclipse Field
+    [ 73291] = true, -- Dark Fissure (Zhaj'hassa pillar)
+    [ 74035] = true, -- Darkness Falls
+    [ 73741] = true, -- Threshing Wings
+    [ 74488] = true, -- Unstable Void (Rakkhat)
+    [ 74384] = true, -- Dark Barrage (initial)
+    [ 74385] = true, -- Dark Barrage (start)
+
+-- Rockgrove
+    [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)
+    [149316] = true, -- Emblazoned Stomp (Havocrel Butcher)
+    [152496] = true, -- Taking Aim on self (Sul-Xan Bloodseeker / Basks-In-Snakes)
+    [157248] = true, -- Taking Aim on player (Sul-Xan Bloodseeker)
+    [157267] = true, -- Lash (Giant Snake cleave)
+    [149414] = true, -- Savage Blitz (Oaxiltso)
+    [152688] = true, -- Cinder Cleave (Havocrel Annihilator)
+    [152463] = true, -- Skull Salvo (Flame-Herald Bahsei)
+    [150008] = true, -- Hemorrhaging Smack (Flesh Abomination)
+    [153175] = true, -- Scalding Strike (Fire Behemoth)
+    [157482] = true, -- Molten Rain (Ash Titan)
+    [152414] = true, -- Meteor Call (Havocrel Torchcaster)
+
+-- Sanctum Ophidia
+    [56857] = true, -- Emerald Eclipse (Serpent)
+    [54125] = true, -- Quake (Mantikora)
+    [52442] = true, -- Leaping Crush
+    [52447] = true, -- Ground Slam
+    [57839] = true, [57861] = true, -- Trapping Bolts (Ozara)
+    [56324] = true, -- Spear (Mantikora)
+    [53786] = true, -- Poison Mist
+
+-- Sanity's Edge
+    [200544] = true, -- Charge (Wamasu during trash)
+    [191133] = true, -- Charge (Wamasu during boss?)
+    [183855] = true, -- The Ritual (Ansuul maze)
+    [184802] = true, -- True Shot (Contramagis Archer)
+
+-- Sunspire
+    [121833] = true, [121849] = true, [115587] = true, [123042] = true, -- Wing Thrash
+    [122012] = true, -- Storm Crush (Gale-Claw)
+    [120890] = true, -- Crush (Fire-Fang)
+    [122309] = true, -- Flaming Bat
+    [116836] = true, -- Storm Leap
+    [119549] = true, -- Emberstorm
+    [121723] = true, -- Fire Breath
+    [121722] = true, -- Focus Fire
+    [122216] = true, -- Blast Furnace
+    [119283] = true, -- Frost Breath
+    [121980] = true, -- Searing Breath
+    [121676] = true, -- Time Shift
+    [121271] = true, -- Lightning Storm
+    [121411] = true, -- Negate Field
+    [121436] = true, -- Translation Apocalypse
+    [120359] = true, -- Relentless Gale (Lokkestiiz)
+    [120783] = true, -- Hail of Stone (Vigil Statue) - starts with a 3 second cast and then becomes 17 seconds
+    [115702] = true, -- Storm Fury
+    [118562] = true, -- Thrash
+    [121422] = true, -- Sundering Gale
+    [122598] = true, -- Cataclysm
+
+
+---------------------------------------------------------------------
+-- Arenas
+
 -- Blackrose Prison
     [111283] = true, -- Tremors (Imperial Cleaver)
     [114629] = true, -- Void (Drakeeh)
@@ -244,32 +273,7 @@ Crutch.others = {
     [114213] = true, -- Summon Infuser
     [114223] = true, [114230] = true, [114236] = true, -- Summon Colossus
 
---Sanctum Ophidia
-    [56857] = true, -- Emerald Eclipse (Serpent)
-    [54125] = true, -- Quake (Mantikora)
-    [52442] = true, -- Leaping Crush
-    [52447] = true, -- Ground Slam
-    [57839] = true, [57861] = true, -- Trapping Bolts (Ozara)
-    [56324] = true, -- Spear (Mantikora)
-    [53786] = true, -- Poison Mist
-
---Hel Ra Citadel
-    [47975] = true, -- Shield Throw
-    [48267] = true, -- Shield Throw
-
---Aetherian Archive
-    --300
-    [47898] = true, -- Lightning Storm (Storm Atronach)
-    [49583] = true, -- Impending Storm (Storm Atronach)
-    [48240] = true, -- Boulder Storm (Stone Atronach)
-
-    --200
-    [49506] = true, [49508] = true, [49669] = true, --Conjure Axe (Celestial Mage)
-
-    --100
-    [49098]=true,--Big Quake (Stone Atronach)
-
---Dragonstar Arena
+-- Dragonstar Arena
     [52041] = true, -- Blink Strike (Arena 9)
     [55442] = true, -- Heat Wave
     [52773] = true, -- Ice Comet
@@ -278,109 +282,63 @@ Crutch.others = {
     [91937] = true, -- Burst of Embers (Daedroth)
     [54841] = true, -- Ice Charge (Dwarven Ice Centurion)
 
---Maelstrom Arena
-    --100
+-- Maelstrom Arena
     [72057] = true, -- Portal Spawn
     [68011] = true, -- Web Up Artifact
     [70723] = true, -- Rupturing Fog
     [72446] = true, -- Smash Iceberg
 
---Maw of Lorkhaj
-    [ 73700] = true, -- Eclipse Field
-    [ 73291] = true, -- Dark Fissure (Zhaj'hassa pillar)
-    [ 74035] = true, -- Darkness Falls
-    [ 73741] = true, -- Threshing Wings
-    [ 74488] = true, -- Unstable Void (Rakkhat)
-    [ 74384] = true, -- Dark Barrage (initial)
-    [ 74385] = true, -- Dark Barrage (start)
 
--- Halls of Fabrication
-    [ 90499] = true, -- Reclaim the Ruined (Adds spawn)
-    [ 90876] = true, -- Direct Current (Pinnacle Factotum interruptible)
-    [ 91454] = true, -- Stomp (Assembly General)
-    [ 91781] = true, -- Lightning Spear (Pinnacle Factotum conduit)
-    [ 94736] = true, -- Overheating Aura (Reducer)
-    [ 94757] = true, -- Overloading Aura (Reactor)
-    [ 91019] = true, -- Phase 1.1 (Assembly General)
-
--- Rockgrove
-    [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)
-    -- [157466] = true, -- Soul Remnant (Sul-Xan Soulweaver) too spammy
-
-    [149316] = true, -- Emblazoned Stomp (Havocrel Butcher)
-
-    [152496] = true, -- Taking Aim on self (Sul-Xan Bloodseeker / Basks-In-Snakes)
-    [157248] = true, -- Taking Aim on player (Sul-Xan Bloodseeker)
-
-    [157267] = true, -- Lash (Giant Snake cleave)
-
-    [149414] = true, -- Savage Blitz (Oaxiltso)
-    [152688] = true, -- Cinder Cleave (Havocrel Annihilator)
-
-    [152463] = true, -- Skull Salvo (Flame-Herald Bahsei)
-    [150008] = true, -- Hemorrhaging Smack (Flesh Abomination)
-    [153175] = true, -- Scalding Strike (Fire Behemoth)
-
-    [157482] = true, -- Molten Rain (Ash Titan)
-    [152414] = true, -- Meteor Call (Havocrel Torchcaster)
-
--- Sanity's Edge
-    [200544] = true, -- Charge (Wamasu during trash)
-    [191133] = true, -- Charge (Wamasu during boss?)
-    [183855] = true, -- The Ritual (Ansuul maze)
-    [184802] = true, -- True Shot (Contramagis Archer)
 
 ---------------------------------------------------------------------
 -- Dungeons
+
+-- Coral Aerie
+    [168947] = true, -- Lingering Current
+
+-- Earthen Root Enclave
+    [170830] = true, -- Petrify (1 second cast, and the 11 second channel)
+    [172410] = true, -- Crumble (Archdruid Devyric rock pillar things)
+    [171127] = true, -- Guttural Roar (5 seconds channel of the cone probably)
+    [170650] = true, -- Wild Stampede (Static Stampede, GAINED / DURATION tho)
+    [116859] = true, -- Crush (Monstrous Bear)
+
+-- Elden Hollow
+    [  9944] = true, -- Necrotic Burst (Canonreeve Oraneth)
 
 -- Fang Lair
     [ 98597] = true, -- Haunting Spectre (Sabina)
     [102615] = true, -- Spectral Chains (Sabina)
 
--- Wayrest Sewers
-    [  5699] = true, -- Shadowstep (Allene Pellingare)
-
 -- Frostvault
     [113465] = true, -- Reckless Charge (Warlord Tzogvin)
 
--- Elden Hollow
-    [  9944] = true, -- Necrotic Burst (Canonreeve Oraneth)
-
--- The Cauldron
-    [146314] = true, -- Execute (Taskmaster Viccia interruptible "oneshot" but is blockable)
-    [146179] = true, -- Galvanic Blow (Baron Zaudrus conal that applies Galvanic Burst)
+-- Graven Deep
+    [171935] = true, -- Necrotic Rain (Varzunon)
 
 -- Red Petal Bastion
     [157573] = true, -- Dire Gaze (watcher interruptible)
     [154369] = true, -- Opalescent Impale
 
--- The Dread Cellar
-    [156509] = true, -- Deluge of Pain (Scorion Broodlord interruptible)
+-- Scrivener's Hall
+    [182334] = true, -- Rain of Fire (Valinna)
+    [182393] = true, -- Immolation Trap (Valinna)
 
 -- Shipwright's Regret
     [163676] = true, -- Jet (Numirril when he jets to a player)
     [165021] = true, -- Jet (Numirril when he jets away)
     [167906] = true, -- Jet (Numirril when he jets to the edge to go into immune phase)
 
--- Coral Aerie
-    [168947] = true, -- Lingering Current
+-- The Cauldron
+    [146314] = true, -- Execute (Taskmaster Viccia interruptible "oneshot" but is blockable)
+    [146179] = true, -- Galvanic Blow (Baron Zaudrus conal that applies Galvanic Burst)
 
--- Scrivener's Hall
-    [182334] = true, -- Rain of Fire (Valinna)
-    [182393] = true, -- Immolation Trap (Valinna)
+-- The Dread Cellar
+    [156509] = true, -- Deluge of Pain (Scorion Broodlord interruptible)
 
--- Graven Deep
-    [171935] = true, -- Necrotic Rain (Varzunon)
+-- Wayrest Sewers
+    [  5699] = true, -- Shadowstep (Allene Pellingare)
 
--- Earthen Root Enclave
-    [170830] = true, -- Petrify (1 second cast, and the 11 second channel)
-    -- [172147] = true, -- Chin Shatter
-    -- [171742] = true, -- Boughroot Slash
-    -- [170868] = true, -- Crumble (only human form)
-    [172410] = true, -- Crumble (Archdruid Devyric rock pillar things)
-    [171127] = true, -- Guttural Roar (5 seconds channel of the cone probably)
-    [170650] = true, -- Wild Stampede (Static Stampede, GAINED / DURATION tho)
-    [116859] = true, -- Crush (Monstrous Bear)
 
 ---------------------------------------------------------------------
 -- Overland
