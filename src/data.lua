@@ -282,12 +282,14 @@ Crutch.others = {
     [91937] = true, -- Burst of Embers (Daedroth)
     [54841] = true, -- Ice Charge (Dwarven Ice Centurion)
 
+-- Endless Archive
+    [192024] = true, -- Glass Sky (Tho'at Shard (Atro))
+
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn
     [68011] = true, -- Web Up Artifact
     [70723] = true, -- Rupturing Fog
     [72446] = true, -- Smash Iceberg
-
 
 
 ---------------------------------------------------------------------

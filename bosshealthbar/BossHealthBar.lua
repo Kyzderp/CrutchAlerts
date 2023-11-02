@@ -341,7 +341,6 @@ local function GetOrCreateStatusBar(index)
             CrutchAlertsBossHealthBarContainer, -- parent
             "CrutchAlertsBossHealthBarBarTemplate", -- template
             "") -- suffix
-        numMechanicControls = index
         dbg("Created new control Bar" .. tostring(index))
     end
     -- Scale-related changes
