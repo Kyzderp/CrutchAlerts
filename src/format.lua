@@ -27,11 +27,13 @@ Crutch.format = {
     [186200] = 700, -- Curative Surge (cost mag)
     [198537] = 700, -- Curative Surge (cost stam)
 
--- Sunspire
-    [122012] = 130402.5, -- Storm Crush (Gale-Claw)
-    [120890] = 130302.5, -- Crush (Fire-Fang)
-    [121722] =      6.3, -- Focus Fire (Yolnahkriin)
-    [120783] = 330000.0, -- Hail of Stone (Vigil Statue)
+---------------------------------------------------------------------
+-- Trials
+
+-- Aetherian Archive
+    [ 47898] = 10, -- Lightning Storm (Storm Atronach)
+    [ 48240] = 10, -- Boulder Storm (Stone Atronach)
+    [ 49098] = 10, -- Big Quake (Stone Atronach)
 
 -- Asylum Sanctorium
     [ 95545] =  20206.2, -- Defiling Dye Blast (Saint Llothis)
@@ -44,17 +46,6 @@ Crutch.format = {
     [ 87346] =    10, -- Voltaic Overload
     [104019] = 31003, -- Olorime Spears
 
--- Blackrose Prison
-    [111283] = 2, -- Tremors (Imperial Cleaver)
-
--- Sanctum Ophidia
-    [ 56857] = 205, -- Emerald Eclipse (The Serpent)
-
--- Aetherian Archive
-    [ 47898] = 10, -- Lightning Storm (Storm Atronach)
-    [ 48240] = 10, -- Boulder Storm (Stone Atronach)
-    [ 49098] = 10, -- Big Quake (Stone Atronach)
-
 -- Halls of Fabrication
     [ 91019] = 430, -- Phase 1.1 (Assembly General)
     [ 94736] = 500, -- Overheating Aura (Reducer)
@@ -62,11 +53,6 @@ Crutch.format = {
 
 -- Kyne's Aegis
     [133515] = 100204.5, -- Chaurus Totem seems to send out first projectile ~4.5 seconds after spawn
-
--- Maelstrom Arena
-    [ 72057] = 20003, -- Portal Spawn
-    [ 70723] =  1203, -- Rupturing Fog
-    [ 72446] =   400, -- Smash Iceberg
 
 -- Maw of Lorkhaj
     [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
@@ -76,6 +62,24 @@ Crutch.format = {
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
     [157860] = 1000, -- Noxious Sludge (hide because of sides)
 
+-- Sanctum Ophidia
+    [ 56857] = 205, -- Emerald Eclipse (The Serpent)
+
+-- Sanity's Edge
+    [183855] = 45, -- The Ritual (Ansuul maze)
+
+-- Sunspire
+    [122012] = 130402.5, -- Storm Crush (Gale-Claw)
+    [120890] = 130302.5, -- Crush (Fire-Fang)
+    [121722] =      6.3, -- Focus Fire (Yolnahkriin)
+    [120783] = 330000.0, -- Hail of Stone (Vigil Statue)
+
+---------------------------------------------------------------------
+-- Dungeons
+
+-- Earthen Root Enclave
+    [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
+
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb
 
@@ -83,11 +87,16 @@ Crutch.format = {
     [182334] = 5.3, -- Rain of Fire (Valinna)
     [182393] = 14.5, -- Immolation Trap (Valinna)
 
--- Earthen Root Enclave
-    [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
+---------------------------------------------------------------------
+-- Arenas
 
--- Sanity's Edge
-    [183855] = 45, -- The Ritual (Ansuul maze)
+-- Blackrose Prison
+    [111283] = 2, -- Tremors (Imperial Cleaver)
+
+-- Maelstrom Arena
+    [ 72057] = 20003, -- Portal Spawn
+    [ 70723] =  1203, -- Rupturing Fog
+    [ 72446] =   400, -- Smash Iceberg
 }
 
 
