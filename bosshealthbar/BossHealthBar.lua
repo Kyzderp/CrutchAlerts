@@ -231,6 +231,7 @@ local function RedrawStages(optionalBossName)
             local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
 
             -- Number percentage on the left of the bar
+            percentageLabel:ClearAnchors()
             percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
             percentageLabel:SetWidth(40 * GetScale())
             percentageLabel:SetHeight(16 * GetScale())
@@ -240,6 +241,7 @@ local function RedrawStages(optionalBossName)
             percentageLabel:SetHidden(false)
 
             -- Mechanic text on the right of the bar
+            mechanicLabel:ClearAnchors()
             mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
             mechanicLabel:SetWidth(600 * GetScale())
             mechanicLabel:SetHeight(16 * GetScale())
@@ -249,6 +251,7 @@ local function RedrawStages(optionalBossName)
             mechanicLabel:SetHidden(false)
 
             -- Line marking the percentage through the bar
+            lineControl:ClearAnchors()
             lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
             lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
             lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
@@ -280,8 +283,6 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         attachedPercent.slide:SetDeltaOffsetX(0)
         attachedPercent.slide:SetDeltaOffsetY(targetY - originY)
         attachedPercent.slideAnimation:PlayFromStart()
-
-        -- statusBar:GetNamedChild("AttachedPercent"):SetAnchor(CENTER, statusBar, TOP, 0, (100 - roundedPercent) / 5 * 16 - 12)
 
         -- TODO: figure out if any bosses change in max health during the fight.
         -- Otherwise, we can naively use this as a HM detector (and therefore NOT update stages)
@@ -346,24 +347,29 @@ local function GetOrCreateStatusBar(index)
     -- Scale-related changes
     statusBar:SetWidth(30 * GetScale())
     statusBar:SetHeight(320 * GetScale())
+    statusBar:ClearAnchors()
     statusBar:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, (index - 1) * 36 * GetScale() + 2 * GetScale(), 2 * GetScale())
 
+    statusBar:GetNamedChild("Backdrop"):ClearAnchors()
     statusBar:GetNamedChild("Backdrop"):SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), -2 * GetScale())
     statusBar:GetNamedChild("Backdrop"):SetAnchor(BOTTOMRIGHT, statusBar, BOTTOMRIGHT, 2 * GetScale(), 2 * GetScale())
 
     statusBar:GetNamedChild("BossName"):SetFont(GetScaledFont(16))
     statusBar:GetNamedChild("BossName"):SetWidth(200 * GetScale())
     statusBar:GetNamedChild("BossName"):SetHeight(20 * GetScale())
+    statusBar:GetNamedChild("BossName"):ClearAnchors()
     statusBar:GetNamedChild("BossName"):SetAnchor(CENTER, statusBar, BOTTOM, 0, -104 * GetScale())
 
     statusBar:GetNamedChild("Percent"):SetFont(GetScaledFont(15))
     statusBar:GetNamedChild("Percent"):SetWidth(40 * GetScale())
     statusBar:GetNamedChild("Percent"):SetHeight(16 * GetScale())
+    statusBar:GetNamedChild("Percent"):ClearAnchors()
     statusBar:GetNamedChild("Percent"):SetAnchor(TOP, statusBar, BOTTOM, 0, 2 * GetScale())
 
     statusBar:GetNamedChild("AttachedPercent"):SetFont(GetScaledFont(15))
     statusBar:GetNamedChild("AttachedPercent"):SetWidth(40 * GetScale())
     statusBar:GetNamedChild("AttachedPercent"):SetHeight(16 * GetScale())
+    statusBar:GetNamedChild("AttachedPercent"):ClearAnchors()
     statusBar:GetNamedChild("AttachedPercent"):SetAnchor(CENTER, statusBar, TOP, 0, -12 * GetScale())
 
     statusBar:SetHidden(false)
@@ -523,6 +529,7 @@ end
 function BHB.Initialize()
     Crutch.dbgOther("|c88FFFF[CT]|r Initializing Boss Health Bar")
 
+    CrutchAlertsBossHealthBarContainer:ClearAnchors()
     CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
         Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
 
