@@ -51,7 +51,8 @@ function Crutch:CreateSettingsMenu()
 
                 CrutchAlertsBossHealthBarContainer:SetMovable(value)
                 CrutchAlertsBossHealthBarContainer:SetMouseEnabled(value)
-                if (value) then
+                CrutchAlertsBossHealthBarContainer:SetHidden(not value)
+                if (value and Crutch.savedOptions.bossHealthBar.enabled) then
                     Crutch.BossHealthBar.ShowOrHideBars(true, false)
                 else
                     Crutch.BossHealthBar.ShowOrHideBars()
@@ -215,6 +216,8 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.bossHealthBar.enabled = value
                         Crutch.BossHealthBar.Initialize()
+                        Crutch.BossHealthBar.UpdateScale()
+                        CrutchAlertsBossHealthBarContainer:SetHidden(not value)
                     end,
                     width = "full",
                 },
@@ -231,6 +234,7 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.bossHealthBar.scale = value / 10
                         Crutch.BossHealthBar.UpdateScale()
+                        CrutchAlertsBossHealthBarContainer:SetHidden(false)
                     end,
                     disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
                 },

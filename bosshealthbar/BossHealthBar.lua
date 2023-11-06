@@ -504,6 +504,8 @@ BHB.UpdateScale = UpdateScale
 ---------------------------------------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------------------------------------
+local bhbFragment = nil
+
 local function RegisterEvents()
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
 
@@ -533,19 +535,27 @@ function BHB.Initialize()
     CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
         Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
 
-    CrutchAlertsBossHealthBarContainer:SetHidden(not Crutch.savedOptions.bossHealthBar.enabled)
+    -- Display only on HUD/HUD_UI
+    if (not bhbFragment) then
+        bhbFragment = ZO_SimpleSceneFragment:New(CrutchAlertsBossHealthBarContainer)
+    end
 
     if (Crutch.savedOptions.bossHealthBar.enabled) then
+        HUD_SCENE:AddFragment(bhbFragment)
+        HUD_UI_SCENE:AddFragment(bhbFragment)
         RegisterEvents()
         OnBossesChanged()
         ShowOrHideBars()
     else
+        HUD_SCENE:RemoveFragment(bhbFragment)
+        HUD_UI_SCENE:RemoveFragment(bhbFragment)
         UnregisterEvents()
     end
+    CrutchAlertsBossHealthBarContainer:SetHidden(not Crutch.savedOptions.bossHealthBar.enabled)
 
     -- TODO: shields
     -- TODO: invuln indicator
     -- TODO: skull when dead?
     -- TODO: remove attached % when dead?
-    -- TODO: larger scale 0
+    -- TODO: larger scale 0 <- I have no idea what I meant when I wrote this
 end
