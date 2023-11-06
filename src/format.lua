@@ -93,6 +93,9 @@ Crutch.format = {
 -- Blackrose Prison
     [111283] = 2, -- Tremors (Imperial Cleaver)
 
+-- Endless Archive
+    [195448] = 1.1, -- Wing Burst (Ash Titan) for some reason game sends 3000, but it hits much before then
+
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn
     [ 70723] =  1203, -- Rupturing Fog
