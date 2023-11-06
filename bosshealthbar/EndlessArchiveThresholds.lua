@@ -7,104 +7,78 @@ local BHB = Crutch.BossHealthBar
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local endlessArchiveThresholds = {
--- Sunspire
+    ["Councilor Vandacia"] = {
+        [50] = "Desperation", -- meteors all over the place
+    },
+    ["Death's Leviathan"] = {
+        [50] = "Immolate", -- TODO; adds fire to its attacks
+    },
+    ["Glemyos Wildhorn"] = {
+        [50] = "Indriks",
+    },
+    ["Lady Belain"] = {
+        [50] = "Awakening", -- She flies up and summons 2 voidmothers (more in later arcs), and you take constant Awakening damage
+        -- Seems like after 50 she also summons blood knights, 3 at once
+    },
+    ["Sentinel Aksalaz"] = {
+        -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
+        [75] = "Atronach", -- TODO
+        [50] = "Indrik", -- TODO
+        [25] = "Nereid", -- TODO
+    },
+    ["Tho'at Replicanum"] = {
+        [70] = "Shard", -- TODO: don't show this for Arc 1
+    },
     ["Yolnahkriin"] = {
         [50] = "Cataclysm",
     },
 
-    ["Tho'at Replicanum"] = {
-        [70] = "Shard", -- TODO: don't show this for Arc 1
-    },
-
-    -- Don't know %s yet. In one run, spawned in order of atro > indrik > nereid
-    -- ["Sentinel Aksalaz"] = {
-    --     [] = "Atronach", -- TODO
-    --     [] = "Indrik", -- TODO
-    --     [] = "Nereid", -- TODO
-    -- },
-
--- Run 10/31 solo
-    -- The Whisperer
-    -- 1-1: 792464
-
-    -- Selene: Fang and Claw seem to be on a timer
+-- 10/31 solo
+    -- 1-1: The Whisperer 792464
     -- 1-2: |c8888FF[BHB]|r Selene (boss1) value: 924541 max: 924541 effectiveMax: 924541
-
-    ["Lady Belain"] = {
+        -- Fang and Claw seem to be on a timer
     -- 1-3: |c8888FF[BHB]|r Lady Belain (boss1) value: 1056619 max: 1056619 effectiveMax: 1056619
-        [50] = "Awakening", -- She flies up and summons 2? voidmothers, and you take constant Awakening damage
-        -- Seems like after 50 she also summons blood knights, 3 at once
-    },
-
     -- 1-4: |c8888FF[BHB]|r Symphony of Blades (boss1) value: 1215111 max: 1215111 effectiveMax: 1215111
-    -- south: Scintillating (purple) zoneId=1436 {x = 125148, y = 32248, z = 127218}
-    -- east: radiant (yellow)
-    -- north: blazing (red)
-    -- west: phosphorescent (blue)
-
+        -- south: Scintillating (purple) zoneId=1436 {x = 125148, y = 32248, z = 127218}
+        -- east: radiant (yellow)
+        -- north: blazing (red)
+        -- west: phosphorescent (blue)
     -- 1-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
-
-    -- Aramril (the duelist) is not a "boss" seems to end at ~17% though
+        -- Aramril (the duelist) is not a "boss" seems to end at ~17% though
 
     -- 2-1: |c8888FF[BHB]|r Queen of the Reef (boss1) value: 1109450 max: 1109450 effectiveMax: 1109450
-    -- Doesn't appear to have a % based mechanic
-
     -- 2-2: |c8888FF[BHB]|r The Sable Knight (boss1) value: 1294357 max: 1294357 effectiveMax: 1294357
-    -- Maybe only starts doing Dark Burst (aoe centered around itself) after 50%?
-
+        -- Maybe only starts doing Dark Burst (aoe centered around itself) after 50%?
     -- 2-3: |c8888FF[BHB]|r Councilor Vandacia (boss1) value: 1479267 max: 1479267 effectiveMax: 1479267
-    -- Starts doing meteors all over the place after 50%. "Vandacia's Desperation"
-
+        -- Starts doing meteors all over the place after 50%. "Vandacia's Desperation"
     -- 2-4: |c8888FF[BHB]|r Z'Baza (boss1) value: 1701155 max: 1701155 effectiveMax: 1701155
-    -- Tendril seems to be on a timer, no % based mechs
-
-    -- 2-5:
-    -- |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
-    -- |c8888FF[BHB]|r Tho'at Shard (boss3) value: 2273381 max: 2273381 effectiveMax: 2273381
-    -- spawned at ~70%?
-
+        -- Tendril seems to be on a timer, no % based mechs
+    -- 2-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+        -- |c8888FF[BHB]|r Tho'at Shard (boss3) value: 2273381 max: 2273381 effectiveMax: 2273381
     -- 3-1: |c8888FF[BHB]|r Barbas (boss1) value: 1981160 max: 1981160 effectiveMax: 1981160
-    -- boring mechs
-
     -- 3-2: |c8888FF[BHB]|r Ash Titan (boss1) value: 2311353 max: 2311353 effectiveMax: 2311353
-    -- No % mechanics. TODO: fix Wing Burst (and probably add it to OTHERS)
-
+        -- No % mechanics. TODO: fix Wing Burst (and probably add it to OTHERS)
     -- 3-3: |c8888FF[BHB]|r Prior Thierric Sarazen (boss1) value: 2641548 max: 2641548 effectiveMax: 2641548
-    -- No % mechanics? TODO: see if the aoe cast can be an alert
-
+        -- No % mechanics? TODO: see if the aoe cast can be an alert
     -- 3-4-1: |c8888FF[BHB]|r Marauder Gothmau (boss1) value: 1215111 max: 1215111 effectiveMax: 1215111
-
     -- 3-4: |c8888FF[BHB]|r Nazaray (boss1) value: 3037778 max: 3037778 effectiveMax: 3037778
-
     -- 3-5:
-    -- |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
-    -- |c8888FF[BHB]|r Tho'at Shard (boss3) value: 2273381 max: 2273381 effectiveMax: 2273381
-    -- |c8888FF[BHB]|r Tho'at Shard (boss2) value: 2273381 max: 2273381 effectiveMax: 2273381
-
+        -- |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+        -- |c8888FF[BHB]|r Tho'at Shard (boss3) value: 2273381 max: 2273381 effectiveMax: 2273381
+        -- |c8888FF[BHB]|r Tho'at Shard (boss2) value: 2273381 max: 2273381 effectiveMax: 2273381
     -- 4-1-1: |c8888FF[BHB]|r Marauder Gothmau (boss1) value: 1215111 max: 1215111 effectiveMax: 1215111
 
--- 11/4 run with T
+-- 11/4 T
 
     -- 2-2: |c8888FF[BHB]|r Voidmother Elgroalif (boss1) value: 1294357 max: 1294357 effectiveMax: 1294357
-
     -- 4-2: |c8888FF[BHB]|r Glemyos Wildhorn (boss1) value: 2773623 max: 2773623 effectiveMax: 2773623
-    ["Glemyos Wildhorn"] = {
-        [50] = "Indriks",
-    },
-
     -- 4-5: Mantikora spawned at ~65% on atro again
 
--- 11/5 run with Kujanka
-
---[[
+--[[ 11/5 Kujanka
     1-1: |c8888FF[BHB]|r War Chief Ozozai (boss1) value: 792464 max: 792464 effectiveMax: 792464
-
     1-2: |c8888FF[BHB]|r The Sable Knight (boss1) value: 924541 max: 924541 effectiveMax: 924541
-
     1-3: |c8888FF[BHB]|r Doylemish Ironheart (boss1) value: 1056619 max: 1056619 effectiveMax: 1056619
-
     1-4: |c8888FF[BHB]|r Mulaamnir (boss1) value: 1397378 max: 1397378 effectiveMax: 1397378
-
     1-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
 
     [12:35:24] [Kyzderp's Derps] zoneId=1436 {x = 165804, y = 39064, z = 86953}
@@ -191,6 +165,7 @@ local endlessArchiveThresholds = {
     [13:37:53] [Kyzderp's Derps] zoneId=1436 {x = 77474, y = 36312, z = 79936}
 
     4-1: |c8888FF[BHB]|r Death's Leviathan (boss1) value: 2377392 max: 2377392 effectiveMax: 2377392
+    might be Immolate at 50%?
 
     [13:40:35] [Kyzderp's Derps] zoneId=1436 {x = 49542, y = 31876, z = 145464}
     wave 3 [13:41:23] [Kyzderp's Derps] zoneId=1436 {x = 49902, y = 32062, z = 142723}
@@ -218,7 +193,7 @@ local endlessArchiveThresholds = {
     [13:57:17] [Kyzderp's Derps] zoneId=1436 {x = 86759, y = 33327, z = 147024}
 
     [13:58:32] [Kyzderp's Derps] zoneId=1436 {x = 86021, y = 32752, z = 141345}
-    wave  3 [13:59:03] [Kyzderp's Derps] zoneId=1436 {x = 88077, y = 33124, z = 139614}
+    wave 3 [13:59:03] [Kyzderp's Derps] zoneId=1436 {x = 88077, y = 33124, z = 139614}
     [13:59:05] [Kyzderp's Derps] zoneId=1436 {x = 86681, y = 33124, z = 138993}
 
     4-4: |c8888FF[BHB]|r Lady Thorn (boss1) value: 3645333 max: 3645333 effectiveMax: 3645333
@@ -236,19 +211,51 @@ local endlessArchiveThresholds = {
 
     5-2: 
 ]]
-}
----------------------------------------------------------------------
--- Other language aliases can go here
----------------------------------------------------------------------
-local endlessArchiveAliases = {
--- Simplified Chinese aliases from oumu
-    ["尤尔纳克林"] = "Yolnahkriin",
 
--- German aliases from Keldorem
-    -- ["Yolnahkriin"] = Same in german
+--[[ 11/5 Eashi
+
+    1-1: |c8888FF[BHB]|r Tremorscale (boss1) value: 792464 max: 792464 effectiveMax: 792464
+    1-2: |c8888FF[BHB]|r Ash Titan (boss1) value: 924541 max: 924541 effectiveMax: 924541
+    1-3: |c8888FF[BHB]|r Lady Belain (boss1) value: 1056619 max: 1056619 effectiveMax: 1056619
+    1-4: |c8888FF[BHB]|r Zhaj'hassa the Forgotten (boss1) value: 1215111 max: 1215111 effectiveMax: 1215111
+    1-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+
+    2-1: |c8888FF[BHB]|r Allene Pellingare (boss1) value: 1109450 max: 1109450 effectiveMax: 1109450
+    2-2: |c8888FF[BHB]|r Limenauruus (boss1) value: 1294357 max: 1294357 effectiveMax: 1294357
+    2-3: |c8888FF[BHB]|r Sentinel Aksalaz (boss1) value: 1479267 max: 1479267 effectiveMax: 1479267
+        atro indrid nereid
+    2-4-1: start 1&2 wave with 1 fabled
+    2-4: |c8888FF[BHB]|r Baron Zaudrus (boss1) value: 1701155 max: 1701155 effectiveMax: 1701155
+    2-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+
+        3-1-1: back to only wave 1 with 1 fabled
+    3-1: |c8888FF[BHB]|r Queen of the Reef (boss1) value: 1981160 max: 1981160 effectiveMax: 1981160
+    3-2: |c8888FF[BHB]|r High Kinlord Rilis (boss1) value: 2311353 max: 2311353 effectiveMax: 2311353
+    3-3: |c8888FF[BHB]|r Rada al-Saran (boss1) value: 2641548 max: 2641548 effectiveMax: 2641548
+        3-4-1: wave 1: 1; wave 3: 2
+    3-4: |c8888FF[BHB]|r Yolnahkriin (boss1) value: 3493445 max: 3493445 effectiveMax: 3493445
+    3-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+]]
+}
+
+---------------------------------------------------------------------
+-- Other language aliases can go here. Unlike the thresholds, this is
+-- combined with the other content's aliases, so the translations
+-- from e.g. TrialThresholds for Yolnahkriin will apply automatically
+--
+-- Therefore, this struct should only be used for overland or quest
+-- bosses, or obviously EA-exclusive Tho'at Replicanum
+---------------------------------------------------------------------
+local eaAliases = {
+    ["格莱米奥斯·野角"] = "Glemyos Wildhorn",
 }
 
 ---------------------------------------------------------------------
 -- Separate from the other files
 BHB.eaThresholds = endlessArchiveThresholds
-BHB.eaAliases = endlessArchiveAliases
+
+---------------------------------------------------------------------
+-- Copying into the same struct to allow better file splitting
+for k, v in pairs(eaAliases) do
+    BHB.aliases[k] = v
+end

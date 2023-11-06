@@ -283,10 +283,12 @@ Crutch.others = {
     [54841] = true, -- Ice Charge (Dwarven Ice Centurion)
 
 -- Endless Archive
+    [192013] = true, -- Splintering Mirror (Tho'at Replicanum)
     [192024] = true, -- Glass Sky (Tho'at Shard (Mantikora))
-    [210841] = true, -- Crashing Wave (Marauder Ulmor) TODO
-    [210830] = true, -- Fulmination II (Marauder Ulmor) TODO
+    [210841] = true, -- Crashing Wave (Marauder Ulmor)
+    [210830] = true, -- Fulmination II (Marauder Ulmor)
     [195816] = true, -- Poison Bolt (Selene) TODO
+    [192641] = true, -- Paralyzing STomp [sic] (Death's Leviathan)
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn
