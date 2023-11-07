@@ -16,6 +16,9 @@ local endlessArchiveThresholds = {
     ["Glemyos Wildhorn"] = {
         [50] = "Indriks",
     },
+    ["Laatvulon"] = {
+        [50] = "Blizzard",
+    },
     ["Lady Belain"] = {
         [50] = "Awakening", -- She flies up and summons 2 voidmothers (more in later arcs), and you take constant Awakening damage
         -- Seems like after 50 she also summons blood knights, 3 at once
@@ -236,6 +239,16 @@ local endlessArchiveThresholds = {
     3-4: |c8888FF[BHB]|r Yolnahkriin (boss1) value: 3493445 max: 3493445 effectiveMax: 3493445
     3-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
 ]]
+
+--[[ 11/6 in chinese lol
+    1-1: The Whisperer |c8888FF[BHB]|r 低语者 (boss1) value: 792464 max: 792464 effectiveMax: 792464
+    1-2: Ash Titan |c8888FF[BHB]|r 灰烬泰坦 (boss1) value: 924541 max: 924541 effectiveMax: 924541
+    1-3: Caluurion |c8888FF[BHB]|r 卡鲁里昂 (boss1) value: 1056619 max: 1056619 effectiveMax: 1056619
+        1-4-1: wave 1 has 1 fabled
+    1-4: Laatvulon |c8888FF[BHB]|r 拉特伏龙 (boss1) value: 1397378 max: 1397378 effectiveMax: 1397378
+    1-5: Tho'at Replicanum |c8888FF[BHB]|r 索特复影体 (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+        索特碎片
+]]
 }
 
 ---------------------------------------------------------------------
@@ -248,6 +261,8 @@ local endlessArchiveThresholds = {
 ---------------------------------------------------------------------
 local eaAliases = {
     ["格莱米奥斯·野角"] = "Glemyos Wildhorn",
+    ["拉特伏龙"] = "Laatvulon",
+    ["索特复影体"] = "Tho'at Replicanum",
 }
 
 ---------------------------------------------------------------------
