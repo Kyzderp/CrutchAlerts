@@ -284,6 +284,33 @@ local trialAliases = {
     ["Gezeitengeborene Taleria"] = "Tideborn Taleria",
     ["Exarchanikerin Yaseyla"] = "Exarchanic Yaseyla",
     ["Ansuul die Quälende"] = "Ansuul the Tormentor",
+
+-- Japanese aliases from nikepiko
+    ["ラ・コツ"] = "Ra Kotu",
+    ["戦士"] = "The Warrior",
+    ["魔術師"] = "The Mage",
+    ["忘れ去られたザジュハッサ"] = "Zhaj'hassa the Forgotten",
+    ["ラカート"] = "Rakkhat",
+    ["ハンターキラー・ネガトリクス"] = "Hunter-Killer Negatrix",
+    ["ピナクル・ファクトタム"] = "Pinnacle Factotum",
+    ["リアクター"] = "Reactor",
+    ["アセンブリ・ジェネラル"] = "Assembly General",
+    ["公正なる聖オルムス"] = "Saint Olms the Just",
+    ["シロリアの影"] = "Shade of Siroria",
+    ["ロクケスティーズ"] = "Lokkestiiz",
+    ["ヨルナークリン"] = "Yolnahkriin",
+    ["ナーヴィンタース"] = "Nahviintaas",
+    ["肉削ぎヤンディル"] = "Yandir the Butcher",
+    ["ヴロル隊長"] = "Captain Vrol",
+    ["ファルグラヴン卿"] = "Lord Falgravn",
+    ["オアジルツォ"] = "Oaxiltso",
+    ["炎の使者バーセイ"] = "Flame-Herald Bahsei",
+    ["ザルヴァッカ"] = "Xalvakka",
+    ["リラナー"] = "Lylanar",
+    ["サンゴのガーディアン"] = "Reef Guardian",
+    ["タイドボーン・タレリア"] = "Tideborn Taleria",
+    ["エグザーカニック・ヤセイラ"] = "Exarchanic Yaseyla",
+    ["拷問者アンスール"] = "Ansuul the Tormentor",
 }
 
 ---------------------------------------------------------------------

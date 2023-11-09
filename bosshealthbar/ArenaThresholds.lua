@@ -58,8 +58,6 @@ local arenaThresholds = {
 -- Other language aliases can go here
 ---------------------------------------------------------------------
 local arenaAliases = {
-    ["Der Schürfürst"] = "The Pyrelord",
-
 -- Simplified Chinese aliases from oumu
     ["勇士马卡尔德"] = "Champion Marcauld",
     ["大地之心骑士"] = "Earthen Heart Knight",
@@ -72,6 +70,16 @@ local arenaAliases = {
 
 -- German aliases from Keldorem
     ["Der Schürfürst"] = "The Pyrelord",
+
+-- Japanese aliases from nikepiko
+    ["チャンピオン・マルカウルド"] = "Champion Marcauld",
+    ["大いなる大地の騎士"] = "Earthen Heart Knight",
+    ["アナラ・ツワ"] = "Anal'a Tu'wha",
+    ["ピシュナ・ロングショット"] = "Pishna Longshot",
+    ["マヴス・タルナリス"] = "Mavus Talnarith",
+    ["吸血鬼の王シサ"] = "Vampire Lord Thisa",
+    ["バトルマスター・ヒアス"] = "Hiath the Battlemaster",
+    ["火の王"] = "The Pyrelord",
 }
 
 ---------------------------------------------------------------------

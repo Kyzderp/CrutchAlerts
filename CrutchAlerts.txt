@@ -9,6 +9,9 @@
 
 ## SavedVariables: CrutchAlertsSavedVariables
 
+; Special thanks to Smaxx, oumu, Keldorem, nikepiko, and more for
+; language translations and other data!
+
 CrutchAlerts.lua
 CrutchAlerts.xml
 
