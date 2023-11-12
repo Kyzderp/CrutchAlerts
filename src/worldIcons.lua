@@ -18,6 +18,10 @@ local function GetTripletsIconSize()
     return Crutch.savedOptions.hallsoffabrication.tripletsIconSize
 end
 
+local function GetAnsuulIconSize()
+    return Crutch.savedOptions.sanitysedge.ansuulIconSize
+end
+
 ---------------------------------------------------------------------
 local icons = {}
 
@@ -77,6 +81,9 @@ local data = {
 
     -- Halls of Fabrication
     ["TripletsSafe"] = {x = 29758, y = 52950, z = 73169, texture = "odysupporticons/icons/emoji-poop.dds", size = GetTripletsIconSize, color = {1, 1, 1}},
+
+    -- Sanity's Edge
+    ["AnsuulCenter"] = {x = 200093, y = 30199, z = 40023, texture = "odysupporticons/icons/emoji-poop.dds", size = GetAnsuulIconSize, color = {1, 1, 1}}
 }
 
 

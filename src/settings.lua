@@ -577,6 +577,39 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Sanity's Edge",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show center of Ansuul arena",
+                    tooltip = "In the Ansuul fight, shows an icon in the world on the center of the arena. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.showAnsuulIcon = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Ansuul icon size",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.ansuulIconSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.ansuulIconSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                },
+            },
+        },
+        {
+            type = "submenu",
             name = "Sunspire",
             controls = {
                 {

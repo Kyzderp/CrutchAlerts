@@ -123,6 +123,10 @@ local defaultOptions = {
     rockgrove = {
         sludgeSides = true,
     },
+    sanitysedge = {
+        showAnsuulIcon = true,
+        ansuulIconSize = 150,
+    },
     sunspire = {
         showLokkIcons = true,
         lokkIconsSize = 150,
@@ -305,6 +309,7 @@ local function Initialize()
         [1227] = Crutch.UnregisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.UnregisterRockgrove,  -- Rockgrove
         [1344] = Crutch.UnregisterDreadsailReef,  -- Dreadsail Reef
+        [1427] = Crutch.UnregisterSanitysEdge, -- Sanity's Edge
 
         [1302] = Crutch.UnregisterShipwrightsRegret, -- Shipwright's Regret
     }
@@ -325,6 +330,7 @@ local function Initialize()
         [1227] = Crutch.RegisterVateshran,  -- Vateshran Hollows
         [1263] = Crutch.RegisterRockgrove,  -- Rockgrove
         [1344] = Crutch.RegisterDreadsailReef,  -- Dreadsail Reef
+        [1427] = Crutch.RegisterSanitysEdge, -- Sanity's Edge
 
         [1302] = Crutch.RegisterShipwrightsRegret, -- Shipwright's Regret
     }
