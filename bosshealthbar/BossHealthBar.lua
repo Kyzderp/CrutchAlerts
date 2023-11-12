@@ -107,10 +107,21 @@ local function HideAllStages()
     end
 end
 
+-- It is possible for boss1 to die and have its health bar disappear
+local function GetFirstValidBossTag()
+    for i = 1, MAX_BOSSES do
+        local unitTag = "boss" .. tostring(i)
+        if (DoesUnitExist(unitTag)) then
+            return GetUnitName(unitTag)
+        end
+    end
+    return ""
+end
+
 -- Check Thresholds.lua for boss stages
 -- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect boss1
 local function GetBossThresholds(optionalBossName)
-    local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetUnitName("boss1"))
+    local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetFirstValidBossTag())
     local data
     if (GetZoneId(GetUnitZoneIndex("player")) == 1436) then
         -- Endless Archive has different boss thresholds

@@ -32,6 +32,10 @@ local endlessArchiveThresholds = {
     ["Tho'at Replicanum"] = {
         [70] = "Shard", -- TODO: don't show this for Arc 1
     },
+    ["Tho'at Shard"] = {
+        -- This is needed because after the Replicanum dies, there is no boss1
+        [70] = "Shard", -- TODO: don't show this for Arc 1
+    },
     ["Yolnahkriin"] = {
         [50] = "Cataclysm",
     },
@@ -148,7 +152,7 @@ local endlessArchiveThresholds = {
     3-4: |c8888FF[BHB]|r Rakkhat (boss1) value: 3037778 max: 3037778 effectiveMax: 3037778
 
     [13:24:33] [Kyzderp's Derps] zoneId=1436 {x = 132689, y = 33348, z = 49823}
-    wave 3 [13:25:05] [Kyzderp's Derps] zoneId=1436 {x = 134950, y = 33350, z = 51627}    
+    wave 3 [13:25:05] [Kyzderp's Derps] zoneId=1436 {x = 134950, y = 33350, z = 51627}
     [13:25:10] [Kyzderp's Derps] zoneId=1436 {x = 132117, y = 33344, z = 48987}
 
     [13:26:23] [Kyzderp's Derps] zoneId=1436 {x = 143893, y = 35269, z = 43538}
@@ -212,7 +216,7 @@ local endlessArchiveThresholds = {
 
     5-1: |c8888FF[BHB]|r Iceheart (boss1) value: 2773624 max: 2773624 effectiveMax: 2773624
 
-    5-2: 
+    5-2:
 ]]
 
 --[[ 11/5 Eashi
@@ -227,7 +231,7 @@ local endlessArchiveThresholds = {
     2-2: |c8888FF[BHB]|r Limenauruus (boss1) value: 1294357 max: 1294357 effectiveMax: 1294357
     2-3: |c8888FF[BHB]|r Sentinel Aksalaz (boss1) value: 1479267 max: 1479267 effectiveMax: 1479267
         atro indrid nereid
-    2-4-1: start 1&2 wave with 1 fabled
+        2-4-1: start 1&2 wave with 1 fabled
     2-4: |c8888FF[BHB]|r Baron Zaudrus (boss1) value: 1701155 max: 1701155 effectiveMax: 1701155
     2-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
 
@@ -248,6 +252,68 @@ local endlessArchiveThresholds = {
     1-4: Laatvulon |c8888FF[BHB]|r 拉特伏龙 (boss1) value: 1397378 max: 1397378 effectiveMax: 1397378
     1-5: Tho'at Replicanum |c8888FF[BHB]|r 索特复影体 (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
         索特碎片
+]]
+
+--[[ 11/7 ooki
+    1-1: |c8888FF[BHB]|r Sonolia the Matriarch (boss1) value: 792464 max: 792464 effectiveMax: 792464
+    1-2: |c8888FF[BHB]|r Glemyos Wildhorn (boss1) value: 924541 max: 924541 effectiveMax: 924541
+    1-3: |c8888FF[BHB]|r Lady Belain (boss1) value: 1056619 max: 1056619 effectiveMax: 1056619
+        1-4-1: wave 1 has 1 fabled
+    1-4: |c8888FF[BHB]|r The Mage (boss1) value: 1215111 max: 1215111 effectiveMax: 1215111
+        50% arcane vortex
+    1-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+
+    2-1: |c8888FF[BHB]|r Shadowrend (boss1) value: 1109450 max: 1109450 effectiveMax: 1109450
+    2-2: |c8888FF[BHB]|r The Lava Queen (boss1) value: 1294357 max: 1294357 effectiveMax: 1294357
+    2-3: |c8888FF[BHB]|r Caluurion (boss1) value: 1479267 max: 1479267 effectiveMax: 1479267
+        2-4-1: start 1&2 wave with 1 fabled
+    2-4: |c8888FF[BHB]|r Z'Baza (boss1) value: 1701155 max: 1701155 effectiveMax: 1701155
+    2-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+        |c8888FF[BHB]|r Tho'at Shard (boss3) value: 2273381 max: 2273381 effectiveMax: 2273381
+
+        3-1-1: wave 1 has 1 fabled
+    3-1: |c8888FF[BHB]|r Iceheart (boss1) value: 1981160 max: 1981160 effectiveMax: 1981160
+    3-2: |c8888FF[BHB]|r Voidmother Elgroalif (boss1) value: 2311353 max: 2311353 effectiveMax: 2311353
+    3-3: |c8888FF[BHB]|r Ghemvas the Harbinger (boss1) value: 2641548 max: 2641548 effectiveMax: 2641548
+        unstable pulse 50% maybe?
+        3-4-1: wave 1: 1; wave 3: 2
+    3-4: |c8888FF[BHB]|r Laatvulon (boss1) value: 3493445 max: 3493445 effectiveMax: 3493445
+    3-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+
+    4-1: |c8888FF[BHB]|r Old Snagara (boss1) value: 2377392 max: 2377392 effectiveMax: 2377392
+    4-2: |c8888FF[BHB]|r Vorenor Winterbourne (boss1) value: 2773623 max: 2773623 effectiveMax: 2773623
+    4-3: |c8888FF[BHB]|r Councilor Vandacia (boss1) value: 3169857 max: 3169857 effectiveMax: 3169857
+    4-4: |c8888FF[BHB]|r Lady Thorn (boss1) value: 3645333 max: 3645333 effectiveMax: 3645333
+    4-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+
+    5-1: |c8888FF[BHB]|r Kra'gh the Dreugh King (boss1) value: 2773624 max: 2773624 effectiveMax: 2773624
+    5-2: |c8888FF[BHB]|r Exarch Kraglen (boss1) value: 3235894 max: 3235894 effectiveMax: 3235894
+    5-3: |c8888FF[BHB]|r The Ascendant Lord (boss1) value: 3698167 max: 3698167 effectiveMax: 3698167
+    5-4: |c8888FF[BHB]|r Molag Kena (boss1) value: 4252889 max: 4252889 effectiveMax: 4252889
+    5-5: |c8888FF[BHB]|r Tho'at Replicanum (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+        |c8888FF[BHB]|r Tho'at Shard (boss3) value: 2273381 max: 2273381 effectiveMax: 2273381
+        |c8888FF[BHB]|r Tho'at Shard (boss2) value: 2273381 max: 2273381 effectiveMax: 2273381
+        |c8888FF[BHB]|r Tho'at Shard (boss4) value: 4546762 max: 4546762 effectiveMax: 4546762
+
+    6-1: |c8888FF[BHB]|r Tremorscale (boss1) value: 4358552 max: 4358552 effectiveMax: 4358552
+    6-2: |c8888FF[BHB]|r Garron the Returned (boss1) value: 5084976 max: 5084976 effectiveMax: 5084976
+    6-3: |c8888FF[BHB]|r Sentinel Aksalaz (boss1) value: 5811405 max: 5811405 effectiveMax: 5811405
+    6-4: |c8888FF[BHB]|r Nazaray (boss1) value: 6683111 max: 6683111 effectiveMax: 6683111
+    6-5: |c8888FF[BHB]|r Tho'at Shard (boss3) value: 3158379 max: 3410072 effectiveMax: 3410072
+        |c8888FF[BHB]|r Tho'at Shard (boss2) value: 2273381 max: 2273381 effectiveMax: 2273381
+        |c8888FF[BHB]|r Tho'at Shard (boss4) value: 5683453 max: 5683453 effectiveMax: 5683453
+
+    7-1: |c8888FF[BHB]|r Cynhamoth (boss1) value: 4952900 max: 4952900 effectiveMax: 4952900
+    7-2: |c8888FF[BHB]|r Grothdarr (boss1) value: 5778381 max: 5778381 effectiveMax: 5778381
+    7-3: |c8888FF[BHB]|r Valkynaz Nokvroz (boss1) value: 6603869 max: 6603869 effectiveMax: 6603869
+    7-4:
+    7-5: |c8888FF[BHB]|r Tho'at Shard (boss4) value: 6820143 max: 6820143 effectiveMax: 6820143
+
+    8-1: |c8888FF[BHB]|r Captain Blackheart (boss1) value: 5547248 max: 5547248 effectiveMax: 5547248
+    8-2: |c8888FF[BHB]|r The Sable Knight (boss1) value: 6471787 max: 6471787 effectiveMax: 6471787
+    8-3: |c8888FF[BHB]|r The Endling (boss1) value: 7396333 max: 7396333 effectiveMax: 7396333
+    8-4:
+    8-5:
 ]]
 }
 

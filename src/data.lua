@@ -289,6 +289,7 @@ Crutch.others = {
     [210830] = true, -- Fulmination II (Marauder Ulmor)
     [195816] = true, -- Poison Bolt (Selene) TODO
     [192641] = true, -- Paralyzing STomp [sic] (Death's Leviathan)
+    [196848] = true, -- Mundus Breach (Silver Rose Realmshaper) it hurts a LOT in later arcs
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn
