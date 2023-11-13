@@ -111,6 +111,9 @@ Crutch.testing = {
     [58084] = true, -- Magicka Bomb
 
     [170188] = true, -- Cascading Boot
+
+    [197434] = true, -- Grasp of Lorkhaj (EA; the debuff, does it work?)
+    [197418] = true, -- Grip of Lorkhaj (EA; the cast)
 }
 
 ---------------------------------------------------------------------

@@ -67,6 +67,10 @@ Crutch.prominent = {
     [184540] = {text = "CHAIN", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- Chain Pull (Exarchanic Yaseyla)
 
 -------------------
+-- EA
+    [197434] = {text = "CURSE", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- Grasp of Lorkhaj (Zhaj'hassa)
+
+-------------------
 -- Custom
     [888001] = {text = "BOOGER", color = {1, 0, 0}, slot = 1, playSound = true, millis = 2000}, -- Booger phase ended in Falgravn 2nd floor
     [888002] = {text = "BAD", color = {1, 0, 0}, slot = 2, playSound = false, millis = 1000}, -- Called from damageTaken.lua

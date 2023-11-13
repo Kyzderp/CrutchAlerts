@@ -315,6 +315,24 @@ local endlessArchiveThresholds = {
     8-4:
     8-5:
 ]]
+
+--[[ 11/12 solo
+    1-1: |c8888FF[BHB]|r Allene Pellingare (boss1) value: 792464 max: 792464 effectiveMax: 792464
+        did 1 hallucination very early, but seemingly no more after that
+    1-2: |c8888FF[BHB]|r High Kinlord Rilis (boss1) value: 924541 max: 924541 effectiveMax: 924541
+        no % mechs
+    1-3: |c8888FF[BHB]|r Kjarg the Tuskscraper (boss1) value: 1056619 max: 1056619 effectiveMax: 1056619
+        no % mechs
+    1-4: |c8888FF[BHB]|r The Warrior (boss1) value: 1215111 max: 1215111 effectiveMax: 1215111
+        the adds might be on a timer?
+    1-5: 
+
+    1-1: 
+    1-2: 
+    1-3: 
+    1-4: 
+    1-5: 
+]]
 }
 
 ---------------------------------------------------------------------
@@ -329,6 +347,7 @@ local eaAliases = {
     ["格莱米奥斯·野角"] = "Glemyos Wildhorn",
     ["拉特伏龙"] = "Laatvulon",
     ["索特复影体"] = "Tho'at Replicanum",
+    ["索特碎片"] = "Tho'at Shard",
 }
 
 ---------------------------------------------------------------------
