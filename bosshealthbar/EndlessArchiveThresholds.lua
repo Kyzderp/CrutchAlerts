@@ -327,11 +327,12 @@ local endlessArchiveThresholds = {
         the adds might be on a timer?
     1-5: 
 
-    1-1: 
-    1-2: 
-    1-3: 
-    1-4: 
-    1-5: 
+    1-1: |c8888FF[BHB]|r Death's Leviathan (boss1) value: 1109450 max: 1109450 effectiveMax: 1109450
+    1-2: |c8888FF[BHB]|r Xeemhok the Trophy-Taker (boss1) value: 1294357 max: 1294357 effectiveMax: 1294357
+    1-3: Taupezu Azzida |c8888FF[BHB]|r 陶佩祖·阿兹达 (boss1) value: 1479267 max: 1479267 effectiveMax: 1479267
+    1-4: Yolnahkriin |c8888FF[BHB]|r 尤尔纳克林 (boss1) value: 1956329 max: 1956329 effectiveMax: 1956329
+    1-5: |c8888FF[BHB]|r 索特复影体 (boss1) value: 2273381 max: 2273381 effectiveMax: 2273381
+        |c8888FF[BHB]|r 索特碎片 (boss3) value: 1933272 max: 2273381 effectiveMax: 2273381
 ]]
 }
 
@@ -348,6 +349,16 @@ local eaAliases = {
     ["拉特伏龙"] = "Laatvulon",
     ["索特复影体"] = "Tho'at Replicanum",
     ["索特碎片"] = "Tho'at Shard",
+
+    -- "Laatvulon", same
+    ["Replicanum de Tho'at"] = "Tho'at Replicanum",
+    ["Fragment de Tho'at"] = "Tho'at Shard",
+
+    -- [""] = "Glemyos Wildhorn",
+    -- "Laatvulon", same
+    ["Ratsherr Vandacia"] = "Councilor Vandacia",
+    -- "Tho'at Replicanum", same
+    ["Tho'at-Scherbe"] = "Tho'at Shard",
 }
 
 ---------------------------------------------------------------------

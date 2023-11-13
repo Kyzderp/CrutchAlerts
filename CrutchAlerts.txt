@@ -28,6 +28,7 @@ trials/rockgrove.lua
 trials/sanitysEdge.lua
 trials/sunspire.lua
 
+trials/endlessArchive.lua
 trials/maelstromArena.lua
 trials/vateshranHollows.lua
 
