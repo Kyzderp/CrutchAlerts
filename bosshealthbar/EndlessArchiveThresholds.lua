@@ -7,28 +7,89 @@ local BHB = Crutch.BossHealthBar
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local endlessArchiveThresholds = {
+    -- Allene Pellingare
+    -- Ash Titan
+    -- Barbas
+    -- Baron Zaudrus
+    -- Bittergreen the Wild
+    -- Caluurion
+    -- Canonreeve Oraneth
+    -- Captain Blackheart
+    -- Councilor Vandacia
     ["Councilor Vandacia"] = {
         [50] = "Desperation", -- meteors all over the place
     },
+    -- Cynhamoth
+    -- Death's Leviathan
     ["Death's Leviathan"] = {
         [50] = "Immolate", -- TODO; adds fire to its attacks
     },
+    -- Doylemish Ironheart
+    -- Exarch Kraglen
+    -- Garron the Returned -- Consume Life is timer based
+    -- Ghemvas the Harbinger
+    -- Glemyos Wildhorn
     -- ["Glemyos Wildhorn"] = {
     --     [50] = "Indriks", -- TODO: may be on a timer, need to check
     -- },
+    -- Grothdarr
+    -- High Kinlord Rilis
+    -- Iceheart
+    -- Kjarg the Tuskscraper
+    -- Kra'gh the Dreugh King
+    -- Laatvulon
     ["Laatvulon"] = {
         [50] = "Blizzard",
     },
+    -- Lady Belain
     ["Lady Belain"] = {
         [50] = "Awakening", -- She flies up and summons 2 voidmothers (more in later arcs), and you take constant Awakening damage
         -- Seems like after 50 she also summons blood knights, 3 at once
     },
+    -- Lady Thorn
+    -- Limenauruus
+    -- Lord Warden Dusk
+    -- Marauder Gothmau
+    -- Marauder Hilkarax
+    -- Marauder Ulmor
+    -- Molag Kena
+    -- Mulaamnir
+    -- Murklight
+    -- Nazaray
+    -- Nerien'eth
+    -- Old Snagara
+    -- Queen of the Reef
+    -- Ra'khajin
+    -- Rada al-Saran
+    -- Rakkhat
+    -- Razor Master Erthas
+    -- Ri'Atahrashi
+    -- Selene
+    -- Sentinel Aksalaz
     ["Sentinel Aksalaz"] = {
         -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
         [75] = "Atronach", -- TODO
         [50] = "Indrik", -- TODO
         [25] = "Nereid", -- TODO
     },
+    -- Shadowrend
+    -- Sonolia the Matriarch
+    -- Symphony of Blades
+    -- Taupezu Azzida
+    -- The Ascendant Lord
+    -- The Endling
+    -- The Imperfect
+    -- The Lava Queen
+    -- The Mage
+    ["The Mage"] = {
+        [50] = "Arcane Vortex",
+    },
+    -- The Sable Knight
+    -- The Serpent
+    -- The Warrior
+    -- The Weeping Woman
+    -- The Whisperer
+    -- Tho'at Replicanum
     ["Tho'at Replicanum"] = {
         [70] = "Shard", -- TODO: don't show this for Arc 1
     },
@@ -36,9 +97,20 @@ local endlessArchiveThresholds = {
         -- This is needed because after the Replicanum dies, there is no boss1
         [70] = "Shard", -- TODO: don't show this for Arc 2
     },
+    -- Tremorscale
+    -- Valkynaz Nokvroz
+    -- Vila Theran
+    -- Voidmother Elgroalif
+    -- Vorenor Winterbourne
+    -- War Chief Ozozai
+    -- Xeemhok the Trophy-Taker
+    -- Yolnahkriin
     ["Yolnahkriin"] = {
         [50] = "Cataclysm",
     },
+    -- Ysmgar
+    -- Z'Baza
+    -- Zhaj'hassa the Forgotten
 }
 
 ---------------------------------------------------------------------
@@ -59,7 +131,7 @@ local eaAliases = {
     ["Replicanum de Tho'at"] = "Tho'at Replicanum",
     ["Fragment de Tho'at"] = "Tho'at Shard",
 
-    -- [""] = "Glemyos Wildhorn",
+    -- "Glemyos Wildhorn", same
     -- "Laatvulon", same
     ["Ratsherr Vandacia"] = "Councilor Vandacia",
     -- "Tho'at Replicanum", same

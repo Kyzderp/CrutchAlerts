@@ -50,6 +50,8 @@ end
 local function OnReticleChanged()
     -- When reticle changes, check if it's a Fabled
     if (not DoesUnitExist("reticleover")
+        or IsUnitDead("reticleover")
+        or GetUnitTargetMarkerType("reticleover") ~= TARGET_MARKER_TYPE_NONE
         or GetUnitDifficulty("reticleover") ~= MONSTER_DIFFICULTY_HARD) then
         -- I THINK only Fabled are HARD difficulty, i.e. 2 square thingies. Bosses are DEADLY, trash is EASY besides some NORMAL like lurchers
         return
