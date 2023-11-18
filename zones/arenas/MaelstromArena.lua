@@ -80,11 +80,11 @@ end
 function Crutch.RegisterMaelstromArena()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MAAnnouncement", EVENT_DISPLAY_ANNOUNCEMENT, OnCSA)
 
-    Crutch.dbgSpam("|c88FFFF[CT]|r Registered Maelstrom Arena")
+    Crutch.dbgOther("|c88FFFF[CT]|r Registered Maelstrom Arena")
 end
 
 function Crutch.UnregisterMaelstromArena()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MAAnnouncement", EVENT_DISPLAY_ANNOUNCEMENT)
 
-    Crutch.dbgSpam("|c88FFFF[CT]|r Unregistered Maelstrom Arena")
+    Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Maelstrom Arena")
 end
