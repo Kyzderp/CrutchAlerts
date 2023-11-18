@@ -17,22 +17,22 @@ main/CrutchAlerts.xml
 main/Settings.lua
 main/Utils.lua
 
-zones/trials/cloudrest.xml
-zones/trials/mawOfLorkhaj.xml
+zones/trials/Cloudrest.xml
+zones/trials/MawOfLorkhaj.xml
 
-zones/trials/asylumsanctorium.lua
-zones/trials/cloudrest.lua
-zones/trials/dreadsailReef.lua
-zones/trials/hallsOfFabrication.lua
-zones/trials/kynesAegis.lua
-zones/trials/mawOfLorkhaj.lua
-zones/trials/rockgrove.lua
-zones/trials/sanitysEdge.lua
-zones/trials/sunspire.lua
+zones/trials/Asylumsanctorium.lua
+zones/trials/Cloudrest.lua
+zones/trials/DreadsailReef.lua
+zones/trials/HallsOfFabrication.lua
+zones/trials/KynesAegis.lua
+zones/trials/MawOfLorkhaj.lua
+zones/trials/Rockgrove.lua
+zones/trials/SanitysEdge.lua
+zones/trials/Sunspire.lua
 
-zones/arenas/endlessArchive.lua
-zones/arenas/maelstromArena.lua
-zones/arenas/vateshranHollows.lua
+zones/arenas/DndlessArchive.lua
+zones/arenas/MaelstromArena.lua
+zones/arenas/VateshranHollows.lua
 
 zones/dungeons/ShipwrightsRegret.lua
 
