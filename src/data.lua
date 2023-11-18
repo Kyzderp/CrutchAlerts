@@ -85,8 +85,9 @@ Crutch.filter = {
     [121422] = function(hitValue) return hitValue >= 1800 and Crutch.IsInNahvPortal() end, -- Sundering Gale (Eternal Servant, only display if self is in portal)
     [133936] = function(hitValue) return hitValue > 1 end, -- Exploding Spear
     [168947] = function(hitValue) return hitValue == 1300 end, -- Coral Aerie Ofallo Lingering Current
-    [170830] = function(hitValue) return hitValue == 1000 end, -- Petrify (1 second cast, and the 11 second channel)
+    [170830] = function(hitValue) return hitValue == 1000 end, -- Petrify (ERE; 1 second cast, and the 11 second channel)
     [192013] = function(hitValue) return hitValue <= 5000 end, -- Splintering Mirror (Tho'at) otherwise there's a really long one
+    [196251] = function(hitValue) return hitValue == 3000 end, -- Enervating Sheen (EA; Nerien'eth) there's a BEGIN cast, and then an 8000 DURATION when it hits
 }
 
 

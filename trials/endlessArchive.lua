@@ -24,6 +24,7 @@ local availableMarkers = {
 
 local usedMarkers = {} -- [TARGET_MARKER_TYPE_EIGHT] = true,
 
+-- Pick a marker that we haven't used recently. It gets reset upon leaving combat
 local function GetUnusedMarker()
     for i = 1, 8 do
         -- If group leader, start at top
@@ -47,8 +48,9 @@ local function GetUnusedMarker()
     return IsUnitGroupLeader("player") and availableMarkers[1] or availableMarkers[5]
 end
 
+-- When reticle changes...
 local function OnReticleChanged()
-    -- When reticle changes, check if it's a Fabled
+    -- ... check if it's a Fabled
     if (not DoesUnitExist("reticleover")
         or IsUnitDead("reticleover")
         or GetUnitTargetMarkerType("reticleover") ~= TARGET_MARKER_TYPE_NONE
@@ -56,15 +58,6 @@ local function OnReticleChanged()
         -- I THINK only Fabled are HARD difficulty, i.e. 2 square thingies. Bosses are DEADLY, trash is EASY besides some NORMAL like lurchers
         return
     end
-
-        -- and (targetName:match("^Fabled")
-        --     or targetName:match("^传奇")
-        --     or targetName:match("^寓話")
-        --     or targetName:match("fabuleuse$")
-        --     or targetName:match("fabuleux$")
-        --     or targetName:match("^Legendenumwobene")
-        --     or targetName:match("^Sagenumwobene")
-        --     )) then
 
     -- If so, find an unused marker
     local marker = GetUnusedMarker()
@@ -87,15 +80,19 @@ end
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterEndlessArchive()
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED, OnReticleChanged)
+    usedMarkers = {}
+
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EACombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+    if (Crutch.savedOptions.endlessArchive.markFabled) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED, OnReticleChanged)
+    end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Endless Archive")
 end
 
 function Crutch.UnregisterEndlessArchive()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EACombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Endless Archive")
 end

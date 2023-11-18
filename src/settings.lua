@@ -715,6 +715,24 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Endless Archive",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Auto mark Fabled",
+                    tooltip = "When your reticle passes over Fabled enemies, automatically marks them with basegame target markers to make them easier to focus. It may sometimes mark incorrectly if you move too quickly and particularly if an NPC or your group member walks in front, but is otherwise mostly accurate",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.endlessArchive.markFabled end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.endlessArchive.markFabled = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+            }
+        },
+        {
+            type = "submenu",
             name = "Maelstrom Arena",
             controls = {
                 {

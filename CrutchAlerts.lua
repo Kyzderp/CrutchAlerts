@@ -154,6 +154,9 @@ local defaultOptions = {
     dragonstar = {
         normalDamageTaken = false,
     },
+    endlessArchive = {
+        markFabled = true,
+    },
     vateshran = {
         showMissedAdds = false,
     },
