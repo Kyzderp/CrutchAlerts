@@ -30,7 +30,7 @@ zones/trials/Rockgrove.lua
 zones/trials/SanitysEdge.lua
 zones/trials/Sunspire.lua
 
-zones/arenas/DndlessArchive.lua
+zones/arenas/EndlessArchive.lua
 zones/arenas/MaelstromArena.lua
 zones/arenas/VateshranHollows.lua
 
@@ -57,6 +57,5 @@ icons/WorldIcons.lua
 prominent/DamageTaken.lua
 prominent/Prominent.lua
 
-
-debug/init.lua
-debug/ui.xml
+uidebug/UIDebug.lua
+uidebug/UIDebug.xml
