@@ -12,8 +12,10 @@
 ; Special thanks to Smaxx, oumu, Keldorem, nikepiko, and more for
 ; language translations and other data!
 
-CrutchAlerts.lua
-CrutchAlerts.xml
+main/CrutchAlerts.lua
+main/CrutchAlerts.xml
+main/Settings.lua
+main/Utils.lua
 
 zones/trials/cloudrest.xml
 zones/trials/mawOfLorkhaj.xml
@@ -41,20 +43,20 @@ bosshealthbar/DungeonThresholds.lua
 bosshealthbar/ArenaThresholds.lua
 bosshealthbar/EndlessArchiveThresholds.lua
 
-src/util.lua
-src/messaging.lua
-src/settings.lua
-src/core.lua
-src/events.lua
-src/data.lua
-src/format.lua
-src/damageable.lua
-src/prominent.lua
-src/worldIcons.lua
-src/damageTaken.lua
-src/hooks.lua
-src/OSIHooks.lua
-src/fatecarver.lua
+damageable/Damageable.lua
+
+alerts/AbilityData.lua
+alerts/Core.lua
+alerts/DisplayFormat.lua
+alerts/Events.lua
+alerts/Fatecarver.lua
+
+icons/Overrides.lua
+icons/WorldIcons.lua
+
+prominent/DamageTaken.lua
+prominent/Prominent.lua
+
 
 debug/init.lua
 debug/ui.xml

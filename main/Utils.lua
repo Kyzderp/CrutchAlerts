@@ -1,6 +1,23 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
+---------------------------------------------------------------------
+-- Message to user
+---------------------------------------------------------------------
+Crutch.messages = {}
+function Crutch.msg(msg)
+    if (not msg) then return end
+    msg = "|c3bdb5e[CrutchAlerts] |caaaaaa" .. tostring(msg) .. "|r"
+    if (CHAT_SYSTEM.primaryContainer) then
+        CHAT_SYSTEM:AddMessage(msg)
+    else
+        Crutch.messages[#Crutch.messages + 1] = msg
+    end
+end
+
+---------------------------------------------------------------------
+-- Distance
+---------------------------------------------------------------------
 function Crutch.GetSquaredDistance(x1, y1, z1, x2, y2, z2)
     local dx = x1 - x2
     local dy = y1 - y2
