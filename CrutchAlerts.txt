@@ -15,24 +15,24 @@
 CrutchAlerts.lua
 CrutchAlerts.xml
 
-trials/cloudrest.xml
-trials/mawOfLorkhaj.xml
+zones/trials/cloudrest.xml
+zones/trials/mawOfLorkhaj.xml
 
-trials/asylumsanctorium.lua
-trials/cloudrest.lua
-trials/dreadsailReef.lua
-trials/hallsOfFabrication.lua
-trials/kynesAegis.lua
-trials/mawOfLorkhaj.lua
-trials/rockgrove.lua
-trials/sanitysEdge.lua
-trials/sunspire.lua
+zones/trials/asylumsanctorium.lua
+zones/trials/cloudrest.lua
+zones/trials/dreadsailReef.lua
+zones/trials/hallsOfFabrication.lua
+zones/trials/kynesAegis.lua
+zones/trials/mawOfLorkhaj.lua
+zones/trials/rockgrove.lua
+zones/trials/sanitysEdge.lua
+zones/trials/sunspire.lua
 
-trials/endlessArchive.lua
-trials/maelstromArena.lua
-trials/vateshranHollows.lua
+zones/arenas/endlessArchive.lua
+zones/arenas/maelstromArena.lua
+zones/arenas/vateshranHollows.lua
 
-dungeons/ShipwrightsRegret.lua
+zones/dungeons/ShipwrightsRegret.lua
 
 bosshealthbar/BossHealthBar.lua
 bosshealthbar/BossHealthBar.xml
