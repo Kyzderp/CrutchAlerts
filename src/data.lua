@@ -293,6 +293,9 @@ Crutch.others = {
     [195816] = true, -- Poison Bolt (Selene) TODO
     [192641] = true, -- Paralyzing STomp [sic] (Death's Leviathan)
     [196848] = true, -- Mundus Breach (Silver Rose Realmshaper) it hurts a LOT in later arcs
+    [202374] = true, -- Pound (Bone Colossus) really need to block in later arcs
+    [193530] = true, -- Befouled Air (Old Snagara) poison aoe
+    [196251] = true, -- Enervating Sheen (Nerien'eth) does it need to be shielded?
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn

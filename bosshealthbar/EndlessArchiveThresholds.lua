@@ -9,10 +9,12 @@ local BHB = Crutch.BossHealthBar
 local endlessArchiveThresholds = {
     -- Allene Pellingare
     -- Ash Titan
-    -- Barbas
+
+    -- Barbas -- nothing interesting
     -- Baron Zaudrus
     -- Bittergreen the Wild
-    -- Caluurion
+
+    -- Caluurion -- nothing interesting
     -- Canonreeve Oraneth
     -- Captain Blackheart
     -- Councilor Vandacia
@@ -20,12 +22,15 @@ local endlessArchiveThresholds = {
         [50] = "Desperation", -- meteors all over the place
     },
     -- Cynhamoth
+
     -- Death's Leviathan
     ["Death's Leviathan"] = {
         [50] = "Immolate", -- TODO; adds fire to its attacks
     },
     -- Doylemish Ironheart
+
     -- Exarch Kraglen
+
     -- Garron the Returned -- Consume Life is timer based
     -- Ghemvas the Harbinger
     -- Glemyos Wildhorn
@@ -33,10 +38,14 @@ local endlessArchiveThresholds = {
     --     [50] = "Indriks", -- TODO: may be on a timer, need to check
     -- },
     -- Grothdarr
+
     -- High Kinlord Rilis
+
     -- Iceheart
+
     -- Kjarg the Tuskscraper
     -- Kra'gh the Dreugh King
+
     -- Laatvulon
     ["Laatvulon"] = {
         [50] = "Blizzard",
@@ -47,34 +56,49 @@ local endlessArchiveThresholds = {
         -- Seems like after 50 she also summons blood knights, 3 at once
     },
     -- Lady Thorn
+    ["Lady Thorn"] = {
+        [50] = "Batdance",
+    },
     -- Limenauruus
     -- Lord Warden Dusk
+
     -- Marauder Gothmau
     -- Marauder Hilkarax
     -- Marauder Ulmor
+
     -- Molag Kena
     -- Mulaamnir
     -- Murklight
+
     -- Nazaray
     -- Nerien'eth
+    ["Nerien'eth"] = {
+        [50] = "Ebony Blade",
+    },
+
     -- Old Snagara
+
     -- Queen of the Reef
+
     -- Ra'khajin
     -- Rada al-Saran
     -- Rakkhat
     -- Razor Master Erthas
     -- Ri'Atahrashi
+
     -- Selene
     -- Sentinel Aksalaz
     ["Sentinel Aksalaz"] = {
         -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
-        [75] = "Atronach", -- TODO
-        [50] = "Indrik", -- TODO
-        [25] = "Nereid", -- TODO
+        -- Different order: indrik > nereid > atro
+        [75] = "Add", -- TODO
+        [50] = "Add", -- TODO
+        [25] = "Add", -- TODO
     },
     -- Shadowrend
     -- Sonolia the Matriarch
     -- Symphony of Blades
+
     -- Taupezu Azzida
     -- The Ascendant Lord
     -- The Endling
@@ -98,17 +122,22 @@ local endlessArchiveThresholds = {
         [70] = "Shard", -- TODO: don't show this for Arc 2
     },
     -- Tremorscale
+
     -- Valkynaz Nokvroz
     -- Vila Theran
     -- Voidmother Elgroalif
     -- Vorenor Winterbourne
+
     -- War Chief Ozozai
+
     -- Xeemhok the Trophy-Taker
+
     -- Yolnahkriin
     ["Yolnahkriin"] = {
         [50] = "Cataclysm",
     },
     -- Ysmgar
+
     -- Z'Baza
     -- Zhaj'hassa the Forgotten
 }
