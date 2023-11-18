@@ -689,11 +689,29 @@ function Crutch:CreateSettingsMenu()
                 },
             }
         },
+
         {
             type = "description",
             title = "Arenas",
             text = "Below are settings for special mechanics in specific arenas.",
             width = "full",
+        },
+        {
+            type = "submenu",
+            name = "Dragonstar Arena",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Alert for NORMAL damage taken",
+                    tooltip = "Displays annoying text and rings alarm bells if you start taking damage to certain abilities in NORMAL Dragonstar Arena. This is to facilitate afk farming, notifying you if manual intervention is needed. Included abilities: Nature's Blessing",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.dragonstar.normalDamageTaken end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dragonstar.normalDamageTaken = value
+                    end,
+                    width = "full",
+                },
+            }
         },
         {
             type = "submenu",
@@ -841,23 +859,6 @@ function Crutch:CreateSettingsMenu()
             }
         },
         {
-            type = "submenu",
-            name = "Dragonstar Arena",
-            controls = {
-                {
-                    type = "checkbox",
-                    name = "Alert for NORMAL damage taken",
-                    tooltip = "Displays annoying text and rings alarm bells if you start taking damage to certain abilities in NORMAL Dragonstar Arena. This is to facilitate afk farming, notifying you if manual intervention is needed. Included abilities: Nature's Blessing",
-                    default = false,
-                    getFunc = function() return Crutch.savedOptions.dragonstar.normalDamageTaken end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.dragonstar.normalDamageTaken = value
-                    end,
-                    width = "full",
-                },
-            }
-        },
-        {
             type = "description",
             title = "Dungeons",
             text = "Below are settings for special mechanics in specific dungeons.",
@@ -871,7 +872,7 @@ function Crutch:CreateSettingsMenu()
                     type = "checkbox",
                     name = "Suggest stacks for Soul Bomb",
                     tooltip = "Displays a notification for suggested person to stack on for Soul Bomb on Foreman Bradiggan hardmode when there are 2 bombs. If OdySupportIcons is enabled, also shows an icon above that person's head. The suggested stack is alphabetical based on @ name",
-                    default = false,
+                    default = true,
                     getFunc = function() return Crutch.savedOptions.shipwrightsRegret.showBombStacks end,
                     setFunc = function(value)
                         Crutch.savedOptions.shipwrightsRegret.showBombStacks = value
