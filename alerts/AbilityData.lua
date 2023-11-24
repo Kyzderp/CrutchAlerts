@@ -297,6 +297,8 @@ Crutch.others = {
     [202374] = true, -- Pound (Bone Colossus) really need to block in later arcs
     [193530] = true, -- Befouled Air (Old Snagara) poison aoe
     [196251] = true, -- Enervating Sheen (Nerien'eth) does it need to be shielded?
+    [197002] = true, -- Stormfront (Storm Atronach)
+    [196959] = true, -- Crush (Iron Atronach)
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn

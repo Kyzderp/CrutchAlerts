@@ -96,6 +96,18 @@ Crutch.format = {
 -- Endless Archive
     [195448] = 1.1, -- Wing Burst (Ash Titan) for some reason game sends 3000, but it hits much before then
 
+    [192013] = 500, -- Splintering Mirror (Tho'at Replicanum)
+    [192024] = 500, -- Glass Sky (Tho'at Shard (Mantikora))
+    [210841] = 500, -- Crashing Wave (Marauder Ulmor)
+    [210830] = 500, -- Fulmination II (Marauder Ulmor)
+    [195816] = 500, -- Poison Bolt (Selene)
+    [196848] = 500, -- Mundus Breach (Silver Rose Realmshaper) it hurts a LOT in later arcs
+    [202374] = 500, -- Pound (Bone Colossus) really need to block in later arcs
+    [193530] = 500, -- Befouled Air (Old Snagara) poison aoe
+    [196251] = 500, -- Enervating Sheen (Nerien'eth) does it need to be shielded?
+    [197002] = 500, -- Stormfront (Storm Atronach)
+    [196959] = 500, -- Crush (Iron Atronach)
+
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn
     [ 70723] =  1203, -- Rupturing Fog

@@ -7,7 +7,7 @@ local BHB = Crutch.BossHealthBar
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local endlessArchiveThresholds = {
-    -- Allene Pellingare
+    -- Allene Pellingare -- nothing interesting
     -- Ash Titan
 
     -- Barbas -- nothing interesting
@@ -28,22 +28,28 @@ local endlessArchiveThresholds = {
         [50] = "Immolate", -- TODO; adds fire to its attacks
     },
     -- Doylemish Ironheart
+    ["Doylemish Ironheart"] = {
+        [50] = "Stone Orb", -- They seem to spawn on a timer after 50%, but don't... do anything?
+    },
 
     -- Exarch Kraglen
 
     -- Garron the Returned -- Consume Life is timer based
     -- Ghemvas the Harbinger
+    ["Ghemvas the Harbinger"] = {
+        [50] = "Unstable Energy",
+    },
     -- Glemyos Wildhorn
     -- ["Glemyos Wildhorn"] = {
     --     [50] = "Indriks", -- TODO: may be on a timer, need to check
     -- },
-    -- Grothdarr
+    -- Grothdarr -- nothing interesting
 
-    -- High Kinlord Rilis
+    -- High Kinlord Rilis -- nothing interesting
 
-    -- Iceheart
+    -- Iceheart -- nothing interesting
 
-    -- Kjarg the Tuskscraper
+    -- Kjarg the Tuskscraper -- nothing interesting
     -- Kra'gh the Dreugh King
 
     -- Laatvulon
@@ -62,12 +68,15 @@ local endlessArchiveThresholds = {
     -- Limenauruus
     -- Lord Warden Dusk
 
-    -- Marauder Gothmau
-    -- Marauder Hilkarax
-    -- Marauder Ulmor
+    -- Marauder Gothmau -- no hp gates
+    -- Marauder Hilkarax -- no hp gates
+    -- Marauder Ulmor -- no hp gates
 
     -- Molag Kena
     -- Mulaamnir
+    ["Mulaamnir"] = {
+        [50] = "Storm",
+    },
     -- Murklight
 
     -- Nazaray
@@ -76,39 +85,40 @@ local endlessArchiveThresholds = {
         [50] = "Ebony Blade",
     },
 
-    -- Old Snagara
+    -- Old Snagara -- no hp gates
 
     -- Queen of the Reef
 
     -- Ra'khajin
-    -- Rada al-Saran
-    -- Rakkhat
+    -- Rada al-Saran -- no hp gates
+    -- Rakkhat -- no hp gates I think
     -- Razor Master Erthas
     -- Ri'Atahrashi
 
-    -- Selene
+    -- Selene -- the Claw and Fang seem to be on both timer and hp gate
     -- Sentinel Aksalaz
     ["Sentinel Aksalaz"] = {
         -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
         -- Different order: indrik > nereid > atro
-        [75] = "Add", -- TODO
-        [50] = "Add", -- TODO
-        [25] = "Add", -- TODO
+        -- solo run: atro > indrid > nereid
+        [65] = "Add", -- TODO: still not sure. He seems to have a lot of priority skills
+        [50] = "Add",
+        [25] = "Add",
     },
-    -- Shadowrend
-    -- Sonolia the Matriarch
-    -- Symphony of Blades
+    -- Shadowrend -- no hp gates
+    -- Sonolia the Matriarch -- no hp gates
+    -- Symphony of Blades -- no hp gates?
 
-    -- Taupezu Azzida
-    -- The Ascendant Lord
+    -- Taupezu Azzida -- no hp gates
+    -- The Ascendant Lord -- no hp gates?
     -- The Endling
-    -- The Imperfect
-    -- The Lava Queen
+    -- The Imperfect -- no hp gates
+    -- The Lava Queen -- no hp gates?
     -- The Mage
     ["The Mage"] = {
         [50] = "Arcane Vortex",
     },
-    -- The Sable Knight
+    -- The Sable Knight -- no hp gates
     -- The Serpent
     -- The Warrior
     -- The Weeping Woman
@@ -128,7 +138,7 @@ local endlessArchiveThresholds = {
     -- Voidmother Elgroalif
     -- Vorenor Winterbourne
 
-    -- War Chief Ozozai
+    -- War Chief Ozozai -- no hp gates
 
     -- Xeemhok the Trophy-Taker
 
@@ -138,8 +148,8 @@ local endlessArchiveThresholds = {
     },
     -- Ysmgar
 
-    -- Z'Baza
-    -- Zhaj'hassa the Forgotten
+    -- Z'Baza -- no hp gates
+    -- Zhaj'hassa the Forgotten -- no hp gates?
 }
 
 ---------------------------------------------------------------------
