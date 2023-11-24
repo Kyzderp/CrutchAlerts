@@ -68,7 +68,7 @@ Crutch.prominent = {
 
 -------------------
 -- EA
-    [197434] = {text = "CURSE", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- Grasp of Lorkhaj (Zhaj'hassa)
+    [197418] = {text = "CURSE", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- Grasp of Lorkhaj (Zhaj'hassa)
 
 -------------------
 -- Custom
