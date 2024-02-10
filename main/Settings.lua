@@ -715,7 +715,7 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
-            name = "Endless Archive",
+            name = "Infinite Archive",
             controls = {
                 {
                     type = "checkbox",
