@@ -18,6 +18,12 @@ local function dbg(msg)
     Crutch.dbgSpam(string.format("|c8888FF[BHB]|r %s", msg))
 end
 
+local function GetUnitNameIfExists(unitTag)
+    if (DoesUnitExist(unitTag)) then
+        return GetUnitName(unitTag)
+    end
+end
+
 ---------------------------------------------------------------------------------------------------
 -- Scale is messy
 ---------------------------------------------------------------------------------------------------
@@ -397,7 +403,7 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
 
     for i = 1, MAX_BOSSES do
         local unitTag = "boss" .. tostring(i)
-        local name = GetUnitName(unitTag)
+        local name = GetUnitNameIfExists(unitTag)
         if (showAllForMoving) then
             name = "Example Boss " .. tostring(i)
         end
@@ -451,7 +457,7 @@ local function OnBossesChanged()
     local bossHash = ""
 
     for i = 1, MAX_BOSSES do
-        local name = GetUnitName("boss" .. tostring(i))
+        local name = GetUnitNameIfExists("boss" .. tostring(i))
         if (name and name ~= "") then
             bossHash = bossHash .. name
         end
@@ -461,7 +467,6 @@ local function OnBossesChanged()
     if (bossHash ~= prevBosses) then
         prevBosses = bossHash
         local boss1 = GetUnitName(GetFirstValidBossTag()) or ""
-        d(boss1)
         bossHealths = {}
 
         -- If boss1 has not changed, don't redraw stages, because some fights like Reef Guardian triggers bosses changed when a new one spawns. The stages' anchors get automatically updated because they're based on the container
