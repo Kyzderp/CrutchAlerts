@@ -67,6 +67,7 @@ Crutch.format = {
 
 -- Sanity's Edge
     [183855] = 45, -- The Ritual (Ansuul maze)
+    [199344] = 100, -- Sunburst (Ansuul)
 
 -- Sunspire
     [122012] = 130402.5, -- Storm Crush (Gale-Claw)
@@ -94,7 +95,7 @@ Crutch.format = {
     [111283] = 2, -- Tremors (Imperial Cleaver)
 
 -- Endless Archive
-    [195448] = 1.1, -- Wing Burst (Ash Titan) for some reason game sends 3000, but it hits much before then
+    [195448] = 501.1, -- Wing Burst (Ash Titan) for some reason game sends 3000, but it hits much before then
 
     [192013] = 500, -- Splintering Mirror (Tho'at Replicanum)
     [192024] = 500, -- Glass Sky (Tho'at Shard (Mantikora))

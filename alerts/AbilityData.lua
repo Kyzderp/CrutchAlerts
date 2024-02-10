@@ -88,6 +88,9 @@ Crutch.filter = {
     [170830] = function(hitValue) return hitValue == 1000 end, -- Petrify (ERE; 1 second cast, and the 11 second channel)
     [192013] = function(hitValue) return hitValue <= 5000 end, -- Splintering Mirror (Tho'at) otherwise there's a really long one
     [196251] = function(hitValue) return hitValue == 3000 end, -- Enervating Sheen (EA; Nerien'eth) there's a BEGIN cast, and then an 8000 DURATION when it hits
+    [192024] = function(hitValue) return hitValue > 2400 end, -- Glass Sky (Tho'at Shard (Mantikora))
+    [192641] = function(hitValue) return hitValue > 1900 end, -- Paralyzing STomp [sic] (Death's Leviathan) 2000 for initial, extra 1900 after
+    [202374] = function(hitValue) return hitValue > 1500 end, -- Pound (Bone Colossus) 2300 for initial, then does an extra 1500 after
 }
 
 
@@ -99,6 +102,8 @@ Crutch.uninterruptible = {
     [ 94736] = true, -- Overheating Aura (Reducer)
     [ 94757] = true, -- Overloading Aura (Reactor)
     [ 91019] = true, -- Phase 1.1 (Assembly General)
+    [192024] = true, -- Glass Sky (Tho'at Shard (Mantikora)) this could be interrupted when it dies, but I'd rather not have the timer disappear
+    [ 73250] = true, -- Shattered in MoL
 }
 
 ---------------------------------------------------------------------
@@ -111,10 +116,16 @@ Crutch.testing = {
 
     [58084] = true, -- Magicka Bomb
 
-    [170188] = true, -- Cascading Boot
-
     [197434] = true, -- Grasp of Lorkhaj (EA; the debuff, does it work?)
     [197418] = true, -- Grip of Lorkhaj (EA; the cast)
+
+    [69855] = true, -- Volatile Poison (MA; the "buff")
+
+    -- [166192] = true, -- ice dome
+    -- [166210] = true, -- fire dome
+
+    [166209] = true, -- fire dome gained?
+    [166178] = true, -- ice dome gained?
 }
 
 ---------------------------------------------------------------------
@@ -232,6 +243,8 @@ Crutch.others = {
     [191133] = true, -- Charge (Wamasu during boss?)
     [183855] = true, -- The Ritual (Ansuul maze)
     [184802] = true, -- True Shot (Contramagis Archer)
+    [199344] = true, -- Sunburst (Ansuul)
+    -- [183778] = true, -- Inferno (Enraged Fragment) TODO: see if I can receive the interrupts, otherwise it's not useful
 
 -- Sunspire
     [121833] = true, [121849] = true, [115587] = true, [123042] = true, -- Wing Thrash
@@ -299,6 +312,7 @@ Crutch.others = {
     [196251] = true, -- Enervating Sheen (Nerien'eth) does it need to be shielded?
     [197002] = true, -- Stormfront (Storm Atronach)
     [196959] = true, -- Crush (Iron Atronach)
+    [195448] = true, -- Wing Burst (Ash Titan)
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn
