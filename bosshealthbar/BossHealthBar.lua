@@ -112,7 +112,7 @@ local function GetFirstValidBossTag()
     for i = 1, MAX_BOSSES do
         local unitTag = "boss" .. tostring(i)
         if (DoesUnitExist(unitTag)) then
-            return GetUnitName(unitTag)
+            return unitTag
         end
     end
     return ""
@@ -121,7 +121,7 @@ end
 -- Check Thresholds.lua for boss stages
 -- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect boss1
 local function GetBossThresholds(optionalBossName)
-    local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetFirstValidBossTag())
+    local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetUnitName(GetFirstValidBossTag()))
     local data
     if (GetZoneId(GetUnitZoneIndex("player")) == 1436) then
         -- Endless Archive has different boss thresholds
@@ -133,7 +133,7 @@ local function GetBossThresholds(optionalBossName)
     -- Detect HM or vet or normal first based on boss health
     -- If not found, prioritize HM, then vet, and finally whatever data there is
     -- If there's no stages, do a default 75, 50, 25
-    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local _, powerMax, _ = GetUnitPower(GetFirstValidBossTag(), POWERTYPE_HEALTH)
     if (not data) then
         dbg(string.format("No data found for %s, using default", bossName))
         data = {
@@ -230,7 +230,7 @@ local function UpdateStagesWithBossHealth()
 end
 
 -- Draw number on the left, line through the bars, and text on the right for each boss stage threshold
--- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect boss1
+-- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect first boss
 local function RedrawStages(optionalBossName)
     HideAllStages()
 
@@ -460,10 +460,12 @@ local function OnBossesChanged()
     -- There's no need to redraw the bars if bosses didn't change, which sometimes fires the event anyway for some reason
     if (bossHash ~= prevBosses) then
         prevBosses = bossHash
-        local boss1 = GetUnitName("boss1") or ""
+        local boss1 = GetUnitName(GetFirstValidBossTag()) or ""
+        d(boss1)
         bossHealths = {}
 
         -- If boss1 has not changed, don't redraw stages, because some fights like Reef Guardian triggers bosses changed when a new one spawns. The stages' anchors get automatically updated because they're based on the container
+        -- Note: I say "boss1" but actually use GetFirstValidBossTag() because Felms and Llothis (on their own) are both "boss2" for some reason, so "boss1" does not exist at all for those encounters. This caused the mechanics lines to not show up and potentially affected the NaN or too many anchors issues
         if (prevBoss1 == boss1) then
             ShowOrHideBars(false, true)
         else
