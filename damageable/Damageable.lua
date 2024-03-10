@@ -64,6 +64,16 @@ local SUBTITLE_TIMES = {
         ["Habt Ihr mich nicht gehört? Hatte ich mich nicht klar ausgedrückt? Ihr werdet zuhören, Sterbliche"] = 26.4,
     },
 
+-- SE
+    ["Exarchanic Yaseyla"] = {
+        -- Exarchanic Yaseyla
+        ["Your sorcery deceives good people. It brings nothing but pain, malpracticer!"] = 7.9,
+    },
+    ["Archwizard Twelvane"] = {
+        -- Archwizard Twelvane and Chimera
+        ["Why do you still hesitate, Vanton?"] = 6.8,
+    },
+
 -- SS
     ["Nahviintaas"] = {
         -- Nahviintaas
