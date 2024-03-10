@@ -108,6 +108,11 @@ Crutch.format = {
     [196251] = 500, -- Enervating Sheen (Nerien'eth) does it need to be shielded?
     [197002] = 500, -- Stormfront (Storm Atronach)
     [196959] = 500, -- Crush (Iron Atronach)
+    [196875] = 500, -- Earthen Blast (Lurcher)
+
+    [194894] = 300, -- Uppercut (Ascendant Vanguard)
+    [196689] = 300, -- Venomous Arrow (Ascendant Archer)
+    [196715] = 300, -- Power Bash (Dro-m'Athra Sentinel)
 
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn

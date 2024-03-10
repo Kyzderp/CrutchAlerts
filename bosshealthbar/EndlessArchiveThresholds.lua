@@ -89,7 +89,7 @@ local endlessArchiveThresholds = {
 
     -- Queen of the Reef
 
-    -- Ra'khajin
+    -- Ra'khajin -- no hp gates
     -- Rada al-Saran -- no hp gates
     -- Rakkhat -- no hp gates I think
     -- Razor Master Erthas
@@ -101,7 +101,7 @@ local endlessArchiveThresholds = {
         -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
         -- Different order: indrik > nereid > atro
         -- solo run: atro > indrid > nereid
-        [65] = "Add", -- TODO: still not sure. He seems to have a lot of priority skills
+        [75] = "Add", -- TODO: still not sure. He seems to have a lot of priority skills
         [50] = "Add",
         [25] = "Add",
     },
