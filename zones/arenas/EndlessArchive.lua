@@ -50,13 +50,60 @@ end
 
 -- When reticle changes...
 local function OnReticleChanged()
+    local negateCasters = {
+        ["Silver Rose Stormcaster"] = true,
+        ["Dro-m'Athra Conduit"] = true,
+        ["Dremora Conduit"] = true,
+        -- de
+        ["Silberrosen-Sturmwirker"] = true,
+        ["Silberrosen-Sturmwirkerin"] = true,
+        ["dro-m'Athra-Medium"] = true,
+        ["Dremora-Medium"] = true,
+        -- es
+        ["lanzador de tormentas de la Rosa Plateada"] = true,
+        ["lanzadora de tormentas de la Rosa Plateada"] = true,
+        ["conductor dro-m'Athra"] = true,
+        ["conductora dro-m'Athra"] = true,
+        ["dremora conductor"] = true,
+        ["dremora conductora"] = true,
+        -- fr
+        ["lance-tempête de la Rose d'argent"] = true,
+        ["canalisateur dro-m'Athra"] = true,
+        ["conduit Drémora"] = true,
+        -- jp
+        ["銀の薔薇のストームキャスター"] = true,
+        ["ドロ・マスラの伝送者"] = true,
+        ["ドレモラ・コンデュイット"] = true,
+        -- ru
+        ["Призыватель бури Серебряной розы"] = true,
+        ["Призывательница бури Серебряной розы"] = true,
+        ["Проводник дро-м’Атра"] = true,
+        ["Дремора-проводник"] = true,
+        -- zh
+        ["银玫瑰风暴法师"] = true,
+        ["堕落虎人导能者"] = true,
+        ["魔人导能法师"] = true,
+    }
     -- ... check if it's a Fabled
     if (not DoesUnitExist("reticleover")
         or IsUnitDead("reticleover")
-        or GetUnitTargetMarkerType("reticleover") ~= TARGET_MARKER_TYPE_NONE
-        or GetUnitDifficulty("reticleover") ~= MONSTER_DIFFICULTY_HARD) then
+        or GetUnitTargetMarkerType("reticleover") ~= TARGET_MARKER_TYPE_NONE) then
         -- I THINK only Fabled are HARD difficulty, i.e. 2 square thingies. Bosses are DEADLY, trash is EASY besides some NORMAL like lurchers
-        return
+        if (GetUnitDifficulty("reticleover") == MONSTER_DIFFICULTY_HARD) then
+            -- Fabled
+            -- Conduits on Taupezu Azzida are also HARD, but that's ok I think. I could do a mapId check but meh
+            if (not Crutch.savedOptions.endlessArchive.markFabled) then
+                return
+            end
+        elseif (negateCasters[zo_strformat("<<1>>", GetUnitName("reticleover"))]) then
+            -- Negate caster
+            if (not Crutch.savedOptions.endlessArchive.markNegate) then
+                return
+            end
+        else
+            -- Anything else
+            return
+        end
     end
 
     -- If so, find an unused marker
@@ -83,7 +130,7 @@ function Crutch.RegisterEndlessArchive()
     usedMarkers = {}
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EACombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
-    if (Crutch.savedOptions.endlessArchive.markFabled) then
+    if (Crutch.savedOptions.endlessArchive.markFabled or Crutch.savedOptions.endlessArchive.markNegate) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED, OnReticleChanged)
     end
 

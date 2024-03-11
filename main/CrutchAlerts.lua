@@ -156,6 +156,7 @@ local defaultOptions = {
     },
     endlessArchive = {
         markFabled = true,
+        markNegate = false,
     },
     vateshran = {
         showMissedAdds = false,

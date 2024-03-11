@@ -729,6 +729,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Auto mark Negate casters",
+                    tooltip = "The same as auto marking Fabled above, but for enemies that can cast Negate Magic (Silver Rose Stormcaster, Dro-m'Athra Conduit, Dremora Conduit). They only cast Negate when you are close enough to them",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.endlessArchive.markNegate end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.endlessArchive.markNegate = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }
         },
         {
