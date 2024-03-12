@@ -60,16 +60,16 @@ local function OnReticleChanged()
         ["dro-m'Athra-Medium"] = true,
         ["Dremora-Medium"] = true,
         -- es
-        ["lanzador de tormentas de la Rosa Plateada"] = true,
-        ["lanzadora de tormentas de la Rosa Plateada"] = true,
-        ["conductor dro-m'Athra"] = true,
-        ["conductora dro-m'Athra"] = true,
-        ["dremora conductor"] = true,
-        ["dremora conductora"] = true,
+        ["Lanzador de tormentas de la Rosa Plateada"] = true,
+        ["Lanzadora de tormentas de la Rosa Plateada"] = true,
+        ["Conductor dro-m'Athra"] = true,
+        ["Conductora dro-m'Athra"] = true,
+        ["Dremora conductor"] = true,
+        ["Dremora conductora"] = true,
         -- fr
-        ["lance-tempête de la Rose d'argent"] = true,
-        ["canalisateur dro-m'Athra"] = true,
-        ["conduit Drémora"] = true,
+        ["Lance-tempête de la Rose d'argent"] = true,
+        ["Canalisateur dro-m'Athra"] = true,
+        ["Conduit Drémora"] = true,
         -- jp
         ["銀の薔薇のストームキャスター"] = true,
         ["ドロ・マスラの伝送者"] = true,
@@ -84,26 +84,28 @@ local function OnReticleChanged()
         ["堕落虎人导能者"] = true,
         ["魔人导能法师"] = true,
     }
-    -- ... check if it's a Fabled
+    -- ... check if it's valid
     if (not DoesUnitExist("reticleover")
         or IsUnitDead("reticleover")
         or GetUnitTargetMarkerType("reticleover") ~= TARGET_MARKER_TYPE_NONE) then
-        -- I THINK only Fabled are HARD difficulty, i.e. 2 square thingies. Bosses are DEADLY, trash is EASY besides some NORMAL like lurchers
-        if (GetUnitDifficulty("reticleover") == MONSTER_DIFFICULTY_HARD) then
-            -- Fabled
-            -- Conduits on Taupezu Azzida are also HARD, but that's ok I think. I could do a mapId check but meh
-            if (not Crutch.savedOptions.endlessArchive.markFabled) then
-                return
-            end
-        elseif (negateCasters[zo_strformat("<<1>>", GetUnitName("reticleover"))]) then
-            -- Negate caster
-            if (not Crutch.savedOptions.endlessArchive.markNegate) then
-                return
-            end
-        else
-            -- Anything else
+        return
+    end
+
+    -- I THINK only Fabled are HARD difficulty, i.e. 2 square thingies. Bosses are DEADLY, trash is EASY besides some NORMAL like lurchers
+    if (GetUnitDifficulty("reticleover") == MONSTER_DIFFICULTY_HARD) then
+        -- Fabled
+        -- Conduits on Taupezu Azzida are also HARD, but that's ok I think. I could do a mapId check but meh
+        if (not Crutch.savedOptions.endlessArchive.markFabled) then
             return
         end
+    elseif (negateCasters[zo_strformat("<<1>>", GetUnitName("reticleover"))]) then
+        -- Negate caster
+        if (not Crutch.savedOptions.endlessArchive.markNegate) then
+            return
+        end
+    else
+        -- Anything else
+        return
     end
 
     -- If so, find an unused marker
