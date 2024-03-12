@@ -78,6 +78,9 @@ Crutch.format = {
 ---------------------------------------------------------------------
 -- Dungeons
 
+-- Bedlam Veil
+    [207005] = 200001.4, -- Malediction (The Blind) game only sends 200 for some reason
+
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
 
@@ -111,8 +114,9 @@ Crutch.format = {
     [196875] = 500, -- Earthen Blast (Lurcher)
 
     [194894] = 300, -- Uppercut (Ascendant Vanguard)
-    [196689] = 300, -- Venomous Arrow (Ascendant Archer)
+    [196689] = 200, -- Venomous Arrow (Ascendant Archer)
     [196715] = 300, -- Power Bash (Dro-m'Athra Sentinel)
+    [211594] = 300, -- Power Bash (Ascendant Bulwark)
 
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn

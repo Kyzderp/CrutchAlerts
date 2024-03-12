@@ -122,6 +122,14 @@ local SUBTITLE_TIMES = {
         ["Nun zu meiner Vergeltung. Jetzt studiere ich Eure Eingeweide, Hexer!"] = 4.8,
     },
 
+-- Oathsworn Pit
+    ["Anthelmir"] = {
+        ["You cut me for the last time. Crush her!"] = 8.6,
+    },
+    ["Aradros the Awakened"] = {
+        ["You think this place intimidates me? I am the forge's fire."] = 21.6,
+    },
+
 -- Scrivener’s Hall
     ["Riftmaster Naqri"] = {
         -- Riftmaster Naqri - 1st boss

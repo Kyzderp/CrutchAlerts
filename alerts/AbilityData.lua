@@ -104,6 +104,7 @@ Crutch.uninterruptible = {
     [ 91019] = true, -- Phase 1.1 (Assembly General)
     [192024] = true, -- Glass Sky (Tho'at Shard (Mantikora)) this could be interrupted when it dies, but I'd rather not have the timer disappear
     [ 73250] = true, -- Shattered in MoL
+    [203989] = true, -- Hurl Axe (Anthelmir's Construct)
 }
 
 ---------------------------------------------------------------------
@@ -324,6 +325,10 @@ Crutch.others = {
 ---------------------------------------------------------------------
 -- Dungeons
 
+-- Bedlam Veil
+    [206488] = true, -- Glass Stomp (Shattered Champion)
+    [207005] = true, -- Malediction (The Blind)
+
 -- Coral Aerie
     [168947] = true, -- Lingering Current
 
@@ -346,6 +351,9 @@ Crutch.others = {
 
 -- Graven Deep
     [171935] = true, -- Necrotic Rain (Varzunon)
+
+-- Oathsworn Pit
+    [203989] = true, -- Hurl Axe (Anthelmir's Construct)
 
 -- Red Petal Bastion
     [157573] = true, -- Dire Gaze (watcher interruptible)

@@ -567,7 +567,34 @@ local dungeonThresholds = {
         -- a bosses changed event. It resets the threshold highlighting because the stages are redrawn
         [50] = "Lamikhai leaves",
         [55] = "Valinna leaves",
-    }
+    },
+
+-- Oathsworn Pit
+    ["Anthelmir's Construct"] = {
+        [70] = "b o n k",
+    },
+    ["Aradros the Awakened"] = {
+        [50] = "Furnace",
+    },
+
+-- Bedlam Veil
+    ["Shattered Champion"] = {
+        [70] = "Shard Bash",
+        [50] = "Shard Bash",
+    },
+
+    ["Darkshard"] = {
+        [80] = "Maxus",
+        [60] = "Atrocity",
+        [40] = "Argonian",
+    },
+
+    ["The Blind"] = {
+        [81] = "Blind Shards",
+        [61] = "Glass Remnants",
+        [41] = "Glass Remnants",
+        [21] = "Gleaming Deluge",
+    },
 }
 
 ---------------------------------------------------------------------
