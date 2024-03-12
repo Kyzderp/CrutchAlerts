@@ -51,34 +51,34 @@ end
 -- When reticle changes...
 local function OnReticleChanged()
     local negateCasters = {
-        ["Silver Rose Stormcaster"] = true,
-        ["Dro-m'Athra Conduit"] = true,
-        ["Dremora Conduit"] = true,
+        ["silver rose stormcaster"] = true,
+        ["dro-m'athra conduit"] = true,
+        ["dremora conduit"] = true,
         -- de
-        ["Silberrosen-Sturmwirker"] = true,
-        ["Silberrosen-Sturmwirkerin"] = true,
-        ["dro-m'Athra-Medium"] = true,
-        ["Dremora-Medium"] = true,
+        ["silberrosen-sturmwirker"] = true,
+        ["silberrosen-sturmwirkerin"] = true,
+        ["dro-m'athra-medium"] = true,
+        ["dremora-medium"] = true,
         -- es
-        ["Lanzador de tormentas de la Rosa Plateada"] = true,
-        ["Lanzadora de tormentas de la Rosa Plateada"] = true,
-        ["Conductor dro-m'Athra"] = true,
-        ["Conductora dro-m'Athra"] = true,
-        ["Dremora conductor"] = true,
-        ["Dremora conductora"] = true,
+        ["lanzador de tormentas de la rosa plateada"] = true,
+        ["lanzadora de tormentas de la rosa plateada"] = true,
+        ["conductor dro-m'athra"] = true,
+        ["conductora dro-m'athra"] = true,
+        ["dremora conductor"] = true,
+        ["dremora conductora"] = true,
         -- fr
-        ["Lance-tempête de la Rose d'argent"] = true,
-        ["Canalisateur dro-m'Athra"] = true,
-        ["Conduit Drémora"] = true,
+        ["lance-tempête de la rose d'argent"] = true,
+        ["canalisateur dro-m'athra"] = true,
+        ["conduit drémora"] = true,
         -- jp
         ["銀の薔薇のストームキャスター"] = true,
         ["ドロ・マスラの伝送者"] = true,
         ["ドレモラ・コンデュイット"] = true,
         -- ru
-        ["Призыватель бури Серебряной розы"] = true,
-        ["Призывательница бури Серебряной розы"] = true,
-        ["Проводник дро-м’Атра"] = true,
-        ["Дремора-проводник"] = true,
+        ["призыватель бури серебряной розы"] = true,
+        ["призывательница бури серебряной розы"] = true,
+        ["проводник дро-м’атра"] = true,
+        ["дремора-проводник"] = true,
         -- zh
         ["银玫瑰风暴法师"] = true,
         ["堕落虎人导能者"] = true,
@@ -87,6 +87,7 @@ local function OnReticleChanged()
     -- ... check if it's valid
     if (not DoesUnitExist("reticleover")
         or IsUnitDead("reticleover")
+        or GetUnitReaction("reticleover") ~= UNIT_REACTION_HOSTILE
         or GetUnitTargetMarkerType("reticleover") ~= TARGET_MARKER_TYPE_NONE) then
         return
     end
@@ -98,7 +99,7 @@ local function OnReticleChanged()
         if (not Crutch.savedOptions.endlessArchive.markFabled) then
             return
         end
-    elseif (negateCasters[zo_strformat("<<1>>", GetUnitName("reticleover"))]) then
+    elseif (negateCasters[string.lower(zo_strformat("<<1>>", GetUnitName("reticleover")))]) then
         -- Negate caster
         if (not Crutch.savedOptions.endlessArchive.markNegate) then
             return

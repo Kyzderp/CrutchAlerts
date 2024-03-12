@@ -113,8 +113,9 @@ Crutch.format = {
     [196959] = 500, -- Crush (Iron Atronach)
     [196875] = 500, -- Earthen Blast (Lurcher)
 
-    [194894] = 300, -- Uppercut (Ascendant Vanguard)
-    [196689] = 200, -- Venomous Arrow (Ascendant Archer)
+    [196689] = 200, -- Venomous Arrow (Ascendant Archer) dot hurts if pre-debuffed. chance to dodge
+
+    [194984] = 300, -- Uppercut (Ascendant Vanguard)
     [196715] = 300, -- Power Bash (Dro-m'Athra Sentinel)
     [211594] = 300, -- Power Bash (Ascendant Bulwark)
 
@@ -163,7 +164,7 @@ IDR.dmgcolors={
 local colors = {
     [1] = "ff6600", -- Orange, fire
     [2] = "64c200", -- Green, poison
-    [3] = "f4f2e8", -- Tan, physical
+    [3] = "fff1ab", -- Tan, physical
     [4] = "8ef5f5", -- Light blue, shock
     [5] = "ff00ff", -- Magenta
     [6] = "6a00ff", -- Dark purple
