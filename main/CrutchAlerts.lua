@@ -88,6 +88,7 @@ local defaultOptions = {
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
         useNonNoneBlacklist = true,
         useNoneBlacklist = true,
+        showDamageable = true,
     },
     bossHealthBar = {
         enabled = true,
@@ -317,6 +318,7 @@ local function Initialize()
         [1436] = Crutch.UnregisterEndlessArchive, -- Endless Archive
 
         [1302] = Crutch.UnregisterShipwrightsRegret, -- Shipwright's Regret
+        [1471] = Crutch.UnregisterBedlamVeil, -- Bedlam Veil
     }
 
     zoneRegisters = {
@@ -339,6 +341,7 @@ local function Initialize()
         [1436] = Crutch.RegisterEndlessArchive, -- Endless Archive
 
         [1302] = Crutch.RegisterShipwrightsRegret, -- Shipwright's Regret
+        [1471] = Crutch.RegisterBedlamVeil, -- Bedlam Veil
     }
 end
 

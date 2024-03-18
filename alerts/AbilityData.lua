@@ -127,14 +127,6 @@ Crutch.testing = {
 
     [166209] = true, -- fire dome gained?
     [166178] = true, -- ice dome gained?
-
-    [207924] = true, -- Catatonic Disruptor
-    [207918] = true, -- Catatonic Disruptor cast
-    [208016] = true, -- Ocular Disruptor
-    [207970] = true, -- Ocular Disruptor cast
-    [208283] = true, -- Zephyrus Obscuris cast
-
-    [213837] = true, -- Besiege (The Blind)
 }
 
 ---------------------------------------------------------------------

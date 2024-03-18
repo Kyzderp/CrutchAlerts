@@ -22,9 +22,11 @@ local SUBTITLE_TIMES = {
         -- Second to come down
         ["I don't want to finish them off before you get a crack at them, Ly."] = 7.5,
         -- Next line: Ly: Allow me to demonstrate what winning looks like.
+        ["Not your finest hour, Ly. Let me show you how it's done."] = 7.5,
+        -- Next line: Ly: I just need to catch my breath. Besides, you looked bored hiding up there.
 
         -- Double
-        ["If you're done sulking, Ly, some assistance would be selcome."] = 8,
+        ["If you're done sulking, Ly, some assistance would be welcome."] = 8,
         -- Next line: Ly: Fine, but only because I love to hear you beg for my help.
     },
     ["Lylanar"] = {
@@ -36,8 +38,10 @@ local SUBTITLE_TIMES = {
         ["Now the real fight begins."] = 6.4,
 
         -- Second to come down
-        ["Not your finest hour, Ly. Let me show you how it's done."] = 7.5,
-        -- Next line: Ly: I just need to catch my breath. Besides, you looked bored hiding up there.
+        ["I don't wish to hog all the excitement. Turli, why don't you get in on the action?"] = 7.5,
+        -- Turlassil: I'm always cleaning up after you, Ly.
+        ["That was a limp performance, Turli. I'll show them what true power is."] = 7.5,
+        -- Turlassil: You'll be crying for my help soon enough.
 
         -- Double
         ["You don't look to be fairing any better than I did, Turli."] = 8, -- [sic]
@@ -121,6 +125,11 @@ local SUBTITLE_TIMES = {
         ["Well, I was right. Here it is."] = 9.7,
     },
 
+-- Bedlam Veil
+    ["The Blind"] = {
+        ["My spell destroys everything in my way!"] = 6.7, -- 80% port. this is accurate because she says it after porting
+    },
+
 -- Castle Thorn
     ["Lady Thorn"] = {
         -- Blood Twilight
@@ -182,8 +191,7 @@ local SUBTITLE_TIMES = {
     },
 }
 
-local spooderPulled = false
-
+---------------------------------------------------------------------
 local isPolling = false
 local pollTime = 0
 
@@ -244,6 +252,10 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
         end
     end
 
+    if (not Crutch.savedOptions.general.showDamageable) then
+        return
+    end
+
     -- Dialogue NPC matches
     local lines = SUBTITLE_TIMES[name]
     if (not lines) then
@@ -269,34 +281,9 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
 
     -- Have the number of seconds after which the boss should be damageable
     Crutch.DisplayDamageable(time)
-
-end
-
----------------------------------------------------------------------
--- EVENT_PLAYER_COMBAT_STATE (number eventCode, boolean inCombat)
-local function HandleCombatState(_, inCombat)
-    if (not inCombat) then
-        -- Reset one-time vars
-        spooderPulled = false
-    end
-end
-
----------------------------------------------------------------------
-local function HandleOverheadRail()
-    if (spooderPulled) then
-        return
-    end
-
-    spooderPulled = true
-    Crutch.DisplayDamageable(23.2) -- TODO
 end
 
 ---------------------------------------------------------------------
 function Crutch.InitializeDamageable()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ChatHandler", EVENT_CHAT_MESSAGE_CHANNEL, HandleChat)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DamageableCombatState", EVENT_PLAYER_COMBAT_STATE, HandleCombatState)
-
-    -- TODO: only register this in HoF
-    EVENT_MANAGER:RegisterForEvent(Crutch.name.."Spooder", EVENT_COMBAT_EVENT, HandleOverheadRail)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name.."Spooder", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 94805)
 end

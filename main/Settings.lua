@@ -187,6 +187,18 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show damageable timers",
+                    tooltip = "For certain encounters, show a countdown to when the boss will become damageable, tauntable, return to the arena, etc.",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.showDamageable end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showDamageable = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show arcanist timers",
                     tooltip = "Show alerts for arcanist-specific channeled abilities that you cast, i.e. Fatecarver and Remedy Cascade",
                     default = true,

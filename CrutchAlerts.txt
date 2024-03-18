@@ -34,6 +34,7 @@ zones/arenas/EndlessArchive.lua
 zones/arenas/MaelstromArena.lua
 zones/arenas/VateshranHollows.lua
 
+zones/dungeons/BedlamVeil.lua
 zones/dungeons/ShipwrightsRegret.lua
 
 bosshealthbar/BossHealthBar.lua
