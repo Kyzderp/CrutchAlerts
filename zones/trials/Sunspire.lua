@@ -100,7 +100,7 @@ local function DisableLokkIcons()
 end
 
 local function UpdateLokkIcons()
-    Crutch.dbgOther(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
+    Crutch.dbgSpam(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
     if (atLokk and lokkHM and (lokkBeamPhase or not isInCombat)) then
         EnableLokkIcons()
     else
@@ -137,7 +137,7 @@ local function OnDifficultyChanged(text)
         lokkHM = true
         UpdateLokkIcons()
     else
-        Crutch.dbgOther(string.format("maxHealth: %d lokkHM: %s", maxHealth or 0, lokkHM and "true" or "false"))
+        Crutch.dbgSpam(string.format("maxHealth: %d lokkHM: %s", maxHealth or 0, lokkHM and "true" or "false"))
     end
 end
 
