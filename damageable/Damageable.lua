@@ -18,6 +18,14 @@ local SUBTITLE_TIMES = {
         ["I'll take the first round, Ly."] = 6.4,
         ["That was just a taste of what's to come."] = 6.4,
         ["Don't get up, Ly. This will just be a moment."] = 6.4,
+
+        -- Second to come down
+        ["I don't want to finish them off before you get a crack at them, Ly."] = 7.5,
+        -- Next line: Ly: Allow me to demonstrate what winning looks like.
+
+        -- Double
+        ["If you're done sulking, Ly, some assistance would be selcome."] = 8,
+        -- Next line: Ly: Fine, but only because I love to hear you beg for my help.
     },
     ["Lylanar"] = {
         -- Lylanar and Turlassil
@@ -26,6 +34,14 @@ local SUBTITLE_TIMES = {
         ["Watch me, Turli. This is how it's done!"] = 6.4,
         ["Made it farther than the thralls do."] = 6.4,
         ["Now the real fight begins."] = 6.4,
+
+        -- Second to come down
+        ["Not your finest hour, Ly. Let me show you how it's done."] = 7.5,
+        -- Next line: Ly: I just need to catch my breath. Besides, you looked bored hiding up there.
+
+        -- Double
+        ["You don't look to be fairing any better than I did, Turli."] = 8, -- [sic]
+        -- Next line: Turli: Less talk and more action, Ly. And do try harder this time, please.
     },
     ["Fleet Queen Taleria"] = {
         -- Taleria
