@@ -118,6 +118,9 @@ Crutch.format = {
     [194984] = 300, -- Uppercut (Ascendant Vanguard)
     [196715] = 300, -- Power Bash (Dro-m'Athra Sentinel)
     [211594] = 300, -- Power Bash (Ascendant Bulwark)
+    [203006] = 300, -- Thrash (Bristleback)
+    [201727] = 300, -- Shield Charge (Dremora Vigilant)
+    [203492] = 300, -- Diving Strike (Dremora Ironclad)
 
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn

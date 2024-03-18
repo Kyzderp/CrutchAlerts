@@ -127,6 +127,14 @@ Crutch.testing = {
 
     [166209] = true, -- fire dome gained?
     [166178] = true, -- ice dome gained?
+
+    [207924] = true, -- Catatonic Disruptor
+    [207918] = true, -- Catatonic Disruptor cast
+    [208016] = true, -- Ocular Disruptor
+    [207970] = true, -- Ocular Disruptor cast
+    [208283] = true, -- Zephyrus Obscuris cast
+
+    [213837] = true, -- Besiege (The Blind)
 }
 
 ---------------------------------------------------------------------
@@ -300,7 +308,7 @@ Crutch.others = {
     [91937] = true, -- Burst of Embers (Daedroth)
     [54841] = true, -- Ice Charge (Dwarven Ice Centurion)
 
--- Endless Archive
+-- Infinite Archive
     [192013] = true, -- Splintering Mirror (Tho'at Replicanum)
     [192024] = true, -- Glass Sky (Tho'at Shard (Mantikora))
     [210841] = true, -- Crashing Wave (Marauder Ulmor)
@@ -314,6 +322,7 @@ Crutch.others = {
     [197002] = true, -- Stormfront (Storm Atronach)
     [196959] = true, -- Crush (Iron Atronach)
     [195448] = true, -- Wing Burst (Ash Titan)
+    [203006] = true, -- Thrash (Bristleback)
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn
