@@ -279,6 +279,7 @@ local function RedrawStages(optionalBossName)
 end
 
 local logNextPowerUpdate = 0 -- Used to log the next X health updates after max health change because sometimes the stages get grayed out :angy:
+local powerUpdateDebug = false -- Manual enabling of health update spam
 
 -- EVENT_POWER_UPDATE (number eventCode, string unitTag, number powerIndex, CombatMechanicType powerType, number powerValue, number powerMax, number powerEffectiveMax)
 local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffectiveMax)
@@ -312,6 +313,10 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                 Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d changed %d -> %d [logNextPowerUpdate %d]",
                     index, prevValue, powerValue, logNextPowerUpdate))
                 logNextPowerUpdate = logNextPowerUpdate - 1
+            elseif (powerUpdateDebug and powerValue ~= prevValue) then
+                Crutch.dbgSpam(string.format("|c64e1fa[BHB]|r %s (boss%d) %.1fk || |c64e1fa%s|r / |c64e1fa%s|r (|c64e1fa%.3f|r)",
+                    GetUnitName(unitTag), index, (powerValue - prevValue) / 1000,
+                    ZO_LocalizeDecimalNumber(powerValue), ZO_LocalizeDecimalNumber(powerMax), powerValue * 100 / powerMax))
             end
 
             if (powerMax > prevMax) then
@@ -337,9 +342,9 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
             end
 
             if (powerValue > prevValue) then
-                -- The boss healed :O
-                Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d healed %d -> %d",
-                    index, prevValue, powerValue))
+                -- The boss healed :O This debug doesn't seem that useful, many bosses seem to "heal" very small amounts... not sure why
+                -- Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d healed %d -> %d",
+                --     index, prevValue, powerValue))
             end
         end
 
@@ -347,6 +352,13 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         UpdateStagesWithBossHealth()
     end
 end
+
+local function ToggleHealthDebug()
+    powerUpdateDebug = not powerUpdateDebug
+    d(powerUpdateDebug)
+end
+Crutch.ToggleHealthDebug = ToggleHealthDebug
+-- /script CrutchAlerts.ToggleHealthDebug()
 
 ---------------------------------------------------------------------------------------------------
 -- When bosses change

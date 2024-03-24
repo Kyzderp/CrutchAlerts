@@ -574,7 +574,7 @@ local dungeonThresholds = {
         [70] = "b o n k",
     },
     ["Aradros the Awakened"] = {
-        [50] = "Furnace",
+        [51] = "Furnace",
     },
 
 -- Bedlam Veil
