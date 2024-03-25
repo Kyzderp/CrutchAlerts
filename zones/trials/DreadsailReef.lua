@@ -2,6 +2,26 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 ---------------------------------------------------------------------
+-- Twins
+---------------------------------------------------------------------
+local function OnDestructiveEmber(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        Crutch.msg(zo_strformat("|cff6600<<1>> picked up fire dome", GetUnitDisplayName(unitTag)))
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.msg(zo_strformat("|cff6600<<1>> put away fire dome", GetUnitDisplayName(unitTag)))
+    end
+end
+
+local function OnPiercingHailstone(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        Crutch.msg(zo_strformat("|c8ef5f5<<1>> picked up ice dome", GetUnitDisplayName(unitTag)))
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.msg(zo_strformat("|c8ef5f5<<1>> put away ice dome", GetUnitDisplayName(unitTag)))
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Reef Guardian
 ---------------------------------------------------------------------
 -- Display (and ding?) when reaching too many lightning stacks
@@ -52,6 +72,16 @@ end
 function Crutch.RegisterDreadsailReef()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
 
+    -- Chat output for who picks up domes
+    if (Crutch.savedOptions.general.showRaidDiag) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, OnDestructiveEmber)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 166209)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, OnPiercingHailstone)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 166178)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    end
+
     -- Lightning Stacks
     if (Crutch.savedOptions.dreadsailreef.alertStaticStacks) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED, OnLightningStacksChanged)
@@ -82,6 +112,10 @@ end
 
 function Crutch.UnregisterDreadsailReef()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRCombatState", EVENT_PLAYER_COMBAT_STATE)
+
+    -- Domes
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, OnDestructiveEmber)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, OnPiercingHailstone)
 
     -- Lightning Stacks
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED)

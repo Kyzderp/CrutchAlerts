@@ -60,51 +60,6 @@ function Crutch:CreateSettingsMenu()
             end,
             width = "full",
         },
-        {
-            type = "checkbox",
-            name = "Show debug on alert",
-            tooltip = "Add a small line of text on alerts that shows IDs and other debug information",
-            default = false,
-            getFunc = function() return Crutch.savedOptions.debugLine end,
-            setFunc = function(value)
-                Crutch.savedOptions.debugLine = value
-            end,
-            width = "full",
-        },
-        {
-            type = "checkbox",
-            name = "Show debug chat spam",
-            tooltip = "Display a chat message every time any event is procced -- very spammy!",
-            default = false,
-            getFunc = function() return Crutch.savedOptions.debugChatSpam end,
-            setFunc = function(value)
-                Crutch.savedOptions.debugChatSpam = value
-            end,
-            width = "full",
-        },
-        {
-            type = "checkbox",
-            name = "Show other debug",
-            tooltip = "Display other debug messages",
-            default = false,
-            getFunc = function() return Crutch.savedOptions.debugOther end,
-            setFunc = function(value)
-                Crutch.savedOptions.debugOther = value
-            end,
-            width = "full",
-        },
-        {
-            type = "checkbox",
-            name = "Show debug UI",
-            tooltip = "Display a UI element that may or may not contain useful debug",
-            default = false,
-            getFunc = function() return Crutch.savedOptions.debugUi end,
-            setFunc = function(value)
-                Crutch.savedOptions.debugUi = value
-                Crutch.InitializeDebug()
-            end,
-            width = "full",
-        },
 ---------------------------------------------------------------------
 -- general
         {
@@ -311,6 +266,70 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return not Crutch.savedOptions.showSubtitles end,
                 },
             }
+        },
+-- debug
+        {
+            type = "submenu",
+            name = "Debug Settings",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show raid lead diagnostics",
+                    tooltip = "Shows possibly spammy info in the text chat when certain important events occur. For example, someone picking up fire dome in DSR",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.general.showRaidDiag end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showRaidDiag = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show debug on alert",
+                    tooltip = "Add a small line of text on alerts that shows IDs and other debug information",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.debugLine end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.debugLine = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show debug chat spam",
+                    tooltip = "Display a chat message every time any event is procced -- very spammy!",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.debugChatSpam end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.debugChatSpam = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show other debug",
+                    tooltip = "Display other debug messages",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.debugOther end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.debugOther = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show debug UI",
+                    tooltip = "Display a UI element that may or may not contain useful debug",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.debugUi end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.debugUi = value
+                        Crutch.InitializeDebug()
+                    end,
+                    width = "full",
+                },
+            },
         },
 ---------------------------------------------------------------------
 -- trials

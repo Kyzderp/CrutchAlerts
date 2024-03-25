@@ -89,6 +89,7 @@ local defaultOptions = {
         useNonNoneBlacklist = true,
         useNoneBlacklist = true,
         showDamageable = true,
+        showRaidDiag = false,
     },
     bossHealthBar = {
         enabled = true,
