@@ -8,48 +8,73 @@ local SUBTITLE_CHANNELS = {
     [CHAT_CHANNEL_MONSTER_SAY] = true,
 }
 
+-- TODO: I REALLY need to change to lang files... this is getting far too unwieldy
 local SUBTITLE_TIMES = {
 -- DSR
     ["Turlassil"] = {
         -- Lylanar and Turlassil
         ["Fresh challengers more like."] = 16.6,
-        ["You pass. Barely"] = 6.4,
-        ["You looked a little too eager to kill our hounds for my taste."] = 6.4,
+
+        ["Eher neue Herausforderer."] = 16.6,
+
+        -- First
+        ["Don't get up, Ly. This will just be a moment."] = 6.4,
         ["I'll take the first round, Ly."] = 6.4,
         ["That was just a taste of what's to come."] = 6.4,
-        ["Don't get up, Ly. This will just be a moment."] = 6.4,
+        ["You looked a little too eager to kill our hounds for my taste."] = 6.4,
+        ["You pass. Barely"] = 6.4,
+
+        ["Steht nicht auf, Ly. Das wird nur einen Augenblick dauern."] = 6.4,
+        ["Ich übernehme die erste Runde, Ly."] = 6.4,
+        ["Das war nur ein Vorgeschmack auf das, was kommt."] = 6.4,
+        ["Für meinen Geschmack wirktet Ihr ein bisschen zu versessen darauf, unsere Hunde zu töten."] = 6.4,
+        ["Das reicht. Gerade so."] = 6.4,
 
         -- Second to come down
         ["I don't want to finish them off before you get a crack at them, Ly."] = 7.5,
-        -- Next line: Ly: Allow me to demonstrate what winning looks like.
         ["Not your finest hour, Ly. Let me show you how it's done."] = 7.5,
-        -- Next line: Ly: I just need to catch my breath. Besides, you looked bored hiding up there.
+
+        ["Ich will sie nicht besiegen, bevor Ihr ihnen nicht auch ein paar verpasst habt, Ly."] = 7.5,
+        ["Nicht Eure beste Leistung, Ly. Lasst es mich vormachen."] = 7.5,
 
         -- Double
         ["If you're done sulking, Ly, some assistance would be welcome."] = 8,
-        -- Next line: Ly: Fine, but only because I love to hear you beg for my help.
+
+        ["Wenn Ihr mit dem Schmollen fertig seid, Ly, wäre etwas Hilfe willkommen."] = 8,
     },
     ["Lylanar"] = {
-        -- Lylanar and Turlassil
-        ["I'll call first round."] = 6.4,
+        -- First
         ["Had your warm up then?"] = 6.4,
-        ["Watch me, Turli. This is how it's done!"] = 6.4,
+        ["I'll call first round."] = 6.4,
         ["Made it farther than the thralls do."] = 6.4,
         ["Now the real fight begins."] = 6.4,
+        ["Watch me, Turli. This is how it's done!"] = 6.4,
+
+        ["Seid Ihr jetzt aufgewärmt?"] = 6.4,
+        ["Ich nehme die erste Runde."] = 6.4,
+        ["Das war weiter, als es die Sklaven schaffen."] = 6.4,
+        ["Jetzt beginnt der richtige Kampf."] = 6.4,
+        ["Seht gut her, Turli. So wird's gemacht!"] = 6.4,
 
         -- Second to come down
         ["I don't wish to hog all the excitement. Turli, why don't you get in on the action?"] = 7.5,
-        -- Turlassil: I'm always cleaning up after you, Ly.
         ["That was a limp performance, Turli. I'll show them what true power is."] = 7.5,
-        -- Turlassil: You'll be crying for my help soon enough.
+
+        ["Ich will den ganzen Spaß nicht für mich allein. Turli, warum steigt Ihr nicht ein?"] = 7.5,
+        ["Das war eine schwache Darbietung, Turli. Ich werde ihnen zeigen, was wahre Macht ist."] = 7.5,
 
         -- Double
         ["You don't look to be fairing any better than I did, Turli."] = 8, -- [sic]
-        -- Next line: Turli: Less talk and more action, Ly. And do try harder this time, please.
+
+        ["Es sieht nicht so aus, als ob es Euch besser ergeht als mir, Turli."] = 8,
     },
     ["Fleet Queen Taleria"] = {
         -- Taleria
         ["Barging into a lady's private chambers. You are bold."] = 23.5,
+    },
+    ["Flottenkönigin Taleria"] = {
+        -- Taleria de
+        ["Ihr stürmt einfach in die Privatgemächer einer Dame. Dreist."] = 23.5,
     },
 -- HoF
     ["Assembly General"] = {
