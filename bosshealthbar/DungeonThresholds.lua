@@ -817,6 +817,11 @@ local dungeonAliases = {
     ["リフトマスター・ナクリ"] = "Riftmaster Naqri",
     ["業火のオゼザン"] = "Ozezan the Inferno",
     ["ヴァリナ"] = "Valinna",
+    ["アンセルミルのコンストラクト"] = "Anthelmir's Construct",
+    ["覚醒者アラドロス"] = "Aradros the Awakened",
+    ["砕けた勇者"] = "Shattered Champion",
+    ["ダークシャード"] = "Darkshard",
+    ["盲目者"] = "The Blind",
 }
 
 ---------------------------------------------------------------------
