@@ -17,6 +17,9 @@ main/CrutchAlerts.xml
 main/Settings.lua
 main/Utils.lua
 
+lang/en.lua
+lang/$(language).lua
+
 zones/trials/Cloudrest.xml
 zones/trials/MawOfLorkhaj.xml
 

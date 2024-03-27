@@ -18,17 +18,17 @@ local endlessArchiveThresholds = {
     -- Canonreeve Oraneth
     -- Captain Blackheart
     -- Councilor Vandacia
-    ["Councilor Vandacia"] = {
+    [GetString(CRUTCH_BHB_COUNCILOR_VANDACIA)] = {
         [50] = "Desperation", -- meteors all over the place
     },
     -- Cynhamoth
 
     -- Death's Leviathan
-    ["Death's Leviathan"] = {
+    [GetString(CRUTCH_BHB_DEATHS_LEVIATHAN)] = {
         [50] = "Immolate", -- TODO; adds fire to its attacks
     },
     -- Doylemish Ironheart
-    ["Doylemish Ironheart"] = {
+    [GetString(CRUTCH_BHB_DOYLEMISH_IRONHEART)] = {
         [50] = "Stone Orb", -- They seem to spawn on a timer after 50%, but don't... do anything?
     },
 
@@ -36,7 +36,7 @@ local endlessArchiveThresholds = {
 
     -- Garron the Returned -- Consume Life is timer based
     -- Ghemvas the Harbinger
-    ["Ghemvas the Harbinger"] = {
+    [GetString(CRUTCH_BHB_GHEMVAS_THE_HARBINGER)] = {
         [50] = "Unstable Energy",
     },
     -- Glemyos Wildhorn
@@ -53,16 +53,16 @@ local endlessArchiveThresholds = {
     -- Kra'gh the Dreugh King
 
     -- Laatvulon
-    ["Laatvulon"] = {
+    [GetString(CRUTCH_BHB_LAATVULON)] = {
         [50] = "Blizzard",
     },
     -- Lady Belain
-    ["Lady Belain"] = {
+    [GetString(CRUTCH_BHB_LADY_BELAIN)] = {
         [50] = "Awakening", -- She flies up and summons 2 voidmothers (more in later arcs), and you take constant Awakening damage
         -- Seems like after 50 she also summons blood knights, 3 at once
     },
     -- Lady Thorn
-    ["Lady Thorn"] = {
+    [GetString(CRUTCH_BHB_LADY_THORN)] = {
         [50] = "Batdance",
     },
     -- Limenauruus
@@ -74,14 +74,14 @@ local endlessArchiveThresholds = {
 
     -- Molag Kena
     -- Mulaamnir
-    ["Mulaamnir"] = {
+    [GetString(CRUTCH_BHB_MULAAMNIR)] = {
         [50] = "Storm",
     },
     -- Murklight
 
     -- Nazaray
     -- Nerien'eth
-    ["Nerien'eth"] = {
+    [GetString(CRUTCH_BHB_NERIENETH)] = {
         [50] = "Ebony Blade",
     },
 
@@ -97,7 +97,7 @@ local endlessArchiveThresholds = {
 
     -- Selene -- the Claw and Fang seem to be on both timer and hp gate
     -- Sentinel Aksalaz
-    ["Sentinel Aksalaz"] = {
+    [GetString(CRUTCH_BHB_SENTINEL_AKSALAZ)] = {
         -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
         -- Different order: indrik > nereid > atro
         -- solo run: atro > indrid > nereid
@@ -115,7 +115,7 @@ local endlessArchiveThresholds = {
     -- The Imperfect -- no hp gates
     -- The Lava Queen -- no hp gates?
     -- The Mage
-    ["The Mage"] = {
+    [GetString(CRUTCH_BHB_THE_MAGE)] = {
         [50] = "Arcane Vortex",
     },
     -- The Sable Knight -- no hp gates
@@ -124,10 +124,10 @@ local endlessArchiveThresholds = {
     -- The Weeping Woman
     -- The Whisperer
     -- Tho'at Replicanum
-    ["Tho'at Replicanum"] = {
+    [GetString(CRUTCH_BHB_THOAT_REPLICANUM)] = {
         [70] = "Shard", -- TODO: don't show this for Arc 1
     },
-    ["Tho'at Shard"] = {
+    [GetString(CRUTCH_BHB_THOAT_SHARD)] = {
         -- This is needed because after the Replicanum dies, there is no boss1
         [70] = "Shard", -- TODO: don't show this for Arc 2
     },
@@ -143,7 +143,7 @@ local endlessArchiveThresholds = {
     -- Xeemhok the Trophy-Taker
 
     -- Yolnahkriin
-    ["Yolnahkriin"] = {
+    [GetString(CRUTCH_BHB_YOLNAHKRIIN)] = {
         [50] = "Cataclysm",
     },
     -- Ysmgar
@@ -151,6 +151,7 @@ local endlessArchiveThresholds = {
     -- Z'Baza -- no hp gates
     -- Zhaj'hassa the Forgotten -- no hp gates?
 }
+Crutch.test = endlessArchiveThresholds
 
 ---------------------------------------------------------------------
 -- Other language aliases can go here. Unlike the thresholds, this is
