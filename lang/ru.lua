@@ -1,3 +1,4 @@
+-- /script SetCVar("language.2", "ru")
 -- Infinite Archive bosses (that aren't in the others)
 SafeAddString(CRUTCH_BHB_COUNCILOR_VANDACIA, "Советник Вандацио")
 SafeAddString(CRUTCH_BHB_DEATHS_LEVIATHAN, "Исполин Смерти")

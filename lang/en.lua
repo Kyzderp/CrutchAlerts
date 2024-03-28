@@ -1,3 +1,4 @@
+-- /script SetCVar("language.2", "en")
 -- Trial bosses
 ZO_CreateStringId("CRUTCH_BHB_RA_KOTU", "Ra Kotu")
 ZO_CreateStringId("CRUTCH_BHB_THE_WARRIOR", "The Warrior")
