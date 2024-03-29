@@ -52,6 +52,11 @@ local function UnregisterEvent(event, abilityId, eventName)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. eventName .. tostring(abilityId), event)
 end
 
+-- With caps!
+local function FormatAbilityName(abilityId)
+    return zo_strformat("<<C:1>>", GetAbilityName(abilityId))
+end
+
 
 ---------------------------------------------------------------------
 -- Common
@@ -137,7 +142,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
         Crutch.dbgSpam(string.format("A %s(%d): %s(%d) in %d on %s (%d). %s.%s %s",
             sourceName,
             sourceUnitId,
-            GetAbilityName(abilityId),
+            FormatAbilityName(abilityId),
             abilityId,
             hitValue,
             targetName,
@@ -175,7 +180,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     if (Crutch.savedOptions.general.beginHideSelf and result == ACTION_RESULT_BEGIN and sourceType == COMBAT_UNIT_TYPE_PLAYER) then return end
 
     -- Actual display
-    Crutch.DisplayNotification(abilityId, GetAbilityName(abilityId), hitValue, sourceUnitId, sourceName, sourceType, result)
+    Crutch.DisplayNotification(abilityId, FormatAbilityName(abilityId), hitValue, sourceUnitId, sourceName, sourceType, result)
 end
 
 function Crutch.RegisterBegin()
@@ -255,7 +260,7 @@ local function OnInterrupted(_, result, isError, abilityName, _, _, sourceName, 
         Crutch.dbgSpam(string.format("Interrupted %s(%d): %s(%d) on %s (%d) HitValue %d %s %s",
             sourceName,
             sourceUnitId,
-            GetAbilityName(abilityId),
+            FormatAbilityName(abilityId),
             abilityId,
             targetName,
             targetUnitId,
@@ -311,7 +316,7 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
     Crutch.dbgSpam(string.format("|cFF8888Test %s(%d): %s(%d) in %d on %s (%d). %s %s|r",
         sourceName,
         sourceUnitId,
-        GetAbilityName(abilityId),
+        FormatAbilityName(abilityId),
         abilityId,
         hitValue,
         targetName,
@@ -343,7 +348,7 @@ local function OnEffectChangedTest(_, changeType, _, _, unitTag, _, _, _, _, _, 
     Crutch.dbgSpam(string.format("|cFF8888TestEffect %s(%d): %s(%d) %s|r",
         (unitTag ~= nil) and GetUnitDisplayName(unitTag) or "",
         unitId,
-        GetAbilityName(abilityId),
+        FormatAbilityName(abilityId),
         abilityId,
         resultString))
 end
@@ -387,7 +392,7 @@ local function OnStackChanged(_, changeType, _, _, unitTag, _, _, stackCount, _,
         unitTag,
         unitId,
         stacks,
-        GetAbilityName(abilityId),
+        FormatAbilityName(abilityId),
         abilityId))
 end
 
@@ -401,7 +406,7 @@ local function OnStackCombat(_, result, _, _, _, _, _, _, targetName, _, stackCo
         targetName,
         targetUnitId,
         stacks,
-        GetAbilityName(abilityId),
+        FormatAbilityName(abilityId),
         abilityId))
 end
 
@@ -447,7 +452,7 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
         Crutch.dbgSpam(string.format("O %s(%d): %s(%d) in %d on %s (%d). %s %s",
             sourceName,
             sourceUnitId,
-            GetAbilityName(abilityId),
+            FormatAbilityName(abilityId),
             abilityId,
             hitValue,
             targetName,
@@ -464,7 +469,7 @@ local function OnCombatEventOthers(result, isError, abilityName, sourceName, sou
         return
     end
 
-    Crutch.DisplayNotification(abilityId, GetAbilityName(abilityId) .. targetName, hitValue, sourceUnitId, sourceName, sourceType, result)
+    Crutch.DisplayNotification(abilityId, FormatAbilityName(abilityId) .. targetName, hitValue, sourceUnitId, sourceName, sourceType, result)
 end
 
 function Crutch.RegisterOthers()
@@ -526,7 +531,7 @@ function Crutch.RegisterUnitId(unitId)
             Crutch.dbgSpam(string.format("|cFF8888Test %s(%d): %s(%d) in %d on %s (%d). %s %s|r",
                 sourceName,
                 sourceUnitId,
-                GetAbilityName(abilityId),
+                FormatAbilityName(abilityId),
                 abilityId,
                 hitValue,
                 targetName,

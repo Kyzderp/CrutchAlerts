@@ -8,7 +8,7 @@ local SUBTITLE_CHANNELS = {
     [CHAT_CHANNEL_MONSTER_SAY] = true,
 }
 
--- TODO: I REALLY need to change to lang files... this is getting far too unwieldy
+-- TODO: migrate these to lang files
 local SUBTITLE_TIMES = {
 -- DSR
     ["Turlassil"] = {
