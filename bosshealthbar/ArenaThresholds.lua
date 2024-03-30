@@ -4,7 +4,11 @@ local Crutch = CrutchAlerts
 local BHB = Crutch.BossHealthBar
 
 BHB.thresholds = BHB.thresholds or {}
-BHB.aliases = BHB.aliases or {}
+
+---------------------------------------------------------------------
+local function GetBossName(id)
+    return Crutch.GetCapitalizedString(id)
+end
 
 ---------------------------------------------------------------------
 -- Add percentage threshold + the mechanic name below
@@ -13,33 +17,33 @@ local arenaThresholds = {
 -- Blackrose Prison
 
 -- Dragonstar Arena
-    ["Champion Marcauld"] = {
+    [GetBossName(CRUTCH_BHB_CHAMPION_MARCAULD)] = {
         [75] = "Adds", -- TODO: alcast 70
         [40] = "Adds", -- TODO
     },
     -- Stage 2 and 3 are based on combined health, skip for now
-    ["Earthen Heart Knight"] = {
+    [GetBossName(CRUTCH_BHB_EARTHEN_HEART_KNIGHT)] = {
         [70] = "Adds", -- TODO
         [30] = "Adds", -- TODO
     },
-    ["Anal'a Tu'wha"] = {
+    [GetBossName(CRUTCH_BHB_ANALA_TUWHA)] = {
         [78] = "Adds", -- TODO
         [40] = "Adds", -- TODO
     },
-    ["Pishna Longshot"] = {
+    [GetBossName(CRUTCH_BHB_PISHNA_LONGSHOT)] = {
         [70] = "Adds", -- TODO
         [40] = "Adds", -- TODO
     },
     -- Stage 7 is combined health
-    ["Mavus Talnarith"] = {
+    [GetBossName(CRUTCH_BHB_MAVUS_TALNARITH)] = {
         [80] = "Adds", -- TODO
         [40] = "Adds", -- TODO
     },
-    ["Vampire Lord Thisa"] = {
+    [GetBossName(CRUTCH_BHB_VAMPIRE_LORD_THISA)] = {
         [80] = "Portal", -- TODO
         [40] = "Adds", -- TODO
     },
-    ["Hiath the Battlemaster"] = {
+    [GetBossName(CRUTCH_BHB_HIATH_THE_BATTLEMASTER)] = {
         [75] = "Adds", -- TODO
         [50] = "Pull + Adds", -- TODO
         [25] = "Pull", -- TODO
@@ -48,46 +52,14 @@ local arenaThresholds = {
 -- Maelstrom Arena
 
 -- Vateshran Hollows
-    ["The Pyrelord"] = {
+    [GetBossName(CRUTCH_BHB_THE_PYRELORD)] = {
         [70] = "Colossus",
         [30] = "Colossus",
     },
 }
 
 ---------------------------------------------------------------------
--- Other language aliases can go here
----------------------------------------------------------------------
-local arenaAliases = {
--- Simplified Chinese aliases from oumu
-    ["勇士马卡尔德"] = "Champion Marcauld",
-    ["大地之心骑士"] = "Earthen Heart Knight",
-    ["阿那拉·图哈"] = "Anal'a Tu'wha",
-    ["远射手皮斯娜"] = "Pishna Longshot",
-    ["马维斯·泰尔纳里斯"] = "Mavus Talnarith",
-    ["吸血鬼大君斯萨"] = "Vampire Lord Thisa",
-    ["战斗大师西亚斯"] = "Hiath the Battlemaster",
-    ["柴堆领主"] = "The Pyrelord",
-
--- German aliases from Keldorem
-    ["Der Schürfürst"] = "The Pyrelord",
-
--- Japanese aliases from nikepiko
-    ["チャンピオン・マルカウルド"] = "Champion Marcauld",
-    ["大いなる大地の騎士"] = "Earthen Heart Knight",
-    ["アナラ・ツワ"] = "Anal'a Tu'wha",
-    ["ピシュナ・ロングショット"] = "Pishna Longshot",
-    ["マヴス・タルナリス"] = "Mavus Talnarith",
-    ["吸血鬼の王シサ"] = "Vampire Lord Thisa",
-    ["バトルマスター・ヒアス"] = "Hiath the Battlemaster",
-    ["火の王"] = "The Pyrelord",
-}
-
----------------------------------------------------------------------
 -- Copying into the same struct to allow better file splitting
 for k, v in pairs(arenaThresholds) do
     BHB.thresholds[k] = v
-end
-
-for k, v in pairs(arenaAliases) do
-    BHB.aliases[k] = v
 end
