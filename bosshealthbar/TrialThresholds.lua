@@ -4,7 +4,6 @@ local Crutch = CrutchAlerts
 local BHB = Crutch.BossHealthBar
 
 BHB.thresholds = BHB.thresholds or {}
-BHB.aliases = BHB.aliases or {}
 ---------------------------------------------------------------------
 local function GetBossName(id)
     return Crutch.GetCapitalizedString(id)
@@ -230,99 +229,7 @@ local trialThresholds = {
 }
 
 ---------------------------------------------------------------------
--- Other language aliases can go here
----------------------------------------------------------------------
-local trialAliases = {
-    ["L'exarchanique Yaseyla"] = "Exarchanic Yaseyla",
-
--- Simplified Chinese aliases from oumu
-    ["拉·阔图"] = "Ra Kotu",
-    ["武士"] = "The Warrior",
-    ["法师"] = "The Mage",
-    ["遗忘者扎哈撒"] = "Zhaj'hassa the Forgotten",
-    ["拉卡特"] = "Rakkhat",
-    ["猎杀者聂佳特里克斯"] = "Hunter-Killer Negatrix",
-    ["巅峰机械人"] = "Pinnacle Factotum",
-    ["反应器人"] = "Reactor",
-    ["组装将军"] = "Assembly General",
-    ["公正圣徒奥尔姆斯"] = "Saint Olms the Just",
-    ["希罗利亚幽影"] = "Shade of Siroria",
-    ["洛克提兹"] = "Lokkestiiz",
-    ["尤尔纳克林"] = "Yolnahkriin",
-    ["纳温塔丝"] = "Nahviintaas",
-    ["屠夫扬迪尔"] = "Yandir the Butcher",
-    ["威若船长"] = "Captain Vrol",
-    ["法尔格拉文领主"] = "Lord Falgravn",
-    ["奥西索"] = "Oaxiltso",
-    ["烈焰先驱巴塞"] = "Flame-Herald Bahsei",
-    ["夏尔瓦卡"] = "Xalvakka",
-    ["莱拉纳尔"] = "Lylanar",
-    ["礁石守护者"] = "Reef Guardian",
-    ["泰德伯恩·塔勒里亚"] = "Tideborn Taleria",
-    ["主教亚塞拉"] = "Exarchanic Yaseyla",
-    ["折磨者安苏尔"] = "Ansuul the Tormentor",
-
--- German aliases from Keldorem
-    -- ["Ra Kotu"] = Same in german
-    ["Krieger"] = "The Warrior",
-    ["Magierin"] = "The Mage",
-    ["Zhaj'hassa der Vergessene"] = "Zhaj'hassa the Forgotten",
-    -- ["Rakkhat"] = Same in german
-    ["Abfänger Negatrix"] = "Hunter-Killer Negatrix",
-    ["Perfektioniertes Faktotum"] = "Pinnacle Factotum",
-    ["Reaktor"] = "Reactor",
-    ["Montagegeneral"] = "Assembly General",
-    ["Heiliger Olms der Gerechte"] = "Saint Olms the Just",
-    ["Schatten von Siroria"] = "Shade of Siroria",
-    -- ["Lokkestiiz"] = Same in german
-    -- ["Yolnahkriin"] = Same in german
-    -- ["Nahviintaas"] = Same in german
-    ["Yandir der Ausweider"] = "Yandir the Butcher",
-    ["Kapitän Vrol"] = "Captain Vrol",
-    ["Fürst Falgravn"] = "Lord Falgravn",
-    -- ["Oaxiltso"] = Same in german
-    ["Flammenheroldin Bahsei"] = "Flame-Herald Bahsei",
-    -- ["Xalvakka"] = Same in german
-    -- ["Lylanar"] = Same in german
-    ["Riffwächter"] = "Reef Guardian",
-    ["Gezeitengeborene Taleria"] = "Tideborn Taleria",
-    ["Exarchanikerin Yaseyla"] = "Exarchanic Yaseyla",
-    ["Ansuul die Quälende"] = "Ansuul the Tormentor",
-
--- Japanese aliases from nikepiko
-    ["ラ・コツ"] = "Ra Kotu",
-    ["戦士"] = "The Warrior",
-    ["魔術師"] = "The Mage",
-    ["忘れ去られたザジュハッサ"] = "Zhaj'hassa the Forgotten",
-    ["ラカート"] = "Rakkhat",
-    ["ハンターキラー・ネガトリクス"] = "Hunter-Killer Negatrix",
-    ["ピナクル・ファクトタム"] = "Pinnacle Factotum",
-    ["リアクター"] = "Reactor",
-    ["アセンブリ・ジェネラル"] = "Assembly General",
-    ["公正なる聖オルムス"] = "Saint Olms the Just",
-    ["シロリアの影"] = "Shade of Siroria",
-    ["ロクケスティーズ"] = "Lokkestiiz",
-    ["ヨルナークリン"] = "Yolnahkriin",
-    ["ナーヴィンタース"] = "Nahviintaas",
-    ["肉削ぎヤンディル"] = "Yandir the Butcher",
-    ["ヴロル隊長"] = "Captain Vrol",
-    ["ファルグラヴン卿"] = "Lord Falgravn",
-    ["オアジルツォ"] = "Oaxiltso",
-    ["炎の使者バーセイ"] = "Flame-Herald Bahsei",
-    ["ザルヴァッカ"] = "Xalvakka",
-    ["リラナー"] = "Lylanar",
-    ["サンゴのガーディアン"] = "Reef Guardian",
-    ["タイドボーン・タレリア"] = "Tideborn Taleria",
-    ["エグザーカニック・ヤセイラ"] = "Exarchanic Yaseyla",
-    ["拷問者アンスール"] = "Ansuul the Tormentor",
-}
-
----------------------------------------------------------------------
 -- Copying into the same struct to allow better file splitting
 for k, v in pairs(trialThresholds) do
     BHB.thresholds[k] = v
-end
-
-for k, v in pairs(trialAliases) do
-    BHB.aliases[k] = v
 end

@@ -156,39 +156,7 @@ local endlessArchiveThresholds = {
     -- Z'Baza -- no hp gates
     -- Zhaj'hassa the Forgotten -- no hp gates?
 }
-Crutch.test = endlessArchiveThresholds
-
----------------------------------------------------------------------
--- Other language aliases can go here. Unlike the thresholds, this is
--- combined with the other content's aliases, so the translations
--- from e.g. TrialThresholds for Yolnahkriin will apply automatically
---
--- Therefore, this struct should only be used for overland or quest
--- bosses, or obviously EA-exclusive Tho'at Replicanum
----------------------------------------------------------------------
-local eaAliases = {
-    ["格莱米奥斯·野角"] = "Glemyos Wildhorn",
-    ["拉特伏龙"] = "Laatvulon",
-    ["索特复影体"] = "Tho'at Replicanum",
-    ["索特碎片"] = "Tho'at Shard",
-
-    -- "Laatvulon", same
-    ["Replicanum de Tho'at"] = "Tho'at Replicanum",
-    ["Fragment de Tho'at"] = "Tho'at Shard",
-
-    -- "Glemyos Wildhorn", same
-    -- "Laatvulon", same
-    ["Ratsherr Vandacia"] = "Councilor Vandacia",
-    -- "Tho'at Replicanum", same
-    ["Tho'at-Scherbe"] = "Tho'at Shard",
-}
 
 ---------------------------------------------------------------------
 -- Separate from the other files
 BHB.eaThresholds = endlessArchiveThresholds
-
----------------------------------------------------------------------
--- Copying into the same struct to allow better file splitting
-for k, v in pairs(eaAliases) do
-    BHB.aliases[k] = v
-end

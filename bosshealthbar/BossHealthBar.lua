@@ -131,9 +131,9 @@ local function GetBossThresholds(optionalBossName)
     local data
     if (GetZoneId(GetUnitZoneIndex("player")) == 1436) then
         -- Endless Archive has different boss thresholds
-        data = BHB.eaThresholds[bossName] --or BHB.eaThresholds[BHB.aliases[bossName]]
+        data = BHB.eaThresholds[bossName] or BHB.eaThresholds[BHB.aliases[bossName]]
     else
-        data = BHB.thresholds[bossName] --or BHB.thresholds[BHB.aliases[bossName]]
+        data = BHB.thresholds[bossName] or BHB.thresholds[BHB.aliases[bossName]]
     end
 
     -- Detect HM or vet or normal first based on boss health
