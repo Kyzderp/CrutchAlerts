@@ -37,10 +37,15 @@ local SUBTITLE_TIMES = {
         ["Ich will sie nicht besiegen, bevor Ihr ihnen nicht auch ein paar verpasst habt, Ly."] = 7.5,
         ["Nicht Eure beste Leistung, Ly. Lasst es mich vormachen."] = 7.5,
 
-        -- Double
+        -- Double: Ly second
         ["If you're done sulking, Ly, some assistance would be welcome."] = 8,
 
         ["Wenn Ihr mit dem Schmollen fertig seid, Ly, wäre etwas Hilfe willkommen."] = 8,
+
+        -- Double: Turli second
+        ["It would seem my bad luck has rubbed off on you, Ly."] = 8,
+
+        ["Anscheinend hat mein Pech auf Euch abgefärbt, Ly."] = 8,
     },
     ["Lylanar"] = {
         -- First
@@ -63,7 +68,7 @@ local SUBTITLE_TIMES = {
         ["Ich will den ganzen Spaß nicht für mich allein. Turli, warum steigt Ihr nicht ein?"] = 7.5,
         ["Das war eine schwache Darbietung, Turli. Ich werde ihnen zeigen, was wahre Macht ist."] = 7.5,
 
-        -- Double
+        -- Double: Ly second
         ["You don't look to be fairing any better than I did, Turli."] = 8, -- [sic]
 
         ["Es sieht nicht so aus, als ob es Euch besser ergeht als mir, Turli."] = 8,
@@ -86,10 +91,15 @@ local SUBTITLE_TIMES = {
         ["Мне не нравится, что ты так хочешь убить наших псов."] = 6.4,
         ["Ты проходишь в следующий раунд. С огромным трудом."] = 6.4,
 
+        -- Second to come down
         ["Ли, я бы их уже прикончил, но ты же тогда совсем не поучаствуешь в бою."] = 7.5,
         ["Не лучший твой бой, Ли. Посмотри, как надо."] = 7.5,
 
+        -- Double: Ly second
         ["Ли, если тебе надоело дуться — можешь помочь."] = 8,
+
+        -- Double: Turli second
+        ["Кажется, мое невезение заразило и тебя, Ли."] = 8,
     },
     ["Лиланар"] = {
         -- Lylanar ru
@@ -99,9 +109,11 @@ local SUBTITLE_TIMES = {
         ["Вот теперь начнется настоящий бой."] = 6.4,
         ["Турли, смотри и учись!"] = 6.4,
 
+        -- Second to come down
         ["Как-то слабовато, Турли. Давай я покажу им настоящую мощь."] = 7.5,
         ["Обидно будет, если все удовольствие достанется мне. Турли, может, присоединишься?"] = 7.5,
 
+        -- Double: Ly second
         ["Кажется, у тебя получается не лучше моего, Турли."] = 8,
     },
     ["Повелительница флота Талерия"] = {

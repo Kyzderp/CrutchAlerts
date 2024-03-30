@@ -6,17 +6,17 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 local function OnDestructiveEmber(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.msg(zo_strformat("|cff6600<<1>> picked up fire dome", GetUnitDisplayName(unitTag)))
+        Crutch.msg(zo_strformat("<<1>> picked up |cff6600fire dome", GetUnitDisplayName(unitTag)))
     elseif (changeType == EFFECT_RESULT_FADED) then
-        Crutch.msg(zo_strformat("|cff6600<<1>> put away fire dome", GetUnitDisplayName(unitTag)))
+        Crutch.msg(zo_strformat("<<1>> put away |cff6600fire dome", GetUnitDisplayName(unitTag)))
     end
 end
 
 local function OnPiercingHailstone(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.msg(zo_strformat("|c8ef5f5<<1>> picked up ice dome", GetUnitDisplayName(unitTag)))
+        Crutch.msg(zo_strformat("<<1>> picked up |c8ef5f5ice dome", GetUnitDisplayName(unitTag)))
     elseif (changeType == EFFECT_RESULT_FADED) then
-        Crutch.msg(zo_strformat("|c8ef5f5<<1>> put away ice dome", GetUnitDisplayName(unitTag)))
+        Crutch.msg(zo_strformat("<<1>> put away |c8ef5f5ice dome", GetUnitDisplayName(unitTag)))
     end
 end
 
@@ -79,7 +79,7 @@ function Crutch.RegisterDreadsailReef()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, OnPiercingHailstone)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 166178)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     end
 
     -- Lightning Stacks
