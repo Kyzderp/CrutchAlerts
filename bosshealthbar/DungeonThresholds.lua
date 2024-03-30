@@ -374,7 +374,7 @@ local dungeonThresholds = {
     [GetBossName(CRUTCH_BHB_KJALNAR_TOMBSKALD)] = {
         [50] = "Summon", -- TODO
     },
-    [GetBossName(CRUTCH_BHB_VORIA_THE_HEARTHTHIEF)] = {
+    [GetBossName(CRUTCH_BHB_VORIA_THE_HEARTTHIEF)] = {
         [75] = "Teleport", -- TODO
         [40] = "Teleport", -- TODO
     },
