@@ -301,7 +301,7 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
         return
     end
 
-    local name = zo_strformat("<<1>>", fromName)
+    local name = zo_strformat("<<C:1>>", fromName)
     if (Crutch.savedOptions.showSubtitles) then
         if (not Crutch.savedOptions.subtitlesIgnoredZones[GetZoneId(GetUnitZoneIndex("player"))]) then
             CHAT_SYSTEM:AddMessage(string.format("|c88FFFF%s: |cAAAAAA%s", name, text))

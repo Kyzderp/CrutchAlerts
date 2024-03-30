@@ -4,6 +4,11 @@ local Crutch = CrutchAlerts
 local BHB = Crutch.BossHealthBar
 
 ---------------------------------------------------------------------
+local function GetBossName(id)
+    return Crutch.GetCapitalizedString(id)
+end
+
+---------------------------------------------------------------------
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local endlessArchiveThresholds = {
@@ -18,17 +23,17 @@ local endlessArchiveThresholds = {
     -- Canonreeve Oraneth
     -- Captain Blackheart
     -- Councilor Vandacia
-    [GetString(CRUTCH_BHB_COUNCILOR_VANDACIA)] = {
+    [GetBossName(CRUTCH_BHB_COUNCILOR_VANDACIA)] = {
         [50] = "Desperation", -- meteors all over the place
     },
     -- Cynhamoth
 
     -- Death's Leviathan
-    [GetString(CRUTCH_BHB_DEATHS_LEVIATHAN)] = {
+    [GetBossName(CRUTCH_BHB_DEATHS_LEVIATHAN)] = {
         [50] = "Immolate", -- TODO; adds fire to its attacks
     },
     -- Doylemish Ironheart
-    [GetString(CRUTCH_BHB_DOYLEMISH_IRONHEART)] = {
+    [GetBossName(CRUTCH_BHB_DOYLEMISH_IRONHEART)] = {
         [50] = "Stone Orb", -- They seem to spawn on a timer after 50%, but don't... do anything?
     },
 
@@ -36,7 +41,7 @@ local endlessArchiveThresholds = {
 
     -- Garron the Returned -- Consume Life is timer based
     -- Ghemvas the Harbinger
-    [GetString(CRUTCH_BHB_GHEMVAS_THE_HARBINGER)] = {
+    [GetBossName(CRUTCH_BHB_GHEMVAS_THE_HARBINGER)] = {
         [50] = "Unstable Energy",
     },
     -- Glemyos Wildhorn
@@ -53,16 +58,16 @@ local endlessArchiveThresholds = {
     -- Kra'gh the Dreugh King
 
     -- Laatvulon
-    [GetString(CRUTCH_BHB_LAATVULON)] = {
+    [GetBossName(CRUTCH_BHB_LAATVULON)] = {
         [50] = "Blizzard",
     },
     -- Lady Belain
-    [GetString(CRUTCH_BHB_LADY_BELAIN)] = {
+    [GetBossName(CRUTCH_BHB_LADY_BELAIN)] = {
         [50] = "Awakening", -- She flies up and summons 2 voidmothers (more in later arcs), and you take constant Awakening damage
         -- Seems like after 50 she also summons blood knights, 3 at once
     },
     -- Lady Thorn
-    [GetString(CRUTCH_BHB_LADY_THORN)] = {
+    [GetBossName(CRUTCH_BHB_LADY_THORN)] = {
         [50] = "Batdance",
     },
     -- Limenauruus
@@ -74,14 +79,14 @@ local endlessArchiveThresholds = {
 
     -- Molag Kena
     -- Mulaamnir
-    [GetString(CRUTCH_BHB_MULAAMNIR)] = {
+    [GetBossName(CRUTCH_BHB_MULAAMNIR)] = {
         [50] = "Storm",
     },
     -- Murklight
 
     -- Nazaray
     -- Nerien'eth
-    [GetString(CRUTCH_BHB_NERIENETH)] = {
+    [GetBossName(CRUTCH_BHB_NERIENETH)] = {
         [50] = "Ebony Blade",
     },
 
@@ -97,7 +102,7 @@ local endlessArchiveThresholds = {
 
     -- Selene -- the Claw and Fang seem to be on both timer and hp gate
     -- Sentinel Aksalaz
-    [GetString(CRUTCH_BHB_SENTINEL_AKSALAZ)] = {
+    [GetBossName(CRUTCH_BHB_SENTINEL_AKSALAZ)] = {
         -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
         -- Different order: indrik > nereid > atro
         -- solo run: atro > indrid > nereid
@@ -115,7 +120,7 @@ local endlessArchiveThresholds = {
     -- The Imperfect -- no hp gates
     -- The Lava Queen -- no hp gates?
     -- The Mage
-    [GetString(CRUTCH_BHB_THE_MAGE)] = {
+    [GetBossName(CRUTCH_BHB_THE_MAGE)] = {
         [50] = "Arcane Vortex",
     },
     -- The Sable Knight -- no hp gates
@@ -124,10 +129,10 @@ local endlessArchiveThresholds = {
     -- The Weeping Woman
     -- The Whisperer
     -- Tho'at Replicanum
-    [GetString(CRUTCH_BHB_THOAT_REPLICANUM)] = {
+    [GetBossName(CRUTCH_BHB_THOAT_REPLICANUM)] = {
         [70] = "Shard", -- TODO: don't show this for Arc 1
     },
-    [GetString(CRUTCH_BHB_THOAT_SHARD)] = {
+    [GetBossName(CRUTCH_BHB_THOAT_SHARD)] = {
         -- This is needed because after the Replicanum dies, there is no boss1
         [70] = "Shard", -- TODO: don't show this for Arc 2
     },
@@ -143,7 +148,7 @@ local endlessArchiveThresholds = {
     -- Xeemhok the Trophy-Taker
 
     -- Yolnahkriin
-    [GetString(CRUTCH_BHB_YOLNAHKRIIN)] = {
+    [GetBossName(CRUTCH_BHB_YOLNAHKRIIN)] = {
         [50] = "Cataclysm",
     },
     -- Ysmgar

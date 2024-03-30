@@ -7,6 +7,11 @@ BHB.thresholds = BHB.thresholds or {}
 BHB.aliases = BHB.aliases or {}
 
 ---------------------------------------------------------------------
+local function GetBossName(id)
+    return Crutch.GetCapitalizedString(id)
+end
+
+---------------------------------------------------------------------
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local dungeonThresholds = {
@@ -29,7 +34,7 @@ local dungeonThresholds = {
 -- Arx Corinium
 
 -- Volenfell
-    ["Quintus Verres"] = {
+    [GetBossName(CRUTCH_BHB_QUINTUS_VERRES)] = {
         -- Normal: Quintus Verres (boss1) value: 1204050 max: 1204050 effectiveMax: 1204050
         [60] = "Fires start",
         [20] = "Gargoyle",
@@ -41,7 +46,7 @@ local dungeonThresholds = {
 -- Direfrost Keep
 
 -- Blackheart Haven
-    ["Atarus"] = {
+    [GetBossName(CRUTCH_BHB_ATARUS)] = {
         -- On normal, has 884093 health. Heals for 294697 (33%)
         [30] = "Monstrous Growth", -- id 29217
     },
@@ -51,58 +56,58 @@ local dungeonThresholds = {
 -- Vaults of Madness
 
 -- Imperial City Prison (Bastion)
-    ["Overfiend"] = {
+    [GetBossName(CRUTCH_BHB_OVERFIEND)] = {
         [50] = "Harvester", -- TODO
     },
-    ["Ibomez the Flesh Sculptor"] = {
+    [GetBossName(CRUTCH_BHB_IBOMEZ_THE_FLESH_SCULPTOR)] = {
         [75] = "Prisoners", -- TODO
         [50] = "Prisoners", -- TODO
         [25] = "Prisoners", -- TODO
     },
-    ["Lord Warden Dusk"] = {
+    [GetBossName(CRUTCH_BHB_LORD_WARDEN_DUSK)] = {
         [65] = "Shades", -- TODO
         [35] = "Shades", -- TODO
     },
 
 -- White-Gold Tower (Green Emperor Way)
-    ["Molag Kena"] = {
+    [GetBossName(CRUTCH_BHB_MOLAG_KENA)] = {
         [60] = "Shield", -- TODO
         [30] = "Shield", -- TODO
     }, 
 
 -- Ruins of Mazzatun
-    ["Tree-Minder Na-Kesh"] = { -- TODO: 50 or 40?
+    [GetBossName(CRUTCH_BHB_TREEMINDER_NAKESH)] = { -- TODO: 50 or 40?
         [70] = "Chudan", -- TODO
         [50] = "Xal Nur", -- TODO
         [30] = "Execute", -- TODO
     },
 
 -- Cradle of Shadows
-    ["Sithera"] = {
+    [GetBossName(CRUTCH_BHB_SITHERA)] = {
         [50] = "Brazier", -- TODO
         [30] = "Brazier", -- TODO
     },
-    ["Velidreth"] = {
+    [GetBossName(CRUTCH_BHB_VELIDRETH)] = {
         [66] = "Banish", -- TODO, some say 65
         [33] = "Banish", -- TODO, some say 30, 31
     },
 
 -- Bloodroot Forge
-    ["Caillaoife"] = {
+    [GetBossName(CRUTCH_BHB_CAILLAOIFE)] = {
         [75] = "Grove", -- TODO
         [50] = "Grove", -- TODO
         [30] = "Grove", -- TODO
     },
-    ["Stoneheart"] = {
+    [GetBossName(CRUTCH_BHB_STONEHEART)] = {
         [20] = "Execute!", -- TODO
     },
-    ["Earthgore Amalgam"] = {
+    [GetBossName(CRUTCH_BHB_EARTHGORE_AMALGAM)] = {
         [80] = "Split", -- TODO
         -- [40] = "Split", -- TODO -- one guide says it's at 50% overall hp?
     },
 
 -- Falkreath Hold
-    ["Domihaus the Bloody-Horned"] = {
+    [GetBossName(CRUTCH_BHB_DOMIHAUS_THE_BLOODYHORNED)] = {
         [80] = "Adds", -- TODO
         [70] = "Grovel", -- TODO
         [60] = "Adds", -- TODO
@@ -124,7 +129,7 @@ local dungeonThresholds = {
     -- Ulfnor (boss1) value: 1473488 max: 1473488 effectiveMax: 1473488
     -- Thurvokun turns into Orryn the Black, but the hp bar still works fine
     -- normal: Thurvokun (boss1) value: 1683986 max: 1683986 effectiveMax: 1683986
-    ["Thurvokun"] = {
+    [GetBossName(CRUTCH_BHB_THURVOKUN)] = {
         normHealth = 1683986,
         vetHealth = 3594564, -- TODO, got from log
         hmHealth = 5427792, -- TODO, got from log
@@ -153,13 +158,13 @@ local dungeonThresholds = {
     },
 
 -- Scalecaller Peak
-    ["Doylemish Ironheart"] = {
+    [GetBossName(CRUTCH_BHB_DOYLEMISH_IRONHEART)] = {
         [80] = "Stone Orb", -- TODO
         [60] = "Stone Orb", -- TODO
         [40] = "Stone Orb", -- TODO
         [20] = "Stone Orb", -- TODO
     },
-    ["Matriarch Aldis"] = {
+    [GetBossName(CRUTCH_BHB_MATRIARCH_ALDIS)] = {
         [90] = "Leiminid",
         [80] = "Leiminid",
         [70] = "Leiminid",
@@ -170,7 +175,7 @@ local dungeonThresholds = {
         [20] = "Leiminid",
         [10] = "Leiminid",
     },
-    ["Zaan the Scalecaller"] = {
+    [GetBossName(CRUTCH_BHB_ZAAN_THE_SCALECALLER)] = {
         [80] = "Winter's Purge",
         [60] = "Winter's Purge",
         [40] = "Winter's Purge",
@@ -178,23 +183,23 @@ local dungeonThresholds = {
     },
 
 -- Moon Hunter Keep
-    ["Jailer Melitus"] = {
+    [GetBossName(CRUTCH_BHB_JAILER_MELITUS)] = {
         [80] = "Werewolves", -- TODO
         [50] = "Werewolves", -- TODO
         [30] = "Werewolves", -- TODO
     },
-    ["Mylenne Moon-Caller"] = {
+    [GetBossName(CRUTCH_BHB_MYLENNE_MOONCALLER)] = {
         [80] = "Warden", -- TODO
         [60] = "Warden", -- TODO
         [40] = "Warden", -- TODO
         [20] = "Warden", -- TODO
     },
-    ["Hedge Maze Guardian"] = {
+    [GetBossName(CRUTCH_BHB_HEDGE_MAZE_GUARDIAN)] = {
         [75] = "2 Spriggans", -- TODO
         [55] = "3 Spriggans", -- TODO
         [35] = "5 Spriggans", -- TODO
     },
-    ["Archivist Ernarde"] = {
+    [GetBossName(CRUTCH_BHB_ARCHIVIST_ERNARDE)] = {
         -- how can the guides be so different??
         -- xynode: 76, 56, 36
         -- esoplanet: 80, 60, 40, 20
@@ -203,7 +208,7 @@ local dungeonThresholds = {
         [40] = "Adds", -- TODO
         [20] = "Adds", -- TODO
     },
-    ["Vykosa the Ascendant"] = {
+    [GetBossName(CRUTCH_BHB_VYKOSA_THE_ASCENDANT)] = {
         normHealth = 1515587, -- TODO
         vetHealth = 4233356, -- TODO
         hmHealth = 5503363, -- TODO
@@ -244,17 +249,17 @@ local dungeonThresholds = {
     },
 
 -- March of Sacrifices (Bloodscent Pass)
-    ["Aghaedh of the Solstice"] = {
+    [GetBossName(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE)] = {
         [70] = "Lurcher", -- TODO
         [55] = "Lurcher", -- TODO
         [25] = "Lurcher", -- TODO
     },
-    ["Tarcyr"] = {
+    [GetBossName(CRUTCH_BHB_TARCYR)] = {
         [80] = "Hunt", -- TODO
         [50] = "Hunt", -- TODO
         [20] = "Hunt", -- TODO
     },
-    ["Balorgh"] = {
+    [GetBossName(CRUTCH_BHB_BALORGH)] = {
         [80] = "Hunt", -- TODO
         [60] = "Hunt", -- TODO
         [40] = "Hunt", -- TODO
@@ -262,55 +267,55 @@ local dungeonThresholds = {
     },
 
 -- Frostvault
-    ["Icestalker"] = {
+    [GetBossName(CRUTCH_BHB_ICESTALKER)] = {
         -- :shrug: xynode says these, esoplanet says every 10%
         [90] = "Adds", -- TODO
         [50] = "Adds", -- TODO
         [30] = "Adds", -- TODO
     },
-    ["Warlord Tzogvin"] = {
+    [GetBossName(CRUTCH_BHB_WARLORD_TZOGVIN)] = {
         [70] = "Heat Field", -- TODO
         [30] = "Whirlwinds", -- TODO
     },
-    ["Vault Protector"] = {
+    [GetBossName(CRUTCH_BHB_VAULT_PROTECTOR)] = {
         -- bunch of different %s from different guides again
         [90] = "Lasers", -- TODO
         [75] = "Lasers", -- TODO
         [50] = "Lasers", -- TODO
     },
-    ["The Stonekeeper"] = {
+    [GetBossName(CRUTCH_BHB_THE_STONEKEEPER)] = {
         [55] = "Skeevatons", -- TODO different again, 56, 55, 50
         [25] = "Centurion", -- TODO
     },
 
 -- Depths of Malatar
-    ["The Scavenging Maw"] = {
+    [GetBossName(CRUTCH_BHB_THE_SCAVENGING_MAW)] = {
         [80] = "Disappear", -- TODO guides 80 or 75
         [50] = "Disappear", -- TODO
         [25] = "Disappear", -- TODO
     },
-    ["The Weeping Woman"] = {
+    [GetBossName(CRUTCH_BHB_THE_WEEPING_WOMAN)] = {
         [75] = "Watcher", -- TODO
         [55] = "Watcher", -- TODO
         [35] = "Watcher", -- TODO
     },
-    ["Symphony of Blades"] = {
+    [GetBossName(CRUTCH_BHB_SYMPHONY_OF_BLADES)] = {
         [10] = "Teleport", -- TODO
     },
 
 -- Moongrave Fane
-    ["Dro'zakar"] = {
+    [GetBossName(CRUTCH_BHB_DROZAKAR)] = {
         [90] = "Shield", -- TODO
         [60] = "Shield", -- TODO
         [30] = "Shield", -- TODO
     },
-    ["Kujo Kethba"] = {
+    [GetBossName(CRUTCH_BHB_KUJO_KETHBA)] = {
         [90] = "Geysers", -- TODO
         [70] = "Geysers", -- TODO
         [50] = "Geysers", -- TODO
         [30] = "Geysers", -- TODO
     },
-    ["Grundwulf"] = {
+    [GetBossName(CRUTCH_BHB_GRUNDWULF)] = {
         [70] = "Dire-Maw", -- TODO
         [50] = "Dire-Maw", -- TODO
         [30] = "Dire-Maw", -- TODO
@@ -328,7 +333,7 @@ local dungeonThresholds = {
     -- },
     -- Maarselok (boss1) value: 5186676 max: 7409538 effectiveMax: 7409538
     -- Maarselok on his perches lets you dps until 60, 55, 50. It's not particularly interesting though.
-    ["Maarselok"] = {
+    [GetBossName(CRUTCH_BHB_MAARSELOK)] = {
         [60] = "Perch",
         [55] = "Perch",
         [50] = "Flee",
@@ -336,13 +341,13 @@ local dungeonThresholds = {
 
 
 -- Icereach
-    ["Stormborn Revenant"] = {
+    [GetBossName(CRUTCH_BHB_STORMBORN_REVENANT)] = {
         [55] = "Atronachs", -- TODO from alcast guide, seems sus
         [40] = "Atronachs", -- TODO from alcast guide, seems sus
     },
 
 -- Unhallowed Grave
-    ["Hakgrym the Howler"] = {
+    [GetBossName(CRUTCH_BHB_HAKGRYM_THE_HOWLER)] = {
         -- Alcast says 60/30, xynode says 70/20, arzyel says 70/30
         -- self tested is 71/31...
         [71] = "Abomination",
@@ -350,33 +355,33 @@ local dungeonThresholds = {
         -- On normal, has 2273381 health. Heals for ~1126690 (130728 -> 1267418; 49.5%?) / ~1136690 (130486 -> 1267176; 50%)
         [6] = "Werewolf Form",
     },
-    ["Keeper of the Kiln"] = {
+    [GetBossName(CRUTCH_BHB_KEEPER_OF_THE_KILN)] = {
         [90] = "Runes", -- TODO
         [60] = "Runes", -- TODO
         [30] = "Runes", -- TODO
     },
-    ["Eternal Aegis"] = {
+    [GetBossName(CRUTCH_BHB_ETERNAL_AEGIS)] = {
         [90] = "Adds", -- TODO
         [70] = "Adds", -- TODO
         [50] = "Adds", -- TODO
         [30] = "Adds", -- TODO
     },
-    ["Ondagore the Mad"] = {
+    [GetBossName(CRUTCH_BHB_ONDAGORE_THE_MAD)] = {
         [80] = "Poison", -- TODO
         [60] = "Pillars", -- TODO
         [40] = "Poison", -- TODO
         [20] = "Pillars", -- TODO
     },
-    ["Kjalnar Tombskald"] = {
+    [GetBossName(CRUTCH_BHB_KJALNAR_TOMBSKALD)] = {
         [50] = "Summon", -- TODO
     },
-    ["Voria the Hearth-Thief"] = {
+    [GetBossName(CRUTCH_BHB_VORIA_THE_HEARTHTHIEF)] = {
         [75] = "Teleport", -- TODO
         [40] = "Teleport", -- TODO
     },
 
 -- Stone Garden
-    ["Arkasis the Mad Alchemist"] = {
+    [GetBossName(CRUTCH_BHB_ARKASIS_THE_MAD_ALCHEMIST)] = {
         [90] = "Add", -- TODO
         [80] = "Add", -- TODO
         [70] = "Add", -- TODO
@@ -391,7 +396,7 @@ local dungeonThresholds = {
     },
 
 -- Castle Thorn
-    ["Lady Thorn"] = {
+    [GetBossName(CRUTCH_BHB_LADY_THORN)] = {
         [60] = "Batdance", -- TODO
         [20] = "Batdance", -- TODO
     },
@@ -401,14 +406,14 @@ local dungeonThresholds = {
         -- TODO: guides have differing %s for ranged phase
         -- aren't the salamanders on % though? maybe?
     -- },
-    ["Captain Geminus"] = {
+    [GetBossName(CRUTCH_BHB_CAPTAIN_GEMINUS)] = {
         [70] = "Invulnerable", -- TODO
         [30] = "Invulnerable", -- TODO
     },
-    ["Pyroturge Encratis"] = {
+    [GetBossName(CRUTCH_BHB_PYROTURGE_ENCRATIS)] = {
         [65] = "Run", -- TODO
     },
-    ["Sentinel Aksalaz"] = {
+    [GetBossName(CRUTCH_BHB_SENTINEL_AKSALAZ)] = {
         [85] = "Indrik", -- TODO
         [60] = "Nereid", -- TODO
         [35] = "Atronach", -- TODO
@@ -416,7 +421,7 @@ local dungeonThresholds = {
     },
 
 -- The Cauldron
-    ["Taskmaster Viccia"] = {
+    [GetBossName(CRUTCH_BHB_TASKMASTER_VICCIA)] = {
         [75] = "Adds", -- TODO
         [50] = "Adds", -- TODO
         [25] = "Adds", -- TODO
@@ -426,34 +431,34 @@ local dungeonThresholds = {
     -- },
 
 -- Red Petal Bastion
-    ["Eliam Merick"] = {
+    [GetBossName(CRUTCH_BHB_ELIAM_MERICK)] = {
         [80] = "Liramindrel", -- TODO
         [50] = "Ihudir", -- TODO
         [30] = "Both", -- TODO
     },
 
 -- The Dread Cellar
-    ["Scorion Broodlord"] = {
+    [GetBossName(CRUTCH_BHB_SCORION_BROODLORD)] = {
         [80] = "Adds", -- TODO
         [60] = "Adds", -- TODO
         [40] = "Adds", -- TODO
         [20] = "Adds", -- TODO
     },
-    ["Magma Incarnate"] = {
+    [GetBossName(CRUTCH_BHB_MAGMA_INCARNATE)] = {
         [65] = "Portal", -- TODO
         [35] = "Portal", -- TODO
     },
 
 -- Coral Aerie
-    ["Maligalig"] = {
+    [GetBossName(CRUTCH_BHB_MALIGALIG)] = {
         [70] = "Whirlpool",
         [40] = "Whirlpool",
     },
-    ["Sarydil"] = {
+    [GetBossName(CRUTCH_BHB_SARYDIL)] = {
         [75] = "Trash", -- Could be 77% instead? kinda weird
         [35] = "Trash",
     },
-    ["Varallion"] = {
+    [GetBossName(CRUTCH_BHB_VARALLION)] = {
         normHealth = 4209965,
         vetHealth = 6766879,
         hmHealth = 13195414,
@@ -473,23 +478,23 @@ local dungeonThresholds = {
             [30] = "Kargaeda", -- TODO
         },
     },
-    ["Z'Baza"] = {
+    [GetBossName(CRUTCH_BHB_ZBAZA)] = {
         [60] = "Conduit Tendril",
         [30] = "Conduit Tendril",
     },
 
 -- Shipwright's Regret
-    ["Foreman Bradiggan"] = {
+    [GetBossName(CRUTCH_BHB_FOREMAN_BRADIGGAN)] = {
         [60] = "Abomination",
         [30] = "Abomination",
     },
-    ["Captain Numirril"] = {
+    [GetBossName(CRUTCH_BHB_CAPTAIN_NUMIRRIL)] = {
         [85] = "Abomination",
         [40] = "Abomination",
     },
 
 -- Earthen Root Enclave
-    ["Corruption of Stone"] = {
+    [GetBossName(CRUTCH_BHB_CORRUPTION_OF_STONE)] = {
         -- Health isn't necessary because the stages are the same, this is just for testing
         normHealth = 3367972,
         vetHealth = 5413503,
@@ -498,18 +503,18 @@ local dungeonThresholds = {
         [60] = "Rock Shower",
         [30] = "Rock Shower",
     },
-    ["Corruption of Root"] = {
+    [GetBossName(CRUTCH_BHB_CORRUPTION_OF_ROOT)] = {
         [75] = "Clones", -- Unsure, could be 80?
         [40] = "Clones", -- Unsure, but probably correct
     },
-    ["Archdruid Devyric"] = {
+    [GetBossName(CRUTCH_BHB_ARCHDRUID_DEVYRIC)] = {
         [65] = "Bear Form",
         [45] = "Human Form",
         [20] = "Bear Form",
     },
 
 -- Graven Deep
-    ["Zelvraak the Unbreathing"] = {
+    [GetBossName(CRUTCH_BHB_ZELVRAAK_THE_UNBREATHING)] = {
         [75] = "Clones",
         [50] = "Afterlife",
         [25] = "Clones",
@@ -518,29 +523,29 @@ local dungeonThresholds = {
 -- Bal Sunnar
     -- %s from alcast guide aren't quite right: 65, 45, 20
     -- normal: Kovan Giryon (boss1) value: 2946975 max: 2946975 effectiveMax: 2946975
-    ["Kovan Giryon"] = {
+    [GetBossName(CRUTCH_BHB_KOVAN_GIRYON)] = {
         [71] = "Nix-Ox",
         [46] = "Iron Atronach",
         [21] = "Execute",
     },
-    ["Roksa the Warped"] = {
+    [GetBossName(CRUTCH_BHB_ROKSA_THE_WARPED)] = {
         [70] = "Devour Light",
         [40] = "Devour Light",
     },
     -- %s from 3 guides aren't quite right? they say 70, 35
-    ["Matriarch Lladi Telvanni"] = {
+    [GetBossName(CRUTCH_BHB_MATRIARCH_LLADI_TELVANNI)] = {
         [75] = "Poison Storm",
         [45] = "Poison Storm",
     },
 
 -- Scrivener's Hall
     -- some guides are off, alcast says 80
-    ["Riftmaster Naqri"] = {
+    [GetBossName(CRUTCH_BHB_RIFTMASTER_NAQRI)] = {
         [86] = "Book",
         [56] = "Book",
         [36] = "Book",
     },
-    ["Ozezan the Inferno"] = {
+    [GetBossName(CRUTCH_BHB_OZEZAN_THE_INFERNO)] = {
         normHealth = 4546762,
         vetHealth = 7308229,
         hmHealth = 13154812,
@@ -562,7 +567,7 @@ local dungeonThresholds = {
             [40] = "Atronachs start", -- TODO: 36?
         },
     },
-    ["Valinna"] = {
+    [GetBossName(CRUTCH_BHB_VALINNA)] = {
         -- TODO: after the 2nd room, Lamikhai's death removes her unit, so only Valinna is left, triggering
         -- a bosses changed event. It resets the threshold highlighting because the stages are redrawn
         [50] = "Lamikhai leaves",
@@ -570,26 +575,26 @@ local dungeonThresholds = {
     },
 
 -- Oathsworn Pit
-    ["Anthelmir's Construct"] = {
+    [GetBossName(CRUTCH_BHB_ANTHELMIRS_CONSTRUCT)] = {
         [70] = "b o n k",
     },
-    ["Aradros the Awakened"] = {
+    [GetBossName(CRUTCH_BHB_ARADROS_THE_AWAKENED)] = {
         [51] = "Furnace",
     },
 
 -- Bedlam Veil
-    ["Shattered Champion"] = {
+    [GetBossName(CRUTCH_BHB_SHATTERED_CHAMPION)] = {
         [70] = "Shard Bash",
         [50] = "Shard Bash",
     },
 
-    ["Darkshard"] = {
+    [GetBossName(CRUTCH_BHB_DARKSHARD)] = {
         [80] = "Maxus",
         [60] = "Atrocity",
         [40] = "Argonian",
     },
 
-    ["The Blind"] = {
+    [GetBossName(CRUTCH_BHB_THE_BLIND)] = {
         [81] = "Blind Shards",
         [61] = "Glass Remnants",
         [41] = "Glass Remnants",

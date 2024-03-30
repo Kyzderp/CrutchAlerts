@@ -5,6 +5,10 @@ local BHB = Crutch.BossHealthBar
 
 BHB.thresholds = BHB.thresholds or {}
 BHB.aliases = BHB.aliases or {}
+---------------------------------------------------------------------
+local function GetBossName(id)
+    return Crutch.GetCapitalizedString(id)
+end
 
 ---------------------------------------------------------------------
 -- Add percentage threshold + the mechanic name below
@@ -33,17 +37,17 @@ local trialThresholds = {
     },
 
 -- Hel Ra Citadel
-    ["Ra Kotu"] = {
+    [GetBossName(CRUTCH_BHB_RA_KOTU)] = {
         [35] = "Beyblade",
     },
-    ["The Warrior"] = {
+    [GetBossName(CRUTCH_BHB_THE_WARRIOR)] = {
         [85] = "Statue Smash",
         [70] = "Statue Smash",
         [35] = "Shockwave",
     },
 
 -- Aetherian Archive
-    ["The Mage"] = {
+    [GetBossName(CRUTCH_BHB_THE_MAGE)] = {
         [15] = "Arcane Vortex",
     },
 
@@ -52,29 +56,29 @@ local trialThresholds = {
     -- aren't very helpful because they're so early and easy trials... one says 20%
 
 -- Maw of Lorkhaj
-    ["Zhaj'hassa the Forgotten"] = {
+    [GetBossName(CRUTCH_BHB_ZHAJHASSA_THE_FORGOTTEN)] = {
         [70] = "Shield",
         [30] = "Shield",
     },
-    ["Rakkhat"] = {
+    [GetBossName(CRUTCH_BHB_RAKKHAT)] = {
         [11] = "Execute",
     },
 
 -- Halls of Fabrication
-    ["Hunter-Killer Negatrix"] = {
+    [GetBossName(CRUTCH_BHB_HUNTERKILLER_NEGATRIX)] = {
         [15] = "", -- To help know to bring the other boss in, if killing separately
     },
-    ["Pinnacle Factotum"] = {
+    [GetBossName(CRUTCH_BHB_PINNACLE_FACTOTUM)] = {
         [80] = "Simulacra",
         [60] = "Conduits",
         [40] = "Spinner",
     },
-    ["Reactor"] = {
+    [GetBossName(CRUTCH_BHB_REACTOR)] = {
         [70] = "Reset",
         [40] = "Reset",
         [20] = "Reset",
     },
-    ["Assembly General"] = {
+    [GetBossName(CRUTCH_BHB_ASSEMBLY_GENERAL)] = {
         [86] = "Terminals",
         [66] = "Terminals",
         [46] = "Terminals",
@@ -82,7 +86,7 @@ local trialThresholds = {
     },
 
 -- Asylum Sanctorium
-    ["Saint Olms the Just"] = {
+    [GetBossName(CRUTCH_BHB_SAINT_OLMS_THE_JUST)] = {
         [91] = "Big Jump",
         [76] = "Big Jump",
         [51] = "Big Jump",
@@ -90,7 +94,7 @@ local trialThresholds = {
     },
 
 -- Cloudrest
-    ["Shade of Siroria"] = {
+    [GetBossName(CRUTCH_BHB_SHADE_OF_SIRORIA)] = {
         [60] = "Siroria starts jumping",
     },
     -- I'd add the mini spawns for Z'Maja, but I haven't found a way to detect difficulty easily.
@@ -99,17 +103,17 @@ local trialThresholds = {
     -- start showing up, which would be... a lotta work
 
 -- Sunspire
-    ["Lokkestiiz"] = {
+    [GetBossName(CRUTCH_BHB_LOKKESTIIZ)] = {
         [80] = "Atros + Beam",
         [50] = "Beam + Atros",
         [20] = "Atros + Beam",
     },
-    ["Yolnahkriin"] = {
+    [GetBossName(CRUTCH_BHB_YOLNAHKRIIN)] = {
         [75] = "Cataclysm",
         [50] = "Cataclysm",
         [25] = "Cataclysm",
     },
-    ["Nahviintaas"] = {
+    [GetBossName(CRUTCH_BHB_NAHVIINTAAS)] = {
         [90] = "Time Shift",
         [80] = "Takeoff",
         [70] = "Time Shift",
@@ -119,13 +123,13 @@ local trialThresholds = {
     },
 
 -- Kyne's Aegis
-    ["Yandir the Butcher"] = {
+    [GetBossName(CRUTCH_BHB_YANDIR_THE_BUTCHER)] = {
         [50] = "Enrage",
     },
-    ["Captain Vrol"] = {
+    [GetBossName(CRUTCH_BHB_CAPTAIN_VROL)] = {
         [50] = "Shamans",
     },
-    ["Lord Falgravn"] = {
+    [GetBossName(CRUTCH_BHB_LORD_FALGRAVN)] = {
         [95] = "Lieutenant",
         [90] = "Conga Line",
         [80] = "Conga Line",
@@ -134,13 +138,13 @@ local trialThresholds = {
     },
 
 -- Rockgrove
-    ["Oaxiltso"] = {
+    [GetBossName(CRUTCH_BHB_OAXILTSO)] = {
         [95] = "Mini",
         [75] = "Mini",
         [50] = "Mini",
         [25] = "Mini",
     },
-    ["Flame-Herald Bahsei"] = {
+    [GetBossName(CRUTCH_BHB_FLAMEHERALD_BAHSEI)] = {
         [90] = "Abomination",
         [85] = "Abomination",
         [80] = "Abomination",
@@ -155,17 +159,17 @@ local trialThresholds = {
         [20] = "Behemoth",
         [10] = "Behemoth",
     },
-    ["Xalvakka"] = {
+    [GetBossName(CRUTCH_BHB_XALVAKKA)] = {
         [70] = "Run!",
         [40] = "Run!",
     },
 
 -- Dreadsail Reef
-    ["Lylanar"] = {
+    [GetBossName(CRUTCH_BHB_LYLANAR)] = {
         [70] = "2nd Teleports",
         [65] = "1st Teleports",
     },
-    ["Reef Guardian"] = {
+    [GetBossName(CRUTCH_BHB_REEF_GUARDIAN)] = {
         vetHealth = 27943440,
         hmHealth = 41915160,
         ["Veteran"] = {
@@ -177,7 +181,7 @@ local trialThresholds = {
             [80] = "Split",
         },
     },
-    ["Tideborn Taleria"] = {
+    [GetBossName(CRUTCH_BHB_TIDEBORN_TALERIA)] = {
         [85] = "Winter Storm",
         [50] = "Bridge",
         [35] = "Bridge",
@@ -185,7 +189,7 @@ local trialThresholds = {
     },
 
 -- Sanity's Edge
-    ["Exarchanic Yaseyla"] = {
+    [GetBossName(CRUTCH_BHB_EXARCHANIC_YASEYLA)] = {
         -- |cFF0000[BHB] boss 1 MAX INCREASE|r 65201356 -> 97802032
         vetHealth = 65201356,
         hmHealth = 97802032,
@@ -213,7 +217,7 @@ local trialThresholds = {
             [10] = "Wamasu",
         },
     },
-    ["Ansuul the Tormentor"] = {
+    [GetBossName(CRUTCH_BHB_ANSUUL_THE_TORMENTOR)] = {
         [90] = "Manic Phobia",
         [80] = "Maze",
         [70] = "Manic Phobia",

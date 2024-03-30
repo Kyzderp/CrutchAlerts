@@ -16,6 +16,13 @@ function Crutch.msg(msg)
 end
 
 ---------------------------------------------------------------------
+-- Getting lang string with caps format
+---------------------------------------------------------------------
+function Crutch.GetCapitalizedString(id)
+    return zo_strformat("<<C:1>>", GetString(id))
+end
+
+---------------------------------------------------------------------
 -- Distance
 ---------------------------------------------------------------------
 function Crutch.GetSquaredDistance(x1, y1, z1, x2, y2, z2)
