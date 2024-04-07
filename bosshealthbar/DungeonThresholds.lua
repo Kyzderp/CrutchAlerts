@@ -133,22 +133,22 @@ local dungeonThresholds = {
         vetHealth = 3594564, -- TODO, got from log
         hmHealth = 5427792, -- TODO, got from log
         ["Normal"] = {
-            [86] = "Crystal",
-            [76] = "Crystal",
-            [66] = "Crystal",
-            [56] = "Crystal",
+            [85] = "Crystal", -- TODO
+            [75] = "Crystal", -- TODO
+            [65] = "Crystal", -- TODO
+            [55] = "Crystal", -- TODO
         },
         ["Veteran"] = {
-            [86] = "Crystal",
-            [76] = "Crystal",
-            [66] = "Crystal",
-            [56] = "Crystal",
+            [85] = "Crystal", -- TODO
+            [75] = "Crystal", -- TODO
+            [65] = "Crystal", -- TODO
+            [55] = "Crystal", -- TODO
         },
         ["Hardmode"] = {
-            [86] = "Crystal",
-            [76] = "Crystal",
-            [66] = "Crystal",
-            [56] = "Crystal",
+            [85] = "Crystal", -- TODO
+            [75] = "Crystal", -- TODO
+            [65] = "Crystal", -- TODO
+            [55] = "Crystal", -- TODO
             [40] = "Colossus", -- TODO
             [30] = "Colossus", -- TODO
             [20] = "Colossus", -- TODO
@@ -348,11 +348,11 @@ local dungeonThresholds = {
 -- Unhallowed Grave
     [GetBossName(CRUTCH_BHB_HAKGRYM_THE_HOWLER)] = {
         -- Alcast says 60/30, xynode says 70/20, arzyel says 70/30
-        -- self tested is 71/31...
-        [71] = "Abomination",
-        [31] = "Abomination",
+        -- self tested is 71/31... (testing done before floor rounding)
+        [70] = "Abomination",
+        [30] = "Abomination", -- TODO
         -- On normal, has 2273381 health. Heals for ~1126690 (130728 -> 1267418; 49.5%?) / ~1136690 (130486 -> 1267176; 50%)
-        [6] = "Werewolf Form",
+        [5] = "Werewolf Form", -- TODO
     },
     [GetBossName(CRUTCH_BHB_KEEPER_OF_THE_KILN)] = {
         [90] = "Runes", -- TODO
@@ -523,9 +523,9 @@ local dungeonThresholds = {
     -- %s from alcast guide aren't quite right: 65, 45, 20
     -- normal: Kovan Giryon (boss1) value: 2946975 max: 2946975 effectiveMax: 2946975
     [GetBossName(CRUTCH_BHB_KOVAN_GIRYON)] = {
-        [71] = "Nix-Ox",
-        [46] = "Iron Atronach",
-        [21] = "Execute",
+        [70] = "Nix-Ox", -- TODO
+        [45] = "Iron Atronach", -- TODO
+        [20] = "Execute", -- TODO
     },
     [GetBossName(CRUTCH_BHB_ROKSA_THE_WARPED)] = {
         [70] = "Devour Light",
@@ -540,9 +540,9 @@ local dungeonThresholds = {
 -- Scrivener's Hall
     -- some guides are off, alcast says 80
     [GetBossName(CRUTCH_BHB_RIFTMASTER_NAQRI)] = {
-        [86] = "Book",
-        [56] = "Book",
-        [36] = "Book",
+        [85] = "Book", -- TODO
+        [55] = "Book", -- TODO
+        [35] = "Book", -- TODO
     },
     [GetBossName(CRUTCH_BHB_OZEZAN_THE_INFERNO)] = {
         normHealth = 4546762,
@@ -578,7 +578,7 @@ local dungeonThresholds = {
         [70] = "b o n k",
     },
     [GetBossName(CRUTCH_BHB_ARADROS_THE_AWAKENED)] = {
-        [51] = "Furnace",
+        [50] = "Furnace",
     },
 
 -- Bedlam Veil
@@ -594,10 +594,10 @@ local dungeonThresholds = {
     },
 
     [GetBossName(CRUTCH_BHB_THE_BLIND)] = {
-        [81] = "Blind Shards",
-        [61] = "Glass Remnants",
-        [41] = "Glass Remnants",
-        [21] = "Gleaming Deluge",
+        [80] = "Blind Shards",
+        [60] = "Glass Remnants",
+        [40] = "Glass Remnants",
+        [20] = "Gleaming Deluge",
     },
 }
 

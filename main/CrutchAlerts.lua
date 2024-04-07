@@ -95,6 +95,7 @@ local defaultOptions = {
         enabled = true,
         firstTime = true,
         scale = 1,
+        useFloorRounding = true,
     },
     asylumsanctorium = {
         dingSelfCone = true,

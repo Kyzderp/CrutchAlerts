@@ -78,18 +78,18 @@ local trialThresholds = {
         [20] = "Reset",
     },
     [GetBossName(CRUTCH_BHB_ASSEMBLY_GENERAL)] = {
-        [86] = "Terminals",
-        [66] = "Terminals",
-        [46] = "Terminals",
-        [26] = "Execute",
+        [86] = "Terminals", -- TODO: check it after the floor rounding change
+        [66] = "Terminals", -- TODO: check it after the floor rounding change
+        [46] = "Terminals", -- TODO: check it after the floor rounding change
+        [26] = "Execute", -- TODO: check it after the floor rounding change
     },
 
 -- Asylum Sanctorium
     [GetBossName(CRUTCH_BHB_SAINT_OLMS_THE_JUST)] = {
-        [91] = "Big Jump",
-        [76] = "Big Jump",
-        [51] = "Big Jump",
-        [26] = "Big Jump",
+        [90] = "Big Jump", -- it seems to actually be 91.04%...
+        [75] = "Big Jump",
+        [50] = "Big Jump",
+        [25] = "Big Jump",
     },
 
 -- Cloudrest
@@ -100,6 +100,8 @@ local trialThresholds = {
     -- +0, +1, +2, +3 all have the same HP for Z'Maja. Maybe there's a missing buff somewhere?
     -- Otherwise, I'd have to change the mechanic stages once mechs like flare, barswap, frost
     -- start showing up, which would be... a lotta work
+    -- On vet, it could be possible to check the score to see how many side bosses were killed
+    -- ... but also a lotta work
 
 -- Sunspire
     [GetBossName(CRUTCH_BHB_LOKKESTIIZ)] = {

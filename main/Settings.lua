@@ -205,6 +205,29 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
                 },
+                {
+                    type = "checkbox",
+                    name = "Use \"floor\" rounding",
+                    tooltip = "Whether to use the \"floor\" or \"half round up\" rounding method to display boss health %.\n\nTurning this ON means the displayed health will be more accurate relative to the mechanic % labels.\n\nTurning this OFF means the displayed health will match the rest of the UI, including the default target attribute bars.\n\nFor more info on why this matters, see the WHY? below.",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.bossHealthBar.useFloorRounding end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.bossHealthBar.useFloorRounding = value
+                    end,
+                    disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+                    width = "full",
+                },
+                {
+                    type = "submenu",
+                    name = "Rounding: Why?",
+                    controls = {
+                        {
+                            type = "description",
+                            text = "Health-based mechanics typically happen at percentages like 50.999%, but the default UI and most addons use \"zo_round\" to round the displayed health percentage. This is the common rounding method, such that 50.4 is rounded to 50, and 50.5 is rounded to 51. That means when we say a mechanic happens at 50%, it could still be displaying 51% on your UI! But not all 51%s mean that the mechanic is going to trigger either, because 51% is actually anywhere from 50.5% to 51.499%\n\nTo fix this, the \"floor\" rounding option rounds any decimal down to the smaller integer. That means 50.999 is rounded to 50, which lines up with how boss mechanics appear to be triggered. I left the common rounding method as an option though, because some people may prefer to have consistency across their UI, even if the difference is only half a percentage.",
+                            width = "full",
+                        }
+                    },
+                },
             }
         },
 -- subtitles

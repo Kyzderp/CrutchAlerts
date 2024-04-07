@@ -24,6 +24,15 @@ local function GetUnitNameIfExists(unitTag)
     end
 end
 
+-- See settings for a wall of text about why this matters
+local function RoundHealth(num)
+    if (Crutch.savedOptions.bossHealthBar.useFloorRounding) then
+        return math.floor(num)
+    else
+        return zo_round(num)
+    end
+end
+
 ---------------------------------------------------------------------------------------------------
 -- Scale is messy
 ---------------------------------------------------------------------------------------------------
@@ -205,7 +214,7 @@ local function UpdateStagesWithBossHealth()
         GetBossHealth(5),
         GetBossHealth(6)
         )
-    highestHealth = zo_round(highestHealth * 100)
+    highestHealth = RoundHealth(highestHealth * 100)
 
     for _, controls in ipairs(mechanicControls) do
         if (controls.state ~= INACTIVE) then
@@ -289,7 +298,7 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
     if (statusBar) then
         -- ZO_StatusBar_SmoothTransition(self, value, max, forceInit, onStopCallback, customApproachAmountMs)
         ZO_StatusBar_SmoothTransition(statusBar, powerValue, powerMax)
-        local roundedPercent = zo_round(powerValue * 100 / powerMax)
+        local roundedPercent = RoundHealth(powerValue * 100 / powerMax)
         local percentText = zo_strformat("<<1>>%", tostring(roundedPercent))
         statusBar:GetNamedChild("Percent"):SetText(percentText)
 

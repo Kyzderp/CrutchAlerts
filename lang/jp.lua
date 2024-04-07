@@ -1,4 +1,5 @@
 -- /script SetCVar("language.2", "jp")
+-- (doesn't work, needs special client I think)
 -- Trial bosses
 SafeAddString(CRUTCH_BHB_ANSUUL_THE_TORMENTOR, "拷問者アンスール^F")
 SafeAddString(CRUTCH_BHB_ASSEMBLY_GENERAL, "アセンブリ・ジェネラル^N")
