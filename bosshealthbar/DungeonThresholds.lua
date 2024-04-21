@@ -284,7 +284,7 @@ local dungeonThresholds = {
     },
     [GetBossName(CRUTCH_BHB_THE_STONEKEEPER)] = {
         [55] = "Skeevatons", -- TODO different again, 56, 55, 50
-        [25] = "Centurion", -- TODO
+        -- [25] = "Centurion", -- TODO wtf is this
     },
 
 -- Depths of Malatar
