@@ -94,6 +94,12 @@ local function IsInBahseiPortal(unitTag)
     return false
 end
 
+-- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+local function OnKissOfDeath(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    Crutch.msg(zo_strformat("Kiss of Death <<1>>", GetUnitDisplayName(unitTag)))
+end
+
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
@@ -112,6 +118,12 @@ function Crutch.RegisterRockgrove()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 153423)
+
+    -- Register for Kiss of Death
+    if (Crutch.savedOptions.general.showRaidDiag) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT, OnKissOfDeath)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 152654)
+    end
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
@@ -134,6 +146,7 @@ end
 function Crutch.UnregisterRockgrove()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")
