@@ -215,6 +215,15 @@ local function IsShadeUp(unitTag)
 end
 
 ---------------------------------------------------------------------
+-- Diagnostics
+---------------------------------------------------------------------
+-- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+local function OnShedHoarfrost(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    Crutch.msg(zo_strformat("<<1>> shed hoarfrost", GetUnitDisplayName(unitTag)))
+end
+
+---------------------------------------------------------------------
 -- Register/Unregister
 local origOSIUnitErrorCheck = nil
 local origOSIGetIconDataForPlayer = nil
@@ -278,6 +287,12 @@ function Crutch.RegisterCloudrest()
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103946)
 
+    -- Register someone dropping hoarfrost
+    if (Crutch.savedOptions.general.showRaidDiag) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, OnShedHoarfrost)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103714)
+    end
+
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
@@ -319,6 +334,7 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
