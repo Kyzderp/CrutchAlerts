@@ -5,9 +5,41 @@ local Crutch = CrutchAlerts
 -- Trash
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-local function OnDarknessInflicted()
-    Crutch.DisplayProminent(888007)
+local function OnDarknessInflicted(_, changeType)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        Crutch.DisplayProminent(888007)
+    end
 end
+
+
+---------------------------------------------------------------------
+-- Arcane Knot
+---------------------------------------------------------------------
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnArcaneKnot(_, changeType, _, _, unitTag, beginTime, endTime)
+    local atName = GetUnitDisplayName(unitTag)
+    local tagId = tonumber(string.gsub(unitTag, "group", ""))
+    local fakeSourceUnitId = 8880070 + tagId
+
+    -- Pick up
+    if (changeType == EFFECT_RESULT_GAINED) then
+        if (Crutch.savedOptions.general.showRaidDiag) then
+            Crutch.msg(zo_strformat("<<1>> picked up the knot", atName))
+        end
+
+        local label = zo_strformat("|cff7700<<C:1>>: <<2>>|r", GetAbilityName(213477), atName)
+        Crutch.DisplayNotification(213477, label, endTime - beginTime, fakeSourceUnitId, 0, 0, 0, false)
+
+    -- Drop
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        if (Crutch.savedOptions.general.showRaidDiag) then
+            Crutch.msg(zo_strformat("<<1>> dropped the knot", atName))
+        end
+
+        Crutch.Interrupted(fakeSourceUnitId)
+    end
+end
+
 
 ---------------------------------------------------------------------
 -- Register/Unregister
@@ -46,8 +78,13 @@ function Crutch.RegisterLucentCitadel()
     -- Darkness Inflicted
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, OnDarknessInflicted)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214338)
+
+    -- Arcane Knot
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, OnArcaneKnot)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 213477)
 end
 
 function Crutch.UnregisterLucentCitadel()
@@ -71,6 +108,7 @@ function Crutch.UnregisterLucentCitadel()
     Crutch.DisableIcon("Orphic8_2")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Lucent Citadel")
 end

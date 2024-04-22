@@ -135,7 +135,11 @@ local SUBTITLE_TIMES = {
         ["Interesting. These devices have all reset themselves. I didn't do that."] = 16.0,
         ["Interessant. Diese Maschinen haben sich alle zurückgesetzt. Das war nicht ich."] = 16.0,
     },
-
+-- LC
+    ["Xoryn"] = {
+        -- Count Ryelaz & Zilyesset
+        ["Make sure no one follows me."] = 18.7,
+    },
 -- MoL
     ["Mirarro"] = {
         -- Zhaj'hassa

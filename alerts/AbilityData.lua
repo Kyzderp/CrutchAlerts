@@ -122,11 +122,12 @@ Crutch.testing = {
 
     [69855] = true, -- Volatile Poison (MA; the "buff")
 
-    -- [166192] = true, -- ice dome
-    -- [166210] = true, -- fire dome
+    [213477] = true, -- Arcane Knot
+    [214338] = true, -- Darkness Inflicted
 
-    [166209] = true, -- fire dome gained?
-    [166178] = true, -- ice dome gained?
+    [214138] = true, -- Fate Sealer
+    [214311] = true, -- Fate Sealer
+    [214344] = true, -- Fate Sealer
 }
 
 ---------------------------------------------------------------------
@@ -210,6 +211,9 @@ Crutch.others = {
 -- Lucent Citadel
     [214203] = true, -- Bleak Annihilation
     [214187] = true, -- Brilliant Annihilation
+    [214138] = true, -- Fate Sealer
+    [214311] = true, -- Fate Sealer
+    [214344] = true, -- Fate Sealer
 
 -- Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
