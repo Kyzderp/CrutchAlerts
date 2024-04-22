@@ -228,6 +228,15 @@ local trialThresholds = {
         [30] = "Manic Phobia",
         [20] = "Split / Phobia on timer",
     },
+
+-- Lucent Citadel
+    ["Orphic Shattered Shard"] = { -- TODO: localization
+        [90] = "Color Change",
+        [60] = "Color Change",
+        [50] = "Color Change",
+        [25] = "Adds",
+        [10] = "Color Change",
+    },
 }
 
 ---------------------------------------------------------------------
