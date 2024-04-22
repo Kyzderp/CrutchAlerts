@@ -2,7 +2,7 @@
 ## This addon is a crutch
 ## Author: Kyzeragon
 ## Version: 0.25.0
-## APIVersion: 101041
+## APIVersion: 101041 101042
 
 ## DependsOn: LibAddonMenu-2.0>=31
 ## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibDialog
@@ -28,6 +28,7 @@ zones/trials/Cloudrest.lua
 zones/trials/DreadsailReef.lua
 zones/trials/HallsOfFabrication.lua
 zones/trials/KynesAegis.lua
+zones/trials/LucentCitadel.lua
 zones/trials/MawOfLorkhaj.lua
 zones/trials/Rockgrove.lua
 zones/trials/SanitysEdge.lua

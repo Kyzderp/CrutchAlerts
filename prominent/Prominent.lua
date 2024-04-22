@@ -78,6 +78,7 @@ Crutch.prominent = {
     [888004] = {text = "STATIC", color = {0.5, 1, 1}, slot = 1, playSound = true, millis = 1000}, -- vDSR static stacks
     [888005] = {text = "UNSTABLE", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1500}, -- vMoL Unstable Void
     [888006] = {text = "POISON", color = {0.5, 1, 0.5}, slot = 2, playSound = true, millis = 1000}, -- vDSR poison stacks
+    [888007] = {text = "DARK", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- vLC Darkness Inflicted
 }
 
 Crutch.prominentDisplaying = {} -- {[12459] = 1,}

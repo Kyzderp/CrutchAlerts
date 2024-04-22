@@ -207,6 +207,10 @@ Crutch.others = {
     [133936] = true, -- Exploding Spear
     [136965] = true, -- Sanguine Grasp
 
+-- Lucent Citadel
+    [214203] = true, -- Bleak Annihilation
+    [214187] = true, -- Brilliant Annihilation
+
 -- Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
     [ 73291] = true, -- Dark Fissure (Zhaj'hassa pillar)

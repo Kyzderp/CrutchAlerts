@@ -123,6 +123,10 @@ local defaultOptions = {
         showFalgravnIcons = true,
         falgravnIconsSize = 150,
     },
+    lucentcitadel = {
+        showOrphicIcons = true,
+        orphicIconSize = 150,
+    },
     rockgrove = {
         sludgeSides = true,
     },
@@ -317,6 +321,8 @@ local function Initialize()
         [1263] = Crutch.UnregisterRockgrove,  -- Rockgrove
         [1344] = Crutch.UnregisterDreadsailReef,  -- Dreadsail Reef
         [1427] = Crutch.UnregisterSanitysEdge, -- Sanity's Edge
+        [1478] = Crutch.UnregisterLucentCitadel,  -- Lucent Citadel
+
         [1436] = Crutch.UnregisterEndlessArchive, -- Endless Archive
 
         [1302] = Crutch.UnregisterShipwrightsRegret, -- Shipwright's Regret
@@ -340,6 +346,8 @@ local function Initialize()
         [1263] = Crutch.RegisterRockgrove,  -- Rockgrove
         [1344] = Crutch.RegisterDreadsailReef,  -- Dreadsail Reef
         [1427] = Crutch.RegisterSanitysEdge, -- Sanity's Edge
+        [1478] = Crutch.RegisterLucentCitadel,  -- Lucent Citadel
+
         [1436] = Crutch.RegisterEndlessArchive, -- Endless Archive
 
         [1302] = Crutch.RegisterShipwrightsRegret, -- Shipwright's Regret

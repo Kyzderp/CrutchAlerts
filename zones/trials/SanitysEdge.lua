@@ -18,7 +18,7 @@ function Crutch.RegisterSanitysEdge()
 end
 
 function Crutch.UnregisterSanitysEdge()
-    -- Triplets icon
+    -- Ansuul icon
     Crutch.DisableIcon("AnsuulCenter")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Sanity's Edge")
