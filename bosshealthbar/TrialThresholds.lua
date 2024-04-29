@@ -233,7 +233,7 @@ local trialThresholds = {
     ["Orphic Shattered Shard"] = { -- TODO: localization
         [90] = "Color Change",
         [60] = "Color Change",
-        [50] = "Color Change",
+        [40] = "Color Change",
         [25] = "Adds",
         [10] = "Color Change",
     },
