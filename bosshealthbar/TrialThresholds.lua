@@ -143,7 +143,7 @@ local trialThresholds = {
         [95] = "Mini",
         [75] = "Mini",
         [50] = "Mini",
-        [25] = "Mini",
+        [20] = "Mini",
     },
     [GetBossName(CRUTCH_BHB_FLAMEHERALD_BAHSEI)] = {
         [90] = "Abomination",
