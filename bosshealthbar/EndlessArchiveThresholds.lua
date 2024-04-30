@@ -55,7 +55,11 @@ local endlessArchiveThresholds = {
     -- Iceheart -- nothing interesting
 
     -- Kjarg the Tuskscraper -- nothing interesting
+
     -- Kra'gh the Dreugh King
+    ["Kra'gh the Dreugh King"] = { -- TODO: localization
+        [50] = "Mudcrabs",
+    },
 
     -- Laatvulon
     [GetBossName(CRUTCH_BHB_LAATVULON)] = {
