@@ -45,7 +45,6 @@ end
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
-local whichOrphic = true
 function Crutch.RegisterLucentCitadel()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Lucent Citadel")
 
@@ -54,7 +53,6 @@ function Crutch.RegisterLucentCitadel()
     else
         -- Orphic Shattered Shard icons for mirrors
         if (Crutch.savedOptions.lucentcitadel.showOrphicIcons) then
-            if (whichOrphic) then
             Crutch.EnableIcon("Orphic1")
             Crutch.EnableIcon("Orphic2")
             Crutch.EnableIcon("Orphic3")
@@ -63,16 +61,6 @@ function Crutch.RegisterLucentCitadel()
             Crutch.EnableIcon("Orphic6")
             Crutch.EnableIcon("Orphic7")
             Crutch.EnableIcon("Orphic8")
-            else
-            Crutch.EnableIcon("Orphic1_2")
-            Crutch.EnableIcon("Orphic2_2")
-            Crutch.EnableIcon("Orphic3_2")
-            Crutch.EnableIcon("Orphic4_2")
-            Crutch.EnableIcon("Orphic5_2")
-            Crutch.EnableIcon("Orphic6_2")
-            Crutch.EnableIcon("Orphic7_2")
-            Crutch.EnableIcon("Orphic8_2")
-            end
         end
     end
 
@@ -98,23 +86,8 @@ function Crutch.UnregisterLucentCitadel()
     Crutch.DisableIcon("Orphic7")
     Crutch.DisableIcon("Orphic8")
 
-    Crutch.DisableIcon("Orphic1_2")
-    Crutch.DisableIcon("Orphic2_2")
-    Crutch.DisableIcon("Orphic3_2")
-    Crutch.DisableIcon("Orphic4_2")
-    Crutch.DisableIcon("Orphic5_2")
-    Crutch.DisableIcon("Orphic6_2")
-    Crutch.DisableIcon("Orphic7_2")
-    Crutch.DisableIcon("Orphic8_2")
-
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Lucent Citadel")
 end
-
-function Crutch.ToggleOrphic()
-    whichOrphic = not whichOrphic
-    Crutch.OnPlayerActivated()
-end
--- /script CrutchAlerts.ToggleOrphic()

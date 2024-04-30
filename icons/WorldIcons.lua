@@ -98,15 +98,6 @@ local data = {
     ["Orphic6"] = {x = 147477, y = 22869, z = 89756, texture = "odysupporticons/icons/squares/squaretwo_red_six.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
     ["Orphic7"] = {x = 146628, y = 22867, z = 87851, texture = "odysupporticons/icons/squares/squaretwo_red_seven.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
     ["Orphic8"] = {x = 147488, y = 22868, z = 86178, texture = "odysupporticons/icons/squares/squaretwo_red_eight.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-
-    ["Orphic1_2"] = {x = 149326, y = 22872, z = 85691, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic2_2"] = {x = 150858, y = 22872, z = 86457, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic3_2"] = {x = 151461, y = 22874, z = 87967, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic4_2"] = {x = 150918, y = 22867, z = 89505, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic5_2"] = {x = 149265, y = 22876, z = 90119, texture = "odysupporticons/icons/squares/squaretwo_red_five.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic6_2"] = {x = 147776, y = 22874, z = 89510, texture = "odysupporticons/icons/squares/squaretwo_red_six.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic7_2"] = {x = 147157, y = 22874, z = 87934, texture = "odysupporticons/icons/squares/squaretwo_red_seven.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic8_2"] = {x = 147764, y = 22872, z = 86443, texture = "odysupporticons/icons/squares/squaretwo_red_eight.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
 }
 
 
