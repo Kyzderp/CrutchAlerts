@@ -596,6 +596,65 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Lucent Citadel",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Alert for Darkness Inflicted",
+                    tooltip = "Displays a prominent alert and ding sound when you gain Darkness Inflicted (3 stacks of Creeping Darkness)",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.alertDarkness end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.alertDarkness = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Orphic Shattered Shard mirror icons",
+                    tooltip = "Shows icons numbered 1~8 for each mirror on the Orphic Shattered Shard fight. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.showOrphicIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Orphic icon size",
+                    tooltip = "Updated size will show after the icons are hidden and shown again",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.orphicIconSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.orphicIconSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    disabled = function() return not Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Arcane Knot timer",
+                    tooltip = "Shows an \"alert\" timer for the currently held Arcane Knot",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.showKnotTimer end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.showKnotTimer = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+            }
+        },
+        {
+            type = "submenu",
             name = "Maw of Lorkhaj",
             controls = {
                 {

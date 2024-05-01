@@ -124,6 +124,8 @@ local defaultOptions = {
         falgravnIconsSize = 150,
     },
     lucentcitadel = {
+        alertDarkness = true,
+        showKnotTimer = true,
         showOrphicIcons = true,
         orphicIconSize = 150,
     },

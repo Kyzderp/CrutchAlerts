@@ -65,14 +65,18 @@ function Crutch.RegisterLucentCitadel()
     end
 
     -- Darkness Inflicted
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, OnDarknessInflicted)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214338)
+    if (Crutch.savedOptions.lucentcitadel.alertDarkness) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, OnDarknessInflicted)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214338)
+    end
 
     -- Arcane Knot
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, OnArcaneKnot)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 213477)
+    if (Crutch.savedOptions.lucentcitadel.showKnotTimer) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, OnArcaneKnot)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 213477)
+    end
 end
 
 function Crutch.UnregisterLucentCitadel()
