@@ -54,6 +54,11 @@ Crutch.format = {
 -- Kyne's Aegis
     [133515] = 100204.5, -- Chaurus Totem seems to send out first projectile ~4.5 seconds after spawn
 
+-- Lucent Citadel
+    [214203] = 500, -- Bleak Annihilation
+    [214187] = 500, -- Brilliant Annihilation
+    [214136] = 500, -- Fate Sealer
+
 -- Maw of Lorkhaj
     [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
     [ 73250] = 000315, -- Shattered (Savage)
