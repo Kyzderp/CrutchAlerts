@@ -124,6 +124,8 @@ Crutch.testing = {
 
     [213477] = true, -- Arcane Knot
     -- [214338] = true, -- Darkness Inflicted
+
+    [70701] = true, -- Poison Arrow Spray
 }
 
 ---------------------------------------------------------------------
