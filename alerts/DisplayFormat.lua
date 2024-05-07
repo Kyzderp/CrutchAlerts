@@ -131,6 +131,24 @@ Crutch.format = {
     [ 72057] = 20003, -- Portal Spawn
     [ 70723] =  1203, -- Rupturing Fog
     [ 72446] =   400, -- Smash Iceberg
+    [ 68194] =    14, -- Necrotic Orb (timer for followy-thingy)
+    [  9674] =   300, -- Resonate (Lamia Domina)
+    [ 29378] =   300, -- Uppercut (Queen's Champion, Kartheid, etc.)
+    [ 17867] =   400, -- Shock Aura (Queen's Champion)
+    -- [ 72180] =   400, -- Electric Wave (Dwarven Sphere) I think it's obvious enough
+    [  4817] =   300, -- Unyielding Mace (Flesh Atronach)
+    [ 70955] =   200, -- Blight Bomb (Xivilai Toxicoli)
+    [ 35164] =   800, -- Agony (Argonian Berserker)
+    [ 70695] =   500, -- Taking Aim (Argonian Venomshot)
+    [ 68994] =   500, -- Staggering Stomp (Argonian Behemoth)
+    [ 69029] =   500, -- Wrecking Bite (Argonian Behemoth)
+    [ 69083] =   500, -- Enraged Scream (Argonian Behemoth)
+    -- [ 69083] =   512.5, -- Enraged Scream (Argonian Behemoth)
+    [ 71849] =   100, -- Inferno (Dremora Kyngald)
+    [ 67411] =   300, -- Uppercut (Dremora Caitiff)
+    [ 67420] =   500, -- Necrotic Blast (Voriak Solkyn)
+    [ 69001] =   500, -- Necrotic Blast (Voriak Solkyn while he's upstairs)
+    [ 68011] =   500, -- Web Up Artifact
 }
 
 
@@ -173,10 +191,11 @@ local colors = {
     [1] = "ff6600", -- Orange, fire
     [2] = "64c200", -- Green, poison
     [3] = "fff1ab", -- Tan, physical
-    [4] = "8ef5f5", -- Light blue, shock
+    [4] = "8ef5f5", -- Light blue, shock/ice
     [5] = "ff00ff", -- Magenta
     [6] = "6a00ff", -- Dark purple
     [7] = "3fe02a", -- Green for Arcanist
+    [8] = "9999ff", -- Light indigo, magic
 }
 
 

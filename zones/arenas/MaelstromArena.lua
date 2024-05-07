@@ -75,16 +75,33 @@ local function OnCSA(_, title, description)
 end
 
 ---------------------------------------------------------------------
+-- Prominent alerts
+---------------------------------------------------------------------
+local function OnNeedCleanse()
+    Crutch.DisplayProminent(888008)
+end
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterMaelstromArena()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MAAnnouncement", EVENT_DISPLAY_ANNOUNCEMENT, OnCSA)
+
+    -- Poison Arrow Spray and Volatile Poison
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PoisonArrowSpray", EVENT_EFFECT_CHANGED, OnNeedCleanse)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PoisonArrowSpray", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 70701)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "VolatilePoison", EVENT_EFFECT_CHANGED, OnNeedCleanse)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "VolatilePoison", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 69855)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Maelstrom Arena")
 end
 
 function Crutch.UnregisterMaelstromArena()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MAAnnouncement", EVENT_DISPLAY_ANNOUNCEMENT)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PoisonArrowSpray", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "VolatilePoison", EVENT_EFFECT_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Maelstrom Arena")
 end

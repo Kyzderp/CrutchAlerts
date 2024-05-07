@@ -126,6 +126,7 @@ Crutch.testing = {
     -- [214338] = true, -- Darkness Inflicted
 
     [70701] = true, -- Poison Arrow Spray
+    [69855] = true, -- Volatile Poison
 }
 
 ---------------------------------------------------------------------
@@ -326,6 +327,8 @@ Crutch.others = {
     [68011] = true, -- Web Up Artifact
     [70723] = true, -- Rupturing Fog
     [72446] = true, -- Smash Iceberg
+    [68194] = true, -- Necrotic Orb (timer for followy-thingy)
+    [75281] = true, -- Soul Tether (Dremora Kynlurker)
 
 
 ---------------------------------------------------------------------
