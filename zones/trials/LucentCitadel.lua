@@ -29,7 +29,7 @@ local function OnArcaneKnot(_, changeType, _, _, unitTag, beginTime, endTime)
         end
 
         local label = zo_strformat("|cff7700<<C:1>>: <<2>>|r", GetAbilityName(213477), atName)
-        Crutch.DisplayNotification(213477, label, endTime - beginTime, fakeSourceUnitId, 0, 0, 0, false)
+        Crutch.DisplayNotification(213477, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
 
     -- Drop
     elseif (changeType == EFFECT_RESULT_FADED) then
