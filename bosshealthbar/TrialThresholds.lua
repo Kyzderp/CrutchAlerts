@@ -235,7 +235,7 @@ local trialThresholds = {
         [60] = "Color Change",
         [40] = "Color Change",
         [25] = "Adds",
-        [10] = "Color Change",
+        [15] = "Color Change",
     },
 }
 
