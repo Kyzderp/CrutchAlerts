@@ -396,6 +396,18 @@ function Crutch:CreateSettingsMenu()
             controls = {
                 {
                     type = "checkbox",
+                    name = "Alert Grievous Retaliation",
+                    tooltip = "Displays a prominent alert and ding sound if you attempt to resurrect a player whose shade is still up",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.alertGrievous end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.alertGrievous = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show spears indicator",
                     tooltip = "Show an indicator for how many spears are revealed, sent, and orbs dunked",
                     default = true,

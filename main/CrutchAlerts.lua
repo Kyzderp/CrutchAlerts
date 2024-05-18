@@ -106,6 +106,7 @@ local defaultOptions = {
         spearsSound = true,
         deathIconColor = true,
         showFlaresSides = true,
+        alertGrievous = true,
     },
     dreadsailreef = {
         alertStaticStacks = true,

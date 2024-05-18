@@ -41,6 +41,7 @@ Crutch.prominent = {
     [105380] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 6000}, -- Direct Current (Relequen interruptible)
     [106405] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 6000}, -- Glacial Spikes (Galenwe interruptible)
     [105016] = {text = "CREEPER", color = {0.5, 1, 0.5}, slot = 1, playSound = true, preMillis = 6000, millis = 6000}, -- Creeper spawn
+    [104646] = {text = "STOP REZZING", color = {0.6, 0, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 2000}, -- Grievous Retaliation
 
 -- RG
     [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
