@@ -106,7 +106,7 @@ local defaultOptions = {
         spearsSound = true,
         deathIconColor = true,
         showFlaresSides = true,
-        alertGrievous = true,
+        prominentGrievous = true,
     },
     dreadsailreef = {
         alertStaticStacks = true,
@@ -237,11 +237,13 @@ local function OnPlayerActivated()
     if (zoneUnregisters[Crutch.zoneId]) then
         zoneUnregisters[Crutch.zoneId]()
     end
+    Crutch.UnregisterProminents(Crutch.zoneId)
 
     -- Register current active trial, if applicable
     if (zoneRegisters[zoneId]) then
         zoneRegisters[zoneId]()
     end
+    Crutch.RegisterProminents(zoneId)
 
     Crutch.zoneId = zoneId
 end
@@ -264,6 +266,7 @@ end
 ---------------------------------------------------------------------
 local function Initialize()
     -- Settings and saved variables
+    Crutch.AddProminentDefaults()
     Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
     Crutch:CreateSettingsMenu()
 

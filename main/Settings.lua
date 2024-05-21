@@ -393,15 +393,15 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Cloudrest",
-            controls = {
+            controls = Crutch.GetProminentSettings(1051, {
                 {
                     type = "checkbox",
                     name = "Alert Grievous Retaliation",
                     tooltip = "Displays a prominent alert and ding sound if you attempt to resurrect a player whose shade is still up",
                     default = true,
-                    getFunc = function() return Crutch.savedOptions.cloudrest.alertGrievous end,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.prominentGrievous end,
                     setFunc = function(value)
-                        Crutch.savedOptions.cloudrest.alertGrievous = value
+                        Crutch.savedOptions.cloudrest.prominentGrievous = value
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
@@ -452,12 +452,12 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                     disabled = function() return OSI == nil end,
                 },
-            }
+            }),
         },
         {
             type = "submenu",
             name = "Dreadsail Reef",
-            controls = {
+            controls = Crutch.GetProminentSettings(1344, {
                 {
                     type = "checkbox",
                     name = "Alert Building Static stacks",
@@ -512,7 +512,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.dreadsailreef.alertVolatileStacks end,
                 },
-            }
+            }),
         },
         {
             type = "submenu",
@@ -668,7 +668,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Maw of Lorkhaj",
-            controls = {
+            controls = Crutch.GetProminentSettings(725, {
                 {
                     type = "checkbox",
                     name = "Show Zhaj'hassa cleanse pad cooldowns",
@@ -681,7 +681,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            },
+            }),
         },
         {
             type = "submenu",

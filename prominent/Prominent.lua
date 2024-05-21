@@ -33,15 +33,15 @@ Crutch.prominent = {
     [121422] = {text = "CONE", color = {0.5, 1, 1}, slot = 1, playSound = true, preMillis = 1000}, -- Sundering Gale (Eternal Servant)
 
 -- MoL
-    [ 73721] = {text = "VOID RUSH", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Void Rush (Dro-m'Athra Shadowguard)
-    [ 73741] = {text = "BLOCK", color = {1, 0.9, 170/255}, slot = 1, playSound = true}, -- Threshing Wings (Rakkhat)
-    [ 57517] = {text = "CURSE", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- Grip of Lorkhaj (Zhaj'hassa) called manually from MawOfLorkhaj.lua
+    -- [ 73721] = {text = "VOID RUSH", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Void Rush (Dro-m'Athra Shadowguard)
+    -- [ 73741] = {text = "BLOCK", color = {1, 0.9, 170/255}, slot = 1, playSound = true}, -- Threshing Wings (Rakkhat)
+    -- [ 57517] = {text = "CURSE", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- Grip of Lorkhaj (Zhaj'hassa) called manually from MawOfLorkhaj.lua
 
 -- CR
-    [105380] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 6000}, -- Direct Current (Relequen interruptible)
-    [106405] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 6000}, -- Glacial Spikes (Galenwe interruptible)
-    [105016] = {text = "CREEPER", color = {0.5, 1, 0.5}, slot = 1, playSound = true, preMillis = 6000, millis = 6000}, -- Creeper spawn
-    [104646] = {text = "STOP REZZING", color = {0.6, 0, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 2000}, -- Grievous Retaliation
+    -- [105380] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 6000}, -- Direct Current (Relequen interruptible)
+    -- [106405] = {text = "INTERRUPT", color = {0.5, 1, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 6000}, -- Glacial Spikes (Galenwe interruptible)
+    -- [105016] = {text = "CREEPER", color = {0.5, 1, 0.5}, slot = 1, playSound = true, preMillis = 6000, millis = 6000}, -- Creeper spawn
+    -- [104646] = {text = "STOP REZZING", color = {0.6, 0, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 2000}, -- Grievous Retaliation
 
 -- RG
     [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
@@ -63,7 +63,7 @@ Crutch.prominent = {
 
 -------------------
 -- DSR
-    [170188] = {text = "BOOT", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Cascading Boot (Dreadsail Overseer)
+    -- [170188] = {text = "BOOT", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Cascading Boot (Dreadsail Overseer)
 
 -------------------
 -- SE
@@ -110,10 +110,6 @@ end
 
 -------------------------------------------------------------------------------
 function Crutch.DisplayProminent(abilityId)
-    if (not Crutch.savedOptions.general.showProminent) then
-        return
-    end
-
     local data = Crutch.prominent[abilityId]
     if (not data) then
         d("|cFF5555WARNING: tried to DisplayProminent without abilityId in data|r")
@@ -125,6 +121,20 @@ function Crutch.DisplayProminent(abilityId)
     end
 
     Crutch.dbgSpam(string.format("|cFF8888[P] DisplayProminent %d|r", abilityId))
+    if (data.playSound) then
+        PlaySound(SOUNDS.DUEL_START)
+    end
+    Display(abilityId, data.text, data.color, data.slot, data.millis or (preMillis + postMillis))
+end
+
+-------------------------------------------------------------------------------
+function Crutch.DisplayProminent2(abilityId, data)
+    if (not data) then
+        d("|cFF5555WARNING: tried to DisplayProminent2 without data|r")
+        return
+    end
+
+    Crutch.dbgSpam(string.format("|cFF8888[P] DisplayProminent2 %d|r", abilityId))
     if (data.playSound) then
         PlaySound(SOUNDS.DUEL_START)
     end

@@ -88,13 +88,15 @@ local function UpdateDisplay()
                     lineControl:GetNamedChild("Timer"):SetColor(unpack(GetTimerColor(millisRemaining)))
 
                     -- Also display prominent alert if applicable
-                    local prominentThreshold = 1000
-                    if (Crutch.prominent[data.abilityId] and Crutch.prominent[data.abilityId].preMillis) then
-                        prominentThreshold = Crutch.prominent[data.abilityId].preMillis
-                    end
-                    if (millisRemaining <= prominentThreshold and Crutch.prominent[data.abilityId]) then
-                        if (not Crutch.prominentDisplaying[data.abilityId]) then
-                            Crutch.DisplayProminent(data.abilityId)
+                    if (Crutch.savedOptions.general.showProminent) then
+                        local prominentThreshold = 1000
+                        if (Crutch.prominent[data.abilityId] and Crutch.prominent[data.abilityId].preMillis) then
+                            prominentThreshold = Crutch.prominent[data.abilityId].preMillis
+                        end
+                        if (millisRemaining <= prominentThreshold and Crutch.prominent[data.abilityId]) then
+                            if (not Crutch.prominentDisplaying[data.abilityId]) then
+                                Crutch.DisplayProminent(data.abilityId)
+                            end
                         end
                     end
                 end

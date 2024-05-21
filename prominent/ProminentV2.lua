@@ -1,0 +1,286 @@
+CrutchAlerts = CrutchAlerts or {}
+local Crutch = CrutchAlerts
+
+-- Data for prominent display of notifications
+-- Key by zoneId so we only register each one in the right zone
+-- preMillis is how long before the end of the timer we should start the alert. If it's not set, notify as soon as the event is received
+-- millis is duration of the alert
+local prominentData = {
+-----------------------------------------------------------
+-- TRIALS
+-----------------------------------------------------------
+
+    ------------
+    -- Cloudrest
+    [1051] = {
+        settingsSubcategory = "cloudrest",
+
+        -- Direct Current (Relequen interruptible)
+        [105380] = {
+            event = EVENT_COMBAT_EVENT,
+            text = "INTERRUPT", 
+            color = {0.5, 1, 1}, 
+            slot = 2,
+            playSound = true,
+            millis = 2000,
+            settings = {
+                name = "prominentDirectCurrent",
+                title = "Alert Direct Current",
+                description = "Shows a prominent alert for Relequen's interruptible attack, Direct Current",
+            },
+        },
+        -- Glacial Spikes (Galenwe interruptible)
+        [106405] = {
+            event = EVENT_COMBAT_EVENT,
+            text = "INTERRUPT",
+            color = {0.5, 1, 1},
+            slot = 2,
+            playSound = true,
+            millis = 2000,
+            settings = {
+                name = "prominentGlacialSpikes",
+                title = "Alert Glacial Spikes",
+                description = "Shows a prominent alert for Galenwe's interruptible attack, Glacial Spikes",
+            },
+        },
+        -- Creeper spawn
+        [105016] = {
+            event = EVENT_COMBAT_EVENT,
+            text = "CREEPER",
+            color = {0.5, 1, 0.5},
+            slot = 1,
+            playSound = true,
+            millis = 6000,
+            settings = {
+                name = "prominentCreeper",
+                title = "Alert Creeper Spawn",
+                description = "Shows a prominent alert when a creeper spawns",
+            },
+        },
+        -- Grievous Retaliation
+        [104646] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_DAMAGE,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "STOP REZZING",
+            color = {0.6, 0, 1},
+            slot = 2,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentGrievous",
+                title = "Alert Grievous Retaliation",
+                description = "Shows a prominent alert when you try to resurrect a player with their shade still up",
+            },
+        },
+    },
+
+    -----------------
+    -- Dreadsail Reef
+    [1344] = {
+        settingsSubcategory = "dreadsailreef",
+        -- Cascading Boot (Dreadsail Overseer)
+        [170188] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "BOOT",
+            color = {223/255, 71/255, 237/255},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentCascadingBoot",
+                title = "Alert Cascading Boot",
+                description = "Shows a prominent alert when a Dreadsail Overseer tries to yeet you with Cascading Boot",
+            },
+        },
+    },
+
+    -----------------
+    -- Maw of Lorkhaj
+    [725] = {
+        settingsSubcategory = "mawoflorkhaj",
+        -- Shattering Strike (Dro-m'Athra Savage)
+        [73249] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "SHATTER",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentShatteringStrike",
+                title = "Alert Shattering Strike",
+                description = "Shows a prominent alert when a Dro-m'Athra Savage tries to shatter your armor with Shattering Strike",
+            },
+        },
+        -- -- Void Rush (Dro-m'Athra Shadowguard)
+        -- [73721] = {
+        --     event = EVENT_COMBAT_EVENT,
+        --     filters = {
+        --         [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+        --     },
+        --     text = "VOID RUSH",
+        --     color = {0.5, 1, 1},
+        --     slot = 1,
+        --     playSound = true,
+        --     millis = 1000,
+        --     settings = {
+        --         name = "prominentVoidRush",
+        --         title = "Alert Void Rush",
+        --         description = "Shows a prominent alert when a Dro-m'Athra Shadowguard shield charges you with Void Rush",
+        --     },
+        -- },
+        -- Grip of Lorkhaj (Zhaj'hassa)
+        [57517] = {
+            event = EVENT_EFFECT_CHANGED,
+            filters = {
+                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "CURSE",
+            color = {0.5, 0, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentGripOfLorkhaj",
+                title = "Alert Grip of Lorkhaj",
+                description = "Shows a prominent alert when you are cursed by Zhaj'hassa",
+            },
+        },
+        -- Threshing Wings (Rakkhat)
+        [73741] = {
+            event = EVENT_COMBAT_EVENT,
+            text = "BLOCK",
+            color = {1, 0.9, 0.66},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentThreshingWings",
+                title = "Alert Threshing Wings",
+                description = "Shows a prominent alert when you should block to avoid Rakkhat's knockback",
+            },
+        },
+    },
+}
+
+local function GetProminentSetting(subcategory, settingsData)
+    return {
+        type = "checkbox",
+        name = settingsData.title,
+        tooltip = settingsData.description,
+        default = true,
+        getFunc = function() return Crutch.savedOptions[subcategory][settingsData.name] end,
+        setFunc = function(value)
+            Crutch.savedOptions[subcategory][settingsData.name] = value
+            Crutch.OnPlayerActivated()
+        end,
+        width = "full",
+    }
+end
+
+function Crutch.GetProminentSettings(zoneId, controls)
+    local zoneData = prominentData[zoneId]
+    for abilityId, abilityData in pairs(zoneData) do
+        if (type(abilityId) == "number") then
+            table.insert(controls, GetProminentSetting(zoneData.settingsSubcategory, abilityData.settings))
+        end
+    end
+    return controls
+end
+
+local resultStrings = {
+    [ACTION_RESULT_BEGIN] = "BEGIN",
+    [ACTION_RESULT_EFFECT_GAINED] = "GAIN",
+    [ACTION_RESULT_EFFECT_GAINED_DURATION] = "DUR",
+    [ACTION_RESULT_EFFECT_FADED] = "FADED",
+    [ACTION_RESULT_DAMAGE] = "DAMAGE",
+}
+
+-----------------------------------------------------------
+-- Called whenever we enter a zone
+-----------------------------------------------------------
+function Crutch.RegisterProminents(zoneId)
+    local zoneData = prominentData[zoneId]
+    if (not zoneData) then return end
+
+    for abilityId, abilityData in pairs(zoneData) do
+        local settingsData = abilityData.settings
+        if (type(abilityId) == "number" and Crutch.savedOptions[zoneData.settingsSubcategory][settingsData.name]) then
+            -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+            -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+            local function ProminentCallback(_, result, _, _, _, _, sourceName, _, targetName, _, hitValue)
+                -- Since EVENT_EFFECT_CHANGED doesn't take filters for results, we only want EFFECT_RESULT_GAINED here
+                if (abilityData.event == EVENT_EFFECT_CHANGED and result ~= EFFECT_RESULT_GAINED) then return end
+
+                -- Ideally, all prominents should have the appropriate result filter, but if I don't know it yet, print
+                -- it out to add later
+                if (abilityData.event == EVENT_COMBAT_EVENT and abilityData.filters[REGISTER_FILTER_COMBAT_RESULT] == nil) then
+                    Crutch.dbgOther(zo_strformat("|cFF0000<<1>>: <<2>> <<3>> -> <<4>> for <<5>>",
+                        resultStrings[result],
+                        sourceName,
+                        GetAbilityName(abilityId),
+                        targetName,
+                        hitValue))
+                end
+
+                Crutch.DisplayProminent2(abilityId, abilityData)
+            end
+
+            -- Register event
+            local eventName = Crutch.name .. "Prominent" .. tostring(abilityId) .. tostring(abilityData.event)
+            EVENT_MANAGER:RegisterForEvent(eventName, abilityData.event, ProminentCallback)
+            EVENT_MANAGER:AddFilterForEvent(eventName, abilityData.event, REGISTER_FILTER_ABILITY_ID, abilityId)
+            -- Register filters if we have any
+            if (abilityData.filters) then
+                for filter, value in pairs(abilityData.filters) do
+                    EVENT_MANAGER:AddFilterForEvent(eventName, abilityData.event, filter, value)
+                end
+            end
+            Crutch.dbgSpam("Registered " .. GetAbilityName(abilityId))
+        end
+    end
+end
+
+-----------------------------------------------------------
+-- Called whenever we exit a zone
+-----------------------------------------------------------
+function Crutch.UnregisterProminents(zoneId)
+    local zoneData = prominentData[zoneId]
+    if (not zoneData) then return end
+
+    for abilityId, abilityData in pairs(zoneData) do
+        if (type(abilityId) == "number") then
+            EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Prominent" .. tostring(abilityId) .. tostring(abilityData.event), abilityData.event)
+            Crutch.dbgSpam("Unregistered " .. GetAbilityName(abilityId))
+        end
+    end
+end
+
+-- EVENT_COMBAT_EVENT should filter for begin and gained if no other filters
+-- EVENT_EFFECT_CHANGED needs to filter for gained
+
+-----------------------------------------------------------
+-- Init
+-----------------------------------------------------------
+-- Initialize the defaults for all prominents to true
+function Crutch.AddProminentDefaults()
+    for zoneId, zoneData in pairs(prominentData) do
+        local subcategory = zoneData.settingsSubcategory
+        for abilityId, abilityData in pairs(zoneData) do
+            if (type(abilityId) == "number") then
+                Crutch.defaultOptions[subcategory][abilityData.settings.name] = true
+            end
+        end
+    end
+end

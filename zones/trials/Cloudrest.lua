@@ -286,7 +286,7 @@ function Crutch.RegisterCloudrest()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 102271)
 
     -- Register taking damage from Grievous Retaliation
-    if (Crutch.savedOptions.cloudrest.alertGrievous) then
+    if (Crutch.savedOptions.cloudrest.prominentGrievous) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GrievousRetaliation", EVENT_COMBAT_EVENT, OnGrievousRetaliation)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GrievousRetaliation", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GrievousRetaliation", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
