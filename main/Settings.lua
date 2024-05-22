@@ -517,7 +517,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Halls of Fabrication",
-            controls = {
+            controls = Crutch.GetProminentSettings(975, {
                 {
                     type = "checkbox",
                     name = "Show safe spot for triplets",
@@ -545,7 +545,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                 },
-            },
+            }),
         },
         {
             type = "submenu",

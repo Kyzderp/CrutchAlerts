@@ -3,7 +3,7 @@ local Crutch = CrutchAlerts
 
 -- Data for prominent display of notifications
 -- Key by zoneId so we only register each one in the right zone
--- preMillis is how long before the end of the timer we should start the alert. If it's not set, notify as soon as the event is received
+-- preMillis is how long before the end of the timer we should start the alert... which is currently not used in V2
 -- millis is duration of the alert
 local prominentData = {
 -----------------------------------------------------------
@@ -18,6 +18,8 @@ local prominentData = {
         -- Direct Current (Relequen interruptible)
         [105380] = {
             event = EVENT_COMBAT_EVENT,
+            filters = {
+            },
             text = "INTERRUPT", 
             color = {0.5, 1, 1}, 
             slot = 2,
@@ -32,6 +34,8 @@ local prominentData = {
         -- Glacial Spikes (Galenwe interruptible)
         [106405] = {
             event = EVENT_COMBAT_EVENT,
+            filters = {
+            },
             text = "INTERRUPT",
             color = {0.5, 1, 1},
             slot = 2,
@@ -46,6 +50,8 @@ local prominentData = {
         -- Creeper spawn
         [105016] = {
             event = EVENT_COMBAT_EVENT,
+            filters = {
+            },
             text = "CREEPER",
             color = {0.5, 1, 0.5},
             slot = 1,
@@ -97,6 +103,61 @@ local prominentData = {
                 name = "prominentCascadingBoot",
                 title = "Alert Cascading Boot",
                 description = "Shows a prominent alert when a Dreadsail Overseer tries to yeet you with Cascading Boot",
+            },
+        },
+    },
+
+    -----------------------
+    -- Halls of Fabrication
+    [975] = {
+        settingsSubcategory = "hallsoffabrication",
+        -- Direct Current (Pinnacle interruptible)
+        [90876] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "INTERRUPT",
+            color = {0.5, 1, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentPinnacleDirectCurrent",
+                title = "Alert Direct Current",
+                description = "Shows a prominent alert when the Pinnacle Factotum casts its interruptible, Direct Current",
+            },
+        },
+        -- Reclaim the Ruined (Adds spawn)
+        [90499] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+            },
+            text = "ADDS",
+            color = {1, 0.2, 0.2},
+            slot = 1,
+            playSound = false,
+            millis = 6000,
+            settings = {
+                name = "prominentReclaimTheRuined",
+                title = "Alert Reclaim the Ruined",
+                description = "Shows a prominent alert when the adds spawn during the triplets fight",
+            },
+        },
+        -- Stomp (Assembly General)
+        [91454] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+            },
+            text = "BLOCK",
+            color = {1, 0.2, 0.2},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentStomp",
+                title = "Alert Stomp",
+                description = "Shows a prominent alert when the Assembly General does Stomp (for trench strat)",
             },
         },
     },
@@ -160,6 +221,8 @@ local prominentData = {
         -- Threshing Wings (Rakkhat)
         [73741] = {
             event = EVENT_COMBAT_EVENT,
+            filters = {
+            },
             text = "BLOCK",
             color = {1, 0.9, 0.66},
             slot = 1,
@@ -169,6 +232,49 @@ local prominentData = {
                 name = "prominentThreshingWings",
                 title = "Alert Threshing Wings",
                 description = "Shows a prominent alert when you should block to avoid Rakkhat's knockback",
+            },
+        },
+    },
+
+    -----------
+    -- Sunspire
+    [1121] = {
+        settingsSubcategory = "sunspire",
+        -- Shield Charge (Ruin of Alkosh)
+        [117075] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "SHIELD CHARGE",
+            color = {0.5, 1, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentShieldCharge",
+                title = "Alert Shield Charge",
+                description = "Shows a prominent alert when a Ruin of Alkosh targets you with Shield Charge",
+            },
+        },
+        -- Sundering Gale (Eternal Servant)
+        [121422] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "CONE",
+            color = {0.5, 1, 1},
+            slot = 1,
+            playSound = true,
+            preMillis = 1000,
+            millis = 1000,
+            settings = {
+                name = "prominentSunderingGale",
+                title = "Alert Sundering Gale",
+                description = "Shows a prominent alert when the Eternal Servant in the portal targets you with the Sundering Gale cone",
             },
         },
     },
