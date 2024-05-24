@@ -79,7 +79,7 @@ Crutch.prominent = {
     [888002] = {text = "BAD", color = {1, 0, 0}, slot = 2, playSound = false, millis = 1000}, -- Called from damageTaken.lua
     [888003] = {text = "COLOR SWAP", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- vMol color swap
     [888004] = {text = "STATIC", color = {0.5, 1, 1}, slot = 1, playSound = true, millis = 1000}, -- vDSR static stacks
-    [888005] = {text = "UNSTABLE", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1500}, -- vMoL Unstable Void
+    -- [888005] = {text = "UNSTABLE", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1500}, -- vMoL Unstable Void
     [888006] = {text = "POISON", color = {0.5, 1, 0.5}, slot = 2, playSound = true, millis = 1000}, -- vDSR poison stacks
     [888007] = {text = "DARK", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- vLC Darkness Inflicted
     [888008] = {text = "CLEANSE", color = {0.5, 1, 0.5}, slot = 1, playSound = true, millis = 1000}, -- vMA poison round

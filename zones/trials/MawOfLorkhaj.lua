@@ -335,9 +335,9 @@ local function OnVoidShackleDamage()
     Crutch.DisplayNotification(75507, "|c6a00ffTETHERED!|r", 1100, 0, 0, 0, 0, false)
 end
 
-local function OnUnstableVoid()
-    Crutch.DisplayProminent(888005)
-end
+-- local function OnUnstableVoid()
+--     Crutch.DisplayProminent(888005)
+-- end
 
 local function RegisterRakkhat()
     -- Void Shackle
@@ -347,15 +347,15 @@ local function RegisterRakkhat()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE)
 
     -- Unstable Void
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, OnUnstableVoid)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 74488) -- Unstable Void
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, OnUnstableVoid)
+    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 74488) -- Unstable Void
+    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
+    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
 end
 
 local function UnregisterRakkhat()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT)
+    -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT)
 end
 
 ---------------------------------------------------------------------

@@ -181,7 +181,7 @@ local prominentData = {
             settings = {
                 name = "prominentShatteringStrike",
                 title = "Alert Shattering Strike",
-                description = "Shows a prominent alert when a Dro-m'Athra Savage tries to shatter your armor with Shattering Strike",
+                description = "Shows a prominent alert when a Dro-m'Athra Savage targets you to shatter your armor with Shattering Strike",
             },
         },
         -- -- Void Rush (Dro-m'Athra Shadowguard)
@@ -232,6 +232,24 @@ local prominentData = {
                 name = "prominentThreshingWings",
                 title = "Alert Threshing Wings",
                 description = "Shows a prominent alert when you should block to avoid Rakkhat's knockback",
+            },
+        },
+        -- Unstable Void (Rakkhat)
+        [74488] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED,
+            },
+            text = "UNSTABLE",
+            color = {1, 0, 0},
+            slot = 2,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentUnstableVoid",
+                title = "Alert Unstable Void",
+                description = "Shows a prominent alert when you receive Unstable Void and should take the bomb out of group",
             },
         },
     },
