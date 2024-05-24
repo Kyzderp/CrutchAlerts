@@ -686,7 +686,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Rockgrove",
-            controls = {
+            controls = Crutch.GetProminentSettings(1263, {
                 {
                     type = "checkbox",
                     name = "Show Noxious Sludge sides",
@@ -698,12 +698,12 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            }
+            }),
         },
         {
             type = "submenu",
             name = "Sanity's Edge",
-            controls = {
+            controls = Crutch.GetProminentSettings(1427, {
                 {
                     type = "checkbox",
                     name = "Show center of Ansuul arena",
@@ -731,7 +731,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                 },
-            },
+            }),
         },
         {
             type = "submenu",

@@ -29,8 +29,8 @@ Crutch.prominent = {
     -- [ 91454] = {text = "BLOCK", color = {1, 0.2, 0.2}, slot = 1, playSound = true}, -- Stomp (Assembly General)
 
 -- SS
-    [117075] = {text = "SHIELD CHARGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Shield Charge (Ruin of Alkosh)
-    [121422] = {text = "CONE", color = {0.5, 1, 1}, slot = 1, playSound = true, preMillis = 1000}, -- Sundering Gale (Eternal Servant)
+    -- [117075] = {text = "SHIELD CHARGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Shield Charge (Ruin of Alkosh)
+    -- [121422] = {text = "CONE", color = {0.5, 1, 1}, slot = 1, playSound = true, preMillis = 1000}, -- Sundering Gale (Eternal Servant)
 
 -- MoL
     -- [ 73721] = {text = "VOID RUSH", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Void Rush (Dro-m'Athra Shadowguard)
@@ -44,7 +44,7 @@ Crutch.prominent = {
     -- [104646] = {text = "STOP REZZING", color = {0.6, 0, 1}, slot = 2, playSound = true, preMillis = 6000, millis = 2000}, -- Grievous Retaliation
 
 -- RG
-    [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
+    -- [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
 
 -- BRP
     [111161] = {text = "LAVA WHIP", color = {1, 0.6, 0}, slot = 1, playSound = true}, -- Lava Whip (Imperial Dread Knight)
@@ -67,7 +67,7 @@ Crutch.prominent = {
 
 -------------------
 -- SE
-    [184540] = {text = "CHAIN", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- Chain Pull (Exarchanic Yaseyla)
+    -- [184540] = {text = "CHAIN", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- Chain Pull (Exarchanic Yaseyla)
 
 -------------------
 -- EA

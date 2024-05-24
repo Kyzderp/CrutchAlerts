@@ -18,7 +18,7 @@ local prominentData = {
         -- Direct Current (Relequen interruptible)
         [105380] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Needs filters
             },
             text = "INTERRUPT", 
             color = {0.5, 1, 1}, 
@@ -34,7 +34,7 @@ local prominentData = {
         -- Glacial Spikes (Galenwe interruptible)
         [106405] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Needs filters
             },
             text = "INTERRUPT",
             color = {0.5, 1, 1},
@@ -50,7 +50,7 @@ local prominentData = {
         -- Creeper spawn
         [105016] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Needs filters
             },
             text = "CREEPER",
             color = {0.5, 1, 0.5},
@@ -66,7 +66,7 @@ local prominentData = {
         -- Grievous Retaliation
         [104646] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Untested
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_DAMAGE,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -90,7 +90,7 @@ local prominentData = {
         -- Cascading Boot (Dreadsail Overseer)
         [170188] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Untested
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -114,7 +114,7 @@ local prominentData = {
         -- Direct Current (Pinnacle interruptible)
         [90876] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Untested
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "INTERRUPT",
@@ -131,7 +131,7 @@ local prominentData = {
         -- Reclaim the Ruined (Adds spawn)
         [90499] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Needs filters
             },
             text = "ADDS",
             color = {1, 0.2, 0.2},
@@ -147,7 +147,7 @@ local prominentData = {
         -- Stomp (Assembly General)
         [91454] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Needs filters
             },
             text = "BLOCK",
             color = {1, 0.2, 0.2},
@@ -169,7 +169,7 @@ local prominentData = {
         -- Shattering Strike (Dro-m'Athra Savage)
         [73249] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Untested
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -204,7 +204,7 @@ local prominentData = {
         -- Grip of Lorkhaj (Zhaj'hassa)
         [57517] = {
             event = EVENT_EFFECT_CHANGED,
-            filters = {
+            filters = { -- Untested
                 [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
             text = "CURSE",
@@ -221,7 +221,7 @@ local prominentData = {
         -- Threshing Wings (Rakkhat)
         [73741] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Needs filters
             },
             text = "BLOCK",
             color = {1, 0.9, 0.66},
@@ -236,6 +236,52 @@ local prominentData = {
         },
     },
 
+    ------------
+    -- Rockgrove
+    [1263] = {
+        settingsSubcategory = "rockgrove",
+        -- Savage Blitz (Oaxiltso)
+        [149414] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Modified, untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "BLITZ",
+            color = {1, 1, 0.5},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentSavageBlitz",
+                title = "Alert Savage Blitz",
+                description = "Shows a prominent alert when Oaxiltso charges",
+            },
+        },
+    },
+
+    ----------------
+    -- Sanity's Edge
+    [1427] = {
+        settingsSubcategory = "sanitysedge",
+        -- Chain Pull (Exarchanic Yaseyla)
+        [184540] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "CHAIN",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentChainPull",
+                title = "Alert Chain Pull",
+                description = "Shows a prominent alert when Yaseyla chains you and you should break free",
+            },
+        },
+    },
+
     -----------
     -- Sunspire
     [1121] = {
@@ -243,7 +289,7 @@ local prominentData = {
         -- Shield Charge (Ruin of Alkosh)
         [117075] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Untested
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -261,7 +307,7 @@ local prominentData = {
         -- Sundering Gale (Eternal Servant)
         [121422] = {
             event = EVENT_COMBAT_EVENT,
-            filters = {
+            filters = { -- Untested
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -296,6 +342,13 @@ local function GetProminentSetting(subcategory, settingsData)
 end
 
 function Crutch.GetProminentSettings(zoneId, controls)
+    table.insert(controls, {
+        type = "description",
+        title = "Prominent Alerts",
+        text = "These display as large, obnoxious alerts, usually with a ding sound too.",
+        width = "full",
+    })
+
     local zoneData = prominentData[zoneId]
     for abilityId, abilityData in pairs(zoneData) do
         if (type(abilityId) == "number") then
