@@ -163,6 +163,29 @@ local prominentData = {
     },
 
     -----------------
+    -- Lucent Citadel
+    [1478] = {
+        settingsSubcategory = "lucentcitadel",
+        -- Darkness Inflicted
+        [214338] = {
+            event = EVENT_EFFECT_CHANGED,
+            filters = { -- Untested
+                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "DARK",
+            color = {0.5, 0, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentDarknessInflicted",
+                title = "Alert Darkness Inflicted",
+                description = "Shows a prominent alert when you gain Darkness Inflicted (3 stacks of Creeping Darkness)",
+            },
+        },
+    },
+
+    -----------------
     -- Maw of Lorkhaj
     [725] = {
         settingsSubcategory = "mawoflorkhaj",

@@ -5,11 +5,11 @@ local Crutch = CrutchAlerts
 -- Trash
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-local function OnDarknessInflicted(_, changeType)
-    if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.DisplayProminent(888007)
-    end
-end
+-- local function OnDarknessInflicted(_, changeType)
+--     if (changeType == EFFECT_RESULT_GAINED) then
+--         Crutch.DisplayProminent(888007)
+--     end
+-- end
 
 
 ---------------------------------------------------------------------
@@ -65,11 +65,11 @@ function Crutch.RegisterLucentCitadel()
     end
 
     -- Darkness Inflicted
-    if (Crutch.savedOptions.lucentcitadel.alertDarkness) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, OnDarknessInflicted)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214338)
-    end
+    -- if (Crutch.savedOptions.lucentcitadel.alertDarkness) then
+    --     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, OnDarknessInflicted)
+    --     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+    --     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214338)
+    -- end
 
     -- Arcane Knot
     if (Crutch.savedOptions.lucentcitadel.showKnotTimer) then
@@ -90,7 +90,7 @@ function Crutch.UnregisterLucentCitadel()
     Crutch.DisableIcon("Orphic7")
     Crutch.DisableIcon("Orphic8")
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED)
+    -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Lucent Citadel")
