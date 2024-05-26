@@ -998,7 +998,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Vateshran Hollows",
-            controls = {
+            controls = Crutch.GetProminentSettings(1227, {
                 {
                     type = "checkbox",
                     name = "Show missed score adds",
@@ -1011,7 +1011,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            }
+            }),
         },
         {
             type = "description",

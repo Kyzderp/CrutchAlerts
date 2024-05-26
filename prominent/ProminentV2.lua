@@ -460,6 +460,46 @@ local prominentData = {
             },
         },
     },
+
+    --------------------
+    -- Vateshran Hollows
+    [1227] = {
+        settingsSubcategory = "vateshran",
+        -- Heat Wave
+        [15164] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "HEAT WAVE",
+            color = {1, 0.3, 0.1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentHeatWaveVH",
+                title = "Alert Heat Wave",
+                description = "Shows a prominent alert when a fire mage casts Heat Wave",
+            },
+        },
+        -- Winter's Reach (Xivkyn Chillfiend?)
+        [12459] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "WINTER'S REACH",
+            color = {0.5, 1, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentWintersReachVH",
+                title = "Alert Winter's Reach",
+                description = "Shows a prominent alert when an ice mage casts Winter's Reach",
+            },
+        },
+    },
 }
 
 local function GetProminentSetting(subcategory, settingsData)
