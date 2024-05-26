@@ -19,7 +19,7 @@ Crutch.prominent = {
     [ 15164] = {text = "HEAT WAVE", color = {1, 0.3, 0.1}, slot = 1,
         zoneIds = {
             [1227] = true, -- Vateshran Hollows
-            [ 677] = true, -- Maelstrom Arena
+            -- [ 677] = true, -- Maelstrom Arena
             [ 635] = true, -- Dragonstar Arena
         }}, -- Heat Wave (Dremora Kyngald, etc.)
 
@@ -58,8 +58,8 @@ Crutch.prominent = {
 
 -------------------
 -- MA
-    [75277] = {text = "AMBUSH", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Teleport Strike (Dremora Kynlurker) TODO: zoneId maybe?
-    [75281] = {text = "TETHER", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Soul Tether (Dremora Kynlurker) TODO: zoneId maybe?
+    -- [75277] = {text = "AMBUSH", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Teleport Strike (Dremora Kynlurker) TODO: zoneId maybe?
+    -- [75281] = {text = "TETHER", color = {223/255, 71/255, 237/255}, slot = 1, playSound = true}, -- Soul Tether (Dremora Kynlurker) TODO: zoneId maybe?
 
 -------------------
 -- DSR
@@ -82,7 +82,7 @@ Crutch.prominent = {
     -- [888005] = {text = "UNSTABLE", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1500}, -- vMoL Unstable Void
     [888006] = {text = "POISON", color = {0.5, 1, 0.5}, slot = 2, playSound = true, millis = 1000}, -- vDSR poison stacks
     -- [888007] = {text = "DARK", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- vLC Darkness Inflicted
-    [888008] = {text = "CLEANSE", color = {0.5, 1, 0.5}, slot = 1, playSound = true, millis = 1000}, -- vMA poison round
+    -- [888008] = {text = "CLEANSE", color = {0.5, 1, 0.5}, slot = 1, playSound = true, millis = 1000}, -- vMA poison round
 }
 
 Crutch.prominentDisplaying = {} -- {[12459] = 1,}

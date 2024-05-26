@@ -871,7 +871,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Maelstrom Arena",
-            controls = {
+            controls = Crutch.GetProminentSettings(677, {
                 {
                     type = "checkbox",
                     name = "Show the current round",
@@ -993,7 +993,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            }
+            }),
         },
         {
             type = "submenu",

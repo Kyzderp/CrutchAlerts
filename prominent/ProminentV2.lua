@@ -365,6 +365,101 @@ local prominentData = {
             },
         },
     },
+
+    -----------------------------------------------------------
+    -- ARENAS
+    -----------------------------------------------------------
+
+    ------------------
+    -- Maelstrom Arena
+    [677] = {
+        settingsSubcategory = "maelstrom",
+        -- Poison Arrow Spray
+        [70701] = {
+            event = EVENT_EFFECT_CHANGED,
+            filters = { -- Untested
+                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "CLEANSE",
+            color = {0.5, 1, 0.5},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentPoisonArrowSpray",
+                title = "Alert Poison Arrow Spray",
+                description = "Shows a prominent alert when you get arrow sprayed by an Argonian Venomshot in the Vault of Umbrage and should cleanse the DoT",
+            },
+        },
+        -- Volatile Poison
+        [69855] = {
+            event = EVENT_EFFECT_CHANGED,
+            filters = { -- Untested
+                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "CLEANSE",
+            color = {0.5, 1, 0.5},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentVolatilePoison",
+                title = "Alert Volatile Poison",
+                description = "Shows a prominent alert when you get poisoned by a plant in the Vault of Umbrage and should cleanse the DoT",
+            },
+        },
+        -- Heat Wave (Dremora Gandrakyn, etc.)
+        [15164] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "HEAT WAVE",
+            color = {1, 0.3, 0.1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentHeatWaveMA",
+                title = "Alert Heat Wave",
+                description = "Shows a prominent alert when a fire mage casts Heat Wave",
+            },
+        },
+        -- Teleport Strike (Dremora Kynlurker)
+        [75277] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "AMBUSH",
+            color = {223/255, 71/255, 237/255},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentTeleportStrike",
+                title = "Alert Teleport Strike",
+                description = "Shows a prominent alert when a Dremora Kynlurker ambushes you",
+            },
+        },
+        -- Soul Tether (Dremora Kynlurker)
+        [75281] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "TETHER",
+            color = {223/255, 71/255, 237/255},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentSoulTether",
+                title = "Alert Soul Tether",
+                description = "Shows a prominent alert when a Dremora Kynlurker casts Soul Tether",
+            },
+        },
+    },
 }
 
 local function GetProminentSetting(subcategory, settingsData)
