@@ -841,7 +841,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Infinite Archive",
-            controls = {
+            controls = Crutch.GetProminentSettings(1436, {
                 {
                     type = "checkbox",
                     name = "Auto mark Fabled",
@@ -866,7 +866,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            }
+            }),
         },
         {
             type = "submenu",

@@ -11,17 +11,17 @@ local postMillis = 200
 -- Data for prominent display of notifications
 Crutch.prominent = {
 -- Screw these
-    [ 12459] = {text = "WINTER'S REACH", color = {0.5, 1, 1}, slot = 1, preMillis = 1500,
-        zoneIds = {
-            -- [1227] = true, -- Vateshran Hollows
-            [ 635] = true, -- Dragonstar Arena
-        }}, -- Winter's Reach (Regulated Frost Mage, Xivkyn Chillfiend, etc.)
-    [ 15164] = {text = "HEAT WAVE", color = {1, 0.3, 0.1}, slot = 1,
-        zoneIds = {
-            -- [1227] = true, -- Vateshran Hollows
-            -- [ 677] = true, -- Maelstrom Arena
-            [ 635] = true, -- Dragonstar Arena
-        }}, -- Heat Wave (Dremora Kyngald, etc.)
+    -- [ 12459] = {text = "WINTER'S REACH", color = {0.5, 1, 1}, slot = 1, preMillis = 1500,
+    --     zoneIds = {
+    --         -- [1227] = true, -- Vateshran Hollows
+    --         [ 635] = true, -- Dragonstar Arena
+    --     }}, -- Winter's Reach (Regulated Frost Mage, Xivkyn Chillfiend, etc.)
+    -- [ 15164] = {text = "HEAT WAVE", color = {1, 0.3, 0.1}, slot = 1,
+    --     zoneIds = {
+    --         -- [1227] = true, -- Vateshran Hollows
+    --         -- [ 677] = true, -- Maelstrom Arena
+    --         [ 635] = true, -- Dragonstar Arena
+    --     }}, -- Heat Wave (Dremora Kyngald, etc.)
 
 -- HoF
     -- [ 90499] = {text = "ADDS", color = {1, 0.2, 0.2}, slot = 1, millis = 6000}, -- Reclaim the Ruined (Adds spawn)
@@ -50,7 +50,7 @@ Crutch.prominent = {
     [111161] = {text = "LAVA WHIP", color = {1, 0.6, 0}, slot = 1, playSound = true}, -- Lava Whip (Imperial Dread Knight)
 
 -- DSA
-    [54608] = {text = "DODGE", color = {0, 0.6, 0}, slot = 1, playSound = true}, -- Draining Poison (Pacthunter Ranger)
+    -- [54608] = {text = "DODGE", color = {0, 0.6, 0}, slot = 1, playSound = true}, -- Draining Poison (Pacthunter Ranger)
 
 -------------------
 -- BDV
@@ -71,7 +71,7 @@ Crutch.prominent = {
 
 -------------------
 -- EA
-    [197418] = {text = "CURSE", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- Grasp of Lorkhaj (Zhaj'hassa)
+    -- [197418] = {text = "CURSE", color = {0.5, 0, 1}, slot = 1, playSound = true, millis = 1000}, -- Grasp of Lorkhaj (Zhaj'hassa)
 
 -------------------
 -- Custom

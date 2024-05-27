@@ -370,6 +370,87 @@ local prominentData = {
     -- ARENAS
     -----------------------------------------------------------
 
+    -------------------
+    -- Dragonstar Arena
+    [635] = {
+        settingsSubcategory = "dragonstar",
+        -- Heat Wave
+        [15164] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "HEAT WAVE",
+            color = {1, 0.3, 0.1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentHeatWaveDSA",
+                title = "Alert Heat Wave",
+                description = "Shows a prominent alert when a fire mage casts Heat Wave",
+            },
+        },
+        -- Winter's Reach
+        [12459] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "WINTER'S REACH",
+            color = {0.5, 1, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentWintersReachDSA",
+                title = "Alert Winter's Reach",
+                description = "Shows a prominent alert when an ice mage casts Winter's Reach",
+            },
+        },
+        -- Draining Poison (Pacthunter Ranger)
+        [54608] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "DODGE",
+            color = {0, 0.6, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000, -- Also maybe need premillis?
+            settings = {
+                name = "prominentDrainingPoison",
+                title = "Alert Draining Poison",
+                description = "Shows a prominent alert when a Pacthunter Ranger targets you with Draining Poison. You should dodge to avoid having your resources drained",
+            },
+        },
+    },
+
+    -------------------
+    -- Infinite Archive
+    [1436] = {
+        settingsSubcategory = "endlessArchive",
+        -- Grasp of Lorkhaj (Zhaj'hassa)
+        [197434] = {
+            event = EVENT_EFFECT_CHANGED,
+            filters = { -- Untested
+                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            },
+            text = "CURSE",
+            color = {0.5, 0, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentGraspOfLorkhaj",
+                title = "Alert Grasp of Lorkhaj",
+                description = "Shows a prominent alert when you are cursed by Zhaj'hassa",
+            },
+        },
+    },
+
     ------------------
     -- Maelstrom Arena
     [677] = {
