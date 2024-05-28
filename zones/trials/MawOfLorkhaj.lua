@@ -199,6 +199,18 @@ local function RegisterZhajhassa()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GripOfLorkhaj", EVENT_EFFECT_CHANGED, OnGripOfLorkhaj)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GripOfLorkhaj", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 57517)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GripOfLorkhaj", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
+
+    -- if (not Crutch.WorldIconsEnabled()) then
+    --     Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+    -- else
+    --     -- Falgravn icons
+    --     if (Crutch.savedOptions.mawoflorkhaj.showZhajIcons) then
+    --         Crutch.EnableIcon("ZhajM1")
+    --         Crutch.EnableIcon("ZhajM2")
+    --         Crutch.EnableIcon("ZhajM3")
+    --         Crutch.EnableIcon("ZhajM4")
+    --     end
+    -- end
 end
 
 local function UnregisterZhajhassa()
@@ -206,6 +218,11 @@ local function UnregisterZhajhassa()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLBossesChanged", EVENT_BOSSES_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GripOfLorkhaj", EVENT_EFFECT_CHANGED)
+
+    -- Crutch.DisableIcon("ZhajM1")
+    -- Crutch.DisableIcon("ZhajM2")
+    -- Crutch.DisableIcon("ZhajM3")
+    -- Crutch.DisableIcon("ZhajM4")
 end
 
 

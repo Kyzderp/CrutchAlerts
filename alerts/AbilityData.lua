@@ -120,6 +120,9 @@ Crutch.testing = {
     [197434] = true, -- Grasp of Lorkhaj (EA; the debuff, does it work?)
     [197418] = true, -- Grip of Lorkhaj (EA; the cast)
 
+    -- [57469] = true, -- Grip of Lorkhaj (MoL; the cast)
+    -- [76049] = true, -- Grip of Lorkhaj (MoL; the "buff")
+
     [69855] = true, -- Volatile Poison (MA; the "buff")
 
     [213477] = true, -- Arcane Knot

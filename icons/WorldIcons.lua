@@ -26,6 +26,10 @@ local function GetOrphicIconSize()
     return Crutch.savedOptions.lucentcitadel.orphicIconSize * 0.7 -- I created textures that take up the full 64x64
 end
 
+local function GetZhajIconsSize()
+    return Crutch.savedOptions.mawoflorkhaj.zhajIconSize
+end
+
 ---------------------------------------------------------------------
 local icons = {}
 
@@ -98,6 +102,13 @@ local data = {
     ["Orphic6"] = {x = 147477, y = 22869, z = 89756, texture = "CrutchAlerts/icons/assets/square_SW.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
     ["Orphic7"] = {x = 146628, y = 22867, z = 87851, texture = "CrutchAlerts/icons/assets/square_W.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
     ["Orphic8"] = {x = 147488, y = 22868, z = 86178, texture = "CrutchAlerts/icons/assets/square_NW.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+
+    -- Zhaj'hassa
+    -- except these are terrible... WIP
+    ["ZhajM1"] = {x = 103036, y = 45930, z = 128336, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetZhajIconsSize, color = {1, 1, 1}},
+    ["ZhajM2"] = {x = 103134, y = 45919, z = 127905, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetZhajIconsSize, color = {1, 1, 1}},
+    ["ZhajM3"] = {x = 102853, y = 45947, z = 127674, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = GetZhajIconsSize, color = {1, 1, 1}},
+    ["ZhajM4"] = {x = 102563, y = 45948, z = 127971, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = GetZhajIconsSize, color = {1, 1, 1}},
 }
 
 

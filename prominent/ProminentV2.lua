@@ -170,7 +170,7 @@ local prominentData = {
         [214338] = {
             event = EVENT_EFFECT_CHANGED,
             filters = { -- Untested
-                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             text = "DARK",
             color = {0.5, 0, 1},
@@ -192,7 +192,7 @@ local prominentData = {
         -- Shattering Strike (Dro-m'Athra Savage)
         [73249] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -225,10 +225,10 @@ local prominentData = {
         --     },
         -- },
         -- Grip of Lorkhaj (Zhaj'hassa)
-        [57517] = {
+        [76049] = { -- 57469 is probably the cast
             event = EVENT_EFFECT_CHANGED,
-            filters = { -- Untested
-                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+            filters = { -- Verified
+                [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             text = "CURSE",
             color = {0.5, 0, 1},
@@ -436,7 +436,7 @@ local prominentData = {
         [197434] = {
             event = EVENT_EFFECT_CHANGED,
             filters = { -- Untested
-                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             text = "CURSE",
             color = {0.5, 0, 1},
@@ -459,7 +459,7 @@ local prominentData = {
         [70701] = {
             event = EVENT_EFFECT_CHANGED,
             filters = { -- Untested
-                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             text = "CLEANSE",
             color = {0.5, 1, 0.5},
@@ -476,7 +476,7 @@ local prominentData = {
         [69855] = {
             event = EVENT_EFFECT_CHANGED,
             filters = { -- Untested
-                [REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             text = "CLEANSE",
             color = {0.5, 1, 0.5},
@@ -635,9 +635,14 @@ function Crutch.RegisterProminents(zoneId)
         if (type(abilityId) == "number" and Crutch.savedOptions[zoneData.settingsSubcategory][settingsData.name]) then
             -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
             -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-            local function ProminentCallback(_, result, _, _, _, _, sourceName, _, targetName, _, hitValue)
+            local function ProminentCallback(_, result, _, _, effectUnitTag, _, sourceName, _, targetName, _, hitValue)
                 -- Since EVENT_EFFECT_CHANGED doesn't take filters for results, we only want EFFECT_RESULT_GAINED here
-                if (abilityData.event == EVENT_EFFECT_CHANGED and result ~= EFFECT_RESULT_GAINED) then return end
+                if (abilityData.event == EVENT_EFFECT_CHANGED and result ~= EFFECT_RESULT_GAINED) then
+                    Crutch.dbgOther("skipping because not gained")
+                    return
+                else
+                    Crutch.dbgSpam(effectUnitTag)
+                end
 
                 -- Ideally, all prominents should have the appropriate result filter, but if I don't know it yet, print
                 -- it out to add later

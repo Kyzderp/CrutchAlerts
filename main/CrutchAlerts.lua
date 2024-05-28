@@ -147,6 +147,8 @@ local defaultOptions = {
     },
     mawoflorkhaj = {
         showPads = true,
+        showZhajIcons = true,
+        zhajIconSize = 150,
     },
     maelstrom = {
         normalDamageTaken = false,
