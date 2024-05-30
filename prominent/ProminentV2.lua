@@ -5,6 +5,8 @@ local Crutch = CrutchAlerts
 -- Key by zoneId so we only register each one in the right zone
 -- preMillis is how long before the end of the timer we should start the alert... which is currently not used in V2
 -- millis is duration of the alert
+
+-- filters can take a special "filterFunction" that should return true if the prominent alert should be shown
 local prominentData = {
 -----------------------------------------------------------
 -- TRIALS
@@ -158,6 +160,30 @@ local prominentData = {
                 name = "prominentStomp",
                 title = "Alert Stomp",
                 description = "Shows a prominent alert when the Assembly General does Stomp (for trench strat)",
+            },
+        },
+    },
+
+    ---------------
+    -- Kyne's Aegis
+    [1196] = {
+        settingsSubcategory = "kynesaegis",
+        -- Booger
+        [136548] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_FADED,
+                filterFunction = function() return GetSelectedLFGRole() == LFG_ROLE_TANK end,
+            },
+            text = "BOOGER",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentBooger",
+                title = "Alert Hemorrhage Ended (Tank Only)",
+                description = "Shows a prominent alert if you are a tank and the Hemorrhage phase ends, as a reminder to taunt the new coagulant",
             },
         },
     },
@@ -636,12 +662,15 @@ function Crutch.RegisterProminents(zoneId)
             -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
             -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
             local function ProminentCallback(_, result, _, _, effectUnitTag, _, sourceName, _, targetName, _, hitValue)
-                -- Since EVENT_EFFECT_CHANGED doesn't take filters for results, we only want EFFECT_RESULT_GAINED here
+                -- Since EVENT_EFFECT_CHANGED doesn't take filters for results, assume we only want EFFECT_RESULT_GAINED here
                 if (abilityData.event == EVENT_EFFECT_CHANGED and result ~= EFFECT_RESULT_GAINED) then
-                    Crutch.dbgOther("skipping because not gained")
                     return
-                else
-                    Crutch.dbgSpam(effectUnitTag)
+                end
+
+                if (abilityData.filters and abilityData.filters.filterFunction) then
+                    if (not abilityData.filters.filterFunction()) then
+                        return
+                    end
                 end
 
                 -- Ideally, all prominents should have the appropriate result filter, but if I don't know it yet, print
@@ -665,7 +694,9 @@ function Crutch.RegisterProminents(zoneId)
             -- Register filters if we have any
             if (abilityData.filters) then
                 for filter, value in pairs(abilityData.filters) do
-                    EVENT_MANAGER:AddFilterForEvent(eventName, abilityData.event, filter, value)
+                    if (filter ~= "filterFunction") then
+                        EVENT_MANAGER:AddFilterForEvent(eventName, abilityData.event, filter, value)
+                    end
                 end
             end
             Crutch.dbgSpam("Registered " .. GetAbilityName(abilityId))

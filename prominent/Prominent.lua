@@ -75,7 +75,7 @@ Crutch.prominent = {
 
 -------------------
 -- Custom
-    [888001] = {text = "BOOGER", color = {1, 0, 0}, slot = 1, playSound = true, millis = 2000}, -- Booger phase ended in Falgravn 2nd floor
+    -- [888001] = {text = "BOOGER", color = {1, 0, 0}, slot = 1, playSound = true, millis = 2000}, -- Booger phase ended in Falgravn 2nd floor
     [888002] = {text = "BAD", color = {1, 0, 0}, slot = 2, playSound = false, millis = 1000}, -- Called from damageTaken.lua
     [888003] = {text = "COLOR SWAP", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- vMol color swap
     [888004] = {text = "STATIC", color = {0.5, 1, 1}, slot = 1, playSound = true, millis = 1000}, -- vDSR static stacks
