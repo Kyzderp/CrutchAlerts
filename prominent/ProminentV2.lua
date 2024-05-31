@@ -630,8 +630,13 @@ local prominentData = {
             },
         },
     },
+
+    -----------------------------------------------------------
+    -- DUNGEONS
+    -----------------------------------------------------------
 }
 
+-- Represents one control toggle for one prominent ability
 local function GetProminentSetting(subcategory, settingsData)
     return {
         type = "checkbox",
@@ -647,6 +652,7 @@ local function GetProminentSetting(subcategory, settingsData)
     }
 end
 
+-- Called from Settings.lua to append prominent alert sections to existing settings controls
 function Crutch.GetProminentSettings(zoneId, controls)
     table.insert(controls, {
         type = "description",

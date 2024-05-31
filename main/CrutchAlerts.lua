@@ -106,7 +106,6 @@ local defaultOptions = {
         spearsSound = true,
         deathIconColor = true,
         showFlaresSides = true,
-        prominentGrievous = true,
     },
     dreadsailreef = {
         alertStaticStacks = true,
@@ -149,6 +148,7 @@ local defaultOptions = {
         showPads = true,
         showZhajIcons = true,
         zhajIconSize = 150,
+        prominentColorSwap = true,
     },
     maelstrom = {
         normalDamageTaken = false,

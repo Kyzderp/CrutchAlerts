@@ -54,7 +54,8 @@ Crutch.prominent = {
 
 -------------------
 -- BDV
-    [150380] = {text = "DODGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Glacial Gash (Sentinel Aksalaz)
+    -- TODO: I didn't move this V2 mostly because code's already has it... but also because I'm lazy. And there are a lot of trial/arena things that need testing already
+    -- [150380] = {text = "DODGE", color = {0.5, 1, 1}, slot = 1, playSound = true}, -- Glacial Gash (Sentinel Aksalaz)
 
 -------------------
 -- MA

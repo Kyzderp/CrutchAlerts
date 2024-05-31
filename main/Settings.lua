@@ -681,6 +681,17 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Twins Color Swap",
+                    tooltip = "In the twins fight, shows a prominent alert when you receive Shadow/Lunar Conversion",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.mawoflorkhaj.prominentColorSwap end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.mawoflorkhaj.prominentColorSwap = value
+                    end,
+                    width = "full",
+                },
             }),
         },
         {
