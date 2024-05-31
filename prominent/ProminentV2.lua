@@ -397,6 +397,29 @@ local prominentData = {
     -----------------------------------------------------------
 
     -------------------
+    -- Blackrose Prison
+    [1082] = {
+        settingsSubcategory = "blackrose",
+        -- Lava Whip (Imperial Dread Knight)
+        [111161] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "LAVA WHIP",
+            color = {1, 0.6, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentLavaWhip",
+                title = "Alert Lava Whip",
+                description = "Shows a prominent alert when an Imperial Dread Knight targets you with Lava Whip",
+            },
+        },
+    },
+
+    -------------------
     -- Dragonstar Arena
     [635] = {
         settingsSubcategory = "dragonstar",

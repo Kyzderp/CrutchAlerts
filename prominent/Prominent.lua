@@ -47,7 +47,7 @@ Crutch.prominent = {
     -- [149414] = {text = "BLITZ", color = {1, 1, 0.5}, slot = 1, playSound = true}, -- Savage Blitz (Oaxiltso)
 
 -- BRP
-    [111161] = {text = "LAVA WHIP", color = {1, 0.6, 0}, slot = 1, playSound = true}, -- Lava Whip (Imperial Dread Knight)
+    -- [111161] = {text = "LAVA WHIP", color = {1, 0.6, 0}, slot = 1, playSound = true}, -- Lava Whip (Imperial Dread Knight)
 
 -- DSA
     -- [54608] = {text = "DODGE", color = {0, 0.6, 0}, slot = 1, playSound = true}, -- Draining Poison (Pacthunter Ranger)

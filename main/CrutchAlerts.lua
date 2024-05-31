@@ -163,6 +163,9 @@ local defaultOptions = {
         stage8Boss = "",
         stage9Boss = "Equip boss setup!",
     },
+    blackrose = {
+        showCursed = true, -- Not used, just a placeholder. Not sure if I can put it in prominent V2
+    },
     dragonstar = {
         normalDamageTaken = false,
     },

@@ -116,7 +116,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show casts on others",
-                    tooltip = "Show alerts when someone else in your group is targeted by a specific ability, or in some cases, when the enemy casts something on themselves. This is a manually curated list of abilities that are important enough to affect you, for example the Llothis cone (Defiling Dye Blast) or Galenwe's interruptible (Glacial Spikes)",
+                    tooltip = "Show alerts when someone else in your group is targeted by a specific ability, or in some cases, when the enemy casts something on themselves. This is a manually curated list of abilities that are important enough to affect you, for example the Llothis cone (Defiling Dye Blast) or Rakkhat's kite (Darkness Falls)",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.general.showOthers end,
                     setFunc = function(value)
@@ -820,6 +820,11 @@ function Crutch:CreateSettingsMenu()
             title = "Arenas",
             text = "Below are settings for special mechanics in specific arenas.",
             width = "full",
+        },
+        {
+            type = "submenu",
+            name = "Blackrose Prison",
+            controls = Crutch.GetProminentSettings(1082, {}),
         },
         {
             type = "submenu",
