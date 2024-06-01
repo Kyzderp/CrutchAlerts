@@ -15,7 +15,7 @@ function Crutch:CreateSettingsMenu()
     local LAM = LibAddonMenu2
     local panelData = {
         type = "panel",
-        name = "|c08BD1DCrutch Alerts|r",
+        name = "|c08BD1DCrutchAlerts|r",
         author = "Kyzeragon",
         version = Crutch.version,
         registerForRefresh = true,
@@ -310,7 +310,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show debug chat spam",
-                    tooltip = "Display a chat message every time any event is procced -- very spammy!",
+                    tooltip = "Display a chat message almost every time any enabled combat event is procced -- very spammy!",
                     default = false,
                     getFunc = function() return Crutch.savedOptions.debugChatSpam end,
                     setFunc = function(value)

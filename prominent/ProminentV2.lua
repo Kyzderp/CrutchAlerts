@@ -16,7 +16,6 @@ local prominentData = {
     -- Cloudrest
     [1051] = {
         settingsSubcategory = "cloudrest",
-
         -- Direct Current (Relequen interruptible)
         [105380] = {
             event = EVENT_COMBAT_EVENT,
@@ -64,7 +63,7 @@ local prominentData = {
             settings = {
                 name = "prominentCreeper",
                 title = "Alert Creeper Spawn",
-                description = "Shows a prominent alert when a creeper spawns",
+                description = "Shows a prominent alert when a Malicious Creeper spawns",
                 checkOldForDefault = true,
             },
         },
@@ -530,7 +529,7 @@ local prominentData = {
         -- Poison Arrow Spray
         [70701] = {
             event = EVENT_EFFECT_CHANGED,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             text = "CLEANSE",
@@ -548,7 +547,7 @@ local prominentData = {
         -- Volatile Poison
         [69855] = {
             event = EVENT_EFFECT_CHANGED,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             text = "CLEANSE",
@@ -566,7 +565,7 @@ local prominentData = {
         -- Heat Wave (Dremora Gandrakyn, etc.)
         [15164] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "HEAT WAVE",
@@ -584,7 +583,7 @@ local prominentData = {
         -- Teleport Strike (Dremora Kynlurker)
         [75277] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "AMBUSH",
@@ -602,7 +601,7 @@ local prominentData = {
         -- Soul Tether (Dremora Kynlurker)
         [75281] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "TETHER",
