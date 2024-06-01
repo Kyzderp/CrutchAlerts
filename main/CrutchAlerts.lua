@@ -94,7 +94,7 @@ local defaultOptions = {
     },
     bossHealthBar = {
         enabled = true,
-        firstTime = true,
+        firstTime = false,
         scale = 1,
         useFloorRounding = true,
     },
