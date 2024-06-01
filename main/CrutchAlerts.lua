@@ -76,6 +76,7 @@ local defaultOptions = {
     debugUi = false,
     showSubtitles = false,
     subtitlesIgnoredZones = {},
+    prominentV2FirstTime = true,
     general = {
         showBegin = true,
             beginHideSelf = false,
@@ -273,6 +274,10 @@ local function Initialize()
     -- Settings and saved variables
     Crutch.AddProminentDefaults()
     Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
+    if (Crutch.savedOptions.prominentV2FirstTime) then
+        Crutch.InitProminentV2Options()
+        Crutch.savedOptions.prominentV2FirstTime = false
+    end
     Crutch:CreateSettingsMenu()
 
     -- Position

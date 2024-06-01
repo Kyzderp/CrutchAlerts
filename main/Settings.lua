@@ -131,17 +131,6 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show prominent alerts",
-                    tooltip = "Show VERY large letters and in some cases a ding sound for certain alerts that usually require immediate action",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.general.showProminent end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.general.showProminent = value
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
                     name = "Show damageable timers",
                     tooltip = "For certain encounters, show a countdown to when the boss will become damageable, tauntable, return to the arena, etc.",
                     default = true,
@@ -396,18 +385,6 @@ function Crutch:CreateSettingsMenu()
             controls = Crutch.GetProminentSettings(1051, {
                 {
                     type = "checkbox",
-                    name = "Alert Grievous Retaliation",
-                    tooltip = "Displays a prominent alert and ding sound if you attempt to resurrect a player whose shade is still up",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.cloudrest.prominentGrievous end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.cloudrest.prominentGrievous = value
-                        Crutch.OnPlayerActivated()
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
                     name = "Show spears indicator",
                     tooltip = "Show an indicator for how many spears are revealed, sent, and orbs dunked",
                     default = true,
@@ -550,7 +527,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Kyne's Aegis",
-            controls = {
+            controls = Crutch.GetProminentSettings(1196, {
                 {
                     type = "checkbox",
                     name = "Show Exploding Spear landing spot",
@@ -604,7 +581,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                 },
-            },
+            }),
         },
         {
             type = "submenu",
@@ -747,7 +724,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Sunspire",
-            controls = {
+            controls = Crutch.GetProminentSettings(1121, {
                 {
                     type = "checkbox",
                     name = "Show Lokkestiiz HM beam position icons",
@@ -823,7 +800,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.sunspire.yolIconsSize = value
                     end,
                 },
-            }
+            }),
         },
 
         {
@@ -840,7 +817,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Dragonstar Arena",
-            controls = {
+            controls = Crutch.GetProminentSettings(635, {
                 {
                     type = "checkbox",
                     name = "Alert for NORMAL damage taken",
@@ -852,7 +829,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            }
+            }),
         },
         {
             type = "submenu",
