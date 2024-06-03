@@ -348,6 +348,7 @@ local prominentData = {
         [184540] = {
             event = EVENT_COMBAT_EVENT,
             filters = { -- Untested
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "CHAIN",
@@ -420,8 +421,9 @@ local prominentData = {
         -- Lava Whip (Imperial Dread Knight)
         [111161] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Verified
+            filters = { -- Need re-test with player filter
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
             text = "LAVA WHIP",
             color = {1, 0.6, 0},
