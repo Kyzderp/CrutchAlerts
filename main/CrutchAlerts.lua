@@ -128,6 +128,7 @@ local defaultOptions = {
         alertDarkness = true,
         showKnotTimer = true,
         showOrphicIcons = true,
+        orphicIconsNumbers = false,
         orphicIconSize = 150,
     },
     rockgrove = {

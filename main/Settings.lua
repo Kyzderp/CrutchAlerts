@@ -602,7 +602,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Orphic Shattered Shard mirror icons",
-                    tooltip = "Shows icons numbered 1~8 for each mirror on the Orphic Shattered Shard fight. Requires OdySupportIcons",
+                    tooltip = "Shows icons for each mirror on the Orphic Shattered Shard fight. Requires OdySupportIcons",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
                     setFunc = function(value)
@@ -613,9 +613,22 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return OSI == nil end,
                 },
                 {
+                    type = "checkbox",
+                    name = "    Orphic numbered icons",
+                    tooltip = "Uses numbers 1~8 instead of cardinal directions N/SW/etc. for the mirror icons",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.orphicIconsNumbers end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.orphicIconsNumbers = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
+                },
+                {
                     type = "slider",
                     name = "Orphic icon size",
-                    tooltip = "Updated size will show after the icons are hidden and shown again",
+                    tooltip = "The size of the mirror icons",
                     min = 20,
                     max = 300,
                     step = 10,

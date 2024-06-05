@@ -26,6 +26,10 @@ local function GetOrphicIconSize()
     return Crutch.savedOptions.lucentcitadel.orphicIconSize * 0.7 -- I created textures that take up the full 64x64
 end
 
+local function GetOrphicNumIconSize()
+    return Crutch.savedOptions.lucentcitadel.orphicIconSize
+end
+
 local function GetZhajIconsSize()
     return Crutch.savedOptions.mawoflorkhaj.zhajIconSize
 end
@@ -102,6 +106,15 @@ local data = {
     ["Orphic6"] = {x = 147477, y = 22869, z = 89756, texture = "CrutchAlerts/icons/assets/square_SW.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
     ["Orphic7"] = {x = 146628, y = 22867, z = 87851, texture = "CrutchAlerts/icons/assets/square_W.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
     ["Orphic8"] = {x = 147488, y = 22868, z = 86178, texture = "CrutchAlerts/icons/assets/square_NW.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+
+    ["OrphicNum1"] = {x = 149348, y = 22867, z = 85334, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
+    ["OrphicNum2"] = {x = 151041, y = 22864, z = 86169, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
+    ["OrphicNum3"] = {x = 151956, y = 22867, z = 87950, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
+    ["OrphicNum4"] = {x = 151169, y = 22864, z = 89708, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
+    ["OrphicNum5"] = {x = 149272, y = 22868, z = 90657, texture = "odysupporticons/icons/squares/squaretwo_red_five.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
+    ["OrphicNum6"] = {x = 147477, y = 22869, z = 89756, texture = "odysupporticons/icons/squares/squaretwo_red_six.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
+    ["OrphicNum7"] = {x = 146628, y = 22867, z = 87851, texture = "odysupporticons/icons/squares/squaretwo_red_seven.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
+    ["OrphicNum8"] = {x = 147488, y = 22868, z = 86178, texture = "odysupporticons/icons/squares/squaretwo_red_eight.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
 
     -- Zhaj'hassa
     -- except these are terrible... WIP

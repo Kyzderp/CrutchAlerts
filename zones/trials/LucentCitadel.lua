@@ -53,14 +53,25 @@ function Crutch.RegisterLucentCitadel()
     else
         -- Orphic Shattered Shard icons for mirrors
         if (Crutch.savedOptions.lucentcitadel.showOrphicIcons) then
-            Crutch.EnableIcon("Orphic1")
-            Crutch.EnableIcon("Orphic2")
-            Crutch.EnableIcon("Orphic3")
-            Crutch.EnableIcon("Orphic4")
-            Crutch.EnableIcon("Orphic5")
-            Crutch.EnableIcon("Orphic6")
-            Crutch.EnableIcon("Orphic7")
-            Crutch.EnableIcon("Orphic8")
+            if (Crutch.savedOptions.lucentcitadel.orphicIconsNumbers) then
+                Crutch.EnableIcon("OrphicNum1")
+                Crutch.EnableIcon("OrphicNum2")
+                Crutch.EnableIcon("OrphicNum3")
+                Crutch.EnableIcon("OrphicNum4")
+                Crutch.EnableIcon("OrphicNum5")
+                Crutch.EnableIcon("OrphicNum6")
+                Crutch.EnableIcon("OrphicNum7")
+                Crutch.EnableIcon("OrphicNum8")
+            else
+                Crutch.EnableIcon("Orphic1")
+                Crutch.EnableIcon("Orphic2")
+                Crutch.EnableIcon("Orphic3")
+                Crutch.EnableIcon("Orphic4")
+                Crutch.EnableIcon("Orphic5")
+                Crutch.EnableIcon("Orphic6")
+                Crutch.EnableIcon("Orphic7")
+                Crutch.EnableIcon("Orphic8")
+            end
         end
     end
 
@@ -89,6 +100,14 @@ function Crutch.UnregisterLucentCitadel()
     Crutch.DisableIcon("Orphic6")
     Crutch.DisableIcon("Orphic7")
     Crutch.DisableIcon("Orphic8")
+    Crutch.DisableIcon("OrphicNum1")
+    Crutch.DisableIcon("OrphicNum2")
+    Crutch.DisableIcon("OrphicNum3")
+    Crutch.DisableIcon("OrphicNum4")
+    Crutch.DisableIcon("OrphicNum5")
+    Crutch.DisableIcon("OrphicNum6")
+    Crutch.DisableIcon("OrphicNum7")
+    Crutch.DisableIcon("OrphicNum8")
 
     -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
