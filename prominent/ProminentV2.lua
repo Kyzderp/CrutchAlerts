@@ -218,6 +218,25 @@ local prominentData = {
                 checkOldForDefault = true,
             },
         },
+        -- Fate Sealer
+        [214136] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                filterFunction = function() return GetSelectedLFGRole() == LFG_ROLE_TANK end,
+            },
+            text = "FATE SEALER",
+            color = {1, 0, 1},
+            slot = 1,
+            playSound = true,
+            millis = 3000,
+            settings = {
+                name = "prominentFateSealer",
+                title = "Alert Fate Sealer",
+                description = "Shows a prominent alert when the Orphic Shattered Shard summons a Fate Sealer orb and you are a tank",
+                checkOldForDefault = false,
+            },
+        },
     },
 
     -----------------

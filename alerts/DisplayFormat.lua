@@ -58,6 +58,7 @@ Crutch.format = {
     [214203] = 500, -- Bleak Annihilation
     [214187] = 500, -- Brilliant Annihilation
     [214136] = 500, -- Fate Sealer
+    [219420] = 300, -- Smite (Cavot Agnan)
 
 -- Maw of Lorkhaj
     [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
