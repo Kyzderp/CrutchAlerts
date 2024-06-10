@@ -99,14 +99,14 @@ local data = {
     ["AnsuulCenter"] = {x = 200093, y = 30199, z = 40023, texture = "odysupporticons/icons/emoji-poop.dds", size = GetAnsuulIconSize, color = {1, 1, 1}},
 
     -- Mirrors on Orphic Shattered Shard
-    ["Orphic1"] = {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/icons/assets/N.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic2"] = {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/icons/assets/NE.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic3"] = {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/icons/assets/E.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic4"] = {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/icons/assets/SE.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic5"] = {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/icons/assets/S.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic6"] = {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/icons/assets/SW.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic7"] = {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/icons/assets/W.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
-    ["Orphic8"] = {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/icons/assets/NW.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+    ["OrphicN"] = {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/icons/assets/N.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+    ["OrphicNE"] = {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/icons/assets/NE.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+    ["OrphicE"] = {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/icons/assets/E.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+    ["OrphicSE"] = {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/icons/assets/SE.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+    ["OrphicS"] = {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/icons/assets/S.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+    ["OrphicSW"] = {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/icons/assets/SW.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+    ["OrphicW"] = {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/icons/assets/W.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
+    ["OrphicNW"] = {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/icons/assets/NW.dds", size = GetOrphicIconSize, color = {1, 1, 1}},
 
     ["OrphicNum1"] = {x = 149348, y = 22867, z = 85334, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},
     ["OrphicNum2"] = {x = 151041, y = 22864, z = 86169, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetOrphicNumIconSize, color = {1, 1, 1}},

@@ -54,23 +54,27 @@ function Crutch.RegisterLucentCitadel()
         -- Orphic Shattered Shard icons for mirrors
         if (Crutch.savedOptions.lucentcitadel.showOrphicIcons) then
             if (Crutch.savedOptions.lucentcitadel.orphicIconsNumbers) then
-                Crutch.EnableIcon("OrphicNum1")
+                if (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) then
+                    Crutch.EnableIcon("OrphicNum1")
+                    Crutch.EnableIcon("OrphicNum3")
+                    Crutch.EnableIcon("OrphicNum5")
+                    Crutch.EnableIcon("OrphicNum7")
+                end
                 Crutch.EnableIcon("OrphicNum2")
-                Crutch.EnableIcon("OrphicNum3")
                 Crutch.EnableIcon("OrphicNum4")
-                Crutch.EnableIcon("OrphicNum5")
                 Crutch.EnableIcon("OrphicNum6")
-                Crutch.EnableIcon("OrphicNum7")
                 Crutch.EnableIcon("OrphicNum8")
             else
-                Crutch.EnableIcon("Orphic1")
-                Crutch.EnableIcon("Orphic2")
-                Crutch.EnableIcon("Orphic3")
-                Crutch.EnableIcon("Orphic4")
-                Crutch.EnableIcon("Orphic5")
-                Crutch.EnableIcon("Orphic6")
-                Crutch.EnableIcon("Orphic7")
-                Crutch.EnableIcon("Orphic8")
+                if (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) then
+                    Crutch.EnableIcon("OrphicN")
+                    Crutch.EnableIcon("OrphicE")
+                    Crutch.EnableIcon("OrphicS")
+                    Crutch.EnableIcon("OrphicW")
+                end
+                Crutch.EnableIcon("OrphicNE")
+                Crutch.EnableIcon("OrphicSE")
+                Crutch.EnableIcon("OrphicSW")
+                Crutch.EnableIcon("OrphicNW")
             end
         end
     end
@@ -92,14 +96,14 @@ end
 
 function Crutch.UnregisterLucentCitadel()
     -- Orphic mirror icons
-    Crutch.DisableIcon("Orphic1")
-    Crutch.DisableIcon("Orphic2")
-    Crutch.DisableIcon("Orphic3")
-    Crutch.DisableIcon("Orphic4")
-    Crutch.DisableIcon("Orphic5")
-    Crutch.DisableIcon("Orphic6")
-    Crutch.DisableIcon("Orphic7")
-    Crutch.DisableIcon("Orphic8")
+    Crutch.DisableIcon("OrphicN")
+    Crutch.DisableIcon("OrphicNE")
+    Crutch.DisableIcon("OrphicE")
+    Crutch.DisableIcon("OrphicSE")
+    Crutch.DisableIcon("OrphicS")
+    Crutch.DisableIcon("OrphicSW")
+    Crutch.DisableIcon("OrphicW")
+    Crutch.DisableIcon("OrphicNW")
     Crutch.DisableIcon("OrphicNum1")
     Crutch.DisableIcon("OrphicNum2")
     Crutch.DisableIcon("OrphicNum3")
