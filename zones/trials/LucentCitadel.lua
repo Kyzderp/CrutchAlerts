@@ -43,6 +43,38 @@ end
 
 
 ---------------------------------------------------------------------
+-- Weakening Charge
+---------------------------------------------------------------------
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnWeakeningCharge(_, changeType, _, _, unitTag, beginTime, endTime)
+    local atName = GetUnitDisplayName(unitTag)
+    local tagNumber = string.gsub(unitTag, "group", "")
+    local tagId = tonumber(tagNumber)
+    local fakeSourceUnitId = 8880090 + tagId -- TODO: really gotta rework the alerts and stop hacking around like this
+
+    -- Gained
+    if (changeType == EFFECT_RESULT_GAINED) then
+        if (Crutch.savedOptions.general.showRaidDiag) then
+            Crutch.msg(zo_strformat("<<1>> got weakening charge", atName))
+        end
+
+        if (Crutch.savedOptions.lucentcitadel.showWeakeningCharge == "ALWAYS" or GetSelectedLFGRole() == LFG_ROLE_TANK) then
+            local label = zo_strformat("|ca361ff<<C:1>>: <<2>>|r", GetAbilityName(222613), atName)
+            Crutch.DisplayNotification(222613, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
+        end
+
+    -- Faded
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        if (Crutch.savedOptions.general.showRaidDiag) then
+            Crutch.msg(zo_strformat("<<1>> is no longer weakened", atName))
+        end
+
+        Crutch.Interrupted(fakeSourceUnitId)
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterLucentCitadel()
@@ -92,6 +124,13 @@ function Crutch.RegisterLucentCitadel()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 213477)
     end
+
+    -- Weakening Charge
+    if (Crutch.savedOptions.lucentcitadel.showWeakeningCharge ~= "NEVER") then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED, OnWeakeningCharge)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 222613)
+    end
 end
 
 function Crutch.UnregisterLucentCitadel()
@@ -115,6 +154,7 @@ function Crutch.UnregisterLucentCitadel()
 
     -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Lucent Citadel")
 end

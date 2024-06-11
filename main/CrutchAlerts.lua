@@ -130,6 +130,7 @@ local defaultOptions = {
         showOrphicIcons = true,
         orphicIconsNumbers = false,
         orphicIconSize = 150,
+        showWeakeningCharge = "TANK", -- "NEVER", "TANK", "ALWAYS"
     },
     rockgrove = {
         sludgeSides = true,

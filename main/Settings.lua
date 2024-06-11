@@ -653,6 +653,21 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "dropdown",
+                    name = "Show Weakening Charge timer",
+                    tooltip = "Shows an \"alert\" timer for Weakening Charge. If set to \"Tank Only\" it will display only if your LFG role is tank",
+                    choices = {"Never", "Tank Only", "Always"},
+                    choicesValues = {"NEVER", "TANK", "ALWAYS"},
+                    getFunc = function()
+                        return Crutch.savedOptions.lucentcitadel.showWeakeningCharge
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.showWeakeningCharge = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
         {
