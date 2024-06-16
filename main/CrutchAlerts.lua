@@ -117,6 +117,8 @@ local defaultOptions = {
     hallsoffabrication = {
         showTripletsIcon = true,
         tripletsIconSize = 150,
+        showAGIcons = true,
+        agIconsSize = 150,
     },
     kynesaegis = {
         showSpearIcon = true,

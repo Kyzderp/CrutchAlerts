@@ -18,6 +18,10 @@ local function GetTripletsIconSize()
     return Crutch.savedOptions.hallsoffabrication.tripletsIconSize
 end
 
+local function GetAGIconsSize()
+    return Crutch.savedOptions.hallsoffabrication.agIconSize
+end
+
 local function GetAnsuulIconSize()
     return Crutch.savedOptions.sanitysedge.ansuulIconSize
 end
@@ -94,6 +98,16 @@ local data = {
 
     -- Halls of Fabrication
     ["TripletsSafe"] = {x = 29758, y = 52950, z = 73169, texture = "odysupporticons/icons/emoji-poop.dds", size = GetTripletsIconSize, color = {1, 1, 1}},
+
+    -- Assembly General
+    ["AGN"] = {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/icons/assets/N.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGNE"] = {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/icons/assets/NE.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGE"] = {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/icons/assets/E.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGSE"] = {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/icons/assets/SE.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGS"] = {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/icons/assets/S.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGSW"] = {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/icons/assets/SW.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGW"] = {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/icons/assets/W.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGNW"] = {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/icons/assets/NW.dds", size = GetAGIconsSize, color = {1, 1, 1}},
 
     -- Sanity's Edge
     ["AnsuulCenter"] = {x = 200093, y = 30199, z = 40023, texture = "odysupporticons/icons/emoji-poop.dds", size = GetAnsuulIconSize, color = {1, 1, 1}},

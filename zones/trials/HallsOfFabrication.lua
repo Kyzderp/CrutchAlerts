@@ -46,6 +46,18 @@ function Crutch.RegisterHallsOfFabrication()
         if (Crutch.savedOptions.hallsoffabrication.showTripletsIcon) then
             Crutch.EnableIcon("TripletsSafe")
         end
+
+        -- AG icons
+        if (Crutch.savedOptions.hallsoffabrication.showAGIcons) then
+            Crutch.EnableIcon("AGN")
+            Crutch.EnableIcon("AGNE")
+            Crutch.EnableIcon("AGE")
+            Crutch.EnableIcon("AGSE")
+            Crutch.EnableIcon("AGS")
+            Crutch.EnableIcon("AGSW")
+            Crutch.EnableIcon("AGW")
+            Crutch.EnableIcon("AGNW")
+        end
     end
 end
 
@@ -56,6 +68,16 @@ function Crutch.UnregisterHallsOfFabrication()
 
     -- Triplets icon
     Crutch.DisableIcon("TripletsSafe")
+
+    -- AG icons
+    Crutch.DisableIcon("AGN")
+    Crutch.DisableIcon("AGNE")
+    Crutch.DisableIcon("AGE")
+    Crutch.DisableIcon("AGSE")
+    Crutch.DisableIcon("AGS")
+    Crutch.DisableIcon("AGSW")
+    Crutch.DisableIcon("AGW")
+    Crutch.DisableIcon("AGNW")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Halls of Fabrication")
 end

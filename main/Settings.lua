@@ -521,6 +521,35 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.hallsoffabrication.tripletsIconSize = value
                         Crutch.OnPlayerActivated()
                     end,
+                    disabled = function() return Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Assembly General icons",
+                    tooltip = "Shows icons in the world for execute positions. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.hallsoffabrication.showAGIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.hallsoffabrication.showAGIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Assembly General icons size",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = full,
+                    getFunc = function() return Crutch.savedOptions.hallsoffabrication.agIconsSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.hallsoffabrication.agIconsSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    disabled = function() return Crutch.savedOptions.hallsoffabrication.showAGIcons end,
                 },
             }),
         },
@@ -580,6 +609,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.kynesaegis.falgravnIconsSize = value
                         Crutch.OnPlayerActivated()
                     end,
+                    disabled = function() return not Crutch.savedOptions.kynesaegis.showFalgravnIcons end,
                 },
             }),
         },
@@ -746,6 +776,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.sanitysedge.ansuulIconSize = value
                         Crutch.OnPlayerActivated()
                     end,
+                    disabled = function() return not Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
                 },
             }),
         },
@@ -827,6 +858,7 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.sunspire.yolIconsSize = value
                     end,
+                    disabled = function() return Crutch.savedOptions.sunspire.yolLeftIcons end,
                 },
             }),
         },

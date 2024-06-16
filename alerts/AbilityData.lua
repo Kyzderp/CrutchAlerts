@@ -120,8 +120,7 @@ Crutch.testing = {
     [197434] = true, -- Grasp of Lorkhaj (EA; the debuff, does it work?)
     [197418] = true, -- Grip of Lorkhaj (EA; the cast)
 
-    [213477] = true, -- Arcane Knot
-    -- [214338] = true, -- Darkness Inflicted
+    [218285] = true, -- Gloomy Impact ("buff"?)
 }
 
 ---------------------------------------------------------------------
@@ -206,7 +205,7 @@ Crutch.others = {
     [214203] = true, -- Bleak Annihilation
     [214187] = true, -- Brilliant Annihilation
     [214136] = true, -- Fate Sealer
-    -- [214311] = true, -- Fate Sealer
+    [218285] = true, -- Gloomy Impact ("buff"?)
 
 -- Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field
