@@ -205,7 +205,7 @@ Crutch.others = {
     [214203] = true, -- Bleak Annihilation
     [214187] = true, -- Brilliant Annihilation
     [214136] = true, -- Fate Sealer
-    [218285] = true, -- Gloomy Impact ("buff"?)
+    -- [218285] = true, -- Gloomy Impact ("buff"?)
 
 -- Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field

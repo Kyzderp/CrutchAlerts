@@ -19,7 +19,7 @@ local function GetTripletsIconSize()
 end
 
 local function GetAGIconsSize()
-    return Crutch.savedOptions.hallsoffabrication.agIconSize
+    return Crutch.savedOptions.hallsoffabrication.agIconsSize * 0.8
 end
 
 local function GetAnsuulIconSize()
@@ -100,14 +100,14 @@ local data = {
     ["TripletsSafe"] = {x = 29758, y = 52950, z = 73169, texture = "odysupporticons/icons/emoji-poop.dds", size = GetTripletsIconSize, color = {1, 1, 1}},
 
     -- Assembly General
-    ["AGN"] = {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/icons/assets/N.dds", size = GetAGIconsSize, color = {1, 1, 1}},
-    ["AGNE"] = {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/icons/assets/NE.dds", size = GetAGIconsSize, color = {1, 1, 1}},
-    ["AGE"] = {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/icons/assets/E.dds", size = GetAGIconsSize, color = {1, 1, 1}},
-    ["AGSE"] = {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/icons/assets/SE.dds", size = GetAGIconsSize, color = {1, 1, 1}},
-    ["AGS"] = {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/icons/assets/S.dds", size = GetAGIconsSize, color = {1, 1, 1}},
-    ["AGSW"] = {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/icons/assets/SW.dds", size = GetAGIconsSize, color = {1, 1, 1}},
-    ["AGW"] = {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/icons/assets/W.dds", size = GetAGIconsSize, color = {1, 1, 1}},
-    ["AGNW"] = {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/icons/assets/NW.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGN"] = {x = 75001, y = 54955, z = 69658, texture = "CrutchAlerts/icons/assets/N.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGNE"] = {x = 75610, y = 54919, z = 69394, texture = "odysupporticons/icons/squares/squaretwo_green_one.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGE"] = {x = 75380, y = 54955, z = 69982, texture = "CrutchAlerts/icons/assets/E.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGSE"] = {x = 75601, y = 54919, z = 70600, texture = "odysupporticons/icons/squares/squaretwo_green_two.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGS"] = {x = 75006, y = 54956, z = 70319, texture = "CrutchAlerts/icons/assets/S.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGSW"] = {x = 74410, y = 54918, z = 70614, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGW"] = {x = 74630, y = 54956, z = 70005, texture = "CrutchAlerts/icons/assets/W.dds", size = GetAGIconsSize, color = {1, 1, 1}},
+    ["AGNW"] = {x = 74405, y = 54919, z = 69422, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetAGIconsSize, color = {1, 1, 1}},
 
     -- Sanity's Edge
     ["AnsuulCenter"] = {x = 200093, y = 30199, z = 40023, texture = "odysupporticons/icons/emoji-poop.dds", size = GetAnsuulIconSize, color = {1, 1, 1}},

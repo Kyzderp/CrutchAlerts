@@ -521,7 +521,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.hallsoffabrication.tripletsIconSize = value
                         Crutch.OnPlayerActivated()
                     end,
-                    disabled = function() return Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
+                    disabled = function() return not Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
                 },
                 {
                     type = "checkbox",
@@ -549,7 +549,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.hallsoffabrication.agIconsSize = value
                         Crutch.OnPlayerActivated()
                     end,
-                    disabled = function() return Crutch.savedOptions.hallsoffabrication.showAGIcons end,
+                    disabled = function() return not Crutch.savedOptions.hallsoffabrication.showAGIcons end,
                 },
             }),
         },
@@ -821,6 +821,7 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.sunspire.lokkIconsSize = value
                     end,
+                    disabled = function() return not Crutch.savedOptions.sunspire.showLokkIcons end,
                 },
                 {
                     type = "checkbox",
@@ -858,7 +859,7 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.sunspire.yolIconsSize = value
                     end,
-                    disabled = function() return Crutch.savedOptions.sunspire.yolLeftIcons end,
+                    disabled = function() return not Crutch.savedOptions.sunspire.showYolIcons end,
                 },
             }),
         },

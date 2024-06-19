@@ -120,7 +120,7 @@ local prominentData = {
         -- Direct Current (Pinnacle interruptible)
         [90876] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "INTERRUPT",
@@ -138,13 +138,14 @@ local prominentData = {
         -- Reclaim the Ruined (Adds spawn)
         [90499] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Needs filters
+            filters = { -- Verified
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_FADED, -- Use FADED because they take forever to become damageable
             },
             text = "ADDS",
             color = {1, 0.2, 0.2},
             slot = 1,
             playSound = false,
-            millis = 6000,
+            millis = 2000,
             settings = {
                 name = "prominentReclaimTheRuined",
                 title = "Alert Reclaim the Ruined",
@@ -155,7 +156,8 @@ local prominentData = {
         -- Stomp (Assembly General)
         [91454] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Needs filters
+            filters = { -- Verified
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "BLOCK",
             color = {1, 0.2, 0.2},
