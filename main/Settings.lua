@@ -185,7 +185,7 @@ function Crutch:CreateSettingsMenu()
                     max = 20,
                     step = 1,
                     default = 10,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.bossHealthBar.scale * 10 end,
                     setFunc = function(value)
                         Crutch.savedOptions.bossHealthBar.scale = value / 10
@@ -455,7 +455,7 @@ function Crutch:CreateSettingsMenu()
                     max = 20,
                     step = 1,
                     default = 7,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.dreadsailreef.staticThreshold end,
                     setFunc = function(value)
                         Crutch.savedOptions.dreadsailreef.staticThreshold = value
@@ -482,7 +482,7 @@ function Crutch:CreateSettingsMenu()
                     max = 20,
                     step = 1,
                     default = 6,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.dreadsailreef.volatileThreshold end,
                     setFunc = function(value)
                         Crutch.savedOptions.dreadsailreef.volatileThreshold = value
@@ -515,7 +515,7 @@ function Crutch:CreateSettingsMenu()
                     max = 300,
                     step = 10,
                     default = 150,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.hallsoffabrication.tripletsIconSize end,
                     setFunc = function(value)
                         Crutch.savedOptions.hallsoffabrication.tripletsIconSize = value
@@ -543,7 +543,7 @@ function Crutch:CreateSettingsMenu()
                     max = 300,
                     step = 10,
                     default = 150,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.hallsoffabrication.agIconsSize end,
                     setFunc = function(value)
                         Crutch.savedOptions.hallsoffabrication.agIconsSize = value
@@ -603,7 +603,7 @@ function Crutch:CreateSettingsMenu()
                     max = 300,
                     step = 10,
                     default = 150,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.kynesaegis.falgravnIconsSize end,
                     setFunc = function(value)
                         Crutch.savedOptions.kynesaegis.falgravnIconsSize = value
@@ -663,7 +663,7 @@ function Crutch:CreateSettingsMenu()
                     max = 300,
                     step = 10,
                     default = 150,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.orphicIconSize end,
                     setFunc = function(value)
                         Crutch.savedOptions.lucentcitadel.orphicIconSize = value
@@ -770,7 +770,7 @@ function Crutch:CreateSettingsMenu()
                     max = 300,
                     step = 10,
                     default = 150,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.sanitysedge.ansuulIconSize end,
                     setFunc = function(value)
                         Crutch.savedOptions.sanitysedge.ansuulIconSize = value
@@ -816,7 +816,7 @@ function Crutch:CreateSettingsMenu()
                     max = 300,
                     step = 10,
                     default = 150,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.sunspire.lokkIconsSize end,
                     setFunc = function(value)
                         Crutch.savedOptions.sunspire.lokkIconsSize = value
@@ -854,7 +854,7 @@ function Crutch:CreateSettingsMenu()
                     max = 300,
                     step = 10,
                     default = 150,
-                    width = full,
+                    width = "full",
                     getFunc = function() return Crutch.savedOptions.sunspire.yolIconsSize end,
                     setFunc = function(value)
                         Crutch.savedOptions.sunspire.yolIconsSize = value

@@ -315,7 +315,7 @@ end
 -- EVENT_RAID_TRIAL_STARTED (number eventCode, string trialName, boolean weekly)
 local function OnStarted()
     scoreBatch = {}
-    currentWing = wing
+    currentWing = nil
     gateIndex = 0
 end
 

@@ -19,7 +19,9 @@ local prominentData = {
         -- Direct Current (Relequen interruptible)
         [105380] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Needs filters
+            filters = { -- Verified
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                filterFunction = function(hitValue) return hitValue > 1000 end, -- Otherwise it fires twice, once for the initial cast probably
             },
             text = "INTERRUPT", 
             color = {0.5, 1, 1}, 
@@ -36,7 +38,8 @@ local prominentData = {
         -- Glacial Spikes (Galenwe interruptible)
         [106405] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Needs filters
+            filters = { -- Verified
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "INTERRUPT",
             color = {0.5, 1, 1},
@@ -53,7 +56,8 @@ local prominentData = {
         -- Creeper spawn
         [105016] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Needs filters
+            filters = { -- Untested modified, but probably correct
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "CREEPER",
             color = {0.5, 1, 0.5},
@@ -95,7 +99,7 @@ local prominentData = {
         -- Cascading Boot (Dreadsail Overseer)
         [170188] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Untested, but probably correct
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -302,7 +306,8 @@ local prominentData = {
         -- Threshing Wings (Rakkhat)
         [73741] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Needs filters
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "BLOCK",
             color = {1, 0.9, 0.66},
@@ -749,7 +754,7 @@ function Crutch.RegisterProminents(zoneId)
                 end
 
                 if (abilityData.filters and abilityData.filters.filterFunction) then
-                    if (not abilityData.filters.filterFunction()) then
+                    if (not abilityData.filters.filterFunction(hitValue)) then
                         return
                     end
                 end
