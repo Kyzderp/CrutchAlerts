@@ -230,7 +230,7 @@ local trialThresholds = {
     },
 
 -- Lucent Citadel
-    ["Orphic Shattered Shard"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_ORPHIC_SHATTERED_SHARD)] = {
         [90] = "Color Change",
         [60] = "Color Change",
         [40] = "Color Change",
