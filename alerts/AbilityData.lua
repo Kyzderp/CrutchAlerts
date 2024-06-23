@@ -120,7 +120,8 @@ Crutch.testing = {
     [197434] = true, -- Grasp of Lorkhaj (EA; the debuff, does it work?)
     [197418] = true, -- Grip of Lorkhaj (EA; the cast)
 
-    [218285] = true, -- Gloomy Impact ("buff"?)
+    [214311] = true, -- Fate Sealer (first one gained by pillar?)
+    [214344] = true, -- Fate Sealer (second one gained by pillar?)
 }
 
 ---------------------------------------------------------------------
@@ -140,6 +141,16 @@ Crutch.noSpamZone = {
     -- [1082] = true, -- Blackrose Prison
     -- [1121] = true, -- Sunspire
     -- [1196] = true, -- Kyne's Aegis
+}
+
+
+---------------------------------------------------------------------
+-- Normally we don't listen for ACTION_RESULT_GAINED_DURATION, but timers can be useful in some cases
+Crutch.gainedDuration = {
+-- Lucent Citadel
+    [218285] = true, -- Gloomy Impact (first one)
+    [223331] = true, -- Gloomy Impact (second one)
+    [222609] = true, -- Gloomy Impact (Knot)
 }
 
 
@@ -205,7 +216,8 @@ Crutch.others = {
     [214203] = true, -- Bleak Annihilation
     [214187] = true, -- Brilliant Annihilation
     [214136] = true, -- Fate Sealer
-    -- [218285] = true, -- Gloomy Impact ("buff"?)
+    -- [214311] = true, -- Fate Sealer (first one gained by pillar?)
+    -- [214344] = true, -- Fate Sealer (second one gained by pillar?)
 
 -- Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field

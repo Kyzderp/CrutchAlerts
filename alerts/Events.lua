@@ -213,10 +213,26 @@ function Crutch.RegisterGained()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, OnCombatEventAll)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, function(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+    --     if (targetType == COMBAT_UNIT_TYPE_PLAYER) then
+    --         if (Crutch.gainedDuration[abilityId]) then
+    --             OnCombatEventAll(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+    --         else
+    --         end
+    --     end
+    -- end)
+    -- I don't understand why adding this filter is seemingly preventing all? events that appear to match the filter from being received.
+    -- So I think this event has never worked. For now, I'm working around it by manually filtering the unit type above and with specific
+    -- ability IDs only.
+    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
+    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
+    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+
+    RegisterData(Crutch.gainedDuration, "Duration", ACTION_RESULT_EFFECT_GAINED_DURATION, nil, function(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)
+        if (targetType == COMBAT_UNIT_TYPE_PLAYER) then
+            OnCombatEventAll(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+        end
+    end)
 
     Crutch.registered.gained = true
 end
@@ -313,7 +329,13 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
     if (sourceType) then
         sourceString = (sourceStrings[sourceType] or tostring(sourceType))
     end
-    Crutch.dbgSpam(string.format("|cFF8888Test %s(%d): %s(%d) in %d on %s (%d). %s %s|r",
+
+    local targetString = ""
+    if (targetType) then
+        targetString = (sourceStrings[targetType] or tostring(targetType))
+    end
+
+    Crutch.dbgSpam(string.format("|cFF8888Test %s(%d): %s(%d) in %d on %s (%d). %s.%s %s|r",
         sourceName,
         sourceUnitId,
         FormatAbilityName(abilityId),
@@ -322,6 +344,7 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
         targetName,
         targetUnitId,
         sourceString,
+        targetString,
         resultString))
 
     if (result == ACTION_RESULT_BEGIN) then
