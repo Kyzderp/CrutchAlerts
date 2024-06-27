@@ -215,13 +215,6 @@ local function IsShadeUp(unitTag)
 end
 
 ---------------------------------------------------------------------
--- STOP REZZING
----------------------------------------------------------------------
-local function OnGrievousRetaliation()
-    Crutch.DisplayProminent(104646)
-end
-
----------------------------------------------------------------------
 -- Diagnostics
 ---------------------------------------------------------------------
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
@@ -285,14 +278,6 @@ function Crutch.RegisterCloudrest()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 102271)
 
-    -- Register taking damage from Grievous Retaliation
-    if (Crutch.savedOptions.cloudrest.prominentGrievous) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GrievousRetaliation", EVENT_COMBAT_EVENT, OnGrievousRetaliation)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GrievousRetaliation", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GrievousRetaliation", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GrievousRetaliation", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 104646)
-    end
-
     -- Register summoning portal
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, function()
         spearsRevealed = 0
@@ -350,7 +335,6 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GrievousRetaliation", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT)
 

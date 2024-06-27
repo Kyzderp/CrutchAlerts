@@ -156,7 +156,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
 
     if (type(timer) ~= "number") then
         timer = 1000
-        d("|cFF0000Warning: timer is not number, setting to 1000|r")
+        Crutch.dbgOther("|cFF0000Warning: timer is not number, setting to 1000|r")
     end
     sourceName = zo_strformat("<<1>>", sourceName)
 
