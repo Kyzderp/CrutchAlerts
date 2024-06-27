@@ -158,7 +158,7 @@ function Crutch.EnableIcon(name)
 
     local iconData = data[name]
     if (not iconData) then
-        d("|cFF0000Invalid icon name " .. name .. "|r")
+        Crutch.dbgOther("|cFF0000Invalid icon name " .. name .. "|r")
         return
     end
 
