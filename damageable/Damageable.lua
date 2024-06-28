@@ -10,6 +10,18 @@ local SUBTITLE_CHANNELS = {
 
 -- TODO: migrate these to lang files
 local SUBTITLE_TIMES = {
+-- CR
+    ["Z'Maja"] = {
+        --["I won't be beaten! I'll smash this amulet if that's what it takes."] = 14.5,
+        ["You challenge the power of the Sea Sload? It shall be your last mistake."] = 7.5, -- Untested
+        ["You dare fight against darkness itself? Foolish."] = 7.5, -- Untested
+        ["The shadows answer to me now."] = 7.5, -- Untested
+        ["Cloudrest has already fallen. And so too shall you."] = 7.5, -- Untested
+        ["Soon, my shadows shall spread to all of Summerset!"] = 7.5, -- Untested
+        ["Do you truly think you can stand against my shadows?"] = 7.5, -- Untested
+        ["Darkness shall reign across Summerset!"] = 7.5, -- Untested
+        ["I can wait. After all, your deaths are inevitable."] = 7.5, -- Untested
+    },
 -- DSR
     ["Turlassil"] = {
         -- Lylanar and Turlassil
@@ -134,6 +146,8 @@ local SUBTITLE_TIMES = {
         -- Pinnacle
         ["Interesting. These devices have all reset themselves. I didn't do that."] = 16.0,
         ["Interessant. Diese Maschinen haben sich alle zurückgesetzt. Das war nicht ich."] = 16.0,
+        -- Assembly General
+        ["Well, well. Now that's the second largest construct I've ever seen. Inactive, at the moment."] = 26.4,
     },
 -- LC
     ["Xoryn"] = {
@@ -168,6 +182,21 @@ local SUBTITLE_TIMES = {
         -- Archwizard Twelvane and Chimera
         ["Why do you still hesitate, Vanton?"] = 6.8,
     },
+    ["Warlock Vanton"] = {
+        -- 2nd boss - Gryphon
+        ["The gryphon is strong, but you may be stronger."] = 6.5, -- Untested
+        ["You tamed the gryphon. It's vulnerable."] = 6.5, -- Untested
+        ["You did it? You woke the gryphon?"] = 6.5, -- Untested
+        -- 2nd boss - Wamasu
+        ["You have the wamasu's power?"] = 6.5, -- Untested
+        ["You beat the wamasu. Please don't die now."] = 6.5, -- Untested
+        ["The wamasu's power can turn against the chimera!"] = 6.5, -- Untested
+        -- 2nd boss - Lion
+        ["You beat the house of the lion?"] = 6.5, -- Untested
+        ["Did you take the lion's fire?"] = 6.5, -- Untested
+        -- Ansuul the Tormentor
+        ["Who are you? Are you one of hers? She's hurting me."] = 13, -- Untested
+    },
 
 -- SS
     ["Nahviintaas"] = {
@@ -177,6 +206,17 @@ local SUBTITLE_TIMES = {
     },
 
 -- VH
+    ["Shade of the Grove"] = {
+        -- Shade of the Grove - Position 1
+        ["You wish to challenge the Hunter's Grove? Very well—begin!"] = 3.8, -- Untested
+        ["Do not wilt from this challenge, hunter."] = 3.8, -- Untested
+        ["You face the full might of the hunt!"] = 3.8, -- Untested
+        ["Are you predator or prey, hunter?"] = 3.8, -- Untested
+        -- Shade of the Grove - Position 2
+        ["I embody life! I cannot be defeated!"] = 4.1, -- Untested
+        ["This shell brings your death!"] = 4.1, -- Untested
+        ["This new host serves me better!"] = 4.1, -- Untested
+    },
     ["Aydolan"] = {
         -- Maebroogha the Void Lich
         ["You made it all the way to the end! Only one final challenge left. Me!"] = 12.7,
@@ -214,6 +254,10 @@ local SUBTITLE_TIMES = {
         -- Blood Twilight
         ["Gut gemacht, Talfyg. Ihr habt mir eine Tochter von Verandis gebracht. Wie erbeten. Sie wird die Armee unseres Fürsten gut ergänzen."] = 19.2,
     },
+    ["Talfyg"] = {
+        -- Talfyg
+        ["How dare you reject Lady Thorn's offer? Look! Tremble before the power you might have wielded!"] = 8, -- Untested
+    },
 
 -- Lair of Maarselok
     ["Selene"] = {
@@ -230,6 +274,18 @@ local SUBTITLE_TIMES = {
         ["You think this place intimidates me? I am the forge's fire."] = 21.6,
     },
 
+-- Red Petal Bastion
+    ["Lyranth"] = {
+        -- Rogerain the Sly
+        ["I expected greater resistance. It seems the Silver Rose are short on more than servants."] = 12.6, -- Untested
+        -- Prior Thierric Sarazen
+        ["I feel a surge in the Daedric power. It's gathering."] = 22, -- Untested
+    },
+    ["Prior Thierric Sarazen"] = {
+        -- Eliam Merick
+        ["Does the heathen priest believe he can stand in the way of our divine purpose?"] = 21.8, -- Untested
+    },
+
 -- Scrivener’s Hall
     ["Riftmaster Naqri"] = {
         -- Riftmaster Naqri - 1st boss
@@ -240,6 +296,17 @@ local SUBTITLE_TIMES = {
         ["Let's be done with this. I have important tasks to see to."] = 4.5,
         ["What are you waiting for? Keshargo? Come and get him."] = 4.6,
         ["You live? Let's fix that, shall we?"] = 5,
+    },
+
+-- The Cauldron
+    ["Baron Zaudrus"] = {
+        ["What you want is right here, Lyranth. Come take it."] = 13.7, -- Untested
+    },
+
+-- The Dread Cellar
+    ["Martus Tullius"] = {
+        -- Magma Incarnate
+        ["The Daedra are pouring their energy into that machine!"] = 9.5, -- Untested
     },
 
 -- Overland
