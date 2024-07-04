@@ -91,6 +91,7 @@ Crutch.filter = {
     [192024] = function(hitValue) return hitValue > 2400 end, -- Glass Sky (Tho'at Shard (Mantikora))
     [192641] = function(hitValue) return hitValue > 1900 end, -- Paralyzing STomp [sic] (Death's Leviathan) 2000 for initial, extra 1900 after
     [202374] = function(hitValue) return hitValue > 1500 end, -- Pound (Bone Colossus) 2300 for initial, then does an extra 1500 after
+    [215107] = function(hitValue) return hitValue == 1200 end, -- Tempest (Xoryn) want it as soon as he casts, not after the cast when gained duration
 }
 
 
@@ -120,8 +121,8 @@ Crutch.testing = {
     [197434] = true, -- Grasp of Lorkhaj (EA; the debuff, does it work?)
     [197418] = true, -- Grip of Lorkhaj (EA; the cast)
 
-    [214311] = true, -- Fate Sealer (first one gained by pillar?)
-    [214344] = true, -- Fate Sealer (second one gained by pillar?)
+    [214138] = true, -- Fate Sealer (from logs, maybe full duration?)
+    [215107] = true, -- Tempest
 }
 
 ---------------------------------------------------------------------
@@ -218,6 +219,9 @@ Crutch.others = {
     [214136] = true, -- Fate Sealer
     -- [214311] = true, -- Fate Sealer (first one gained by pillar?)
     -- [214344] = true, -- Fate Sealer (second one gained by pillar?)
+    [214138] = true, -- Fate Sealer (from logs, maybe full duration?)
+    [215107] = true, -- Tempest
+    [214355] = true, -- Lightning Flood (Xoryn cone)
 
 -- Maw of Lorkhaj
     [ 73700] = true, -- Eclipse Field

@@ -2,14 +2,14 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 ---------------------------------------------------------------------
--- Trash
+-- Orphic
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
--- local function OnDarknessInflicted(_, changeType)
---     if (changeType == EFFECT_RESULT_GAINED) then
---         Crutch.DisplayProminent(888007)
---     end
--- end
+local function OnFateSealerFaded(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unitId)
+    if (changeType == EFFECT_RESULT_FADED) then
+        Crutch.Interrupted(unitId)
+    end
+end
 
 
 ---------------------------------------------------------------------
@@ -58,6 +58,7 @@ local function OnWeakeningCharge(_, changeType, _, _, unitTag, beginTime, endTim
             Crutch.msg(zo_strformat("<<1>> got weakening charge", atName))
         end
 
+        -- Event is not registered if NEVER, so the only other option is TANK
         if (Crutch.savedOptions.lucentcitadel.showWeakeningCharge == "ALWAYS" or GetSelectedLFGRole() == LFG_ROLE_TANK) then
             local label = zo_strformat("|ca361ff<<C:1>>: <<2>>|r", GetAbilityName(222613), atName)
             Crutch.DisplayNotification(222613, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
@@ -111,12 +112,9 @@ function Crutch.RegisterLucentCitadel()
         end
     end
 
-    -- Darkness Inflicted
-    -- if (Crutch.savedOptions.lucentcitadel.alertDarkness) then
-    --     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, OnDarknessInflicted)
-    --     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-    --     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214338)
-    -- end
+    -- Orphic Fate Sealer effect faded, to remove the timer. TODO: stop using hacks and actually support this in a struct
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED, OnFateSealerFaded)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214138)
 
     -- Arcane Knot
     if (Crutch.savedOptions.lucentcitadel.showKnotTimer) then
@@ -152,7 +150,7 @@ function Crutch.UnregisterLucentCitadel()
     Crutch.DisableIcon("OrphicNum7")
     Crutch.DisableIcon("OrphicNum8")
 
-    -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DarknessInflicted", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED)
 

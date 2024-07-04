@@ -59,6 +59,12 @@ Crutch.format = {
     [214187] = 500, -- Brilliant Annihilation
     [214136] = 500, -- Fate Sealer
     [219420] = 300, -- Smite (Cavot Agnan)
+    [222071] = 400, -- Heavy Shock
+    [214138] = 520.1, -- Fate Sealer (very long gained duration, but it seems to explode at 20.1s)
+    [218285] = 800, -- Gloomy Impact (first one)
+    [223331] = 800, -- Gloomy Impact (second one)
+    [222609] = 800, -- Gloomy Impact (Knot)
+    [215107] = 408.8, -- Tempest
 
 -- Maw of Lorkhaj
     [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
