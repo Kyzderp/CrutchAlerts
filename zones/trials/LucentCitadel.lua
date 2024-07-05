@@ -76,6 +76,76 @@ end
 
 
 ---------------------------------------------------------------------
+-- Mirror Icons
+---------------------------------------------------------------------
+-- Orphic Shattered Shard icons for mirrors
+local function EnableMirrorIcons()
+    Crutch.dbgOther("enabling mirror icons")
+    if (Crutch.savedOptions.lucentcitadel.showOrphicIcons) then
+        if (Crutch.savedOptions.lucentcitadel.orphicIconsNumbers) then
+            if (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) then
+                Crutch.EnableIcon("OrphicNum1")
+                Crutch.EnableIcon("OrphicNum3")
+                Crutch.EnableIcon("OrphicNum5")
+                Crutch.EnableIcon("OrphicNum7")
+            end
+            Crutch.EnableIcon("OrphicNum2")
+            Crutch.EnableIcon("OrphicNum4")
+            Crutch.EnableIcon("OrphicNum6")
+            Crutch.EnableIcon("OrphicNum8")
+        else
+            if (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) then
+                Crutch.EnableIcon("OrphicN")
+                Crutch.EnableIcon("OrphicE")
+                Crutch.EnableIcon("OrphicS")
+                Crutch.EnableIcon("OrphicW")
+            end
+            Crutch.EnableIcon("OrphicNE")
+            Crutch.EnableIcon("OrphicSE")
+            Crutch.EnableIcon("OrphicSW")
+            Crutch.EnableIcon("OrphicNW")
+        end
+    end
+end
+
+local function DisableMirrorIcons()
+    Crutch.dbgOther("disabling mirror icons")
+    Crutch.DisableIcon("OrphicN")
+    Crutch.DisableIcon("OrphicNE")
+    Crutch.DisableIcon("OrphicE")
+    Crutch.DisableIcon("OrphicSE")
+    Crutch.DisableIcon("OrphicS")
+    Crutch.DisableIcon("OrphicSW")
+    Crutch.DisableIcon("OrphicW")
+    Crutch.DisableIcon("OrphicNW")
+    Crutch.DisableIcon("OrphicNum1")
+    Crutch.DisableIcon("OrphicNum2")
+    Crutch.DisableIcon("OrphicNum3")
+    Crutch.DisableIcon("OrphicNum4")
+    Crutch.DisableIcon("OrphicNum5")
+    Crutch.DisableIcon("OrphicNum6")
+    Crutch.DisableIcon("OrphicNum7")
+    Crutch.DisableIcon("OrphicNum8")
+end
+
+local mirrorsEnabled = false
+local function TryEnablingMirrorIcons()
+    local bossName = GetUnitName("boss1")
+    if (bossName and zo_strformat(SI_UNIT_NAME, bossName) == Crutch.GetCapitalizedString(CRUTCH_BHB_ORPHIC_SHATTERED_SHARD)) then
+        if (not mirrorsEnabled) then
+            EnableMirrorIcons()
+            mirrorsEnabled = true
+        end
+    else
+        if (mirrorsEnabled) then
+            DisableMirrorIcons()
+            mirrorsEnabled = true
+        end
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterLucentCitadel()
@@ -84,32 +154,8 @@ function Crutch.RegisterLucentCitadel()
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
     else
-        -- Orphic Shattered Shard icons for mirrors
-        if (Crutch.savedOptions.lucentcitadel.showOrphicIcons) then
-            if (Crutch.savedOptions.lucentcitadel.orphicIconsNumbers) then
-                if (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) then
-                    Crutch.EnableIcon("OrphicNum1")
-                    Crutch.EnableIcon("OrphicNum3")
-                    Crutch.EnableIcon("OrphicNum5")
-                    Crutch.EnableIcon("OrphicNum7")
-                end
-                Crutch.EnableIcon("OrphicNum2")
-                Crutch.EnableIcon("OrphicNum4")
-                Crutch.EnableIcon("OrphicNum6")
-                Crutch.EnableIcon("OrphicNum8")
-            else
-                if (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) then
-                    Crutch.EnableIcon("OrphicN")
-                    Crutch.EnableIcon("OrphicE")
-                    Crutch.EnableIcon("OrphicS")
-                    Crutch.EnableIcon("OrphicW")
-                end
-                Crutch.EnableIcon("OrphicNE")
-                Crutch.EnableIcon("OrphicSE")
-                Crutch.EnableIcon("OrphicSW")
-                Crutch.EnableIcon("OrphicNW")
-            end
-        end
+        TryEnablingMirrorIcons()
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED, TryEnablingMirrorIcons)
     end
 
     -- Orphic Fate Sealer effect faded, to remove the timer. TODO: stop using hacks and actually support this in a struct
@@ -132,27 +178,13 @@ function Crutch.RegisterLucentCitadel()
 end
 
 function Crutch.UnregisterLucentCitadel()
-    -- Orphic mirror icons
-    Crutch.DisableIcon("OrphicN")
-    Crutch.DisableIcon("OrphicNE")
-    Crutch.DisableIcon("OrphicE")
-    Crutch.DisableIcon("OrphicSE")
-    Crutch.DisableIcon("OrphicS")
-    Crutch.DisableIcon("OrphicSW")
-    Crutch.DisableIcon("OrphicW")
-    Crutch.DisableIcon("OrphicNW")
-    Crutch.DisableIcon("OrphicNum1")
-    Crutch.DisableIcon("OrphicNum2")
-    Crutch.DisableIcon("OrphicNum3")
-    Crutch.DisableIcon("OrphicNum4")
-    Crutch.DisableIcon("OrphicNum5")
-    Crutch.DisableIcon("OrphicNum6")
-    Crutch.DisableIcon("OrphicNum7")
-    Crutch.DisableIcon("OrphicNum8")
-
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED)
+
+    -- Orphic mirror icons
+    DisableMirrorIcons()
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Lucent Citadel")
 end

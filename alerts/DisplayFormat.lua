@@ -65,6 +65,7 @@ Crutch.format = {
     [223331] = 800, -- Gloomy Impact (second one)
     [222609] = 800, -- Gloomy Impact (Knot)
     [215107] = 408.8, -- Tempest
+    [214355] = 400, -- Lightning Flood (Xoryn cone)
 
 -- Maw of Lorkhaj
     [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
