@@ -7,7 +7,14 @@ local Crutch = CrutchAlerts
 -- Currently unused controls for notifications: {[1] = {source = sourceUnitId, expireTime = 1235345, interrupted = true, abilityId = 12345}}
 local freeControls = {}
 
--- Currently displaying source to index {[sourceUnitId] = {[abilityId] = {index = index, preventOverwrite = true},}}
+-- Currently displaying source to index
+--[[
+{
+    [sourceUnitId] = {
+        [abilityId] = {index = index, preventOverwrite = true},
+    },
+}
+]]
 local displaying = {}
 
 -- Poll every 100ms when one is active
@@ -235,40 +242,58 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     end
 end
 
+local function AdjustControlsOnInterrupt(unitId, abilityId)
+    if (Crutch.uninterruptible[abilityId]) then -- Some abilities show up as immediately interrupted, don't do that
+        return
+    end
+
+    local data = displaying[unitId][abilityId]
+    local index = data.index
+    if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
+        freeControls[index].interrupted = true
+
+        -- Only show "stopped" if it hasn't already expired naturally
+        -- i.e. if the current time is not yet within 100ms of the expire time
+        if (GetGameTimeMilliseconds() < freeControls[index].expireTime - 100) then
+            freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
+
+            -- Set the text to "stopped"
+            local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
+            local labelControl = lineControl:GetNamedChild("Label")
+            labelControl:SetWidth(800)
+            labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
+            labelControl:SetWidth(labelControl:GetTextWidth())
+            lineControl:GetNamedChild("Timer"):SetText("")
+        end
+    end
+
+    -- Also cancel the prominent display if there is one--though this is unlikely, since most prominents have been moved to V2
+    if (Crutch.prominentDisplaying[abilityId]) then
+        local slot = Crutch.prominentDisplaying[abilityId]
+        local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
+        control:SetHidden(true)
+        Crutch.prominentDisplaying[abilityId] = nil
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "Prominent" .. tostring(slot))
+    end
+end
+
 -- To be called when an enemy is interrupted
 function Crutch.Interrupted(targetUnitId)
     if (not displaying[targetUnitId]) then
         return
     end
 
-    for abilityId, data in pairs(displaying[targetUnitId]) do
-        if (not Crutch.uninterruptible[abilityId]) then -- Some abilities show up as immediately interrupted, don't do that
-            local index = data.index
-            if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
-                freeControls[index].interrupted = true
+    for abilityId, _ in pairs(displaying[targetUnitId]) do
+        AdjustControlsOnInterrupt(targetUnitId, abilityId)
+    end
+end
 
-                -- Only show "stopped" if it hasn't already expired naturally
-                -- i.e. if the current time is not yet within 100ms of the expire time
-                if (GetGameTimeMilliseconds() < freeControls[index].expireTime - 100) then
-                    freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
-
-                    -- Set the text to "stopped"
-                    local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
-                    local labelControl = lineControl:GetNamedChild("Label")
-                    labelControl:SetWidth(800)
-                    labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
-                    labelControl:SetWidth(labelControl:GetTextWidth())
-                    lineControl:GetNamedChild("Timer"):SetText("")
-                end
-            end
-
-            if (Crutch.prominentDisplaying[abilityId]) then
-                local slot = Crutch.prominentDisplaying[abilityId]
-                local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
-                control:SetHidden(true)
-                Crutch.prominentDisplaying[abilityId] = nil
-                EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "Prominent" .. tostring(slot))
-            end
+-- To be called when an ability by any enemy is interrupted
+function Crutch.InterruptAbility(abilityId)
+    -- Check through all displaying alerts to find matching ability IDs
+    for unitId, unitData in pairs(displaying) do
+        if (unitData[abilityId]) then
+            AdjustControlsOnInterrupt(unitId, abilityId)
         end
     end
 end

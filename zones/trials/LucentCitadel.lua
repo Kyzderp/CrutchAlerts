@@ -5,9 +5,9 @@ local Crutch = CrutchAlerts
 -- Orphic
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-local function OnFateSealerFaded(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unitId)
+local function OnFateSealerFaded(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unitId, abilityId)
     if (changeType == EFFECT_RESULT_FADED) then
-        Crutch.Interrupted(unitId)
+        Crutch.InterruptAbility(abilityId)
     end
 end
 
@@ -139,7 +139,7 @@ local function TryEnablingMirrorIcons()
     else
         if (mirrorsEnabled) then
             DisableMirrorIcons()
-            mirrorsEnabled = true
+            mirrorsEnabled = false
         end
     end
 end
