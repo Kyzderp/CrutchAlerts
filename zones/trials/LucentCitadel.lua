@@ -80,7 +80,6 @@ end
 ---------------------------------------------------------------------
 -- Orphic Shattered Shard icons for mirrors
 local function EnableMirrorIcons()
-    Crutch.dbgOther("enabling mirror icons")
     if (Crutch.savedOptions.lucentcitadel.showOrphicIcons) then
         if (Crutch.savedOptions.lucentcitadel.orphicIconsNumbers) then
             if (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) then
@@ -109,7 +108,6 @@ local function EnableMirrorIcons()
 end
 
 local function DisableMirrorIcons()
-    Crutch.dbgOther("disabling mirror icons")
     Crutch.DisableIcon("OrphicN")
     Crutch.DisableIcon("OrphicNE")
     Crutch.DisableIcon("OrphicE")
@@ -146,6 +144,36 @@ end
 
 
 ---------------------------------------------------------------------
+-- Tempest Icons
+---------------------------------------------------------------------
+local function EnableTempestIcons()
+    Crutch.EnableIcon("TempestH1")
+    Crutch.EnableIcon("Tempest1")
+    Crutch.EnableIcon("Tempest2")
+    Crutch.EnableIcon("Tempest3")
+    Crutch.EnableIcon("Tempest4")
+    Crutch.EnableIcon("TempestH2")
+    Crutch.EnableIcon("Tempest5")
+    Crutch.EnableIcon("Tempest6")
+    Crutch.EnableIcon("Tempest7")
+    Crutch.EnableIcon("Tempest8")
+end
+
+local function DisableTempestIcons()
+    Crutch.DisableIcon("TempestH1")
+    Crutch.DisableIcon("Tempest1")
+    Crutch.DisableIcon("Tempest2")
+    Crutch.DisableIcon("Tempest3")
+    Crutch.DisableIcon("Tempest4")
+    Crutch.DisableIcon("TempestH2")
+    Crutch.DisableIcon("Tempest5")
+    Crutch.DisableIcon("Tempest6")
+    Crutch.DisableIcon("Tempest7")
+    Crutch.DisableIcon("Tempest8")
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterLucentCitadel()
@@ -155,6 +183,9 @@ function Crutch.RegisterLucentCitadel()
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
     else
         TryEnablingMirrorIcons()
+        if (Crutch.savedOptions.lucentcitadel.showTempestIcons) then
+            EnableTempestIcons()
+        end
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED, TryEnablingMirrorIcons)
     end
 
@@ -183,8 +214,9 @@ function Crutch.UnregisterLucentCitadel()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED)
 
-    -- Orphic mirror icons
+    -- Icons
     DisableMirrorIcons()
+    DisableTempestIcons()
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Lucent Citadel")
 end

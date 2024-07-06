@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "1.0.1"
+Crutch.version = "1.1.0"
 
 Crutch.registered = {
     begin = false,
@@ -133,6 +133,8 @@ local defaultOptions = {
         orphicIconsNumbers = false,
         orphicIconSize = 150,
         showWeakeningCharge = "TANK", -- "NEVER", "TANK", "ALWAYS"
+        showTempestIcons = true,
+        tempestIconsSize = 150,
     },
     rockgrove = {
         sludgeSides = true,

@@ -698,6 +698,35 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Xoryn Tempest position icons",
+                    tooltip = "Shows icons for group member positions on the Xoryn fight for Tempest. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.showTempestIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.showTempestIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Xoryn Tempest icon size",
+                    tooltip = "The size of the Tempest icons",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.tempestIconsSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.tempestIconsSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    disabled = function() return not Crutch.savedOptions.lucentcitadel.showTempestIcons end,
+                },
             }),
         },
         {
