@@ -127,9 +127,12 @@ local function DisableMirrorIcons()
 end
 
 local mirrorsEnabled = false
+-- Enable Orphic mirror icons if the boss is present
 local function TryEnablingMirrorIcons()
-    local bossName = GetUnitName("boss1")
-    if (bossName and zo_strformat(SI_UNIT_NAME, bossName) == Crutch.GetCapitalizedString(CRUTCH_BHB_ORPHIC_SHATTERED_SHARD)) then
+    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    if (powerMax == 97802032 -- Hardmode
+        or powerMax == 65201356 -- Veteran
+        or powerMax == 21812840) then -- Normal
         if (not mirrorsEnabled) then
             EnableMirrorIcons()
             mirrorsEnabled = true
@@ -172,21 +175,101 @@ local function DisableTempestIcons()
     Crutch.DisableIcon("Tempest8")
 end
 
+local tempestEnabled = false
+-- Enable Tempest icons on vet if it's the start of the trial or Xoryn is present
+local function TryEnablingTempestIcons()
+    -- Tempest isn't important enough on normal
+    if (GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_VETERAN) then
+        return
+    end
+
+    -- In case this was reloaded at the beginning of the trial
+    if (not tempestEnabled and GetCurrentRaidScore() == 36000 and GetCurrentRaidLifeScoreBonus() == 36000) then
+        EnableTempestIcons()
+        tempestEnabled = true
+        return
+    end
+
+    -- Else, check for Xoryn
+    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    if (powerMax == 118759584 -- Hardmode
+        or powerMax == 69858576) then -- Veteran
+        if (not tempestEnabled) then
+            EnableTempestIcons()
+            tempestEnabled = true
+        end
+    else
+        if (tempestEnabled) then
+            DisableTempestIcons()
+            tempestEnabled = false
+        end
+    end
+end
+
 
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
+local function GetUnitNameIfExists(unitTag)
+    if (DoesUnitExist(unitTag)) then
+        return GetUnitName(unitTag)
+    end
+end
+
+local prevBosses = ""
 function Crutch.RegisterLucentCitadel()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Lucent Citadel")
 
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
     else
-        TryEnablingMirrorIcons()
-        if (Crutch.savedOptions.lucentcitadel.showTempestIcons) then
-            EnableTempestIcons()
+        local showOrphic = Crutch.savedOptions.lucentcitadel.showOrphicIcons
+        local showTempest = Crutch.savedOptions.lucentcitadel.showTempestIcons
+
+        -- In case we reload at Orphic
+        if (showOrphic) then TryEnablingMirrorIcons() end
+
+        -- In case we reload at Xoryn... for some reason
+        if (showTempest) then
+            TryEnablingTempestIcons()
+
+            --  Show tempest icons when the trial starts...
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCTrialStarted", EVENT_RAID_TRIAL_STARTED, function()
+                if (not tempestEnabled) then
+                    EnableTempestIcons()
+                    tempestEnabled = true
+                end
+            end)
+            -- ... and hide them once adds are killed
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE, function(_, scoreUpdateReason)
+                if (scoreUpdateReason == RAID_POINT_REASON_KILL_BANNERMEN) then
+                    if (tempestEnabled) then
+                        DisableTempestIcons()
+                        tempestEnabled = false
+                    end
+                    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE)
+                end
+            end)
         end
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED, TryEnablingMirrorIcons)
+
+        -- Show icons on certain bosses
+        if (showOrphic or showTempest) then
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED, function()
+                -- Only do this when the bosses actually change
+                local bossHash = ""
+                for i = 1, MAX_BOSSES do
+                    local name = GetUnitNameIfExists("boss" .. tostring(i))
+                    if (name and name ~= "") then
+                        bossHash = bossHash .. name
+                    end
+                end
+                if (bossHash == prevBosses) then return end
+                prevBosses = bossHash
+
+                if (showOrphic) then TryEnablingMirrorIcons() end
+                if (showTempest) then TryEnablingTempestIcons() end
+            end)
+        end
     end
 
     -- Orphic Fate Sealer effect faded, to remove the timer. TODO: stop using hacks and actually support this in a struct
@@ -213,6 +296,8 @@ function Crutch.UnregisterLucentCitadel()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCTrialStarted", EVENT_RAID_TRIAL_STARTED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE)
 
     -- Icons
     DisableMirrorIcons()

@@ -701,7 +701,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Xoryn Tempest position icons",
-                    tooltip = "Shows icons for group member positions on the Xoryn fight for Tempest. Requires OdySupportIcons",
+                    tooltip = "Shows icons for group member positions on the Xoryn fight for Tempest (and at the beginning of the trial, for practice purposes). Requires OdySupportIcons",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.showTempestIcons end,
                     setFunc = function(value)

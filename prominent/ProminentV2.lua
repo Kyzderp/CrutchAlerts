@@ -306,7 +306,7 @@ local prominentData = {
         -- Threshing Wings (Rakkhat)
         [73741] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "BLOCK",

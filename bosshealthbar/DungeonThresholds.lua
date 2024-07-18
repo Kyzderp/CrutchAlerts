@@ -274,7 +274,7 @@ local dungeonThresholds = {
     },
     [GetBossName(CRUTCH_BHB_WARLORD_TZOGVIN)] = {
         [70] = "Heat Field", -- TODO
-        [30] = "Whirlwinds", -- TODO
+        [35] = "Whirlwinds", -- TODO it's probably 35 or 40
     },
     [GetBossName(CRUTCH_BHB_VAULT_PROTECTOR)] = {
         -- bunch of different %s from different guides again
