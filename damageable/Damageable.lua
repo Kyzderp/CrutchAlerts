@@ -147,7 +147,7 @@ local SUBTITLE_TIMES = {
         ["Interesting. These devices have all reset themselves. I didn't do that."] = 16.0,
         ["Interessant. Diese Maschinen haben sich alle zurückgesetzt. Das war nicht ich."] = 16.0,
         -- Assembly General
-        ["Well, well. Now that's the second largest construct I've ever seen. Inactive, at the moment."] = 26.4,
+        ["Well, well. Now that's the second largest construct I've ever seen. Inactive, at the moment."] = 26.4,  -- TODO: I was given 19.2, but I think it's 26.4... need testing
     },
 -- LC
     ["Xoryn"] = {

@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "1.1.0"
+Crutch.version = "1.2.0"
 
 Crutch.registered = {
     begin = false,
