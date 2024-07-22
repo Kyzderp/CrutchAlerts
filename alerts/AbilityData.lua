@@ -123,6 +123,7 @@ Crutch.testing = {
 
     [214138] = true, -- Fate Sealer (from logs, maybe full duration?)
     [215107] = true, -- Tempest
+    [223060] = true, -- Arcane Conveyance
 }
 
 ---------------------------------------------------------------------

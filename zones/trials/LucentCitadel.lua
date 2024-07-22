@@ -43,6 +43,25 @@ end
 
 
 ---------------------------------------------------------------------
+-- Icons for Arcane Conveyance
+---------------------------------------------------------------------
+local function OnArcaneConveyance(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId, abilityId, _)
+    local atName = GetUnitDisplayName(unitTag)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        -- Gained Arcane Conveyance
+        local iconPath = "odysupporticons/icons/lightning-bolt.dds"
+
+        Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
+        Crutch.SetMechanicIconForUnit(atName, iconPath)
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        -- Lost Arcane Conveyance
+        Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
+        Crutch.RemoveMechanicIconForUnit(atName)
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Weakening Charge
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
@@ -270,6 +289,11 @@ function Crutch.RegisterLucentCitadel()
                 if (showTempest) then TryEnablingTempestIcons() end
             end)
         end
+
+        -- Icon for Arcane Conveyance
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyance", EVENT_EFFECT_CHANGED, OnArcaneConveyance)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyance", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223060)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyance", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     end
 
     -- Orphic Fate Sealer effect faded, to remove the timer. TODO: stop using hacks and actually support this in a struct
@@ -293,6 +317,7 @@ end
 
 function Crutch.UnregisterLucentCitadel()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyance", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED)
