@@ -128,9 +128,14 @@ local function DrawLineBetweenControls(first, second)
     line:SetTransformRotationZ(-angle)
 end
 
+-- Override OSI.OnUpdate to draw the line after the normal update is done
 local origOSIUpdate
 local function DrawLineBetweenPlayers(atName1, atName2)
     origOSIUpdate = OSI.OnUpdate
+    if (line) then
+        line:SetHidden(false)
+    end
+
     OSI.OnUpdate = function(...)
         origOSIUpdate(...)
         DrawLineBetweenControls(OSI.GetIconForPlayer(atName1).ctrl, OSI.GetIconForPlayer(atName2).ctrl)
@@ -140,52 +145,17 @@ local function DrawLineBetweenPlayers(atName1, atName2)
     OSI.StartPolling()
 end
 Crutch.DrawLineBetweenPlayers = DrawLineBetweenPlayers
--- /script CrutchAlerts.DrawLineBetweenPlayers("@Kyzeragon", "@Kyzeragone")
 
+-- Remove line by restoring the original OSI.OnUpdate
 local function RemoveLine()
     OSI.OnUpdate = origOSIUpdate
     OSI.StartPolling()
+    if (line) then
+        line:SetHidden(true)
+    end
 end
 Crutch.RemoveLine = RemoveLine
--- /script CrutchAlerts.RemoveLine()
 
-local function DrawLineTest()
-    if (line == nil) then
-        local win = CreateTopLevelWindow("TestMain")
-        line = WINDOW_MANAGER:CreateControl("$(parent)Line", win, CT_CONTROL)
-        local backdrop = WINDOW_MANAGER:CreateControl("$(parent)Backdrop", line, CT_BACKDROP)
-        backdrop:SetAnchorFill()
-        backdrop:SetCenterColor(1, 0, 1, 1)
-        backdrop:SetEdgeColor(1, 1, 1, 1)
-    end
-
-    local x1, _ = wolf.ctrl:GetCenter()
-    local y1 = wolf.ctrl:GetBottom()
-    local x2, _ = poop.ctrl:GetCenter()
-    local y2 = poop.ctrl:GetBottom()
-    
-    -- The midpoint between the two icons
-    local centerX = (x1 + x2) / 2
-    local centerY = (y1 + y2) / 2
-    line:ClearAnchors()
-    line:SetAnchor(CENTER, GuiRoot, TOPLEFT, centerX, centerY)
-    d("setting at", centerX, centerY)
-
-    -- Set the length of the line and rotate it
-    local x = x2 - x1
-    local y = y2 - y1
-    local length = math.sqrt(x*x + y*y)
-    line:SetDimensions(length, 10)
-    local angle = math.atan(y/x)
-    line:SetTransformRotationZ(-angle)
-end
-Crutch.DrawLineTest = DrawLineTest
---[[
-/script local zoneId, worldX, worldY, worldZ = GetUnitRawWorldPosition( "player" ) poop = OSI.CreatePositionIcon(worldX, worldY, worldZ, "odysupporticons/icons/emoji-poop.dds", 100)
-/script local zoneId, worldX, worldY, worldZ = GetUnitRawWorldPosition( "player" ) wolf = OSI.CreatePositionIcon(worldX, worldY, worldZ, "odysupporticons/icons/wolf.dds", 100)
-/script CrutchAlerts.DrawLineTest()
-/script d("wolf", wolf.ctrl:GetCenter(), wolf.ctrl:GetBottom(), "poop", poop.ctrl:GetCenter(), poop.ctrl:GetBottom(), "line", line:GetCenter(), line:GetBottom())
-]]
 
 ---------------------------------------------------------------------
 -- Init

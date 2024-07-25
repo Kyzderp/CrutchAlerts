@@ -56,7 +56,7 @@ local prominentData = {
         -- Creeper spawn
         [105016] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested modified, but probably correct
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "CREEPER",
@@ -74,7 +74,7 @@ local prominentData = {
         -- Grievous Retaliation
         [104646] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_DAMAGE,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -184,7 +184,7 @@ local prominentData = {
         -- Booger
         [136548] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_FADED,
                 filterFunction = function() return GetSelectedLFGRole() == LFG_ROLE_TANK end,
             },
