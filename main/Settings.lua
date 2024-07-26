@@ -684,6 +684,32 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "checkbox",
+                    name = "Show Arcane Conveyance icons",
+                    tooltip = "Shows icons above group members who are about to or have already received the Arcane Conveyance tether from Dariel Lemonds. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.showArcaneConveyance end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.showArcaneConveyance = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Arcane Conveyance tether",
+                    tooltip = "Shows a line connecting the icons above group members who are about to or have already received the Arcane Conveyance tether from Dariel Lemonds",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.showArcaneConveyanceTether end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.showArcaneConveyanceTether = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.lucentcitadel.showArcaneConveyance end,
+                },
+                {
                     type = "dropdown",
                     name = "Show Weakening Charge timer",
                     tooltip = "Shows an \"alert\" timer for Weakening Charge. If set to \"Tank Only\" it will display only if your LFG role is tank",

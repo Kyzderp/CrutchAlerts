@@ -15,8 +15,8 @@ local function SelfMechanicUnitErrorCheck(...)
     return error
 end
 
-function Crutch.SetMechanicIconForUnit(atName, iconPath)
-    OSI.SetMechanicIconForUnit(atName, iconPath)
+function Crutch.SetMechanicIconForUnit(atName, iconPath, size, color)
+    OSI.SetMechanicIconForUnit(atName, iconPath, size, color)
 
     if (not origOSIUnitErrorCheck and atName == GetUnitDisplayName("player")) then
         Crutch.dbgSpam("Overriding OSI.UnitErrorCheck to show mechanic for self")
@@ -93,7 +93,7 @@ local function OnCombatStateChanged(_, inCombat)
 end
 
 ---------------------------------------------------------------------
--- OSI.OnUpdate
+-- Override OSI.OnUpdate to draw an extra line
 ---------------------------------------------------------------------
 local line
 local function DrawLineBetweenControls(first, second)
@@ -131,30 +131,38 @@ end
 -- Override OSI.OnUpdate to draw the line after the normal update is done
 local origOSIUpdate
 local function DrawLineBetweenPlayers(atName1, atName2)
-    origOSIUpdate = OSI.OnUpdate
+    Crutch.dbgOther(zo_strformat("drawing line between <<1>> and <<2>>", atName1, atName2))
     if (line) then
         line:SetHidden(false)
     end
 
-    OSI.OnUpdate = function(...)
-        origOSIUpdate(...)
-        DrawLineBetweenControls(OSI.GetIconForPlayer(atName1).ctrl, OSI.GetIconForPlayer(atName2).ctrl)
-    end
+    -- In case this is called twice in a row without a RemoveLine in between
+    if (not origOSIUpdate) then
+        origOSIUpdate = OSI.OnUpdate
 
-    -- Since the function is registered directly for polling, we need to restart the polling with the replaced func
-    OSI.StartPolling()
+        OSI.OnUpdate = function(...)
+            origOSIUpdate(...)
+            DrawLineBetweenControls(OSI.GetIconForPlayer(atName1).ctrl, OSI.GetIconForPlayer(atName2).ctrl)
+        end
+
+        -- Since the function is registered directly for polling, we need to restart the polling with the replaced func
+        OSI.StartPolling()
+    end
 end
-Crutch.DrawLineBetweenPlayers = DrawLineBetweenPlayers
+Crutch.DrawLineBetweenPlayers = DrawLineBetweenPlayers -- /script CrutchAlerts.DrawLineBetweenPlayers("@", "@")
 
 -- Remove line by restoring the original OSI.OnUpdate
 local function RemoveLine()
-    OSI.OnUpdate = origOSIUpdate
-    OSI.StartPolling()
+    if (origOSIUpdate) then
+        OSI.OnUpdate = origOSIUpdate
+        origOSIUpdate = nil
+        OSI.StartPolling()
+    end
     if (line) then
         line:SetHidden(true)
     end
 end
-Crutch.RemoveLine = RemoveLine
+Crutch.RemoveLine = RemoveLine -- /script CrutchAlerts.RemoveLine()
 
 
 ---------------------------------------------------------------------

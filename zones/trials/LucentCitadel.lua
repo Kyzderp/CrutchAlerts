@@ -53,15 +53,15 @@ end
 local conveyanceDisplaying1, conveyanceDisplaying2 -- @ name of player if there is some kind of conveyance on them
 
 local function AddArcaneConveyanceToPlayer(atName)
-    if (conveyanceDisplaying1 == atName) then
+    if (conveyanceDisplaying1 == atName or conveyanceDisplaying2 == atName) then
         -- If this is the same player, do nothing because it's already displaying
         return
     end
 
-    local iconPath = "odysupporticons/icons/lightning-bolt.dds"
+    local iconPath = "esoui/art/trials/vitalitydepletion.dds"
 
     Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-    Crutch.SetMechanicIconForUnit(atName, iconPath)
+    Crutch.SetMechanicIconForUnit(atName, iconPath, 150, {1, 0, 1})
 
 
     if (not conveyanceDisplaying1) then
@@ -345,17 +345,19 @@ function Crutch.RegisterLucentCitadel()
         end
 
         -- Icons for Arcane Conveyance
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223028)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        if (Crutch.savedOptions.lucentcitadel.showArcaneConveyance) then
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223028)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223029)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223029)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, OnArcaneConveyanceTether)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223060)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, OnArcaneConveyanceTether)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223060)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        end
     end
 
     -- Orphic Fate Sealer effect faded, to remove the timer. TODO: stop using hacks and actually support this in a struct

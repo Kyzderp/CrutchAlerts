@@ -135,6 +135,8 @@ local defaultOptions = {
         showWeakeningCharge = "TANK", -- "NEVER", "TANK", "ALWAYS"
         showTempestIcons = true,
         tempestIconsSize = 150,
+        showArcaneConveyance = true,
+        showArcaneConveyanceTether = true,
     },
     rockgrove = {
         sludgeSides = true,
