@@ -259,11 +259,29 @@ local SUBTITLE_TIMES = {
         ["How dare you reject Lady Thorn's offer? Look! Tremble before the power you might have wielded!"] = 8, -- Untested
     },
 
+-- Depths of Malatar
+    ["The Weeping Woman"] = {
+        ["For her, we kept it hidden from our brethren and buried them with our tears. Here you too will drown."] = 11.1,
+    } ,
+    ["Tharayya"] = {
+        -- King Narilmor
+        ["Feel that? A chill breeze. We must be nearing an exit!"] = 23,
+    },
+
 -- Lair of Maarselok
     ["Selene"] = {
         -- Selene fight (bear, spider)
         ["Now for payment in kind. It's my turn to study your insides, warlock!"] = 4.8,
         ["Nun zu meiner Vergeltung. Jetzt studiere ich Eure Eingeweide, Hexer!"] = 4.8,
+    },
+
+-- Moongrave Fane
+    ["Nisaazda"] = {
+        -- Kujo Kethba
+        ["This one won't have to."] = 12.8,
+    },
+    ["Grundwulf"] = {
+        ["I can feel it! Haha"] = 19, -- TODO
     },
 
 -- Oathsworn Pit
