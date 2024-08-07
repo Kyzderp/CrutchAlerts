@@ -15,6 +15,17 @@ end
 ---------------------------------------------------------------------
 local arenaThresholds = {
 -- Blackrose Prison
+    -- TODO: localization
+    ["Tames-the-Beast"] = {
+        [60] = "Mini", -- TODO: 2nd arena: haj/wamasu; 4th arena: wamasu/haj
+        [40] = "Mini",
+    },
+    ["Lady Minara"] = { -- TODO: only on 3rd arena. does boss tag take care of this?
+        [80] = "Infuser",
+        [60] = "Colossus",
+        [40] = "Colossus + Infuser",
+        [20] = "Colossus + Infusers",
+    },
 
 -- Dragonstar Arena
     [GetBossName(CRUTCH_BHB_CHAMPION_MARCAULD)] = {

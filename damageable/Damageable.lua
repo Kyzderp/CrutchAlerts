@@ -13,14 +13,14 @@ local SUBTITLE_TIMES = {
 -- CR
     ["Z'Maja"] = {
         --["I won't be beaten! I'll smash this amulet if that's what it takes."] = 14.5,
-        ["You challenge the power of the Sea Sload? It shall be your last mistake."] = 7.5, -- Untested
+        ["You challenge the power of the Sea Sload? It shall be your last mistake."] = 7.5,
         ["You dare fight against darkness itself? Foolish."] = 7.5, -- Untested
-        ["The shadows answer to me now."] = 7.5, -- Untested
         ["Cloudrest has already fallen. And so too shall you."] = 7.5, -- Untested
-        ["Soon, my shadows shall spread to all of Summerset!"] = 7.5, -- Untested
-        ["Do you truly think you can stand against my shadows?"] = 7.5, -- Untested
         ["Darkness shall reign across Summerset!"] = 7.5, -- Untested
-        ["I can wait. After all, your deaths are inevitable."] = 7.5, -- Untested
+        -- ["Soon, my shadows shall spread to all of Summerset!"] = 7.5, -- Untested -- this is an idle voice line
+        -- ["The shadows answer to me now."] = 7.5, -- Untested -- this is an idle voice line
+        -- ["Do you truly think you can stand against my shadows?"] = 7.5, -- Untested -- this is an idle voice line
+        -- ["I can wait. After all, your deaths are inevitable."] = 7.5, -- Untested -- this is an idle voice line
     },
 -- DSR
     ["Turlassil"] = {
@@ -268,6 +268,22 @@ local SUBTITLE_TIMES = {
         ["Feel that? A chill breeze. We must be nearing an exit!"] = 23,
     },
 
+-- Earthen Root Enclave
+    ["Druid Laurel"] = {
+        -- Archdruid Devyric
+        ["He's killing the spirit. He has the seed. Stop him. Please stop him!"] = 12.8, -- TODO
+    },
+
+-- Falkreath Hold
+    ["Cernunnon"] = {
+        -- Deathlord Bjarfrud Skjoralmor
+        ["Wake, little Jarl. See how your kingdom burns? Reap your vengeance."] = 8.3,
+    },
+    ["Jarl Skjoralmor"] = {
+        -- Domihaus the Bloody-Horned
+        ["I said to keep the fight out there! Oh, you aren't my guards. Nor are you Reachmen. We've won then?"] = 13.6,
+    },
+
 -- Lair of Maarselok
     ["Selene"] = {
         -- Selene fight (bear, spider)
@@ -424,13 +440,13 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
 
     local time = lines[text]
     if (time) then
-        -- d("Found time using exact string")
+        Crutch.dbgSpam("Found time using exact string: " .. text)
     else
         -- Check each one using string.find
         for line, t in pairs(lines) do
             if (string.find(text, line, 1, true)) then
                 time = t
-                -- d("Found time using find")
+                Crutch.dbgSpam("Found time using find: " .. text)
             end
         end
 

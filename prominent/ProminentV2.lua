@@ -227,7 +227,7 @@ local prominentData = {
         -- Fate Sealer
         [214136] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 filterFunction = function() return GetSelectedLFGRole() == LFG_ROLE_TANK end,
             },
@@ -324,7 +324,7 @@ local prominentData = {
         -- Unstable Void (Rakkhat)
         [74488] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED,
             },
@@ -332,7 +332,7 @@ local prominentData = {
             color = {1, 0, 0},
             slot = 2,
             playSound = true,
-            millis = 1000,
+            millis = 2000,
             settings = {
                 name = "prominentUnstableVoid",
                 title = "Alert Unstable Void",
@@ -373,7 +373,7 @@ local prominentData = {
         -- Chain Pull (Exarchanic Yaseyla)
         [184540] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
@@ -398,7 +398,7 @@ local prominentData = {
         -- Shield Charge (Ruin of Alkosh)
         [117075] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -417,7 +417,7 @@ local prominentData = {
         -- Sundering Gale (Eternal Servant)
         [121422] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },

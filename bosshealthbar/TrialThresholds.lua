@@ -47,7 +47,7 @@ local trialThresholds = {
 
 -- Aetherian Archive
     [GetBossName(CRUTCH_BHB_THE_MAGE)] = {
-        [15] = "Arcane Vortex",
+        [16] = "Knockdown", -- Not sure of the exact %, but it seems to be between 16 and 18
     },
 
 -- Sanctum Ophidia
