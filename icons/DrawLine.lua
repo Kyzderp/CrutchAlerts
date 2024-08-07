@@ -11,6 +11,8 @@ local Crutch = CrutchAlerts
 -- position is far enough behind the camera, and therefore I can't
 -- naively draw a line between 2 player icons, because one or both
 -- could be hidden or have outdated coords.
+--
+-- Returns: x, y, isInFront (of camera)
 ---------------------------------------------------------------------
 local function GetViewCoordinates(wX, wY, wZ)
     -- prepare render space
@@ -56,7 +58,7 @@ local function GetViewCoordinates(wX, wY, wZ)
     -- camera object is still conveyed. I don't claim to know anything about this math though...
     local w, h = GetWorldDimensionsOfViewFrustumAtDepth(math.abs(pZ))
 
-    return pX * uiW / w, -pY * uiH / h
+    return pX * uiW / w, -pY * uiH / h, pZ > 0
 end
 
 
@@ -109,10 +111,20 @@ local function DrawLineBetweenPlayers(unitTag1, unitTag2)
             origOSIUpdate(...)
             local x, y, z
             _, x, y, z = GetUnitRawWorldPosition(unitTag1)
-            local x1, y1 = GetViewCoordinates(x, y + 100, z) -- about waist level to better match real tethers
+            local x1, y1, isInFront1 = GetViewCoordinates(x, y + 100, z) -- about waist level to better match real tethers
             _, x, y, z = GetUnitRawWorldPosition(unitTag2)
-            local x2, y2 = GetViewCoordinates(x, y + 100, z)
-            DrawLineBetweenControls(x1, y1, x2, y2)
+            local x2, y2, isInFront2 = GetViewCoordinates(x, y + 100, z)
+
+            if (not isInFront1 and not isInFront2) then
+                if (line) then
+                    line:SetHidden(true) -- If both players are behind, it just makes a weird line
+                end
+            else
+                if (line) then
+                    line:SetHidden(false)
+                end
+                DrawLineBetweenControls(x1, y1, x2, y2)
+            end
         end
 
         -- Since the function is registered directly for polling, we need to restart the polling with the replaced func
