@@ -104,7 +104,7 @@ Crutch.uninterruptible = {
     [ 94757] = true, -- Overloading Aura (Reactor)
     [ 91019] = true, -- Phase 1.1 (Assembly General)
     [192024] = true, -- Glass Sky (Tho'at Shard (Mantikora)) this could be interrupted when it dies, but I'd rather not have the timer disappear
-    [ 73250] = true, -- Shattered in MoL
+    -- [ 73250] = true, -- Shattered in MoL -- idr why I made this uninterruptible?
     [203989] = true, -- Hurl Axe (Anthelmir's Construct)
 }
 

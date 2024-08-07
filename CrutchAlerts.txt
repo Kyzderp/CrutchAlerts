@@ -53,6 +53,7 @@ damageable/Damageable.lua
 alerts/AbilityData.lua
 alerts/Core.lua
 alerts/DisplayFormat.lua
+alerts/Effects.lua
 alerts/Events.lua
 alerts/Fatecarver.lua
 

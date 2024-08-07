@@ -222,12 +222,14 @@ local function OnPlayerActivated()
         zoneUnregisters[Crutch.zoneId]()
     end
     Crutch.UnregisterProminents(Crutch.zoneId)
+    Crutch.UnregisterEffects(Crutch.zoneId)
 
     -- Register current active trial, if applicable
     if (zoneRegisters[zoneId]) then
         zoneRegisters[zoneId]()
     end
     Crutch.RegisterProminents(zoneId)
+    Crutch.RegisterEffects(zoneId)
 
     Crutch.zoneId = zoneId
 end
@@ -251,6 +253,7 @@ end
 local function Initialize()
     -- Settings and saved variables
     Crutch.AddProminentDefaults()
+    Crutch.AddEffectDefaults()
     Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
     if (Crutch.savedOptions.prominentV2FirstTime) then
         Crutch.InitProminentV2Options()

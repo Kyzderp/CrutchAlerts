@@ -165,7 +165,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         timer = 1000
         Crutch.dbgOther("|cFF0000Warning: timer is not number, setting to 1000|r")
     end
-    sourceName = zo_strformat("<<1>>", sourceName)
+    sourceName = zo_strformat("<<1>> <<2>>", sourceUnitId, sourceName)
 
     local index = 0
     -- Overwrite existing cast of the same ability
@@ -283,6 +283,7 @@ function Crutch.Interrupted(targetUnitId)
         return
     end
 
+    Crutch.dbgSpam("Attempting to interrupt targetUnitId " .. tostring(targetUnitId))
     for abilityId, _ in pairs(displaying[targetUnitId]) do
         AdjustControlsOnInterrupt(targetUnitId, abilityId)
     end
