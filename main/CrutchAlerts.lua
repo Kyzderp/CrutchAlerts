@@ -18,36 +18,6 @@ Crutch.registered = {
 
 Crutch.unlock = false
 
---[[
-    unlock
-    debug line
-    debug chat spam
-    other debug
-    general
-        show begin
-            hide from self
-        show gained
-            hide from self
-        hide hitvalue below X
-            use ability whitelist
-        extend 1ms hitvalues by X
-        use self/group ability blacklist
-        use enemy ability blacklist
-    trials
-        hrc
-        aa
-        so
-        mol
-        as
-        hof
-        cr
-        ss
-        ka
-        ma
-        brp
-        vh
---]]
-
 -- Defaults
 local defaultOptions = {
     display = {

@@ -60,8 +60,6 @@ end
 -- mechanic icons get completely reset. We don't want this, because
 -- dying during a group encounter (sometimes?) triggers this. So, 
 -- override OSI to not reset if anyone in the group is in combat.
---
--- /script OSI.SetMechanicIconForUnit("@TheClawlessConqueror", "odysupporticons/icons/squares/squaretwo_blue.dds")
 ---------------------------------------------------------------------
 local origOSIResetMechanicIcons
 local function OnCombatStateChanged(_, inCombat)

@@ -92,14 +92,6 @@ local data = {
     ["YolLeftHead3"] = {x = 97502, y = 49704, z = 109702, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds", size = GetYolIconsSize},
     ["YolLeftHead4"] = {x = 96498, y = 49694, z = 110533, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = GetYolIconsSize},
 
-    -- Dreadsail Reef
-    -- ["1"] = {x = 165854, y = 39829, z = 82552, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100},
-    -- ["1"] = {x = 169034, y = 39803, z = 76927, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100},
-    -- ["1"] = {x = 175531, y = 39838, z = 77263, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100},
-    -- ["1"] = {x = 179205, y = 39803, z = 82502, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100},
-    -- ["1"] = {x = 175853, y = 39827, z = 87736, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100},
-    -- ["1"] = {x = 168984, y = 39803, z = 87860, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = 100},
-
     -- Halls of Fabrication
     ["TripletsSafe"] = {x = 29758, y = 52950, z = 73169, texture = "odysupporticons/icons/emoji-poop.dds", size = GetTripletsIconSize},
 

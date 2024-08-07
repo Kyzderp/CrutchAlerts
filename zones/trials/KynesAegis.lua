@@ -22,12 +22,6 @@ end
 ---------------------------------------------------------------------
 -- Falgravn
 ---------------------------------------------------------------------
--- local function OnBoogerTimerFaded()
---     if (GetSelectedLFGRole() == LFG_ROLE_TANK) then
---         Crutch.DisplayProminent(888001)
---     end
--- end
-
 local prisoned = {}
 
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
@@ -63,11 +57,6 @@ end
 function Crutch.RegisterKynesAegis()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Kyne's Aegis")
 
-    -- Booger
-    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BoogerTimerFade", EVENT_COMBAT_EVENT, OnBoogerTimerFaded)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BoogerTimerFade", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BoogerTimerFade", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 136548)
-
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
     else
@@ -98,9 +87,6 @@ function Crutch.RegisterKynesAegis()
 end
 
 function Crutch.UnregisterKynesAegis()
-    -- Booger
-    -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BoogerTimerFade", EVENT_COMBAT_EVENT)
-
     -- Spear
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT)
 

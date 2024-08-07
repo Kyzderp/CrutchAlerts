@@ -154,13 +154,7 @@ local function OnPadChanged(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _
         padIndex = FindPad(unitId, true)
         StartPadCountdown(padIndex)
     end
-
-    -- Crutch.dbgOther(string.format("|c00d60bpad %d changed|r", padIndex or 0))
 end
-
--- local function OnGripOfLorkhaj()
---     Crutch.DisplayProminent(57517)
--- end
 
 local function RegisterZhajhassa()
     if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds"
@@ -196,14 +190,10 @@ local function RegisterZhajhassa()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED, OnPadChanged)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 57525) -- Jone's Blessing
 
-    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GripOfLorkhaj", EVENT_EFFECT_CHANGED, OnGripOfLorkhaj)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GripOfLorkhaj", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 57517)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GripOfLorkhaj", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
-
     -- if (not Crutch.WorldIconsEnabled()) then
     --     Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
     -- else
-    --     -- Falgravn icons
+    --     -- Zhaj'hassa icons
     --     if (Crutch.savedOptions.mawoflorkhaj.showZhajIcons) then
     --         Crutch.EnableIcon("ZhajM1")
     --         Crutch.EnableIcon("ZhajM2")
@@ -217,7 +207,6 @@ local function UnregisterZhajhassa()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLBossesChanged", EVENT_BOSSES_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED)
-    -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GripOfLorkhaj", EVENT_EFFECT_CHANGED)
 
     -- Crutch.DisableIcon("ZhajM1")
     -- Crutch.DisableIcon("ZhajM2")
@@ -352,27 +341,16 @@ local function OnVoidShackleDamage()
     Crutch.DisplayNotification(75507, "|c6a00ffTETHERED!|r", 1100, 0, 0, 0, 0, false)
 end
 
--- local function OnUnstableVoid()
---     Crutch.DisplayProminent(888005)
--- end
-
 local function RegisterRakkhat()
     -- Void Shackle
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, OnVoidShackleDamage)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 75507) -- Void Shackle (tether)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE)
-
-    -- Unstable Void
-    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, OnUnstableVoid)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 74488) -- Unstable Void
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
 end
 
 local function UnregisterRakkhat()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT)
-    -- EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "RakkhatUnstableVoid", EVENT_COMBAT_EVENT)
 end
 
 ---------------------------------------------------------------------

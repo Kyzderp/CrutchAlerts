@@ -16,12 +16,6 @@ local availableMarkers = {
     TARGET_MARKER_TYPE_EIGHT,
 }
 
--- MONSTER_DIFFICULTY_NONE 0
--- MONSTER_DIFFICULTY_EASY 1
--- MONSTER_DIFFICULTY_NORMAL 2
--- MONSTER_DIFFICULTY_HARD 3
--- MONSTER_DIFFICULTY_DEADLY 4
-
 local usedMarkers = {} -- [TARGET_MARKER_TYPE_EIGHT] = true,
 
 -- Pick a marker that we haven't used recently. It gets reset upon leaving combat

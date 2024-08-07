@@ -96,11 +96,9 @@ local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceTyp
     if (abilityId == 103531) then
         local label = string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |caaaaaaLEFT|r", targetName)
         Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, true)
-        -- /script CrutchAlerts.DisplayNotification(103531, string.format("|cff0000|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |cff7700%s |caaaaaaLEFT|r", "@TheClawlessConqueror"), 1, 0, 0, 0, 0)
     elseif (abilityId == 110431) then
         local label = string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", targetName)
         Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, true)
-        -- /script CrutchAlerts.DisplayNotification(110431, string.format("|cff7700%s |caaaaaaRIGHT |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t|r", "@Kyzeragon"), 1, 0, 0, 0, 0)
     end
 end
 

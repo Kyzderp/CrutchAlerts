@@ -161,40 +161,6 @@ Crutch.format = {
 
 
 ---------------------------------------------------------------------
---[[
-from LUI, not gonna use exactly the same though
-damage = {
-    [DAMAGE_TYPE_NONE]      = { 1, 1, 1, 1 },
-    [DAMAGE_TYPE_GENERIC]   = { 1, 1, 1, 1 },
-    [DAMAGE_TYPE_PHYSICAL]  = { 200/255, 200/255, 160/255, 1 },
-    [DAMAGE_TYPE_FIRE]      = { 1, 100/255, 20/255, 1 },
-    [DAMAGE_TYPE_SHOCK]     = { 0, 1, 1, 1 },
-    [DAMAGE_TYPE_OBLIVION]  = { 75/255, 0, 150/255, 1 },
-    [DAMAGE_TYPE_COLD]      = { 35/255, 70/255, 1, 1 },
-    [DAMAGE_TYPE_EARTH]     = { 100/255, 75/255, 50/255, 1 },
-    [DAMAGE_TYPE_MAGIC]     = { 1, 1, 0, 1 },
-    [DAMAGE_TYPE_DROWN]     = { 35/255, 70/255, 255/255, 1 },
-    [DAMAGE_TYPE_DISEASE]   = { 25/255, 85/255, 0, 1 },
-    [DAMAGE_TYPE_POISON]    = { 0, 1, 127/255, 1 },
-    [DAMAGE_TYPE_BLEED]     = { 1, 45/255, 45/255, 1 },
-},
-from improved death recap
-IDR.dmgcolors={ 
-    [DAMAGE_TYPE_NONE]      = "|cE6E6E6", 
-    [DAMAGE_TYPE_GENERIC]   = "|cE6E6E6", 
-    [DAMAGE_TYPE_PHYSICAL]  = "|cf4f2e8", 
-    [DAMAGE_TYPE_FIRE]      = "|cff6600", 
-    [DAMAGE_TYPE_SHOCK]     = "|cffff66", 
-    [DAMAGE_TYPE_OBLIVION]  = "|cd580ff", 
-    [DAMAGE_TYPE_COLD]      = "|cb3daff", 
-    [DAMAGE_TYPE_EARTH]     = "|cbfa57d", 
-    [DAMAGE_TYPE_MAGIC]     = "|c9999ff", 
-    [DAMAGE_TYPE_DROWN]     = "|ccccccc", 
-    [DAMAGE_TYPE_DISEASE]   = "|cc48a9f", 
-    [DAMAGE_TYPE_POISON]    = "|c9fb121", 
-    [DAMAGE_TYPE_BLEED]     = "|cc20a38", 
-}
-]]
 local colors = {
     [1] = "ff6600", -- Orange, fire
     [2] = "64c200", -- Green, poison

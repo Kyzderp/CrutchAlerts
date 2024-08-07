@@ -10,15 +10,8 @@ Tank, Heal, DPS1, DPS2
 It would be simplest and most accurate to go by alphabetical order.
 I don't want to use player positions because they can differ between
 clients.
-
-163756
-168314
-ACTION_RESULT_BEGIN
 ]]
 
--- Probably don't use static spots
--- [12:40:21] [Kyzderp's Derps] zoneId=1302 {x = 95197, y = 31624, z = 95338}
--- [12:40:24] [Kyzderp's Derps] zoneId=1302 {x = 94745, y = 31624, z = 94203}
 local firstBombTarget
 
 local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
