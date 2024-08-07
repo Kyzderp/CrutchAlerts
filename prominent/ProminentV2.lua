@@ -80,7 +80,7 @@ local prominentData = {
             },
             text = "STOP REZZING",
             color = {0.6, 0, 1},
-            slot = 2,
+            slot = 3,
             playSound = true,
             millis = 1000,
             settings = {

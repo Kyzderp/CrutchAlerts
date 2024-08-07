@@ -122,5 +122,35 @@
                 </Label>
             </Controls>
         </TopLevelControl>
+        <TopLevelControl name="CrutchAlertsProminent3" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="true">
+            <Dimensions x="40" y="40"/>
+            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
+            <Controls>
+                <Label name="$(parent)LeftMid" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="0" offsetY="0"/>
+                </Label>
+                <Label name="$(parent)LeftTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="225"/>
+                </Label>
+                <Label name="$(parent)LeftBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="-225"/>
+                </Label>
+                <Label name="$(parent)RightMid" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="0" offsetY="450"/>
+                </Label>
+                <Label name="$(parent)RightTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="225"/>
+                </Label>
+                <Label name="$(parent)RightBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="-225"/>
+                </Label>
+            </Controls>
+        </TopLevelControl>
     </Controls>
 </GuiXml>
