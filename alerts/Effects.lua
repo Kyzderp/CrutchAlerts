@@ -40,6 +40,17 @@ local effectData = {
                 description = "Shows an \"alert\" timer for when Hoarfrost will kill you (on veteran difficulty)",
             },
         },
+        [87346] = {
+            format = "|c8ef5f5<<C:1>>|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectVoltaicOverload",
+                title = "Show Voltaic Overload Timer",
+                description = "Shows an \"alert\" timer for the duration of Voltaic Overload (barswap mechanic)",
+            },
+        },
     },
 
     -----------------
@@ -194,3 +205,5 @@ function Crutch.AddEffectDefaults()
     end
 end
 
+
+-- TODO: settings

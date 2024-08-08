@@ -12,11 +12,11 @@ local SUBTITLE_CHANNELS = {
 local SUBTITLE_TIMES = {
 -- CR
     ["Z'Maja"] = {
-        --["I won't be beaten! I'll smash this amulet if that's what it takes."] = 14.5,
-        ["You challenge the power of the Sea Sload? It shall be your last mistake."] = 7.5,
+        ["I won't be beaten! I'll smash this amulet if that's what it takes."] = 14.4,
+        ["You challenge the power of the Sea Sload? It shall be your last mistake."] = 7.5, -- Verified
         ["You dare fight against darkness itself? Foolish."] = 7.5, -- Untested
-        ["Cloudrest has already fallen. And so too shall you."] = 7.5, -- Untested
         ["Darkness shall reign across Summerset!"] = 7.5, -- Untested
+        -- ["Cloudrest has already fallen. And so too shall you."] = 7.5, -- Untested -- this is an idle voice line
         -- ["Soon, my shadows shall spread to all of Summerset!"] = 7.5, -- Untested -- this is an idle voice line
         -- ["The shadows answer to me now."] = 7.5, -- Untested -- this is an idle voice line
         -- ["Do you truly think you can stand against my shadows?"] = 7.5, -- Untested -- this is an idle voice line
@@ -440,13 +440,13 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
 
     local time = lines[text]
     if (time) then
-        Crutch.dbgSpam("Found time using exact string: " .. text)
+        Crutch.dbgSpam("|c00FF00[DMG]|r Found time using exact string: " .. text)
     else
         -- Check each one using string.find
         for line, t in pairs(lines) do
             if (string.find(text, line, 1, true)) then
                 time = t
-                Crutch.dbgSpam("Found time using find: " .. text)
+                Crutch.dbgSpam("|c00FF00[DMG]|r Found time using find: " .. text)
             end
         end
 

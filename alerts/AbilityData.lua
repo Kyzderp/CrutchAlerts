@@ -153,6 +153,8 @@ Crutch.gainedDuration = {
     [218285] = true, -- Gloomy Impact (first one)
     [223331] = true, -- Gloomy Impact (second one)
     [222609] = true, -- Gloomy Impact (Knot)
+
+    [103555] = true, -- Voltaic Current (initial of barswap)
 }
 
 

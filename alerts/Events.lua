@@ -77,6 +77,41 @@ local function UnregisterData(data, eventName)
     end
 end
 
+local function SpamDebug(result, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, prefix)
+    -- Spammy debug
+    if (Crutch.savedOptions.debugChatSpam
+        and not Crutch.noSpamZone[Crutch.zoneId]) then
+        local resultString = ""
+        if (result) then
+            resultString = (resultStrings[result] or tostring(result))
+        end
+
+        local sourceString = ""
+        if (sourceType) then
+            sourceString = (sourceStrings[sourceType] or tostring(sourceType))
+        end
+        local targetString = ""
+        if (targetType) then
+            targetString = (sourceStrings[targetType] or tostring(targetType))
+        elseif (targetType == nil) then
+            targetString = "nil"
+        end
+
+        Crutch.dbgSpam(string.format("%s %s(%d): %s(%d) in %d on %s (%d). %s.%s %s",
+            prefix,
+            sourceName,
+            sourceUnitId,
+            FormatAbilityName(abilityId),
+            abilityId,
+            hitValue,
+            targetName,
+            targetUnitId,
+            sourceString,
+            targetString,
+            resultString))
+    end
+end
+
 
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED caching
@@ -121,36 +156,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     if (Crutch.blacklist[abilityId]) then return end
 
     -- Spammy debug
-    if (Crutch.savedOptions.debugChatSpam
-        and not Crutch.noSpamZone[Crutch.zoneId]) then
-        local resultString = ""
-        if (result) then
-            resultString = (resultStrings[result] or tostring(result))
-        end
-
-        local sourceString = ""
-        if (sourceType) then
-            sourceString = (sourceStrings[sourceType] or tostring(sourceType))
-        end
-        local targetString = ""
-        if (targetType) then
-            targetString = (sourceStrings[targetType] or tostring(targetType))
-        elseif (targetType == nil) then
-            targetString = "nil"
-        end
-
-        Crutch.dbgSpam(string.format("A %s(%d): %s(%d) in %d on %s (%d). %s.%s %s",
-            sourceName,
-            sourceUnitId,
-            FormatAbilityName(abilityId),
-            abilityId,
-            hitValue,
-            targetName,
-            targetUnitId,
-            sourceString,
-            targetString,
-            resultString))
-    end
+    SpamDebug(result, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, "A")
 
     -- Several immediate light attacks are 75ms
     if (hitValue <= 75) then return end
@@ -233,6 +239,17 @@ function Crutch.RegisterGained()
             OnCombatEventAll(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
         end
     end)
+
+    if (Crutch.savedOptions.debugChatSpam) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GainedDurationDebug", EVENT_COMBAT_EVENT, function(_, result, _, _, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+            if (targetType == COMBAT_UNIT_TYPE_PLAYER) then
+                SpamDebug(result, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, "|c55FFFF[dur]|r")
+            end
+        end)
+        -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDurationDebug", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- Self
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDurationDebug", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GainedDurationDebug", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    end
 
     Crutch.registered.gained = true
 end

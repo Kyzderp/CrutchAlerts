@@ -42,9 +42,8 @@ Crutch.format = {
     [103531] = 100107, -- Roaring Flare
     [110431] = 100107, -- Roaring Flare
     [105239] = 200010, -- Crushing Darkness
-    [103555] =     3, -- Voltaic Current
-    [ 87346] =    10, -- Voltaic Overload
-    [104019] = 31003, -- Olorime Spears
+    [103555] =    400, -- Voltaic Current (initial of barswap)
+    [104019] =  31003, -- Olorime Spears
 
 -- Halls of Fabrication
     [ 91019] = 430, -- Phase 1.1 (Assembly General)
