@@ -191,6 +191,48 @@ end
 
 
 -----------------------------------------------------------
+-- Settings
+-----------------------------------------------------------
+-- Represents one control toggle for one effect
+local function GetEffectSetting(subcategory, settingsData)
+    return {
+        type = "checkbox",
+        name = settingsData.title,
+        tooltip = settingsData.description,
+        default = true,
+        getFunc = function() return Crutch.savedOptions[subcategory][settingsData.name] end,
+        setFunc = function(value)
+            Crutch.savedOptions[subcategory][settingsData.name] = value
+            Crutch.OnPlayerActivated()
+        end,
+        width = "full",
+    }
+end
+
+-- Called from Settings.lua to append effect alert sections to existing settings controls
+function Crutch.GetEffectSettings(zoneId, controls)
+    table.insert(controls, {
+        type = "description",
+        title = "|c08BD1DEffect Timers|r",
+        text = "These are curated timers that display alongside incoming begin/gained casts, usually for specific timed mechanics such as debuffs on yourself.",
+        width = "full",
+    })
+
+    local zoneData = effectData[zoneId]
+    local added = {} -- Some IDs use the same setting
+    for abilityId, abilityData in pairs(zoneData) do
+        if (type(abilityId) == "number") then
+            if (not added[abilityData.settings.name]) then
+                table.insert(controls, GetEffectSetting(zoneData.settingsSubcategory, abilityData.settings))
+                added[abilityData.settings.name] = true
+            end
+        end
+    end
+    return controls
+end
+
+
+-----------------------------------------------------------
 -- Init
 -----------------------------------------------------------
 -- Initialize the defaults for all effects to true

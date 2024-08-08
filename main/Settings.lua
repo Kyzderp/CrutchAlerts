@@ -382,7 +382,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Cloudrest",
-            controls = Crutch.GetProminentSettings(1051, {
+            controls = Crutch.GetProminentSettings(1051, Crutch.GetEffectSettings(1051, {
                 {
                     type = "checkbox",
                     name = "Show spears indicator",
@@ -429,7 +429,7 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                     disabled = function() return OSI == nil end,
                 },
-            }),
+            })),
         },
         {
             type = "submenu",
@@ -758,7 +758,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Maw of Lorkhaj",
-            controls = Crutch.GetProminentSettings(725, {
+            controls = Crutch.GetProminentSettings(725, Crutch.GetEffectSettings(725, {
                 {
                     type = "checkbox",
                     name = "Show Zhaj'hassa cleanse pad cooldowns",
@@ -782,7 +782,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            }),
+            })),
         },
         {
             type = "submenu",

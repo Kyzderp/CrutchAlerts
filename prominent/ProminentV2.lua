@@ -713,7 +713,7 @@ end
 function Crutch.GetProminentSettings(zoneId, controls)
     table.insert(controls, {
         type = "description",
-        title = "Prominent Alerts",
+        title = "|c08BD1DProminent Alerts|r",
         text = "These display as large, obnoxious alerts, usually with a ding sound too.",
         width = "full",
     })
