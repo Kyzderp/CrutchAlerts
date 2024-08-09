@@ -50,35 +50,35 @@ end
 -- We need to account for the possibility of someone dying during the 4 seconds,
 -- which means the tether doesn't cast
 
-local conveyanceDisplaying1, conveyanceDisplaying2 -- @ name of player if there is some kind of conveyance on them
+local conveyanceDisplaying1, conveyanceDisplaying2 -- unit tag of player if there is some kind of conveyance on them
 
-local function AddArcaneConveyanceToPlayer(atName)
-    if (conveyanceDisplaying1 == atName or conveyanceDisplaying2 == atName) then
+local function AddArcaneConveyanceToPlayer(unitTag)
+    if (conveyanceDisplaying1 == unitTag or conveyanceDisplaying2 == unitTag) then
         -- If this is the same player, do nothing because it's already displaying
         return
     end
 
     local iconPath = "esoui/art/trials/vitalitydepletion.dds"
 
-    Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-    Crutch.SetMechanicIconForUnit(atName, iconPath, 150, {1, 0, 1})
+    Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, GetUnitDisplayName(unitTag)))
+    Crutch.SetMechanicIconForUnit(GetUnitDisplayName(unitTag), iconPath, 150, {1, 0, 1})
 
 
     if (not conveyanceDisplaying1) then
         -- If no one has conveyance yet, consider this the first one and save it for later
-        conveyanceDisplaying1 = atName
+        conveyanceDisplaying1 = unitTag
     else
         -- If the other player has already received it, we can draw the line
-        conveyanceDisplaying2 = atName
-        Crutch.DrawLineBetweenPlayers(conveyanceDisplaying1, atName)
+        conveyanceDisplaying2 = unitTag
+        Crutch.DrawLineBetweenPlayers(conveyanceDisplaying1, unitTag)
     end
 end
 
 -- Completely remove it from both players, and remove the line
 local function RemoveArcaneConveyance()
     Crutch.RemoveLine()
-    Crutch.RemoveMechanicIconForUnit(conveyanceDisplaying1)
-    Crutch.RemoveMechanicIconForUnit(conveyanceDisplaying2)
+    Crutch.RemoveMechanicIconForUnit(GetUnitDisplayName(conveyanceDisplaying1))
+    Crutch.RemoveMechanicIconForUnit(GetUnitDisplayName(conveyanceDisplaying2))
     conveyanceDisplaying1 = nil
     conveyanceDisplaying2 = nil
 end
@@ -87,12 +87,10 @@ local tethered = {} -- Anyone who has the real tether. [@name] = true
 local function OnArcaneConveyanceInitial(_, changeType, _, _, unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
         -- Show the icons and line as soon as the initial debuff starts
-        local atName = GetUnitDisplayName(unitTag)
-        AddArcaneConveyanceToPlayer(atName)
+        AddArcaneConveyanceToPlayer(unitTag)
     elseif (changeType == EFFECT_RESULT_FADED) then
-        local atName = GetUnitDisplayName(unitTag)
         -- When it fades, check if the real tether is already up. If yes, do nothing.
-        if (tethered[atName]) then
+        if (tethered[unitTag]) then
             return
         end
 
@@ -104,12 +102,10 @@ end
 -- The actual tether when it's active
 local function OnArcaneConveyanceTether(_, changeType, _, _, unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
-        local atName = GetUnitDisplayName(unitTag)
-        tethered[atName] = true
-        AddArcaneConveyanceToPlayer(atName) -- This shouldn't be needed, but idk, do it anyway
+        tethered[unitTag] = true
+        AddArcaneConveyanceToPlayer(unitTag) -- This shouldn't be needed, but idk, do it anyway
     elseif (changeType == EFFECT_RESULT_FADED) then
-        local atName = GetUnitDisplayName(unitTag)
-        tethered[atName] = nil
+        tethered[unitTag] = nil
         RemoveArcaneConveyance()
     end
 end
@@ -361,15 +357,15 @@ function Crutch.RegisterLucentCitadel()
     end
 
     -- Orphic Fate Sealer effect faded, to remove the timer. TODO: stop using hacks and actually support this in a struct
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED, OnFateSealerFaded)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214138)
+    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED, OnFateSealerFaded)
+    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214138)
 
     -- Arcane Knot
-    if (Crutch.savedOptions.lucentcitadel.showKnotTimer) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, OnArcaneKnot)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 213477)
-    end
+    -- if (Crutch.savedOptions.lucentcitadel.showKnotTimer) then
+    --     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, OnArcaneKnot)
+    --     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    --     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 213477)
+    -- end
 
     -- Weakening Charge
     if (Crutch.savedOptions.lucentcitadel.showWeakeningCharge ~= "NEVER") then

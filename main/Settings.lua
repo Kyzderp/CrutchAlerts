@@ -616,19 +616,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Lucent Citadel",
-            controls = Crutch.GetProminentSettings(1478, {
-                -- {
-                --     type = "checkbox",
-                --     name = "Alert for Darkness Inflicted",
-                --     tooltip = "Displays a prominent alert and ding sound when you gain Darkness Inflicted (3 stacks of Creeping Darkness)",
-                --     default = true,
-                --     getFunc = function() return Crutch.savedOptions.lucentcitadel.alertDarkness end,
-                --     setFunc = function(value)
-                --         Crutch.savedOptions.lucentcitadel.alertDarkness = value
-                --         Crutch.OnPlayerActivated()
-                --     end,
-                --     width = "full",
-                -- },
+            controls = Crutch.GetProminentSettings(1478, Crutch.GetEffectSettings(1478, {
                 {
                     type = "checkbox",
                     name = "Show Orphic Shattered Shard mirror icons",
@@ -671,18 +659,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
                 },
-                {
-                    type = "checkbox",
-                    name = "Show Arcane Knot timer",
-                    tooltip = "Shows an \"alert\" timer for the currently held Arcane Knot",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.lucentcitadel.showKnotTimer end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.lucentcitadel.showKnotTimer = value
-                        Crutch.OnPlayerActivated()
-                    end,
-                    width = "full",
-                },
+                -- {
+                --     type = "checkbox",
+                --     name = "Show Arcane Knot timer",
+                --     tooltip = "Shows an \"alert\" timer for the currently held Arcane Knot",
+                --     default = true,
+                --     getFunc = function() return Crutch.savedOptions.lucentcitadel.showKnotTimer end,
+                --     setFunc = function(value)
+                --         Crutch.savedOptions.lucentcitadel.showKnotTimer = value
+                --         Crutch.OnPlayerActivated()
+                --     end,
+                --     width = "full",
+                -- },
                 {
                     type = "checkbox",
                     name = "Show Arcane Conveyance icons",
@@ -753,7 +741,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.lucentcitadel.showTempestIcons end,
                 },
-            }),
+            })),
         },
         {
             type = "submenu",

@@ -28,6 +28,7 @@ local effectData = {
                 description = "Shows an \"alert\" timer for when Hoarfrost will kill you (on veteran difficulty)",
             },
         },
+        -- Hoarfrost (in execute)
         [110516] = {
             format = "|c8ef5f5<<C:1>>|r",
             duration = 9000, -- Time until Overwhelming Hoarfrost... on vet
@@ -40,6 +41,7 @@ local effectData = {
                 description = "Shows an \"alert\" timer for when Hoarfrost will kill you (on veteran difficulty)",
             },
         },
+        -- Voltaic Overload
         [87346] = {
             format = "|c8ef5f5<<C:1>>|r",
             filters = {
@@ -52,11 +54,50 @@ local effectData = {
             },
         },
     },
-
+    -----------------
+    -- Lucent Citadel
+    [1478] = {
+        settingsSubcategory = "lucentcitadel",
+        -- Fate Sealer
+        [214138] = {
+            format = "|cFF00FF<<C:1>>|r",
+            duration = 20100,
+            filters = {
+            },
+            settings = {
+                name = "effectFateSealer",
+                title = "Show Fate Sealer Timer",
+                description = "Shows an \"alert\" timer for when Fate Sealer will seal your group's fate",
+            },
+        },
+        -- Arcane Knot
+        [213477] = {
+            format = "|cFF7700<<C:1>>: <<2>>|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG_PREFIX] = "group",
+            },
+            gainedCallback = function(atName)
+                if (Crutch.savedOptions.general.showRaidDiag) then
+                    Crutch.msg(zo_strformat("<<1>> picked up the knot", atName))
+                end
+            end,
+            fadedCallback = function(atName)
+                if (Crutch.savedOptions.general.showRaidDiag) then
+                    Crutch.msg(zo_strformat("<<1>> dropped the knot", atName))
+                end
+            end,
+            settings = {
+                name = "showKnotTimer",
+                title = "Show Arcane Knot Timer",
+                description = "Shows an \"alert\" timer for the currently held Arcane Knot",
+            },
+        },
+    },
     -----------------
     -- Maw of Lorkhaj
     [725] = {
         settingsSubcategory = "mawoflorkhaj",
+        -- Shattered
         [73250] = {
             format = "|cfff1ab<<C:1>>|r",
             filters = {
@@ -95,7 +136,7 @@ local function OnEffectChanged(changeType, unitTag, beginTime, endTime, abilityI
         tagId = 13
         Crutch.dbgOther("|cFF0000unhandled unitTag " .. tostring(unitTag))
     end
-    local fakeSourceUnitId = 8880000 + abilityId + tagId -- There is potential for collision...
+    local fakeSourceUnitId = 88800000 + abilityId*100 + tagId -- There is potential for collision... but it's probably fiiiiiiine
 
     -- Effect gained, add a fake alert
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
@@ -103,13 +144,13 @@ local function OnEffectChanged(changeType, unitTag, beginTime, endTime, abilityI
         Crutch.DisplayNotification(abilityId, label, abilityData.duration or (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
 
         if (abilityData.gainedCallback) then
-            abilityData.gainedCallback()
+            abilityData.gainedCallback(atName)
         end
 
     -- Effect faded, "interrupt" the alert
     elseif (changeType == EFFECT_RESULT_FADED) then
         if (abilityData.fadedCallback) then
-            abilityData.fadedCallback()
+            abilityData.fadedCallback(atName)
         end
 
         Crutch.Interrupted(fakeSourceUnitId)

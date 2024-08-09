@@ -222,7 +222,7 @@ Crutch.others = {
     [214136] = true, -- Fate Sealer
     -- [214311] = true, -- Fate Sealer (first one gained by pillar?)
     -- [214344] = true, -- Fate Sealer (second one gained by pillar?)
-    [214138] = true, -- Fate Sealer (from logs, maybe full duration?)
+    -- [214138] = true, -- Fate Sealer (from logs, maybe full duration?)
     [215107] = true, -- Tempest
     [214355] = true, -- Lightning Flood (Xoryn cone)
 
