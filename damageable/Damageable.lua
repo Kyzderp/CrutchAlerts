@@ -13,14 +13,16 @@ local SUBTITLE_TIMES = {
 -- CR
     ["Z'Maja"] = {
         ["I won't be beaten! I'll smash this amulet if that's what it takes."] = 14.4,
-        ["You challenge the power of the Sea Sload? It shall be your last mistake."] = 7.5, -- Verified
-        ["You dare fight against darkness itself? Foolish."] = 7.5, -- Untested
-        ["Darkness shall reign across Summerset!"] = 7.5, -- Untested
-        -- ["Cloudrest has already fallen. And so too shall you."] = 7.5, -- Untested -- this is an idle voice line
-        -- ["Soon, my shadows shall spread to all of Summerset!"] = 7.5, -- Untested -- this is an idle voice line
-        -- ["The shadows answer to me now."] = 7.5, -- Untested -- this is an idle voice line
-        -- ["Do you truly think you can stand against my shadows?"] = 7.5, -- Untested -- this is an idle voice line
-        -- ["I can wait. After all, your deaths are inevitable."] = 7.5, -- Untested -- this is an idle voice line
+
+        -- These are unfortunately also idle voice lines, so to work around this, only display them once ("singleZoneId") in an instance
+        ["You challenge the power of the Sea Sload? It shall be your last mistake."] = {time = 7.5, singleZoneId = 1051},
+        ["You dare fight against darkness itself? Foolish."] = {time = 7.5, singleZoneId = 1051},
+        ["Darkness shall reign across Summerset!"] = {time = 7.5, singleZoneId = 1051},
+        ["Cloudrest has already fallen. And so too shall you."] = {time = 7.5, singleZoneId = 1051},
+        ["Soon, my shadows shall spread to all of Summerset!"] = {time = 7.5, singleZoneId = 1051},
+        ["The shadows answer to me now."] = {time = 7.5, singleZoneId = 1051},
+        ["Do you truly think you can stand against my shadows?"] = {time = 7.5, singleZoneId = 1051},
+        ["I can wait. After all, your deaths are inevitable."] = {time = 7.5, singleZoneId = 1051},
     },
 -- DSR
     ["Turlassil"] = {
@@ -413,6 +415,14 @@ function Crutch.DisplayDamageable(time)
 end
 
 ---------------------------------------------------------------------
+-- This keeps track of whether it's the first time a "single" subtitle has played in an instance
+local isInstanceFresh = true
+local function OnPlayerActivated()
+    isInstanceFresh = true
+    Crutch.dbgOther("|c88FF88Refreshing instance for damageable|r")
+end
+
+---------------------------------------------------------------------
 -- EVENT_CHAT_MESSAGE_CHANNEL (number eventCode, MsgChannelType channelType, string fromName, string text, boolean isCustomerService, string fromDisplayName)
 local function HandleChat(_, channelType, fromName, text, isCustomerService, fromDisplayName)
     if (not SUBTITLE_CHANNELS[channelType]) then
@@ -446,13 +456,25 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
         for line, t in pairs(lines) do
             if (string.find(text, line, 1, true)) then
                 time = t
-                Crutch.dbgSpam("|c00FF00[DMG]|r Found time using find: " .. text)
+                Crutch.dbgSpam("|c00FF00[DMG]|r Found time using |cFF0000find|r: " .. text)
             end
         end
 
         if (not time) then
             return
         end
+    end
+
+    -- If the time is a special case and it's the specified zone...
+    if (type(time) == "table" and time.singleZoneId == GetZoneId(GetUnitZoneIndex("player"))) then
+        -- ... only display if it's the first time one of these lines has been found in this instance
+        if (not isInstanceFresh) then
+            Crutch.dbgOther("|c88FF88Skipping damageable because this is not a fresh instance.|r")
+            return
+        end
+        time = time.time
+        isInstanceFresh = false
+        Crutch.dbgOther("|c88FF88Single-time line found, will only display this time.|r")
     end
 
     -- Have the number of seconds after which the boss should be damageable
@@ -462,4 +484,5 @@ end
 ---------------------------------------------------------------------
 function Crutch.InitializeDamageable()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ChatHandler", EVENT_CHAT_MESSAGE_CHANNEL, HandleChat)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DamageablePlayerActivated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 end

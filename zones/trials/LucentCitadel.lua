@@ -1,46 +1,6 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
----------------------------------------------------------------------
--- Orphic
----------------------------------------------------------------------
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-local function OnFateSealerFaded(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unitId, abilityId)
-    if (changeType == EFFECT_RESULT_FADED) then
-        Crutch.InterruptAbility(abilityId)
-    end
-end
-
-
----------------------------------------------------------------------
--- Arcane Knot
----------------------------------------------------------------------
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-local function OnArcaneKnot(_, changeType, _, _, unitTag, beginTime, endTime)
-    local atName = GetUnitDisplayName(unitTag)
-    local tagNumber = string.gsub(unitTag, "group", "")
-    local tagId = tonumber(tagNumber)
-    local fakeSourceUnitId = 8880070 + tagId
-
-    -- Pick up
-    if (changeType == EFFECT_RESULT_GAINED) then
-        if (Crutch.savedOptions.general.showRaidDiag) then
-            Crutch.msg(zo_strformat("<<1>> picked up the knot", atName))
-        end
-
-        local label = zo_strformat("|cff7700<<C:1>>: <<2>>|r", GetAbilityName(213477), atName)
-        Crutch.DisplayNotification(213477, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
-
-    -- Drop
-    elseif (changeType == EFFECT_RESULT_FADED) then
-        if (Crutch.savedOptions.general.showRaidDiag) then
-            Crutch.msg(zo_strformat("<<1>> dropped the knot", atName))
-        end
-
-        Crutch.Interrupted(fakeSourceUnitId)
-    end
-end
-
 
 ---------------------------------------------------------------------
 -- Icons for Arcane Conveyance
@@ -356,17 +316,6 @@ function Crutch.RegisterLucentCitadel()
         end
     end
 
-    -- Orphic Fate Sealer effect faded, to remove the timer. TODO: stop using hacks and actually support this in a struct
-    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED, OnFateSealerFaded)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 214138)
-
-    -- Arcane Knot
-    -- if (Crutch.savedOptions.lucentcitadel.showKnotTimer) then
-    --     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, OnArcaneKnot)
-    --     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    --     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 213477)
-    -- end
-
     -- Weakening Charge
     if (Crutch.savedOptions.lucentcitadel.showWeakeningCharge ~= "NEVER") then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED, OnWeakeningCharge)
@@ -380,8 +329,6 @@ function Crutch.UnregisterLucentCitadel()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FateSealerFaded", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneKnot", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCTrialStarted", EVENT_RAID_TRIAL_STARTED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE)

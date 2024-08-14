@@ -267,24 +267,26 @@ local dungeonThresholds = {
 
 -- Frostvault
     [GetBossName(CRUTCH_BHB_ICESTALKER)] = {
-        -- :shrug: xynode says these, esoplanet says every 10%
-        [90] = "Adds", -- TODO
-        [50] = "Adds", -- TODO
-        [30] = "Adds", -- TODO
+        [90] = "Scuttlers",
+        [80] = "Wraiths",
+        [70] = "Scuttlers",
+        [60] = "Wraiths",
+        [50] = "Scuttlers",
+        [40] = "Wraiths",
+        [30] = "Wraiths",
     },
     [GetBossName(CRUTCH_BHB_WARLORD_TZOGVIN)] = {
-        [70] = "Heat Field", -- TODO
-        [35] = "Whirlwinds", -- TODO it's probably 35 or 40
+        [70] = "Heat Field",
+        [35] = "Whirlwinds",
     },
     [GetBossName(CRUTCH_BHB_VAULT_PROTECTOR)] = {
-        -- bunch of different %s from different guides again
-        [90] = "Lasers", -- TODO
-        [75] = "Lasers", -- TODO
-        [50] = "Lasers", -- TODO
+        [80] = "2 Lasers",
+        [60] = "3 Lasers",
+        [40] = "4 Lasers",
+        [20] = "4 Lasers",
     },
     [GetBossName(CRUTCH_BHB_THE_STONEKEEPER)] = {
-        [55] = "Skeevatons", -- TODO different again, 56, 55, 50
-        -- [25] = "Centurion", -- TODO wtf is this
+        [55] = "Skeevatons",
     },
 
 -- Depths of Malatar
@@ -303,23 +305,29 @@ local dungeonThresholds = {
     },
 
 -- Moongrave Fane
+    ["Risen Ruins"] = { -- TODO: localization
+        [90] = "Boulder Storm",
+        [70] = "Boulder Storm",
+        [50] = "Boulder Storm",
+        [30] = "Boulder Storm",
+    },
     [GetBossName(CRUTCH_BHB_DROZAKAR)] = {
-        [90] = "Shield", -- TODO
-        [60] = "Shield", -- TODO
-        [30] = "Shield", -- TODO
+        [90] = "Shield",
+        [60] = "Shield",
+        [30] = "Shield",
     },
     [GetBossName(CRUTCH_BHB_KUJO_KETHBA)] = {
-        [90] = "Geysers", -- TODO
-        [70] = "Geysers", -- TODO
-        [50] = "Geysers", -- TODO
-        [30] = "Geysers", -- TODO
+        [90] = "Geysers",
+        [70] = "Geysers",
+        [50] = "Geysers",
+        [30] = "Geysers",
     },
     [GetBossName(CRUTCH_BHB_GRUNDWULF)] = {
-        [70] = "Dire-Maw", -- TODO
-        [50] = "Dire-Maw", -- TODO
-        [30] = "Dire-Maw", -- TODO
-        [20] = "Dire-Maw", -- TODO
-        [10] = "Dire-Maw", -- TODO
+        [70] = "Dire-Maw",
+        [50] = "Dire-Maw",
+        [30] = "Dire-Maw",
+        [20] = "Dire-Maw",
+        [10] = "Dire-Maw",
     },
 
 -- Lair of Maarselok

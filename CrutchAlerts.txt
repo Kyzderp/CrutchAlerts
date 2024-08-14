@@ -1,8 +1,8 @@
 ## Title: CrutchAlerts
 ## This addon is a crutch
 ## Author: Kyzeragon
-## Version: 1.3.2
-## APIVersion: 101042
+## Version: 1.3.3
+## APIVersion: 101042 101043
 
 ## DependsOn: LibAddonMenu-2.0>=31
 ## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibDialog

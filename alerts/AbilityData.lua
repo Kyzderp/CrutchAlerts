@@ -149,12 +149,17 @@ Crutch.noSpamZone = {
 ---------------------------------------------------------------------
 -- Normally we don't listen for ACTION_RESULT_GAINED_DURATION, but timers can be useful in some cases
 Crutch.gainedDuration = {
+-- Cloudrest
+    [103555] = true, -- Voltaic Current (initial of barswap)
+
 -- Lucent Citadel
     [218285] = true, -- Gloomy Impact (first one)
     [223331] = true, -- Gloomy Impact (second one)
     [222609] = true, -- Gloomy Impact (Knot)
 
-    [103555] = true, -- Voltaic Current (initial of barswap)
+-- Frostvault
+    [117324] = true, -- Ice Comet (2000) Coldsnap Skysplitter might be the ones on the ledge?
+    [117326] = true, -- Ice Comet (3750) Coldsnap Skysplitter
 }
 
 
