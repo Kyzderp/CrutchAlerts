@@ -198,21 +198,26 @@ end
 local currentlyDisplayingAbility = {}
 
 local ASPECT_ICONS = {
-    [59639] = "odysupporticons/icons/squares/squaretwo_blue.dds", -- Shadow Aspect
-    [59640] = "odysupporticons/icons/squares/squaretwo_yellow.dds", -- Lunar Aspect
-    [59699] = "odysupporticons/icons/squares/square_blue.dds", -- Conversion (to shadow)
-    [75460] = "odysupporticons/icons/squares/square_yellow.dds", -- Conversion (to lunar)
+    -- [59639] = "odysupporticons/icons/squares/squaretwo_blue.dds", -- Shadow Aspect
+    -- [59640] = "odysupporticons/icons/squares/squaretwo_yellow.dds", -- Lunar Aspect
+    -- [59699] = "odysupporticons/icons/squares/square_blue.dds", -- Conversion (to shadow)
+    -- [75460] = "odysupporticons/icons/squares/square_yellow.dds", -- Conversion (to lunar)
+    [59639] = {path = "/esoui/art/ava/ava_rankicon64_legate.dds", color = {0, 0, 1}}, -- Shadow Aspect
+    [59640] = {path = "/esoui/art/ava/ava_rankicon64_prefect.dds", color = {1, 206/255, 0}}, -- Lunar Aspect
+    [59699] = {path = "/esoui/art/ava/ava_rankicon64_lieutenant.dds", color = {0, 0, 1}}, -- Conversion (to shadow)
+    [75460] = {path = "/esoui/art/ava/ava_rankicon64_tribune.dds", color = {1, 206/255, 0}}, -- Conversion (to lunar)
 }
 
-local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId, abilityId, _)
+local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, _, abilityId, _)
     local atName = GetUnitDisplayName(unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
         -- Gained an aspect, so we should change the displayed icon for the player
-        local iconPath = ASPECT_ICONS[abilityId]
+        local iconData = ASPECT_ICONS[abilityId]
+        local iconPath = iconData.path
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-        Crutch.SetMechanicIconForUnit(atName, iconPath)
+        Crutch.SetMechanicIconForUnit(atName, iconPath, nil, iconData.color)
     elseif (changeType == EFFECT_RESULT_FADED) then
         -- The aspect faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then
@@ -222,6 +227,7 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
         end
     end
 end
+Crutch.TestAspect = function(unitTag, abilityId) OnAspect(_, EFFECT_RESULT_GAINED, _, _, unitTag, _, _, _, _, _, _, _, _, _, _, abilityId) end
 
 local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId, abilityId)
     local atName = GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId])
@@ -232,11 +238,12 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
 
     if (result == ACTION_RESULT_EFFECT_GAINED_DURATION) then
         -- Gained conversion, so we should change the displayed icon for the player
-        local iconPath = ASPECT_ICONS[abilityId]
+        local iconData = ASPECT_ICONS[abilityId]
+        local iconPath = iconData.path
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-        Crutch.SetMechanicIconForUnit(atName, iconPath)
+        Crutch.SetMechanicIconForUnit(atName, iconPath, nil, iconData.color)
 
         -- If self, display a prominent alert because COLOR SWAP!
         if (atName == GetUnitDisplayName("player") and Crutch.savedOptions.mawoflorkhaj.prominentColorSwap) then

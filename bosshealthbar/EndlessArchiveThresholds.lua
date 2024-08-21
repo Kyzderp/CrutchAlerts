@@ -20,7 +20,7 @@ local endlessArchiveThresholds = {
     -- Bittergreen the Wild
 
     -- Caluurion -- nothing interesting
-    -- Canonreeve Oraneth
+    -- Canonreeve Oraneth -- nothing interesting
     -- Captain Blackheart
     -- Councilor Vandacia
     [GetBossName(CRUTCH_BHB_COUNCILOR_VANDACIA)] = {
@@ -36,18 +36,20 @@ local endlessArchiveThresholds = {
     [GetBossName(CRUTCH_BHB_DOYLEMISH_IRONHEART)] = {
         [50] = "Stone Orb", -- They seem to spawn on a timer after 50%, but don't... do anything?
     },
+    -- Dranos Velador -- big yikes
+    ["Dranos Velador"] = { -- TODO: localization
+        [50] = "Duplicity",
+    },
 
-    -- Exarch Kraglen
+    -- Exarch Kraglen -- nothing interesting
 
     -- Garron the Returned -- Consume Life is timer based
     -- Ghemvas the Harbinger
     [GetBossName(CRUTCH_BHB_GHEMVAS_THE_HARBINGER)] = {
         [50] = "Unstable Energy",
     },
-    -- Glemyos Wildhorn
-    -- ["Glemyos Wildhorn"] = {
-    --     [50] = "Indriks", -- TODO: may be on a timer, need to check
-    -- },
+    -- Glemyos Wildhorn -- indriks might be on timer
+    -- Graufang -- nothing interesting
     -- Grothdarr -- nothing interesting
 
     -- High Kinlord Rilis -- nothing interesting
@@ -55,6 +57,7 @@ local endlessArchiveThresholds = {
     -- Iceheart -- nothing interesting
 
     -- Kjarg the Tuskscraper -- nothing interesting
+    -- Kovan Giryon -- doesn't seem to have gates
 
     -- Kra'gh the Dreugh King
     [GetBossName(CRUTCH_BHB_KRAGH_THE_DREUGH_KING)] = {
@@ -77,9 +80,11 @@ local endlessArchiveThresholds = {
     -- Limenauruus
     -- Lord Warden Dusk
 
+    -- Marauder Bittog -- no hp gates
     -- Marauder Gothmau -- no hp gates
     -- Marauder Hilkarax -- no hp gates
     -- Marauder Ulmor -- no hp gates
+    -- Marauder Zulfimbul -- no hp gates
 
     -- Molag Kena
     -- Mulaamnir
@@ -95,6 +100,7 @@ local endlessArchiveThresholds = {
     },
 
     -- Old Snagara -- no hp gates
+    -- Prior Thierric Sarazen -- no hp gates
 
     -- Queen of the Reef
 
@@ -115,13 +121,14 @@ local endlessArchiveThresholds = {
         [25] = "Add",
     },
     -- Shadowrend -- no hp gates
+    -- Staada -- no hp gates ez
     -- Sonolia the Matriarch -- no hp gates
     -- Symphony of Blades -- no hp gates?
 
     -- Taupezu Azzida -- no hp gates
     -- The Ascendant Lord -- no hp gates?
     -- The Endling
-    -- The Imperfect -- no hp gates
+    -- The Imperfect -- shield at 50%?
     -- The Lava Queen -- no hp gates?
     -- The Mage
     [GetBossName(CRUTCH_BHB_THE_MAGE)] = {
@@ -130,6 +137,9 @@ local endlessArchiveThresholds = {
     -- The Sable Knight -- no hp gates
     -- The Serpent
     -- The Warrior
+    ["The Warrior"] = { -- TODO: localization
+        [50] = "Shehai",
+    },
     -- The Weeping Woman
     -- The Whisperer
     -- Tho'at Replicanum
@@ -143,6 +153,8 @@ local endlessArchiveThresholds = {
     -- Tremorscale
 
     -- Valkynaz Nokvroz
+    -- Varlariel -- clones seem to be on a timer
+    -- Varzunon -- dunno
     -- Vila Theran
     -- Voidmother Elgroalif
     -- Vorenor Winterbourne
@@ -150,6 +162,9 @@ local endlessArchiveThresholds = {
     -- War Chief Ozozai -- no hp gates
 
     -- Xeemhok the Trophy-Taker
+    ["Xeemhok the Trophy-Taker"] = { -- TODO: localization
+        [50] = "Fury",
+    },
 
     -- Yolnahkriin
     [GetBossName(CRUTCH_BHB_YOLNAHKRIIN)] = {

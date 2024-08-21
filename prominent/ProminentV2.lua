@@ -472,7 +472,7 @@ local prominentData = {
         -- Heat Wave
         [15164] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "HEAT WAVE",
@@ -490,7 +490,7 @@ local prominentData = {
         -- Winter's Reach
         [12459] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "WINTER'S REACH",
@@ -508,7 +508,7 @@ local prominentData = {
         -- Draining Poison (Pacthunter Ranger)
         [54608] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -533,7 +533,7 @@ local prominentData = {
         -- Grasp of Lorkhaj (Zhaj'hassa)
         [197434] = {
             event = EVENT_EFFECT_CHANGED,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             text = "CURSE",
@@ -546,6 +546,24 @@ local prominentData = {
                 title = "Alert Grasp of Lorkhaj",
                 description = "Shows a prominent alert when you are cursed by Zhaj'hassa",
                 checkOldForDefault = true,
+            },
+        },
+        -- Meteor Call (Fabled Mystic)
+        [211976] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Verified
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "METEOR",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentMeteorCall",
+                title = "Alert Meteor Call",
+                description = "Shows a prominent alert when a Fabled Mystic summons a Meteor",
+                checkOldForDefault = false,
             },
         },
     },

@@ -143,7 +143,10 @@ end
 
 function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, result, preventOverwrite)
     -- Check for special format
-    local customTime, customColor, hideTimer, alertType, resultFilter = Crutch.GetFormatInfo(abilityId)
+    local customTime, customColor, hideTimer, alertType, resultFilter, customText = Crutch.GetFormatInfo(abilityId)
+    if (customText) then
+        textLabel = customText
+    end
 
     -- Result filter
     if (resultFilter == 1 and result ~= ACTION_RESULT_BEGIN) then

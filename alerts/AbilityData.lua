@@ -339,6 +339,8 @@ Crutch.others = {
     [196959] = true, -- Crush (Iron Atronach)
     [195448] = true, -- Wing Burst (Ash Titan)
     [203006] = true, -- Thrash (Bristleback)
+    [227772] = true, -- Scaling (Meteor) -- Scaling is just the buff that it gets, so use it to detect the spawn
+    -- [227461] = true, -- Ram (Marauder Zulfimbul) -- TODO: timer seems bad
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn

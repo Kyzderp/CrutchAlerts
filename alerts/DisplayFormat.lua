@@ -124,6 +124,9 @@ Crutch.format = {
     [197002] = 500, -- Stormfront (Storm Atronach)
     [196959] = 500, -- Crush (Iron Atronach)
     [196875] = 500, -- Earthen Blast (Lurcher)
+    [220298] = 500, -- Clobber (Marauder Zulfimbul)
+    [227461] = 500, -- Ram (Marauder Zulfimbul)
+    [227772] = {info = 110, text = GetAbilityName(211987)}, -- Scaling (Meteor) -- seems to be 10 seconds before meteor blows up
 
     [196689] = 200, -- Venomous Arrow (Ascendant Archer) dot hurts if pre-debuffed. chance to dodge
 
@@ -133,6 +136,8 @@ Crutch.format = {
     [203006] = 300, -- Thrash (Bristleback)
     [201727] = 300, -- Shield Charge (Dremora Vigilant)
     [203492] = 300, -- Diving Strike (Dremora Ironclad)
+    [199608] = 300, -- Heinous Highkick (Prior Thierric Sarazen)
+
 
 -- Maelstrom Arena
     [ 72057] = 20003, -- Portal Spawn
@@ -177,6 +182,12 @@ local colors = {
 ---------------------------------------------------------------------
 function Crutch.GetFormatInfo(abilityId)
     local remainder = Crutch.format[abilityId]
+    local customText
+    if (type(remainder) == "table") then
+        customText = remainder.text
+        remainder = remainder.info
+    end
+
     if (not remainder) then
         remainder = 0
     end
@@ -193,5 +204,5 @@ function Crutch.GetFormatInfo(abilityId)
     local color = math.floor(remainder / 100)
     remainder = remainder - color * 100
 
-    return remainder * 1000, colors[color], hideTimer, alertType, resultFilter
+    return remainder * 1000, colors[color], hideTimer, alertType, resultFilter, customText
 end
