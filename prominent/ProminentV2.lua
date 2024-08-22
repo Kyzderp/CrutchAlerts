@@ -579,7 +579,10 @@ local prominentData = {
             event = EVENT_COMBAT_EVENT,
             filters = { -- Untested
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
-                filterFunction = function() return GetEndlessDungeonCounterValue(ENDLESS_DUNGEON_COUNTER_TYPE_ARC) > 3 end
+                filterFunction = function(hitValue, effectUnitId)
+                    Crutch.dbgSpam(zo_strformat("testing <<1>> unitId", effectUnitId))
+                    return GetEndlessDungeonCounterValue(ENDLESS_DUNGEON_COUNTER_TYPE_ARC) > 3 and not Crutch.majorCowardiceUnitIds[effectUnitId]
+                end,
             },
             text = "VENOM",
             color = {0.4, 0.9, 0},
@@ -589,7 +592,7 @@ local prominentData = {
             settings = {
                 name = "prominentVenomousArrow",
                 title = "Alert Venomous Arrow (Arc 4+)",
-                description = "Shows a prominent alert when an Ascendant Archer or Grovebound Blightbow casts Venomous Arrow at you, only in Arc 4 and above. The DoT snapshots the current strength, so even if you debuff the archer afterwards, the DoT ticks will remain high. Therefore, it's better to dodge the shot when possible",
+                description = "Shows a prominent alert when an Ascendant Archer or Grovebound Blightbow casts Venomous Arrow at you, only in Arc 4 and above and if there is no Major Cowardice on it. The DoT snapshots the current strength, so even if you debuff the archer afterwards, the DoT ticks will remain high. Therefore, it's better to dodge the shot when possible",
                 checkOldForDefault = false,
                 default = false,
             },
@@ -800,14 +803,14 @@ function Crutch.RegisterProminents(zoneId)
         if (type(abilityId) == "number" and Crutch.savedOptions[zoneData.settingsSubcategory][settingsData.name]) then
             -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
             -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-            local function ProminentCallback(_, result, _, _, effectUnitTag, _, sourceName, _, targetName, _, hitValue)
+            local function ProminentCallback(_, result, _, _, effectUnitTag, _, sourceName, _, targetName, _, hitValue, _, _, _, effectUnitId)
                 -- Since EVENT_EFFECT_CHANGED doesn't take filters for results, assume we only want EFFECT_RESULT_GAINED here
                 if (abilityData.event == EVENT_EFFECT_CHANGED and result ~= EFFECT_RESULT_GAINED) then
                     return
                 end
 
                 if (abilityData.filters and abilityData.filters.filterFunction) then
-                    if (not abilityData.filters.filterFunction(hitValue)) then
+                    if (not abilityData.filters.filterFunction(hitValue, effectUnitId)) then
                         return
                     end
                 end

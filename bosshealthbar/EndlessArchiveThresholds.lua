@@ -168,6 +168,7 @@ local endlessArchiveThresholds = {
         [50] = "Fury",
     },
 
+    -- Yandir the Butcher
     -- Yolnahkriin
     [GetBossName(CRUTCH_BHB_YOLNAHKRIIN)] = {
         [50] = "Cataclysm",

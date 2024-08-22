@@ -126,7 +126,7 @@ Crutch.testing = {
     [215107] = true, -- Tempest
     [223060] = true, -- Arcane Conveyance
 
-    [227461] = true, -- Ram (Marauder Zulfimbul) -- TODO: timer seems bad
+    [192517] = true, -- Seeking Spheres (Tho'at Shard)
 }
 
 ---------------------------------------------------------------------
@@ -344,6 +344,7 @@ Crutch.others = {
     [203006] = true, -- Thrash (Bristleback)
     [227772] = true, -- Scaling (Meteor) -- Scaling is just the buff that it gets, so use it to detect the spawn
     [227461] = true, -- Ram (Marauder Zulfimbul) -- BEGIN timer is 1233, but DUR 10000. Only use BEGIN
+    [192517] = true, -- Seeking Spheres (Tho'at Shard)
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn

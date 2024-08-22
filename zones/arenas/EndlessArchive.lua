@@ -2,6 +2,21 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 ---------------------------------------------------------------------
+-- Track Major Cowardice to decide whether to display prominent alert
+---------------------------------------------------------------------
+Crutch.majorCowardiceUnitIds = {}
+
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnMajorCowardice(_, changeType, _, _, _, _, _, _, _, _, _, _, _, unitName, unitId)
+    if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
+        Crutch.majorCowardiceUnitIds[unitId] = true
+        Crutch.dbgSpam(zo_strformat("|c00FF00<<1>> (<<2>>) got major cowardice|r", unitName, unitId))
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.majorCowardiceUnitIds[unitId] = nil
+    end
+end
+
+---------------------------------------------------------------------
 -- Automatic Fabled markers
 ---------------------------------------------------------------------
 local availableMarkers = {
@@ -117,6 +132,7 @@ local function OnCombatStateChanged(_, inCombat)
     if (not inCombat) then
         usedMarkers = {}
         Crutch.dbgSpam("Cleared usedMarkers")
+        Crutch.majorCowardiceUnitIds = {}
     end
 end
 
@@ -127,6 +143,10 @@ function Crutch.RegisterEndlessArchive()
     usedMarkers = {}
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EACombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "IAMajorCowardice", EVENT_EFFECT_CHANGED, OnMajorCowardice)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAMajorCowardice", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 147643)
+
     if (Crutch.savedOptions.endlessArchive.markFabled or Crutch.savedOptions.endlessArchive.markNegate) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED, OnReticleChanged)
     end
@@ -136,6 +156,7 @@ end
 
 function Crutch.UnregisterEndlessArchive()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EACombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "IAMajorCowardice", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Endless Archive")
