@@ -33,6 +33,7 @@ local prominentData = {
                 title = "Alert Direct Current",
                 description = "Shows a prominent alert for Relequen's interruptible attack, Direct Current",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Glacial Spikes (Galenwe interruptible)
@@ -51,6 +52,7 @@ local prominentData = {
                 title = "Alert Glacial Spikes",
                 description = "Shows a prominent alert for Galenwe's interruptible attack, Glacial Spikes",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Creeper spawn
@@ -69,6 +71,7 @@ local prominentData = {
                 title = "Alert Creeper Spawn",
                 description = "Shows a prominent alert when a Malicious Creeper spawns",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Grievous Retaliation
@@ -88,6 +91,7 @@ local prominentData = {
                 title = "Alert Grievous Retaliation",
                 description = "Shows a prominent alert when you try to resurrect a player with their shade still up",
                 checkOldForDefault = false,
+                default = true,
             },
         },
     },
@@ -113,6 +117,7 @@ local prominentData = {
                 title = "Alert Cascading Boot",
                 description = "Shows a prominent alert when a Dreadsail Overseer tries to yeet you with Cascading Boot",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -137,6 +142,7 @@ local prominentData = {
                 title = "Alert Direct Current",
                 description = "Shows a prominent alert when the Pinnacle Factotum casts its interruptible, Direct Current",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Reclaim the Ruined (Adds spawn)
@@ -155,6 +161,7 @@ local prominentData = {
                 title = "Alert Reclaim the Ruined",
                 description = "Shows a prominent alert when the adds spawn during the triplets fight",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Stomp (Assembly General)
@@ -173,6 +180,7 @@ local prominentData = {
                 title = "Alert Stomp",
                 description = "Shows a prominent alert when the Assembly General does Stomp (for trench strat)",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -198,6 +206,7 @@ local prominentData = {
                 title = "Alert Hemorrhage Ended (Tank Only)",
                 description = "Shows a prominent alert if you are a tank and the Hemorrhage phase ends, as a reminder to taunt the new coagulant",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -222,6 +231,7 @@ local prominentData = {
                 title = "Alert Darkness Inflicted",
                 description = "Shows a prominent alert when you gain Darkness Inflicted (3 stacks of Creeping Darkness)",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Fate Sealer
@@ -241,6 +251,7 @@ local prominentData = {
                 title = "Alert Fate Sealer",
                 description = "Shows a prominent alert when the Orphic Shattered Shard summons a Fate Sealer orb and if you are a tank",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -266,25 +277,9 @@ local prominentData = {
                 title = "Alert Shattering Strike",
                 description = "Shows a prominent alert when a Dro-m'Athra Savage targets you to shatter your armor with Shattering Strike",
                 checkOldForDefault = true,
+                default = true,
             },
         },
-        -- -- Void Rush (Dro-m'Athra Shadowguard)
-        -- [73721] = {
-        --     event = EVENT_COMBAT_EVENT,
-        --     filters = {
-        --         [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
-        --     },
-        --     text = "VOID RUSH",
-        --     color = {0.5, 1, 1},
-        --     slot = 1,
-        --     playSound = true,
-        --     millis = 1000,
-        --     settings = {
-        --         name = "prominentVoidRush",
-        --         title = "Alert Void Rush",
-        --         description = "Shows a prominent alert when a Dro-m'Athra Shadowguard shield charges you with Void Rush",
-        --     },
-        -- },
         -- Grip of Lorkhaj (Zhaj'hassa)
         [76049] = { -- 57469 is probably the cast
             event = EVENT_EFFECT_CHANGED,
@@ -301,6 +296,7 @@ local prominentData = {
                 title = "Alert Grip of Lorkhaj",
                 description = "Shows a prominent alert when you are cursed by Zhaj'hassa",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Threshing Wings (Rakkhat)
@@ -319,6 +315,7 @@ local prominentData = {
                 title = "Alert Threshing Wings",
                 description = "Shows a prominent alert when you should block to avoid Rakkhat's knockback",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Unstable Void (Rakkhat)
@@ -338,6 +335,7 @@ local prominentData = {
                 title = "Alert Unstable Void",
                 description = "Shows a prominent alert when you receive Unstable Void and should take the bomb out of group",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -362,6 +360,7 @@ local prominentData = {
                 title = "Alert Savage Blitz",
                 description = "Shows a prominent alert when Oaxiltso charges",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -387,6 +386,7 @@ local prominentData = {
                 title = "Alert Chain Pull",
                 description = "Shows a prominent alert when Yaseyla chains you and you should break free",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -412,6 +412,7 @@ local prominentData = {
                 title = "Alert Shield Charge",
                 description = "Shows a prominent alert when a Ruin of Alkosh targets you with Shield Charge",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Sundering Gale (Eternal Servant)
@@ -432,6 +433,7 @@ local prominentData = {
                 title = "Alert Sundering Gale",
                 description = "Shows a prominent alert when the Eternal Servant in the portal targets you with the Sundering Gale cone",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -461,6 +463,7 @@ local prominentData = {
                 title = "Alert Lava Whip",
                 description = "Shows a prominent alert when an Imperial Dread Knight targets you with Lava Whip",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -485,6 +488,7 @@ local prominentData = {
                 title = "Alert Heat Wave",
                 description = "Shows a prominent alert when a fire mage casts Heat Wave",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Winter's Reach
@@ -503,6 +507,7 @@ local prominentData = {
                 title = "Alert Winter's Reach",
                 description = "Shows a prominent alert when an ice mage casts Winter's Reach",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Draining Poison (Pacthunter Ranger)
@@ -522,6 +527,7 @@ local prominentData = {
                 title = "Alert Draining Poison",
                 description = "Shows a prominent alert when a Pacthunter Ranger targets you with Draining Poison. You should dodge to avoid having your resources drained",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -546,6 +552,7 @@ local prominentData = {
                 title = "Alert Grasp of Lorkhaj",
                 description = "Shows a prominent alert when you are cursed by Zhaj'hassa",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Meteor Call (Fabled Mystic)
@@ -563,7 +570,28 @@ local prominentData = {
                 name = "prominentMeteorCall",
                 title = "Alert Meteor Call",
                 description = "Shows a prominent alert when a Fabled Mystic summons a Meteor",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Venomous Arrow (Ascendant Archer, Grovebound Blightbow)
+        [196689] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Untested
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                filterFunction = function() return GetEndlessDungeonCounterValue(ENDLESS_DUNGEON_COUNTER_TYPE_ARC) > 3 end
+            },
+            text = "VENOM",
+            color = {0.4, 0.9, 0},
+            slot = 2,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentVenomousArrow",
+                title = "Alert Venomous Arrow (Arc 4+)",
+                description = "Shows a prominent alert when an Ascendant Archer or Grovebound Blightbow casts Venomous Arrow at you, only in Arc 4 and above. The DoT snapshots the current strength, so even if you debuff the archer afterwards, the DoT ticks will remain high. Therefore, it's better to dodge the shot when possible",
                 checkOldForDefault = false,
+                default = false,
             },
         },
     },
@@ -588,6 +616,7 @@ local prominentData = {
                 title = "Alert Poison Arrow Spray",
                 description = "Shows a prominent alert when you get arrow sprayed by an Argonian Venomshot in the Vault of Umbrage and should cleanse the DoT",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Volatile Poison
@@ -606,6 +635,7 @@ local prominentData = {
                 title = "Alert Volatile Poison",
                 description = "Shows a prominent alert when you get poisoned by a plant in the Vault of Umbrage and should cleanse the DoT",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Heat Wave (Dremora Gandrakyn, etc.)
@@ -624,6 +654,7 @@ local prominentData = {
                 title = "Alert Heat Wave",
                 description = "Shows a prominent alert when a fire mage casts Heat Wave",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Teleport Strike (Dremora Kynlurker)
@@ -642,6 +673,7 @@ local prominentData = {
                 title = "Alert Teleport Strike",
                 description = "Shows a prominent alert when a Dremora Kynlurker ambushes you",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Soul Tether (Dremora Kynlurker)
@@ -660,6 +692,7 @@ local prominentData = {
                 title = "Alert Soul Tether",
                 description = "Shows a prominent alert when a Dremora Kynlurker casts Soul Tether",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -684,6 +717,7 @@ local prominentData = {
                 title = "Alert Heat Wave",
                 description = "Shows a prominent alert when a fire mage casts Heat Wave",
                 checkOldForDefault = true,
+                default = true,
             },
         },
         -- Winter's Reach (Xivkyn Chillfiend?)
@@ -702,6 +736,7 @@ local prominentData = {
                 title = "Alert Winter's Reach",
                 description = "Shows a prominent alert when an ice mage casts Winter's Reach",
                 checkOldForDefault = true,
+                default = true,
             },
         },
     },
@@ -717,7 +752,7 @@ local function GetProminentSetting(subcategory, settingsData)
         type = "checkbox",
         name = settingsData.title,
         tooltip = settingsData.description,
-        default = true,
+        default = settingsData.default,
         getFunc = function() return Crutch.savedOptions[subcategory][settingsData.name] end,
         setFunc = function(value)
             Crutch.savedOptions[subcategory][settingsData.name] = value
@@ -832,7 +867,7 @@ function Crutch.AddProminentDefaults()
         local subcategory = zoneData.settingsSubcategory
         for abilityId, abilityData in pairs(zoneData) do
             if (type(abilityId) == "number") then
-                Crutch.defaultOptions[subcategory][abilityData.settings.name] = true
+                Crutch.defaultOptions[subcategory][abilityData.settings.name] = abilityData.settings.default
             end
         end
     end
@@ -845,7 +880,7 @@ function Crutch.InitProminentV2Options()
         for abilityId, abilityData in pairs(zoneData) do
             if (type(abilityId) == "number") then
                 local settingsData = abilityData.settings
-                local value = true
+                local value = settingsData.default
                 if (settingsData.checkOldForDefault) then
                     value = Crutch.savedOptions.general.showProminent
                 end

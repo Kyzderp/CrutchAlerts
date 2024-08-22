@@ -92,6 +92,7 @@ Crutch.filter = {
     [192641] = function(hitValue) return hitValue > 1900 end, -- Paralyzing STomp [sic] (Death's Leviathan) 2000 for initial, extra 1900 after
     [202374] = function(hitValue) return hitValue > 1500 end, -- Pound (Bone Colossus) 2300 for initial, then does an extra 1500 after
     [215107] = function(hitValue) return hitValue == 1200 end, -- Tempest (Xoryn) want it as soon as he casts, not after the cast when gained duration
+    [227461] = function(hitValue) return hitValue == 1233 end, -- Ram (Marauder Zulfimbul) -- BEGIN timer is 1233, but DUR 10000. Only use BEGIN
 }
 
 
@@ -124,6 +125,8 @@ Crutch.testing = {
     [214138] = true, -- Fate Sealer (from logs, maybe full duration?)
     [215107] = true, -- Tempest
     [223060] = true, -- Arcane Conveyance
+
+    [227461] = true, -- Ram (Marauder Zulfimbul) -- TODO: timer seems bad
 }
 
 ---------------------------------------------------------------------
@@ -340,7 +343,7 @@ Crutch.others = {
     [195448] = true, -- Wing Burst (Ash Titan)
     [203006] = true, -- Thrash (Bristleback)
     [227772] = true, -- Scaling (Meteor) -- Scaling is just the buff that it gets, so use it to detect the spawn
-    -- [227461] = true, -- Ram (Marauder Zulfimbul) -- TODO: timer seems bad
+    [227461] = true, -- Ram (Marauder Zulfimbul) -- BEGIN timer is 1233, but DUR 10000. Only use BEGIN
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn

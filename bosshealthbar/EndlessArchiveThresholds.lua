@@ -40,6 +40,7 @@ local endlessArchiveThresholds = {
     ["Dranos Velador"] = { -- TODO: localization
         [50] = "Duplicity",
     },
+    -- Dugan the Red
 
     -- Exarch Kraglen -- nothing interesting
 
@@ -110,6 +111,7 @@ local endlessArchiveThresholds = {
     -- Razor Master Erthas
     -- Ri'Atahrashi
 
+    -- Sail Ripper
     -- Selene -- the Claw and Fang seem to be on both timer and hp gate
     -- Sentinel Aksalaz
     [GetBossName(CRUTCH_BHB_SENTINEL_AKSALAZ)] = {
@@ -127,7 +129,7 @@ local endlessArchiveThresholds = {
 
     -- Taupezu Azzida -- no hp gates
     -- The Ascendant Lord -- no hp gates?
-    -- The Endling
+    -- The Endling -- no hp gates?
     -- The Imperfect -- shield at 50%?
     -- The Lava Queen -- no hp gates?
     -- The Mage

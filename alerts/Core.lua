@@ -25,6 +25,7 @@ local fontSize = 32
 -- Cache group members by using status effects, so we know the unit IDs
 Crutch.groupIdToTag = {}
 Crutch.groupTagToId = {}
+Crutch.majorCowardiceUnitIds = {} -- For IA
 
 local resultStrings = {
     [ACTION_RESULT_BEGIN] = "begin",

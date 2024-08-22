@@ -213,8 +213,11 @@ end
 -- Zone change
 ---------------------------------------------------------------------
 local function OnPlayerActivated()
+    -- clear the caches
     Crutch.groupIdToTag = {}
-    Crutch.groupTagToId = {} -- clear the caches
+    Crutch.groupTagToId = {}
+    Crutch.majorCowardiceUnitIds = {}
+
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
     -- Unregister previous active trial, if applicable
