@@ -126,10 +126,11 @@ Crutch.format = {
     [196875] = 500, -- Earthen Blast (Lurcher)
     [220298] = 500, -- Clobber (Marauder Zulfimbul)
     [227461] = 500, -- Ram (Marauder Zulfimbul)
-    [192517] = 500, -- Seeking Spheres (Tho'at Shard)
+    [192517] = 1500, -- Seeking Spheres (Tho'at Shard)
 
     [227772] = {info = 110, text = GetAbilityName(211987)}, -- Scaling (Meteor) -- seems to be 10 seconds before meteor blows up
     [196689] = 200, -- Venomous Arrow (Ascendant Archer) dot hurts if pre-debuffed. chance to dodge
+    [221745] = 100, -- Sunburst (Fabled Lightbringer)
 
     [194984] = 300, -- Uppercut (Ascendant Vanguard)
     [196715] = 300, -- Power Bash (Dro-m'Athra Sentinel)

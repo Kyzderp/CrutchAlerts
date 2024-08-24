@@ -315,6 +315,11 @@ function Crutch.RegisterInterrupts()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. name, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, result)
     end
 
+    -- Interrupt Seeking Spheres (Tho'at Shard) -- TODO: stop putting code everywhere ffs
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SeekingSpheresFaded", EVENT_COMBAT_EVENT, function() Crutch.InterruptAbility(192517) end) -- TODO: this probably removes all of them
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SeekingSpheresFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SeekingSpheresFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 192517)
+
     Crutch.registered.interrupts = true
 end
 

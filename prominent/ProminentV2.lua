@@ -577,7 +577,7 @@ local prominentData = {
         -- Venomous Arrow (Ascendant Archer, Grovebound Blightbow)
         [196689] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 filterFunction = function(hitValue, effectUnitId)
                     Crutch.dbgSpam(zo_strformat("testing <<1>> unitId", effectUnitId))
@@ -593,8 +593,8 @@ local prominentData = {
                 name = "prominentVenomousArrow",
                 title = "Alert Venomous Arrow (Arc 4+)",
                 description = "Shows a prominent alert when an Ascendant Archer or Grovebound Blightbow casts Venomous Arrow at you, only in Arc 4 and above and if there is no Major Cowardice on it. The DoT snapshots the current strength, so even if you debuff the archer afterwards, the DoT ticks will remain high. Therefore, it's better to dodge the shot when possible",
-                checkOldForDefault = false,
-                default = false,
+                checkOldForDefault = true,
+                default = true,
             },
         },
     },
