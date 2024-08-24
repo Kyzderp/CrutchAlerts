@@ -202,9 +202,9 @@ local ASPECT_ICONS = {
     -- [59640] = "odysupporticons/icons/squares/squaretwo_yellow.dds", -- Lunar Aspect
     -- [59699] = "odysupporticons/icons/squares/square_blue.dds", -- Conversion (to shadow)
     -- [75460] = "odysupporticons/icons/squares/square_yellow.dds", -- Conversion (to lunar)
-    [59639] = {path = "/esoui/art/ava/ava_rankicon64_legate.dds", color = {0, 0, 1}}, -- Shadow Aspect
+    [59639] = {path = "/esoui/art/ava/ava_rankicon64_lieutenant.dds", color = {0, 0, 1}}, -- Shadow Aspect
     [59640] = {path = "/esoui/art/ava/ava_rankicon64_prefect.dds", color = {1, 206/255, 0}}, -- Lunar Aspect
-    [59699] = {path = "/esoui/art/ava/ava_rankicon64_lieutenant.dds", color = {0, 0, 1}}, -- Conversion (to shadow)
+    [59699] = {path = "/esoui/art/ava/ava_rankicon64_legate.dds", color = {0, 0, 1}}, -- Conversion (to shadow)
     [75460] = {path = "/esoui/art/ava/ava_rankicon64_tribune.dds", color = {1, 206/255, 0}}, -- Conversion (to lunar)
 }
 

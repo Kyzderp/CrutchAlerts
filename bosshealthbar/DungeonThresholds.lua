@@ -404,8 +404,8 @@ local dungeonThresholds = {
 
 -- Castle Thorn
     [GetBossName(CRUTCH_BHB_LADY_THORN)] = {
-        [60] = "Batdance", -- TODO
-        [20] = "Batdance", -- TODO
+        [60] = "Batdance",
+        [20] = "Batdance",
     },
 
 -- Black Drake Villa
