@@ -142,6 +142,7 @@ Crutch.format = {
     [199608] = 300, -- Heinous Highkick (Prior Thierric Sarazen)
     [202383] = 300, -- Charge (Ogrim)
     [191702] = 300, -- Lunging Strike (Kra'gh the Dreugh King)
+    [223685] = 300, -- Hoarfrost Fist (Frost Atronach)
 
 
 -- Maelstrom Arena

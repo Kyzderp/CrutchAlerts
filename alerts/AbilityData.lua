@@ -345,6 +345,7 @@ Crutch.others = {
     [227772] = true, -- Scaling (Meteor) -- Scaling is just the buff that it gets, so use it to detect the spawn
     [227461] = true, -- Ram (Marauder Zulfimbul) -- BEGIN timer is 1233, but DUR 10000. Only use BEGIN
     [192517] = true, -- Seeking Spheres (Tho'at Shard)
+    [223685] = true, -- Hoarfrost Fist (Frost Atronach)
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn

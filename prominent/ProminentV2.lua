@@ -579,6 +579,7 @@ local prominentData = {
             event = EVENT_COMBAT_EVENT,
             filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
                 filterFunction = function(hitValue, effectUnitId)
                     Crutch.dbgSpam(zo_strformat("testing <<1>> unitId", effectUnitId))
                     return GetEndlessDungeonCounterValue(ENDLESS_DUNGEON_COUNTER_TYPE_ARC) > 3 and not Crutch.majorCowardiceUnitIds[effectUnitId]
