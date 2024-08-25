@@ -775,7 +775,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Rockgrove",
-            controls = Crutch.GetProminentSettings(1263, {
+            controls = Crutch.GetProminentSettings(1263, Crutch.GetEffectSettings(1263, {
                 {
                     type = "checkbox",
                     name = "Show Noxious Sludge sides",
@@ -787,7 +787,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            }),
+            })),
         },
         {
             type = "submenu",

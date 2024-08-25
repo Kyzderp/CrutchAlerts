@@ -110,6 +110,23 @@ local effectData = {
             },
         },
     },
+    ------------
+    -- Rockgrove
+    [1263] = {
+        settingsSubcategory = "rockgrove",
+        -- Death Touch
+        [150078] = {
+            format = "|c7236ff<<C:1>>|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectDeathTouch",
+                title = "Show Death Touch Timer",
+                description = "Shows an \"alert\" timer for when your Bahsei curse will explode",
+            },
+        },
+    },
 }
 
 
