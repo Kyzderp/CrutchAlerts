@@ -2,10 +2,11 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 ---------------------------------------------------------------------
--- Result   Type  HideTimer  Color  Timer
--- 0        0     1          1      07.5
--- 001107.5
+-- DingIA Result   Type  HideTimer  Color  Timer
+-- 0      0        0     1          1      07.5
+-- 0001107.5
 -- 
+-- DingIA: 0 = no ding, 1 = ding in IA only
 -- Result: 0 = any, 1 = BEGIN only, 2 = GAINED only, 3 = NOT DURATION
 -- Type: 0 = normal alert, 1 = secondary, 2 = prevent overwrite, 3 = always display even if already displaying
 -- HideTimer: 0 = false, 1 = true
@@ -132,13 +133,15 @@ Crutch.format = {
     [196689] = 200, -- Venomous Arrow (Ascendant Archer) dot hurts if pre-debuffed. chance to dodge
     [221745] = 100, -- Sunburst (Fabled Lightbringer)
 
-    [194984] = 300, -- Uppercut (Ascendant Vanguard)
-    [196715] = 300, -- Power Bash (Dro-m'Athra Sentinel)
-    [211594] = 300, -- Power Bash (Ascendant Bulwark)
+    [194984] = 1000300, -- Uppercut (Ascendant Vanguard, Dremora Blademaster, Dremora Ravager, Dro-m'Athra Blademaster)
+    [196715] = 1000300, -- Power Bash (Dro-m'Athra Sentinel, Dremora Bulwark, Dremora Vigilant, Goblin Warbruiser, Grovebound Bruiser)
+    [211594] = 1000300, -- Power Bash (Ascendant Bulwark)
     [203006] = 300, -- Thrash (Bristleback)
     [201727] = 300, -- Shield Charge (Dremora Vigilant)
     [203492] = 300, -- Diving Strike (Dremora Ironclad)
     [199608] = 300, -- Heinous Highkick (Prior Thierric Sarazen)
+    [202383] = 300, -- Charge (Ogrim)
+    [191702] = 300, -- Lunging Strike (Kra'gh the Dreugh King)
 
 
 -- Maelstrom Arena
@@ -194,6 +197,9 @@ function Crutch.GetFormatInfo(abilityId)
         remainder = 0
     end
 
+    local dingInIA = math.floor(remainder / 1000000)
+    remainder = remainder - dingInIA * 1000000
+
     local resultFilter = math.floor(remainder / 100000)
     remainder = remainder - resultFilter * 100000
 
@@ -206,5 +212,5 @@ function Crutch.GetFormatInfo(abilityId)
     local color = math.floor(remainder / 100)
     remainder = remainder - color * 100
 
-    return remainder * 1000, colors[color], hideTimer, alertType, resultFilter, customText
+    return remainder * 1000, colors[color], hideTimer, alertType, resultFilter, dingInIA, customText
 end

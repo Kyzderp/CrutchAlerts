@@ -110,6 +110,7 @@ local endlessArchiveThresholds = {
     -- Rakkhat -- no hp gates I think
     -- Razor Master Erthas
     -- Ri'Atahrashi
+    -- Risen Ruins -- no hp gates
 
     -- Sail Ripper
     -- Selene -- the Claw and Fang seem to be on both timer and hp gate

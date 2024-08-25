@@ -143,7 +143,7 @@ end
 
 function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, result, preventOverwrite)
     -- Check for special format
-    local customTime, customColor, hideTimer, alertType, resultFilter, customText = Crutch.GetFormatInfo(abilityId)
+    local customTime, customColor, hideTimer, alertType, resultFilter, dingInIA, customText = Crutch.GetFormatInfo(abilityId)
     if (customText) then
         textLabel = customText
     end
@@ -237,6 +237,13 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     lineControl:GetNamedChild("Timer"):SetColor(unpack(GetTimerColor(timer)))
 
     lineControl:SetHidden(false)
+
+    -- Play a ding sound only in IA for Uppercut and Power Bash
+    if (dingInIA == 1
+        and Crutch.savedOptions.endlessArchive.dingUppercut
+        and GetZoneId(GetUnitZoneIndex("player")) == 1436) then
+        PlaySound(SOUNDS.DUEL_START)
+    end
 
     -- Start polling if it's not already going
     if (not isPolling) then

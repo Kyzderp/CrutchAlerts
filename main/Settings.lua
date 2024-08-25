@@ -963,6 +963,17 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Play sound for Uppercut / Power Bash",
+                    tooltip = "Plays a ding sound when you are targeted by an Uppercut from 2-hander enemies or Power Bash from sword-n-board enemies, e.g. Ascendant Vanguard, Dro-m'Athra Sentinel, etc.",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.endlessArchive.dingUppercut end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.endlessArchive.dingUppercut = value
+                    end,
+                    width = "full",
+                },
             }),
         },
         {

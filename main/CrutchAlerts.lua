@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "1.4.1"
+Crutch.version = "1.5.0-snapshot"
 
 Crutch.registered = {
     begin = false,
@@ -151,6 +151,7 @@ local defaultOptions = {
     endlessArchive = {
         markFabled = true,
         markNegate = false,
+        dingUppercut = false,
     },
     vateshran = {
         showMissedAdds = false,
