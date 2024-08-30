@@ -105,6 +105,26 @@ end
 
 
 ---------------------------------------------------------------------
+-- Cavot Agnan poop
+---------------------------------------------------------------------
+local cavotEnabled = false
+local function TryEnablingCavotIcon()
+    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    if (powerMax == 40750848 -- Veteran
+        or powerMax == 10224774) then -- Normal
+        if (not cavotEnabled) then
+            Crutch.EnableIcon("CavotSpawn")
+            cavotEnabled = true
+        end
+    else
+        if (cavotEnabled) then
+            Crutch.DisableIcon("CavotSpawn")
+            cavotEnabled = false
+        end
+    end
+end
+
+---------------------------------------------------------------------
 -- Mirror Icons
 ---------------------------------------------------------------------
 -- Orphic Shattered Shard icons for mirrors
@@ -252,8 +272,12 @@ function Crutch.RegisterLucentCitadel()
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
     else
+        local showCavot = Crutch.savedOptions.lucentcitadel.showCavotIcon
         local showOrphic = Crutch.savedOptions.lucentcitadel.showOrphicIcons
         local showTempest = Crutch.savedOptions.lucentcitadel.showTempestIcons
+
+        -- In case we reload at Cavot Agnan
+        if (showCavot) then TryEnablingCavotIcon() end
 
         -- In case we reload at Orphic
         if (showOrphic) then TryEnablingMirrorIcons() end
@@ -282,7 +306,7 @@ function Crutch.RegisterLucentCitadel()
         end
 
         -- Show icons on certain bosses
-        if (showOrphic or showTempest) then
+        if (showCavot or showOrphic or showTempest) then
             EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED, function()
                 -- Only do this when the bosses actually change
                 local bossHash = ""
@@ -295,6 +319,7 @@ function Crutch.RegisterLucentCitadel()
                 if (bossHash == prevBosses) then return end
                 prevBosses = bossHash
 
+                if (showCavot) then TryEnablingCavotIcon() end
                 if (showOrphic) then TryEnablingMirrorIcons() end
                 if (showTempest) then TryEnablingTempestIcons() end
             end)

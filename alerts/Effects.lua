@@ -50,7 +50,7 @@ local effectData = {
             settings = {
                 name = "effectVoltaicOverload",
                 title = "Show Voltaic Overload Timer",
-                description = "Shows an \"alert\" timer for the duration of Voltaic Overload (barswap mechanic)",
+                description = "Shows an \"alert\" timer for the duration of Voltaic Overload (barswap mechanic). Note that you still need \"Show gained casts\" enabled to see Voltaic Current, which is the warning you get before Overload",
             },
         },
     },

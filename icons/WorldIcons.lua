@@ -26,6 +26,10 @@ local function GetAnsuulIconSize()
     return Crutch.savedOptions.sanitysedge.ansuulIconSize
 end
 
+local function GetCavotIconSize()
+    return Crutch.savedOptions.lucentcitadel.cavotIconSize
+end
+
 local function GetOrphicIconSize()
     return Crutch.savedOptions.lucentcitadel.orphicIconSize * 0.8 -- Round icons from code take up the full texture but appear smaller
     -- 0.7 for my old full square icons
@@ -107,6 +111,8 @@ local data = {
 
     -- Sanity's Edge
     ["AnsuulCenter"] = {x = 200093, y = 30199, z = 40023, texture = "odysupporticons/icons/emoji-poop.dds", size = GetAnsuulIconSize},
+
+    ["CavotSpawn"] = {x = 99882, y = 14160, z = 114738, texture = "odysupporticons/icons/emoji-poop.dds", size = GetCavotIconSize},
 
     -- Mirrors on Orphic Shattered Shard
     ["OrphicN"] = {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/icons/assets/N.dds", size = GetOrphicIconSize},

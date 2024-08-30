@@ -619,6 +619,35 @@ function Crutch:CreateSettingsMenu()
             controls = Crutch.GetProminentSettings(1478, Crutch.GetEffectSettings(1478, {
                 {
                     type = "checkbox",
+                    name = "Show Cavot Agnan spawn spot",
+                    tooltip = "Shows icon for where Cavot Agnan will spawn. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.showCavotIcon end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.showCavotIcon = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Cavot Agnan icon size",
+                    tooltip = "The size of the icon for Cavot Agnan spawn",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 100,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.cavotIconSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.cavotIconSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    disabled = function() return not Crutch.savedOptions.lucentcitadel.showCavotIcon end,
+                },
+                {
+                    type = "checkbox",
                     name = "Show Orphic Shattered Shard mirror icons",
                     tooltip = "Shows icons for each mirror on the Orphic Shattered Shard fight. Requires OdySupportIcons",
                     default = true,
@@ -659,18 +688,6 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
                 },
-                -- {
-                --     type = "checkbox",
-                --     name = "Show Arcane Knot timer",
-                --     tooltip = "Shows an \"alert\" timer for the currently held Arcane Knot",
-                --     default = true,
-                --     getFunc = function() return Crutch.savedOptions.lucentcitadel.showKnotTimer end,
-                --     setFunc = function(value)
-                --         Crutch.savedOptions.lucentcitadel.showKnotTimer = value
-                --         Crutch.OnPlayerActivated()
-                --     end,
-                --     width = "full",
-                -- },
                 {
                     type = "checkbox",
                     name = "Show Arcane Conveyance icons",
