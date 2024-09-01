@@ -55,6 +55,8 @@ local data = {
     ["Falgravn2ndFloor2"] = {x = 24654, y = 14569, z = 10398, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds", size = GetFalgravnIconsSize},
     ["Falgravn2ndFloor3"] = {x = 25441, y = 14569, z = 10370, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds", size = GetFalgravnIconsSize},
     ["Falgravn2ndFloor4"] = {x = 25468, y = 14569, z = 9620, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = GetFalgravnIconsSize},
+    ["Falgravn2ndFloorH1"] = {x = 24268, y = 14569, z = 10028, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetFalgravnIconsSize},
+    ["Falgravn2ndFloorH2"] = {x = 25838, y = 14569, z = 9975, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetFalgravnIconsSize},
 
     -- Traditional Lokkestiiz
     ["LokkBeam1"] = {x = 115110, y = 56100, z = 107060, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetLokkIconsSize},

@@ -258,7 +258,7 @@ local SUBTITLE_TIMES = {
     },
     ["Talfyg"] = {
         -- Talfyg
-        ["How dare you reject Lady Thorn's offer? Look! Tremble before the power you might have wielded!"] = 8, -- Untested
+        ["How dare you reject Lady Thorn's offer? Look! Tremble before the power you might have wielded!"] = 9.1,
     },
 
 -- Depths of Malatar

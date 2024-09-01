@@ -259,6 +259,7 @@ local function AdjustControlsOnInterrupt(unitId, abilityId)
 
     local data = displaying[unitId][abilityId]
     local index = data.index
+    local expiredTimer = "0" -- A possible string for duration remaining that was cancelled
     if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
         freeControls[index].interrupted = true
 
@@ -270,10 +271,12 @@ local function AdjustControlsOnInterrupt(unitId, abilityId)
             -- Set the text to "stopped"
             local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
             local labelControl = lineControl:GetNamedChild("Label")
+            local timerControl = lineControl:GetNamedChild("Timer")
             labelControl:SetWidth(800)
             labelControl:SetText(labelControl:GetText() .. " |cA8FFBD- stopped|r")
             labelControl:SetWidth(labelControl:GetTextWidth())
-            lineControl:GetNamedChild("Timer"):SetText("")
+            expiredTimer = timerControl:GetText()
+            timerControl:SetText("")
         end
     end
 
@@ -285,6 +288,8 @@ local function AdjustControlsOnInterrupt(unitId, abilityId)
         Crutch.prominentDisplaying[abilityId] = nil
         EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "Prominent" .. tostring(slot))
     end
+
+    return expiredTimer
 end
 
 -- To be called when an enemy is interrupted
@@ -294,17 +299,21 @@ function Crutch.Interrupted(targetUnitId)
     end
 
     Crutch.dbgSpam("Attempting to interrupt targetUnitId " .. tostring(targetUnitId))
+    local expiredTimer = "0"
     for abilityId, _ in pairs(displaying[targetUnitId]) do
-        AdjustControlsOnInterrupt(targetUnitId, abilityId)
+        expiredTimer = AdjustControlsOnInterrupt(targetUnitId, abilityId)
     end
+    return expiredTimer
 end
 
 -- To be called when an ability by any enemy is interrupted
 function Crutch.InterruptAbility(abilityId)
     -- Check through all displaying alerts to find matching ability IDs
+    local expiredTimer = "0"
     for unitId, unitData in pairs(displaying) do
         if (unitData[abilityId]) then
-            AdjustControlsOnInterrupt(unitId, abilityId)
+            expiredTimer = AdjustControlsOnInterrupt(unitId, abilityId)
         end
     end
+    return expiredTimer
 end

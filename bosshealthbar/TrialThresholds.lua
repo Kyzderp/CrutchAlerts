@@ -116,7 +116,7 @@ local trialThresholds = {
         [50] = "Shamans",
     },
     [GetBossName(CRUTCH_BHB_LORD_FALGRAVN)] = {
-        [98] = "Lieutenant", -- TODO: it's not 95... could be a timer, or 98
+        -- [98] = "Lieutenant", -- On a timer
         [90] = "Conga Line",
         [80] = "Conga Line",
         [70] = "Floor Shatter",

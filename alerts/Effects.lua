@@ -81,9 +81,9 @@ local effectData = {
                     Crutch.msg(zo_strformat("<<1>> picked up the knot", atName))
                 end
             end,
-            fadedCallback = function(atName)
+            fadedCallback = function(atName, expiredTimer)
                 if (Crutch.savedOptions.general.showRaidDiag) then
-                    Crutch.msg(zo_strformat("<<1>> dropped the knot", atName))
+                    Crutch.msg(zo_strformat("<<1>> dropped the knot with <<2>>s remaining", atName, expiredTimer))
                 end
             end,
             settings = {
@@ -166,11 +166,11 @@ local function OnEffectChanged(changeType, unitTag, beginTime, endTime, abilityI
 
     -- Effect faded, "interrupt" the alert
     elseif (changeType == EFFECT_RESULT_FADED) then
-        if (abilityData.fadedCallback) then
-            abilityData.fadedCallback(atName)
-        end
+        local expiredTimer = Crutch.Interrupted(fakeSourceUnitId)
 
-        Crutch.Interrupted(fakeSourceUnitId)
+        if (abilityData.fadedCallback) then
+            abilityData.fadedCallback(atName, expiredTimer)
+        end
     end
 end
 
