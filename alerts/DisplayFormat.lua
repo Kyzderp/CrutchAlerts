@@ -6,7 +6,7 @@ local Crutch = CrutchAlerts
 -- 0      0        0     1          1      07.5
 -- 0001107.5
 -- 
--- DingIA: 0 = no ding, 1 = ding in IA only
+-- DingIA: 0 = no ding, 1 = Uppercut/Power Bash ding in IA only, 2 = ding in IA only
 -- Result: 0 = any, 1 = BEGIN only, 2 = GAINED only, 3 = NOT DURATION
 -- Type: 0 = normal alert, 1 = secondary, 2 = prevent overwrite, 3 = always display even if already displaying
 -- HideTimer: 0 = false, 1 = true
@@ -118,8 +118,8 @@ Crutch.format = {
     [210841] = 500, -- Crashing Wave (Marauder Ulmor)
     [210830] = 500, -- Fulmination II (Marauder Ulmor)
     [195816] = 500, -- Poison Bolt (Selene)
-    [196848] = 500, -- Mundus Breach (Silver Rose Realmshaper) it hurts a LOT in later arcs
-    [202374] = 500, -- Pound (Bone Colossus) really need to block in later arcs
+    [196848] = 500, -- Mundus Breach (Silver Rose Realmshaper)
+    [202374] = 500, -- Pound (Bone Colossus)
     [193530] = 500, -- Befouled Air (Old Snagara) poison aoe
     [196251] = 500, -- Enervating Sheen (Nerien'eth) does it need to be shielded?
     [197002] = 500, -- Stormfront (Storm Atronach)
@@ -128,6 +128,8 @@ Crutch.format = {
     [220298] = 500, -- Clobber (Marauder Zulfimbul)
     [227461] = 500, -- Ram (Marauder Zulfimbul)
     [192517] = 1500, -- Seeking Spheres (Tho'at Shard)
+    [ 47481] = 2000500, -- Obliterate (Anka-Ra Destroyer)
+    [221792] = 2001503, -- Elixir of Diminishing (Fabled Brewmaster)
 
     [227772] = {info = 110, text = GetAbilityName(211987)}, -- Scaling (Meteor) -- seems to be 10 seconds before meteor blows up
     [196689] = 200, -- Venomous Arrow (Ascendant Archer) dot hurts if pre-debuffed. chance to dodge
@@ -136,6 +138,7 @@ Crutch.format = {
     [194984] = 1000300, -- Uppercut (Ascendant Vanguard, Dremora Blademaster, Dremora Ravager, Dro-m'Athra Blademaster)
     [196715] = 1000300, -- Power Bash (Dro-m'Athra Sentinel, Dremora Bulwark, Dremora Vigilant, Goblin Warbruiser, Grovebound Bruiser)
     [211594] = 1000300, -- Power Bash (Ascendant Bulwark)
+    [ 47488] = 300, -- Uppercut (Anka-Ra Destroyer)
     [203006] = 300, -- Thrash (Bristleback)
     [201727] = 300, -- Shield Charge (Dremora Vigilant)
     [203492] = 300, -- Diving Strike (Dremora Ironclad)

@@ -136,6 +136,30 @@ local function OnCombatStateChanged(_, inCombat)
     end
 end
 
+
+---------------------------------------------------------------------
+-- Icon for Elixir of Diminishing
+---------------------------------------------------------------------
+-- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+local function OnElixir(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    local unitTag
+    if (IsUnitGrouped("player")) then
+        unitTag = Crutch.groupIdToTag[targetUnitId]
+    else
+        unitTag = "player"
+    end
+
+    if (not unitTag) then return end
+
+    -- Put an icon on the ground (get the position after the actual cast, 500ms)
+    zo_callLater(function()
+        local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+        local potion = OSI.CreatePositionIcon(x, y, z, "/esoui/art/inventory/inventory_consumables_tabicon_active.dds", 150, {1, 0, 1})
+        zo_callLater(function() OSI.DiscardPositionIcon(potion) end, 16300)
+    end, 500)
+end
+
+
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
@@ -151,6 +175,15 @@ function Crutch.RegisterEndlessArchive()
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED, OnReticleChanged)
     end
 
+    if (not Crutch.WorldIconsEnabled()) then
+        Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+    else
+        if (Crutch.savedOptions.endlessArchive.potionIcon) then
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, OnElixir)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 221792)
+        end
+    end
+
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Endless Archive")
 end
 
@@ -158,6 +191,7 @@ function Crutch.UnregisterEndlessArchive()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EACombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "IAMajorCowardice", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Endless Archive")
 end

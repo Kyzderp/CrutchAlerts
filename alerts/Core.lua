@@ -245,6 +245,13 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         PlaySound(SOUNDS.DUEL_START)
     end
 
+    -- Play a ding sound only in IA for other dangerous attacks
+    if (dingInIA == 2
+        and Crutch.savedOptions.endlessArchive.dingDangerous
+        and GetZoneId(GetUnitZoneIndex("player")) == 1436) then
+        PlaySound(SOUNDS.DUEL_START)
+    end
+
     -- Start polling if it's not already going
     if (not isPolling) then
         EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "Poll", 100, UpdateDisplay)

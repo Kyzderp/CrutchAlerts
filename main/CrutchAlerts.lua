@@ -154,6 +154,8 @@ local defaultOptions = {
         markFabled = true,
         markNegate = false,
         dingUppercut = false,
+        dingDangerous = true,
+        potionIcon = true,
     },
     vateshran = {
         showMissedAdds = false,

@@ -19,18 +19,18 @@ local endlessArchiveThresholds = {
     -- Baron Zaudrus
     -- Bittergreen the Wild
 
-    -- Caluurion -- nothing interesting
-    -- Canonreeve Oraneth -- nothing interesting
-    -- Captain Blackheart
-    -- Councilor Vandacia
+    -- Caluurion -- not sure if relics are hp based. spawns exploding skellies
+    -- Canonreeve Oraneth -- no hp gates, has squishy skelly spawns
+    -- Captain Blackheart -- no hp gates, no adds
+    -- Councilor Vandacia -- kamikaze flame atros, cc'able daedroths
     [GetBossName(CRUTCH_BHB_COUNCILOR_VANDACIA)] = {
         [50] = "Desperation", -- meteors all over the place
     },
     -- Cynhamoth
 
-    -- Death's Leviathan
+    -- Death's Leviathan -- no adds
     [GetBossName(CRUTCH_BHB_DEATHS_LEVIATHAN)] = {
-        [50] = "Immolate", -- TODO; adds fire to its attacks
+        [50] = "Immolate",
     },
     -- Doylemish Ironheart
     [GetBossName(CRUTCH_BHB_DOYLEMISH_IRONHEART)] = {
@@ -44,7 +44,7 @@ local endlessArchiveThresholds = {
 
     -- Exarch Kraglen -- nothing interesting
 
-    -- Garron the Returned -- Consume Life is timer based
+    -- Garron the Returned -- Consume Life is timer based -- no hp gates, wraiths can hit hard
     -- Ghemvas the Harbinger
     [GetBossName(CRUTCH_BHB_GHEMVAS_THE_HARBINGER)] = {
         [50] = "Unstable Energy",
@@ -74,12 +74,12 @@ local endlessArchiveThresholds = {
         [50] = "Awakening", -- She flies up and summons 2 voidmothers (more in later arcs), and you take constant Awakening damage
         -- Seems like after 50 she also summons blood knights, 3 at once
     },
-    -- Lady Thorn
+    -- Lady Thorn -- no adds, except squishy things during scatter
     [GetBossName(CRUTCH_BHB_LADY_THORN)] = {
         [50] = "Batdance",
     },
     -- Limenauruus
-    -- Lord Warden Dusk
+    -- Lord Warden Dusk -- no hp gates? has shades
 
     -- Marauder Bittog -- no hp gates
     -- Marauder Gothmau -- no hp gates
@@ -87,7 +87,7 @@ local endlessArchiveThresholds = {
     -- Marauder Ulmor -- no hp gates
     -- Marauder Zulfimbul -- no hp gates
 
-    -- Molag Kena
+    -- Molag Kena -- storm atros. might be possible to debuff while in shielded phase?
     -- Mulaamnir
     [GetBossName(CRUTCH_BHB_MULAAMNIR)] = {
         [50] = "Storm",
@@ -109,12 +109,12 @@ local endlessArchiveThresholds = {
     -- Rada al-Saran -- no hp gates
     -- Rakkhat -- no hp gates I think
     -- Razor Master Erthas
-    -- Ri'Atahrashi
-    -- Risen Ruins -- no hp gates
+    -- Ri'Atahrashi -- no hp gates, no adds
+    -- Risen Ruins -- no hp gates, has adds like nullifier. boulders may not be affected by cowardice? unsure
 
     -- Sail Ripper
     -- Selene -- the Claw and Fang seem to be on both timer and hp gate
-    -- Sentinel Aksalaz
+    -- Sentinel Aksalaz -- big adds AND frostkin!!
     [GetBossName(CRUTCH_BHB_SENTINEL_AKSALAZ)] = {
         -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
         -- Different order: indrik > nereid > atro
@@ -123,7 +123,7 @@ local endlessArchiveThresholds = {
         [50] = "Add",
         [25] = "Add",
     },
-    -- Shadowrend -- no hp gates
+    -- Shadowrend -- no hp gates, has some shades
     -- Staada -- no hp gates ez
     -- Sonolia the Matriarch -- no hp gates
     -- Symphony of Blades -- no hp gates?
@@ -132,18 +132,18 @@ local endlessArchiveThresholds = {
     -- The Ascendant Lord -- no hp gates?
     -- The Endling -- no hp gates?
     -- The Imperfect -- shield at 50%?
-    -- The Lava Queen -- no hp gates?
+    -- The Lava Queen -- no hp gates, no adds
     -- The Mage
     [GetBossName(CRUTCH_BHB_THE_MAGE)] = {
         [50] = "Arcane Vortex",
     },
-    -- The Sable Knight -- no hp gates
+    -- The Sable Knight -- no hp gates, no adds
     -- The Serpent
     -- The Warrior
     ["The Warrior"] = { -- TODO: localization
         [50] = "Shehai",
     },
-    -- The Weeping Woman
+    -- The Weeping Woman -- no hp gates, no adds
     -- The Whisperer
     -- Tho'at Replicanum
     [GetBossName(CRUTCH_BHB_THOAT_REPLICANUM)] = {
@@ -155,21 +155,21 @@ local endlessArchiveThresholds = {
     },
     -- Tremorscale
 
-    -- Valkynaz Nokvroz
+    -- Valkynaz Nokvroz -- maybe no hp gates, but annoying magma scamps
     -- Varlariel -- clones seem to be on a timer
     -- Varzunon -- dunno
     -- Vila Theran
-    -- Voidmother Elgroalif
+    -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
     -- Vorenor Winterbourne
 
-    -- War Chief Ozozai -- no hp gates
+    -- War Chief Ozozai -- no hp gates, no adds
 
     -- Xeemhok the Trophy-Taker
     ["Xeemhok the Trophy-Taker"] = { -- TODO: localization
         [50] = "Fury",
     },
 
-    -- Yandir the Butcher
+    -- Yandir the Butcher -- no hp gates, HM version. fire mages, totems
     -- Yolnahkriin
     [GetBossName(CRUTCH_BHB_YOLNAHKRIIN)] = {
         [50] = "Cataclysm",
