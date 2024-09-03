@@ -82,6 +82,8 @@ function Crutch.RegisterKynesAegis()
             Crutch.EnableIcon("Falgravn2ndFloor2")
             Crutch.EnableIcon("Falgravn2ndFloor3")
             Crutch.EnableIcon("Falgravn2ndFloor4")
+            Crutch.EnableIcon("Falgravn2ndFloorH1")
+            Crutch.EnableIcon("Falgravn2ndFloorH2")
         end
     end
 end
@@ -99,6 +101,8 @@ function Crutch.UnregisterKynesAegis()
     Crutch.DisableIcon("Falgravn2ndFloor2")
     Crutch.DisableIcon("Falgravn2ndFloor3")
     Crutch.DisableIcon("Falgravn2ndFloor4")
+    Crutch.DisableIcon("Falgravn2ndFloorH1")
+    Crutch.DisableIcon("Falgravn2ndFloorH2")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Kyne's Aegis")
 end
