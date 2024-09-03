@@ -138,6 +138,7 @@ Crutch.format = {
     [194984] = 1000300, -- Uppercut (Ascendant Vanguard, Dremora Blademaster, Dremora Ravager, Dro-m'Athra Blademaster)
     [196715] = 1000300, -- Power Bash (Dro-m'Athra Sentinel, Dremora Bulwark, Dremora Vigilant, Goblin Warbruiser, Grovebound Bruiser)
     [211594] = 1000300, -- Power Bash (Ascendant Bulwark)
+    [221216] = 1000300, -- Power Bash (Dugan the Red)
     [ 47488] = 300, -- Uppercut (Anka-Ra Destroyer)
     [203006] = 300, -- Thrash (Bristleback)
     [201727] = 300, -- Shield Charge (Dremora Vigilant)

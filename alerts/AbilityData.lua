@@ -127,6 +127,8 @@ Crutch.testing = {
     [223060] = true, -- Arcane Conveyance
 
     [192517] = true, -- Seeking Spheres (Tho'at Shard)
+
+    [221794] = true, -- Diminishing Elixir
 }
 
 ---------------------------------------------------------------------

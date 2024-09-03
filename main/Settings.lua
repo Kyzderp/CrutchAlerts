@@ -990,11 +990,12 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.endlessArchive.potionIcon = value
                     end,
                     width = "full",
+                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",
                     name = "Play sound for Uppercut / Power Bash",
-                    tooltip = "Plays a ding sound when you are targeted by an Uppercut from 2-hander enemies or Power Bash from sword-n-board enemies, e.g. Ascendant Vanguard, Dro-m'Athra Sentinel, etc.",
+                    tooltip = "Plays a ding sound when you are targeted by an Uppercut from 2-hander enemies or Power Bash from sword-n-board enemies, e.g. Ascendant Vanguard, Dro-m'Athra Sentinel, etc. Requires \"Begin\" casts on",
                     default = false,
                     getFunc = function() return Crutch.savedOptions.endlessArchive.dingUppercut end,
                     setFunc = function(value)
@@ -1005,7 +1006,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Play sound for dangerous abilities",
-                    tooltip = "Plays a ding sound for particularly dangerous abilities. Currently, this only includes:\n\n- Obliterate from Anka-Ra Destroyers on the Warrior encounter, because if you don't block or dodge it, the CC cannot be broken free of\n- Elixir of Diminishing from Brewmasters, which also stun you for a duration",
+                    tooltip = "Plays a ding sound for particularly dangerous abilities. Requires \"Begin\" casts on. Currently, this only includes:\n\n- Obliterate from Anka-Ra Destroyers on the Warrior encounter, because if you don't block or dodge it, the CC cannot be broken free of\n- Elixir of Diminishing from Brewmasters, which also stuns you for a duration",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.endlessArchive.dingDangerous end,
                     setFunc = function(value)

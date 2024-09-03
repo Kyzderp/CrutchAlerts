@@ -116,23 +116,27 @@ end
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED caching
 ---------------------------------------------------------------------
+local function CacheUnitTag(_, _, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId)
+    if (GetUnitDisplayName(unitTag) == GetUnitDisplayName("player")) then
+        Crutch.playerGroupTag = unitTag
+    end
+
+    local oldId = Crutch.groupTagToId[unitTag]
+    if (oldId ~= nil and oldId ~= unitId) then
+        Crutch.groupIdToTag[oldId] = nil
+    end
+    Crutch.groupIdToTag[unitId] = unitTag
+    Crutch.groupTagToId[unitTag] = unitId
+end
 
 function Crutch.RegisterEffectChanged()
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED,
-        function(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, unitName, unitId, abilityId, sourceType)
-            if (GetUnitDisplayName(unitTag) == GetUnitDisplayName("player")) then
-                Crutch.playerGroupTag = unitTag
-            end
-
-            local oldId = Crutch.groupTagToId[unitTag]
-            if (oldId ~= nil and oldId ~= unitId) then
-                Crutch.groupIdToTag[oldId] = nil
-            end
-            Crutch.groupIdToTag[unitId] = unitTag
-            Crutch.groupTagToId[unitTag] = unitId
-        end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, CacheUnitTag)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Effect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+
+    -- Also cache player, player pets, currently for IA elixirs. Could be the same for companions too
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EffectPet", EVENT_EFFECT_CHANGED, CacheUnitTag)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "EffectPet", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
 end
 
 

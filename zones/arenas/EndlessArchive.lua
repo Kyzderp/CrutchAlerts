@@ -141,22 +141,21 @@ end
 -- Icon for Elixir of Diminishing
 ---------------------------------------------------------------------
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
-local function OnElixir(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
-    local unitTag
-    if (IsUnitGrouped("player")) then
-        unitTag = Crutch.groupIdToTag[targetUnitId]
-    else
-        unitTag = "player"
+local function OnElixir(_, _, _, _, _, _, _, _, targetName, _, _, _, _, _, _, targetUnitId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+
+    if (not unitTag) then
+        Crutch.dbgOther(zo_strformat("|cFF0000Couldn't find unit tag for <<1>> ID <<2>>", targetName, targetUnitId))
+        return
     end
 
-    if (not unitTag) then return end
-
     -- Put an icon on the ground (get the position after the actual cast, 500ms)
-    zo_callLater(function()
+    -- zo_callLater(function()
+        Crutch.dbgSpam(zo_strformat("Elixir on <<1>> (<<2>>)", unitTag, targetName))
         local _, x, y, z = GetUnitRawWorldPosition(unitTag)
         local potion = OSI.CreatePositionIcon(x, y, z, "/esoui/art/inventory/inventory_consumables_tabicon_active.dds", 150, {1, 0, 1})
         zo_callLater(function() OSI.DiscardPositionIcon(potion) end, 16300)
-    end, 500)
+    -- end, 500)
 end
 
 
@@ -175,12 +174,13 @@ function Crutch.RegisterEndlessArchive()
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED, OnReticleChanged)
     end
 
-    if (not Crutch.WorldIconsEnabled()) then
-        Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
-    else
-        if (Crutch.savedOptions.endlessArchive.potionIcon) then
+    if (Crutch.savedOptions.endlessArchive.potionIcon) then
+        if (not Crutch.WorldIconsEnabled()) then
+            Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+        else
             EVENT_MANAGER:RegisterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, OnElixir)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 221792)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 221794)
+            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
         end
     end
 
