@@ -983,7 +983,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Brewmaster elixir spot",
-                    tooltip = "Displays an icon on where the Fabled Brewmaster may have thrown an Elixir of Diminishing. Requires OdySupportIcons",
+                    tooltip = "Displays an icon on where the Fabled Brewmaster may have thrown an Elixir of Diminishing. Note that it will not work on elixirs that are thrown at your group members' pets, but should for yourself, your pets, your companion, and your actual group member. Requires OdySupportIcons",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.endlessArchive.potionIcon end,
                     setFunc = function(value)

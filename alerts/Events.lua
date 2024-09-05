@@ -137,6 +137,8 @@ function Crutch.RegisterEffectChanged()
     -- Also cache player, player pets, currently for IA elixirs. Could be the same for companions too
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EffectPet", EVENT_EFFECT_CHANGED, CacheUnitTag)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "EffectPet", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "EffectCompanion", EVENT_EFFECT_CHANGED, CacheUnitTag)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "EffectCompanion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "companion")
 end
 
 

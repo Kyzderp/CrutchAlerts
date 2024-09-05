@@ -65,13 +65,13 @@ local endlessArchiveThresholds = {
         [50] = "Mudcrabs",
     },
 
-    -- Laatvulon
+    -- Laatvulon -- RIP. frost atros during blizzard, but worse, freezing winds dot that can't be debuffed
     [GetBossName(CRUTCH_BHB_LAATVULON)] = {
         [50] = "Blizzard",
     },
     -- Lady Belain
     [GetBossName(CRUTCH_BHB_LADY_BELAIN)] = {
-        [50] = "Awakening", -- She flies up and summons 2 voidmothers (more in later arcs), and you take constant Awakening damage
+        [50] = "Awakening", -- She flies up and summons 2~4 voidmothers (random/inconsistent), and you take constant Awakening damage
         -- Seems like after 50 she also summons blood knights, 3 at once
     },
     -- Lady Thorn -- no adds, except squishy things during scatter
@@ -133,7 +133,7 @@ local endlessArchiveThresholds = {
     -- The Endling -- no hp gates?
     -- The Imperfect -- shield at 50%?
     -- The Lava Queen -- no hp gates, no adds
-    -- The Mage
+    -- The Mage -- storm atros
     [GetBossName(CRUTCH_BHB_THE_MAGE)] = {
         [50] = "Arcane Vortex",
     },
@@ -160,7 +160,7 @@ local endlessArchiveThresholds = {
     -- Varzunon -- dunno
     -- Vila Theran
     -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
-    -- Vorenor Winterbourne
+    -- Vorenor Winterbourne -- no adds
 
     -- War Chief Ozozai -- no hp gates, no adds
 
