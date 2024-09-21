@@ -53,6 +53,7 @@ Crutch.format = {
 
 -- Kyne's Aegis
     [133515] = 100204.5, -- Chaurus Totem seems to send out first projectile ~4.5 seconds after spawn
+    [134050] =  30400, -- Wrath of Tides
 
 -- Lucent Citadel
     [214203] = 500, -- Bleak Annihilation
@@ -77,6 +78,7 @@ Crutch.format = {
 
 -- Sanctum Ophidia
     [ 56857] = 205, -- Emerald Eclipse (The Serpent)
+    [ 54125] = 100205.7, -- Quake (Mantikora)
 
 -- Sanity's Edge
     [183855] = 45, -- The Ritual (Ansuul maze)
@@ -96,6 +98,9 @@ Crutch.format = {
 
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
+
+-- Fang Lair
+    [ 98809] = 500, -- Draconic Smash
 
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb

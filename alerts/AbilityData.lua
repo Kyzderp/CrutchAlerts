@@ -119,16 +119,7 @@ Crutch.testing = {
 
     [58084] = true, -- Magicka Bomb
 
-    [197434] = true, -- Grasp of Lorkhaj (EA; the debuff, does it work?)
-    [197418] = true, -- Grip of Lorkhaj (EA; the cast)
-
-    [214138] = true, -- Fate Sealer (from logs, maybe full duration?)
-    [215107] = true, -- Tempest
-    [223060] = true, -- Arcane Conveyance
-
-    [192517] = true, -- Seeking Spheres (Tho'at Shard)
-
-    [221794] = true, -- Diminishing Elixir
+    [97022] = true, -- Wraith Speed
 }
 
 ---------------------------------------------------------------------
@@ -225,6 +216,7 @@ Crutch.others = {
     [135991] = true, -- Toppling Blow (Storm Twin)
     [133936] = true, -- Exploding Spear
     [136965] = true, -- Sanguine Grasp
+    [134050] = true, -- Wrath of Tides
 
 -- Lucent Citadel
     [214203] = true, -- Bleak Annihilation
@@ -262,6 +254,7 @@ Crutch.others = {
 -- Sanctum Ophidia
     [56857] = true, -- Emerald Eclipse (Serpent)
     [54125] = true, -- Quake (Mantikora)
+    [52987] = true, -- Slam (Mantikora)
     [52442] = true, -- Leaping Crush
     [52447] = true, -- Ground Slam
     [57839] = true, [57861] = true, -- Trapping Bolts (Ozara)
@@ -381,6 +374,8 @@ Crutch.others = {
 -- Fang Lair
     [ 98597] = true, -- Haunting Spectre (Sabina)
     [102615] = true, -- Spectral Chains (Sabina)
+    [ 97022] = true, -- Wraith Speed
+    [ 96826] = true, -- Impaling Shards (Thurvokun)
 
 -- Frostvault
     [113465] = true, -- Reckless Charge (Warlord Tzogvin)
