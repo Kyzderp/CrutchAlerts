@@ -151,6 +151,14 @@ local SUBTITLE_TIMES = {
         -- Assembly General
         ["Well, well. Now that's the second largest construct I've ever seen. Inactive, at the moment."] = 26.4,  -- TODO: I was given 19.2, but I think it's 26.4... need testing
     },
+-- KA
+    ["Lord Falgravn"] = {
+        -- Torturers
+        ["Feed, my pets. Feed!"] = 30,
+        ["Come, cattle! Time for the slaughter!"] = 30,
+        ["Behold, my banquet!"] = 30,
+        ["Go, children, and drink your fill!"] = 30,
+    },
 -- LC
     ["Xoryn"] = {
         -- Count Ryelaz & Zilyesset
@@ -273,7 +281,7 @@ local SUBTITLE_TIMES = {
 -- Earthen Root Enclave
     ["Druid Laurel"] = {
         -- Archdruid Devyric
-        ["He's killing the spirit. He has the seed. Stop him. Please stop him!"] = 12.8, -- TODO
+        ["He's killing the spirit. He has the seed. Stop him. Please stop him!"] = 12.3, -- TODO
     },
 
 -- Falkreath Hold
@@ -284,6 +292,16 @@ local SUBTITLE_TIMES = {
     ["Jarl Skjoralmor"] = {
         -- Domihaus the Bloody-Horned
         ["I said to keep the fight out there! Oh, you aren't my guards. Nor are you Reachmen. We've won then?"] = 13.6,
+    },
+
+-- Fang Lair
+    ["Orryn the Black"] = {
+        -- Cadaverous Bear
+        ["You're still here? If you must admire my work, at least allow me to put my best fossil forward."] = 10.9,
+        -- Caluurion
+        ["Caluurion. See that our uninvited guests are made comfortable for a very long stay."] = 14.2,
+        -- Ulfnor and Sabina
+        ["So many of the things you've broken I can easily replace, but Caluurion ... he was a unique specimen. He'll never be the same."] = 17.5,
     },
 
 -- Lair of Maarselok
@@ -332,6 +350,21 @@ local SUBTITLE_TIMES = {
         ["Let's be done with this. I have important tasks to see to."] = 4.5,
         ["What are you waiting for? Keshargo? Come and get him."] = 4.6,
         ["You live? Let's fix that, shall we?"] = 5,
+    },
+
+-- Shipwright's Regret
+    ["Caska"] = {
+        -- Nazaray
+        ["Huh. Looks dead now."] = 5.2,
+    },
+    ["Captain Za'ji"] = {
+        -- Foreman Bradiggan
+        ["And we're through! That wasn't so hard now, was it?"] = 8.3,
+        -- Captain Numirril
+        ["Come back you scaly scallywags! You take what is rightfully Captain Za'ji's!"] = 22.3,
+    },
+    ["Captain Numirril"] = {
+        ["I am Dreadsail, born of the sea. I cannot be defeated!"] = 16,
     },
 
 -- The Cauldron
