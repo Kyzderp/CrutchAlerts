@@ -301,7 +301,7 @@ local SUBTITLE_TIMES = {
         -- Caluurion
         ["Caluurion. See that our uninvited guests are made comfortable for a very long stay."] = 14.2,
         -- Ulfnor and Sabina
-        ["So many of the things you've broken I can easily replace, but Caluurion ... he was a unique specimen. He'll never be the same."] = 17.5,
+        ["So many of the things you've broken I can easily replace, but Caluurion … he was a unique specimen. He'll never be the same."] = 17.5,
     },
 
 -- Lair of Maarselok

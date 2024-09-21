@@ -101,6 +101,8 @@ Crutch.format = {
 
 -- Fang Lair
     [ 98809] = 500, -- Draconic Smash
+    [ 97022] = 500, -- Wraith Speed
+    [ 96826] = 100400, -- Impaling Shards (Thurvokun)
 
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb

@@ -107,6 +107,7 @@ Crutch.uninterruptible = {
     [192024] = true, -- Glass Sky (Tho'at Shard (Mantikora)) this could be interrupted when it dies, but I'd rather not have the timer disappear
     -- [ 73250] = true, -- Shattered in MoL -- idr why I made this uninterruptible?
     [203989] = true, -- Hurl Axe (Anthelmir's Construct)
+    [ 96826] = true, -- Impaling Shards (Thurvokun)
 }
 
 ---------------------------------------------------------------------
