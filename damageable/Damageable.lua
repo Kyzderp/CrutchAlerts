@@ -154,10 +154,10 @@ local SUBTITLE_TIMES = {
 -- KA
     ["Lord Falgravn"] = {
         -- Torturers
-        ["Feed, my pets. Feed!"] = 30,
-        ["Come, cattle! Time for the slaughter!"] = 30,
-        ["Behold, my banquet!"] = 30,
-        ["Go, children, and drink your fill!"] = 30,
+        ["Feed, my pets. Feed!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
+        ["Come, cattle! Time for the slaughter!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
+        ["Behold, my banquet!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
+        ["Go, children, and drink your fill!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
     },
 -- LC
     ["Xoryn"] = {
@@ -436,9 +436,10 @@ end
 
 ---------------------------------------------------------------------
 -- Display the timer
-function Crutch.DisplayDamageable(time)
+function Crutch.DisplayDamageable(time, displayFormat)
+    displayFormat = displayFormat or "Boss in |c%s%.1f|r"
     pollTime = GetGameTimeMilliseconds() + time * 1000
-    CrutchAlertsDamageableLabel:SetText(string.format("Boss in |c%s%.1f|r", GetTimerColor(time * 1000), time))
+    CrutchAlertsDamageableLabel:SetText(string.format(displayFormat, GetTimerColor(time * 1000), time))
     CrutchAlertsDamageableLabel:SetHidden(false)
 
     if (not isPolling) then
@@ -452,7 +453,6 @@ end
 local isInstanceFresh = true
 local function OnPlayerActivated()
     isInstanceFresh = true
-    Crutch.dbgOther("|c88FF88Refreshing instance for damageable|r")
 end
 
 ---------------------------------------------------------------------
@@ -498,20 +498,28 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
         end
     end
 
-    -- If the time is a special case and it's the specified zone...
-    if (type(time) == "table" and time.singleZoneId == GetZoneId(GetUnitZoneIndex("player"))) then
-        -- ... only display if it's the first time one of these lines has been found in this instance
-        if (not isInstanceFresh) then
-            Crutch.dbgOther("|c88FF88Skipping damageable because this is not a fresh instance.|r")
-            return
+    -- Extra info
+    local displayFormat
+    if (type(time) == "table") then
+        -- If the time is a special case and it's the specified zone...
+        if (time.singleZoneId and time.singleZoneId == GetZoneId(GetUnitZoneIndex("player"))) then
+            -- ... only display if it's the first time one of these lines has been found in this instance
+            if (not isInstanceFresh) then
+                Crutch.dbgOther("|c88FF88Skipping damageable because this is not a fresh instance.|r")
+                return
+            end
+            isInstanceFresh = false
+            Crutch.dbgOther("|c88FF88Single-time line found, will only display this time.|r")
         end
+
+        -- Special display format, for when it is not a boss
+        displayFormat = time.displayFormat -- can be nil
+
         time = time.time
-        isInstanceFresh = false
-        Crutch.dbgOther("|c88FF88Single-time line found, will only display this time.|r")
     end
 
     -- Have the number of seconds after which the boss should be damageable
-    Crutch.DisplayDamageable(time)
+    Crutch.DisplayDamageable(time, displayFormat)
 end
 
 ---------------------------------------------------------------------
