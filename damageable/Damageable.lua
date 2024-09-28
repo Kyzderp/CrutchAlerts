@@ -255,6 +255,16 @@ local SUBTITLE_TIMES = {
         ["My spell destroys everything in my way!"] = 6.7, -- 80% port. this is accurate because she says it after porting
     },
 
+-- Blessed Crucible
+    ["Snagg gro-Mashul"] = {
+        ["Congratulations. You've passed the first trial."] = 15.1,
+    },
+    ["The Beast Master"] = {
+        ["And there we have it! The winners of the Grand Melee!"] = {time = 43.4, displayFormat = "INCINERATION BEETLES!!! in |c%s%.1f|r"},
+        ["These challengers are surprisingly fierce! But here's the real reason you've come today!"] = 25.5, -- Stinger
+        ["What? Impossible? How did you win?"] = 19.7, -- Troll King
+    },
+
 -- Castle Thorn
     ["Lady Thorn"] = {
         -- Blood Twilight
@@ -318,6 +328,12 @@ local SUBTITLE_TIMES = {
     },
     ["Grundwulf"] = {
         ["I can feel it! Haha"] = 19, -- TODO
+    },
+
+-- Moon Hunter Keep
+    ["Vykosa the Ascendant"] = {
+        -- Mylenne Moon-Caller
+        ["Was Vykosa not told the intruders would be dealt with? Must she handle everything herself?"] = 14.7,
     },
 
 -- Oathsworn Pit
@@ -420,6 +436,7 @@ end
 
 ---------------------------------------------------------------------
 -- Poll for update
+local dmgDisplayFormat = "Boss in |c%s%.1f|r"
 local function UpdateDisplay()
     local currTime = GetGameTimeMilliseconds()
     local millisRemaining = pollTime - currTime
@@ -430,16 +447,16 @@ local function UpdateDisplay()
     elseif (millisRemaining < 0) then
         CrutchAlertsDamageableLabel:SetText("|c0fff43Fire the nailguns!|r")
     else
-        CrutchAlertsDamageableLabel:SetText(string.format("Boss in |c%s%.1f|r", GetTimerColor(millisRemaining), millisRemaining / 1000))
+        CrutchAlertsDamageableLabel:SetText(string.format(dmgDisplayFormat, GetTimerColor(millisRemaining), millisRemaining / 1000))
     end
 end
 
 ---------------------------------------------------------------------
 -- Display the timer
 function Crutch.DisplayDamageable(time, displayFormat)
-    displayFormat = displayFormat or "Boss in |c%s%.1f|r"
+    dmgDisplayFormat = displayFormat or "Boss in |c%s%.1f|r"
     pollTime = GetGameTimeMilliseconds() + time * 1000
-    CrutchAlertsDamageableLabel:SetText(string.format(displayFormat, GetTimerColor(time * 1000), time))
+    CrutchAlertsDamageableLabel:SetText(string.format(dmgDisplayFormat, GetTimerColor(time * 1000), time))
     CrutchAlertsDamageableLabel:SetHidden(false)
 
     if (not isPolling) then
@@ -514,6 +531,9 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
 
         -- Special display format, for when it is not a boss
         displayFormat = time.displayFormat -- can be nil
+        if (displayFormat) then
+            Crutch.dbgOther("|c88FF88Displayformat|r: " .. displayFormat)
+        end
 
         time = time.time
     end

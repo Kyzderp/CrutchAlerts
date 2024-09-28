@@ -5,7 +5,7 @@
 ## APIVersion: 101043
 
 ## DependsOn: LibAddonMenu-2.0>=31
-## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibDialog
+## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibDialog HodorReflexes
 
 ## SavedVariables: CrutchAlertsSavedVariables
 
