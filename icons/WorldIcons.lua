@@ -55,8 +55,8 @@ local data = {
     ["Falgravn2ndFloor2"] = {x = 24654, y = 14569, z = 10398, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds", size = GetFalgravnIconsSize},
     ["Falgravn2ndFloor3"] = {x = 25441, y = 14569, z = 10370, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds", size = GetFalgravnIconsSize},
     ["Falgravn2ndFloor4"] = {x = 25468, y = 14569, z = 9620, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = GetFalgravnIconsSize},
-    ["Falgravn2ndFloorH1"] = {x = 24268, y = 14569, z = 10000, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetFalgravnIconsSize},
-    ["Falgravn2ndFloorH2"] = {x = 25838, y = 14569, z = 10000, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetFalgravnIconsSize},
+    ["Falgravn2ndFloorH1"] = {x = 24268, y = 14569, z = 10000, texture = "odysupporticons/icons/squares/squaretwo_orange_one.dds", size = GetFalgravnIconsSize},
+    ["Falgravn2ndFloorH2"] = {x = 25838, y = 14569, z = 10000, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds", size = GetFalgravnIconsSize},
 
     -- Traditional Lokkestiiz
     ["LokkBeam1"] = {x = 115110, y = 56100, z = 107060, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetLokkIconsSize},
@@ -67,8 +67,8 @@ local data = {
     ["LokkBeam6"] = {x = 114320, y = 56100, z = 105760, texture = "odysupporticons/icons/squares/squaretwo_red_six.dds", size = GetLokkIconsSize},
     ["LokkBeam7"] = {x = 114320, y = 56100, z = 105090, texture = "odysupporticons/icons/squares/squaretwo_red_seven.dds", size = GetLokkIconsSize},
     ["LokkBeam8"] = {x = 115110, y = 56100, z = 105090, texture = "odysupporticons/icons/squares/squaretwo_red_eight.dds", size = GetLokkIconsSize},
-    ["LokkBeamLH"] = {x = 115500, y = 56100, z = 106725, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetLokkIconsSize},
-    ["LokkBeamRH"] = {x = 115500, y = 56100, z = 105425, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetLokkIconsSize},
+    ["LokkBeamLH"] = {x = 115500, y = 56100, z = 106725, texture = "odysupporticons/icons/squares/squaretwo_orange_one.dds", size = GetLokkIconsSize},
+    ["LokkBeamRH"] = {x = 115500, y = 56100, z = 105425, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds", size = GetLokkIconsSize},
 
     -- Solo Healer Lokkestiiz from Floliroy
     ["SHLokkBeam1"] = {x = 113880, y = 56100, z = 106880, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetLokkIconsSize},
@@ -80,7 +80,7 @@ local data = {
     ["SHLokkBeam7"] = {x = 114650, y = 56100, z = 105460, texture = "odysupporticons/icons/squares/squaretwo_red_seven.dds", size = GetLokkIconsSize},
     ["SHLokkBeam8"] = {x = 114480, y = 56100, z = 104880, texture = "odysupporticons/icons/squares/squaretwo_red_eight.dds", size = GetLokkIconsSize},
     ["SHLokkBeam9"] = {x = 114730, y = 56100, z = 106050, texture = "odysupporticons/icons/squares/squaretwo_red.dds", size = GetLokkIconsSize},
-    ["SHLokkBeamH"] = {x = 116400, y = 56100, z = 106050, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetLokkIconsSize},
+    ["SHLokkBeamH"] = {x = 116400, y = 56100, z = 106050, texture = "odysupporticons/icons/squares/squaretwo_orange.dds", size = GetLokkIconsSize},
 
     -- ["YolWing1"] = {x = 96021, y = 49697, z = 108422, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetYolIconsSize},
     ["YolWing2"] = {x = 97803, y = 49685, z = 108988, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetYolIconsSize},
@@ -136,13 +136,13 @@ local data = {
     ["OrphicNum8"] = {x = 147488, y = 22868, z = 86178, texture = "odysupporticons/icons/squares/squaretwo_red_eight.dds", size = GetOrphicNumIconSize},
 
     -- Xoryn
-    ["TempestH1"] = {x = 137157, y = 34975, z = 163631, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetTempestIconsSize},
+    ["TempestH1"] = {x = 137157, y = 34975, z = 163631, texture = "odysupporticons/icons/squares/squaretwo_orange_one.dds", size = GetTempestIconsSize},
     ["Tempest1"] = {x = 137785, y = 34975, z = 163175, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetTempestIconsSize},
     ["Tempest2"] = {x = 138493, y = 34975, z = 162911, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetTempestIconsSize},
     ["Tempest3"] = {x = 139205, y = 34975, z = 163189, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = GetTempestIconsSize},
     ["Tempest4"] = {x = 139845, y = 34975, z = 163657, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = GetTempestIconsSize},
 
-    ["TempestH2"] = {x = 137061, y = 34975, z = 166466, texture = "odysupporticons/icons/squares/squaretwo_yellow.dds", size = GetTempestIconsSize},
+    ["TempestH2"] = {x = 137061, y = 34975, z = 166466, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds", size = GetTempestIconsSize},
     ["Tempest5"] = {x = 137678, y = 34975, z = 166834, texture = "odysupporticons/icons/squares/squaretwo_red_five.dds", size = GetTempestIconsSize},
     ["Tempest6"] = {x = 138421, y = 34975, z = 167097, texture = "odysupporticons/icons/squares/squaretwo_red_six.dds", size = GetTempestIconsSize},
     ["Tempest7"] = {x = 139177, y = 34975, z = 166847, texture = "odysupporticons/icons/squares/squaretwo_red_seven.dds", size = GetTempestIconsSize},

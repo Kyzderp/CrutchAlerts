@@ -419,6 +419,29 @@ local SUBTITLE_TIMES = {
 }
 
 ---------------------------------------------------------------------
+-- API to merge data in I guess
+---------------------------------------------------------------------
+function Crutch.MergeDamageable(other)
+    for npc, lines in pairs(other) do
+        if (not SUBTITLE_TIMES[npc]) then
+            SUBTITLE_TIMES[npc] = {}
+        end
+
+        local numLinesMerged = 0
+        -- Prefer existing
+        for line, value in pairs(lines) do
+            if (SUBTITLE_TIMES[npc][line]) then
+                Crutch.dbgOther("Skipping because already exists: " .. line)
+            else
+                SUBTITLE_TIMES[npc][line] = value
+                numLinesMerged = numLinesMerged + 1
+            end
+        end
+        Crutch.dbgOther(string.format("Merged %d lines for %s", numLinesMerged, npc))
+    end
+end
+
+---------------------------------------------------------------------
 local isPolling = false
 local pollTime = 0
 
