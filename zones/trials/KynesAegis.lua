@@ -52,8 +52,58 @@ local function OnPrisonEffect(_, changeType, _, _, unitTag)
 end
 
 ---------------------------------------------------------------------
+-- Falgravn Icons
+---------------------------------------------------------------------
+local falgravnEnabled = false
+
+local function EnableFalgravnIcons()
+    if (Crutch.savedOptions.kynesaegis.showFalgravnIcons) then
+        falgravnEnabled = true
+        Crutch.EnableIcon("Falgravn2ndFloor1")
+        Crutch.EnableIcon("Falgravn2ndFloor2")
+        Crutch.EnableIcon("Falgravn2ndFloor3")
+        Crutch.EnableIcon("Falgravn2ndFloor4")
+        Crutch.EnableIcon("Falgravn2ndFloorH1")
+        Crutch.EnableIcon("Falgravn2ndFloorH2")
+    end
+end
+
+local function DisableFalgravnIcons()
+    falgravnEnabled = false
+    Crutch.DisableIcon("Falgravn2ndFloor1")
+    Crutch.DisableIcon("Falgravn2ndFloor2")
+    Crutch.DisableIcon("Falgravn2ndFloor3")
+    Crutch.DisableIcon("Falgravn2ndFloor4")
+    Crutch.DisableIcon("Falgravn2ndFloorH1")
+    Crutch.DisableIcon("Falgravn2ndFloorH2")
+end
+
+-- Enable Falgravn icons if the boss is present
+local function TryEnablingFalgravnIcons()
+    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    if (powerMax == 248386064 -- Hardmode
+        or powerMax == 124193032 -- Veteran
+        or powerMax == 18177368) then -- Normal
+        if (not falgravnEnabled) then
+            EnableFalgravnIcons()
+        end
+    else
+        if (falgravnEnabled) then
+            DisableFalgravnIcons()
+        end
+    end
+end
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
+local function GetUnitNameIfExists(unitTag)
+    if (DoesUnitExist(unitTag)) then
+        return GetUnitName(unitTag)
+    end
+end
+
+local prevBosses = ""
 function Crutch.RegisterKynesAegis()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Kyne's Aegis")
 
@@ -78,12 +128,23 @@ function Crutch.RegisterKynesAegis()
 
         -- Falgravn icons
         if (Crutch.savedOptions.kynesaegis.showFalgravnIcons) then
-            Crutch.EnableIcon("Falgravn2ndFloor1")
-            Crutch.EnableIcon("Falgravn2ndFloor2")
-            Crutch.EnableIcon("Falgravn2ndFloor3")
-            Crutch.EnableIcon("Falgravn2ndFloor4")
-            Crutch.EnableIcon("Falgravn2ndFloorH1")
-            Crutch.EnableIcon("Falgravn2ndFloorH2")
+            TryEnablingFalgravnIcons()
+
+            -- Show icons on Falgravn
+            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "KABossesChanged", EVENT_BOSSES_CHANGED, function()
+                -- Only do this when the bosses actually change
+                local bossHash = ""
+                for i = 1, MAX_BOSSES do
+                    local name = GetUnitNameIfExists("boss" .. tostring(i))
+                    if (name and name ~= "") then
+                        bossHash = bossHash .. name
+                    end
+                end
+                if (bossHash == prevBosses) then return end
+                prevBosses = bossHash
+
+                TryEnablingFalgravnIcons()
+            end)
         end
     end
 end
@@ -97,12 +158,8 @@ function Crutch.UnregisterKynesAegis()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT)
 
     -- Falgravn icons
-    Crutch.DisableIcon("Falgravn2ndFloor1")
-    Crutch.DisableIcon("Falgravn2ndFloor2")
-    Crutch.DisableIcon("Falgravn2ndFloor3")
-    Crutch.DisableIcon("Falgravn2ndFloor4")
-    Crutch.DisableIcon("Falgravn2ndFloorH1")
-    Crutch.DisableIcon("Falgravn2ndFloorH2")
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KABossesChanged", EVENT_BOSSES_CHANGED)
+    DisableFalgravnIcons()
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Kyne's Aegis")
 end

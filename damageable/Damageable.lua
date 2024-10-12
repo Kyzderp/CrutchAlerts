@@ -153,6 +153,8 @@ local SUBTITLE_TIMES = {
     },
 -- KA
     ["Lord Falgravn"] = {
+        -- ["You dare face me? Baleful power lurks beneath your feet, and I will have it for my own!"] = 10.2, -- TODO: he may already be pullable much earlier while he's floating in the air
+        ["You wish to see my works? Very well! I will plunge you into deeper darkness!"] = 12.6,
         -- Torturers
         ["Feed, my pets. Feed!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
         ["Come, cattle! Time for the slaughter!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
@@ -277,6 +279,11 @@ local SUBTITLE_TIMES = {
     ["Talfyg"] = {
         -- Talfyg
         ["How dare you reject Lady Thorn's offer? Look! Tremble before the power you might have wielded!"] = 9.1,
+    },
+
+-- Cradle of Shadows
+    ["Dranos Velador"] = {
+        ["Well done, my scaled friend. You have cast off your old skin, and the Silken Ring welcomes you as a brother. Seek out Velidreth and receive your blessing."] = 16.8,
     },
 
 -- Depths of Malatar
