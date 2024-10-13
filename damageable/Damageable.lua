@@ -153,7 +153,7 @@ local SUBTITLE_TIMES = {
     },
 -- KA
     ["Lord Falgravn"] = {
-        -- ["You dare face me? Baleful power lurks beneath your feet, and I will have it for my own!"] = 10.2, -- TODO: he may already be pullable much earlier while he's floating in the air
+        -- ["You dare face me? Baleful power lurks beneath your feet, and I will have it for my own!"] = 10.2, -- not sure if it might be a tick late
         ["You wish to see my works? Very well! I will plunge you into deeper darkness!"] = 12.6,
         -- Torturers
         ["Feed, my pets. Feed!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
@@ -392,7 +392,7 @@ local SUBTITLE_TIMES = {
 
 -- The Cauldron
     ["Baron Zaudrus"] = {
-        ["What you want is right here, Lyranth. Come take it."] = 13.7, -- Untested
+        ["What you want is right here, Lyranth. Come take it."] = 12,
     },
 
 -- The Dread Cellar
@@ -427,6 +427,9 @@ local SUBTITLE_TIMES = {
 
 ---------------------------------------------------------------------
 -- API to merge data in I guess
+-- This takes in a table of the same format as SUBTITLE_TIMES above,
+-- allowing a separate addon to house data to be displayed, without
+-- getting overwritten by changes.
 ---------------------------------------------------------------------
 function Crutch.MergeDamageable(other)
     for npc, lines in pairs(other) do
