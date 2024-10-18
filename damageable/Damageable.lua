@@ -164,7 +164,6 @@ local SUBTITLE_TIMES = {
 -- LC
     ["Xoryn"] = {
         -- Count Ryelaz & Zilyesset
-        -- ["Make sure no one follows me."] = 18.7, -- The real timer doesn't start until you enter the room and he says "Like them!"
         ["Like them!"] = 17.6,
     },
 -- MoL

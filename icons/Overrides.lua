@@ -5,6 +5,7 @@ local Crutch = CrutchAlerts
 -- Override UnitErrorCheck
 ---------------------------------------------------------------------
 local origOSIUnitErrorCheck
+local overriding = false
 
 -- Show icon for self
 local function SelfMechanicUnitErrorCheck(...)
@@ -18,20 +19,24 @@ end
 function Crutch.SetMechanicIconForUnit(atName, iconPath, size, color)
     OSI.SetMechanicIconForUnit(atName, iconPath, size, color)
 
-    if (not origOSIUnitErrorCheck and atName == GetUnitDisplayName("player")) then
-        Crutch.dbgSpam("Overriding OSI.UnitErrorCheck to show mechanic for self")
-        origOSIUnitErrorCheck = OSI.UnitErrorCheck
+    if (not overriding and atName == GetUnitDisplayName("player")) then
+        if (not origOSIUnitErrorCheck) then
+            origOSIUnitErrorCheck = OSI.UnitErrorCheck
+        end
 
+        Crutch.dbgSpam("Overriding OSI.UnitErrorCheck to show mechanic for self")
         OSI.UnitErrorCheck = SelfMechanicUnitErrorCheck
+        overriding = true
     end
 end
 
 function Crutch.RemoveMechanicIconForUnit(atName)
     OSI.RemoveMechanicIconForUnit(atName)
 
-    if (origOSIUnitErrorCheck and atName == GetUnitDisplayName("player")) then
+    if (overriding and atName == GetUnitDisplayName("player")) then
         Crutch.dbgSpam("Restoring OSI.UnitErrorCheck to normal")
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
+        overriding = false
     end
 end
 
