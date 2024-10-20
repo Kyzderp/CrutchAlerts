@@ -1,8 +1,6 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
-local isInCombat = false
-
 local LOKK_NONHM_HEALTH = 77620640
 local LOKK_HM_HEALTH = 97025800
 
@@ -101,7 +99,7 @@ end
 
 local function UpdateLokkIcons()
     Crutch.dbgSpam(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
-    if (atLokk and lokkHM and (lokkBeamPhase or not isInCombat)) then
+    if (atLokk and lokkHM and (lokkBeamPhase or not Crutch.groupInCombat)) then
         EnableLokkIcons()
     else
         DisableLokkIcons()
@@ -280,21 +278,6 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
     end
 end
 
----------------------------------------------------------------------
--- General Listeners
----------------------------------------------------------------------
-local function OnCombatStateChanged(_, inCombat)
-    -- Reset
-    isInCombat = inCombat
-    if (not inCombat) then
-        groupTimeBreach = {}
-        lokkBeamPhase = false
-    else
-        -- Disable them as combat starts
-        DisableLokkIcons()
-        UpdateLokkIcons()
-    end
-end
 
 ---------------------------------------------------------------------
 -- Init
@@ -308,7 +291,6 @@ function Crutch.RegisterSunspire()
 
     lokkHM = false
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
@@ -380,7 +362,6 @@ function Crutch.RegisterSunspire()
 end
 
 function Crutch.UnregisterSunspire()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SunspireCombatState", EVENT_PLAYER_COMBAT_STATE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED)
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT)

@@ -157,6 +157,9 @@ Crutch.gainedDuration = {
 -- Frostvault
     [117324] = true, -- Ice Comet (2000) Coldsnap Skysplitter might be the ones on the ledge?
     [117326] = true, -- Ice Comet (3750) Coldsnap Skysplitter
+
+-- Infinite Archive
+    [222161] = true, -- Metoer (Butcher's Fire Shaman (Yandir))
 }
 
 

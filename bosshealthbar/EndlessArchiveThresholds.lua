@@ -78,7 +78,7 @@ local endlessArchiveThresholds = {
     [GetBossName(CRUTCH_BHB_LADY_THORN)] = {
         [50] = "Batdance",
     },
-    -- Limenauruus
+    -- Limenauruus -- no hp gates, no adds
     -- Lord Warden Dusk -- no hp gates? has shades
 
     -- Marauder Bittog -- no hp gates
@@ -124,7 +124,7 @@ local endlessArchiveThresholds = {
         [25] = "Add",
     },
     -- Shadowrend -- no hp gates, has some shades
-    -- Staada -- no hp gates ez
+    -- Staada -- no hp gates no adds
     -- Sonolia the Matriarch -- no hp gates
     -- Symphony of Blades -- no hp gates?
 
@@ -153,14 +153,17 @@ local endlessArchiveThresholds = {
         -- This is needed because after the Replicanum dies, there is no boss1
         [70] = "Shard", -- TODO: don't show this for Arc 2
     },
-    -- Tremorscale
+    -- Tremorscale -- no hp gates, no adds
 
     -- Valkynaz Nokvroz -- maybe no hp gates, but annoying magma scamps
     -- Varlariel -- clones seem to be on a timer
     -- Varzunon -- dunno
     -- Vila Theran
     -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
-    -- Vorenor Winterbourne -- no adds
+    -- Vorenor Winterbourne -- no adds. TODO: CHECK OPEN WOUNDS
+    ["Vorenor Winterbourne"] = { -- TODO: localization
+        [50] = "Blood Mist",
+    },
 
     -- War Chief Ozozai -- no hp gates, no adds
 
