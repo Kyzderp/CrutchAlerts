@@ -184,6 +184,11 @@ local SUBTITLE_TIMES = {
         ["Habt Ihr mich nicht gehört? Hatte ich mich nicht klar ausgedrückt? Ihr werdet zuhören, Sterbliche"] = 26.4,
     },
 
+-- RG
+    ["Flame-Herald Bahsei"] = {
+        ["Great Xalvakka drank deep from the souls we served her. Soon, she arrives!"] = 7.0, -- TODO: not sure if 7 or 8, both have happened...
+    },
+
 -- SE
     ["Exarchanic Yaseyla"] = {
         -- Exarchanic Yaseyla
