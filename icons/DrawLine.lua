@@ -70,7 +70,7 @@ local function DrawLineBetweenControls(x1, y1, x2, y2)
     -- Create a line if it doesn't exist
     if (line == nil) then
         Crutch.dbgSpam("|cFF0000creating new line")
-        line = WINDOW_MANAGER:CreateControl("$(parent)Line", OSI.win, CT_CONTROL)
+        line = WINDOW_MANAGER:CreateControl("$(parent)CrutchLemondsLine", OSI.win, CT_CONTROL)
         local backdrop = WINDOW_MANAGER:CreateControl("$(parent)Backdrop", line, CT_BACKDROP)
         backdrop:SetAnchorFill()
         backdrop:SetCenterColor(1, 0, 1, 1)

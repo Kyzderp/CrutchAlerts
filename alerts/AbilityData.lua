@@ -121,6 +121,8 @@ Crutch.testing = {
     [58084] = true, -- Magicka Bomb
 
     [97022] = true, -- Wraith Speed
+
+    [152525] = true, -- Fire Behemoth?
 }
 
 ---------------------------------------------------------------------
@@ -159,7 +161,7 @@ Crutch.gainedDuration = {
     [117326] = true, -- Ice Comet (3750) Coldsnap Skysplitter
 
 -- Infinite Archive
-    [222161] = true, -- Metoer (Butcher's Fire Shaman (Yandir))
+    [222161] = true, -- Meteor (Butcher's Fire Shaman (Yandir))
 }
 
 
@@ -345,6 +347,7 @@ Crutch.others = {
     [227461] = true, -- Ram (Marauder Zulfimbul) -- BEGIN timer is 1233, but DUR 10000. Only use BEGIN
     [192517] = true, -- Seeking Spheres (Tho'at Shard)
     [223685] = true, -- Hoarfrost Fist (Frost Atronach)
+    [223378] = true, -- Rending Leap (Clannfear)
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn

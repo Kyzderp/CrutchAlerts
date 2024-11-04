@@ -134,6 +134,7 @@ Crutch.format = {
     [196875] = 500, -- Earthen Blast (Lurcher)
     [220298] = 500, -- Clobber (Marauder Zulfimbul)
     [227461] = 500, -- Ram (Marauder Zulfimbul)
+    [223378] = 500, -- Rending Leap (Clannfear)
     [209981] = 100, -- Fireball (Tho'at Shard (dragon))
     [209963] = 100, -- Fireball (Tho'at Shard (dragon))
     [192517] = 1500, -- Seeking Spheres (Tho'at Shard)
