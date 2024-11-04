@@ -96,9 +96,15 @@ local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceTyp
     if (abilityId == 103531) then
         local label = string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |caaaaaaLEFT|r", targetName)
         Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, true)
+        if (Crutch.savedOptions.general.showRaidDiag) then
+            Crutch.msg(zo_strformat("|cFF7700<<1>> < LEFT|r", targetName))
+        end
     elseif (abilityId == 110431) then
         local label = string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", targetName)
         Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, true)
+        if (Crutch.savedOptions.general.showRaidDiag) then
+            Crutch.msg(zo_strformat("|cFF7700<<1>> > RIGHT|r", targetName))
+        end
     end
 end
 
