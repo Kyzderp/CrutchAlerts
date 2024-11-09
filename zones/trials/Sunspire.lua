@@ -2,6 +2,7 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 local LOKK_NONHM_HEALTH = 77620640
+-- local LOKK_HM_HEALTH = 18177368 -- normal, for testing
 local LOKK_HM_HEALTH = 97025800
 
 ---------------------------------------------------------------------
@@ -98,7 +99,7 @@ local function DisableLokkIcons()
 end
 
 local function UpdateLokkIcons()
-    Crutch.dbgSpam(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
+    Crutch.dbgOther(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
     if (atLokk and lokkHM and (lokkBeamPhase or not Crutch.groupInCombat)) then
         EnableLokkIcons()
     else
@@ -124,7 +125,7 @@ local function OnLokkBeam()
     end, 15000)
 end
 
-local function OnDifficultyChanged(text)
+local function OnDifficultyChanged()
     local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
 
     -- Lokkestiiz check
@@ -351,10 +352,15 @@ function Crutch.RegisterSunspire()
     CENTER_SCREEN_ANNOUNCE.QueueMessage = function(s, messageParams)
         -- Call this a second later, because sometimes the health hasn't changed yet
         zo_callLater(function()
-            OnDifficultyChanged(messageParams:GetMainText())
+            OnDifficultyChanged()
         end, 1000)
         return origQueueMessage(s, messageParams)
     end
+
+    -- Trigger initial "changes," in case a reload was done while at Lokk
+    OnBossesChanged()
+    OnDifficultyChanged()
+    Crutch.RegisterEnteredGroupCombatListener("CrutchSunspire", DisableLokkIcons)
 
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
@@ -391,6 +397,8 @@ function Crutch.UnregisterSunspire()
     lokkBeamPhase = false
     DisableLokkIcons()
     DisableYolIcons()
+
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchSunspire")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Sunspire")
 end
