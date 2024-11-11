@@ -156,6 +156,9 @@ Crutch.gainedDuration = {
     [223331] = true, -- Gloomy Impact (second one)
     [222609] = true, -- Gloomy Impact (Knot)
 
+-- Sunspire
+    [116636] = true, -- Chilling Comet (Alkosh's Fate)
+
 -- Frostvault
     [117324] = true, -- Ice Comet (2000) Coldsnap Skysplitter might be the ones on the ledge?
     [117326] = true, -- Ice Comet (3750) Coldsnap Skysplitter
