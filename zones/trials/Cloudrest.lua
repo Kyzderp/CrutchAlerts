@@ -227,6 +227,16 @@ local function OnShedHoarfrost(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targ
     Crutch.msg(zo_strformat("shed hoarfrost |cFF00FF<<1>>", GetUnitDisplayName(unitTag)))
 end
 
+local function OnAmplificationChanged(_, changeType, _, _, unitTag, _, _, stackCount)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAgained Amplification", GetUnitDisplayName(unitTag)))
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAlost Amplification at x<<2>>", GetUnitDisplayName(unitTag), stackCount))
+    -- elseif (changeType == EFFECT_RESULT_UPDATED) then
+    --     Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAupdated Amplification x<<2>>", GetUnitDisplayName(unitTag), stackCount))
+    end
+end
+
 ---------------------------------------------------------------------
 -- Register/Unregister
 local origOSIUnitErrorCheck = nil
@@ -291,11 +301,16 @@ function Crutch.RegisterCloudrest()
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103946)
 
-    -- Register someone dropping hoarfrost
     if (Crutch.savedOptions.general.showRaidDiag) then
+        -- Register someone dropping hoarfrost
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, OnShedHoarfrost)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103714)
+
+        -- Register voltaic
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED, OnAmplificationChanged)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 109022)
     end
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
@@ -341,6 +356,7 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")

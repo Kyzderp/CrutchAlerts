@@ -145,13 +145,18 @@ local function OnEffectChanged(changeType, unitTag, beginTime, endTime, abilityI
     local atName = GetUnitDisplayName(unitTag)
     local tagId
     if (unitTag == "player") then
-        tagId = GetGroupTagNumberForDisplayName(GetUnitDisplayName("player"))
+        if (IsUnitGrouped("player")) then
+            tagId = GetGroupTagNumberForDisplayName(GetUnitDisplayName("player"))
+        else
+            tagId = 14
+            Crutch.dbgSpam("|cFF0000unhandled unitTag " .. tostring(unitTag) .. ", probably player not grouped")
+        end
     elseif (string.sub(unitTag, 1, 5) == "group") then
         local tagNumber = string.gsub(unitTag, "group", "")
         tagId = tonumber(tagNumber)
     else
         tagId = 13
-        Crutch.dbgOther("|cFF0000unhandled unitTag " .. tostring(unitTag))
+        Crutch.dbgSpam("|cFF0000unhandled unitTag " .. tostring(unitTag))
     end
     local fakeSourceUnitId = 88800000 + abilityId*100 + tagId -- There is potential for collision... but it's probably fiiiiiiine
 

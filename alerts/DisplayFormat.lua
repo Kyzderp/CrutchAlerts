@@ -42,9 +42,11 @@ Crutch.format = {
 -- Cloudrest
     [103531] = 100107, -- Roaring Flare
     [110431] = 100107, -- Roaring Flare
-    [105239] = 200010, -- Crushing Darkness
+    [105239] = 200610, -- Crushing Darkness
     [103555] =    400, -- Voltaic Current (initial of barswap)
     [104019] =  31003, -- Olorime Spears
+    [103946] =    500, -- Shadow Realm Cast
+    [105291] =    600, -- SUM Shadow Beads
 
 -- Halls of Fabrication
     [ 91019] = 430, -- Phase 1.1 (Assembly General)
@@ -108,7 +110,7 @@ Crutch.format = {
     [168314] = 1505, -- Soul Bomb
 
 -- Scrivener's Hall
-    [182334] = 5.3, -- Rain of Fire (Valinna)
+    [182334] = 105.3, -- Rain of Fire (Valinna)
     [182393] = 14.5, -- Immolation Trap (Valinna)
 
 ---------------------------------------------------------------------
