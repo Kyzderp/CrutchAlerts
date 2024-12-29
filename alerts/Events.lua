@@ -111,6 +111,7 @@ local function SpamDebug(result, sourceName, sourceType, targetName, targetType,
             resultString))
     end
 end
+Crutch.SpamEventDebug = SpamDebug
 
 
 ---------------------------------------------------------------------
@@ -386,8 +387,7 @@ local function OnCombatEventTest(result, isError, abilityName, sourceName, sourc
     end
 end
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-local function OnEffectChangedTest(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, unitId, abilityId, sourceType)
+local function SpamDebugEffect(changeType, unitTag, stackCount, unitName, unitId, abilityId, sourceType)
     -- Spammy debug
     if (not Crutch.savedOptions.debugChatSpam) then return end
 
@@ -400,7 +400,8 @@ local function OnEffectChangedTest(_, changeType, _, _, unitTag, _, _, stackCoun
     if (sourceType) then
         sourceString = (sourceStrings[sourceType] or tostring(sourceType))
     end
-    Crutch.dbgSpam(string.format("|cFF8888TestEffect %s(%d): %s(%d) x%d %s %s|r",
+    Crutch.dbgSpam(string.format("|cFF8888TestEffect %s(%s)(%d): %s(%d) x%d %s %s|r",
+        unitName or "",
         (unitTag ~= nil) and GetUnitDisplayName(unitTag) or "",
         unitId,
         FormatAbilityName(abilityId),
@@ -408,6 +409,12 @@ local function OnEffectChangedTest(_, changeType, _, _, unitTag, _, _, stackCoun
         stackCount,
         sourceString,
         resultString))
+end
+Crutch.SpamDebugEffect = SpamDebugEffect
+
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnEffectChangedTest(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, unitName, unitId, abilityId, sourceType)
+    SpamDebugEffect(changeType, unitTag, stackCount, unitName, unitId, abilityId, sourceType)
 end
 
 function Crutch.RegisterTest()

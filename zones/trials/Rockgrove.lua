@@ -100,6 +100,54 @@ local function OnKissOfDeath(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, target
     Crutch.msg(zo_strformat("Kiss of Death |cFF00FF<<1>>", GetUnitDisplayName(unitTag)))
 end
 
+------------------------------------------------------------
+-- Fire Behemoth spawn, because subtitles can get overlapped
+-- TODO: turns out this still isn't great, it doesn't gain anything immediately, so healers are still in danger of being bonked
+local function StartsWith(str, prefix)
+    return string.sub(str, 1, #prefix) == prefix
+end
+
+local seenBehemoths = {}
+
+local function OnBehemothFound(unitId)
+    if (not seenBehemoths[unitId]) then
+        d("|cFF0000FOUND BEHEMOTH " .. tostring(unitId))
+        seenBehemoths[unitId] = true
+    end
+end
+
+local function RegisterBehemoth(behemothName)
+    Crutch.RegisterExitedGroupCombatListener("BehemothExitedCombat", function() seenBehemoths = {} end)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BehemothCombat", EVENT_COMBAT_EVENT,
+        function(_, result, _, _, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+            if (sourceName and StartsWith(sourceName, behemothName)) then
+                Crutch.SpamEventDebug(result, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, "[FIRE]")
+                OnBehemothFound(sourceUnitId)
+            elseif (targetName and StartsWith(targetName, behemothName)) then
+                Crutch.SpamEventDebug(result, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, "[FIRE]")
+                OnBehemothFound(targetUnitId)
+            end
+        end)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BehemothEffect", EVENT_EFFECT_CHANGED,
+        function(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, unitName, unitId, abilityId, sourceType)
+            if (unitName and StartsWith(unitName, behemothName)) then
+                Crutch.SpamDebugEffect(changeType, unitTag, stackCount, unitName, unitId, abilityId, sourceType)
+                OnBehemothFound(unitId)
+            end
+        end)
+end
+Crutch.RegisterBehemoth = RegisterBehemoth -- /script CrutchAlerts.RegisterBehemoth("Fire Behem")
+
+local function UnregisterBehemoth()
+    seenBehemoths = {}
+    Crutch.UnregisterExitedGroupCombatListener("BehemothExitedCombat")
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BehemothCombat", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BehemothEffect", EVENT_EFFECT_CHANGED)
+end
+Crutch.UnregisterBehemoth = UnregisterBehemoth -- /script CrutchAlerts.UnregisterBehemoth()
+
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
@@ -125,6 +173,8 @@ function Crutch.RegisterRockgrove()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 152654)
     end
 
+    -- RegisterBehemoth("Fire Behem")
+
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
@@ -147,6 +197,8 @@ function Crutch.UnregisterRockgrove()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT)
+
+    UnregisterBehemoth()
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")

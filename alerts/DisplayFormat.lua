@@ -42,7 +42,7 @@ Crutch.format = {
 -- Cloudrest
     [103531] = 100107, -- Roaring Flare
     [110431] = 100107, -- Roaring Flare
-    [105239] = 200610, -- Crushing Darkness
+    [105239] = 200010, -- Crushing Darkness
     [103555] =    400, -- Voltaic Current (initial of barswap)
     [104019] =  31003, -- Olorime Spears
     [103946] =    500, -- Shadow Realm Cast
@@ -193,7 +193,7 @@ local colors = {
     [3] = "fff1ab", -- Tan, physical
     [4] = "8ef5f5", -- Light blue, shock/ice
     [5] = "ff00ff", -- Magenta
-    [6] = "6a00ff", -- Dark purple
+    [6] = "9447ff", -- The color of rrrrregality
     [7] = "3fe02a", -- Green for Arcanist
     [8] = "9999ff", -- Light indigo, magic
 }

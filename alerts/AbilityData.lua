@@ -123,6 +123,8 @@ Crutch.testing = {
     [97022] = true, -- Wraith Speed
 
     [152525] = true, -- Fire Behemoth?
+
+    [155184] = true, -- Catastrophe (Magma Incarnate)
 }
 
 ---------------------------------------------------------------------
@@ -415,6 +417,7 @@ Crutch.others = {
 
 -- The Dread Cellar
     [156509] = true, -- Deluge of Pain (Scorion Broodlord interruptible)
+    [155184] = true, -- Catastrophe (Magma Incarnate)
 
 -- Wayrest Sewers
     [  5699] = true, -- Shadowstep (Allene Pellingare)
