@@ -112,6 +112,7 @@ local defaultOptions = {
     },
     rockgrove = {
         sludgeSides = true,
+        showBleeding = "HEAL", -- "NEVER", "HEAL", "ALWAYS"
     },
     sanitysedge = {
         showAnsuulIcon = true,

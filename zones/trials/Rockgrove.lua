@@ -148,6 +148,33 @@ local function UnregisterBehemoth()
 end
 Crutch.UnregisterBehemoth = UnregisterBehemoth -- /script CrutchAlerts.UnregisterBehemoth()
 
+-----------
+-- Bleeding
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local numBleeds = 0
+local function OnBleeding(_, changeType, _, _, unitTag, beginTime, endTime)
+    local atName = GetUnitDisplayName(unitTag)
+    local tagNumber = string.gsub(unitTag, "group", "")
+    local tagId = tonumber(tagNumber)
+    local fakeSourceUnitId = 8880080 + tagId + numBleeds -- TODO: really gotta rework the alerts and stop hacking around like this
+    -- numBleeds is added just to get a unique number, because core can only display one per source id * ability id
+
+    -- Gained only; don't cancel it when FADED because it would only happen on death, and the hacky source ID wouldn't match anyway
+    if (changeType ~= EFFECT_RESULT_GAINED) then
+        return
+    end
+
+    numBleeds = numBleeds + 1
+
+    -- Event is not registered if NEVER, so the only other option is HEAL (which includes self)
+    if (Crutch.savedOptions.rockgrove.showBleeding == "ALWAYS"
+        or atName == GetUnitDisplayName("player")
+        or GetSelectedLFGRole() == LFG_ROLE_HEAL) then
+        local label = zo_strformat("|cfff1ab<<C:1>>|cAAAAAA on <<2>>|r", GetAbilityName(153179), atName)
+        Crutch.DisplayNotification(153179, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
+    end
+end
+
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
@@ -155,6 +182,8 @@ local origOSIUnitErrorCheck = nil
 
 function Crutch.RegisterRockgrove()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Rockgrove")
+
+    Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function() numBleeds = 0 end)
 
     -- Register the Noxious Sludge
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, OnNoxiousSludgeGained)
@@ -171,6 +200,13 @@ function Crutch.RegisterRockgrove()
     if (Crutch.savedOptions.general.showRaidDiag) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT, OnKissOfDeath)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 152654)
+    end
+
+    -- Register for Bleeding
+    if (Crutch.savedOptions.rockgrove.showBleeding ~= "NEVER") then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED, OnBleeding)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 153179)
     end
 
     -- RegisterBehemoth("Fire Behem")
@@ -194,9 +230,12 @@ function Crutch.RegisterRockgrove()
 end
 
 function Crutch.UnregisterRockgrove()
+    Crutch.UnregisterExitedGroupCombatListener("RockgroveExitedCombat")
+
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED)
 
     UnregisterBehemoth()
 

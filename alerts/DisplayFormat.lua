@@ -77,6 +77,7 @@ Crutch.format = {
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
     [157860] = 1000, -- Noxious Sludge (hide because of sides)
+    [150008] = 30000, -- Hemorrhaging Smack (Flesh Abomination)
 
 -- Sanctum Ophidia
     [ 56857] = 205, -- Emerald Eclipse (The Serpent)
@@ -131,6 +132,7 @@ Crutch.format = {
     [202374] = 500, -- Pound (Bone Colossus)
     [193530] = 500, -- Befouled Air (Old Snagara) poison aoe
     [196251] = 500, -- Enervating Sheen (Nerien'eth) does it need to be shielded?
+    [198099] = 500, -- Blood Dive (Lady Thorn)
     [197002] = 500, -- Stormfront (Storm Atronach)
     [196959] = 500, -- Crush (Iron Atronach)
     [196875] = 500, -- Earthen Blast (Lurcher)

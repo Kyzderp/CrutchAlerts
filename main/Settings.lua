@@ -804,6 +804,22 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "dropdown",
+                    name = "Show Bleeding timer",
+                    tooltip = "Shows an \"alert\" timer for Bleeding from Flesh Abominations. If set to \"Self/Heal Only\" it will display only if your LFG role is healer or if the bleed is on yourself",
+                    choices = {"Never", "Self/Heal Only", "Always"},
+                    choicesValues = {"NEVER", "HEAL", "ALWAYS"},
+                    default = "HEAL",
+                    getFunc = function()
+                        return Crutch.savedOptions.rockgrove.showBleeding
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.showBleeding = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             })),
         },
         {
