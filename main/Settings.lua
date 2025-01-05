@@ -807,7 +807,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "dropdown",
                     name = "Show Bleeding timer",
-                    tooltip = "Shows an \"alert\" timer for Bleeding from Flesh Abominations. If set to \"Self/Heal Only\" it will display only if your LFG role is healer or if the bleed is on yourself",
+                    tooltip = "Shows an \"alert\" timer for Bleeding from Flesh Abominations' Hemorrhaging Smack. If set to \"Self/Heal Only\" it will display only if your LFG role is healer or if the bleed is on yourself",
                     choices = {"Never", "Self/Heal Only", "Always"},
                     choicesValues = {"NEVER", "HEAL", "ALWAYS"},
                     default = "HEAL",
