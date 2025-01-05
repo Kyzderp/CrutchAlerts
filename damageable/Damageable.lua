@@ -285,6 +285,12 @@ local SUBTITLE_TIMES = {
         ["How dare you reject Lady Thorn's offer? Look! Tremble before the power you might have wielded!"] = 9.1,
     },
 
+-- Coral Aerie
+    ["Jakarn"] = {
+        -- S'zarzo the Bulwark
+        ["Hah! You thought I'd crack that soon? I'm Jakarn! The Jak—Kaleen?"] = 13.6,
+    },
+
 -- Cradle of Shadows
     ["Dranos Velador"] = {
         ["Well done, my scaled friend. You have cast off your old skin, and the Silken Ring welcomes you as a brother. Seek out Velidreth and receive your blessing."] = 16.8,
