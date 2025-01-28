@@ -26,7 +26,7 @@ local endlessArchiveThresholds = {
     [GetBossName(CRUTCH_BHB_COUNCILOR_VANDACIA)] = {
         [50] = "Desperation", -- meteors all over the place
     },
-    -- Cynhamoth
+    -- Cynhamoth -- has 4 orbs that float in, but just need hits
 
     -- Death's Leviathan -- no adds
     [GetBossName(CRUTCH_BHB_DEATHS_LEVIATHAN)] = {
@@ -90,7 +90,7 @@ local endlessArchiveThresholds = {
     -- Molag Kena -- storm atros. might be possible to debuff while in shielded phase?
     -- Mulaamnir
     [GetBossName(CRUTCH_BHB_MULAAMNIR)] = {
-        [50] = "Storm",
+        [50] = "Storm", -- Storm atros at and below 50
     },
     -- Murklight
 
@@ -112,7 +112,7 @@ local endlessArchiveThresholds = {
     -- Ri'Atahrashi -- no hp gates, no adds
     -- Risen Ruins -- no hp gates, has adds like nullifier. boulders may not be affected by cowardice? unsure
 
-    -- Sail Ripper
+    -- Sail Ripper -- harpies, and storm cell is donut only that follows
     -- Selene -- the Claw and Fang seem to be on both timer and hp gate
     -- Sentinel Aksalaz -- big adds AND frostkin!!
     [GetBossName(CRUTCH_BHB_SENTINEL_AKSALAZ)] = {
@@ -144,7 +144,7 @@ local endlessArchiveThresholds = {
         [50] = "Shehai",
     },
     -- The Weeping Woman -- no hp gates, no adds
-    -- The Whisperer
+    -- The Whisperer -- has little spooders
     -- Tho'at Replicanum
     [GetBossName(CRUTCH_BHB_THOAT_REPLICANUM)] = {
         [70] = "Shard", -- TODO: don't show this for Arc 1
@@ -156,11 +156,11 @@ local endlessArchiveThresholds = {
     -- Tremorscale -- no hp gates, no adds
 
     -- Valkynaz Nokvroz -- maybe no hp gates, but annoying magma scamps
-    -- Varlariel -- clones seem to be on a timer
+    -- Varlariel -- clones seem to be on a timer, also has wisps
     -- Varzunon -- dunno
     -- Vila Theran
     -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
-    -- Vorenor Winterbourne -- no adds. TODO: CHECK OPEN WOUNDS
+    -- Vorenor Winterbourne -- no adds. bring purge for dot at 50 because snapshotted
     ["Vorenor Winterbourne"] = { -- TODO: localization
         [50] = "Blood Mist",
     },

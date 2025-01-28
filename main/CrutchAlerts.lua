@@ -318,53 +318,45 @@ local function Initialize()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 
     zoneUnregisters = {
-        -- [635 ] = true,  -- Dragonstar Arena
-        -- [636 ] = true,  -- Hel Ra Citadel
-        -- [638 ] = true,  -- Aetherian Archive
-        -- [639 ] = true,  -- Sanctum Ophidia
-        [677 ] = Crutch.UnregisterMaelstromArena,  -- Maelstrom Arena
-        [725 ] = Crutch.UnregisterMawOfLorkhaj,  -- Maw of Lorkhaj
-        [975 ] = Crutch.UnregisterHallsOfFabrication,  -- Halls of Fabrication
-        [1000] = Crutch.UnregisterAsylumSanctorium,  -- Asylum Sanctorium
-        [1051] = Crutch.UnregisterCloudrest,  -- Cloudrest
-        -- [1082] = true,  -- Blackrose Prison
-        [1121] = Crutch.UnregisterSunspire,  -- Sunspire
-        [1196] = Crutch.UnregisterKynesAegis,  -- Kyne's Aegis
-        [1227] = Crutch.UnregisterVateshran,  -- Vateshran Hollows
-        [1263] = Crutch.UnregisterRockgrove,  -- Rockgrove
-        [1344] = Crutch.UnregisterDreadsailReef,  -- Dreadsail Reef
-        [1427] = Crutch.UnregisterSanitysEdge, -- Sanity's Edge
-        [1478] = Crutch.UnregisterLucentCitadel,  -- Lucent Citadel
+        [725 ] = Crutch.UnregisterMawOfLorkhaj,
+        [975 ] = Crutch.UnregisterHallsOfFabrication,
+        [1000] = Crutch.UnregisterAsylumSanctorium,
+        [1051] = Crutch.UnregisterCloudrest,
+        [1121] = Crutch.UnregisterSunspire,
+        [1196] = Crutch.UnregisterKynesAegis,
+        [1227] = Crutch.UnregisterVateshran,
+        [1263] = Crutch.UnregisterRockgrove,
+        [1344] = Crutch.UnregisterDreadsailReef,
+        [1427] = Crutch.UnregisterSanitysEdge,
+        [1478] = Crutch.UnregisterLucentCitadel,
 
-        [1436] = Crutch.UnregisterEndlessArchive, -- Endless Archive
+        [677 ] = Crutch.UnregisterMaelstromArena,
+        [1436] = Crutch.UnregisterEndlessArchive,
 
-        [1302] = Crutch.UnregisterShipwrightsRegret, -- Shipwright's Regret
-        [1471] = Crutch.UnregisterBedlamVeil, -- Bedlam Veil
+        [1301] = Crutch.UnregisterCoralAerie,
+        [1302] = Crutch.UnregisterShipwrightsRegret,
+        [1471] = Crutch.UnregisterBedlamVeil,
     }
 
     zoneRegisters = {
-        -- [635 ] = true,  -- Dragonstar Arena
-        -- [636 ] = true,  -- Hel Ra Citadel
-        -- [638 ] = true,  -- Aetherian Archive
-        -- [639 ] = true,  -- Sanctum Ophidia
-        [677 ] = Crutch.RegisterMaelstromArena,  -- Maelstrom Arena
-        [725 ] = Crutch.RegisterMawOfLorkhaj,  -- Maw of Lorkhaj
-        [975 ] = Crutch.RegisterHallsOfFabrication,  -- Halls of Fabrication
-        [1000] = Crutch.RegisterAsylumSanctorium,  -- Asylum Sanctorium
-        [1051] = Crutch.RegisterCloudrest,  -- Cloudrest
-        -- [1082] = true,  -- Blackrose Prison
-        [1121] = Crutch.RegisterSunspire,  -- Sunspire
-        [1196] = Crutch.RegisterKynesAegis,  -- Kyne's Aegis
-        [1227] = Crutch.RegisterVateshran,  -- Vateshran Hollows
-        [1263] = Crutch.RegisterRockgrove,  -- Rockgrove
-        [1344] = Crutch.RegisterDreadsailReef,  -- Dreadsail Reef
-        [1427] = Crutch.RegisterSanitysEdge, -- Sanity's Edge
-        [1478] = Crutch.RegisterLucentCitadel,  -- Lucent Citadel
+        [725 ] = Crutch.RegisterMawOfLorkhaj,
+        [975 ] = Crutch.RegisterHallsOfFabrication,
+        [1000] = Crutch.RegisterAsylumSanctorium,
+        [1051] = Crutch.RegisterCloudrest,
+        [1121] = Crutch.RegisterSunspire,
+        [1196] = Crutch.RegisterKynesAegis,
+        [1227] = Crutch.RegisterVateshran,
+        [1263] = Crutch.RegisterRockgrove,
+        [1344] = Crutch.RegisterDreadsailReef,
+        [1427] = Crutch.RegisterSanitysEdge,
+        [1478] = Crutch.RegisterLucentCitadel,
 
-        [1436] = Crutch.RegisterEndlessArchive, -- Endless Archive
+        [677 ] = Crutch.RegisterMaelstromArena,
+        [1436] = Crutch.RegisterEndlessArchive,
 
-        [1302] = Crutch.RegisterShipwrightsRegret, -- Shipwright's Regret
-        [1471] = Crutch.RegisterBedlamVeil, -- Bedlam Veil
+        [1301] = Crutch.RegisterCoralAerie,
+        [1302] = Crutch.RegisterShipwrightsRegret,
+        [1471] = Crutch.RegisterBedlamVeil,
     }
 end
 

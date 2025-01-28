@@ -253,7 +253,7 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
             local buffName, _, _, _, stackCount, iconFilename, _, _, _, _, abilityId, _, _ = GetUnitBuffInfo(unitTag, i)
             if (abilityId == 121726) then
                 if (Crutch.savedOptions.general.showRaidDiag) then
-                    Crutch.msg(zo_strformat("|cAAAAAA<<1>>|r has <<2>> x <<3>>", GetUnitDisplayName(unitTag), stackCount, buffName))
+                    Crutch.msg(zo_strformat("|cAAAAAA<<1>> has <<2>> x <<3>>", GetUnitDisplayName(unitTag), stackCount, buffName))
                 end
                 hasFocusedFire = true
                 break

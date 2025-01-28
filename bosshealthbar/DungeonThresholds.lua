@@ -70,8 +70,8 @@ local dungeonThresholds = {
 
 -- White-Gold Tower (Green Emperor Way)
     [GetBossName(CRUTCH_BHB_MOLAG_KENA)] = {
-        [60] = "Shield", -- TODO
-        [30] = "Shield", -- TODO
+        [60] = "Shield",
+        [30] = "Shield",
     }, 
 
 -- Ruins of Mazzatun
@@ -479,10 +479,10 @@ local dungeonThresholds = {
             [55] = "Gryphon", -- TODO
         },
         ["Hardmode"] = {
-            [95] = "Gryphon", -- TODO
-            [80] = "Gryphon", -- TODO
-            [55] = "Gryphon", -- TODO
-            [30] = "Kargaeda", -- TODO
+            [95] = "Gryphon",
+            [80] = "Gryphon",
+            [55] = "Gryphon",
+            [30] = "Kargaeda",
         },
     },
     [GetBossName(CRUTCH_BHB_ZBAZA)] = {
