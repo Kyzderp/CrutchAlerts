@@ -93,6 +93,7 @@ Crutch.filter = {
     [202374] = function(hitValue) return hitValue > 1500 end, -- Pound (Bone Colossus) 2300 for initial, then does an extra 1500 after
     [215107] = function(hitValue) return hitValue == 1200 end, -- Tempest (Xoryn) want it as soon as he casts, not after the cast when gained duration
     [227461] = function(hitValue) return hitValue == 1233 end, -- Ram (Marauder Zulfimbul) -- BEGIN timer is 1233, but DUR 10000. Only use BEGIN
+    [ 56857] = function(hitValue) return hitValue == 4000 end, -- Emerald Eclipse (Serpent) -- BEGIN is 1400 before 4000 DUR
 }
 
 
@@ -119,6 +120,7 @@ Crutch.testing = {
     [133515] = true, -- Chaurus Totem
 
     [58084] = true, -- Magicka Bomb
+    [56782] = true, -- Magicka Bomb, the 11 seconds, not 58084
 
     [97022] = true, -- Wraith Speed
 
@@ -157,6 +159,9 @@ Crutch.gainedDuration = {
     [218285] = true, -- Gloomy Impact (first one)
     [223331] = true, -- Gloomy Impact (second one)
     [222609] = true, -- Gloomy Impact (Knot)
+
+-- Sanctum Ophidia
+    [56782] = true, -- Magicka Bomb, the 11 seconds, not 58084
 
 -- Sunspire
     [116636] = true, -- Chilling Comet (Alkosh's Fate)

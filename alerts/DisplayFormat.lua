@@ -80,7 +80,7 @@ Crutch.format = {
     [150008] = 30000, -- Hemorrhaging Smack (Flesh Abomination)
 
 -- Sanctum Ophidia
-    [ 56857] = 205, -- Emerald Eclipse (The Serpent)
+    [ 56857] = 200, -- Emerald Eclipse (The Serpent)
     [ 54125] = 100205.7, -- Quake (Mantikora)
 
 -- Sanity's Edge
@@ -109,6 +109,7 @@ Crutch.format = {
 
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb
+    [163654] =  500, -- Dark Blast
 
 -- Scrivener's Hall
     [182334] = 105.3, -- Rain of Fire (Valinna)

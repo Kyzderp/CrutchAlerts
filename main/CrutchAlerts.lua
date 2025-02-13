@@ -318,6 +318,7 @@ local function Initialize()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 
     zoneUnregisters = {
+        [639 ] = Crutch.UnregisterSanctumOphidia,
         [725 ] = Crutch.UnregisterMawOfLorkhaj,
         [975 ] = Crutch.UnregisterHallsOfFabrication,
         [1000] = Crutch.UnregisterAsylumSanctorium,
@@ -339,6 +340,7 @@ local function Initialize()
     }
 
     zoneRegisters = {
+        [639 ] = Crutch.RegisterSanctumOphidia,
         [725 ] = Crutch.RegisterMawOfLorkhaj,
         [975 ] = Crutch.RegisterHallsOfFabrication,
         [1000] = Crutch.RegisterAsylumSanctorium,

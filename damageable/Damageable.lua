@@ -290,6 +290,9 @@ local SUBTITLE_TIMES = {
         -- S'zarzo the Bulwark
         ["Hah! You thought I'd crack that soon? I'm Jakarn! The Jak—Kaleen?"] = 13.6,
     },
+    ["Sarydil"] = {
+        ["Well, well. Look what washed into our yaghra trap. You can surrender, or you can become bait. Choose."] = 13,
+    },
     -- ["Varallion"] = {
     --     ["Iliata! Swoop and destroy!"] = {time = 9.2, displayFormat = "Iliata in |c%s%.1f|r"},
     --     ["Ofallo, descend! Kill!"] = {time = 9.2, displayFormat = "Ofallo in |c%s%.1f|r"},
