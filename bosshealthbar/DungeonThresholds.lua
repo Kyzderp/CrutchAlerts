@@ -607,6 +607,69 @@ local dungeonThresholds = {
         [40] = "Glass Remnants",
         [20] = "Gleaming Deluge",
     },
+
+-- Exiled Redoubt -- TODO: jp, pl
+    [GetBossName(CRUTCH_BHB_JERENSI)] = {
+        [80] = "Condemn + Adds",
+        [50] = "Condemn + Adds",
+        [30] = "Condemn + Executioner on timer", -- prob a 15 or 14s timer
+    },
+    [GetBossName(CRUTCH_BHB_VANDORALLEN)] = {
+        [90] = "Spider Spawn", -- Actual Ability name is "Iron Charge (ID: 224446)"
+        [70] = "Spider Spawn",
+        [50] = "Spider Spawn + Simulacra on timer", -- I think simulacrums are only on hm. HM Health = 12601566
+        [30] = "Spider Spawn",
+    },
+    [GetBossName(CRUTCH_BHB_SQUALL_OF_RETRIBUTION)] = { -- Boss gains one of 3 buffs depending on what type it currently is
+        [95] = "Fire", -- Buff: Fire Only (ID: 224495)
+        [64] = "Frost", -- Buff: Color Swap Fire Frost (ID: 224497) - I believe this is actually like 63.3 (2/3 of 95), but I am not fully sure
+        [32] = "Storm", -- Buff: Color Swap (ID: 224493) - I believe this is actually 31.6 (1/3 of 95), but am not fully sure
+    },
+
+-- Lep Seculsa -- TODO: jp, pl
+    [GetBossName(CRUTCH_BHB_GARVIN_THE_TRACKER)] = {
+        normHealth = 3367972,
+        vetHealth = 5954854, -- Still need to find
+        hmHealth = 8932282,
+        ["Hardmode"] = {
+            [80] = "Hunt Duneripper", -- Might be 85, need to double check
+            [50] = "Hunt Duneripper", -- Boss casts ability: Hunt (ID: 227863) to spawn dunerippers
+            [40] = "Hunt Duneripper",
+
+            [95] = "Storm Mage", -- Boss casts ability: Summon Storm Mage (ID: 226220)
+            [85] = "Flame Archer", -- Boss casts ability: Flame Archer (ID: 227480)
+            [75] = "Infuser", -- Boss casts ability: Summon Infuser (ID: 227481)
+
+            [65] = "Storm Mage",
+            [55] = "Flame Archer",
+            [45] = "Infuser",
+
+            [35] = "Storm Mage",
+            [30] = "Flame Archer",
+            [25] = "Infuser",
+        },
+        ["Normal"] = { -- Unsure about exact percentages, but it looks like these are it
+            [75] = "Storm Mage",
+            [50] = "Duneripper + Archer",
+            [25] = "Infuser",
+        },
+        ["Veteran"] = {
+            [95] = "Storm Mage",
+            [80] = "Flame Archer",
+            [70] = "Hunt Duneripper",
+            [60] = "Infuser", -- Not sure about this percent, might be 65
+
+            [50] = "Storm Mage",
+            [40] = "Hunt Duneripper",
+            [35] = "Flame Archer",
+            [20] = "Infuser", -- Not sure about this percent
+        },
+    },
+
+    [GetBossName(CRUTCH_BHB_NORIWEN)] = { -- 50% is as far as we got, idk if theres anything afterwards, or if the final boss has mechs.
+        [70] = "Move to Middle",
+        [50] = "Gryphon Spawn",
+    }
 }
 
 ---------------------------------------------------------------------
