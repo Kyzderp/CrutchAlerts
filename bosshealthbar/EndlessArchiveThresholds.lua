@@ -13,11 +13,11 @@ end
 ---------------------------------------------------------------------
 local endlessArchiveThresholds = {
     -- Allene Pellingare -- nothing interesting
-    -- Ash Titan
+    -- Ash Titan - no adds
 
     -- Barbas -- nothing interesting
     -- Baron Zaudrus
-    -- Bittergreen the Wild
+    -- Bittergreen the Wild -- spriggans, don't be near them
 
     -- Caluurion -- not sure if relics are hp based. spawns exploding skellies
     -- Canonreeve Oraneth -- no hp gates, has squishy skelly spawns
@@ -87,7 +87,7 @@ local endlessArchiveThresholds = {
     -- Marauder Ulmor -- no hp gates
     -- Marauder Zulfimbul -- no hp gates
 
-    -- Molag Kena -- storm atros. might be possible to debuff while in shielded phase?
+    -- Molag Kena -- storm atros. might be possible to debuff while in shielded phase? arc 10 - bring extra healing or shield
     -- Mulaamnir
     [GetBossName(CRUTCH_BHB_MULAAMNIR)] = {
         [50] = "Storm", -- Storm atros at and below 50
@@ -95,7 +95,7 @@ local endlessArchiveThresholds = {
     -- Murklight
 
     -- Nazaray
-    -- Nerien'eth
+    -- Nerien'eth -- Lethal Stab applies dot (probably snapshot)
     [GetBossName(CRUTCH_BHB_NERIENETH)] = {
         [50] = "Ebony Blade",
     },
@@ -108,7 +108,7 @@ local endlessArchiveThresholds = {
     -- Ra'khajin -- no hp gates
     -- Rada al-Saran -- no hp gates
     -- Rakkhat -- no hp gates I think
-    -- Razor Master Erthas
+    -- Razor Master Erthas -- flame atro(s)
     -- Ri'Atahrashi -- no hp gates, no adds
     -- Risen Ruins -- no hp gates, has adds like nullifier. boulders may not be affected by cowardice? unsure
 
@@ -133,7 +133,7 @@ local endlessArchiveThresholds = {
     -- The Endling -- no hp gates?
     -- The Imperfect -- shield at 50%?
     -- The Lava Queen -- no hp gates, no adds
-    -- The Mage -- storm atros
+    -- The Mage -- storm atros, frost atros
     [GetBossName(CRUTCH_BHB_THE_MAGE)] = {
         [50] = "Arcane Vortex",
     },
@@ -143,7 +143,7 @@ local endlessArchiveThresholds = {
     ["The Warrior"] = { -- TODO: localization
         [50] = "Shehai",
     },
-    -- The Weeping Woman -- no hp gates, no adds
+    -- The Weeping Woman -- no hp gates, frost atros
     -- The Whisperer -- has little spooders
     -- Tho'at Replicanum
     [GetBossName(CRUTCH_BHB_THOAT_REPLICANUM)] = {
@@ -157,7 +157,7 @@ local endlessArchiveThresholds = {
 
     -- Valkynaz Nokvroz -- maybe no hp gates, but annoying magma scamps
     -- Varlariel -- clones seem to be on a timer, also has wisps
-    -- Varzunon -- dunno
+    -- Varzunon -- tons of little skellies, and blastbones that makes him big
     -- Vila Theran
     -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
     -- Vorenor Winterbourne -- no adds. bring purge for dot at 50 because snapshotted

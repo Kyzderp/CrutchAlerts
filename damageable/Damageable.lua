@@ -316,7 +316,7 @@ local SUBTITLE_TIMES = {
 -- Earthen Root Enclave
     ["Druid Laurel"] = {
         -- Archdruid Devyric
-        ["He's killing the spirit. He has the seed. Stop him. Please stop him!"] = 12.3, -- TODO
+        ["He's killing the spirit. He has the seed. Stop him. Please stop him!"] = 11.2,
     },
 
 -- Falkreath Hold

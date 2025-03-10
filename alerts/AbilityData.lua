@@ -171,7 +171,7 @@ Crutch.gainedDuration = {
     [117326] = true, -- Ice Comet (3750) Coldsnap Skysplitter
 
 -- Infinite Archive
-    [222161] = true, -- Meteor (Butcher's Fire Shaman (Yandir))
+    -- [222161] = true, -- Meteor (Butcher's Fire Shaman (Yandir))
 }
 
 
@@ -359,6 +359,7 @@ Crutch.others = {
     [223685] = true, -- Hoarfrost Fist (Frost Atronach)
     [223378] = true, -- Rending Leap (Clannfear)
     [198099] = true, -- Blood Dive (Lady Thorn)
+    [222156] = true, -- Meteor (Butcher's Fire Shaman (Yandir))
 
 -- Maelstrom Arena
     [72057] = true, -- Portal Spawn

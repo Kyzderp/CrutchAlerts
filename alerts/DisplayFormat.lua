@@ -82,6 +82,7 @@ Crutch.format = {
 -- Sanctum Ophidia
     [ 56857] = 200, -- Emerald Eclipse (The Serpent)
     [ 54125] = 100205.7, -- Quake (Mantikora)
+    [ 56782] = 800, -- Magicka Bomb, the 11 seconds, not 58084
 
 -- Sanity's Edge
     [183855] = 45, -- The Ritual (Ansuul maze)
@@ -101,6 +102,7 @@ Crutch.format = {
 
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
+    [171742] = 500, -- Boughroot Slash
 
 -- Fang Lair
     [ 98809] = 500, -- Draconic Smash

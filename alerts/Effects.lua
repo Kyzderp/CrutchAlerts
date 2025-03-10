@@ -54,6 +54,23 @@ local effectData = {
             },
         },
     },
+    ------------
+    -- "Dreadsail Reef"
+    -- [1344] = {
+    --     settingsSubcategory = "dreadsailreef",
+    --     -- Magma Shell
+    --     [17874] = {
+    --         format = "|cff6600<<C:1>>|r",
+    --         filters = {
+    --             [REGISTER_FILTER_UNIT_TAG] = "player",
+    --         },
+    --         settings = {
+    --             name = "effectMagmaShell",
+    --             title = "Show Magma Shell Timer",
+    --             description = "Shows an \"alert\" timer for when your Magma Shell will expire",
+    --         },
+    --     },
+    -- },
     -----------------
     -- Lucent Citadel
     [1478] = {
