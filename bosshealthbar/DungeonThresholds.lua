@@ -612,18 +612,40 @@ local dungeonThresholds = {
     [GetBossName(CRUTCH_BHB_JERENSI)] = {
         [80] = "Condemn + Adds",
         [50] = "Condemn + Adds",
-        [30] = "Condemn + Executioner on timer", -- prob a 15 or 14s timer
+        [30] = "Condemn + Execute on timer", -- prob a 15 or 14s timer
     },
     [GetBossName(CRUTCH_BHB_VANDORALLEN)] = {
-        [90] = "Spider Spawn", -- Actual Ability name is "Iron Charge (ID: 224446)"
-        [70] = "Spider Spawn",
-        [50] = "Spider Spawn + Simulacra on timer", -- I think simulacrums are only on hm. HM Health = 12601566
-        [30] = "Spider Spawn",
+        normHealth = 3169856,
+        vetHealth = 7200895,
+        hmHealth = 12601566,
+        ["Normal"] = {
+            [90] = "Spiders", -- Actual Ability name is "Iron Charge (ID: 224446)"
+            [70] = "Spiders",
+            [50] = "Spiders",
+            [30] = "Spiders",
+        },
+        ["Veteran"] = {
+            [90] = "Spiders",
+            [70] = "Spiders",
+            [50] = "Spiders", -- TODO: does vet have simulacra?
+            [30] = "Spiders",
+        },
+        ["Hardmode"] = {
+            [90] = "Spiders", -- Actual Ability name is "Iron Charge (ID: 224446)"
+            [70] = "Spiders",
+            [50] = "Spiders + Simulacra on timer", -- I think simulacrums are only on hm. HM Health = 12601566
+            [30] = "Spiders",
+        },
     },
     [GetBossName(CRUTCH_BHB_SQUALL_OF_RETRIBUTION)] = { -- Boss gains one of 3 buffs depending on what type it currently is
-        [95] = "Fire", -- Buff: Fire Only (ID: 224495)
-        [64] = "Frost", -- Buff: Color Swap Fire Frost (ID: 224497) - I believe this is actually like 63.3 (2/3 of 95), but I am not fully sure
-        [32] = "Storm", -- Buff: Color Swap (ID: 224493) - I believe this is actually 31.6 (1/3 of 95), but am not fully sure
+        [95] = "Fire Atro", -- Buff: Fire Only (ID: 224495)
+        [86] = "Fire Atro", -- 86.6?
+        [78] = "Fire Atro", -- 78.9?
+        [70] = "Fire Atro", -- 70.6?
+        [63] = "Frost Atro", -- Buff: Color Swap Fire Frost (ID: 224497) - M0R: I believe this is actually like 63.3 (2/3 of 95), but I am not fully sure | Kyz: procced at ~63.9?
+        [47] = "Frost Atro", -- 47.1? could be earlier
+        [31] = "Storm Atro", -- Buff: Color Swap (ID: 224493) - M0R: I believe this is actually 31.6 (1/3 of 95), but am not fully sure | Kyz: procced at ~31.9?
+        [22] = "Storm Atro", -- 22.7 or above?
     },
 
 -- Lep Seculsa -- TODO: jp, pl
@@ -648,7 +670,7 @@ local dungeonThresholds = {
             [30] = "Flame Archer",
             [25] = "Infuser",
         },
-        ["Normal"] = { -- Unsure about exact percentages, but it looks like these are it
+        ["Normal"] = { -- Verified
             [75] = "Storm Mage",
             [50] = "Duneripper + Archer",
             [25] = "Infuser",
@@ -665,11 +687,21 @@ local dungeonThresholds = {
             [20] = "Infuser", -- Not sure about this percent
         },
     },
-
-    [GetBossName(CRUTCH_BHB_NORIWEN)] = { -- 50% is as far as we got, idk if theres anything afterwards, or if the final boss has mechs.
-        [70] = "Move to Middle",
-        [50] = "Gryphon Spawn",
-    }
+    ["Siege Master Malthoras"] = { -- TODO: localization
+        [50] = "Adds",
+    },
+    [GetBossName(CRUTCH_BHB_NORIWEN)] = {
+        [70] = "Middle",
+        [50] = "Gryphons",
+        [40] = "Gryphons", -- TODO: is this timer or hp?
+        [20] = "Middle",
+    },
+    ["Orpheon the Tactician"] = { -- TODO: localization, and this is what I got from normal
+        [85] = "Alcunar",
+        [60] = "Alcunar",
+        [40] = "Alcunar",
+        [20] = "Alcunar",
+    },
 }
 
 ---------------------------------------------------------------------

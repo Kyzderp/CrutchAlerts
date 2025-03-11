@@ -109,6 +109,10 @@ Crutch.format = {
     [ 97022] = 500, -- Wraith Speed
     [ 96826] = 100400, -- Impaling Shards (Thurvokun)
 
+-- Lep Seclusa
+    [226181] = 200, -- Venom Eruption (Garvin the Tracker)
+    [229247] = 800, -- Forbidden Knowledge (Orpheon the Tactician)
+
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb
     [163654] =  500, -- Dark Blast

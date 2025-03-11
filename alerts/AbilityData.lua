@@ -109,6 +109,7 @@ Crutch.uninterruptible = {
     -- [ 73250] = true, -- Shattered in MoL -- idr why I made this uninterruptible?
     [203989] = true, -- Hurl Axe (Anthelmir's Construct)
     [ 96826] = true, -- Impaling Shards (Thurvokun)
+    [226600] = true, -- Noxious Boulder (Garvin the Tracker)
 }
 
 ---------------------------------------------------------------------
@@ -390,6 +391,14 @@ Crutch.others = {
 -- Elden Hollow
     [  9944] = true, -- Necrotic Burst (Canonreeve Oraneth)
 
+-- Exiled Redoubt
+    [224463] = true, -- Summon Fire Atro (Squall, first one)
+    [230349] = true, -- Summon Fire Atro (Squall, next 3)
+    [224473] = true, -- Summon Ice Atro (Squall, first)
+    [230383] = true, -- Summon Ice Atro (Squall, second)
+    [224476] = true, -- Summon Shock Atro (Squall, first)
+    [230386] = true, -- Summon Shock Atro (Squall, second)
+
 -- Fang Lair
     [ 98597] = true, -- Haunting Spectre (Sabina)
     [102615] = true, -- Spectral Chains (Sabina)
@@ -401,6 +410,10 @@ Crutch.others = {
 
 -- Graven Deep
     [171935] = true, -- Necrotic Rain (Varzunon)
+
+-- Lep Seclusa
+    [226181] = true, -- Venom Eruption (Garvin the Tracker)
+    [229247] = true, -- Forbidden Knowledge (Orpheon the Tactician)
 
 -- Oathsworn Pit
     [203989] = true, -- Hurl Axe (Anthelmir's Construct)
