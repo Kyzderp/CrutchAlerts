@@ -104,6 +104,14 @@ Crutch.format = {
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
     [171742] = 500, -- Boughroot Slash
 
+-- Exiled Redoubt
+    [224463] = 1102, -- Summon Fire Atro (Squall, first one)
+    [230349] = 1102, -- Summon Fire Atro (Squall, next 3)
+    [224473] = 1402, -- Summon Ice Atro (Squall, first)
+    [230383] = 1402, -- Summon Ice Atro (Squall, second)
+    [224476] = 1402, -- Summon Shock Atro (Squall, first)
+    [230386] = 1402, -- Summon Shock Atro (Squall, second)
+
 -- Fang Lair
     [ 98809] = 500, -- Draconic Smash
     [ 97022] = 500, -- Wraith Speed
@@ -112,6 +120,7 @@ Crutch.format = {
 -- Lep Seclusa
     [226181] = 200, -- Venom Eruption (Garvin the Tracker)
     [229247] = 800, -- Forbidden Knowledge (Orpheon the Tactician)
+    [233821] = 100, -- Cyclone (Flame Gryphon)
 
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb

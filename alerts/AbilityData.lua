@@ -110,6 +110,7 @@ Crutch.uninterruptible = {
     [203989] = true, -- Hurl Axe (Anthelmir's Construct)
     [ 96826] = true, -- Impaling Shards (Thurvokun)
     [226600] = true, -- Noxious Boulder (Garvin the Tracker)
+    [231801] = true, -- Spring (Noriwen)
 }
 
 ---------------------------------------------------------------------
@@ -414,6 +415,7 @@ Crutch.others = {
 -- Lep Seclusa
     [226181] = true, -- Venom Eruption (Garvin the Tracker)
     [229247] = true, -- Forbidden Knowledge (Orpheon the Tactician)
+    [233821] = true, -- Cyclone (Flame Gryphon)
 
 -- Oathsworn Pit
     [203989] = true, -- Hurl Axe (Anthelmir's Construct)
