@@ -319,6 +319,18 @@ local SUBTITLE_TIMES = {
         ["He's killing the spirit. He has the seed. Stop him. Please stop him!"] = 11.2,
     },
 
+-- Exiled Redoubt
+    ["Cato Albus"] = {
+        ["Who dares interrupt? I cannot avenge my son without tese deaths!"] = 6.9,
+    },
+    ["Prime Sorcerer Vandorallen"] = {
+        ["No one can stop us. You stand no chance!"] = 4.3,
+    },
+    ["Lucilla Caprenia"] = {
+        -- Squall of Retribution
+        ["Cato! It's over. Stop this madness!"] = 6.9,
+    },
+
 -- Falkreath Hold
     ["Cernunnon"] = {
         -- Deathlord Bjarfrud Skjoralmor
@@ -344,6 +356,11 @@ local SUBTITLE_TIMES = {
         -- Selene fight (bear, spider)
         ["Now for payment in kind. It's my turn to study your insides, warlock!"] = 4.8,
         ["Nun zu meiner Vergeltung. Jetzt studiere ich Eure Eingeweide, Hexer!"] = 4.8,
+    },
+
+-- Lep Seclusa
+    ["Noriwen"] = {
+        ["Alcunar!"] = 5.3,
     },
 
 -- Moongrave Fane
@@ -408,6 +425,12 @@ local SUBTITLE_TIMES = {
         ["I am Dreadsail, born of the sea. I cannot be defeated!"] = 16,
     },
 
+-- Spindleclutch II
+    ["Guardian Sud-Hareem"] = {
+        -- Bloodspawn
+        ["Over there! It's Mereel!"] = 23.8,
+    },
+
 -- The Cauldron
     ["Baron Zaudrus"] = {
         ["What you want is right here, Lyranth. Come take it."] = 12,
@@ -417,6 +440,11 @@ local SUBTITLE_TIMES = {
     ["Martus Tullius"] = {
         -- Magma Incarnate
         ["The Daedra are pouring their energy into that machine!"] = 9.5, -- Untested
+    },
+
+-- Wayrest Sewers II
+    ["Master Pellingare"] = {
+        ["Allene! Varaine! It's your father! I love you, and I want to talk to you!"] = 20.4,
     },
 
 -- Overland

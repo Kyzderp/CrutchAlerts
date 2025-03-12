@@ -638,14 +638,42 @@ local dungeonThresholds = {
         },
     },
     [GetBossName(CRUTCH_BHB_SQUALL_OF_RETRIBUTION)] = { -- Boss gains one of 3 buffs depending on what type it currently is
-        [95] = "Fire Atro", -- Buff: Fire Only (ID: 224495)
-        [86] = "Fire Atro", -- 86.6?
-        [78] = "Fire Atro", -- 78.9?
-        [70] = "Fire Atro", -- 70.6?
-        [63] = "Frost Atro", -- Buff: Color Swap Fire Frost (ID: 224497) - M0R: I believe this is actually like 63.3 (2/3 of 95), but I am not fully sure | Kyz: procced at ~63.9?
-        [47] = "Frost Atro", -- 47.1? could be earlier
-        [31] = "Storm Atro", -- Buff: Color Swap (ID: 224493) - M0R: I believe this is actually 31.6 (1/3 of 95), but am not fully sure | Kyz: procced at ~31.9?
-        [22] = "Storm Atro", -- 22.7 or above?
+        normHealth = 3367972,
+        vetHealth = 10263990,
+        hmHealth = 15395986,
+        ["Normal"] = {
+            [95] = "Fire Atro", -- Buff: Fire Only (ID: 224495)
+            [86] = "Fire Atro", -- 86.6?
+            [78] = "Fire Atro", -- 78.9?
+            [70] = "Fire Atro", -- 70.6?
+            [63] = "Ice Atro", -- Buff: Color Swap Fire Frost (ID: 224497) - M0R: I believe this is actually like 63.3 (2/3 of 95), but I am not fully sure | Kyz: procced at ~63.9?
+            [47] = "Ice Atro", -- 47.1? could be earlier
+            [31] = "Storm Atro", -- Buff: Color Swap (ID: 224493) - M0R: I believe this is actually 31.6 (1/3 of 95), but am not fully sure | Kyz: procced at ~31.9?
+            [23] = "Storm Atro", -- 22.7 or above?
+        },
+        ["Veteran"] = {
+            [95] = "Fire Atro", -- Buff: Fire Only (ID: 224495)
+            [86] = "Fire Atro", -- 86.6?
+            [78] = "Fire Atro", -- 78.9?
+            [70] = "Fire Atro", -- 70.6?
+            [63] = "Ice Atro", -- Buff: Color Swap Fire Frost (ID: 224497) - M0R: I believe this is actually like 63.3 (2/3 of 95), but I am not fully sure | Kyz: procced at ~63.9?
+            [47] = "Ice Atro", -- 47.1? could be earlier
+            [31] = "Storm Atro", -- Buff: Color Swap (ID: 224493) - M0R: I believe this is actually 31.6 (1/3 of 95), but am not fully sure | Kyz: procced at ~31.9?
+            [23] = "Storm Atro", -- 22.7 or above?
+        },
+        ["Hardmode"] = {
+            [95] = "Fire Atro", -- Buff: Fire Only (ID: 224495)
+            [86] = "Fire Atro", -- 86.6?
+            [78] = "Fire Atro", -- 78.9?
+            [70] = "Fire Atro", -- 70.6?
+            [63] = "Ice Atro", -- Buff: Color Swap Fire Frost (ID: 224497) - M0R: I believe this is actually like 63.3 (2/3 of 95), but I am not fully sure | Kyz: procced at ~63.9?
+            [53] = "Ice Atro", -- 53.4? HM ONLY
+            [47] = "Ice Atro x2", -- 47.3? could be earlier; second one HM only
+            [31] = "Storm Atro", -- Buff: Color Swap (ID: 224493) - M0R: I believe this is actually 31.6 (1/3 of 95), but am not fully sure | Kyz: procced at ~31.9?
+            [23] = "Storm Atro", -- 23.8 or above?
+            [15] = "Storm Atro", -- 15.7 or above? HM only
+            [ 7] = "Storm Atro", -- 7.3 or above? HM only
+        },
     },
 
 -- Lep Seculsa -- TODO: jp, pl
