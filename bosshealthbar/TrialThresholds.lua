@@ -152,8 +152,29 @@ local trialThresholds = {
 
 -- Dreadsail Reef
     [GetBossName(CRUTCH_BHB_LYLANAR)] = {
-        [70] = "2nd Teleports",
-        [65] = "1st Teleports",
+        normHealth = 10906420,
+        vetHealth = 27943440,
+        hmHealth = 55886880,
+        ["Normal"] = {
+            [90] = "Atronach",
+            [80] = "Atronach",
+            [70] = "2nd Teleports",
+            [65] = "1st Teleports",
+        },
+        ["Veteran"] = {
+            [90] = "Atronach",
+            [80] = "Atronach",
+            [70] = "2nd Teleports",
+            [65] = "1st Teleports",
+        },
+        ["Hardmode"] = {
+            [90] = "On-color Atro",
+            [85] = "Off-color Atro",
+            [80] = "On-color Atro",
+            [75] = "Off-color Atro",
+            [70] = "2nd Teleports",
+            [65] = "1st Teleports",
+        }
     },
     [GetBossName(CRUTCH_BHB_REEF_GUARDIAN)] = {
         vetHealth = 27943440,
