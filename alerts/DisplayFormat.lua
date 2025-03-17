@@ -111,6 +111,7 @@ Crutch.format = {
     [230383] = 1402, -- Summon Ice Atro (Squall, second)
     [224476] = 1402, -- Summon Shock Atro (Squall, first)
     [230386] = 1402, -- Summon Shock Atro (Squall, second)
+    [223935] =  500, -- Six Sword Assault (Squall)
 
 -- Fang Lair
     [ 98809] = 500, -- Draconic Smash

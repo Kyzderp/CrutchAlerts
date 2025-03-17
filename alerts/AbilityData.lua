@@ -399,6 +399,7 @@ Crutch.others = {
     [230383] = true, -- Summon Ice Atro (Squall, second)
     [224476] = true, -- Summon Shock Atro (Squall, first)
     [230386] = true, -- Summon Shock Atro (Squall, second)
+    [223935] = true, -- Six Sword Assault (Squall)
 
 -- Fang Lair
     [ 98597] = true, -- Haunting Spectre (Sabina)

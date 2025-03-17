@@ -142,9 +142,12 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "divider",
+                },
+                {
                     type = "checkbox",
                     name = "Show arcanist timers",
-                    tooltip = "Show alerts for arcanist-specific channeled abilities that you cast, i.e. Fatecarver and Remedy Cascade",
+                    tooltip = "Show \"alert\" timers for arcanist-specific channeled abilities that you cast, i.e. Fatecarver and Remedy Cascade",
                     default = true,
                     getFunc = function() return not Crutch.savedOptions.general.beginHideArcanist end,
                     setFunc = function(value)
@@ -153,6 +156,18 @@ function Crutch:CreateSettingsMenu()
                         if (value) then
                             Crutch.RegisterFatecarver()
                         end
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show dragonknight Magma Shell",
+                    tooltip = "Show an \"alert\" timer for Magma Shell",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.effectMagmaShell end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.effectMagmaShell = value
+                        Crutch.OnPlayerActivated()
                     end,
                     width = "full",
                 },

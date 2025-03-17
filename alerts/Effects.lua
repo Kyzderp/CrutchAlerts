@@ -7,6 +7,24 @@ local Crutch = CrutchAlerts
 -- timed buffs or debuffs
 ---------------------------------------------------------------------
 local effectData = {
+    ----------
+    -- General
+    [-1] = {
+        settingsSubcategory = "general",
+        -- Magma Shell
+        [17874] = {
+            format = "|cff6600<<C:1>>|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectMagmaShell",
+                title = "Show Magma Shell Timer",
+                description = "Shows an \"alert\" timer for when your Magma Shell will expire",
+            },
+        },
+    },
+
 -----------------------------------------------------------
 -- TRIALS
 -----------------------------------------------------------
@@ -54,23 +72,6 @@ local effectData = {
             },
         },
     },
-    ------------
-    -- "Dreadsail Reef"
-    -- [1344] = {
-    --     settingsSubcategory = "dreadsailreef",
-    --     -- Magma Shell
-    --     [17874] = {
-    --         format = "|cff6600<<C:1>>|r",
-    --         filters = {
-    --             [REGISTER_FILTER_UNIT_TAG] = "player",
-    --         },
-    --         settings = {
-    --             name = "effectMagmaShell",
-    --             title = "Show Magma Shell Timer",
-    --             description = "Shows an \"alert\" timer for when your Magma Shell will expire",
-    --         },
-    --     },
-    -- },
     -----------------
     -- Lucent Citadel
     [1478] = {
@@ -209,6 +210,11 @@ local effectResults = {
 }
 
 function Crutch.RegisterEffects(zoneId)
+    if (zoneId ~= -1) then
+        -- Also register the general effects
+        Crutch.RegisterEffects(-1)
+    end
+
     local zoneData = effectData[zoneId]
     if (not zoneData) then return end
 
@@ -258,6 +264,11 @@ end
 -- Called whenever we exit a zone
 -----------------------------------------------------------
 function Crutch.UnregisterEffects(zoneId)
+    if (zoneId ~= -1) then
+        -- Also unregister the general effects (even though they'll just get registered again)
+        Crutch.UnregisterEffects(-1)
+    end
+
     local zoneData = effectData[zoneId]
     if (not zoneData) then return end
 
