@@ -9,6 +9,7 @@ local SUBTITLE_CHANNELS = {
 }
 
 -- TODO: migrate these to lang files
+-- /script d(GetZoneId(GetUnitZoneIndex("player")))
 local SUBTITLE_TIMES = {
 -- CR
     ["Z'Maja"] = {
@@ -360,7 +361,10 @@ local SUBTITLE_TIMES = {
 
 -- Lep Seclusa
     ["Noriwen"] = {
-        ["Alcunar!"] = 5.3,
+        ["Alcunar!"] = {time = 5.3, singleZoneId = 1497},
+    },
+    ["Sister Chana Nirine"] = {
+        ["You'll never read this scroll!"] = 11,
     },
 
 -- Moongrave Fane
