@@ -23,6 +23,30 @@ local effectData = {
                 description = "Shows an \"alert\" timer for when your Magma Shell will expire",
             },
         },
+        -- Magma Armor
+        [15957] = {
+            format = "|cff6600<<C:1>>|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectMagmaShell",
+                title = "Show Magma Shell Timer",
+                description = "Shows an \"alert\" timer for when your Magma Shell will expire",
+            },
+        },
+        -- Corrosive Armor
+        [17878] = {
+            format = "|c64c200<<C:1>>|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectMagmaShell",
+                title = "Show Magma Shell Timer",
+                description = "Shows an \"alert\" timer for when your Magma Shell will expire",
+            },
+        },
     },
 
 -----------------------------------------------------------

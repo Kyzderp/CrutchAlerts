@@ -168,9 +168,9 @@ local trialThresholds = {
             [65] = "1st Teleports",
         },
         ["Hardmode"] = {
-            [90] = "On-color Atro",
+            [90] = "Same-color Atro",
             [85] = "Off-color Atro",
-            [80] = "On-color Atro",
+            [80] = "Same-color Atro",
             [75] = "Off-color Atro",
             [70] = "2nd Teleports",
             [65] = "1st Teleports",
