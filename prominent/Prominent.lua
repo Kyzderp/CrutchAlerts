@@ -40,6 +40,56 @@ local function Display(abilityId, text, color, slot, millis)
     end)
 end
 
+local soundsSize = 0
+local function GetRandomSound()
+    -- First time, get the size
+    if (soundsSize == 0) then
+        for _, _ in pairs(SOUNDS) do
+            soundsSize = soundsSize + 1
+        end
+    end
+
+    local i = 1
+    local random = math.floor(math.random() * soundsSize + 1)
+    for _, sound in pairs(SOUNDS) do
+        if (i == random) then
+            return sound
+        end
+        i = i + 1
+    end
+
+    return SOUNDS.DUEL_START
+end
+
+function Crutch.DisplayProminentSpin(text, color, slot)
+    color = color or {1, 0.6, 0}
+    slot = slot or 1
+    Display(888888, text, color, slot, 5000)
+    local stop = false
+    zo_callLater(function()
+        stop = true
+    end, 5000)
+
+    local angle = 0
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "Spinny" .. tostring(slot), 30, function()
+        PlaySound(GetRandomSound())
+        angle = angle + 10 * ((slot % 2 == 0) and 1 or -1) * slot
+        if (stop) then
+            EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "Spinny" .. tostring(slot))
+            angle = 0
+        end
+
+        local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
+        for _, name in ipairs(childNames) do
+            local label = control:GetNamedChild(name)
+            if (label) then
+                label:SetTransformRotationZ(math.rad(angle))
+            end
+        end
+    end)
+end
+-- /script CrutchAlerts.DisplayProminentSpin("POLY", nil, 1) CrutchAlerts.DisplayProminentSpin("POLY POLY", {0, 1, 0}, 2) CrutchAlerts.DisplayProminentSpin("POLY POLY POLY", {1, 0, 1}, 3)
+
 -------------------------------------------------------------------------------
 function Crutch.DisplayProminent(abilityId)
     local data = Crutch.prominent[abilityId]

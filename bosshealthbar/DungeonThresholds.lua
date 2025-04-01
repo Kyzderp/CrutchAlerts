@@ -721,7 +721,7 @@ local dungeonThresholds = {
     [GetBossName(CRUTCH_BHB_NORIWEN)] = {
         [70] = "Middle",
         [50] = "Gryphons",
-        [40] = "Gryphons", -- TODO: is this timer or hp?
+        [40] = "Gryphons",
         [20] = "Middle",
     },
     ["Orpheon the Tactician"] = { -- TODO: localization, and this is what I got from normal

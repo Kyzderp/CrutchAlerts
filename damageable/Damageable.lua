@@ -87,6 +87,9 @@ local SUBTITLE_TIMES = {
         ["You don't look to be fairing any better than I did, Turli."] = 8, -- [sic]
 
         ["Es sieht nicht so aus, als ob es Euch besser ergeht als mir, Turli."] = 8,
+
+        -- Double: Turli second
+        ["Come on, Turli, let's secure the victory."] = 8,
     },
     ["Fleet Queen Taleria"] = {
         -- Taleria
@@ -322,7 +325,7 @@ local SUBTITLE_TIMES = {
 
 -- Exiled Redoubt
     ["Cato Albus"] = {
-        ["Who dares interrupt? I cannot avenge my son without tese deaths!"] = 6.9,
+        ["Who dares interrupt? I cannot avenge my son without these deaths!"] = 6.9,
     },
     ["Prime Sorcerer Vandorallen"] = {
         ["No one can stop us. You stand no chance!"] = 4.3,
