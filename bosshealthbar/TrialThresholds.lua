@@ -63,10 +63,10 @@ local trialThresholds = {
         [20] = "Reset",
     },
     [GetBossName(CRUTCH_BHB_ASSEMBLY_GENERAL)] = {
-        [86] = "Terminals", -- TODO: check it after the floor rounding change
-        [66] = "Terminals", -- TODO: check it after the floor rounding change
-        [46] = "Terminals", -- TODO: check it after the floor rounding change
-        [26] = "Execute", -- TODO: check it after the floor rounding change
+        [85] = "Terminals",
+        [65] = "Terminals",
+        [45] = "Terminals",
+        [25] = "Execute",
     },
 
 -- Asylum Sanctorium

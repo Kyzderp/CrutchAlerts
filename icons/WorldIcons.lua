@@ -99,6 +99,15 @@ local data = {
     ["YolLeftHead4"] = {x = 96498, y = 49694, z = 110533, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds", size = GetYolIconsSize},
 
     -- Halls of Fabrication
+    ["Sphere1"] = {x = 44087, y = 49977, z = 25581, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = function() return 100 end},
+    ["Sphere2"] = {x = 43885, y = 49978, z = 26656, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = function() return 100 end},
+    ["Sphere3"] = {x = 43005, y = 49977, z = 27242, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = function() return 100 end},
+    ["Sphere4"] = {x = 41971, y = 49978, z = 27058, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = function() return 100 end},
+    ["Sphere5"] = {x = 41388, y = 49977, z = 26159, texture = "odysupporticons/icons/squares/squaretwo_red_five.dds", size = function() return 100 end},
+    ["Sphere6"] = {x = 41577, y = 49977, z = 25111, texture = "odysupporticons/icons/squares/squaretwo_red_six.dds", size = function() return 100 end},
+    ["Sphere7"] = {x = 42475, y = 49977, z = 24515, texture = "odysupporticons/icons/squares/squaretwo_red_seven.dds", size = function() return 100 end},
+    ["Sphere8"] = {x = 43506, y = 49977, z = 24719, texture = "odysupporticons/icons/squares/squaretwo_red_eight.dds", size = function() return 100 end},
+
     ["TripletsSafe"] = {x = 29758, y = 52950, z = 73169, texture = "odysupporticons/icons/emoji-poop.dds", size = GetTripletsIconSize},
 
     -- Assembly General
@@ -110,6 +119,8 @@ local data = {
     ["AGSW"] = {x = 74410, y = 54918, z = 70614, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetAGIconsSize},
     ["AGW"] = {x = 74630, y = 54956, z = 70005, texture = "CrutchAlerts/icons/assets/W.dds", size = GetAGIconsSize},
     ["AGNW"] = {x = 74405, y = 54919, z = 69422, texture = "odysupporticons/icons/squares/squaretwo_red_one.dds", size = GetAGIconsSize},
+    -- [22:20:28] [Kyzderp's Derps] zoneId=975 {x = 74993, y = 54954, z = 67024} bottom where AG is
+    -- [22:20:40] [Kyzderp's Derps] zoneId=975 {x = 76056, y = 55424, z = 67556} top just for Y coord
 
     -- Sanity's Edge
     ["AnsuulCenter"] = {x = 200093, y = 30199, z = 40023, texture = "odysupporticons/icons/emoji-poop.dds", size = GetAnsuulIconSize},
