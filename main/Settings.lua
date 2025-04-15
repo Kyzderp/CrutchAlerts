@@ -806,6 +806,27 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Ossein Cage",
+            controls = {
+                {
+                    type = "dropdown",
+                    name = "Show Stricken timer",
+                    tooltip = "Shows an \"alert\" timer for Stricken. If set to \"Tank Only\" it will display only if your LFG role is tank",
+                    choices = {"Never", "Tank Only", "Always"},
+                    choicesValues = {"NEVER", "TANK", "ALWAYS"},
+                    getFunc = function()
+                        return Crutch.savedOptions.osseincage.showStricken
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.showStricken = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+            },
+        },
+        {
+            type = "submenu",
             name = "Rockgrove",
             controls = Crutch.GetProminentSettings(1263, Crutch.GetEffectSettings(1263, {
                 {

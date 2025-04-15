@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "1.9.1"
+Crutch.version = "1.10.0-alpha1"
 
 Crutch.registered = {
     begin = false,
@@ -109,6 +109,9 @@ local defaultOptions = {
         tempestIconsSize = 150,
         showArcaneConveyance = true,
         showArcaneConveyanceTether = true,
+    },
+    osseincage = {
+        showStricken = "TANK", -- "NEVER", "TANK", "ALWAYS"
     },
     rockgrove = {
         sludgeSides = true,
@@ -330,6 +333,7 @@ local function Initialize()
         [1344] = Crutch.UnregisterDreadsailReef,
         [1427] = Crutch.UnregisterSanitysEdge,
         [1478] = Crutch.UnregisterLucentCitadel,
+        [1548] = Crutch.UnregisterOsseinCage,
 
         [677 ] = Crutch.UnregisterMaelstromArena,
         [1436] = Crutch.UnregisterEndlessArchive,
@@ -352,6 +356,7 @@ local function Initialize()
         [1344] = Crutch.RegisterDreadsailReef,
         [1427] = Crutch.RegisterSanitysEdge,
         [1478] = Crutch.RegisterLucentCitadel,
+        [1548] = Crutch.RegisterOsseinCage,
 
         [677 ] = Crutch.RegisterMaelstromArena,
         [1436] = Crutch.RegisterEndlessArchive,

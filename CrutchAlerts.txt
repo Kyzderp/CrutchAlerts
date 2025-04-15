@@ -1,7 +1,7 @@
 ## Title: CrutchAlerts
 ## This addon is a crutch
 ## Author: Kyzeragon
-## Version: 1.9.1
+## Version: 1.10.0-alpha1
 ## APIVersion: 101045
 
 ## DependsOn: LibAddonMenu-2.0>=38
@@ -32,6 +32,7 @@ zones/trials/HallsOfFabrication.lua
 zones/trials/KynesAegis.lua
 zones/trials/LucentCitadel.lua
 zones/trials/MawOfLorkhaj.lua
+zones/trials/OsseinCage.lua
 zones/trials/Rockgrove.lua
 zones/trials/SanitysEdge.lua
 zones/trials/SanctumOphidia.lua

@@ -74,6 +74,11 @@ Crutch.format = {
     [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
     [ 73250] = 000315, -- Shattered (Savage)
 
+-- Ossein Cage
+    [237149] = 500, -- Agonizer Bombs (Overfiend Kazpian)
+    [235201] = 500, -- Storm Slam (Molag Kena)
+    [232779] = 400, -- Dominator's Chains (after it's gained, 16100)
+
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
     [157860] = 1000, -- Noxious Sludge (hide because of sides)

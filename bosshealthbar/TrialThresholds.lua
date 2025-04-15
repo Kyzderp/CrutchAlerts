@@ -243,6 +243,13 @@ local trialThresholds = {
         [25] = "Adds",
         [15] = "Color Change",
     },
+
+-- Ossein Cage
+    ["Overfiend Kazpian"] = { -- TODO: localization
+        [85] = "Portal", -- TODO "You think you're worthy? You know nothing of power."
+        [55] = "Portal", -- TODO "Still here? Let's see how much suffering you generate!"
+        [35] = "Portal", -- TODO "You enjoy agony? Very well. Cista, release your power!"
+    },
 }
 
 ---------------------------------------------------------------------

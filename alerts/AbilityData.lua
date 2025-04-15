@@ -162,6 +162,11 @@ Crutch.gainedDuration = {
     [223331] = true, -- Gloomy Impact (second one)
     [222609] = true, -- Gloomy Impact (Knot)
 
+-- Ossein Cage
+    [232773] = true, -- Dominator's Chains (initial cast, 4100)
+    [232779] = true, -- Dominator's Chains (after it's gained, 16100)
+    -- [237163] = true, -- Agonizing Burden (6000)
+
 -- Sanctum Ophidia
     [56782] = true, -- Magicka Bomb, the 11 seconds, not 58084
 
@@ -254,6 +259,11 @@ Crutch.others = {
     [ 74488] = true, -- Unstable Void (Rakkhat)
     [ 74384] = true, -- Dark Barrage (initial)
     [ 74385] = true, -- Dark Barrage (start)
+
+-- Ossein Cage
+    [235201] = true, -- Storm Slam (Molag Kena)
+    [232516] = true, -- Jynorah Titanic Clash
+    [232517] = true, -- Skorikhif Titanic Clash
 
 -- Rockgrove
     [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)

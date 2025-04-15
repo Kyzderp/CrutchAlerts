@@ -152,6 +152,22 @@ local effectData = {
             },
         },
     },
+    --------------
+    -- Ossein Cage
+    -- [1548] = {
+    --     settingsSubcategory = "osseincage",
+    --     [235594] = {
+    --         format = "|c8ef5f5<<C:1>>|r",
+    --         filters = {
+    --             [REGISTER_FILTER_UNIT_TAG] = "player",
+    --         },
+    --         settings = {
+    --             name = "effectDeathTouch",
+    --             title = "Show Death Touch Timer",
+    --             description = "Shows an \"alert\" timer for when your Bahsei curse will explode",
+    --         },
+    --     },
+    -- },
     ------------
     -- Rockgrove
     [1263] = {
