@@ -77,6 +77,7 @@ Crutch.format = {
 -- Ossein Cage
     [237149] = 500, -- Agonizer Bombs (Overfiend Kazpian)
     [235201] = 500, -- Storm Slam (Molag Kena)
+    [232773] = 500, -- Dominator's Chains (initial cast, 4100)
     [232779] = 400, -- Dominator's Chains (after it's gained, 16100)
 
 -- Rockgrove
