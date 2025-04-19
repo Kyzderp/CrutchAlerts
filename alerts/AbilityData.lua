@@ -165,6 +165,7 @@ Crutch.gainedDuration = {
 -- Ossein Cage
     [232773] = true, -- Dominator's Chains (initial cast, 4100)
     [232779] = true, -- Dominator's Chains (after it's gained, 16100)
+    [232780] = true, -- Dominator's Chains (after it's gained, 16100)
     -- [237163] = true, -- Agonizing Burden (6000)
 
 -- Sanctum Ophidia

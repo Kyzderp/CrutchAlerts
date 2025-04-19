@@ -79,6 +79,7 @@ Crutch.format = {
     [235201] = 500, -- Storm Slam (Molag Kena)
     [232773] = 500, -- Dominator's Chains (initial cast, 4100)
     [232779] = 400, -- Dominator's Chains (after it's gained, 16100)
+    [232780] = 400, -- Dominator's Chains (after it's gained, 16100)
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
