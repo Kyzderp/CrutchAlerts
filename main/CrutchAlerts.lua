@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "1.10.0"
+Crutch.version = "1.10.0-alpha1"
 
 Crutch.registered = {
     begin = false,
@@ -112,6 +112,7 @@ local defaultOptions = {
     },
     osseincage = {
         showStricken = "TANK", -- "NEVER", "TANK", "ALWAYS"
+        showChains = true,
     },
     rockgrove = {
         sludgeSides = true,

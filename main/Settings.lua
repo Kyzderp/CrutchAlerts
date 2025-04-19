@@ -705,8 +705,8 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show Arcane Conveyance icons",
-                    tooltip = "Shows icons above group members who are about to or have already received the Arcane Conveyance tether from Dariel Lemonds. Requires OdySupportIcons",
+                    name = "Show Arcane Conveyance tether",
+                    tooltip = "Shows icons above and a line connecting group members who are about to (or have already received) the Arcane Conveyance tether from Dariel Lemonds. Requires OdySupportIcons",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.showArcaneConveyance end,
                     setFunc = function(value)
@@ -715,19 +715,6 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                     disabled = function() return OSI == nil end,
-                },
-                {
-                    type = "checkbox",
-                    name = "Show Arcane Conveyance tether",
-                    tooltip = "Shows a line connecting the icons above group members who are about to or have already received the Arcane Conveyance tether from Dariel Lemonds",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.lucentcitadel.showArcaneConveyanceTether end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.lucentcitadel.showArcaneConveyanceTether = value
-                        Crutch.OnPlayerActivated()
-                    end,
-                    width = "full",
-                    disabled = function() return not Crutch.savedOptions.lucentcitadel.showArcaneConveyance end,
                 },
                 {
                     type = "dropdown",
@@ -822,6 +809,19 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Dominator's Chains tether",
+                    tooltip = "Shows icons above and a line connecting group members who are about to (or have already received) the Dominator's Chains tether from Overfiend Kazpian. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.osseincage.showChains end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.showChains = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
                 },
             },
         },
