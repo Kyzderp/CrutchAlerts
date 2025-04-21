@@ -55,14 +55,14 @@ local function OnCSA(_, title, description)
         local stageData = stagesData[GetCurrentMapId()]
         local stage = stageData.stage
 
-        CHAT_SYSTEM:AddMessage(string.format("|c3bdb5e[CrutchAlerts] |cAAAAAAStage |cFFFFFF%d|cAAAAAA, Round |cFFFFFF%d|r",
+        CHAT_ROUTER:AddSystemMessage(string.format("|c3bdb5e[CrutchAlerts] |cAAAAAAStage |cFFFFFF%d|cAAAAAA, Round |cFFFFFF%d|r",
             stage, round))
 
         if (round == stageData.numRounds - 1) then
             -- Display message for final round next
             zo_callLater(function()
                 local extraText = Crutch.savedOptions.maelstrom["stage" .. stage .. "Boss"]
-                CHAT_SYSTEM:AddMessage(string.format("|c3bdb5e[CrutchAlerts] |cAAAAAAFinal round soonTM!%s|r",
+                CHAT_ROUTER:AddSystemMessage(string.format("|c3bdb5e[CrutchAlerts] |cAAAAAAFinal round soonTM!%s|r",
                     (extraText ~= "") and (" |cFF00FF" .. extraText) or ""))
             end, 15000)
         end

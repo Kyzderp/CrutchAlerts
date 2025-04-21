@@ -512,7 +512,7 @@ local function DisplayWarning()
     local warningText = "CrutchAlerts has a new feature: vertical boss health bars with mechanic markers. It's still a work in progress, but I'd recommend adjusting the location on your UI or toggling it if you don't want it, before it gets in your way in real content!\nSettings > Addons > CrutchAlerts > Unlock UI / Vertical Boss Health Bar Settings."
 
     if (not LibDialog) then
-        CHAT_SYSTEM:AddMessage(warningText)
+        CHAT_ROUTER:AddSystemMessage(warningText)
         return
     end
 

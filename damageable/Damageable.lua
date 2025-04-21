@@ -568,7 +568,7 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
     local name = zo_strformat("<<C:1>>", fromName)
     if (Crutch.savedOptions.showSubtitles) then
         if (not Crutch.savedOptions.subtitlesIgnoredZones[GetZoneId(GetUnitZoneIndex("player"))]) then
-            CHAT_SYSTEM:AddMessage(string.format("|c88FFFF%s: |cAAAAAA%s", name, text))
+            CHAT_ROUTER:AddSystemMessage(string.format("|c88FFFF%s: |cAAAAAA%s", name, text))
         else
             Crutch.dbgSpam(string.format("|c88FFFF%s: |cAAAAAA%s", name, text))
         end

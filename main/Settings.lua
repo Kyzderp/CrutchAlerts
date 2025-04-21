@@ -262,7 +262,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     setFunc = function(value)
                         Crutch.savedOptions.subtitlesIgnoredZones[value] = nil
-                        CHAT_SYSTEM:AddMessage(string.format("Removed %s(%d) from subtitles ignored zones.", GetZoneNameById(value), value))
+                        CHAT_ROUTER:AddSystemMessage(string.format("Removed %s(%d) from subtitles ignored zones.", GetZoneNameById(value), value))
                         local ids, names = GetNoSubtitlesZoneIdsAndNames()
                         CrutchAlerts_NoSubtitlesZones:UpdateChoices(names, ids)
                     end,
@@ -281,11 +281,11 @@ function Crutch:CreateSettingsMenu()
                         local zoneId = tonumber(value)
                         local zoneName = GetZoneNameById(zoneId)
                         if (not zoneId or not zoneName or zoneName == "") then
-                            CHAT_SYSTEM:AddMessage(value .. " is not a valid zone ID!")
+                            CHAT_ROUTER:AddSystemMessage(value .. " is not a valid zone ID!")
                             return
                         end
                         Crutch.savedOptions.subtitlesIgnoredZones[zoneId] = true
-                        CHAT_SYSTEM:AddMessage(string.format("Added %s(%d) to subtitles ignored zones.", zoneName, zoneId))
+                        CHAT_ROUTER:AddSystemMessage(string.format("Added %s(%d) to subtitles ignored zones.", zoneName, zoneId))
                     end,
                     isMultiline = false,
                     isExtraWide = false,

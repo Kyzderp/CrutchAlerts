@@ -255,7 +255,7 @@ local function OnScoreBatch()
                     message = string.format("%s; |cFF5555%d|r champions", message, missedChampion)
                 end
                 if (message ~= "") then
-                    CHAT_SYSTEM:AddMessage("Missed adds (lots of skipping)" .. message)
+                    CHAT_ROUTER:AddSystemMessage("Missed adds (lots of skipping)" .. message)
                 end
             elseif (isBoss) then
                 Crutch.dbgOther("this is a boss")
@@ -267,7 +267,7 @@ local function OnScoreBatch()
                     -- This means we skipped the brimstone caretaker, which is a "boss"
                     gateIndex = gateIndex + 1
                     baselineData = ADDS[wing][gateIndex]
-                    CHAT_SYSTEM:AddMessage("|cFF5555You skipped the Brimstone Caretaker?! It's worth 15k points!|r")
+                    CHAT_ROUTER:AddSystemMessage("|cFF5555You skipped the Brimstone Caretaker?! It's worth 15k points!|r")
                 end
 
                 -- Compare the scores we got vs the baseline
@@ -286,7 +286,7 @@ local function OnScoreBatch()
                     message = string.format("%s; |cFF5555%d|r champions (%s)", message, missedChampion, baselineData.championName)
                 end
                 if (message ~= "") then
-                    CHAT_SYSTEM:AddMessage("Missed adds" .. message)
+                    CHAT_ROUTER:AddSystemMessage("Missed adds" .. message)
                 end
             end
         end
