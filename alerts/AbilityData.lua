@@ -129,6 +129,10 @@ Crutch.testing = {
     [152525] = true, -- Fire Behemoth?
 
     [155184] = true, -- Catastrophe (Magma Incarnate)
+
+    -- [63029] = true, -- Radiant Destruction
+    -- [63044] = true, -- Radiant Glory
+    -- [63046] = true, -- Radiant Oppression
 }
 
 ---------------------------------------------------------------------

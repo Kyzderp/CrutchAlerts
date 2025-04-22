@@ -153,9 +153,7 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.general.beginHideArcanist = not value
                         Crutch.UnregisterFatecarver()
-                        if (value) then
-                            Crutch.RegisterFatecarver()
-                        end
+                        Crutch.RegisterFatecarver()
                     end,
                     width = "full",
                 },
@@ -168,6 +166,19 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.general.effectMagmaShell = value
                         Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show templar Radiant Destruction",
+                    tooltip = "Show \"alert\" timers for Radiant Destruction and morphs",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.showJBeam end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showJBeam = value
+                        Crutch.UnregisterFatecarver()
+                        Crutch.RegisterFatecarver()
                     end,
                     width = "full",
                 },

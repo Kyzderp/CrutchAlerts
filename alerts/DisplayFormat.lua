@@ -28,6 +28,11 @@ Crutch.format = {
     [186200] = 700, -- Curative Surge (cost mag)
     [198537] = 700, -- Curative Surge (cost stam)
 
+-- Templar
+    [63029] = 900, -- Radiant Destruction
+    [63044] = 900, -- Radiant Glory
+    [63046] = 900, -- Radiant Oppression
+
 ---------------------------------------------------------------------
 -- Trials
 
@@ -222,6 +227,7 @@ local colors = {
     [6] = "9447ff", -- The color of rrrrregality
     [7] = "3fe02a", -- Green for Arcanist
     [8] = "9999ff", -- Light indigo, magic
+    [9] = "ffe736", -- Yellow for Templar
 }
 
 

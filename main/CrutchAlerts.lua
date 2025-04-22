@@ -61,6 +61,7 @@ local defaultOptions = {
         useNoneBlacklist = true,
         showDamageable = true,
         showRaidDiag = false,
+        showJBeam = true,
     },
     bossHealthBar = {
         enabled = true,

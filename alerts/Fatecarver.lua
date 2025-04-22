@@ -16,6 +16,12 @@ local fatecarverIds = {
     [198537] = true, -- Curative Surge (cost stam)
 }
 
+local jbeamIds = {
+    [63029] = true, -- Radiant Destruction
+    [63044] = true, -- Radiant Glory
+    [63046] = true, -- Radiant Oppression
+}
+
 -- TODO: these are just copied over from events.lua, lame
 local resultStrings = {
     [ACTION_RESULT_BEGIN] = "BEGIN",
@@ -89,30 +95,54 @@ local function OnFatecarver(_, result, isError, abilityName, _, _, sourceName, s
     end
 end
 
+--* EVENT_EFFECT_CHANGED (*[EffectResult|#EffectResult]* _changeType_, *integer* _effectSlot_, *string* _effectName_, *string* _unitTag_, *number* _beginTime_, *number* _endTime_, *integer* _stackCount_, *string* _iconName_, *string* _deprecatedBuffType_, *[BuffEffectType|#BuffEffectType]* _effectType_, *[AbilityType|#AbilityType]* _abilityType_, *[StatusEffectType|#StatusEffectType]* _statusEffectType_, *string* _unitName_, *integer* _unitId_, *integer* _abilityId_, *[CombatUnitType|#CombatUnitType]* _sourceType_)
+
+local function OnBeamFaded(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId, sourceType)
+    if (changeType ~= EFFECT_RESULT_FADED) then return end
+    if (sourceType ~= COMBAT_UNIT_TYPE_PLAYER) then return end
+
+    -- Remove the timer if beam gets interrupted
+    Crutch.dbgSpam("beam faded")
+    Crutch.InterruptAbility(abilityId)
+end
+
 
 ---------------------------------------------------------------------
 -- Init
 function Crutch.RegisterFatecarver()
-    -- Obviously only need to do this if the player is an arcanist.
     -- Eventually I should explore only registering these if Fatecarver is even slotted
     -- Also healy beam though
-    if (GetUnitClassId("player") == 117 and not Crutch.savedOptions.general.beginHideArcanist) then
+    if (not Crutch.savedOptions.general.beginHideArcanist) then
         Crutch.dbgOther("Registering Fatecarver/Remedy Cascade")
         for abilityId, _ in pairs(fatecarverIds) do
             local eventName = Crutch.name .. "FC" .. tostring(abilityId)
 
             EVENT_MANAGER:RegisterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, OnFatecarver)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- interrupted self only
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId) -- interrupted self only
+            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
             EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
 
             EVENT_MANAGER:RegisterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, OnFatecarver)
             EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- interrupted self only
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId) -- interrupted self only
+            EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
             EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
         end
-    else
-        Crutch.dbgSpam("Skipping Fatecarver registration, not an arcanist or has setting off")
+    end
+
+    -- Jbeam
+    if (Crutch.savedOptions.general.showJBeam) then
+        Crutch.dbgOther("Registering Radiant Destruction")
+        for abilityId, _ in pairs(jbeamIds) do
+            local eventName = Crutch.name .. "JB" .. tostring(abilityId)
+
+            EVENT_MANAGER:RegisterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, OnFatecarver)
+            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- self only
+            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+
+            EVENT_MANAGER:RegisterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, OnBeamFaded)
+            EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, abilityId)
+        end
     end
 end
 
@@ -122,5 +152,9 @@ function Crutch.UnregisterFatecarver()
     for abilityId, _ in pairs(fatecarverIds) do
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FC" .. tostring(abilityId) .. "Begin", EVENT_COMBAT_EVENT)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FC" .. tostring(abilityId) .. "Faded", EVENT_COMBAT_EVENT)
+    end
+    for abilityId, _ in pairs(jbeamIds) do
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JB" .. tostring(abilityId) .. "Begin", EVENT_COMBAT_EVENT)
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JB" .. tostring(abilityId) .. "Faded", EVENT_EFFECT_CHANGED)
     end
 end
