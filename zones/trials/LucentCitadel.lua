@@ -30,7 +30,7 @@ local function AddArcaneConveyanceToPlayer(unitTag)
     else
         -- If the other player has already received it, we can draw the line
         conveyanceDisplaying2 = unitTag
-        Crutch.SetLineColor(1, 0, 1, 1, 1, false)
+        Crutch.SetLineColor(1, 0, 1, 1, 1, Crutch.savedOptions.debugLineDistance)
         Crutch.DrawLineBetweenPlayers(conveyanceDisplaying1, unitTag)
     end
 end

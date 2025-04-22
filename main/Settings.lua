@@ -367,6 +367,17 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show line distance",
+                    tooltip = "On mechanics where Crutch draws a line between tethered players, display the distance in meters on the line",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.debugLineDistance end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.debugLineDistance = value
+                    end,
+                    width = "full",
+                },
             },
         },
 ---------------------------------------------------------------------

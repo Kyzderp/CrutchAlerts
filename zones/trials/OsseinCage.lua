@@ -48,7 +48,6 @@ local chainsDisplaying1, chainsDisplaying2 -- unit tag of player if there is som
 local UNSAFE = 20 -- Chains have red effect when under 20m
 local SUS = 25
 local SAFE = 30 -- Arbitrary number just for the constant
-local SHOW_DISTANCE_LABEL = false
 local prevInThreshold = UNSAFE
 local function ChangeLineColor(distance)
     if (distance <= UNSAFE) then
@@ -56,19 +55,19 @@ local function ChangeLineColor(distance)
             return -- No change, still red
         end
         prevInThreshold = UNSAFE
-        Crutch.SetLineColor(1, 0, 0, 0.8, 0.8, SHOW_DISTANCE_LABEL)
+        Crutch.SetLineColor(1, 0, 0, 0.5, 0.5, Crutch.savedOptions.debugLineDistance)
     elseif (distance <= SUS) then
         if (prevInThreshold == SUS) then
             return -- No change, still yellow
         end
         prevInThreshold = SUS
-        Crutch.SetLineColor(1, 1, 0, 0.5, 0.5, SHOW_DISTANCE_LABEL)
+        Crutch.SetLineColor(1, 1, 0, 0.4, 0.4, Crutch.savedOptions.debugLineDistance)
     else
         if (prevInThreshold == SAFE) then
             return -- No change, still green
         end
         prevInThreshold = SAFE
-        Crutch.SetLineColor(0, 1, 0, 0.4, 0.4, SHOW_DISTANCE_LABEL)
+        Crutch.SetLineColor(0, 1, 0, 0.3, 0.3, Crutch.savedOptions.debugLineDistance)
     end
 end
 
@@ -91,7 +90,7 @@ local function AddChainToPlayer(unitTag)
         -- If the other player has already received it, we can draw the line
         chainsDisplaying2 = unitTag
         prevInThreshold = UNSAFE
-        Crutch.SetLineColor(1, 0, 0, 0.4, 0.4, SHOW_DISTANCE_LABEL)
+        Crutch.SetLineColor(1, 0, 0, 0.4, 0.4, Crutch.savedOptions.debugLineDistance)
         Crutch.DrawLineBetweenPlayers(chainsDisplaying1, unitTag, ChangeLineColor)
     end
 end
