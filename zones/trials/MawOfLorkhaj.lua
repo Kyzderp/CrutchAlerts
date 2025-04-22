@@ -85,7 +85,7 @@ local function FindPad(padUnitId, findNew, skipRetry)
         -- Only check pads that haven't been discovered
         if (not padIndexToId[i]) then
             for j = 1, GetGroupSize() do
-                local groupTag = "group" .. j
+                local groupTag = GetGroupUnitTagByIndex(j)
                 local _, x, y, z = GetUnitRawWorldPosition(groupTag)
                 local dist = Crutch.GetSquaredDistance(x, y, z, coords.x, coords.y, coords.z)
                 if (dist < lowestDistance) then

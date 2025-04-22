@@ -50,7 +50,7 @@ local function IsInEncounter()
     end
 
     for i = 1, GetGroupSize() do
-        local groupTag = "group" .. i
+        local groupTag = GetGroupUnitTagByIndex(i)
         if (IsUnitInCombat(groupTag) and IsUnitOnline(groupTag)) then
             return groupTag
         end

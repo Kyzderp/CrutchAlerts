@@ -193,7 +193,7 @@ local effectData = {
 -----------------------------------------------------------
 local function GetGroupTagNumberForDisplayName(displayName)
     for i = 1, GetGroupSize() do
-        if (GetUnitDisplayName("group" .. tostring(i)) == displayName) then
+        if (GetUnitDisplayName(GetGroupUnitTagByIndex(i)) == displayName) then
             return i
         end
     end

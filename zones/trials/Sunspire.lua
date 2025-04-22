@@ -247,7 +247,7 @@ end
 local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     local toClear = {}
     for g = 1, GetGroupSize() do
-        local unitTag = "group" .. tostring(g)
+        local unitTag = GetGroupUnitTagByIndex(g)
         local hasFocusedFire = false
         for i = 1, GetNumBuffs(unitTag) do
             local buffName, _, _, _, stackCount, iconFilename, _, _, _, _, abilityId, _, _ = GetUnitBuffInfo(unitTag, i)

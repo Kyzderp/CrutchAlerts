@@ -65,7 +65,7 @@ local function IsGroupInCombat()
     end
 
     for i = 1, GetGroupSize() do
-        local groupTag = "group" .. i
+        local groupTag = GetGroupUnitTagByIndex(i)
         if (IsUnitInCombat(groupTag) and IsUnitOnline(groupTag)) then
             Crutch.dbgSpam(GetUnitDisplayName(groupTag) .. "(" .. groupTag .. ") is still in combat; true")
             return true

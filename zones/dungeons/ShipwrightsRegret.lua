@@ -36,7 +36,7 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
     -- Then, get the remaining group members
     local third, fourth
     for i = 1, GetGroupSize() do
-        local tag = "group" .. tostring(i)
+        local tag = GetGroupUnitTagByIndex(i)
         local name = GetUnitDisplayName(tag)
         if (name ~= first and name ~= second) then
             if (not third) then
