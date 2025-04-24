@@ -305,7 +305,7 @@ local dungeonThresholds = {
     },
 
 -- Moongrave Fane
-    ["Risen Ruins"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_RISEN_RUINS)] = {
         [90] = "Boulder Storm",
         [70] = "Boulder Storm",
         [50] = "Boulder Storm",
@@ -715,7 +715,7 @@ local dungeonThresholds = {
             [20] = "Infuser", -- Not sure about this percent
         },
     },
-    ["Siege Master Malthoras"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_SIEGE_MASTER_MALTHORAS)] = {
         [50] = "Adds",
     },
     [GetBossName(CRUTCH_BHB_NORIWEN)] = {
@@ -724,7 +724,7 @@ local dungeonThresholds = {
         [40] = "Gryphons",
         [20] = "Middle",
     },
-    ["Orpheon the Tactician"] = { -- TODO: localization, and this is what I got from normal
+    [GetBossName(CRUTCH_BHB_ORPHEON_THE_TACTICIAN)] = {
         [85] = "Alcunar",
         [60] = "Alcunar",
         [40] = "Alcunar",

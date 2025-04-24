@@ -37,7 +37,7 @@ local endlessArchiveThresholds = {
         [50] = "Stone Orb", -- They seem to spawn on a timer after 50%, but don't... do anything?
     },
     -- Dranos Velador -- big yikes
-    ["Dranos Velador"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_DRANOS_VELADOR)] = {
         [50] = "Duplicity",
     },
     -- Dugan the Red
@@ -140,7 +140,7 @@ local endlessArchiveThresholds = {
     -- The Sable Knight -- no hp gates, no adds
     -- The Serpent
     -- The Warrior
-    ["The Warrior"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_THE_WARRIOR)] = {
         [50] = "Shehai",
     },
     -- The Weeping Woman -- no hp gates, frost atros
@@ -161,14 +161,14 @@ local endlessArchiveThresholds = {
     -- Vila Theran
     -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
     -- Vorenor Winterbourne -- no adds. bring purge for dot at 50 because snapshotted
-    ["Vorenor Winterbourne"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_VORENOR_WINTERBOURNE)] = {
         [50] = "Blood Mist",
     },
 
     -- War Chief Ozozai -- no hp gates, no adds
 
     -- Xeemhok the Trophy-Taker
-    ["Xeemhok the Trophy-Taker"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_XEEMHOK_THE_TROPHYTAKER)] = {
         [50] = "Fury",
     },
 

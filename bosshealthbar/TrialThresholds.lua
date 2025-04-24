@@ -245,7 +245,7 @@ local trialThresholds = {
     },
 
 -- Ossein Cage
-    ["Overfiend Kazpian"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_OVERFIEND_KAZPIAN)] = {
         [85] = "Portal", -- TODO "You think you're worthy? You know nothing of power."
         [55] = "Portal", -- TODO "Still here? Let's see how much suffering you generate!"
         [35] = "Portal", -- TODO "You enjoy agony? Very well. Cista, release your power!"
