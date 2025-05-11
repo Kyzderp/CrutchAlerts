@@ -63,13 +63,14 @@ end
 
 
 ---------------------------------------------------------------------
--- Draw a line between 2 arbitrary points on the UI
+-- Multiple lines struct
 ---------------------------------------------------------------------
-local line
-local function CreateLineIfNeeded()
-    if (line == nil) then
-        Crutch.dbgSpam("|cFF0000creating new line")
-        line = WINDOW_MANAGER:CreateControl("$(parent)CrutchTetherLine", OSI.win, CT_CONTROL)
+local lines = {} -- {[1] = control, [2] = control}
+
+local function GetLineControl(num)
+    if (not lines[num]) then
+        Crutch.dbgSpam("|cFF0000creating new line " .. tostring(num))
+        local line = WINDOW_MANAGER:CreateControl("$(parent)CrutchTetherLine" .. tostring(num), OSI.win, CT_CONTROL)
         local backdrop = WINDOW_MANAGER:CreateControl("$(parent)Backdrop", line, CT_BACKDROP)
         backdrop:SetAnchorFill()
         backdrop:SetCenterColor(1, 0, 1, 1)
@@ -79,12 +80,23 @@ local function CreateLineIfNeeded()
         distanceLabel:SetAnchor(CENTER, line, CENTER)
         distanceLabel:SetFont("$(BOLD_FONT)|30|outline")
         distanceLabel:SetText("42m")
+
+        lines[num] = line
     end
+
+    return lines[num]
 end
 
-local function DrawLineBetweenControls(x1, y1, x2, y2)
+---------------------------------------------------------------------
+-- Draw a line between 2 arbitrary points on the UI
+---------------------------------------------------------------------
+local function DrawLineBetween2DPoints(x1, y1, x2, y2, lineNum)
+    if (not lineNum) then
+        lineNum = 1
+    end
+
     -- Create a line if it doesn't exist
-    CreateLineIfNeeded()
+    local line = GetLineControl(lineNum)
 
     -- The midpoint between the two icons
     local centerX = (x1 + x2) / 2
@@ -101,8 +113,12 @@ local function DrawLineBetweenControls(x1, y1, x2, y2)
     line:SetTransformRotationZ(-angle)
 end
 
-local function SetLineColor(r, g, b, a, edgeA, showLabel)
-    CreateLineIfNeeded()
+local function SetLineColor(r, g, b, a, edgeA, showLabel, lineNum)
+    if (not lineNum) then
+        lineNum = 1
+    end
+
+    local line = GetLineControl(lineNum)
     local backdrop = line:GetNamedChild("Backdrop")
     backdrop:SetCenterColor(r, g, b, a or 1)
     backdrop:SetEdgeColor(1, 1, 1, edgeA or 1)
@@ -118,62 +134,96 @@ Crutch.SetLineColor = SetLineColor
 
 
 ---------------------------------------------------------------------
--- Override OSI.OnUpdate to draw the line after the normal update is done
+-- Polling per frame
 ---------------------------------------------------------------------
-local origOSIUpdate
-local function DrawLineBetweenPlayers(unitTag1, unitTag2, distanceCallback)
+local activeLineFunctions = {}
+
+local function OnUpdate()
+    for _, lineFunction in pairs(activeLineFunctions) do
+        lineFunction()
+    end
+end
+
+local function StopPolling()
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "PollLine")
+end
+
+local function StartPolling()
+    StopPolling()
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "PollLine", 10, OnUpdate) -- TODO: interval setting
+end
+
+
+---------------------------------------------------------------------
+-- Line-drawing
+---------------------------------------------------------------------
+-- Returns: whether the line should be visible
+local function DrawLineBetween3DPoints(worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2)
+    local x1, y1, isInFront1 = GetViewCoordinates(worldX1, worldY1, worldZ1)
+    local x2, y2, isInFront2 = GetViewCoordinates(worldX2, worldY2, worldZ2)
+
+    if (not isInFront1 and not isInFront2) then
+        return false
+    else
+        DrawLineBetween2DPoints(x1, y1, x2, y2)
+        return true
+    end
+end
+
+-- Draw line between 2 unit tags
+local function DrawLineBetweenPlayers(unitTag1, unitTag2, distanceCallback, lineNum)
     Crutch.dbgOther(zo_strformat("drawing line between <<1>> and <<2>>", GetUnitDisplayName(unitTag1), GetUnitDisplayName(unitTag2)))
+
+    if (not lineNum) then
+        lineNum = 1
+    end
+    local line = GetLineControl(lineNum)
+
     if (line) then
         line:SetHidden(false)
     end
 
-    -- In case this is called twice in a row without a RemoveLine in between
-    if (not origOSIUpdate) then
-        origOSIUpdate = OSI.OnUpdate
+    -- Write a function that will be called on every update
+    local myLineFunction = function()
+        local worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2
+        _, worldX1, worldY1, worldZ1 = GetUnitRawWorldPosition(unitTag1)
+        _, worldX2, worldY2, worldZ2 = GetUnitRawWorldPosition(unitTag2)
+        -- about waist level to better match real tethers
+        local visible = DrawLineBetween3DPoints(worldX1, worldY1 + 100, worldZ1, worldX2, worldY2 + 100, worldZ2)
+        line:SetHidden(not visible)
 
-        OSI.OnUpdate = function(...)
-            origOSIUpdate(...)
-            local x, y, z
-            _, x, y, z = GetUnitRawWorldPosition(unitTag1)
-            local x1, y1, isInFront1 = GetViewCoordinates(x, y + 100, z) -- about waist level to better match real tethers
-            _, x, y, z = GetUnitRawWorldPosition(unitTag2)
-            local x2, y2, isInFront2 = GetViewCoordinates(x, y + 100, z)
+        local dist = Crutch.GetUnitTagsDistance(unitTag1, unitTag2)
+        line:GetNamedChild("Label"):SetText(string.format("%.02f m", dist))
 
-            if (not isInFront1 and not isInFront2) then
-                if (line) then
-                    line:SetHidden(true) -- If both players are behind, it just makes a weird line
-                end
-            else
-                if (line) then
-                    line:SetHidden(false)
-                end
-                DrawLineBetweenControls(x1, y1, x2, y2)
-                local dist = Crutch.GetUnitTagsDistance(unitTag1, unitTag2)
-                line:GetNamedChild("Label"):SetText(string.format("%.02f m", dist))
-
-                -- distanceCallback is a func that takes the distance between the players (since we're using it here anyway)
-                if (distanceCallback) then
-                    distanceCallback(dist)
-                end
-            end
+        -- distanceCallback is a func that takes the distance between the players (since we're using it here anyway)
+        if (distanceCallback) then
+            distanceCallback(dist)
         end
-
-        -- Since the function is registered directly for polling, we need to restart the polling with the replaced func
-        OSI.StartPolling()
     end
+
+    activeLineFunctions[lineNum] = myLineFunction
+    StartPolling()
 end
 Crutch.DrawLineBetweenPlayers = DrawLineBetweenPlayers -- /script CrutchAlerts.DrawLineBetweenPlayers("group1", "group2")
 
--- Remove line by restoring the original OSI.OnUpdate
-local function RemoveLine()
-    if (origOSIUpdate) then
-        OSI.OnUpdate = origOSIUpdate
-        origOSIUpdate = nil
-        OSI.StartPolling()
+-- Remove line and possibly stop polling
+local function RemoveLine(lineNum)
+    if (not lineNum) then
+        lineNum = 1
     end
+
+    local line = GetLineControl(lineNum)
     if (line) then
         line:SetHidden(true)
     end
+
+    activeLineFunctions[lineNum] = nil
+
+    -- If there are no more active lines, stop polling
+    for _, _ in pairs(activeLineFunctions) do
+        return
+    end
+    StopPolling()
 end
 Crutch.RemoveLine = RemoveLine -- /script CrutchAlerts.RemoveLine()
 
