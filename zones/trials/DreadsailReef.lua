@@ -67,6 +67,118 @@ local function OnCombatStateChanged(_, inCombat)
 end
 
 ---------------------------------------------------------------------
+-- Taleria
+---------------------------------------------------------------------
+local function ShowArcingCleave()
+    local centerX = 57158 -- Linchal on mushroom patch
+    local centerZ = 96815
+    -- local centerX = 169744 -- Taleria center
+    -- local centerZ = 29980
+    local radius = 2000 -- Radius of the donut
+    local tankTag = "player"
+
+    -- Janky ass geometry
+    local _, tankX, tankY, tankZ = GetUnitRawWorldPosition(tankTag)
+
+    -- Find the tangent point whatever thing by finding the line and extending to the radius length
+    -- tankZ = tankX * a + b
+    -- centerZ = centerX * a + b
+    -- y = ax + b
+    -- b = y - ax
+    local slope = (tankZ - centerZ) / (tankX - centerX)
+    local intercept = tankZ - tankX * slope
+    d("slope: " .. tostring(slope))
+    d("intercept: " .. tostring(intercept))
+
+    -- (centerX - desiredX)^2 + (centerZ - desiredZ)^2 = radius^2
+    -- desiredZ = slope*desiredX + intercept
+    -- (desiredZ - intercept) / slope = desiredX
+    -- (centerX - desiredX)^2 + (centerZ - slope*desiredX - intercept)^2 = radius^2
+    -- centerX^2 - 2*desiredX*centerX + desiredX^2 + centerZ^2 - centerZ*slope*desiredX - centerZ*intercept - slope*desiredX*centerZ + slope*desiredX*slope*desiredX + slope*desiredX*intercept - intercept*centerZ + intercept*slope*desiredX + intercept^2 = radius^2
+    --[[
+    centerX^2 - 2*desiredX*centerX + desiredX^2 + centerZ^2 - centerZ*slope*desiredX - centerZ*intercept - slope*desiredX*centerZ + slope*desiredX*slope*desiredX + slope*desiredX*intercept - intercept*centerZ + intercept*slope*desiredX + intercept^2 - radius^2 = 0
+
+    + desiredX^2 + slope*slope*desiredX^2
+
+    + (intercept*slope - 2*centerX - centerZ*slope - slope*centerZ + slope*intercept)*desiredX
+
+    + centerX^2 + centerZ^2 - centerZ*intercept - intercept*centerZ + intercept^2 - radius^2 = 0
+    ]]
+
+    local a = 1 + slope*slope
+    local b = 2*intercept*slope - 2*centerX - 2*centerZ*slope
+    local c = centerX^2 + centerZ^2 - 2*centerZ*intercept + intercept^2 - radius^2
+
+
+    -- WRONG
+    -- (centerX - desiredX)^2 + (centerZ - desiredZ)^2 = radius^2
+    -- desiredZ = a * desiredX + b
+    -- (centerX - desiredX)(centerX - desiredX) + (centerZ - a * desiredX + b)(centerZ - a * desiredX + b) = radius^2
+    -- centerX^2 - 2*centerX*desiredX + desiredX^2 + centerZ^2 - centerZ*a*desiredX + centerZ*b - a*desiredX*centerZ + (a*desiredX)^2 - a*desiredX*b + b*centerZ - b*a*desiredX + b^2 = radius^2
+    -- centerX^2 - 2*centerX*desiredX + desiredX^2 + centerZ^2 - 2*centerZ*a*desiredX + 2*centerZ*b + (a*desiredX)^2 - 2*a*desiredX*b + b^2 = radius^2
+    -- desiredX^2 - 2*centerX*desiredX - 2*centerZ*a*desiredX + a^2*desiredX^2 - 2*a*desiredX*b = radius^2 - b^2 - centerZ^2 - 2*centerZ*b - centerX^2
+    -- desiredX^2 + a^2*desiredX^2 - 2*centerX*desiredX - 2*centerZ*a*desiredX - 2*a*desiredX*b = radius^2 - b^2 - centerZ^2 - 2*centerZ*b - centerX^2
+    -- (a^2 + 1)*desiredX^2 - (2*centerX + 2*centerZ*a + 2*a*b)*desiredX = radius^2 - b^2 - centerZ^2 - 2*centerZ*b - centerX^2
+    -- (a^2 + 1)*desiredX^2 - (2*centerX + 2*centerZ*a + 2*a*b)*desiredX - (radius^2 - b^2 - centerZ^2 - 2*centerZ*b - centerX^2) = 0
+    -- (a^2 + 1)*desiredX^2 - (2*centerX + 2*centerZ*a + 2*a*b)*desiredX + (b^2 + centerZ^2 + 2*centerZ*b + centerX^2 - radius^2) = 0
+
+    -- STILL WRONG
+    -- (centerX - desiredX)^2 + (centerZ - desiredZ)^2 = radius^2
+    -- desiredZ = a * desiredX + b
+    -- (centerX - desiredX)(centerX - desiredX) + (centerZ - a * desiredX - b)(centerZ - a * desiredX - b) = radius^2
+    -- centerX^2 - 2*centerX*desiredX + desiredX^2 + centerZ^2 - centerZ*a*desiredX - centerZ*b - a*desiredX*centerZ + (a*desiredX)^2 + a*desiredX*b - b*centerZ + b*a*desiredX - b^2 = radius^2
+    -- centerX^2 - 2*centerX*desiredX + desiredX^2 + centerZ^2 - 2*centerZ*a*desiredX - 2*centerZ*b + (a*desiredX)^2 + 2*a*desiredX*b - b^2 = radius^2
+    -- desiredX^2 - 2*centerX*desiredX - 2*centerZ*a*desiredX + a^2*desiredX^2 + 2*a*desiredX*b = radius^2 + b^2 - centerZ^2 + 2*centerZ*b - centerX^2
+    -- desiredX^2 + a^2*desiredX^2 - 2*centerX*desiredX - 2*centerZ*a*desiredX + 2*a*desiredX*b = radius^2 + b^2 - centerZ^2 + 2*centerZ*b - centerX^2
+    -- (a^2 + 1)*desiredX^2 - (2*centerX + 2*centerZ*a - 2*a*b)*desiredX = radius^2 + b^2 - centerZ^2 + 2*centerZ*b - centerX^2
+    -- (a^2 + 1)*desiredX^2 - (2*centerX + 2*centerZ*a - 2*a*b)*desiredX - (radius^2 + b^2 - centerZ^2 + 2*centerZ*b - centerX^2) = 0
+    -- (a^2 + 1)*desiredX^2 - (2*centerX + 2*centerZ*a - 2*a*b)*desiredX + (- b^2 + centerZ^2 - 2*centerZ*b + centerX^2 - radius^2) = 0
+
+    -- STILL WRONG
+    -- (centerX - desiredX)^2 + (centerZ - desiredZ)^2 = radius^2
+    -- desiredZ = a * desiredX + b
+    -- (centerX - desiredX)(centerX - desiredX) + (centerZ - a * desiredX - b)(centerZ - a * desiredX - b) - radius^2 = 0
+    -- (centerX^2 - 2*desiredX*centerX + desiredX^2) + (centerZ^2 - a*desiredX*centerZ - b*centerZ - a*desiredX*centerZ + a*a*desiredX*desiredX - b*centerZ + a*b*desiredX + b*b) - radius^2 = 0
+    -- (centerX^2 - 2*desiredX*centerX + desiredX^2) + (centerZ^2 - 2*a*desiredX*centerZ - 2*b*centerZ + a*a*desiredX^2 + a*b*desiredX + b*b) - radius^2 = 0
+    -- centerX^2 - 2*desiredX*centerX + desiredX^2 + centerZ^2 - 2*a*desiredX*centerZ - 2*b*centerZ + a*a*desiredX^2 + a*b*desiredX + b*b - radius^2 = 0
+    -- a*a*desiredX^2 + desiredX^2 + a*b*desiredX - 2*desiredX*centerX - 2*a*desiredX*centerZ + centerZ^2 - 2*b*centerZ + b*b - radius^2 + centerX^2= 0
+    -- (a*a* + 1)*desiredX^2 + a*b*desiredX - 2*centerX*desiredX - 2*a*centerZ*desiredX + centerZ^2 - 2*b*centerZ + b*b - radius^2 + centerX^2= 0
+    -- (a*a* + 1)*desiredX^2 + (a*b - 2*centerX - 2*a*centerZ)*desiredX + centerZ^2 - 2*b*centerZ + b*b - radius^2 + centerX^2= 0
+
+    -- Solve quadratic equation
+    -- local a = slope * slope + 1
+    -- local b = -2 * (centerX + centerZ*slope - slope*intercept)
+    -- local c = centerZ*centerZ - intercept*intercept - 2*centerZ*intercept - radius*radius
+
+    -- local a = slope * slope + 1
+    -- local b = slope*intercept - 2*centerX - 2*slope*centerZ
+    -- local c = centerZ*centerZ - 2*intercept*centerZ + intercept*intercept - radius*radius + centerX*centerX
+
+    d(a, b, c)
+    d(b*b - 4*a*c)
+
+    local desiredX1 = (-b + math.sqrt(b*b - 4*a*c)) / (2*a)
+    local desiredZ1 = slope * desiredX1 + intercept
+
+    local desiredX2 = (-b - math.sqrt(b*b - 4*a*c)) / (2*a)
+    local desiredZ2 = slope * desiredX2 + intercept
+
+    d(desiredX1, desiredZ1)
+    d(desiredX2, desiredZ2)
+
+    -- Draw the lines
+    local icon1 = OSI.CreatePositionIcon(desiredX1, tankY, desiredZ1, "odysupporticons/icons/emoji-poop.dds", 150, {1, 1, 1})
+    local icon2 = OSI.CreatePositionIcon(desiredX2, tankY, desiredZ2, "odysupporticons/icons/emoji-poop.dds", 150, {1, 1, 1})
+
+    zo_callLater(function()
+        OSI.DiscardPositionIcon(icon1)
+        OSI.DiscardPositionIcon(icon2)
+    end, 10000)
+end
+Crutch.ShowArcingCleave = ShowArcingCleave -- /script CrutchAlerts.ShowArcingCleave()
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterDreadsailReef()
