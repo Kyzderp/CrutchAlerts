@@ -72,11 +72,13 @@ local function GetLineControl(num)
         Crutch.dbgSpam("|cFF0000creating new line " .. tostring(num))
         local line = WINDOW_MANAGER:CreateControl("$(parent)CrutchTetherLine" .. tostring(num), OSI.win, CT_CONTROL)
         local backdrop = WINDOW_MANAGER:CreateControl("$(parent)Backdrop", line, CT_BACKDROP)
+        backdrop:ClearAnchors()
         backdrop:SetAnchorFill()
         backdrop:SetCenterColor(1, 0, 1, 1)
         backdrop:SetEdgeColor(1, 1, 1, 1)
 
         local distanceLabel = WINDOW_MANAGER:CreateControl("$(parent)Label", line, CT_LABEL)
+        distanceLabel:ClearAnchors()
         distanceLabel:SetAnchor(CENTER, line, CENTER)
         distanceLabel:SetFont("$(BOLD_FONT)|30|outline")
         distanceLabel:SetText("42m")
@@ -158,14 +160,14 @@ end
 -- Line-drawing
 ---------------------------------------------------------------------
 -- Returns: whether the line should be visible
-local function DrawLineBetween3DPoints(worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2)
+local function DrawLineBetween3DPoints(worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2, lineNum)
     local x1, y1, isInFront1 = GetViewCoordinates(worldX1, worldY1, worldZ1)
     local x2, y2, isInFront2 = GetViewCoordinates(worldX2, worldY2, worldZ2)
 
     if (not isInFront1 and not isInFront2) then
         return false
     else
-        DrawLineBetween2DPoints(x1, y1, x2, y2)
+        DrawLineBetween2DPoints(x1, y1, x2, y2, lineNum)
         return true
     end
 end
@@ -178,10 +180,7 @@ local function DrawLineBetweenPlayers(unitTag1, unitTag2, distanceCallback, line
         lineNum = 1
     end
     local line = GetLineControl(lineNum)
-
-    if (line) then
-        line:SetHidden(false)
-    end
+    line:SetHidden(false)
 
     -- Write a function that will be called on every update
     local myLineFunction = function()
@@ -189,7 +188,7 @@ local function DrawLineBetweenPlayers(unitTag1, unitTag2, distanceCallback, line
         _, worldX1, worldY1, worldZ1 = GetUnitRawWorldPosition(unitTag1)
         _, worldX2, worldY2, worldZ2 = GetUnitRawWorldPosition(unitTag2)
         -- about waist level to better match real tethers
-        local visible = DrawLineBetween3DPoints(worldX1, worldY1 + 100, worldZ1, worldX2, worldY2 + 100, worldZ2)
+        local visible = DrawLineBetween3DPoints(worldX1, worldY1 + 100, worldZ1, worldX2, worldY2 + 100, worldZ2, lineNum)
         line:SetHidden(not visible)
 
         local dist = Crutch.GetUnitTagsDistance(unitTag1, unitTag2)
@@ -205,6 +204,27 @@ local function DrawLineBetweenPlayers(unitTag1, unitTag2, distanceCallback, line
     StartPolling()
 end
 Crutch.DrawLineBetweenPlayers = DrawLineBetweenPlayers -- /script CrutchAlerts.DrawLineBetweenPlayers("group1", "group2")
+
+-- Draws a line that uses the endpoints provided by a function
+local function DrawLineWithProvider(endpointsProvider, lineNum)
+    Crutch.dbgOther("drawing line based on callback")
+    if (not lineNum) then
+        lineNum = 1
+    end
+    local line = GetLineControl(lineNum)
+    line:SetHidden(false)
+
+    -- Write a function that will be called on every update
+    local myLineFunction = function()
+        local x1, y1, z1, x2, y2, z2 = endpointsProvider()
+        local visible = DrawLineBetween3DPoints(x1, y1, z1, x2, y2, z2, lineNum)
+        line:SetHidden(not visible)
+    end
+
+    activeLineFunctions[lineNum] = myLineFunction
+    StartPolling()
+end
+Crutch.DrawLineWithProvider = DrawLineWithProvider
 
 -- Remove line and possibly stop polling
 local function RemoveLine(lineNum)
