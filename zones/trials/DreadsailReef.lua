@@ -69,15 +69,26 @@ end
 ---------------------------------------------------------------------
 -- Taleria
 ---------------------------------------------------------------------
+local tankTag = "player"
+
+-- Whoever Taleria last targeted with light attack
+local function OnArcingCleave(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    if (unitTag ~= tankTag) then
+        Crutch.dbgOther(zo_strformat("tank changed to |cFFFF00<<1>>", GetUnitDisplayName(unitTag)))
+        tankTag = unitTag
+    end
+end
+
 local CENTER_X = 169744 -- Taleria center
 local CENTER_Z = 29980
+local CLEAVE_Y = 20000 -- TODO
 local CLEAVE_RADIUS = 3000 -- Radius of the donut
 local CLEAVE_ANGLE = 12 / 180 * math.pi
 
+-- Janky af geometry
 local function GetArcingCleavePoints()
-    -- Janky ass geometry
-    local tankTag = "player"
-    local _, tankX, tankY, tankZ = GetUnitRawWorldPosition(tankTag)
+    local _, tankX, _, tankZ = GetUnitRawWorldPosition(tankTag)
 
     -- Pretend there is a circle at CENTER_X, CENTER_Z
     local originTankX = tankX - CENTER_X
@@ -102,33 +113,38 @@ end
 local function Uncleave()
     Crutch.RemoveLine(1)
     Crutch.RemoveLine(2)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcingCleaveTarget", EVENT_COMBAT_EVENT)
 end
 
-local function ShowArcingCleave(overrideX, overrideZ, overrideRadius, overrideAngle)
+local function ShowArcingCleave(overrideX, overrideY, overrideZ, overrideRadius, overrideAngle)
     if (overrideX) then CENTER_X = overrideX end
+    if (overrideY) then CLEAVE_Y = overrideY end
     if (overrideZ) then CENTER_Z = overrideZ end
     if (overrideRadius) then CLEAVE_RADIUS = overrideRadius end
     if (overrideAngle) then CLEAVE_ANGLE = overrideAngle end
 
     Uncleave()
 
-    Crutch.SetLineColor(1, 0.2, 0.2, 0.8, 0, false, 1)
+    -- Detect aggro
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcingCleaveTarget", EVENT_COMBAT_EVENT, OnArcingCleave)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcingCleaveTarget", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 163901)
+
+    -- Draw lines
+    Crutch.SetLineColor(1, 1, 0, 0.8, 0, false, 1)
     Crutch.DrawLineWithProvider(function()
-        local _, _, y, _ = GetUnitRawWorldPosition("player")
         local endX, endZ, _, _ = GetArcingCleavePoints()
-        return CENTER_X, y, CENTER_Z, endX, y, endZ
+        return CENTER_X, CLEAVE_Y, CENTER_Z, endX, CLEAVE_Y, endZ
     end, 1)
 
-    Crutch.SetLineColor(1, 0.2, 0.2, 0.8, 0, false, 2)
+    Crutch.SetLineColor(1, 1, 0, 0.8, 0, false, 2)
     Crutch.DrawLineWithProvider(function()
-        local _, _, y, _ = GetUnitRawWorldPosition("player")
         local _, _, endX, endZ = GetArcingCleavePoints()
-        return CENTER_X, y, CENTER_Z, endX, y, endZ
+        return CENTER_X, CLEAVE_Y, CENTER_Z, endX, CLEAVE_Y, endZ
     end, 2)
 end
 Crutch.ShowArcingCleave = ShowArcingCleave
 -- Linchal on mushroom patch
--- /script CrutchAlerts.ShowArcingCleave(57158, 96815, 3000, 12 / 180 * math.pi)
+-- /script CrutchAlerts.ShowArcingCleave(57158, 19610,  96815, 3000, 12 / 180 * math.pi)
 
 
 ---------------------------------------------------------------------
