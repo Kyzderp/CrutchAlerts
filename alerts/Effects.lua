@@ -47,6 +47,18 @@ local effectData = {
                 description = "Shows an \"alert\" timer for when your Magma Shell will expire",
             },
         },
+        -- Goading Throw Parry
+        [217089] = {
+            format = "|cf5bf42<<C:1>>|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectGoadingThrowParry",
+                title = "Show Parry (Goading Throw)",
+                description = "Shows an \"alert\" timer for your Parry duration",
+            },
+        },
     },
 
 -----------------------------------------------------------
