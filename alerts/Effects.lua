@@ -47,16 +47,40 @@ local effectData = {
                 description = "Shows an \"alert\" timer for when your Magma Shell will expire",
             },
         },
-        -- Goading Throw Parry
+        -- Shield Throw Parry
         [217089] = {
-            format = "|cf5bf42<<C:1>>|r",
+            format = "|cf5bf42Parry|r",
             filters = {
                 [REGISTER_FILTER_UNIT_TAG] = "player",
             },
             settings = {
-                name = "effectGoadingThrowParry",
-                title = "Show Parry (Goading Throw)",
-                description = "Shows an \"alert\" timer for your Parry duration",
+                name = "effectParry",
+                title = "Show Fencer's Parry",
+                description = "Shows an \"alert\" timer for your Fencer's Parry duration, along with when it is removed",
+            },
+        },
+        -- Traveling Knife Parry
+        [217356] = {
+            format = "|cf5bf42Parry|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectParry",
+                title = "Show Fencer's Parry",
+                description = "Shows an \"alert\" timer for your Fencer's Parry duration, along with when it is removed",
+            },
+        },
+        -- Smash Parry
+        [217195] = {
+            format = "|cf5bf42Parry|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectParry",
+                title = "Show Fencer's Parry",
+                description = "Shows an \"alert\" timer for your Fencer's Parry duration, along with when it is removed",
             },
         },
     },

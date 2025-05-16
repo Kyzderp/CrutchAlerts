@@ -182,6 +182,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Fencer's Parry",
+                    tooltip = "Show an \"alert\" timer for the duration of Fencer's Parry from scribing, along with when it is removed",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.effectParry end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.effectParry = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }
         },
 -- boss health bar

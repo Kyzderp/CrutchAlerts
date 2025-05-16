@@ -53,6 +53,9 @@ Crutch.format = {
     [103946] =    500, -- Shadow Realm Cast
     [105291] =    600, -- SUM Shadow Beads
 
+-- Dreadsail Reef
+    [163987] = 500, -- Coral Slam
+
 -- Halls of Fabrication
     [ 91019] = 430, -- Phase 1.1 (Assembly General)
     [ 94736] = 500, -- Overheating Aura (Reducer)
