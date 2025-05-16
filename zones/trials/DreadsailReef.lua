@@ -80,11 +80,12 @@ local function OnArcingCleave(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targe
     end
 end
 
-local CENTER_X = 169744 -- Taleria center
-local CENTER_Z = 29980
-local CLEAVE_Y = 20000 -- TODO
-local CLEAVE_RADIUS = 3000 -- Radius of the donut
-local CLEAVE_ANGLE = 12 / 180 * math.pi
+-- Taleria center
+local CENTER_X = 169731
+local CLEAVE_Y = 36126
+local CENTER_Z = 29956
+local CLEAVE_RADIUS = 3700 -- Radius of the donut
+local CLEAVE_ANGLE = 23.5 / 180 * math.pi
 
 -- Janky af geometry
 local function GetArcingCleavePoints()
@@ -145,6 +146,8 @@ end
 Crutch.ShowArcingCleave = ShowArcingCleave
 -- Linchal on mushroom patch
 -- /script CrutchAlerts.ShowArcingCleave(57158, 19610,  96815, 3000, 12 / 180 * math.pi)
+-- /script CrutchAlerts.ShowArcingCleave(169744, 36126,  29980, 3700, 23.5 / 180 * math.pi)
+-- /script CrutchAlerts.ShowArcingCleave()
 
 
 ---------------------------------------------------------------------

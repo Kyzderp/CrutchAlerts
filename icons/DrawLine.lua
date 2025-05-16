@@ -225,6 +225,10 @@ local function DrawLineWithProvider(endpointsProvider, lineNum)
     StartPolling()
 end
 Crutch.DrawLineWithProvider = DrawLineWithProvider
+-- /script _, x, y, z = GetUnitRawWorldPosition("player")
+-- /script local _, x2, y2, z2 = GetUnitRawWorldPosition("player") CrutchAlerts.DrawLineWithProvider(function() return x, y, z, x2, y2, z2 end, 3)
+-- /script _, x3, y3, z3 = GetUnitRawWorldPosition("player")
+-- /script local _, x2, y2, z2 = GetUnitRawWorldPosition("player") CrutchAlerts.DrawLineWithProvider(function() return x3, y3, z3, x2, y2, z2 end, 4)
 
 -- Remove line and possibly stop polling
 local function RemoveLine(lineNum)
