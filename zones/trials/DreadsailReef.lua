@@ -85,7 +85,7 @@ local CENTER_X = 169731
 local CLEAVE_Y = 36126
 local CENTER_Z = 29956
 local CLEAVE_RADIUS = 3700 -- Radius of the donut
-local CLEAVE_ANGLE = 23.5 / 180 * math.pi
+local CLEAVE_ANGLE = 25 / 180 * math.pi
 
 -- Janky af geometry
 local function GetArcingCleavePoints()
@@ -147,7 +147,7 @@ Crutch.ShowArcingCleave = ShowArcingCleave
 -- Linchal on mushroom patch
 -- /script CrutchAlerts.ShowArcingCleave(57158, 19610,  96815, 3000, 12 / 180 * math.pi)
 -- /script CrutchAlerts.ShowArcingCleave(169744, 36126,  29980, 3700, 23.5 / 180 * math.pi)
--- /script CrutchAlerts.ShowArcingCleave()
+-- /script CrutchAlerts.ShowArcingCleave(nil, nil, nil, nil, 25/180*math.pi)
 
 
 ---------------------------------------------------------------------

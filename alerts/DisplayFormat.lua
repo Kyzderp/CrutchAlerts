@@ -93,6 +93,7 @@ Crutch.format = {
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
     [157860] = 1000, -- Noxious Sludge (hide because of sides)
     [150008] = 30000, -- Hemorrhaging Smack (Flesh Abomination)
+    [149089] = 500, -- Astral Shield
 
 -- Sanctum Ophidia
     [ 56857] = 200, -- Emerald Eclipse (The Serpent)
