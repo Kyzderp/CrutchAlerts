@@ -146,8 +146,7 @@ end
 Crutch.ShowArcingCleave = ShowArcingCleave
 -- Linchal on mushroom patch
 -- /script CrutchAlerts.ShowArcingCleave(57158, 19610,  96815, 3000, 12 / 180 * math.pi)
--- /script CrutchAlerts.ShowArcingCleave(169744, 36126,  29980, 3700, 23.5 / 180 * math.pi)
--- /script CrutchAlerts.ShowArcingCleave(nil, nil, nil, nil, 25/180*math.pi)
+-- /script CrutchAlerts.ShowArcingCleave()
 
 
 ---------------------------------------------------------------------
