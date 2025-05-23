@@ -88,6 +88,8 @@ Crutch.format = {
     [232773] = 500, -- Dominator's Chains (initial cast, 4100)
     [232779] = 400, -- Dominator's Chains (after it's gained, 16100)
     [232780] = 400, -- Dominator's Chains (after it's gained, 16100)
+    [233598] = 300, -- Spark Smash (Jynorah)
+    [233610] = 300, -- Blazing Smash (Skorkhif)
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)

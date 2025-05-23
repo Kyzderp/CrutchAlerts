@@ -538,6 +538,19 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.dreadsailreef.alertVolatileStacks end,
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Arcing Cleave guidelines",
+                    tooltip = "Draws guidelines approximating where Taleria's Arcing Cleave will hit. I'm tired of seeing people stand behind tank! Requires OdySupportIcons",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.showArcingCleave end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.showArcingCleave = value
+                        Crutch.TryEnablingTaleriaCleave()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
             }),
         },
         {

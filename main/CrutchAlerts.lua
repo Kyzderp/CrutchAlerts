@@ -85,6 +85,7 @@ local defaultOptions = {
         staticThreshold = 7,
         alertVolatileStacks = true,
         volatileThreshold = 6,
+        showArcingCleave = false,
     },
     hallsoffabrication = {
         showTripletsIcon = true,

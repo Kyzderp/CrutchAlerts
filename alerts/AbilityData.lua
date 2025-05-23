@@ -111,6 +111,8 @@ Crutch.uninterruptible = {
     [ 96826] = true, -- Impaling Shards (Thurvokun)
     [226600] = true, -- Noxious Boulder (Garvin the Tracker)
     [231801] = true, -- Spring (Noriwen)
+    [233598] = true, -- Spark Smash (Jynorah)
+    [233610] = true, -- Blazing Smash (Skorkhif)
 }
 
 ---------------------------------------------------------------------

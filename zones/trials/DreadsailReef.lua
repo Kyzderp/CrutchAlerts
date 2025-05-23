@@ -45,26 +45,6 @@ local function OnPoisonStacksChanged(_, changeType, _, _, _, _, _, stackCount, _
     end
 end
 
-local numHearts = 0
-local function OnHeartburn()
-    numHearts = numHearts + 1
-
-    local portalNumber = numHearts % 3
-    if (portalNumber == 0) then portalNumber = 3 end
-    Crutch.dbgOther(string.format("Reef Heart %d (Portal %d)", numHearts, portalNumber))
-end
-
-local function OnCombatStateChanged(_, inCombat)
-    if (not inCombat) then
-        -- Need to call later because combat briefly stops when accepting a rez during combat
-        zo_callLater(function()
-            if (not IsUnitInCombat("player")) then
-                Crutch.dbgSpam("Resetting reef hearts")
-                numHearts = 0
-            end
-        end, 3000)
-    end
-end
 
 ---------------------------------------------------------------------
 -- Taleria
@@ -113,20 +93,29 @@ local function GetArcingCleavePoints(sign)
     return x1 + CENTER_X, z1 + CENTER_Z, x2 + CENTER_X, z2 + CENTER_Z
 end
 
+
+local cleaveEnabled = false
+
 local function Uncleave()
+    cleaveEnabled = false
     Crutch.RemoveLine(1)
     Crutch.RemoveLine(2)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcingCleaveTarget", EVENT_COMBAT_EVENT)
 end
 
 local function ShowArcingCleave(overrideX, overrideY, overrideZ, overrideRadius, overrideAngle)
+    Uncleave()
+    if (not Crutch.savedOptions.dreadsailreef.showArcingCleave) then
+        return
+    end
+    cleaveEnabled = true
+
     if (overrideX) then CENTER_X = overrideX end
     if (overrideY) then CLEAVE_Y = overrideY end
     if (overrideZ) then CENTER_Z = overrideZ end
     if (overrideRadius) then CLEAVE_RADIUS = overrideRadius end
     if (overrideAngle) then CLEAVE_ANGLE = overrideAngle end
 
-    Uncleave()
 
     -- Detect aggro
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcingCleaveTarget", EVENT_COMBAT_EVENT, OnArcingCleave)
@@ -147,8 +136,25 @@ local function ShowArcingCleave(overrideX, overrideY, overrideZ, overrideRadius,
 end
 Crutch.ShowArcingCleave = ShowArcingCleave
 -- Linchal on mushroom patch
--- /script CrutchAlerts.ShowArcingCleave(57158, 19610,  96815, 3000, 12 / 180 * math.pi)
+-- /script CrutchAlerts.ShowArcingCleave(57158, 19610,  96815, 3600, 25 / 180 * math.pi)
 -- /script CrutchAlerts.ShowArcingCleave()
+
+-- Enable Cleave lines if the boss is present
+local function TryEnablingTaleriaCleave()
+    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    if (powerMax == 181632304 -- Hardmode
+        or powerMax == 100906840 -- Veteran
+        or powerMax == 29538220) then -- Normal
+        if (not cleaveEnabled) then
+            ShowArcingCleave()
+        end
+    else
+        if (cleaveEnabled) then
+            Uncleave()
+        end
+    end
+end
+Crutch.TryEnablingTaleriaCleave = TryEnablingTaleriaCleave
 
 
 ---------------------------------------------------------------------
@@ -187,10 +193,21 @@ function Crutch.RegisterDreadsailReef()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRVolatileOther", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
     end
 
-    -- Heartburn (portal)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRPortal", EVENT_COMBAT_EVENT, OnHeartburn)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 163692)
+    -- Taleria cleave
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRBossesChanged", EVENT_BOSSES_CHANGED, function()
+        -- Only do this when the bosses actually change
+        local bossHash = ""
+        for i = 1, MAX_BOSSES do
+            local name = GetUnitNameIfExists("boss" .. tostring(i))
+            if (name and name ~= "") then
+                bossHash = bossHash .. name
+            end
+        end
+        if (bossHash == prevBosses) then return end
+        prevBosses = bossHash
+
+        TryEnablingTaleriaCleave()
+    end)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Dreadsail Reef")
 end
@@ -210,8 +227,8 @@ function Crutch.UnregisterDreadsailReef()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRVolatileBoss", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRVolatileOther", EVENT_EFFECT_CHANGED)
 
-    -- Heartburn (portal)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRPortal", EVENT_COMBAT_EVENT)
+    -- Taleria cleave
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRBossesChanged", EVENT_BOSSES_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end
