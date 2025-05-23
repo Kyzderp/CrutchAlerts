@@ -157,7 +157,7 @@ local SUBTITLE_TIMES = {
     },
 -- KA
     ["Lord Falgravn"] = {
-        -- ["You dare face me? Baleful power lurks beneath your feet, and I will have it for my own!"] = 10.2, -- not sure if it might be a tick late
+        ["You dare face me? Baleful power lurks beneath your feet, and I will have it for my own!"] = 9.7, -- could be a tick late
         ["You wish to see my works? Very well! I will plunge you into deeper darkness!"] = 12.6,
         -- Torturers
         ["Feed, my pets. Feed!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},

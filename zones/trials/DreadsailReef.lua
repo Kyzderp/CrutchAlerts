@@ -84,11 +84,12 @@ end
 local CENTER_X = 169731
 local CLEAVE_Y = 36126
 local CENTER_Z = 29956
-local CLEAVE_RADIUS = 3700 -- Radius of the donut
+local CLEAVE_RADIUS = 3600 -- Radius of the donut
+local INNER_RADIUS = 1500 -- Inner of donut
 local CLEAVE_ANGLE = 25 / 180 * math.pi
 
 -- Janky af geometry
-local function GetArcingCleavePoints()
+local function GetArcingCleavePoints(sign)
     local _, tankX, _, tankZ = GetUnitRawWorldPosition(tankTag)
 
     -- Pretend there is a circle at CENTER_X, CENTER_Z
@@ -101,11 +102,12 @@ local function GetArcingCleavePoints()
         angle = angle + math.pi
     end
 
-    local x1 = CLEAVE_RADIUS * math.cos(angle + CLEAVE_ANGLE)
-    local z1 = CLEAVE_RADIUS * math.sin(angle + CLEAVE_ANGLE)
+    local newAngle = angle + (sign * CLEAVE_ANGLE)
+    local x1 = CLEAVE_RADIUS * math.cos(newAngle)
+    local z1 = CLEAVE_RADIUS * math.sin(newAngle)
 
-    local x2 = CLEAVE_RADIUS * math.cos(angle - CLEAVE_ANGLE)
-    local z2 = CLEAVE_RADIUS * math.sin(angle - CLEAVE_ANGLE)
+    local x2 = INNER_RADIUS * math.cos(newAngle)
+    local z2 = INNER_RADIUS * math.sin(newAngle)
 
     -- And add the center back
     return x1 + CENTER_X, z1 + CENTER_Z, x2 + CENTER_X, z2 + CENTER_Z
@@ -133,14 +135,14 @@ local function ShowArcingCleave(overrideX, overrideY, overrideZ, overrideRadius,
     -- Draw lines
     Crutch.SetLineColor(1, 1, 0, 0.8, 0, false, 1)
     Crutch.DrawLineWithProvider(function()
-        local endX, endZ, _, _ = GetArcingCleavePoints()
-        return CENTER_X, CLEAVE_Y, CENTER_Z, endX, CLEAVE_Y, endZ
+        local startX, startZ, endX, endZ = GetArcingCleavePoints(1)
+        return startX, CLEAVE_Y, startZ, endX, CLEAVE_Y, endZ
     end, 1)
 
     Crutch.SetLineColor(1, 1, 0, 0.8, 0, false, 2)
     Crutch.DrawLineWithProvider(function()
-        local _, _, endX, endZ = GetArcingCleavePoints()
-        return CENTER_X, CLEAVE_Y, CENTER_Z, endX, CLEAVE_Y, endZ
+        local startX, startZ, endX, endZ = GetArcingCleavePoints(-1)
+        return startX, CLEAVE_Y, startZ, endX, CLEAVE_Y, endZ
     end, 2)
 end
 Crutch.ShowArcingCleave = ShowArcingCleave
