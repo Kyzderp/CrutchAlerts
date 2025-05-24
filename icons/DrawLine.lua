@@ -7,19 +7,17 @@ local Crutch = CrutchAlerts
 -- to not modify icons, and instead only return coordinates
 -- Credit: OdySupportIcons (@Lamierina7)
 --
--- I'm doing this because OSI icons do not show/update when the
--- position is far enough behind the camera, and therefore I can't
--- naively draw a line between 2 player icons, because one or both
--- could be hidden or have outdated coords.
---
--- Returns: x, y, isInFront (of camera)
+-- This is required because one of the points can be behind the
+-- camera, so we need to find the intersection of where the line
+-- would go off screen and draw that instead.
 ---------------------------------------------------------------------
-local function GetViewCoordinates(wX, wY, wZ)
+local i11, i12, i13, i21, i22, i23, i31, i32, i33, i41, i42, i43
+local function CalculateMatrix()
     -- prepare render space
-    Set3DRenderSpaceToCurrentCamera( OSI.ctrl:GetName() )
+    Set3DRenderSpaceToCurrentCamera(OSI.ctrl:GetName())
     
     -- retrieve camera world position and orientation vectors
-    local cX, cY, cZ = GuiRender3DPositionToWorldPosition( OSI.ctrl:Get3DRenderSpaceOrigin() )
+    local cX, cY, cZ = GuiRender3DPositionToWorldPosition(OSI.ctrl:Get3DRenderSpaceOrigin())
     local fX, fY, fZ = OSI.ctrl:Get3DRenderSpaceForward()
     local rX, rY, rZ = OSI.ctrl:Get3DRenderSpaceRight()
     local uX, uY, uZ = OSI.ctrl:Get3DRenderSpaceUp()
@@ -31,34 +29,56 @@ local function GetViewCoordinates(wX, wY, wZ)
     -- determinant should always be -1
     -- instead of multiplying simply negate
     -- calculate inverse camera matrix
-    local i11 = -( uY * fZ - uZ * fY )
-    local i12 = -( rZ * fY - rY * fZ )
-    local i13 = -( rY * uZ - rZ * uY )
-    local i21 = -( uZ * fX - uX * fZ )
-    local i22 = -( rX * fZ - rZ * fX )
-    local i23 = -( rZ * uX - rX * uZ )
-    local i31 = -( uX * fY - uY * fX )
-    local i32 = -( rY * fX - rX * fY )
-    local i33 = -( rX * uY - rY * uX )
-    local i41 = -( uZ * fY * cX + uY * fX * cZ + uX * fZ * cY - uX * fY * cZ - uY * fZ * cX - uZ * fX * cY )
-    local i42 = -( rX * fY * cZ + rY * fZ * cX + rZ * fX * cY - rZ * fY * cX - rY * fX * cZ - rX * fZ * cY )
-    local i43 = -( rZ * uY * cX + rY * uX * cZ + rX * uZ * cY - rX * uY * cZ - rY * uZ * cX - rZ * uX * cY )
+    i11 = -( uY * fZ - uZ * fY )
+    i12 = -( rZ * fY - rY * fZ )
+    i13 = -( rY * uZ - rZ * uY )
+    i21 = -( uZ * fX - uX * fZ )
+    i22 = -( rX * fZ - rZ * fX )
+    i23 = -( rZ * uX - rX * uZ )
+    i31 = -( uX * fY - uY * fX )
+    i32 = -( rY * fX - rX * fY )
+    i33 = -( rX * uY - rY * uX )
+    i41 = -( uZ * fY * cX + uY * fX * cZ + uX * fZ * cY - uX * fY * cZ - uY * fZ * cX - uZ * fX * cY )
+    i42 = -( rX * fY * cZ + rY * fZ * cX + rZ * fX * cY - rZ * fY * cX - rY * fX * cZ - rX * fZ * cY )
+    i43 = -( rZ * uY * cX + rY * uX * cZ + rX * uZ * cY - rX * uY * cZ - rY * uZ * cX - rZ * uX * cY )
+end
 
-    -- screen dimensions
-    local uiW, uiH = GuiRoot:GetDimensions()
-
+local function GetViewCoordinates(wX, wY, wZ)
     -- calculate unit view position
     local pX = wX * i11 + wY * i21 + wZ * i31 + i41
     local pY = wX * i12 + wY * i22 + wZ * i32 + i42
     local pZ = wX * i13 + wY * i23 + wZ * i33 + i43
+    return pX, pY, pZ
+end
+
+local function GetLineViewCoordinates(worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2)
+    local pX1, pY1, pZ1 = GetViewCoordinates(worldX1, worldY1, worldZ1)
+    local pX2, pY2, pZ2 = GetViewCoordinates(worldX2, worldY2, worldZ2)
+
+    -- near clip plane code from Breadcrumbs (@TheMrPancake)
+    local nearZ = 0.1
+    if pZ1 < nearZ and pZ2 < nearZ then
+        return nil -- Both behind, don't draw line
+    end
+    if pZ1 < 0 or pZ2 < 0 then -- find point on plane
+        local t = (nearZ - pZ1) / (pZ2 - pZ1)
+        local clipX = pX1 + t * (pX2 - pX1)
+        local clipY = pY1 + t * (pY2 - pY1)
+        if pZ1 < 0 then
+            pX1, pY1, pZ1 = clipX, clipY, nearZ
+        else 
+            pX2, pY2, pZ2 = clipX, clipY, nearZ
+        end
+    end
 
     -- calculate unit screen position
-    -- Kyz: this is the only thing I did, really. Taking the absolute value of pZ allows the conversion
-    -- to still work; the line doesn't draw particularly well, but the idea of it being behind the
-    -- camera object is still conveyed. I don't claim to know anything about this math though...
-    local w, h = GetWorldDimensionsOfViewFrustumAtDepth(math.abs(pZ))
+    local w1, h1 = GetWorldDimensionsOfViewFrustumAtDepth(pZ1)
+    local w2, h2 = GetWorldDimensionsOfViewFrustumAtDepth(pZ2)
 
-    return pX * uiW / w, -pY * uiH / h, pZ > 0
+    -- screen dimensions
+    local uiW, uiH = GuiRoot:GetDimensions()
+
+    return pX1 * uiW / w1, -pY1 * uiH / h1, pX2 * uiW / w2, -pY2 * uiH / h2
 end
 
 
@@ -141,6 +161,7 @@ Crutch.SetLineColor = SetLineColor
 local activeLineFunctions = {}
 
 local function OnUpdate()
+    CalculateMatrix()
     for _, lineFunction in pairs(activeLineFunctions) do
         lineFunction()
     end
@@ -161,15 +182,14 @@ end
 ---------------------------------------------------------------------
 -- Returns: whether the line should be visible
 local function DrawLineBetween3DPoints(worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2, lineNum)
-    local x1, y1, isInFront1 = GetViewCoordinates(worldX1, worldY1, worldZ1)
-    local x2, y2, isInFront2 = GetViewCoordinates(worldX2, worldY2, worldZ2)
+    local x1, y1, x2, y2 = GetLineViewCoordinates(worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2)
 
-    if (not isInFront1 and not isInFront2) then
+    if (not x1) then
         return false
-    else
-        DrawLineBetween2DPoints(x1, y1, x2, y2, lineNum)
-        return true
     end
+
+    DrawLineBetween2DPoints(x1, y1, x2, y2, lineNum)
+    return true
 end
 
 -- Draw line between 2 unit tags
