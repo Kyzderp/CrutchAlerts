@@ -160,9 +160,13 @@ Crutch.TryEnablingTaleriaCleave = TryEnablingTaleriaCleave
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
-function Crutch.RegisterDreadsailReef()
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+local function GetUnitNameIfExists(unitTag)
+    if (DoesUnitExist(unitTag)) then
+        return GetUnitName(unitTag)
+    end
+end
 
+function Crutch.RegisterDreadsailReef()
     -- Chat output for who picks up domes
     if (Crutch.savedOptions.general.showRaidDiag) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, OnDestructiveEmber)
@@ -213,8 +217,6 @@ function Crutch.RegisterDreadsailReef()
 end
 
 function Crutch.UnregisterDreadsailReef()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRCombatState", EVENT_PLAYER_COMBAT_STATE)
-
     -- Domes
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, OnDestructiveEmber)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, OnPiercingHailstone)
