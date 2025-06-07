@@ -172,6 +172,7 @@ Crutch.gainedDuration = {
     [232773] = true, -- Dominator's Chains (initial cast, 4100)
     [232779] = true, -- Dominator's Chains (after it's gained, 16100)
     [232780] = true, -- Dominator's Chains (after it's gained, 16100)
+    -- [237121] = true, -- Daedric Bombardment (Channeler / Pain Channeler) doesn't seem to work right, and doesn't cover all of them
     -- [237163] = true, -- Agonizing Burden (6000)
 
 -- Sanctum Ophidia
@@ -271,6 +272,7 @@ Crutch.others = {
     [235201] = true, -- Storm Slam (Molag Kena)
     [232516] = true, -- Jynorah Titanic Clash
     [232517] = true, -- Skorikhif Titanic Clash
+    [232397] = true, -- Effluvial Expellant (Shaper of Flesh)
 
 -- Rockgrove
     [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)

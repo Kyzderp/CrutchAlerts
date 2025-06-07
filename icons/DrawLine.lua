@@ -204,7 +204,7 @@ local function DrawLineBetweenPlayers(unitTag1, unitTag2, distanceCallback, line
 
     -- Write a function that will be called on every update
     local myLineFunction = function()
-        local worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2
+        local _, worldX1, worldY1, worldZ1, worldX2, worldY2, worldZ2
         _, worldX1, worldY1, worldZ1 = GetUnitRawWorldPosition(unitTag1)
         _, worldX2, worldY2, worldZ2 = GetUnitRawWorldPosition(unitTag2)
         -- about waist level to better match real tethers

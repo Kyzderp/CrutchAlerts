@@ -90,6 +90,8 @@ Crutch.format = {
     [232780] = 400, -- Dominator's Chains (after it's gained, 16100)
     [233598] = 300, -- Spark Smash (Jynorah)
     [233610] = 300, -- Blazing Smash (Skorkhif)
+    [232397] = 500, -- Effluvial Expellant (Shaper of Flesh)
+    [236569] = 500, -- Spectral Revenge (Osteon Spectral Revenant)
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)

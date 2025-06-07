@@ -166,6 +166,7 @@ local function GetUnitNameIfExists(unitTag)
     end
 end
 
+local prevBosses = ""
 function Crutch.RegisterDreadsailReef()
     -- Chat output for who picks up domes
     if (Crutch.savedOptions.general.showRaidDiag) then
