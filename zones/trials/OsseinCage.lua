@@ -3,6 +3,86 @@ local Crutch = CrutchAlerts
 
 
 ---------------------------------------------------------------------
+-- Caustic Carrion
+---------------------------------------------------------------------
+local BAR_MAX = 10
+
+local carrionStacks = {} -- {[tag] = {stacks = 4, tickTime = 1543,}}
+local polling = false
+
+-- Return keys in the order of highest stacks + closest to next tick
+local function GetSortedCarrion()
+    local sorted = {}
+    for tag, data in pairs(carrionStacks) do
+        local timeToTick = data.tickTime - GetGameTimeMilliseconds() % 2000
+        if (timeToTick < 0) then timeToTick = timeToTick + 2000 end
+        table.insert(sorted, {unitTag = tag, timeToTick = timeToTick, stacks = data.stacks})
+    end
+
+    table.sort(sorted, function(first, second)
+        if (first.stacks == second.stacks) then
+            return first.timeToTick < second.timeToTick
+        end
+        return first.stacks > second.stacks
+    end)
+    return sorted
+end
+
+local function UpdateCarrionDisplay()
+    local text = ""
+    local sorted = GetSortedCarrion()
+    for _, data in ipairs(sorted) do
+        local name = GetUnitDisplayName(data.unitTag)
+        if (name) then
+            text = string.format("%s%s%s(%s) - %d stacks; %dms to tick", text, text == "" and "" or "\n", name, data.unitTag, data.stacks, data.timeToTick)
+        end
+    end
+    CrutchAlertsOsseinCageText:SetText(text)
+
+    -- Get the highest stacks
+    if (#sorted > 0) then
+        local highest = sorted[1]
+        local progress = (2000 - highest.timeToTick) / 2000 + highest.stacks
+        if (progress > 5) then
+            CrutchAlertsOsseinCageBar:SetGradientColors(1, 0, 0, 1, 0.5, 0, 0, 1)
+        elseif (progress > 4) then
+            CrutchAlertsOsseinCageBar:SetGradientColors(1, 1, 0, 1, 0.7, 0, 0, 1)
+        else
+            ZO_StatusBar_SetGradientColor(CrutchAlertsOsseinCageBar, ZO_XP_BAR_GRADIENT_COLORS)
+        end
+
+        ZO_StatusBar_SmoothTransition(CrutchAlertsOsseinCageBar, progress, BAR_MAX)
+    else
+        ZO_StatusBar_SmoothTransition(CrutchAlertsOsseinCageBar, 0, BAR_MAX)
+    end
+end
+
+local function OnCausticCarrion(_, changeType, _, _, unitTag, beginTime, endTime, stackCount)
+    if (changeType == EFFECT_RESULT_FADED) then
+        carrionStacks[unitTag] = nil
+
+        -- Check if there are no more stacks
+        if (polling) then
+            for _, _ in pairs(carrionStacks) do
+                return -- Continue polling
+            end
+            polling = false
+            EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CarrionPoll")
+            UpdateCarrionDisplay()
+        end
+        return
+    end
+    local tickRemainder = GetGameTimeMilliseconds() % 2000
+    carrionStacks[unitTag] = {stacks = stackCount, tickTime = tickRemainder}
+
+    if (not polling) then
+        polling = true
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CarrionPoll", 90, UpdateCarrionDisplay)
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Stricken
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
@@ -139,6 +219,13 @@ end
 function Crutch.RegisterOsseinCage()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Ossein Cage")
 
+    Crutch.RegisterExitedGroupCombatListener("ExitedCombatCarrion", function() carrionStacks = {} end)
+
+    -- TODO: setting
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED, OnCausticCarrion)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 240708)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+
     -- Stricken (tank swap)
     if (Crutch.savedOptions.osseincage.showStricken ~= "NEVER") then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED, OnStricken)
@@ -171,6 +258,9 @@ function Crutch.RegisterOsseinCage()
 end
 
 function Crutch.UnregisterOsseinCage()
+    Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCarrion")
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsInitial1", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsInitial2", EVENT_EFFECT_CHANGED)

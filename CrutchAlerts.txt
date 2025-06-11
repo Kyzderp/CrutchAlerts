@@ -24,6 +24,7 @@ lang/$(language).lua
 
 zones/trials/Cloudrest.xml
 zones/trials/MawOfLorkhaj.xml
+zones/trials/OsseinCage.xml
 
 zones/trials/Asylumsanctorium.lua
 zones/trials/Cloudrest.lua
