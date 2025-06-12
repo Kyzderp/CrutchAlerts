@@ -226,6 +226,10 @@ function Crutch.RegisterOsseinCage()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 240708)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, OnCausticCarrion)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 241089)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+
     -- Stricken (tank swap)
     if (Crutch.savedOptions.osseincage.showStricken ~= "NEVER") then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED, OnStricken)
@@ -261,6 +265,7 @@ function Crutch.UnregisterOsseinCage()
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCarrion")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsInitial1", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsInitial2", EVENT_EFFECT_CHANGED)
