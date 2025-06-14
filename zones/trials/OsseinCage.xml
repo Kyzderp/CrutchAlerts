@@ -1,7 +1,7 @@
 <GuiXml>
     <Controls>
 <!-- ======================================================================================================================= -->
-        <TopLevelControl name="CrutchAlertsOsseinCage" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
+        <TopLevelControl name="CrutchAlertsCausticCarrion" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
             <Dimensions x="240" y="30"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="500" offsetY="0"/>
             <OnMoveStop>
@@ -22,19 +22,27 @@
                     <OnInitialized>
                         ZO_StatusBar_SetGradientColor(self, ZO_XP_BAR_GRADIENT_COLORS)
                         self.gloss = self:GetNamedChild("Gloss")
+                        CrutchAlerts.AddCarrionBarNotches()
                     </OnInitialized>
                 </StatusBar>
-                <Backdrop name="$(parent)Notch" centerColor="FFFFFFFF" edgeColor="88000000" layer="2">
+                <!-- <Backdrop name="$(parent)Notch" centerColor="FFFFFFFF" edgeColor="88000000" layer="2">
                     <Anchor point="TOPLEFT" relativeTo="$(parent)Bar" relativePoint="TOP" offsetX="-1" offsetY="-2"/>
                     <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)Bar" relativePoint="BOTTOM" offsetX="1" offsetY="2"/>
                 </Backdrop>
                 <Label name="$(parent)Five" font="$(BOLD_FONT)|20|soft-shadow-thick" color="CCCCCC" text="5" verticalAlignment="TOP" horizontalAlignment="CENTER" hidden="false">
                     <Dimensions x="20" y="20"/>
                     <Anchor point="BOTTOM" relativeTo="$(parent)Notch" relativePoint="TOP" offsetY="-6"/>
-                </Label>
+                </Label> -->
                 <Label name="$(parent)Text" font="ZoFontGame" color="CCCCCC" text="Individual Stacks" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
                     <Dimensions x="500" y="600"/>
-                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="2"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="20"/>
+                </Label>
+                <Label name="$(parent)Title" font="$(BOLD_FONT)|20|soft-shadow-thick" color="FFFFFF" text="Group Carrion" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
+                    <Dimensions x="500" y="600"/>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="-6"/>
+                    <OnInitialized>
+                        self:SetHeight(self:GetTextHeight())
+                    </OnInitialized>
                 </Label>
             </Controls>
         </TopLevelControl>

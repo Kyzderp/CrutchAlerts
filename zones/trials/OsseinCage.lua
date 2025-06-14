@@ -5,8 +5,32 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 -- Caustic Carrion
 ---------------------------------------------------------------------
+
+-------------
+-- Carrion UI
 local BAR_MAX = 10
 
+local function AddCarrionBarNotches()
+    local width = CrutchAlertsCausticCarrion:GetWidth() / BAR_MAX
+    for i = 1, BAR_MAX do
+        local notch = WINDOW_MANAGER:CreateControl("$(parent)Notch" .. tostring(i), CrutchAlertsCausticCarrion, CT_BACKDROP)
+        notch:SetAnchor(TOPLEFT, CrutchAlertsCausticCarrion, TOPLEFT, width * i, -4)
+        notch:SetAnchor(BOTTOMRIGHT, CrutchAlertsCausticCarrion, BOTTOMLEFT, width * i - 1, 4)
+        notch:SetCenterColor(0.7, 0.7, 0.7, 0.8)
+        notch:SetEdgeColor(0, 0, 0, 0)
+        notch:SetDrawLayer(2)
+        local label = WINDOW_MANAGER:CreateControl("$(parent)Label", notch, CT_LABEL)
+        label:SetFont("ZoFontGameSmall")
+        label:SetHorizontalAlignment(CENTER)
+        label:SetAnchor(TOP, notch, BOTTOM, 0, 2)
+        label:SetColor(0.8, 0.8, 0.8, 1)
+        label:SetText(tostring(i))
+    end
+end
+Crutch.AddCarrionBarNotches = AddCarrionBarNotches
+
+----------------
+-- Carrion logic
 local carrionStacks = {} -- {[tag] = {stacks = 4, tickTime = 1543,}}
 local polling = false
 
@@ -37,23 +61,23 @@ local function UpdateCarrionDisplay()
             text = string.format("%s%s%s(%s) - %d stacks; %dms to tick", text, text == "" and "" or "\n", name, data.unitTag, data.stacks, data.timeToTick)
         end
     end
-    CrutchAlertsOsseinCageText:SetText(text)
+    CrutchAlertsCausticCarrionText:SetText(text)
 
     -- Get the highest stacks
     if (#sorted > 0) then
         local highest = sorted[1]
         local progress = (2000 - highest.timeToTick) / 2000 + highest.stacks
         if (progress > 5) then
-            CrutchAlertsOsseinCageBar:SetGradientColors(1, 0, 0, 1, 0.5, 0, 0, 1)
+            CrutchAlertsCausticCarrionBar:SetGradientColors(1, 0, 0, 1, 0.5, 0, 0, 1)
         elseif (progress > 4) then
-            CrutchAlertsOsseinCageBar:SetGradientColors(1, 1, 0, 1, 0.7, 0, 0, 1)
+            CrutchAlertsCausticCarrionBar:SetGradientColors(1, 1, 0, 1, 0.7, 0, 0, 1)
         else
-            ZO_StatusBar_SetGradientColor(CrutchAlertsOsseinCageBar, ZO_XP_BAR_GRADIENT_COLORS)
+            ZO_StatusBar_SetGradientColor(CrutchAlertsCausticCarrionBar, ZO_XP_BAR_GRADIENT_COLORS)
         end
 
-        ZO_StatusBar_SmoothTransition(CrutchAlertsOsseinCageBar, progress, BAR_MAX)
+        ZO_StatusBar_SmoothTransition(CrutchAlertsCausticCarrionBar, progress, BAR_MAX)
     else
-        ZO_StatusBar_SmoothTransition(CrutchAlertsOsseinCageBar, 0, BAR_MAX)
+        ZO_StatusBar_SmoothTransition(CrutchAlertsCausticCarrionBar, 0, BAR_MAX)
     end
 end
 

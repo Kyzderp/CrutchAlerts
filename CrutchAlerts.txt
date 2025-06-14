@@ -22,10 +22,6 @@ main/Utils.lua
 lang/en.lua
 lang/$(language).lua
 
-zones/trials/Cloudrest.xml
-zones/trials/MawOfLorkhaj.xml
-zones/trials/OsseinCage.xml
-
 zones/trials/Asylumsanctorium.lua
 zones/trials/Cloudrest.lua
 zones/trials/DreadsailReef.lua
@@ -38,6 +34,10 @@ zones/trials/Rockgrove.lua
 zones/trials/SanitysEdge.lua
 zones/trials/SanctumOphidia.lua
 zones/trials/Sunspire.lua
+
+zones/trials/Cloudrest.xml
+zones/trials/MawOfLorkhaj.xml
+zones/trials/OsseinCage.xml
 
 zones/arenas/EndlessArchive.lua
 zones/arenas/MaelstromArena.lua
