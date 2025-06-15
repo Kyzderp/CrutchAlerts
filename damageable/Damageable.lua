@@ -188,6 +188,27 @@ local SUBTITLE_TIMES = {
         ["Habt Ihr mich nicht gehört? Hatte ich mich nicht klar ausgedrückt? Ihr werdet zuhören, Sterbliche"] = 26.4,
     },
 
+-- OC
+    ["Skorkhif"] = {
+        ["When I'm the one who caused their suffering?"] = 13.4, -- en
+        ["Obwohl ich doch der bin, der sie leiden ließ?"] = 13.4, -- de
+        ["¿Cuando fui yo quien causó su sufrimiento?"] = 13.4, -- es
+        ["Alors que c'est moi qui les fais souffrir ?"] = 13.4, -- fr
+        ["Quando fui eu quem causou o sofrimento deles?"] = 13.4, -- br
+    },
+    -- jp
+    ["スコルキフ"] = {
+        ["奴らを苦しめたのは私なのに？"] = 13.4,
+    },
+    -- ru
+    ["Скоркиф"] = {
+        ["Но ведь это я заставил их страдать."] = 13.4,
+    },
+    -- zh
+    ["斯科尔基弗"] = {
+        ["让他们受苦的人不是我吗？"] = 13.4,
+    },
+
 -- RG
     ["Flame-Herald Bahsei"] = {
         ["Great Xalvakka drank deep from the souls we served her. Soon, she arrives!"] = 7.0, -- TODO: not sure if 7 or 8, both have happened...
@@ -353,6 +374,16 @@ local SUBTITLE_TIMES = {
         ["Caluurion. See that our uninvited guests are made comfortable for a very long stay."] = 14.2,
         -- Ulfnor and Sabina
         ["So many of the things you've broken I can easily replace, but Caluurion … he was a unique specimen. He'll never be the same."] = 17.5,
+    },
+
+-- Icereach
+    ["Sister Gohlla"] = {
+        -- Kjarg the Tuskscraper
+        ["More intruders? Marvelous. On your feet, my sweet boy. Smash them for mother, won't you?"] = 8.8,
+    },
+    ["Sister Maefyn"] = {
+        -- Stormborn Revenant
+        ["So simple, is it? Arise, and fight on, champion!"] = 5.7,
     },
 
 -- Lair of Maarselok
