@@ -8,7 +8,7 @@
                 CrutchAlerts:SavePosition() -- TODO
             </OnMoveStop>
             <Controls>
-                <StatusBar name="$(parent)Bar" orientation="HORIZONTAL" hidden="false" value="4.6" layer="1" level="2">
+                <StatusBar name="$(parent)Bar" orientation="HORIZONTAL" hidden="false" value="0.2" layer="1" level="2">
                     <Dimensions x="320" y="30"/>
                     <AnchorFill/>
                     <Limits min="0" max="10"/>

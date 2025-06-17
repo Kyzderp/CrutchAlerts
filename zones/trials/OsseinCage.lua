@@ -14,17 +14,32 @@ local function AddCarrionBarNotches()
     local width = CrutchAlertsCausticCarrion:GetWidth() / BAR_MAX
     for i = 1, BAR_MAX do
         local notch = WINDOW_MANAGER:CreateControl("$(parent)Notch" .. tostring(i), CrutchAlertsCausticCarrion, CT_BACKDROP)
-        notch:SetAnchor(TOPLEFT, CrutchAlertsCausticCarrion, TOPLEFT, width * i, -4)
-        notch:SetAnchor(BOTTOMRIGHT, CrutchAlertsCausticCarrion, BOTTOMLEFT, width * i - 1, 4)
-        notch:SetCenterColor(0.7, 0.7, 0.7, 0.8)
         notch:SetEdgeColor(0, 0, 0, 0)
         notch:SetDrawLayer(2)
-        local label = WINDOW_MANAGER:CreateControl("$(parent)Label", notch, CT_LABEL)
-        label:SetFont("ZoFontGameSmall")
-        label:SetHorizontalAlignment(CENTER)
-        label:SetAnchor(TOP, notch, BOTTOM, 0, 2)
-        label:SetColor(0.8, 0.8, 0.8, 1)
-        label:SetText(tostring(i))
+        if (i == 5) then
+            notch:SetAnchor(TOPLEFT, CrutchAlertsCausticCarrion, TOPLEFT, width * i - 1, -4)
+            notch:SetAnchor(BOTTOMRIGHT, CrutchAlertsCausticCarrion, BOTTOMLEFT, width * i + 1, 4)
+            notch:SetCenterColor(0.9, 0.9, 0.9, 0.8)
+        else
+            if (i % 2 == 0) then
+                notch:SetAnchor(TOPLEFT, CrutchAlertsCausticCarrion, TOPLEFT, width * i - 1, -4)
+                notch:SetAnchor(BOTTOMRIGHT, CrutchAlertsCausticCarrion, BOTTOMLEFT, width * i, 4)
+                notch:SetCenterColor(0.7, 0.7, 0.7, 0.8)
+            else
+                notch:SetAnchor(TOPLEFT, CrutchAlertsCausticCarrion, TOPLEFT, width * i - 1, 0)
+                notch:SetAnchor(BOTTOMRIGHT, CrutchAlertsCausticCarrion, BOTTOMLEFT, width * i, 0)
+                notch:SetCenterColor(0.7, 0.7, 0.7, 0.4)
+            end
+        end
+
+        if (i % 2 == 0) then
+            local label = WINDOW_MANAGER:CreateControl("$(parent)Label", notch, CT_LABEL)
+            label:SetFont("ZoFontGameSmall")
+            label:SetHorizontalAlignment(CENTER)
+            label:SetAnchor(TOP, notch, BOTTOM, 0, 2)
+            label:SetColor(0.8, 0.8, 0.8, 1)
+            label:SetText(tostring(i))
+        end
     end
 end
 Crutch.AddCarrionBarNotches = AddCarrionBarNotches
