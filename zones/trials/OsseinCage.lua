@@ -67,6 +67,11 @@ local function GetSortedCarrion()
     return sorted
 end
 
+-- Twins HM kills at 6 stacks, so turn it red at 5 (this color applies to nonHM too, which is probably fine for practice)
+local regularThresholds = {8, 7}
+local twinsThresholds = {5, 4}
+local colorThresholds = regularThresholds
+
 local function UpdateCarrionDisplay()
     local text = ""
     local sorted = GetSortedCarrion()
@@ -82,9 +87,9 @@ local function UpdateCarrionDisplay()
     if (#sorted > 0) then
         local highest = sorted[1]
         local progress = (2000 - highest.timeToTick) / 2000 + highest.stacks
-        if (progress > 5) then
+        if (progress > colorThresholds[1]) then
             CrutchAlertsCausticCarrionBar:SetGradientColors(1, 0, 0, 1, 0.5, 0, 0, 1)
-        elseif (progress > 4) then
+        elseif (progress > colorThresholds[2]) then
             CrutchAlertsCausticCarrionBar:SetGradientColors(1, 1, 0, 1, 0.7, 0, 0, 1)
         else
             ZO_StatusBar_SetGradientColor(CrutchAlertsCausticCarrionBar, ZO_XP_BAR_GRADIENT_COLORS)
@@ -96,7 +101,13 @@ local function UpdateCarrionDisplay()
     end
 end
 
-local function OnCausticCarrion(_, changeType, _, _, unitTag, beginTime, endTime, stackCount)
+local function OnCausticCarrion(_, changeType, _, _, unitTag, beginTime, endTime, stackCount, _, _, _, _, _, _, _, abilityId)
+    if (abilityId == 241089) then
+        colorThresholds = twinsThresholds
+    else
+        colorThresholds = regularThresholds
+    end
+
     if (changeType == EFFECT_RESULT_FADED) then
         carrionStacks[unitTag] = nil
 
