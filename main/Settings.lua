@@ -843,6 +843,30 @@ function Crutch:CreateSettingsMenu()
             name = "Ossein Cage",
             controls = {
                 {
+                    type = "checkbox",
+                    name = "Show group-wide Caustic Carrion",
+                    tooltip = "Shows a progress bar for the group member with the highest number (and tick progress) of Caustic Carrion stacks",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.osseincage.showCarrion end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.showCarrion = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "    Show additional group members",
+                    tooltip = "Shows additional debug-ish text under the Caustic Carrion progress bar for the stacks and tick time of all group members",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.osseincage.showCarrionIndividual end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.showCarrionIndividual = value
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.osseincage.showCarrion end
+                },
+                {
                     type = "dropdown",
                     name = "Show Stricken timer",
                     tooltip = "Shows an \"alert\" timer for Stricken. If set to \"Tank Only\" it will display only if your LFG role is tank",

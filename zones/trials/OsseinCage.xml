@@ -1,14 +1,13 @@
 <GuiXml>
     <Controls>
 <!-- ======================================================================================================================= -->
-        <TopLevelControl name="CrutchAlertsCausticCarrion" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="false">
+        <TopLevelControl name="CrutchAlertsCausticCarrion" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="true">
             <Dimensions x="240" y="30"/>
-            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="500" offsetY="0"/>
             <OnMoveStop>
-                CrutchAlerts:SavePosition() -- TODO
+                CrutchAlerts:SavePosition()
             </OnMoveStop>
             <Controls>
-                <StatusBar name="$(parent)Bar" orientation="HORIZONTAL" hidden="false" value="0.2" layer="1" level="2">
+                <StatusBar name="$(parent)Bar" orientation="HORIZONTAL" hidden="false" value="0" layer="1" level="2">
                     <Dimensions x="320" y="30"/>
                     <AnchorFill/>
                     <Limits min="0" max="10"/>
@@ -25,15 +24,10 @@
                         CrutchAlerts.AddCarrionBarNotches()
                     </OnInitialized>
                 </StatusBar>
-                <!-- <Backdrop name="$(parent)Notch" centerColor="FFFFFFFF" edgeColor="88000000" layer="2">
-                    <Anchor point="TOPLEFT" relativeTo="$(parent)Bar" relativePoint="TOP" offsetX="-1" offsetY="-2"/>
-                    <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)Bar" relativePoint="BOTTOM" offsetX="1" offsetY="2"/>
-                </Backdrop>
-                <Label name="$(parent)Five" font="$(BOLD_FONT)|20|soft-shadow-thick" color="CCCCCC" text="5" verticalAlignment="TOP" horizontalAlignment="CENTER" hidden="false">
-                    <Dimensions x="20" y="20"/>
-                    <Anchor point="BOTTOM" relativeTo="$(parent)Notch" relativePoint="TOP" offsetY="-6"/>
-                </Label> -->
-                <Label name="$(parent)Text" font="ZoFontGame" color="CCCCCC" text="Individual Stacks" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
+                <Label name="$(parent)Stacks" font="$(BOLD_FONT)|20|soft-shadow-thick" color="DDDDDD" text="0" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
+                    <Anchor point="LEFT" relativeTo="$(parent)Bar" relativePoint="RIGHT" offsetX="10"/>
+                </Label>
+                <Label name="$(parent)Text" font="ZoFontGame" color="CCCCCC" text="Individual Stacks" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="true">
                     <Dimensions x="500" y="600"/>
                     <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="20"/>
                 </Label>

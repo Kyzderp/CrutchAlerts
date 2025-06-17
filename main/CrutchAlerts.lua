@@ -40,6 +40,10 @@ local defaultOptions = {
         x = -GuiRoot:GetWidth() / 4,
         y = -100,
     },
+    carrionDisplay = {
+        x = GuiRoot:GetWidth() / 4,
+        y = 100,
+    },
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
@@ -116,6 +120,8 @@ local defaultOptions = {
     osseincage = {
         showStricken = "TANK", -- "NEVER", "TANK", "ALWAYS"
         showChains = true,
+        showCarrion = true,
+        showCarrionIndividual = false,
     },
     rockgrove = {
         sludgeSides = true,
@@ -203,6 +209,11 @@ function CrutchAlerts:SavePosition()
     y = CrutchAlertsBossHealthBarContainer:GetTop()
     Crutch.savedOptions.bossHealthBarDisplay.x = x - oX
     Crutch.savedOptions.bossHealthBarDisplay.y = y - oY
+
+    x = CrutchAlertsCausticCarrion:GetLeft()
+    y = CrutchAlertsCausticCarrion:GetTop()
+    Crutch.savedOptions.carrionDisplay.x = x - oX
+    Crutch.savedOptions.carrionDisplay.y = y - oY
 end
 
 ---------------------------------------------------------------------

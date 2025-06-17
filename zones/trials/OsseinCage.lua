@@ -12,13 +12,24 @@ local BAR_MAX = 10
 
 local function AddCarrionBarNotches()
     local width = CrutchAlertsCausticCarrion:GetWidth() / BAR_MAX
-    for i = 1, BAR_MAX do
+    for i = 0, BAR_MAX do
         local notch = WINDOW_MANAGER:CreateControl("$(parent)Notch" .. tostring(i), CrutchAlertsCausticCarrion, CT_BACKDROP)
         notch:SetEdgeColor(0, 0, 0, 0)
         notch:SetDrawLayer(2)
-        if (i == 5) then
+
+        if (i == 0) then
+            -- Annoying edge
+            notch:SetAnchor(TOPLEFT, CrutchAlertsCausticCarrion, TOPLEFT, width * i - 2, -4)
+            notch:SetAnchor(BOTTOMRIGHT, CrutchAlertsCausticCarrion, BOTTOMLEFT, width * i - 1, 4)
+            notch:SetCenterColor(0.9, 0.9, 0.9, 0.8)
+        elseif (i == 5) then
             notch:SetAnchor(TOPLEFT, CrutchAlertsCausticCarrion, TOPLEFT, width * i - 1, -4)
             notch:SetAnchor(BOTTOMRIGHT, CrutchAlertsCausticCarrion, BOTTOMLEFT, width * i + 1, 4)
+            notch:SetCenterColor(0.9, 0.9, 0.9, 0.8)
+        elseif (i == BAR_MAX) then
+            -- Annoying edge
+            notch:SetAnchor(TOPLEFT, CrutchAlertsCausticCarrion, TOPLEFT, width * i, -4)
+            notch:SetAnchor(BOTTOMRIGHT, CrutchAlertsCausticCarrion, BOTTOMLEFT, width * i + 2, 4)
             notch:SetCenterColor(0.9, 0.9, 0.9, 0.8)
         else
             if (i % 2 == 0) then
@@ -38,7 +49,11 @@ local function AddCarrionBarNotches()
             label:SetHorizontalAlignment(CENTER)
             label:SetAnchor(TOP, notch, BOTTOM, 0, 2)
             label:SetColor(0.8, 0.8, 0.8, 1)
-            label:SetText(tostring(i))
+            if (i < BAR_MAX) then
+                label:SetText(tostring(i))
+            else
+                label:SetText(tostring(i) .. "+")
+            end
         end
     end
 end
@@ -73,15 +88,22 @@ local twinsThresholds = {5, 4}
 local colorThresholds = regularThresholds
 
 local function UpdateCarrionDisplay()
-    local text = ""
     local sorted = GetSortedCarrion()
-    for _, data in ipairs(sorted) do
-        local name = GetUnitDisplayName(data.unitTag)
-        if (name) then
-            text = string.format("%s%s%s(%s) - %d stacks; %dms to tick", text, text == "" and "" or "\n", name, data.unitTag, data.stacks, data.timeToTick)
+
+    -- Individual stacks
+    if (Crutch.savedOptions.osseincage.showCarrionIndividual) then
+        local text = ""
+        for _, data in ipairs(sorted) do
+            local name = GetUnitDisplayName(data.unitTag)
+            if (name) then
+                text = string.format("%s%s%s(%s) - %d stacks; %dms to tick", text, text == "" and "" or "\n", name, data.unitTag, data.stacks, data.timeToTick)
+            end
         end
+        CrutchAlertsCausticCarrionText:SetText(text)
+        CrutchAlertsCausticCarrionText:SetHidden(false)
+    else
+        CrutchAlertsCausticCarrionText:SetHidden(true)
     end
-    CrutchAlertsCausticCarrionText:SetText(text)
 
     -- Get the highest stacks
     if (#sorted > 0) then
@@ -96,8 +118,10 @@ local function UpdateCarrionDisplay()
         end
 
         ZO_StatusBar_SmoothTransition(CrutchAlertsCausticCarrionBar, progress, BAR_MAX)
+        CrutchAlertsCausticCarrionStacks:SetText(string.format("%.1f", progress))
     else
         ZO_StatusBar_SmoothTransition(CrutchAlertsCausticCarrionBar, 0, BAR_MAX)
+        CrutchAlertsCausticCarrionStacks:SetText("0")
     end
 end
 
@@ -266,19 +290,31 @@ end
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
+local carrionFragment
+
 function Crutch.RegisterOsseinCage()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Ossein Cage")
 
-    Crutch.RegisterExitedGroupCombatListener("ExitedCombatCarrion", function() carrionStacks = {} end)
+    -- Caustic Carrion
+    if (Crutch.savedOptions.osseincage.showCarrion) then
+        if (not carrionFragment) then
+            carrionFragment = ZO_SimpleSceneFragment:New(CrutchAlertsCausticCarrion)
+            CrutchAlertsCausticCarrion:SetAnchor(TOPLEFT, GuiRoot, CENTER,
+                Crutch.savedOptions.carrionDisplay.x, Crutch.savedOptions.carrionDisplay.y)
+        end
+        HUD_SCENE:AddFragment(carrionFragment)
+        HUD_UI_SCENE:AddFragment(carrionFragment)
 
-    -- TODO: setting
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED, OnCausticCarrion)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 240708)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        Crutch.RegisterExitedGroupCombatListener("ExitedCombatCarrion", function() carrionStacks = {} end)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, OnCausticCarrion)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 241089)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED, OnCausticCarrion)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 240708)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, OnCausticCarrion)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 241089)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    end
 
     -- Stricken (tank swap)
     if (Crutch.savedOptions.osseincage.showStricken ~= "NEVER") then
@@ -313,8 +349,12 @@ end
 
 function Crutch.UnregisterOsseinCage()
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCarrion")
+    if (carrionFragment) then
+        HUD_SCENE:RemoveFragment(carrionFragment)
+        HUD_UI_SCENE:RemoveFragment(carrionFragment)
+    end
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrion", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsInitial1", EVENT_EFFECT_CHANGED)
