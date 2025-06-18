@@ -1,7 +1,7 @@
 <GuiXml>
     <Controls>
 <!-- ======================================================================================================================= -->
-        <TopLevelControl name="CrutchAlertsCausticCarrion" clampedToScreen="true" mouseEnabled="true" movable="true" hidden="true">
+        <TopLevelControl name="CrutchAlertsCausticCarrion" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="true">
             <Dimensions x="240" y="30"/>
             <OnMoveStop>
                 CrutchAlerts:SavePosition()

@@ -57,6 +57,10 @@ function Crutch:CreateSettingsMenu()
                 else
                     Crutch.BossHealthBar.ShowOrHideBars()
                 end
+
+                CrutchAlertsCausticCarrion:SetMovable(value)
+                CrutchAlertsCausticCarrion:SetMouseEnabled(value)
+                CrutchAlertsCausticCarrion:SetHidden(not value)
             end,
             width = "full",
         },
