@@ -849,7 +849,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show group-wide Caustic Carrion",
-                    tooltip = "Shows a progress bar for the group member with the highest number (and tick progress) of Caustic Carrion stacks",
+                    tooltip = "Shows a progress bar for the group member with the highest number (and tick progress) of Caustic Carrion stacks. Changes color based on number of stacks, with a lower threshold on Jynorah + Skorkhif at 5 stacks for red",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.osseincage.showCarrion end,
                     setFunc = function(value)

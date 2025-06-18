@@ -111,17 +111,21 @@ local function UpdateCarrionDisplay()
         local progress = (2000 - highest.timeToTick) / 2000 + highest.stacks
         if (progress > colorThresholds[1]) then
             CrutchAlertsCausticCarrionBar:SetGradientColors(1, 0, 0, 1, 0.5, 0, 0, 1)
+            CrutchAlertsCausticCarrionStacks:SetColor(1, 0, 0, 1)
         elseif (progress > colorThresholds[2]) then
             CrutchAlertsCausticCarrionBar:SetGradientColors(1, 1, 0, 1, 0.7, 0, 0, 1)
+            CrutchAlertsCausticCarrionStacks:SetColor(1, 1, 0, 1)
         else
             ZO_StatusBar_SetGradientColor(CrutchAlertsCausticCarrionBar, ZO_XP_BAR_GRADIENT_COLORS)
+            CrutchAlertsCausticCarrionStacks:SetColor(1, 1, 1, 1)
         end
 
         ZO_StatusBar_SmoothTransition(CrutchAlertsCausticCarrionBar, progress, BAR_MAX)
-        CrutchAlertsCausticCarrionStacks:SetText(string.format("%.1f", progress))
+        CrutchAlertsCausticCarrionStacks:SetText(string.format("%.1f", math.floor(progress * 10) / 10))
     else
         ZO_StatusBar_SmoothTransition(CrutchAlertsCausticCarrionBar, 0, BAR_MAX)
         CrutchAlertsCausticCarrionStacks:SetText("0")
+        CrutchAlertsCausticCarrionStacks:SetColor(1, 1, 1, 1)
     end
 end
 

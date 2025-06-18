@@ -24,7 +24,7 @@
                         CrutchAlerts.AddCarrionBarNotches()
                     </OnInitialized>
                 </StatusBar>
-                <Label name="$(parent)Stacks" font="$(BOLD_FONT)|20|soft-shadow-thick" color="DDDDDD" text="0" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
+                <Label name="$(parent)Stacks" font="$(BOLD_FONT)|20|soft-shadow-thick" color="FFFFFF" text="0" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
                     <Anchor point="LEFT" relativeTo="$(parent)Bar" relativePoint="RIGHT" offsetX="10"/>
                 </Label>
                 <Label name="$(parent)Text" font="ZoFontGame" color="CCCCCC" text="Individual Stacks" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="true">
