@@ -6,7 +6,7 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "1.14.0"
+Crutch.version = "1.14.1"
 
 Crutch.registered = {
     begin = false,
@@ -242,6 +242,11 @@ local function OnPlayerActivated()
     Crutch.groupTagToId = {}
     Crutch.majorCowardiceUnitIds = {}
 
+    -- Lock the UI if it was unlocked
+    if (Crutch.unlock) then
+        Crutch.UnlockUI(false)
+    end
+
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
     -- Unregister previous active trial, if applicable
@@ -293,6 +298,7 @@ local function Initialize()
     CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
     CrutchAlertsCloudrest:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.spearsDisplay.x, Crutch.savedOptions.spearsDisplay.y)
     CrutchAlertsMawOfLorkhaj:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cursePadsDisplay.x, Crutch.savedOptions.cursePadsDisplay.y)
+    CrutchAlertsCausticCarrion:SetAnchor(TOPLEFT, GuiRoot, CENTER, Crutch.savedOptions.carrionDisplay.x, Crutch.savedOptions.carrionDisplay.y)
 
     -- Register events
     if (Crutch.savedOptions.general.showBegin) then

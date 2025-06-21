@@ -11,6 +11,41 @@ local function GetNoSubtitlesZoneIdsAndNames()
     return ids, names
 end
 
+local function UnlockUI(value)
+    Crutch.unlock = value
+    CrutchAlertsContainer:SetMovable(value)
+    CrutchAlertsContainer:SetMouseEnabled(value)
+    CrutchAlertsContainerBackdrop:SetHidden(not value)
+
+    CrutchAlertsDamageable:SetMovable(value)
+    CrutchAlertsDamageable:SetMouseEnabled(value)
+    CrutchAlertsDamageableBackdrop:SetHidden(not value)
+    CrutchAlertsDamageableLabel:SetHidden(not value)
+
+    CrutchAlertsCloudrest:SetMovable(value)
+    CrutchAlertsCloudrest:SetMouseEnabled(value)
+    CrutchAlertsCloudrestBackdrop:SetHidden(not value)
+    if (value) then
+        Crutch.UpdateSpearsDisplay(3, 2, 1)
+    else
+        Crutch.UpdateSpearsDisplay(0, 0, 0)
+    end
+
+    CrutchAlertsBossHealthBarContainer:SetMovable(value)
+    CrutchAlertsBossHealthBarContainer:SetMouseEnabled(value)
+    CrutchAlertsBossHealthBarContainer:SetHidden(not value)
+    if (value and Crutch.savedOptions.bossHealthBar.enabled) then
+        Crutch.BossHealthBar.ShowOrHideBars(true, false)
+    else
+        Crutch.BossHealthBar.ShowOrHideBars()
+    end
+
+    CrutchAlertsCausticCarrion:SetMovable(value)
+    CrutchAlertsCausticCarrion:SetMouseEnabled(value)
+    CrutchAlertsCausticCarrion:SetHidden(not value)
+end
+Crutch.UnlockUI = UnlockUI
+
 function Crutch:CreateSettingsMenu()
     local LAM = LibAddonMenu2
     local panelData = {
@@ -29,39 +64,7 @@ function Crutch:CreateSettingsMenu()
             tooltip = "Unlock the frames for moving",
             default = false,
             getFunc = function() return Crutch.unlock end,
-            setFunc = function(value)
-                Crutch.unlock = value
-                CrutchAlertsContainer:SetMovable(value)
-                CrutchAlertsContainer:SetMouseEnabled(value)
-                CrutchAlertsContainerBackdrop:SetHidden(not value)
-
-                CrutchAlertsDamageable:SetMovable(value)
-                CrutchAlertsDamageable:SetMouseEnabled(value)
-                CrutchAlertsDamageableBackdrop:SetHidden(not value)
-                CrutchAlertsDamageableLabel:SetHidden(not value)
-
-                CrutchAlertsCloudrest:SetMovable(value)
-                CrutchAlertsCloudrest:SetMouseEnabled(value)
-                CrutchAlertsCloudrestBackdrop:SetHidden(not value)
-                if (value) then
-                    Crutch.UpdateSpearsDisplay(3, 2, 1)
-                else
-                    Crutch.UpdateSpearsDisplay(0, 0, 0)
-                end
-
-                CrutchAlertsBossHealthBarContainer:SetMovable(value)
-                CrutchAlertsBossHealthBarContainer:SetMouseEnabled(value)
-                CrutchAlertsBossHealthBarContainer:SetHidden(not value)
-                if (value and Crutch.savedOptions.bossHealthBar.enabled) then
-                    Crutch.BossHealthBar.ShowOrHideBars(true, false)
-                else
-                    Crutch.BossHealthBar.ShowOrHideBars()
-                end
-
-                CrutchAlertsCausticCarrion:SetMovable(value)
-                CrutchAlertsCausticCarrion:SetMouseEnabled(value)
-                CrutchAlertsCausticCarrion:SetHidden(not value)
-            end,
+            setFunc = UnlockUI,
             width = "full",
         },
 ---------------------------------------------------------------------

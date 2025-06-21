@@ -303,8 +303,6 @@ function Crutch.RegisterOsseinCage()
     if (Crutch.savedOptions.osseincage.showCarrion) then
         if (not carrionFragment) then
             carrionFragment = ZO_SimpleSceneFragment:New(CrutchAlertsCausticCarrion)
-            CrutchAlertsCausticCarrion:SetAnchor(TOPLEFT, GuiRoot, CENTER,
-                Crutch.savedOptions.carrionDisplay.x, Crutch.savedOptions.carrionDisplay.y)
         end
         HUD_SCENE:AddFragment(carrionFragment)
         HUD_UI_SCENE:AddFragment(carrionFragment)
