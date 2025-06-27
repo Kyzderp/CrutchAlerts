@@ -336,11 +336,32 @@ local function UnregisterRakkhat()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "RakkhatVoidShackle", EVENT_COMBAT_EVENT)
 end
 
+
+---------------------------------------------------------------------
+-- Font shenanigans
+---------------------------------------------------------------------
+local function ApplyStyle(style)
+    for i = 1, 6 do
+        CrutchAlertsMawOfLorkhaj:GetNamedChild("Pad" .. tostring(i) .. "Label"):SetFont(style)
+    end
+end
+
+local initialized = false
+local function InitFont()
+    if (initialized) then return end
+    initialized = true
+
+    ZO_PlatformStyle:New(ApplyStyle, "$(BOLD_FONT)|20|soft-shadow-thick", "ZoFontGamepad27")
+end
+
+
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterMawOfLorkhaj()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Maw of Lorkhaj")
+
+    InitFont()
 
     -- Zhaj'hassa cleanse pads
     RegisterZhajhassa()
