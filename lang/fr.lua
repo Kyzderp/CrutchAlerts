@@ -1,132 +1,139 @@
 -- /script SetCVar("language.2", "fr")
-SafeAddString(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE, "Aghaedh du Solstice^F")
-SafeAddString(CRUTCH_BHB_ANALA_TUWHA, "Anal'a Tu'wha^m")
-SafeAddString(CRUTCH_BHB_ANSUUL_THE_TORMENTOR, "Ansuul la Tormentrice^F")
-SafeAddString(CRUTCH_BHB_ANTHELMIRS_CONSTRUCT, "Assemblage d'Anthelmir^md")
-SafeAddString(CRUTCH_BHB_ARADROS_THE_AWAKENED, "Aradros l'Éveillé^M")
-SafeAddString(CRUTCH_BHB_ARCHDRUID_DEVYRIC, "archidruide Devyric^md")
-SafeAddString(CRUTCH_BHB_ARCHIVIST_ERNARDE, "archiviste Ernarde^md")
-SafeAddString(CRUTCH_BHB_ARKASIS_THE_MAD_ALCHEMIST, "Arkasis l'Alchimiste fou^M")
-SafeAddString(CRUTCH_BHB_ASSEMBLY_GENERAL, "assembleur général^m")
-SafeAddString(CRUTCH_BHB_ATARUS, "Atarus^M")
-SafeAddString(CRUTCH_BHB_BALORGH, "Balorgh^M")
-SafeAddString(CRUTCH_BHB_CAILLAOIFE, "Caillaoife^F")
-SafeAddString(CRUTCH_BHB_CAPTAIN_GEMINUS, "Capitaine Géminus^fd")
-SafeAddString(CRUTCH_BHB_CAPTAIN_NUMIRRIL, "capitaine Numirril^md")
-SafeAddString(CRUTCH_BHB_CAPTAIN_VROL, "capitaine Vrol^md")
-SafeAddString(CRUTCH_BHB_CHAMPION_MARCAULD, "Champion Marcauld^M")
-SafeAddString(CRUTCH_BHB_CORRUPTION_OF_ROOT, "corruption de racine^fd")
-SafeAddString(CRUTCH_BHB_CORRUPTION_OF_STONE, "corruption de pierre^fd")
-SafeAddString(CRUTCH_BHB_COUNCILOR_VANDACIA, "conseiller Vandacia^md")
-SafeAddString(CRUTCH_BHB_DARKSHARD, "Fragment noir^M")
-SafeAddString(CRUTCH_BHB_DEATHS_LEVIATHAN, "léviathan de la mort^m")
-SafeAddString(CRUTCH_BHB_DOMIHAUS_THE_BLOODYHORNED, "Domihaus Corne-Sanglante^M")
-SafeAddString(CRUTCH_BHB_DOYLEMISH_IRONHEART, "Doylemish Cœur-de-Fer^n")
-SafeAddString(CRUTCH_BHB_DRANOS_VELADOR, "Dranos Velador^M")
-SafeAddString(CRUTCH_BHB_DROZAKAR, "Dro'zakar^M")
-SafeAddString(CRUTCH_BHB_EARTHEN_HEART_KNIGHT, "chevalier du cœur terrestre^fm")
-SafeAddString(CRUTCH_BHB_EARTHGORE_AMALGAM, "Amalgame de sangreterre^N")
-SafeAddString(CRUTCH_BHB_ELIAM_MERICK, "Eliam Merick^M")
-SafeAddString(CRUTCH_BHB_ETERNAL_AEGIS, "Égide éternelle^fd")
-SafeAddString(CRUTCH_BHB_EXARCHANIC_YASEYLA, "exarchanique Yaseyla^fd")
-SafeAddString(CRUTCH_BHB_FLAMEHERALD_BAHSEI, "Héraut des flammes Bahsei^fmd")
-SafeAddString(CRUTCH_BHB_FOREMAN_BRADIGGAN, "contremaître Bradiggan^md")
-SafeAddString(CRUTCH_BHB_GARVIN_THE_TRACKER, "Garvin le pisteur")
-SafeAddString(CRUTCH_BHB_GHEMVAS_THE_HARBINGER, "Ghemvas le héraut^m")
-SafeAddString(CRUTCH_BHB_GRUNDWULF, "Grundwulf^M")
-SafeAddString(CRUTCH_BHB_HAKGRYM_THE_HOWLER, "Hakgrym le Hurleur^M")
-SafeAddString(CRUTCH_BHB_HEDGE_MAZE_GUARDIAN, "gardien du labyrinthe végétal^m")
-SafeAddString(CRUTCH_BHB_HIATH_THE_BATTLEMASTER, "Hiath le Maître de guerre^M")
-SafeAddString(CRUTCH_BHB_HUNTERKILLER_NEGATRIX, "chasseur-tueur négatrix^n")
-SafeAddString(CRUTCH_BHB_IBOMEZ_THE_FLESH_SCULPTOR, "Ibomez le Sculpte-chairs^M")
-SafeAddString(CRUTCH_BHB_ICESTALKER, "Traqueglace^M")
-SafeAddString(CRUTCH_BHB_JAILER_MELITUS, "geôlier Melitus^md")
-SafeAddString(CRUTCH_BHB_JERENSI, "Le bourreau Jerensi")
-SafeAddString(CRUTCH_BHB_KEEPER_OF_THE_KILN, "gardien du four^md")
-SafeAddString(CRUTCH_BHB_KJALNAR_TOMBSKALD, "Kjalnar Tombescalde^M")
-SafeAddString(CRUTCH_BHB_KOVAN_GIRYON, "Kovan Giryon^M")
-SafeAddString(CRUTCH_BHB_KRAGH_THE_DREUGH_KING, "Kra'gh le roi des Dreugh^M")
-SafeAddString(CRUTCH_BHB_KUJO_KETHBA, "Kujo Kethba^M")
-SafeAddString(CRUTCH_BHB_LAATVULON, "Laatvulon^M")
-SafeAddString(CRUTCH_BHB_LADY_BELAIN, "dame Belain^fd")
-SafeAddString(CRUTCH_BHB_LADY_MINARA, "dame Minara^fd")
-SafeAddString(CRUTCH_BHB_LADY_THORN, "Dame Ronce^fd")
-SafeAddString(CRUTCH_BHB_LOKKESTIIZ, "Lokkestiiz^M")
-SafeAddString(CRUTCH_BHB_LORD_FALGRAVN, "seigneur Falgravn^md")
-SafeAddString(CRUTCH_BHB_LORD_WARDEN_DUSK, "seigneur gardien Crépuscule^md")
-SafeAddString(CRUTCH_BHB_LYLANAR, "Lylanar^M")
-SafeAddString(CRUTCH_BHB_MAARSELOK, "Maarselok^M")
-SafeAddString(CRUTCH_BHB_MAGMA_INCARNATE, "Magma Incarné^md")
-SafeAddString(CRUTCH_BHB_MALIGALIG, "Maligalig^M")
-SafeAddString(CRUTCH_BHB_MATRIARCH_ALDIS, "matriarche Aldis^fd")
-SafeAddString(CRUTCH_BHB_MATRIARCH_LLADI_TELVANNI, "matriarche Lladi Telvanni^fd")
-SafeAddString(CRUTCH_BHB_MAVUS_TALNARITH, "Mavus Talnarith^M")
-SafeAddString(CRUTCH_BHB_MOLAG_KENA, "Molag Kena^F")
-SafeAddString(CRUTCH_BHB_MULAAMNIR, "Mulaamnir^M")
-SafeAddString(CRUTCH_BHB_MYLENNE_MOONCALLER, "Mylenne Mire-Lune^F")
-SafeAddString(CRUTCH_BHB_NAHVIINTAAS, "Nahviintaas^M")
-SafeAddString(CRUTCH_BHB_NERIENETH, "Nérien'eth^M")
-SafeAddString(CRUTCH_BHB_NORIWEN, "Noriwën")
-SafeAddString(CRUTCH_BHB_OAXILTSO, "Oaxiltso^M")
-SafeAddString(CRUTCH_BHB_ONDAGORE_THE_MAD, "Ondagore le Fou^M")
-SafeAddString(CRUTCH_BHB_ORPHEON_THE_TACTICIAN, "Orphéon le tacticien^M")
-SafeAddString(CRUTCH_BHB_ORPHIC_SHATTERED_SHARD, "fragment brisé orphique^m")
-SafeAddString(CRUTCH_BHB_OVERFIEND, "Ennemi^md")
-SafeAddString(CRUTCH_BHB_OVERFIEND_KAZPIAN, "Ennemi Kazpian^M")
-SafeAddString(CRUTCH_BHB_OZEZAN_THE_INFERNO, "Ozesan l'Infernal^M")
-SafeAddString(CRUTCH_BHB_PINNACLE_FACTOTUM, "factotum du pinacle^m")
-SafeAddString(CRUTCH_BHB_PISHNA_LONGSHOT, "Pishna la Précise^F")
-SafeAddString(CRUTCH_BHB_PYROTURGE_ENCRATIS, "Pyroturge Encratis^md")
-SafeAddString(CRUTCH_BHB_QUINTUS_VERRES, "Quintus Verres^M")
-SafeAddString(CRUTCH_BHB_RA_KOTU, "Ra Kotu^M")
-SafeAddString(CRUTCH_BHB_RAKKHAT, "Rakkhat^M")
-SafeAddString(CRUTCH_BHB_REACTOR, "réacteur^m")
-SafeAddString(CRUTCH_BHB_REEF_GUARDIAN, "gardien du récif^m")
-SafeAddString(CRUTCH_BHB_RIFTMASTER_NAQRI, "maître de la Faille Naqri^md")
-SafeAddString(CRUTCH_BHB_RISEN_RUINS, "ruines ranimées^pf")
-SafeAddString(CRUTCH_BHB_ROKSA_THE_WARPED, "Roksa le Déformé^M")
-SafeAddString(CRUTCH_BHB_SAINT_OLMS_THE_JUST, "saint Olms le Juste^M")
-SafeAddString(CRUTCH_BHB_SARYDIL, "Sarydil^F")
-SafeAddString(CRUTCH_BHB_SCORION_BROODLORD, "seigneur de couvée scorion^m")
-SafeAddString(CRUTCH_BHB_SENTINEL_AKSALAZ, "sentinelle Aksalaz^fd")
-SafeAddString(CRUTCH_BHB_SHADE_OF_SIRORIA, "ombre de Siroria^fd")
-SafeAddString(CRUTCH_BHB_SHATTERED_CHAMPION, "Champion brisé^m")
-SafeAddString(CRUTCH_BHB_SIEGE_MASTER_MALTHORAS, "maître de siège Malthoras^md")
-SafeAddString(CRUTCH_BHB_SITHERA, "Sithera^F")
-SafeAddString(CRUTCH_BHB_SQUALL_OF_RETRIBUTION, "Le Grain punitif")
-SafeAddString(CRUTCH_BHB_STONEHEART, "Cœurgranit^M")
-SafeAddString(CRUTCH_BHB_STORMBORN_REVENANT, "revenant Enfant de la foudre^md")
-SafeAddString(CRUTCH_BHB_SYMPHONY_OF_BLADES, "Symphonie de lames^fd") -- TODO: ??? "Symphonie des Lames^fd"
-SafeAddString(CRUTCH_BHB_TAMESTHEBEAST, "Dompte-la-Bête^M")
-SafeAddString(CRUTCH_BHB_TARCYR, "Tarcyr^M")
-SafeAddString(CRUTCH_BHB_TASKMASTER_VICCIA, "contremaître Viccia^fd")
-SafeAddString(CRUTCH_BHB_THE_BLIND, "Aveugle^fd")
-SafeAddString(CRUTCH_BHB_THE_MAGE, "Mage^fd")
-SafeAddString(CRUTCH_BHB_THE_PYRELORD, "Seigneur des bûchers^md")
-SafeAddString(CRUTCH_BHB_THE_SCAVENGING_MAW, "Gueule charognarde^fd")
-SafeAddString(CRUTCH_BHB_THE_STONEKEEPER, "Gardien des Pierres^md") -- TODO: ??? "Gardien des pierres^md"
-SafeAddString(CRUTCH_BHB_THE_WARRIOR, "Guerrier^md")
-SafeAddString(CRUTCH_BHB_THE_WEEPING_WOMAN, "Pleureuse^fd")
-SafeAddString(CRUTCH_BHB_THOAT_REPLICANUM, "Replicanum de Tho'at^mfd")
-SafeAddString(CRUTCH_BHB_THOAT_SHARD, "fragment de Tho'at^m")
-SafeAddString(CRUTCH_BHB_THURVOKUN, "Thurvokun^M")
-SafeAddString(CRUTCH_BHB_TIDEBORN_TALERIA, "Taleria Née-des-Marées^F")
-SafeAddString(CRUTCH_BHB_TREEMINDER_NAKESH, "sylvegarde Na-Kesh^fd")
-SafeAddString(CRUTCH_BHB_VALINNA, "Valinna^F")
-SafeAddString(CRUTCH_BHB_VAMPIRE_LORD_THISA, "dame vampire Thisa^fd")
-SafeAddString(CRUTCH_BHB_VANDORALLEN, "Le sorcier primat Vandorallen")
-SafeAddString(CRUTCH_BHB_VARALLION, "Varallion^M")
-SafeAddString(CRUTCH_BHB_VAULT_PROTECTOR, "protecteur des cryptes^m")
-SafeAddString(CRUTCH_BHB_VELIDRETH, "Velidreth^F")
-SafeAddString(CRUTCH_BHB_VORENOR_WINTERBOURNE, "Vorenor Nédhiver")
-SafeAddString(CRUTCH_BHB_VORIA_THE_HEARTTHIEF, "Voria la Voleuse de cœurs^F")
-SafeAddString(CRUTCH_BHB_VYKOSA_THE_ASCENDANT, "Vykosa l'Ascendante^F")
-SafeAddString(CRUTCH_BHB_WARLORD_TZOGVIN, "seigneur de guerre Tzogvin^md")
-SafeAddString(CRUTCH_BHB_XALVAKKA, "Xalvakka^F")
-SafeAddString(CRUTCH_BHB_XEEMHOK_THE_TROPHYTAKER, "Xeemhok le collectionneur de trophées^M")
-SafeAddString(CRUTCH_BHB_YANDIR_THE_BUTCHER, "Yandir le boucher^M")
-SafeAddString(CRUTCH_BHB_YOLNAHKRIIN, "Yolnahkriin^M")
-SafeAddString(CRUTCH_BHB_ZAAN_THE_SCALECALLER, "Zaan la Mandécailles^F")
-SafeAddString(CRUTCH_BHB_ZBAZA, "Z'Baza^F")
-SafeAddString(CRUTCH_BHB_ZELVRAAK_THE_UNBREATHING, "Zelvraak le Sans-Souffle^M")
-SafeAddString(CRUTCH_BHB_ZHAJHASSA_THE_FORGOTTEN, "Zhaj'hassa l'Oublié^m")
+local strings =
+{
+    CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE = "Aghaedh du Solstice^F",
+    CRUTCH_BHB_ANALA_TUWHA = "Anal'a Tu'wha^m",
+    CRUTCH_BHB_ANSUUL_THE_TORMENTOR = "Ansuul la Tormentrice^F",
+    CRUTCH_BHB_ANTHELMIRS_CONSTRUCT = "Assemblage d'Anthelmir^md",
+    CRUTCH_BHB_ARADROS_THE_AWAKENED = "Aradros l'Éveillé^M",
+    CRUTCH_BHB_ARCHDRUID_DEVYRIC = "archidruide Devyric^md",
+    CRUTCH_BHB_ARCHIVIST_ERNARDE = "archiviste Ernarde^md",
+    CRUTCH_BHB_ARKASIS_THE_MAD_ALCHEMIST = "Arkasis l'Alchimiste fou^M",
+    CRUTCH_BHB_ASSEMBLY_GENERAL = "assembleur général^m",
+    CRUTCH_BHB_ATARUS = "Atarus^M",
+    CRUTCH_BHB_BALORGH = "Balorgh^M",
+    CRUTCH_BHB_CAILLAOIFE = "Caillaoife^F",
+    CRUTCH_BHB_CAPTAIN_GEMINUS = "Capitaine Géminus^fd",
+    CRUTCH_BHB_CAPTAIN_NUMIRRIL = "capitaine Numirril^md",
+    CRUTCH_BHB_CAPTAIN_VROL = "capitaine Vrol^md",
+    CRUTCH_BHB_CHAMPION_MARCAULD = "Champion Marcauld^M",
+    CRUTCH_BHB_CORRUPTION_OF_ROOT = "corruption de racine^fd",
+    CRUTCH_BHB_CORRUPTION_OF_STONE = "corruption de pierre^fd",
+    CRUTCH_BHB_COUNCILOR_VANDACIA = "conseiller Vandacia^md",
+    CRUTCH_BHB_DARKSHARD = "Fragment noir^M",
+    CRUTCH_BHB_DEATHS_LEVIATHAN = "léviathan de la mort^m",
+    CRUTCH_BHB_DOMIHAUS_THE_BLOODYHORNED = "Domihaus Corne-Sanglante^M",
+    CRUTCH_BHB_DOYLEMISH_IRONHEART = "Doylemish Cœur-de-Fer^n",
+    CRUTCH_BHB_DRANOS_VELADOR = "Dranos Velador^M",
+    CRUTCH_BHB_DROZAKAR = "Dro'zakar^M",
+    CRUTCH_BHB_EARTHEN_HEART_KNIGHT = "chevalier du cœur terrestre^fm",
+    CRUTCH_BHB_EARTHGORE_AMALGAM = "Amalgame de sangreterre^N",
+    CRUTCH_BHB_ELIAM_MERICK = "Eliam Merick^M",
+    CRUTCH_BHB_ETERNAL_AEGIS = "Égide éternelle^fd",
+    CRUTCH_BHB_EXARCHANIC_YASEYLA = "exarchanique Yaseyla^fd",
+    CRUTCH_BHB_FLAMEHERALD_BAHSEI = "Héraut des flammes Bahsei^fmd",
+    CRUTCH_BHB_FOREMAN_BRADIGGAN = "contremaître Bradiggan^md",
+    CRUTCH_BHB_GARVIN_THE_TRACKER = "Garvin le pisteur",
+    CRUTCH_BHB_GHEMVAS_THE_HARBINGER = "Ghemvas le héraut^m",
+    CRUTCH_BHB_GRUNDWULF = "Grundwulf^M",
+    CRUTCH_BHB_HAKGRYM_THE_HOWLER = "Hakgrym le Hurleur^M",
+    CRUTCH_BHB_HEDGE_MAZE_GUARDIAN = "gardien du labyrinthe végétal^m",
+    CRUTCH_BHB_HIATH_THE_BATTLEMASTER = "Hiath le Maître de guerre^M",
+    CRUTCH_BHB_HUNTERKILLER_NEGATRIX = "chasseur-tueur négatrix^n",
+    CRUTCH_BHB_IBOMEZ_THE_FLESH_SCULPTOR = "Ibomez le Sculpte-chairs^M",
+    CRUTCH_BHB_ICESTALKER = "Traqueglace^M",
+    CRUTCH_BHB_JAILER_MELITUS = "geôlier Melitus^md",
+    CRUTCH_BHB_JERENSI = "Le bourreau Jerensi",
+    CRUTCH_BHB_KEEPER_OF_THE_KILN = "gardien du four^md",
+    CRUTCH_BHB_KJALNAR_TOMBSKALD = "Kjalnar Tombescalde^M",
+    CRUTCH_BHB_KOVAN_GIRYON = "Kovan Giryon^M",
+    CRUTCH_BHB_KRAGH_THE_DREUGH_KING = "Kra'gh le roi des Dreugh^M",
+    CRUTCH_BHB_KUJO_KETHBA = "Kujo Kethba^M",
+    CRUTCH_BHB_LAATVULON = "Laatvulon^M",
+    CRUTCH_BHB_LADY_BELAIN = "dame Belain^fd",
+    CRUTCH_BHB_LADY_MINARA = "dame Minara^fd",
+    CRUTCH_BHB_LADY_THORN = "Dame Ronce^fd",
+    CRUTCH_BHB_LOKKESTIIZ = "Lokkestiiz^M",
+    CRUTCH_BHB_LORD_FALGRAVN = "seigneur Falgravn^md",
+    CRUTCH_BHB_LORD_WARDEN_DUSK = "seigneur gardien Crépuscule^md",
+    CRUTCH_BHB_LYLANAR = "Lylanar^M",
+    CRUTCH_BHB_MAARSELOK = "Maarselok^M",
+    CRUTCH_BHB_MAGMA_INCARNATE = "Magma Incarné^md",
+    CRUTCH_BHB_MALIGALIG = "Maligalig^M",
+    CRUTCH_BHB_MATRIARCH_ALDIS = "matriarche Aldis^fd",
+    CRUTCH_BHB_MATRIARCH_LLADI_TELVANNI = "matriarche Lladi Telvanni^fd",
+    CRUTCH_BHB_MAVUS_TALNARITH = "Mavus Talnarith^M",
+    CRUTCH_BHB_MOLAG_KENA = "Molag Kena^F",
+    CRUTCH_BHB_MULAAMNIR = "Mulaamnir^M",
+    CRUTCH_BHB_MYLENNE_MOONCALLER = "Mylenne Mire-Lune^F",
+    CRUTCH_BHB_NAHVIINTAAS = "Nahviintaas^M",
+    CRUTCH_BHB_NERIENETH = "Nérien'eth^M",
+    CRUTCH_BHB_NORIWEN = "Noriwën",
+    CRUTCH_BHB_OAXILTSO = "Oaxiltso^M",
+    CRUTCH_BHB_ONDAGORE_THE_MAD = "Ondagore le Fou^M",
+    CRUTCH_BHB_ORPHEON_THE_TACTICIAN = "Orphéon le tacticien^M",
+    CRUTCH_BHB_ORPHIC_SHATTERED_SHARD = "fragment brisé orphique^m",
+    CRUTCH_BHB_OVERFIEND = "Ennemi^md",
+    CRUTCH_BHB_OVERFIEND_KAZPIAN = "Ennemi Kazpian^M",
+    CRUTCH_BHB_OZEZAN_THE_INFERNO = "Ozesan l'Infernal^M",
+    CRUTCH_BHB_PINNACLE_FACTOTUM = "factotum du pinacle^m",
+    CRUTCH_BHB_PISHNA_LONGSHOT = "Pishna la Précise^F",
+    CRUTCH_BHB_PYROTURGE_ENCRATIS = "Pyroturge Encratis^md",
+    CRUTCH_BHB_QUINTUS_VERRES = "Quintus Verres^M",
+    CRUTCH_BHB_RA_KOTU = "Ra Kotu^M",
+    CRUTCH_BHB_RAKKHAT = "Rakkhat^M",
+    CRUTCH_BHB_REACTOR = "réacteur^m",
+    CRUTCH_BHB_REEF_GUARDIAN = "gardien du récif^m",
+    CRUTCH_BHB_RIFTMASTER_NAQRI = "maître de la Faille Naqri^md",
+    CRUTCH_BHB_RISEN_RUINS = "ruines ranimées^pf",
+    CRUTCH_BHB_ROKSA_THE_WARPED = "Roksa le Déformé^M",
+    CRUTCH_BHB_SAINT_OLMS_THE_JUST = "saint Olms le Juste^M",
+    CRUTCH_BHB_SARYDIL = "Sarydil^F",
+    CRUTCH_BHB_SCORION_BROODLORD = "seigneur de couvée scorion^m",
+    CRUTCH_BHB_SENTINEL_AKSALAZ = "sentinelle Aksalaz^fd",
+    CRUTCH_BHB_SHADE_OF_SIRORIA = "ombre de Siroria^fd",
+    CRUTCH_BHB_SHATTERED_CHAMPION = "Champion brisé^m",
+    CRUTCH_BHB_SIEGE_MASTER_MALTHORAS = "maître de siège Malthoras^md",
+    CRUTCH_BHB_SITHERA = "Sithera^F",
+    CRUTCH_BHB_SQUALL_OF_RETRIBUTION = "Le Grain punitif",
+    CRUTCH_BHB_STONEHEART = "Cœurgranit^M",
+    CRUTCH_BHB_STORMBORN_REVENANT = "revenant Enfant de la foudre^md",
+    CRUTCH_BHB_SYMPHONY_OF_BLADES = "Symphonie de lames^fd", -- TODO: ??? "Symphonie des Lames^fd"
+    CRUTCH_BHB_TAMESTHEBEAST = "Dompte-la-Bête^M",
+    CRUTCH_BHB_TARCYR = "Tarcyr^M",
+    CRUTCH_BHB_TASKMASTER_VICCIA = "contremaître Viccia^fd",
+    CRUTCH_BHB_THE_BLIND = "Aveugle^fd",
+    CRUTCH_BHB_THE_MAGE = "Mage^fd",
+    CRUTCH_BHB_THE_PYRELORD = "Seigneur des bûchers^md",
+    CRUTCH_BHB_THE_SCAVENGING_MAW = "Gueule charognarde^fd",
+    CRUTCH_BHB_THE_STONEKEEPER = "Gardien des Pierres^md", -- TODO: ??? "Gardien des pierres^md"
+    CRUTCH_BHB_THE_WARRIOR = "Guerrier^md",
+    CRUTCH_BHB_THE_WEEPING_WOMAN = "Pleureuse^fd",
+    CRUTCH_BHB_THOAT_REPLICANUM = "Replicanum de Tho'at^mfd",
+    CRUTCH_BHB_THOAT_SHARD = "fragment de Tho'at^m",
+    CRUTCH_BHB_THURVOKUN = "Thurvokun^M",
+    CRUTCH_BHB_TIDEBORN_TALERIA = "Taleria Née-des-Marées^F",
+    CRUTCH_BHB_TREEMINDER_NAKESH = "sylvegarde Na-Kesh^fd",
+    CRUTCH_BHB_VALINNA = "Valinna^F",
+    CRUTCH_BHB_VAMPIRE_LORD_THISA = "dame vampire Thisa^fd",
+    CRUTCH_BHB_VANDORALLEN = "Le sorcier primat Vandorallen",
+    CRUTCH_BHB_VARALLION = "Varallion^M",
+    CRUTCH_BHB_VAULT_PROTECTOR = "protecteur des cryptes^m",
+    CRUTCH_BHB_VELIDRETH = "Velidreth^F",
+    CRUTCH_BHB_VORENOR_WINTERBOURNE = "Vorenor Nédhiver",
+    CRUTCH_BHB_VORIA_THE_HEARTTHIEF = "Voria la Voleuse de cœurs^F",
+    CRUTCH_BHB_VYKOSA_THE_ASCENDANT = "Vykosa l'Ascendante^F",
+    CRUTCH_BHB_WARLORD_TZOGVIN = "seigneur de guerre Tzogvin^md",
+    CRUTCH_BHB_XALVAKKA = "Xalvakka^F",
+    CRUTCH_BHB_XEEMHOK_THE_TROPHYTAKER = "Xeemhok le collectionneur de trophées^M",
+    CRUTCH_BHB_YANDIR_THE_BUTCHER = "Yandir le boucher^M",
+    CRUTCH_BHB_YOLNAHKRIIN = "Yolnahkriin^M",
+    CRUTCH_BHB_ZAAN_THE_SCALECALLER = "Zaan la Mandécailles^F",
+    CRUTCH_BHB_ZBAZA = "Z'Baza^F",
+    CRUTCH_BHB_ZELVRAAK_THE_UNBREATHING = "Zelvraak le Sans-Souffle^M",
+    CRUTCH_BHB_ZHAJHASSA_THE_FORGOTTEN = "Zhaj'hassa l'Oublié^m",
+}
+
+for stringId, stringValue in pairs(strings) do
+    SafeAddString(_G[stringId], stringValue, 2)
+end

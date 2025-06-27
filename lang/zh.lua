@@ -1,132 +1,139 @@
 -- /script SetCVar("language.2", "zh")
-SafeAddString(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE, "至日的阿格海德^F")
-SafeAddString(CRUTCH_BHB_ANALA_TUWHA, "阿那拉·图哈^M")
-SafeAddString(CRUTCH_BHB_ANSUUL_THE_TORMENTOR, "折磨者安苏尔")
-SafeAddString(CRUTCH_BHB_ANTHELMIRS_CONSTRUCT, "安塞尔莫的构造体")
-SafeAddString(CRUTCH_BHB_ARADROS_THE_AWAKENED, "苏醒者亚拉德罗斯")
-SafeAddString(CRUTCH_BHB_ARCHDRUID_DEVYRIC, "大德鲁伊德维里克^M")
-SafeAddString(CRUTCH_BHB_ARCHIVIST_ERNARDE, "档案管理员厄纳尔德^M")
-SafeAddString(CRUTCH_BHB_ARKASIS_THE_MAD_ALCHEMIST, "疯炼金术士阿卡西斯^M")
-SafeAddString(CRUTCH_BHB_ASSEMBLY_GENERAL, "组装将军^N")
-SafeAddString(CRUTCH_BHB_ATARUS, "阿塔鲁斯^M")
-SafeAddString(CRUTCH_BHB_BALORGH, "巴洛格^M")
-SafeAddString(CRUTCH_BHB_CAILLAOIFE, "凯拉奥菲^F")
-SafeAddString(CRUTCH_BHB_CAPTAIN_GEMINUS, "杰米诺斯队长^F")
-SafeAddString(CRUTCH_BHB_CAPTAIN_NUMIRRIL, "队长努米利尔^M")
-SafeAddString(CRUTCH_BHB_CAPTAIN_VROL, "威若船长^M")
-SafeAddString(CRUTCH_BHB_CHAMPION_MARCAULD, "勇士马卡尔德^M")
-SafeAddString(CRUTCH_BHB_CORRUPTION_OF_ROOT, "腐化之根^F")
-SafeAddString(CRUTCH_BHB_CORRUPTION_OF_STONE, "腐化之石^N")
-SafeAddString(CRUTCH_BHB_COUNCILOR_VANDACIA, "凡达西亚顾问^M")
-SafeAddString(CRUTCH_BHB_DARKSHARD, "黑暗碎片")
-SafeAddString(CRUTCH_BHB_DEATHS_LEVIATHAN, "死神的利维坦^N")
-SafeAddString(CRUTCH_BHB_DOMIHAUS_THE_BLOODYHORNED, "“血角”铎米豪斯^M")
-SafeAddString(CRUTCH_BHB_DOYLEMISH_IRONHEART, "“铁心”多来米什^n")
-SafeAddString(CRUTCH_BHB_DRANOS_VELADOR, "德拉诺斯·维拉多尔")
-SafeAddString(CRUTCH_BHB_DROZAKAR, "多罗扎卡^M")
-SafeAddString(CRUTCH_BHB_EARTHEN_HEART_KNIGHT, "大地之心骑士^F")
-SafeAddString(CRUTCH_BHB_EARTHGORE_AMALGAM, "地血混合体^N")
-SafeAddString(CRUTCH_BHB_ELIAM_MERICK, "于连·梅里克^M")
-SafeAddString(CRUTCH_BHB_ETERNAL_AEGIS, "永恒盾灵^N")
-SafeAddString(CRUTCH_BHB_EXARCHANIC_YASEYLA, "主教亚赛拉^F")
-SafeAddString(CRUTCH_BHB_FLAMEHERALD_BAHSEI, "烈焰先驱巴塞^F")
-SafeAddString(CRUTCH_BHB_FOREMAN_BRADIGGAN, "布拉迪干工头^M")
-SafeAddString(CRUTCH_BHB_GARVIN_THE_TRACKER, "追踪者加文")
-SafeAddString(CRUTCH_BHB_GHEMVAS_THE_HARBINGER, "先驱杰姆瓦斯")
-SafeAddString(CRUTCH_BHB_GRUNDWULF, "格伦德伍尔夫^M")
-SafeAddString(CRUTCH_BHB_HAKGRYM_THE_HOWLER, "嚎叫者哈克格里姆^M")
-SafeAddString(CRUTCH_BHB_HEDGE_MAZE_GUARDIAN, "树篱迷宫守护者^n")
-SafeAddString(CRUTCH_BHB_HIATH_THE_BATTLEMASTER, "战斗大师西亚斯^M")
-SafeAddString(CRUTCH_BHB_HUNTERKILLER_NEGATRIX, "猎杀者聂佳特里克斯^N")
-SafeAddString(CRUTCH_BHB_IBOMEZ_THE_FLESH_SCULPTOR, "血肉雕刻者伊波梅兹^M")
-SafeAddString(CRUTCH_BHB_ICESTALKER, "寒冰追猎者^N")
-SafeAddString(CRUTCH_BHB_JAILER_MELITUS, "狱卒梅利图斯^M")
-SafeAddString(CRUTCH_BHB_JERENSI, "行刑者耶伦希")
-SafeAddString(CRUTCH_BHB_KEEPER_OF_THE_KILN, "炉窑守护者^N")
-SafeAddString(CRUTCH_BHB_KJALNAR_TOMBSKALD, "卡尔纳尔·墓歌^M")
-SafeAddString(CRUTCH_BHB_KOVAN_GIRYON, "科万·吉里恩^M")
-SafeAddString(CRUTCH_BHB_KRAGH_THE_DREUGH_KING, "蟹灵王克拉格^M")
-SafeAddString(CRUTCH_BHB_KUJO_KETHBA, "库乔·科斯巴^n")
-SafeAddString(CRUTCH_BHB_LAATVULON, "拉特伏龙^M")
-SafeAddString(CRUTCH_BHB_LADY_BELAIN, "贝兰夫人^F")
-SafeAddString(CRUTCH_BHB_LADY_MINARA, "米纳拉夫人^F")
-SafeAddString(CRUTCH_BHB_LADY_THORN, "荆棘夫人^F")
-SafeAddString(CRUTCH_BHB_LOKKESTIIZ, "洛克提兹^M")
-SafeAddString(CRUTCH_BHB_LORD_FALGRAVN, "法尔格拉文领主^M")
-SafeAddString(CRUTCH_BHB_LORD_WARDEN_DUSK, "黄昏典狱长^M")
-SafeAddString(CRUTCH_BHB_LYLANAR, "莱拉纳尔^M")
-SafeAddString(CRUTCH_BHB_MAARSELOK, "马塞洛克^M")
-SafeAddString(CRUTCH_BHB_MAGMA_INCARNATE, "岩浆化身^M")
-SafeAddString(CRUTCH_BHB_MALIGALIG, "马里伽利格^N")
-SafeAddString(CRUTCH_BHB_MATRIARCH_ALDIS, "首领阿尔蒂斯^F")
-SafeAddString(CRUTCH_BHB_MATRIARCH_LLADI_TELVANNI, "女族长雷拉蒂·泰尔瓦尼^F")
-SafeAddString(CRUTCH_BHB_MAVUS_TALNARITH, "马维斯·泰尔纳里斯^M")
-SafeAddString(CRUTCH_BHB_MOLAG_KENA, "莫拉格·科娜^F")
-SafeAddString(CRUTCH_BHB_MULAAMNIR, "穆拉姆尼尔^M")
-SafeAddString(CRUTCH_BHB_MYLENNE_MOONCALLER, "米伦尼·唤月者^F")
-SafeAddString(CRUTCH_BHB_NAHVIINTAAS, "纳温塔丝^M")
-SafeAddString(CRUTCH_BHB_NERIENETH, "奈恩斯^M")
-SafeAddString(CRUTCH_BHB_NORIWEN, "诺丽纹")
-SafeAddString(CRUTCH_BHB_OAXILTSO, "奥西索^M")
-SafeAddString(CRUTCH_BHB_ONDAGORE_THE_MAD, "疯狂的昂达戈尔^M")
-SafeAddString(CRUTCH_BHB_ORPHEON_THE_TACTICIAN, "战术家奥腓翁")
-SafeAddString(CRUTCH_BHB_ORPHIC_SHATTERED_SHARD, "神秘破裂碎片")
-SafeAddString(CRUTCH_BHB_OVERFIEND, "魂摄魔灵^M")
-SafeAddString(CRUTCH_BHB_OVERFIEND_KAZPIAN, "魂摄魔灵卡兹皮安")
-SafeAddString(CRUTCH_BHB_OZEZAN_THE_INFERNO, "炼狱奥泽赞^N")
-SafeAddString(CRUTCH_BHB_PINNACLE_FACTOTUM, "巅峰机械人^N")
-SafeAddString(CRUTCH_BHB_PISHNA_LONGSHOT, "远射手皮斯娜^F")
-SafeAddString(CRUTCH_BHB_PYROTURGE_ENCRATIS, "派罗图格·恩克拉迪斯^M")
-SafeAddString(CRUTCH_BHB_QUINTUS_VERRES, "奎因图斯·韦雷斯^M")
-SafeAddString(CRUTCH_BHB_RA_KOTU, "拉·阔图^N")
-SafeAddString(CRUTCH_BHB_RAKKHAT, "拉卡特")
-SafeAddString(CRUTCH_BHB_REACTOR, "反应器人^N")
-SafeAddString(CRUTCH_BHB_REEF_GUARDIAN, "礁石守护者^n")
-SafeAddString(CRUTCH_BHB_RIFTMASTER_NAQRI, "裂隙御侍纳克里^M")
-SafeAddString(CRUTCH_BHB_RISEN_RUINS, "崛起遗迹")
-SafeAddString(CRUTCH_BHB_ROKSA_THE_WARPED, "扭曲者洛科萨^N")
-SafeAddString(CRUTCH_BHB_SAINT_OLMS_THE_JUST, "公正圣徒奥尔姆斯^M")
-SafeAddString(CRUTCH_BHB_SARYDIL, "萨利迪尔^F")
-SafeAddString(CRUTCH_BHB_SCORION_BROODLORD, "斯克里昂巢穴领主^n")
-SafeAddString(CRUTCH_BHB_SENTINEL_AKSALAZ, "哨兵阿克萨拉兹^M")
-SafeAddString(CRUTCH_BHB_SHADE_OF_SIRORIA, "希罗利亚幽影^F")
-SafeAddString(CRUTCH_BHB_SHATTERED_CHAMPION, "破碎勇士")
-SafeAddString(CRUTCH_BHB_SIEGE_MASTER_MALTHORAS, "攻城大师玛尔索拉斯")
-SafeAddString(CRUTCH_BHB_SITHERA, "希瑟拉^N")
-SafeAddString(CRUTCH_BHB_SQUALL_OF_RETRIBUTION, "惩罚之飑")
-SafeAddString(CRUTCH_BHB_STONEHEART, "石心^M")
-SafeAddString(CRUTCH_BHB_STORMBORN_REVENANT, "冰铸亡魂^M")
-SafeAddString(CRUTCH_BHB_SYMPHONY_OF_BLADES, "利刃交响曲^N")
-SafeAddString(CRUTCH_BHB_TAMESTHEBEAST, "驯·兽·者^M")
-SafeAddString(CRUTCH_BHB_TARCYR, "塔赛尔^n")
-SafeAddString(CRUTCH_BHB_TASKMASTER_VICCIA, "使命之主维希娅")
-SafeAddString(CRUTCH_BHB_THE_BLIND, "盲眼邪神")
-SafeAddString(CRUTCH_BHB_THE_MAGE, "法师星^F")
-SafeAddString(CRUTCH_BHB_THE_PYRELORD, "柴堆领主^M")
-SafeAddString(CRUTCH_BHB_THE_SCAVENGING_MAW, "拾荒饿鬼^N")
-SafeAddString(CRUTCH_BHB_THE_STONEKEEPER, "石之看守^N")
-SafeAddString(CRUTCH_BHB_THE_WARRIOR, "战士星^M")
-SafeAddString(CRUTCH_BHB_THE_WEEPING_WOMAN, "悲泣之女^F")
-SafeAddString(CRUTCH_BHB_THOAT_REPLICANUM, "索特复影体")
-SafeAddString(CRUTCH_BHB_THOAT_SHARD, "索特碎片")
-SafeAddString(CRUTCH_BHB_THURVOKUN, "图尔佛昆^N")
-SafeAddString(CRUTCH_BHB_TIDEBORN_TALERIA, "泰德伯恩·塔勒里亚^F")
-SafeAddString(CRUTCH_BHB_TREEMINDER_NAKESH, "树之牧者纳-凯石^F")
-SafeAddString(CRUTCH_BHB_VALINNA, "瓦琳娜^F")
-SafeAddString(CRUTCH_BHB_VAMPIRE_LORD_THISA, "吸血鬼领主斯萨^F")
-SafeAddString(CRUTCH_BHB_VANDORALLEN, "首席术士范多拉伦")
-SafeAddString(CRUTCH_BHB_VARALLION, "瓦拉利昂^M")
-SafeAddString(CRUTCH_BHB_VAULT_PROTECTOR, "宝库保卫者^n")
-SafeAddString(CRUTCH_BHB_VELIDRETH, "薇利德雷斯^F")
-SafeAddString(CRUTCH_BHB_VORENOR_WINTERBOURNE, "维雷诺尔·冬界")
-SafeAddString(CRUTCH_BHB_VORIA_THE_HEARTTHIEF, "偷心者沃瑞亚^F")
-SafeAddString(CRUTCH_BHB_VYKOSA_THE_ASCENDANT, "飞升的维科萨^F")
-SafeAddString(CRUTCH_BHB_WARLORD_TZOGVIN, "督军佐格文^M")
-SafeAddString(CRUTCH_BHB_XALVAKKA, "夏尔瓦卡^F")
-SafeAddString(CRUTCH_BHB_XEEMHOK_THE_TROPHYTAKER, "战利品掠夺者谢姆霍克^M")
-SafeAddString(CRUTCH_BHB_YANDIR_THE_BUTCHER, "屠夫扬迪尔^M")
-SafeAddString(CRUTCH_BHB_YOLNAHKRIIN, "尤尔纳克林^M")
-SafeAddString(CRUTCH_BHB_ZAAN_THE_SCALECALLER, "唤鳞者赞恩^F")
-SafeAddString(CRUTCH_BHB_ZBAZA, "泽巴萨^F")
-SafeAddString(CRUTCH_BHB_ZELVRAAK_THE_UNBREATHING, "无息泽尔拉克^M")
-SafeAddString(CRUTCH_BHB_ZHAJHASSA_THE_FORGOTTEN, "遗忘者扎哈撒^M")
+local strings =
+{
+    CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE = "至日的阿格海德^F",
+    CRUTCH_BHB_ANALA_TUWHA = "阿那拉·图哈^M",
+    CRUTCH_BHB_ANSUUL_THE_TORMENTOR = "折磨者安苏尔",
+    CRUTCH_BHB_ANTHELMIRS_CONSTRUCT = "安塞尔莫的构造体",
+    CRUTCH_BHB_ARADROS_THE_AWAKENED = "苏醒者亚拉德罗斯",
+    CRUTCH_BHB_ARCHDRUID_DEVYRIC = "大德鲁伊德维里克^M",
+    CRUTCH_BHB_ARCHIVIST_ERNARDE = "档案管理员厄纳尔德^M",
+    CRUTCH_BHB_ARKASIS_THE_MAD_ALCHEMIST = "疯炼金术士阿卡西斯^M",
+    CRUTCH_BHB_ASSEMBLY_GENERAL = "组装将军^N",
+    CRUTCH_BHB_ATARUS = "阿塔鲁斯^M",
+    CRUTCH_BHB_BALORGH = "巴洛格^M",
+    CRUTCH_BHB_CAILLAOIFE = "凯拉奥菲^F",
+    CRUTCH_BHB_CAPTAIN_GEMINUS = "杰米诺斯队长^F",
+    CRUTCH_BHB_CAPTAIN_NUMIRRIL = "队长努米利尔^M",
+    CRUTCH_BHB_CAPTAIN_VROL = "威若船长^M",
+    CRUTCH_BHB_CHAMPION_MARCAULD = "勇士马卡尔德^M",
+    CRUTCH_BHB_CORRUPTION_OF_ROOT = "腐化之根^F",
+    CRUTCH_BHB_CORRUPTION_OF_STONE = "腐化之石^N",
+    CRUTCH_BHB_COUNCILOR_VANDACIA = "凡达西亚顾问^M",
+    CRUTCH_BHB_DARKSHARD = "黑暗碎片",
+    CRUTCH_BHB_DEATHS_LEVIATHAN = "死神的利维坦^N",
+    CRUTCH_BHB_DOMIHAUS_THE_BLOODYHORNED = "“血角”铎米豪斯^M",
+    CRUTCH_BHB_DOYLEMISH_IRONHEART = "“铁心”多来米什^n",
+    CRUTCH_BHB_DRANOS_VELADOR = "德拉诺斯·维拉多尔",
+    CRUTCH_BHB_DROZAKAR = "多罗扎卡^M",
+    CRUTCH_BHB_EARTHEN_HEART_KNIGHT = "大地之心骑士^F",
+    CRUTCH_BHB_EARTHGORE_AMALGAM = "地血混合体^N",
+    CRUTCH_BHB_ELIAM_MERICK = "于连·梅里克^M",
+    CRUTCH_BHB_ETERNAL_AEGIS = "永恒盾灵^N",
+    CRUTCH_BHB_EXARCHANIC_YASEYLA = "主教亚赛拉^F",
+    CRUTCH_BHB_FLAMEHERALD_BAHSEI = "烈焰先驱巴塞^F",
+    CRUTCH_BHB_FOREMAN_BRADIGGAN = "布拉迪干工头^M",
+    CRUTCH_BHB_GARVIN_THE_TRACKER = "追踪者加文",
+    CRUTCH_BHB_GHEMVAS_THE_HARBINGER = "先驱杰姆瓦斯",
+    CRUTCH_BHB_GRUNDWULF = "格伦德伍尔夫^M",
+    CRUTCH_BHB_HAKGRYM_THE_HOWLER = "嚎叫者哈克格里姆^M",
+    CRUTCH_BHB_HEDGE_MAZE_GUARDIAN = "树篱迷宫守护者^n",
+    CRUTCH_BHB_HIATH_THE_BATTLEMASTER = "战斗大师西亚斯^M",
+    CRUTCH_BHB_HUNTERKILLER_NEGATRIX = "猎杀者聂佳特里克斯^N",
+    CRUTCH_BHB_IBOMEZ_THE_FLESH_SCULPTOR = "血肉雕刻者伊波梅兹^M",
+    CRUTCH_BHB_ICESTALKER = "寒冰追猎者^N",
+    CRUTCH_BHB_JAILER_MELITUS = "狱卒梅利图斯^M",
+    CRUTCH_BHB_JERENSI = "行刑者耶伦希",
+    CRUTCH_BHB_KEEPER_OF_THE_KILN = "炉窑守护者^N",
+    CRUTCH_BHB_KJALNAR_TOMBSKALD = "卡尔纳尔·墓歌^M",
+    CRUTCH_BHB_KOVAN_GIRYON = "科万·吉里恩^M",
+    CRUTCH_BHB_KRAGH_THE_DREUGH_KING = "蟹灵王克拉格^M",
+    CRUTCH_BHB_KUJO_KETHBA = "库乔·科斯巴^n",
+    CRUTCH_BHB_LAATVULON = "拉特伏龙^M",
+    CRUTCH_BHB_LADY_BELAIN = "贝兰夫人^F",
+    CRUTCH_BHB_LADY_MINARA = "米纳拉夫人^F",
+    CRUTCH_BHB_LADY_THORN = "荆棘夫人^F",
+    CRUTCH_BHB_LOKKESTIIZ = "洛克提兹^M",
+    CRUTCH_BHB_LORD_FALGRAVN = "法尔格拉文领主^M",
+    CRUTCH_BHB_LORD_WARDEN_DUSK = "黄昏典狱长^M",
+    CRUTCH_BHB_LYLANAR = "莱拉纳尔^M",
+    CRUTCH_BHB_MAARSELOK = "马塞洛克^M",
+    CRUTCH_BHB_MAGMA_INCARNATE = "岩浆化身^M",
+    CRUTCH_BHB_MALIGALIG = "马里伽利格^N",
+    CRUTCH_BHB_MATRIARCH_ALDIS = "首领阿尔蒂斯^F",
+    CRUTCH_BHB_MATRIARCH_LLADI_TELVANNI = "女族长雷拉蒂·泰尔瓦尼^F",
+    CRUTCH_BHB_MAVUS_TALNARITH = "马维斯·泰尔纳里斯^M",
+    CRUTCH_BHB_MOLAG_KENA = "莫拉格·科娜^F",
+    CRUTCH_BHB_MULAAMNIR = "穆拉姆尼尔^M",
+    CRUTCH_BHB_MYLENNE_MOONCALLER = "米伦尼·唤月者^F",
+    CRUTCH_BHB_NAHVIINTAAS = "纳温塔丝^M",
+    CRUTCH_BHB_NERIENETH = "奈恩斯^M",
+    CRUTCH_BHB_NORIWEN = "诺丽纹",
+    CRUTCH_BHB_OAXILTSO = "奥西索^M",
+    CRUTCH_BHB_ONDAGORE_THE_MAD = "疯狂的昂达戈尔^M",
+    CRUTCH_BHB_ORPHEON_THE_TACTICIAN = "战术家奥腓翁",
+    CRUTCH_BHB_ORPHIC_SHATTERED_SHARD = "神秘破裂碎片",
+    CRUTCH_BHB_OVERFIEND = "魂摄魔灵^M",
+    CRUTCH_BHB_OVERFIEND_KAZPIAN = "魂摄魔灵卡兹皮安",
+    CRUTCH_BHB_OZEZAN_THE_INFERNO = "炼狱奥泽赞^N",
+    CRUTCH_BHB_PINNACLE_FACTOTUM = "巅峰机械人^N",
+    CRUTCH_BHB_PISHNA_LONGSHOT = "远射手皮斯娜^F",
+    CRUTCH_BHB_PYROTURGE_ENCRATIS = "派罗图格·恩克拉迪斯^M",
+    CRUTCH_BHB_QUINTUS_VERRES = "奎因图斯·韦雷斯^M",
+    CRUTCH_BHB_RA_KOTU = "拉·阔图^N",
+    CRUTCH_BHB_RAKKHAT = "拉卡特",
+    CRUTCH_BHB_REACTOR = "反应器人^N",
+    CRUTCH_BHB_REEF_GUARDIAN = "礁石守护者^n",
+    CRUTCH_BHB_RIFTMASTER_NAQRI = "裂隙御侍纳克里^M",
+    CRUTCH_BHB_RISEN_RUINS = "崛起遗迹",
+    CRUTCH_BHB_ROKSA_THE_WARPED = "扭曲者洛科萨^N",
+    CRUTCH_BHB_SAINT_OLMS_THE_JUST = "公正圣徒奥尔姆斯^M",
+    CRUTCH_BHB_SARYDIL = "萨利迪尔^F",
+    CRUTCH_BHB_SCORION_BROODLORD = "斯克里昂巢穴领主^n",
+    CRUTCH_BHB_SENTINEL_AKSALAZ = "哨兵阿克萨拉兹^M",
+    CRUTCH_BHB_SHADE_OF_SIRORIA = "希罗利亚幽影^F",
+    CRUTCH_BHB_SHATTERED_CHAMPION = "破碎勇士",
+    CRUTCH_BHB_SIEGE_MASTER_MALTHORAS = "攻城大师玛尔索拉斯",
+    CRUTCH_BHB_SITHERA = "希瑟拉^N",
+    CRUTCH_BHB_SQUALL_OF_RETRIBUTION = "惩罚之飑",
+    CRUTCH_BHB_STONEHEART = "石心^M",
+    CRUTCH_BHB_STORMBORN_REVENANT = "冰铸亡魂^M",
+    CRUTCH_BHB_SYMPHONY_OF_BLADES = "利刃交响曲^N",
+    CRUTCH_BHB_TAMESTHEBEAST = "驯·兽·者^M",
+    CRUTCH_BHB_TARCYR = "塔赛尔^n",
+    CRUTCH_BHB_TASKMASTER_VICCIA = "使命之主维希娅",
+    CRUTCH_BHB_THE_BLIND = "盲眼邪神",
+    CRUTCH_BHB_THE_MAGE = "法师星^F",
+    CRUTCH_BHB_THE_PYRELORD = "柴堆领主^M",
+    CRUTCH_BHB_THE_SCAVENGING_MAW = "拾荒饿鬼^N",
+    CRUTCH_BHB_THE_STONEKEEPER = "石之看守^N",
+    CRUTCH_BHB_THE_WARRIOR = "战士星^M",
+    CRUTCH_BHB_THE_WEEPING_WOMAN = "悲泣之女^F",
+    CRUTCH_BHB_THOAT_REPLICANUM = "索特复影体",
+    CRUTCH_BHB_THOAT_SHARD = "索特碎片",
+    CRUTCH_BHB_THURVOKUN = "图尔佛昆^N",
+    CRUTCH_BHB_TIDEBORN_TALERIA = "泰德伯恩·塔勒里亚^F",
+    CRUTCH_BHB_TREEMINDER_NAKESH = "树之牧者纳-凯石^F",
+    CRUTCH_BHB_VALINNA = "瓦琳娜^F",
+    CRUTCH_BHB_VAMPIRE_LORD_THISA = "吸血鬼领主斯萨^F",
+    CRUTCH_BHB_VANDORALLEN = "首席术士范多拉伦",
+    CRUTCH_BHB_VARALLION = "瓦拉利昂^M",
+    CRUTCH_BHB_VAULT_PROTECTOR = "宝库保卫者^n",
+    CRUTCH_BHB_VELIDRETH = "薇利德雷斯^F",
+    CRUTCH_BHB_VORENOR_WINTERBOURNE = "维雷诺尔·冬界",
+    CRUTCH_BHB_VORIA_THE_HEARTTHIEF = "偷心者沃瑞亚^F",
+    CRUTCH_BHB_VYKOSA_THE_ASCENDANT = "飞升的维科萨^F",
+    CRUTCH_BHB_WARLORD_TZOGVIN = "督军佐格文^M",
+    CRUTCH_BHB_XALVAKKA = "夏尔瓦卡^F",
+    CRUTCH_BHB_XEEMHOK_THE_TROPHYTAKER = "战利品掠夺者谢姆霍克^M",
+    CRUTCH_BHB_YANDIR_THE_BUTCHER = "屠夫扬迪尔^M",
+    CRUTCH_BHB_YOLNAHKRIIN = "尤尔纳克林^M",
+    CRUTCH_BHB_ZAAN_THE_SCALECALLER = "唤鳞者赞恩^F",
+    CRUTCH_BHB_ZBAZA = "泽巴萨^F",
+    CRUTCH_BHB_ZELVRAAK_THE_UNBREATHING = "无息泽尔拉克^M",
+    CRUTCH_BHB_ZHAJHASSA_THE_FORGOTTEN = "遗忘者扎哈撒^M",
+}
+
+for stringId, stringValue in pairs(strings) do
+    SafeAddString(_G[stringId], stringValue, 2)
+end
