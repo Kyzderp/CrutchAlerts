@@ -5,7 +5,7 @@ local Crutch = CrutchAlerts
 -- The Blind
 ---------------------------------------------------------------------
 local function OnBesiege()
-    local currHealth, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local currHealth, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     if (currHealth / maxHealth < 0.25) then
         Crutch.dbgSpam("Boss is under 25%, this is probably the 20% besiege")
         Crutch.DisplayDamageable(18.7)

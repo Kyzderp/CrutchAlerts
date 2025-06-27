@@ -110,7 +110,7 @@ end
 ---------------------------------------------------------------------
 local cavotEnabled = false
 local function TryEnablingCavotIcon()
-    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     if (powerMax == 40750848 -- Veteran
         or powerMax == 10224774) then -- Normal
         if (not cavotEnabled) then
@@ -179,7 +179,7 @@ end
 local mirrorsEnabled = false
 -- Enable Orphic mirror icons if the boss is present
 local function TryEnablingMirrorIcons()
-    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     if (powerMax == 97802032 -- Hardmode
         or powerMax == 65201356 -- Veteran
         or powerMax == 21812840) then -- Normal
@@ -241,7 +241,7 @@ local function TryEnablingTempestIcons()
     end
 
     -- Else, check for Xoryn
-    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     if (powerMax == 118759584 -- Hardmode
         or powerMax == 69858576) then -- Veteran
         if (not tempestEnabled) then
@@ -311,7 +311,7 @@ function Crutch.RegisterLucentCitadel()
             EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED, function()
                 -- Only do this when the bosses actually change
                 local bossHash = ""
-                for i = 1, MAX_BOSSES do
+                for i = 1, BOSS_RANK_ITERATION_END do
                     local name = GetUnitNameIfExists("boss" .. tostring(i))
                     if (name and name ~= "") then
                         bossHash = bossHash .. name

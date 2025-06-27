@@ -8,7 +8,7 @@ Crutch.messages = {}
 function Crutch.msg(msg)
     if (not msg) then return end
     msg = "|c3bdb5e[CrutchAlerts]|caaaaaa " .. tostring(msg) .. "|r"
-    if (CHAT_ROUTER and CHAT_SYSTEM.primaryContainer) then
+    if (CHAT_ROUTER) then
         CHAT_ROUTER:AddSystemMessage(msg)
     else
         Crutch.messages[#Crutch.messages + 1] = msg

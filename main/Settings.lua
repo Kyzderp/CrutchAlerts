@@ -48,6 +48,7 @@ Crutch.UnlockUI = UnlockUI
 
 function Crutch:CreateSettingsMenu()
     local LAM = LibAddonMenu2
+    if (not LAM) then d("|cFF0000CrutchAlerts currently has no settings on console.|r") return end
     local panelData = {
         type = "panel",
         name = "|c08BD1DCrutchAlerts|r",

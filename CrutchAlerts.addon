@@ -4,7 +4,8 @@
 ## Version: 1.14.1
 ## APIVersion: 101046
 
-## DependsOn: LibAddonMenu-2.0>=40
+## PCDependsOn: LibAddonMenu-2.0>=40
+## ConsoleDependsOn:
 ## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibDialog HodorReflexes
 
 ## SavedVariables: CrutchAlertsSavedVariables

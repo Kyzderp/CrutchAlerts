@@ -124,7 +124,7 @@ end
 
 -- It is possible for boss1 to die and have its health bar disappear
 local function GetFirstValidBossTag()
-    for i = 1, MAX_BOSSES do
+    for i = 1, BOSS_RANK_ITERATION_END do
         local unitTag = "boss" .. tostring(i)
         if (DoesUnitExist(unitTag)) then
             return unitTag
@@ -148,7 +148,7 @@ local function GetBossThresholds(optionalBossName)
     -- Detect HM or vet or normal first based on boss health
     -- If not found, prioritize HM, then vet, and finally whatever data there is
     -- If there's no stages, do a default 75, 50, 25
-    local _, powerMax, _ = GetUnitPower(GetFirstValidBossTag(), POWERTYPE_HEALTH)
+    local _, powerMax, _ = GetUnitPower(GetFirstValidBossTag(), COMBAT_MECHANIC_FLAGS_HEALTH)
     if (not data) then
         dbg(string.format("No data found for %s, using default", bossName))
         data = {
@@ -422,7 +422,7 @@ end
 local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
     local highestTag = 0
 
-    for i = 1, MAX_BOSSES do
+    for i = 1, BOSS_RANK_ITERATION_END do
         local unitTag = "boss" .. tostring(i)
         local name = GetUnitNameIfExists(unitTag)
         if (showAllForMoving) then
@@ -434,7 +434,7 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
             statusBar:GetNamedChild("BossName"):SetText(name)
 
             -- Also need to manually update the boss health to initialize
-            local powerValue, powerMax, powerEffectiveMax = GetUnitPower(unitTag, POWERTYPE_HEALTH)
+            local powerValue, powerMax, powerEffectiveMax = GetUnitPower(unitTag, COMBAT_MECHANIC_FLAGS_HEALTH)
             if (showAllForMoving) then
                 powerValue = math.random()
                 powerMax = 1
@@ -477,7 +477,7 @@ local prevBoss1 = ""
 local function OnBossesChanged()
     local bossHash = ""
 
-    for i = 1, MAX_BOSSES do
+    for i = 1, BOSS_RANK_ITERATION_END do
         local name = GetUnitNameIfExists("boss" .. tostring(i))
         if (name and name ~= "") then
             bossHash = bossHash .. name
@@ -521,7 +521,7 @@ local function DisplayWarning()
         "BHBFirstTimeWarning",
         "Vertical Boss Health Bars",
         warningText .. "\n\nGo to settings now?",
-        function() LibAddonMenu2:OpenToPanel(Crutch.addonPanel) end,
+        function() if (LibAddonMenu2) then LibAddonMenu2:OpenToPanel(Crutch.addonPanel) end end,
         nil,
         nil,
         true)
@@ -550,7 +550,7 @@ local function RegisterEvents()
 
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, OnPowerUpdate)
     EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
-    EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, POWERTYPE_HEALTH)
+    EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPlayerActivated", EVENT_PLAYER_ACTIVATED, OnBossesChanged)
 end

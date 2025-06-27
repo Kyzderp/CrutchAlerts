@@ -108,7 +108,7 @@ local function UpdateLokkIcons()
 end
 
 local function IsBossLokkHM()
-    local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     return maxHealth == LOKK_HM_HEALTH
 end
 
@@ -126,7 +126,7 @@ local function OnLokkBeam()
 end
 
 local function OnDifficultyChanged()
-    local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
 
     -- Lokkestiiz check
     if (maxHealth == LOKK_NONHM_HEALTH and lokkHM == true) then
@@ -204,7 +204,7 @@ local function OnYolFly25()
 end
 
 local function OnYolFly()
-    local currHealth, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local currHealth, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     local percent = currHealth / maxHealth
     if (percent < 0.3) then
         OnYolFly25()
@@ -226,7 +226,7 @@ local function OnBossesChanged()
     local bossName = GetUnitName("boss1")
     if (prevBoss == bossName) then return end
 
-    local _, maxHealth = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
 
     -- Lokkestiiz check
     if (maxHealth == LOKK_NONHM_HEALTH or maxHealth == LOKK_HM_HEALTH) then

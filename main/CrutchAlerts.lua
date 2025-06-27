@@ -30,7 +30,7 @@ local defaultOptions = {
     },
     spearsDisplay = {
         x = GuiRoot:GetWidth() / 4,
-        y = 0,
+        y = -100,
     },
     cursePadsDisplay = {
         x = GuiRoot:GetWidth() / 4,
@@ -42,7 +42,7 @@ local defaultOptions = {
     },
     carrionDisplay = {
         x = GuiRoot:GetWidth() / 4,
-        y = 100,
+        y = -100,
     },
     debugLine = false,
     debugChatSpam = false,

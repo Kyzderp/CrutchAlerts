@@ -141,7 +141,7 @@ Crutch.ShowArcingCleave = ShowArcingCleave
 
 -- Enable Cleave lines if the boss is present
 local function TryEnablingTaleriaCleave()
-    local _, powerMax, _ = GetUnitPower("boss1", POWERTYPE_HEALTH)
+    local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     if (powerMax == 181632304 -- Hardmode
         or powerMax == 100906840 -- Veteran
         or powerMax == 29538220) then -- Normal
@@ -202,7 +202,7 @@ function Crutch.RegisterDreadsailReef()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRBossesChanged", EVENT_BOSSES_CHANGED, function()
         -- Only do this when the bosses actually change
         local bossHash = ""
-        for i = 1, MAX_BOSSES do
+        for i = 1, BOSS_RANK_ITERATION_END do
             local name = GetUnitNameIfExists("boss" .. tostring(i))
             if (name and name ~= "") then
                 bossHash = bossHash .. name
