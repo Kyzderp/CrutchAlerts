@@ -1,132 +1,140 @@
 -- /script SetCVar("language.2", "en")
-ZO_CreateStringId("CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE", "Aghaedh of the Solstice")
-ZO_CreateStringId("CRUTCH_BHB_ANALA_TUWHA", "Anal'a Tu'wha")
-ZO_CreateStringId("CRUTCH_BHB_ANSUUL_THE_TORMENTOR", "Ansuul the Tormentor")
-ZO_CreateStringId("CRUTCH_BHB_ANTHELMIRS_CONSTRUCT", "Anthelmir's Construct")
-ZO_CreateStringId("CRUTCH_BHB_ARADROS_THE_AWAKENED", "Aradros the Awakened")
-ZO_CreateStringId("CRUTCH_BHB_ARCHDRUID_DEVYRIC", "Archdruid Devyric")
-ZO_CreateStringId("CRUTCH_BHB_ARCHIVIST_ERNARDE", "Archivist Ernarde")
-ZO_CreateStringId("CRUTCH_BHB_ARKASIS_THE_MAD_ALCHEMIST", "Arkasis the Mad Alchemist")
-ZO_CreateStringId("CRUTCH_BHB_ASSEMBLY_GENERAL", "Assembly General")
-ZO_CreateStringId("CRUTCH_BHB_ATARUS", "Atarus")
-ZO_CreateStringId("CRUTCH_BHB_BALORGH", "Balorgh")
-ZO_CreateStringId("CRUTCH_BHB_CAILLAOIFE", "Caillaoife")
-ZO_CreateStringId("CRUTCH_BHB_CAPTAIN_GEMINUS", "Captain Geminus")
-ZO_CreateStringId("CRUTCH_BHB_CAPTAIN_NUMIRRIL", "Captain Numirril")
-ZO_CreateStringId("CRUTCH_BHB_CAPTAIN_VROL", "Captain Vrol")
-ZO_CreateStringId("CRUTCH_BHB_CHAMPION_MARCAULD", "Champion Marcauld")
-ZO_CreateStringId("CRUTCH_BHB_CORRUPTION_OF_ROOT", "Corruption of Root")
-ZO_CreateStringId("CRUTCH_BHB_CORRUPTION_OF_STONE", "Corruption of Stone")
-ZO_CreateStringId("CRUTCH_BHB_COUNCILOR_VANDACIA", "Councilor Vandacia")
-ZO_CreateStringId("CRUTCH_BHB_DARKSHARD", "Darkshard")
-ZO_CreateStringId("CRUTCH_BHB_DEATHS_LEVIATHAN", "Death's Leviathan")
-ZO_CreateStringId("CRUTCH_BHB_DOMIHAUS_THE_BLOODYHORNED", "Domihaus the Bloody-Horned")
-ZO_CreateStringId("CRUTCH_BHB_DOYLEMISH_IRONHEART", "Doylemish Ironheart")
-ZO_CreateStringId("CRUTCH_BHB_DRANOS_VELADOR", "Dranos Velador")
-ZO_CreateStringId("CRUTCH_BHB_DROZAKAR", "Dro'zakar")
-ZO_CreateStringId("CRUTCH_BHB_EARTHEN_HEART_KNIGHT", "Earthen Heart Knight")
-ZO_CreateStringId("CRUTCH_BHB_EARTHGORE_AMALGAM", "Earthgore Amalgam")
-ZO_CreateStringId("CRUTCH_BHB_ELIAM_MERICK", "Eliam Merick")
-ZO_CreateStringId("CRUTCH_BHB_ETERNAL_AEGIS", "Eternal Aegis")
-ZO_CreateStringId("CRUTCH_BHB_EXARCHANIC_YASEYLA", "Exarchanic Yaseyla")
-ZO_CreateStringId("CRUTCH_BHB_FLAMEHERALD_BAHSEI", "Flame-Herald Bahsei")
-ZO_CreateStringId("CRUTCH_BHB_FOREMAN_BRADIGGAN", "Foreman Bradiggan")
-ZO_CreateStringId("CRUTCH_BHB_GARVIN_THE_TRACKER", "Garvin the Tracker")
-ZO_CreateStringId("CRUTCH_BHB_GHEMVAS_THE_HARBINGER", "Ghemvas the Harbinger")
-ZO_CreateStringId("CRUTCH_BHB_GRUNDWULF", "Grundwulf")
-ZO_CreateStringId("CRUTCH_BHB_HAKGRYM_THE_HOWLER", "Hakgrym the Howler")
-ZO_CreateStringId("CRUTCH_BHB_HEDGE_MAZE_GUARDIAN", "Hedge Maze Guardian")
-ZO_CreateStringId("CRUTCH_BHB_HIATH_THE_BATTLEMASTER", "Hiath the Battlemaster")
-ZO_CreateStringId("CRUTCH_BHB_HUNTERKILLER_NEGATRIX", "Hunter-Killer Negatrix")
-ZO_CreateStringId("CRUTCH_BHB_IBOMEZ_THE_FLESH_SCULPTOR", "Ibomez the Flesh Sculptor")
-ZO_CreateStringId("CRUTCH_BHB_ICESTALKER", "Icestalker")
-ZO_CreateStringId("CRUTCH_BHB_JAILER_MELITUS", "Jailer Melitus")
-ZO_CreateStringId("CRUTCH_BHB_JERENSI", "Executioner Jerensi")
-ZO_CreateStringId("CRUTCH_BHB_KEEPER_OF_THE_KILN", "Keeper of the Kiln")
-ZO_CreateStringId("CRUTCH_BHB_KJALNAR_TOMBSKALD", "Kjalnar Tombskald")
-ZO_CreateStringId("CRUTCH_BHB_KOVAN_GIRYON", "Kovan Giryon")
-ZO_CreateStringId("CRUTCH_BHB_KRAGH_THE_DREUGH_KING", "Kra'gh the Dreugh King")
-ZO_CreateStringId("CRUTCH_BHB_KUJO_KETHBA", "Kujo Kethba")
-ZO_CreateStringId("CRUTCH_BHB_LAATVULON", "Laatvulon")
-ZO_CreateStringId("CRUTCH_BHB_LADY_BELAIN", "Lady Belain")
-ZO_CreateStringId("CRUTCH_BHB_LADY_MINARA", "Lady Minara")
-ZO_CreateStringId("CRUTCH_BHB_LADY_THORN", "Lady Thorn")
-ZO_CreateStringId("CRUTCH_BHB_LOKKESTIIZ", "Lokkestiiz")
-ZO_CreateStringId("CRUTCH_BHB_LORD_FALGRAVN", "Lord Falgravn")
-ZO_CreateStringId("CRUTCH_BHB_LORD_WARDEN_DUSK", "Lord Warden Dusk")
-ZO_CreateStringId("CRUTCH_BHB_LYLANAR", "Lylanar")
-ZO_CreateStringId("CRUTCH_BHB_MAARSELOK", "Maarselok")
-ZO_CreateStringId("CRUTCH_BHB_MAGMA_INCARNATE", "Magma Incarnate")
-ZO_CreateStringId("CRUTCH_BHB_MALIGALIG", "Maligalig")
-ZO_CreateStringId("CRUTCH_BHB_MATRIARCH_ALDIS", "Matriarch Aldis")
-ZO_CreateStringId("CRUTCH_BHB_MATRIARCH_LLADI_TELVANNI", "Matriarch Lladi Telvanni")
-ZO_CreateStringId("CRUTCH_BHB_MAVUS_TALNARITH", "Mavus Talnarith")
-ZO_CreateStringId("CRUTCH_BHB_MOLAG_KENA", "Molag Kena")
-ZO_CreateStringId("CRUTCH_BHB_MULAAMNIR", "Mulaamnir")
-ZO_CreateStringId("CRUTCH_BHB_MYLENNE_MOONCALLER", "Mylenne Moon-Caller")
-ZO_CreateStringId("CRUTCH_BHB_NAHVIINTAAS", "Nahviintaas")
-ZO_CreateStringId("CRUTCH_BHB_NERIENETH", "Nerien'eth")
-ZO_CreateStringId("CRUTCH_BHB_NORIWEN", "Noriwen")
-ZO_CreateStringId("CRUTCH_BHB_OAXILTSO", "Oaxiltso")
-ZO_CreateStringId("CRUTCH_BHB_ONDAGORE_THE_MAD", "Ondagore the Mad")
-ZO_CreateStringId("CRUTCH_BHB_ORPHEON_THE_TACTICIAN", "Orpheon the Tactician")
-ZO_CreateStringId("CRUTCH_BHB_ORPHIC_SHATTERED_SHARD", "Orphic Shattered Shard")
-ZO_CreateStringId("CRUTCH_BHB_OVERFIEND", "Overfiend")
-ZO_CreateStringId("CRUTCH_BHB_OVERFIEND_KAZPIAN", "Overfiend Kazpian")
-ZO_CreateStringId("CRUTCH_BHB_OZEZAN_THE_INFERNO", "Ozezan the Inferno")
-ZO_CreateStringId("CRUTCH_BHB_PINNACLE_FACTOTUM", "Pinnacle Factotum")
-ZO_CreateStringId("CRUTCH_BHB_PISHNA_LONGSHOT", "Pishna Longshot")
-ZO_CreateStringId("CRUTCH_BHB_PYROTURGE_ENCRATIS", "Pyroturge Encratis")
-ZO_CreateStringId("CRUTCH_BHB_QUINTUS_VERRES", "Quintus Verres")
-ZO_CreateStringId("CRUTCH_BHB_RA_KOTU", "Ra Kotu")
-ZO_CreateStringId("CRUTCH_BHB_RAKKHAT", "Rakkhat")
-ZO_CreateStringId("CRUTCH_BHB_REACTOR", "Reactor")
-ZO_CreateStringId("CRUTCH_BHB_REEF_GUARDIAN", "Reef Guardian")
-ZO_CreateStringId("CRUTCH_BHB_RIFTMASTER_NAQRI", "Riftmaster Naqri")
-ZO_CreateStringId("CRUTCH_BHB_RISEN_RUINS", "Risen Ruins")
-ZO_CreateStringId("CRUTCH_BHB_ROKSA_THE_WARPED", "Roksa the Warped")
-ZO_CreateStringId("CRUTCH_BHB_SAINT_OLMS_THE_JUST", "Saint Olms the Just")
-ZO_CreateStringId("CRUTCH_BHB_SARYDIL", "Sarydil")
-ZO_CreateStringId("CRUTCH_BHB_SCORION_BROODLORD", "Scorion Broodlord")
-ZO_CreateStringId("CRUTCH_BHB_SENTINEL_AKSALAZ", "Sentinel Aksalaz")
-ZO_CreateStringId("CRUTCH_BHB_SHADE_OF_SIRORIA", "Shade of Siroria")
-ZO_CreateStringId("CRUTCH_BHB_SHATTERED_CHAMPION", "Shattered Champion")
-ZO_CreateStringId("CRUTCH_BHB_SIEGE_MASTER_MALTHORAS", "Siege Master Malthoras")
-ZO_CreateStringId("CRUTCH_BHB_SITHERA", "Sithera")
-ZO_CreateStringId("CRUTCH_BHB_SQUALL_OF_RETRIBUTION", "Squall of Retribution")
-ZO_CreateStringId("CRUTCH_BHB_STONEHEART", "Stoneheart")
-ZO_CreateStringId("CRUTCH_BHB_STORMBORN_REVENANT", "Stormborn Revenant")
-ZO_CreateStringId("CRUTCH_BHB_SYMPHONY_OF_BLADES", "Symphony of Blades")
-ZO_CreateStringId("CRUTCH_BHB_TAMESTHEBEAST", "Tames-the-Beast")
-ZO_CreateStringId("CRUTCH_BHB_TARCYR", "Tarcyr")
-ZO_CreateStringId("CRUTCH_BHB_TASKMASTER_VICCIA", "Taskmaster Viccia")
-ZO_CreateStringId("CRUTCH_BHB_THE_BLIND", "The Blind")
-ZO_CreateStringId("CRUTCH_BHB_THE_MAGE", "The Mage")
-ZO_CreateStringId("CRUTCH_BHB_THE_PYRELORD", "The Pyrelord")
-ZO_CreateStringId("CRUTCH_BHB_THE_SCAVENGING_MAW", "The Scavenging Maw")
-ZO_CreateStringId("CRUTCH_BHB_THE_STONEKEEPER", "The Stonekeeper")
-ZO_CreateStringId("CRUTCH_BHB_THE_WARRIOR", "The Warrior")
-ZO_CreateStringId("CRUTCH_BHB_THE_WEEPING_WOMAN", "The Weeping Woman")
-ZO_CreateStringId("CRUTCH_BHB_THOAT_REPLICANUM", "Tho'at Replicanum")
-ZO_CreateStringId("CRUTCH_BHB_THOAT_SHARD", "Tho'at Shard")
-ZO_CreateStringId("CRUTCH_BHB_THURVOKUN", "Thurvokun")
-ZO_CreateStringId("CRUTCH_BHB_TIDEBORN_TALERIA", "Tideborn Taleria")
-ZO_CreateStringId("CRUTCH_BHB_TREEMINDER_NAKESH", "Tree-Minder Na-Kesh")
-ZO_CreateStringId("CRUTCH_BHB_VALINNA", "Valinna")
-ZO_CreateStringId("CRUTCH_BHB_VAMPIRE_LORD_THISA", "Vampire Lord Thisa")
-ZO_CreateStringId("CRUTCH_BHB_VANDORALLEN", "Prime Sorcerer Vandorallen")
-ZO_CreateStringId("CRUTCH_BHB_VARALLION", "Varallion")
-ZO_CreateStringId("CRUTCH_BHB_VAULT_PROTECTOR", "Vault Protector")
-ZO_CreateStringId("CRUTCH_BHB_VELIDRETH", "Velidreth")
-ZO_CreateStringId("CRUTCH_BHB_VORENOR_WINTERBOURNE", "Vorenor Winterbourne")
-ZO_CreateStringId("CRUTCH_BHB_VORIA_THE_HEARTTHIEF", "Voria the Heart-Thief")
-ZO_CreateStringId("CRUTCH_BHB_VYKOSA_THE_ASCENDANT", "Vykosa the Ascendant")
-ZO_CreateStringId("CRUTCH_BHB_WARLORD_TZOGVIN", "Warlord Tzogvin")
-ZO_CreateStringId("CRUTCH_BHB_XALVAKKA", "Xalvakka")
-ZO_CreateStringId("CRUTCH_BHB_XEEMHOK_THE_TROPHYTAKER", "Xeemhok the Trophy-Taker")
-ZO_CreateStringId("CRUTCH_BHB_YANDIR_THE_BUTCHER", "Yandir the Butcher")
-ZO_CreateStringId("CRUTCH_BHB_YOLNAHKRIIN", "Yolnahkriin")
-ZO_CreateStringId("CRUTCH_BHB_ZAAN_THE_SCALECALLER", "Zaan the Scalecaller")
-ZO_CreateStringId("CRUTCH_BHB_ZBAZA", "Z'Baza")
-ZO_CreateStringId("CRUTCH_BHB_ZELVRAAK_THE_UNBREATHING", "Zelvraak the Unbreathing")
-ZO_CreateStringId("CRUTCH_BHB_ZHAJHASSA_THE_FORGOTTEN", "Zhaj'hassa the Forgotten")
+local strings =
+{
+    CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE = "Aghaedh of the Solstice",
+    CRUTCH_BHB_ANALA_TUWHA = "Anal'a Tu'wha",
+    CRUTCH_BHB_ANSUUL_THE_TORMENTOR = "Ansuul the Tormentor",
+    CRUTCH_BHB_ANTHELMIRS_CONSTRUCT = "Anthelmir's Construct",
+    CRUTCH_BHB_ARADROS_THE_AWAKENED = "Aradros the Awakened",
+    CRUTCH_BHB_ARCHDRUID_DEVYRIC = "Archdruid Devyric",
+    CRUTCH_BHB_ARCHIVIST_ERNARDE = "Archivist Ernarde",
+    CRUTCH_BHB_ARKASIS_THE_MAD_ALCHEMIST = "Arkasis the Mad Alchemist",
+    CRUTCH_BHB_ASSEMBLY_GENERAL = "Assembly General",
+    CRUTCH_BHB_ATARUS = "Atarus",
+    CRUTCH_BHB_BALORGH = "Balorgh",
+    CRUTCH_BHB_CAILLAOIFE = "Caillaoife",
+    CRUTCH_BHB_CAPTAIN_GEMINUS = "Captain Geminus",
+    CRUTCH_BHB_CAPTAIN_NUMIRRIL = "Captain Numirril",
+    CRUTCH_BHB_CAPTAIN_VROL = "Captain Vrol",
+    CRUTCH_BHB_CHAMPION_MARCAULD = "Champion Marcauld",
+    CRUTCH_BHB_CORRUPTION_OF_ROOT = "Corruption of Root",
+    CRUTCH_BHB_CORRUPTION_OF_STONE = "Corruption of Stone",
+    CRUTCH_BHB_COUNCILOR_VANDACIA = "Councilor Vandacia",
+    CRUTCH_BHB_DARKSHARD = "Darkshard",
+    CRUTCH_BHB_DEATHS_LEVIATHAN = "Death's Leviathan",
+    CRUTCH_BHB_DOMIHAUS_THE_BLOODYHORNED = "Domihaus the Bloody-Horned",
+    CRUTCH_BHB_DOYLEMISH_IRONHEART = "Doylemish Ironheart",
+    CRUTCH_BHB_DRANOS_VELADOR = "Dranos Velador",
+    CRUTCH_BHB_DROZAKAR = "Dro'zakar",
+    CRUTCH_BHB_EARTHEN_HEART_KNIGHT = "Earthen Heart Knight",
+    CRUTCH_BHB_EARTHGORE_AMALGAM = "Earthgore Amalgam",
+    CRUTCH_BHB_ELIAM_MERICK = "Eliam Merick",
+    CRUTCH_BHB_ETERNAL_AEGIS = "Eternal Aegis",
+    CRUTCH_BHB_EXARCHANIC_YASEYLA = "Exarchanic Yaseyla",
+    CRUTCH_BHB_FLAMEHERALD_BAHSEI = "Flame-Herald Bahsei",
+    CRUTCH_BHB_FOREMAN_BRADIGGAN = "Foreman Bradiggan",
+    CRUTCH_BHB_GARVIN_THE_TRACKER = "Garvin the Tracker",
+    CRUTCH_BHB_GHEMVAS_THE_HARBINGER = "Ghemvas the Harbinger",
+    CRUTCH_BHB_GRUNDWULF = "Grundwulf",
+    CRUTCH_BHB_HAKGRYM_THE_HOWLER = "Hakgrym the Howler",
+    CRUTCH_BHB_HEDGE_MAZE_GUARDIAN = "Hedge Maze Guardian",
+    CRUTCH_BHB_HIATH_THE_BATTLEMASTER = "Hiath the Battlemaster",
+    CRUTCH_BHB_HUNTERKILLER_NEGATRIX = "Hunter-Killer Negatrix",
+    CRUTCH_BHB_IBOMEZ_THE_FLESH_SCULPTOR = "Ibomez the Flesh Sculptor",
+    CRUTCH_BHB_ICESTALKER = "Icestalker",
+    CRUTCH_BHB_JAILER_MELITUS = "Jailer Melitus",
+    CRUTCH_BHB_JERENSI = "Executioner Jerensi",
+    CRUTCH_BHB_KEEPER_OF_THE_KILN = "Keeper of the Kiln",
+    CRUTCH_BHB_KJALNAR_TOMBSKALD = "Kjalnar Tombskald",
+    CRUTCH_BHB_KOVAN_GIRYON = "Kovan Giryon",
+    CRUTCH_BHB_KRAGH_THE_DREUGH_KING = "Kra'gh the Dreugh King",
+    CRUTCH_BHB_KUJO_KETHBA = "Kujo Kethba",
+    CRUTCH_BHB_LAATVULON = "Laatvulon",
+    CRUTCH_BHB_LADY_BELAIN = "Lady Belain",
+    CRUTCH_BHB_LADY_MINARA = "Lady Minara",
+    CRUTCH_BHB_LADY_THORN = "Lady Thorn",
+    CRUTCH_BHB_LOKKESTIIZ = "Lokkestiiz",
+    CRUTCH_BHB_LORD_FALGRAVN = "Lord Falgravn",
+    CRUTCH_BHB_LORD_WARDEN_DUSK = "Lord Warden Dusk",
+    CRUTCH_BHB_LYLANAR = "Lylanar",
+    CRUTCH_BHB_MAARSELOK = "Maarselok",
+    CRUTCH_BHB_MAGMA_INCARNATE = "Magma Incarnate",
+    CRUTCH_BHB_MALIGALIG = "Maligalig",
+    CRUTCH_BHB_MATRIARCH_ALDIS = "Matriarch Aldis",
+    CRUTCH_BHB_MATRIARCH_LLADI_TELVANNI = "Matriarch Lladi Telvanni",
+    CRUTCH_BHB_MAVUS_TALNARITH = "Mavus Talnarith",
+    CRUTCH_BHB_MOLAG_KENA = "Molag Kena",
+    CRUTCH_BHB_MULAAMNIR = "Mulaamnir",
+    CRUTCH_BHB_MYLENNE_MOONCALLER = "Mylenne Moon-Caller",
+    CRUTCH_BHB_NAHVIINTAAS = "Nahviintaas",
+    CRUTCH_BHB_NERIENETH = "Nerien'eth",
+    CRUTCH_BHB_NORIWEN = "Noriwen",
+    CRUTCH_BHB_OAXILTSO = "Oaxiltso",
+    CRUTCH_BHB_ONDAGORE_THE_MAD = "Ondagore the Mad",
+    CRUTCH_BHB_ORPHEON_THE_TACTICIAN = "Orpheon the Tactician",
+    CRUTCH_BHB_ORPHIC_SHATTERED_SHARD = "Orphic Shattered Shard",
+    CRUTCH_BHB_OVERFIEND = "Overfiend",
+    CRUTCH_BHB_OVERFIEND_KAZPIAN = "Overfiend Kazpian",
+    CRUTCH_BHB_OZEZAN_THE_INFERNO = "Ozezan the Inferno",
+    CRUTCH_BHB_PINNACLE_FACTOTUM = "Pinnacle Factotum",
+    CRUTCH_BHB_PISHNA_LONGSHOT = "Pishna Longshot",
+    CRUTCH_BHB_PYROTURGE_ENCRATIS = "Pyroturge Encratis",
+    CRUTCH_BHB_QUINTUS_VERRES = "Quintus Verres",
+    CRUTCH_BHB_RA_KOTU = "Ra Kotu",
+    CRUTCH_BHB_RAKKHAT = "Rakkhat",
+    CRUTCH_BHB_REACTOR = "Reactor",
+    CRUTCH_BHB_REEF_GUARDIAN = "Reef Guardian",
+    CRUTCH_BHB_RIFTMASTER_NAQRI = "Riftmaster Naqri",
+    CRUTCH_BHB_RISEN_RUINS = "Risen Ruins",
+    CRUTCH_BHB_ROKSA_THE_WARPED = "Roksa the Warped",
+    CRUTCH_BHB_SAINT_OLMS_THE_JUST = "Saint Olms the Just",
+    CRUTCH_BHB_SARYDIL = "Sarydil",
+    CRUTCH_BHB_SCORION_BROODLORD = "Scorion Broodlord",
+    CRUTCH_BHB_SENTINEL_AKSALAZ = "Sentinel Aksalaz",
+    CRUTCH_BHB_SHADE_OF_SIRORIA = "Shade of Siroria",
+    CRUTCH_BHB_SHATTERED_CHAMPION = "Shattered Champion",
+    CRUTCH_BHB_SIEGE_MASTER_MALTHORAS = "Siege Master Malthoras",
+    CRUTCH_BHB_SITHERA = "Sithera",
+    CRUTCH_BHB_SQUALL_OF_RETRIBUTION = "Squall of Retribution",
+    CRUTCH_BHB_STONEHEART = "Stoneheart",
+    CRUTCH_BHB_STORMBORN_REVENANT = "Stormborn Revenant",
+    CRUTCH_BHB_SYMPHONY_OF_BLADES = "Symphony of Blades",
+    CRUTCH_BHB_TAMESTHEBEAST = "Tames-the-Beast",
+    CRUTCH_BHB_TARCYR = "Tarcyr",
+    CRUTCH_BHB_TASKMASTER_VICCIA = "Taskmaster Viccia",
+    CRUTCH_BHB_THE_BLIND = "The Blind",
+    CRUTCH_BHB_THE_MAGE = "The Mage",
+    CRUTCH_BHB_THE_PYRELORD = "The Pyrelord",
+    CRUTCH_BHB_THE_SCAVENGING_MAW = "The Scavenging Maw",
+    CRUTCH_BHB_THE_STONEKEEPER = "The Stonekeeper",
+    CRUTCH_BHB_THE_WARRIOR = "The Warrior",
+    CRUTCH_BHB_THE_WEEPING_WOMAN = "The Weeping Woman",
+    CRUTCH_BHB_THOAT_REPLICANUM = "Tho'at Replicanum",
+    CRUTCH_BHB_THOAT_SHARD = "Tho'at Shard",
+    CRUTCH_BHB_THURVOKUN = "Thurvokun",
+    CRUTCH_BHB_TIDEBORN_TALERIA = "Tideborn Taleria",
+    CRUTCH_BHB_TREEMINDER_NAKESH = "Tree-Minder Na-Kesh",
+    CRUTCH_BHB_VALINNA = "Valinna",
+    CRUTCH_BHB_VAMPIRE_LORD_THISA = "Vampire Lord Thisa",
+    CRUTCH_BHB_VANDORALLEN = "Prime Sorcerer Vandorallen",
+    CRUTCH_BHB_VARALLION = "Varallion",
+    CRUTCH_BHB_VAULT_PROTECTOR = "Vault Protector",
+    CRUTCH_BHB_VELIDRETH = "Velidreth",
+    CRUTCH_BHB_VORENOR_WINTERBOURNE = "Vorenor Winterbourne",
+    CRUTCH_BHB_VORIA_THE_HEARTTHIEF = "Voria the Heart-Thief",
+    CRUTCH_BHB_VYKOSA_THE_ASCENDANT = "Vykosa the Ascendant",
+    CRUTCH_BHB_WARLORD_TZOGVIN = "Warlord Tzogvin",
+    CRUTCH_BHB_XALVAKKA = "Xalvakka",
+    CRUTCH_BHB_XEEMHOK_THE_TROPHYTAKER = "Xeemhok the Trophy-Taker",
+    CRUTCH_BHB_YANDIR_THE_BUTCHER = "Yandir the Butcher",
+    CRUTCH_BHB_YOLNAHKRIIN = "Yolnahkriin",
+    CRUTCH_BHB_ZAAN_THE_SCALECALLER = "Zaan the Scalecaller",
+    CRUTCH_BHB_ZBAZA = "Z'Baza",
+    CRUTCH_BHB_ZELVRAAK_THE_UNBREATHING = "Zelvraak the Unbreathing",
+    CRUTCH_BHB_ZHAJHASSA_THE_FORGOTTEN = "Zhaj'hassa the Forgotten",
+}
+
+for stringId, stringValue in pairs(strings) do
+    ZO_CreateStringId(stringId, stringValue)
+    SafeAddVersion(stringId, 1)
+end

@@ -231,7 +231,7 @@ function Crutch.UnregisterDreadsailReef()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRVolatileOther", EVENT_EFFECT_CHANGED)
 
     -- Taleria cleave
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRBossesChanged", EVENT_BOSSES_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRBossesChanged", EVENT_BOSSES_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end
