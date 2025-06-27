@@ -325,7 +325,7 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
             elseif (powerUpdateDebug and powerValue ~= prevValue) then
                 Crutch.dbgSpam(string.format("|c64e1fa[BHB]|r %s (boss%d) %.1fk || |c64e1fa%s|r / |c64e1fa%s|r (|c64e1fa%.3f|r)",
                     GetUnitName(unitTag), index, (powerValue - prevValue) / 1000,
-                    ZO_LocalizeDecimalNumber(powerValue), ZO_LocalizeDecimalNumber(powerMax), powerValue * 100 / powerMax))
+                    ZO_CommaDelimitDecimalNumber(powerValue), ZO_CommaDelimitDecimalNumber(powerMax), powerValue * 100 / powerMax))
             end
 
             if (powerMax > prevMax) then
