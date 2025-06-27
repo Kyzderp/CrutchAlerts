@@ -24,19 +24,16 @@
                         CrutchAlerts.AddCarrionBarNotches()
                     </OnInitialized>
                 </StatusBar>
-                <Label name="$(parent)Stacks" font="$(BOLD_FONT)|20|soft-shadow-thick" color="FFFFFF" text="0" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
+                <Label name="$(parent)Stacks" color="FFFFFF" text="0" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
                     <Anchor point="LEFT" relativeTo="$(parent)Bar" relativePoint="RIGHT" offsetX="10"/>
                 </Label>
-                <Label name="$(parent)Text" font="ZoFontGame" color="CCCCCC" text="Individual Stacks" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="true">
+                <Label name="$(parent)Text" color="CCCCCC" text="Individual Stacks" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="true">
                     <Dimensions x="500" y="600"/>
-                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="20"/>
+                    <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="24"/>
                 </Label>
-                <Label name="$(parent)Title" font="$(BOLD_FONT)|20|soft-shadow-thick" color="FFFFFF" text="Group Carrion" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
+                <Label name="$(parent)Title" color="FFFFFF" text="Group Carrion" verticalAlignment="BOTTOM" horizontalAlignment="LEFT" hidden="false">
                     <Dimensions x="500" y="600"/>
                     <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="-6"/>
-                    <OnInitialized>
-                        self:SetHeight(self:GetTextHeight())
-                    </OnInitialized>
                 </Label>
             </Controls>
         </TopLevelControl>

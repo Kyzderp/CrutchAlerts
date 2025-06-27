@@ -45,7 +45,6 @@ local function AddCarrionBarNotches()
 
         if (i % 2 == 0) then
             local label = WINDOW_MANAGER:CreateControl("$(parent)Label", notch, CT_LABEL)
-            label:SetFont("ZoFontGameSmall")
             label:SetHorizontalAlignment(CENTER)
             label:SetAnchor(TOP, notch, BOTTOM, 0, 2)
             label:SetColor(0.8, 0.8, 0.8, 1)
@@ -292,12 +291,54 @@ end
 
 
 ---------------------------------------------------------------------
+-- Font shenanigans
+---------------------------------------------------------------------
+local KEYBOARD_STYLE = {
+    thickFont = "$(BOLD_FONT)|20|soft-shadow-thick",
+    individualFont = "ZoFontGame",
+    notchFont = "ZoFontGameSmall",
+}
+
+local GAMEPAD_STYLE = {
+    thickFont = "ZoFontGamepad27",
+    individualFont = "ZoFontGamepad18",
+    notchFont = "ZoFontGamepad18",
+}
+
+local function ApplyStyle(style)
+    CrutchAlertsCausticCarrionStacks:SetFont(style.thickFont)
+
+    CrutchAlertsCausticCarrionTitle:SetFont(style.thickFont)
+    CrutchAlertsCausticCarrionTitle:SetHeight(100)
+    CrutchAlertsCausticCarrionTitle:SetHeight(CrutchAlertsCausticCarrionTitle:GetTextHeight())
+
+    CrutchAlertsCausticCarrionText:SetFont(style.individualFont)
+
+    for i = 0, BAR_MAX do
+        if (i % 2 == 0) then
+            local label = CrutchAlertsCausticCarrion:GetNamedChild("Notch" .. tostring(i) .. "Label")
+            label:SetFont(style.notchFont)
+        end
+    end
+end
+
+local initialized = false
+local function InitFont()
+    if (initialized) then return end
+    initialized = true
+
+    ZO_PlatformStyle:New(ApplyStyle, KEYBOARD_STYLE, GAMEPAD_STYLE)
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local carrionFragment
 
 function Crutch.RegisterOsseinCage()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Ossein Cage")
+    InitFont()
 
     -- Caustic Carrion
     if (Crutch.savedOptions.osseincage.showCarrion) then
