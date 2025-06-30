@@ -30,19 +30,19 @@
                     <Anchor point="RIGHT" relativeTo="$(parent)Label" relativePoint="LEFT"/>
                     <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false" tier="MEDIUM"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls>
                 </Texture>
-                <Label name="$(parent)Label" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ffffff"
+                <Label name="$(parent)Label" color="ffffff"
                     text="Devastate" verticalAlignment="TOP" horizontalAlignment="CENTER" hidden="false">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                     <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
                 </Label>
-                <Label name="$(parent)Timer" font="$(BOLD_FONT)|32|soft-shadow-thick" color="ff0000"
+                <Label name="$(parent)Timer" color="ff0000"
                     text="" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="LEFT" relativeTo="$(parent)Label" relativePoint="RIGHT"/>
                     <!-- <Controls> <Backdrop name="$(parent)Backdrop" centerColor="00000000" edgeColor="FF000000" hidden="false"> <AnchorFill/> <Edge edgeSize="2"/> </Backdrop> </Controls> -->
                 </Label>
-                <Label name="$(parent)Id" font="$(BOLD_FONT)|14|shadow" color="888888"
+                <Label name="$(parent)Id" color="888888"
                     text="debug ID 12345" verticalAlignment="TOP" horizontalAlignment="LEFT" hidden="false">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="TOPLEFT" relativeTo="$(parent)Label" relativePoint="BOTTOMLEFT"/>
@@ -62,7 +62,7 @@
                     <AnchorFill/>
                     <Edge edgeSize="1"/>
                 </Backdrop>
-                <Label name="$(parent)Label" font="ZoFontWinH1" color="FFFFFF" text="Boss in |cffee003.0|r" verticalAlignment="CENTER" horizontalAlignment="CENTER" hidden="true">
+                <Label name="$(parent)Label" color="FFFFFF" text="Boss in |cffee003.0|r" verticalAlignment="CENTER" horizontalAlignment="CENTER" hidden="true">
                     <Dimensions x="600" y="36"/>
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                 </Label>
@@ -74,27 +74,27 @@
             <Dimensions x="40" y="40"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
             <Controls>
-                <Label name="$(parent)LeftMid" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)LeftMid" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="-800" offsetY="0"/>
                 </Label>
-                <Label name="$(parent)LeftTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)LeftTop" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="-800" offsetY="300"/>
                 </Label>
-                <Label name="$(parent)LeftBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)LeftBottom" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="-800" offsetY="-300"/>
                 </Label>
-                <Label name="$(parent)RightMid" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)RightMid" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="800" offsetY="0"/>
                 </Label>
-                <Label name="$(parent)RightTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)RightTop" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="800" offsetY="300"/>
                 </Label>
-                <Label name="$(parent)RightBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)RightBottom" color="12ffeb" text="SWAP" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="800" offsetY="-300"/>
                 </Label>
@@ -104,19 +104,19 @@
             <Dimensions x="40" y="40"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
             <Controls>
-                <Label name="$(parent)LeftTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)LeftTop" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="-800" offsetY="150"/>
                 </Label>
-                <Label name="$(parent)LeftBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)LeftBottom" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="-800" offsetY="-150"/>
                 </Label>
-                <Label name="$(parent)RightTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)RightTop" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="800" offsetY="150"/>
                 </Label>
-                <Label name="$(parent)RightBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)RightBottom" color="ffb812" text="ADDS" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="800" offsetY="-150"/>
                 </Label>
@@ -126,27 +126,27 @@
             <Dimensions x="40" y="40"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
             <Controls>
-                <Label name="$(parent)LeftMid" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)LeftMid" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="0" offsetY="0"/>
                 </Label>
-                <Label name="$(parent)LeftTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)LeftTop" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="-800" offsetY="225"/>
                 </Label>
-                <Label name="$(parent)LeftBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)LeftBottom" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="-800" offsetY="-225"/>
                 </Label>
-                <Label name="$(parent)RightMid" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)RightMid" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="0" offsetY="450"/>
                 </Label>
-                <Label name="$(parent)RightTop" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)RightTop" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="800" offsetY="225"/>
                 </Label>
-                <Label name="$(parent)RightBottom" font="$(BOLD_FONT)|80|soft-shadow-thick" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                <Label name="$(parent)RightBottom" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
                     <Dimensions x="1000" y="50"/>
                     <Anchor point="CENTER" offsetX="800" offsetY="-225"/>
                 </Label>

@@ -23,10 +23,13 @@ Crutch.prominentDisplaying = {} -- {[12459] = 1,}
 local function Display(abilityId, text, color, slot, millis)
     Crutch.prominentDisplaying[abilityId] = slot
 
+    local styles = Crutch.GetStyles()
+
     local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
     for _, name in ipairs(childNames) do
         local label = control:GetNamedChild(name)
         if (label) then
+            label:SetFont(styles.prominentFont)
             label:SetText(text)
             label:SetColor(unpack(color))
         end

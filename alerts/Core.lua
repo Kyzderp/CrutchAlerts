@@ -20,7 +20,7 @@ local displaying = {}
 -- Poll every 100ms when one is active
 local isPolling = false
 
-local fontSize = 32
+local fontSize = 32 -- This isn't really font size, just line size
 
 -- Cache group members by using status effects, so we know the unit IDs
 Crutch.groupIdToTag = {}
@@ -211,8 +211,12 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         sourceString = " " .. (sourceStrings[sourceType] or tostring(sourceType))
     end
 
+    -- Keyboard vs gamepad fonts
+    local styles = Crutch.GetStyles()
+
     -- Set the items
     local labelControl = lineControl:GetNamedChild("Label")
+    labelControl:SetFont(styles.alertFont)
     labelControl:SetWidth(1200)
     labelControl:SetText(customColor and zo_strformat("|c<<1>><<2>>|r", customColor, textLabel) or zo_strformat("<<1>>", textLabel))
     labelControl:SetWidth(labelControl:GetTextWidth())
@@ -221,10 +225,13 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         lineControl:GetNamedChild("Timer"):SetHidden(true)
     else
         lineControl:GetNamedChild("Timer"):SetHidden(false)
+        lineControl:GetNamedChild("Timer"):SetFont(styles.alertFont)
         lineControl:GetNamedChild("Timer"):SetText(string.format("%.1f", timer / 1000))
         lineControl:GetNamedChild("Timer"):SetWidth(fontSize * 4)
     end
+
     lineControl:GetNamedChild("Icon"):SetTexture(GetAbilityIcon(abilityId))
+    lineControl:GetNamedChild("Id"):SetFont(styles.smallFont)
     if (Crutch.savedOptions.debugLine) then
         lineControl:GetNamedChild("Id"):SetText(string.format("%d (%d) [%s%s]%s", abilityId, timer, sourceName, sourceString, resultString))
     else

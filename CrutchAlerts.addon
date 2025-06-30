@@ -18,6 +18,7 @@ main/CrutchAlerts.lua
 main/CrutchAlerts.xml
 main/GlobalEvents.lua
 main/Settings.lua
+main/Style.lua
 main/Utils.lua
 
 lang/en.lua

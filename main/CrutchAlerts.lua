@@ -312,6 +312,7 @@ local function Initialize()
     end
 
     -- Init general
+    Crutch.InitializeStyles()
     Crutch.InitializeHooks()
     Crutch.InitializeDamageable()
     Crutch.InitializeDamageTaken()
