@@ -325,21 +325,21 @@ function Crutch.RegisterLucentCitadel()
                 if (showTempest) then TryEnablingTempestIcons() end
             end)
         end
+    end
 
-        -- Icons for Arcane Conveyance
-        if (Crutch.savedOptions.lucentcitadel.showArcaneConveyance) then
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223028)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    -- Icons/line for Arcane Conveyance
+    if (Crutch.savedOptions.lucentcitadel.showArcaneConveyance) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223028)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223029)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223029)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, OnArcaneConveyanceTether)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223060)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        end
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, OnArcaneConveyanceTether)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223060)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     end
 
     -- Weakening Charge

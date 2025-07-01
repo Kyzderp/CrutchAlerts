@@ -2,6 +2,35 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 ---------------------------------------------------------------------
+-- Initialize
+---------------------------------------------------------------------
+local initialized = false
+local renderSpace
+local controlContainer
+function Crutch.InitializeRenderSpace()
+    if (initialized) then
+        return
+    end
+
+    renderSpace = WINDOW_MANAGER:CreateControl("CrutchAlertsRenderSpace", GuiRoot, CT_CONTROL)
+    renderSpace:SetAnchorFill(GuiRoot)
+    renderSpace:Create3DRenderSpace()
+    renderSpace:SetHidden(true)
+
+    controlContainer = WINDOW_MANAGER:CreateTopLevelWindow("CrutchAlertsLineContainer")
+    controlContainer:SetAnchorFill(GuiRoot)
+    controlContainer:SetMouseEnabled(false)
+    controlContainer:SetMovable(false)
+    controlContainer:SetDrawLayer(DL_BACKGROUND)
+    controlContainer:SetDrawTier(DT_LOW)
+    controlContainer:SetDrawLevel(0)
+
+    local fragment = ZO_SimpleSceneFragment:New(controlContainer)
+    HUD_UI_SCENE:AddFragment(fragment)
+    HUD_SCENE:AddFragment(fragment)
+end
+
+---------------------------------------------------------------------
 -- Convert in-world coordinates to view via fancy linear algebra.
 -- This is ripped almost entirely from OSI, with only minor changes
 -- to not modify icons, and instead only return coordinates
@@ -14,13 +43,13 @@ local Crutch = CrutchAlerts
 local i11, i12, i13, i21, i22, i23, i31, i32, i33, i41, i42, i43
 local function CalculateMatrix()
     -- prepare render space
-    Set3DRenderSpaceToCurrentCamera(OSI.ctrl:GetName())
+    Set3DRenderSpaceToCurrentCamera(renderSpace:GetName())
     
     -- retrieve camera world position and orientation vectors
-    local cX, cY, cZ = GuiRender3DPositionToWorldPosition(OSI.ctrl:Get3DRenderSpaceOrigin())
-    local fX, fY, fZ = OSI.ctrl:Get3DRenderSpaceForward()
-    local rX, rY, rZ = OSI.ctrl:Get3DRenderSpaceRight()
-    local uX, uY, uZ = OSI.ctrl:Get3DRenderSpaceUp()
+    local cX, cY, cZ = GuiRender3DPositionToWorldPosition(renderSpace:Get3DRenderSpaceOrigin())
+    local fX, fY, fZ = renderSpace:Get3DRenderSpaceForward()
+    local rX, rY, rZ = renderSpace:Get3DRenderSpaceRight()
+    local uX, uY, uZ = renderSpace:Get3DRenderSpaceUp()
 
     -- https://semath.info/src/inverse-cofactor-ex4.html
     -- calculate determinant for camera matrix
@@ -90,7 +119,7 @@ local lines = {} -- {[1] = control, [2] = control}
 local function GetLineControl(num)
     if (not lines[num]) then
         Crutch.dbgSpam("|cFF0000creating new line " .. tostring(num))
-        local line = WINDOW_MANAGER:CreateControl("$(parent)CrutchTetherLine" .. tostring(num), OSI.win, CT_CONTROL)
+        local line = WINDOW_MANAGER:CreateControl("$(parent)CrutchTetherLine" .. tostring(num), controlContainer, CT_CONTROL)
         local backdrop = WINDOW_MANAGER:CreateControl("$(parent)Backdrop", line, CT_BACKDROP)
         backdrop:ClearAnchors()
         backdrop:SetAnchorFill()

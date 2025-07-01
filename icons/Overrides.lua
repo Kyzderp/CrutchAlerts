@@ -17,6 +17,8 @@ local function SelfMechanicUnitErrorCheck(...)
 end
 
 function Crutch.SetMechanicIconForUnit(atName, iconPath, size, color)
+    if (not OSI) then return end
+
     OSI.SetMechanicIconForUnit(atName, iconPath, size, color)
 
     if (not overriding and atName == GetUnitDisplayName("player")) then
@@ -31,6 +33,8 @@ function Crutch.SetMechanicIconForUnit(atName, iconPath, size, color)
 end
 
 function Crutch.RemoveMechanicIconForUnit(atName)
+    if (not OSI) then return end
+
     OSI.RemoveMechanicIconForUnit(atName)
 
     if (overriding and atName == GetUnitDisplayName("player")) then
