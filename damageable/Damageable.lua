@@ -173,8 +173,7 @@ local SUBTITLE_TIMES = {
 -- MoL
     ["Mirarro"] = {
         -- Zhaj'hassa
-        ["Don't .... It's ... trap."] = 16.8,
-        ["He's coming!"] = 16.8,
+        ["Don't …. It's … trap. He's coming!"] = 16.8,
         ["Nicht*… Eine*… Falle."] = 16.8,
         ["Er kommt!"] = 16.8,
     },

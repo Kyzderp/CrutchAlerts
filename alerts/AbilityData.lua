@@ -135,6 +135,9 @@ Crutch.testing = {
     -- [63029] = true, -- Radiant Destruction
     -- [63044] = true, -- Radiant Glory
     -- [63046] = true, -- Radiant Oppression
+
+    [140606] = true, -- Meteor
+    [134023] = true, -- Meteor
 }
 
 ---------------------------------------------------------------------
@@ -162,6 +165,10 @@ Crutch.noSpamZone = {
 Crutch.gainedDuration = {
 -- Cloudrest
     [103555] = true, -- Voltaic Current (initial of barswap)
+
+-- Kyne's Aegis
+    [140941] = true, -- Instability
+    [140944] = true, -- Instability HM
 
 -- Lucent Citadel
     [218285] = true, -- Gloomy Impact (first one)
@@ -242,6 +249,7 @@ Crutch.others = {
 
 -- Kyne's Aegis
     [132511] = true, -- Toxic Tide
+    [134196] = true, -- Crashing Wave
     [133515] = true, -- Chaurus Totem
     [132468] = true, -- Sanguine Prison
     [135991] = true, -- Toppling Blow (Storm Twin)
@@ -287,6 +295,8 @@ Crutch.others = {
     [153175] = true, -- Scalding Strike (Fire Behemoth)
     [157482] = true, -- Molten Rain (Ash Titan)
     [152414] = true, -- Meteor Call (Havocrel Torchcaster)
+    [153517] = true, -- Portal CW
+    [153518] = true, -- Portal CCW
 
 -- Sanctum Ophidia
     [56857] = true, -- Emerald Eclipse (Serpent)
