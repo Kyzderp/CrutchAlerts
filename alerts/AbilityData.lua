@@ -277,6 +277,7 @@ Crutch.others = {
     [ 74385] = true, -- Dark Barrage (start)
 
 -- Ossein Cage
+    [238800] = true, -- Phantasmal Barrage
     [235201] = true, -- Storm Slam (Molag Kena)
     [232516] = true, -- Jynorah Titanic Clash
     [232517] = true, -- Skorikhif Titanic Clash
