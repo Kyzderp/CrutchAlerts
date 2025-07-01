@@ -9,6 +9,9 @@ local KEYBOARD_STYLE = {
     prominentFont = "$(BOLD_FONT)|80|soft-shadow-thick",
     normalFont = "ZoFontGame",
     smallFont = "$(BOLD_FONT)|14|shadow",
+    GetBHBFont = function(size)
+        return string.format("$(BOLD_FONT)|%d|shadow", math.floor(size))
+    end,
 }
 
 local GAMEPAD_STYLE = {
@@ -17,6 +20,18 @@ local GAMEPAD_STYLE = {
     prominentFont = "ZoFontGamepad61",
     normalFont = "ZoFontGamepad18",
     smallFont = "ZoFontGamepad18", -- Adding this so it exists, but console won't have an option to show this
+    GetBHBFont = function(size)
+        if (size <= 18) then return "ZoFontGamepad18" end
+        if (size <= 20) then return "ZoFontGamepad20" end
+        if (size <= 22) then return "ZoFontGamepad22" end
+        if (size <= 25) then return "ZoFontGamepad25" end
+        if (size <= 27) then return "ZoFontGamepad27" end
+        if (size <= 34) then return "ZoFontGamepad34" end
+        if (size <= 36) then return "ZoFontGamepad36" end
+        if (size <= 42) then return "ZoFontGamepad42" end
+        if (size <= 54) then return "ZoFontGamepad54" end
+        return "ZoFontGamepad61"
+    end,
 }
 
 
@@ -26,6 +41,7 @@ local GAMEPAD_STYLE = {
 local activeStyles = GAMEPAD_STYLE
 local function ApplyStyle(style)
     activeStyles = style
+    Crutch.BossHealthBar.UpdateScale(false)
 end
 
 local function GetStyles()

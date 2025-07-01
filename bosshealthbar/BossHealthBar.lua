@@ -41,7 +41,7 @@ local function GetScale()
 end
 
 local function GetScaledFont(size)
-    return string.format("$(BOLD_FONT)|%d|shadow", math.floor(size * GetScale()))
+    return Crutch.GetStyles().GetBHBFont(size * GetScale())
 end
 
 ---------------------------------------------------------------------------------------------------
@@ -533,10 +533,12 @@ BHB.DisplayWarning = DisplayWarning
 ---------------------------------------------------------------------------------------------------
 -- Scale, pt. 2
 ---------------------------------------------------------------------------------------------------
-local function UpdateScale()
+local function UpdateScale(showAllForMoving)
+    if (showAllForMoving == nil) then showAllForMoving = true end
+
     CrutchAlertsBossHealthBarContainer:SetHeight(324 * GetScale())
     OnBossesChanged()
-    ShowOrHideBars(true)
+    ShowOrHideBars(showAllForMoving)
 end
 BHB.UpdateScale = UpdateScale
 
