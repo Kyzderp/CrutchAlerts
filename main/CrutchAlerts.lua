@@ -47,7 +47,6 @@ local defaultOptions = {
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
-    debugUi = false,
     debugLineDistance = false,
     showSubtitles = false,
     subtitlesIgnoredZones = {},
@@ -320,7 +319,6 @@ local function Initialize()
     Crutch.RegisterTest()
     Crutch.RegisterStacks()
     Crutch.RegisterEffectChanged()
-    Crutch.InitializeDebug()
     Crutch.RegisterFatecarver()
     Crutch.InitializeGlobalEvents()
 

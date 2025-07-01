@@ -377,18 +377,6 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show debug UI",
-                    tooltip = "Display a UI element that may or may not contain useful debug",
-                    default = false,
-                    getFunc = function() return Crutch.savedOptions.debugUi end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.debugUi = value
-                        Crutch.InitializeDebug()
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
                     name = "Show line distance",
                     tooltip = "On mechanics where Crutch draws a line between tethered players, display the distance in meters on the line",
                     default = false,

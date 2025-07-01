@@ -18,20 +18,6 @@ local effectResults = {
 
 local groupShadowWorld = {}
 
-local function DebugShadowWorld()
-    local result = {}
-    for unitTag, inShadowWorld in pairs(groupShadowWorld) do
-        if (DoesUnitExist(unitTag)) then
-            table.insert(result, string.format("|cAAAAAA%s |c44FF44%s |r%s - %s", unitTag, GetUnitDisplayName(unitTag), inShadowWorld and "portal" or "up", (OSI == nil) and "?" or tostring(OSI.UnitErrorCheck(unitTag))))
-        end
-    end
-
-    local resultString = table.concat(result, "\n") .. "\nplayerGroupTag = " .. Crutch.playerGroupTag
-
-    Crutch.DebugUI(resultString)
-end
-Crutch.DebugShadowWorld = DebugShadowWorld
-
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnShadowWorldChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     Crutch.dbgOther(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
@@ -41,8 +27,6 @@ local function OnShadowWorldChanged(_, changeType, _, _, unitTag, _, _, stackCou
     elseif (changeType == EFFECT_RESULT_FADED) then
         groupShadowWorld[unitTag] = false
     end
-
-    DebugShadowWorld()
 end
 
 ---------------------------------------------------------------------

@@ -72,6 +72,3 @@ icons/WorldIcons.lua
 prominent/DamageTaken.lua
 prominent/Prominent.lua
 prominent/ProminentV2.lua
-
-uidebug/UIDebug.lua
-uidebug/UIDebug.xml
