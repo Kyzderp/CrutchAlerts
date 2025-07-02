@@ -5,7 +5,7 @@
 ## APIVersion: 101046
 
 ## PCDependsOn: LibAddonMenu-2.0>=40
-## ConsoleDependsOn:
+## ConsoleDependsOn: LibHarvensAddonSettings>=20002
 ## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibDialog HodorReflexes
 
 ## SavedVariables: CrutchAlertsSavedVariables
@@ -18,6 +18,7 @@ main/CrutchAlerts.lua
 main/CrutchAlerts.xml
 main/GlobalEvents.lua
 main/Settings.lua
+main/ConsoleSettings.lua
 main/Style.lua
 main/Utils.lua
 

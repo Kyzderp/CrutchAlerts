@@ -92,12 +92,12 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "      Ignore non-enemy casts",
-                    tooltip = "Don't show alerts for beginning of a cast if it is not from an enemy, e.g. player-sourced",
-                    default = false,
-                    getFunc = function() return Crutch.savedOptions.general.beginHideSelf end,
+                    name = "      Show non-enemy casts",
+                    tooltip = "Show alerts for beginning of a cast if it is not from an enemy, e.g. player-sourced",
+                    default = true,
+                    getFunc = function() return not Crutch.savedOptions.general.beginHideSelf end,
                     setFunc = function(value)
-                        Crutch.savedOptions.general.beginHideSelf = value
+                        Crutch.savedOptions.general.beginHideSelf = not value
                         -- Re-register with filters
                         Crutch.UnregisterBegin()
                         Crutch.RegisterBegin()
@@ -140,7 +140,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show damageable timers",
-                    tooltip = "For certain encounters, show a countdown to when the boss will become damageable, tauntable, return to the arena, etc.",
+                    tooltip = "For certain encounters, show a countdown to when the boss or important adds will become damageable, tauntable, return to the arena, etc. This works best on English client, with some support for other languages.",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.general.showDamageable end,
                     setFunc = function(value)
@@ -274,7 +274,7 @@ function Crutch:CreateSettingsMenu()
                     type = "checkbox",
                     name = "Show subtitles in chat",
                     tooltip = "Show NPC dialogue subtitles in chat. The color formatting will be weird if there are multiple lines",
-                    default = true,
+                    default = false,
                     getFunc = function() return Crutch.savedOptions.showSubtitles end,
                     setFunc = function(value)
                         Crutch.savedOptions.showSubtitles = value
@@ -748,7 +748,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Arcane Conveyance tether",
-                    tooltip = "Shows icons above and a line connecting group members who are about to (or have already received) the Arcane Conveyance tether from Dariel Lemonds. The line has no additional dependencies, but the icons require OdySupportIcons to show them",
+                    tooltip = "Shows a line connecting group members who are about to (or have already received) the Arcane Conveyance tether from Dariel Lemonds. If OdySupportIcons is enabled, also shows icons above their heads",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.showArcaneConveyance end,
                     setFunc = function(value)
@@ -878,7 +878,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Dominator's Chains tether",
-                    tooltip = "Shows icons above and a line connecting group members who are about to (or have already received) the Dominator's Chains tether from Overfiend Kazpian",
+                    tooltip = "Shows a line connecting group members who are about to (or have already received) the Dominator's Chains tether from Overfiend Kazpian. If OdySupportIcons is enabled, also shows icons above their heads",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.osseincage.showChains end,
                     setFunc = function(value)
