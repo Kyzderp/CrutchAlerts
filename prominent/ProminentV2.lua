@@ -801,48 +801,56 @@ function Crutch.RegisterProminents(zoneId)
 
     for abilityId, abilityData in pairs(zoneData) do
         local settingsData = abilityData.settings
-        if (type(abilityId) == "number" and Crutch.savedOptions[zoneData.settingsSubcategory][settingsData.name]) then
-            -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
-            -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
-            local function ProminentCallback(_, result, _, _, effectUnitTag, _, sourceName, _, targetName, _, hitValue, _, _, _, effectUnitId)
-                -- Since EVENT_EFFECT_CHANGED doesn't take filters for results, assume we only want EFFECT_RESULT_GAINED here
-                if (abilityData.event == EVENT_EFFECT_CHANGED and result ~= EFFECT_RESULT_GAINED) then
-                    return
-                end
-
-                if (abilityData.filters and abilityData.filters.filterFunction) then
-                    if (not abilityData.filters.filterFunction(hitValue, effectUnitId)) then
+        if (type(abilityId) == "number") then
+            local prominentEnabled
+            if (IsConsoleUI) then
+                prominentEnabled = Crutch.savedOptions.console.showProminent
+            else
+                prominentEnabled = Crutch.savedOptions[zoneData.settingsSubcategory][settingsData.name]
+            end
+            if (prominentEnabled) then
+                -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+                -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+                local function ProminentCallback(_, result, _, _, effectUnitTag, _, sourceName, _, targetName, _, hitValue, _, _, _, effectUnitId)
+                    -- Since EVENT_EFFECT_CHANGED doesn't take filters for results, assume we only want EFFECT_RESULT_GAINED here
+                    if (abilityData.event == EVENT_EFFECT_CHANGED and result ~= EFFECT_RESULT_GAINED) then
                         return
                     end
+
+                    if (abilityData.filters and abilityData.filters.filterFunction) then
+                        if (not abilityData.filters.filterFunction(hitValue, effectUnitId)) then
+                            return
+                        end
+                    end
+
+                    -- Ideally, all prominents should have the appropriate result filter, but if I don't know it yet, print
+                    -- it out to add later
+                    if (abilityData.event == EVENT_COMBAT_EVENT and abilityData.filters[REGISTER_FILTER_COMBAT_RESULT] == nil) then
+                        Crutch.dbgOther(zo_strformat("|cFF0000<<1>>: <<2>> <<3>> -> <<4>> for <<5>>",
+                            resultStrings[result],
+                            sourceName,
+                            GetAbilityName(abilityId),
+                            targetName,
+                            hitValue))
+                    end
+
+                    Crutch.DisplayProminent2(abilityId, abilityData)
                 end
 
-                -- Ideally, all prominents should have the appropriate result filter, but if I don't know it yet, print
-                -- it out to add later
-                if (abilityData.event == EVENT_COMBAT_EVENT and abilityData.filters[REGISTER_FILTER_COMBAT_RESULT] == nil) then
-                    Crutch.dbgOther(zo_strformat("|cFF0000<<1>>: <<2>> <<3>> -> <<4>> for <<5>>",
-                        resultStrings[result],
-                        sourceName,
-                        GetAbilityName(abilityId),
-                        targetName,
-                        hitValue))
-                end
-
-                Crutch.DisplayProminent2(abilityId, abilityData)
-            end
-
-            -- Register event
-            local eventName = Crutch.name .. "Prominent" .. tostring(abilityId) .. tostring(abilityData.event)
-            EVENT_MANAGER:RegisterForEvent(eventName, abilityData.event, ProminentCallback)
-            EVENT_MANAGER:AddFilterForEvent(eventName, abilityData.event, REGISTER_FILTER_ABILITY_ID, abilityId)
-            -- Register filters if we have any
-            if (abilityData.filters) then
-                for filter, value in pairs(abilityData.filters) do
-                    if (filter ~= "filterFunction") then
-                        EVENT_MANAGER:AddFilterForEvent(eventName, abilityData.event, filter, value)
+                -- Register event
+                local eventName = Crutch.name .. "Prominent" .. tostring(abilityId) .. tostring(abilityData.event)
+                EVENT_MANAGER:RegisterForEvent(eventName, abilityData.event, ProminentCallback)
+                EVENT_MANAGER:AddFilterForEvent(eventName, abilityData.event, REGISTER_FILTER_ABILITY_ID, abilityId)
+                -- Register filters if we have any
+                if (abilityData.filters) then
+                    for filter, value in pairs(abilityData.filters) do
+                        if (filter ~= "filterFunction") then
+                            EVENT_MANAGER:AddFilterForEvent(eventName, abilityData.event, filter, value)
+                        end
                     end
                 end
+                Crutch.dbgSpam("Registered " .. GetAbilityName(abilityId))
             end
-            Crutch.dbgSpam("Registered " .. GetAbilityName(abilityId))
         end
     end
 end

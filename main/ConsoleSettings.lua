@@ -194,7 +194,19 @@ function Crutch:CreateConsoleSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Miscellaneous Settings",
+        label = "Other Settings",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show prominent alerts",
+        tooltip = "Show large, obnoxious alerts, usually with a ding sound too, for a manually curated list of important mechanics that warrant your immediate attention",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.console.showProminent end,
+        setFunction = function(value)
+            Crutch.savedOptions.console.showProminent = value
+            Crutch.OnPlayerActivated()
+        end,
     })
 
     settings:AddSetting({

@@ -179,7 +179,14 @@ function Crutch.RegisterDreadsailReef()
     end
 
     -- Lightning Stacks
-    if (Crutch.savedOptions.dreadsailreef.alertStaticStacks) then
+    local showStatic
+    if (IsConsoleUI()) then
+        showStatic = Crutch.savedOptions.console.showProminent
+    else
+        showStatic = Crutch.savedOptions.dreadsailreef.alertStaticStacks
+    end
+
+    if (showStatic) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED, OnLightningStacksChanged)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 163575)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
@@ -189,7 +196,14 @@ function Crutch.RegisterDreadsailReef()
     end
 
     -- Volatile Stacks
-    if (Crutch.savedOptions.dreadsailreef.alertVolatileStacks) then
+    local showVolatile
+    if (IsConsoleUI()) then
+        showVolatile = Crutch.savedOptions.console.showProminent
+    else
+        showVolatile = Crutch.savedOptions.dreadsailreef.alertVolatileStacks
+    end
+
+    if (showVolatile) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRVolatileBoss", EVENT_EFFECT_CHANGED, OnPoisonStacksChanged)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRVolatileBoss", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 174835)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRVolatileBoss", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")

@@ -246,7 +246,13 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
         Crutch.SetMechanicIconForUnit(atName, iconPath, nil, iconData.color)
 
         -- If self, display a prominent alert because COLOR SWAP!
-        if (atName == GetUnitDisplayName("player") and Crutch.savedOptions.mawoflorkhaj.prominentColorSwap) then
+        local showProminent
+        if (IsConsoleUI()) then
+            showProminent = Crutch.savedOptions.console.showProminent
+        else
+            showProminent = Crutch.savedOptions.mawoflorkhaj.prominentColorSwap
+        end
+        if (atName == GetUnitDisplayName("player") and showProminent) then
             Crutch.DisplayProminent(888003)
         end
     elseif (result == ACTION_RESULT_EFFECT_FADED) then
