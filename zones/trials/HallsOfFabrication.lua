@@ -39,7 +39,7 @@ function Crutch.RegisterHallsOfFabrication()
     end
 
     if (not Crutch.WorldIconsEnabled()) then
-        Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+        Crutch.ComplainOSI()
     else
         -- Triplets icon
         if (Crutch.savedOptions.hallsoffabrication.showTripletsIcon) then

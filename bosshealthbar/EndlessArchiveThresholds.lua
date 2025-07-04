@@ -16,7 +16,7 @@ local endlessArchiveThresholds = {
     -- Ash Titan - no adds
 
     -- Barbas -- nothing interesting
-    -- Baron Zaudrus
+    -- Baron Zaudrus -- no adds i think
     -- Bittergreen the Wild -- spriggans, don't be near them
 
     -- Caluurion -- not sure if relics are hp based. spawns exploding skellies
@@ -113,7 +113,7 @@ local endlessArchiveThresholds = {
     -- Risen Ruins -- no hp gates, has adds like nullifier. boulders may not be affected by cowardice? unsure
 
     -- Sail Ripper -- harpies, and storm cell is donut only that follows
-    -- Selene -- the Claw and Fang seem to be on both timer and hp gate
+    -- Selene -- the Claw and Fang seem to be on both timer and hp gate - spider heavy needs to be dodged
     -- Sentinel Aksalaz -- big adds AND frostkin!!
     [GetBossName(CRUTCH_BHB_SENTINEL_AKSALAZ)] = {
         -- Unsure of exact %s. In 2 runs, spawned in order of atro > indrik > nereid
@@ -167,7 +167,7 @@ local endlessArchiveThresholds = {
 
     -- War Chief Ozozai -- no hp gates, no adds
 
-    -- Xeemhok the Trophy-Taker
+    -- Xeemhok the Trophy-Taker -- no adds
     [GetBossName(CRUTCH_BHB_XEEMHOK_THE_TROPHYTAKER)] = {
         [50] = "Fury",
     },
@@ -180,7 +180,7 @@ local endlessArchiveThresholds = {
     -- Ysmgar
 
     -- Z'Baza -- no hp gates
-    -- Zhaj'hassa the Forgotten -- no hp gates?
+    -- Zhaj'hassa the Forgotten -- no hp gates? small senches
 }
 
 ---------------------------------------------------------------------

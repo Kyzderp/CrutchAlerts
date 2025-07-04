@@ -167,7 +167,7 @@ local function RegisterZhajhassa()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 57525) -- Jone's Blessing
 
     -- if (not Crutch.WorldIconsEnabled()) then
-    --     Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+    --     Crutch.ComplainOSI()
     -- else
     --     -- Zhaj'hassa icons
     --     if (Crutch.savedOptions.mawoflorkhaj.showZhajIcons) then

@@ -271,7 +271,7 @@ function Crutch.RegisterLucentCitadel()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Lucent Citadel")
 
     if (not Crutch.WorldIconsEnabled()) then
-        Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+        Crutch.ComplainOSI()
     else
         local showCavot = Crutch.savedOptions.lucentcitadel.showCavotIcon
         local showOrphic = Crutch.savedOptions.lucentcitadel.showOrphicIcons

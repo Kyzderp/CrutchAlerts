@@ -108,7 +108,7 @@ function Crutch.RegisterKynesAegis()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Kyne's Aegis")
 
     if (not Crutch.WorldIconsEnabled()) then
-        Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+        Crutch.ComplainOSI()
     else
         --Spear
         if (Crutch.savedOptions.kynesaegis.showSpearIcon) then

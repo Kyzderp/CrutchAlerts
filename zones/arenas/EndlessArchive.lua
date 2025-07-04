@@ -176,7 +176,7 @@ function Crutch.RegisterEndlessArchive()
 
     if (Crutch.savedOptions.endlessArchive.potionIcon) then
         if (not Crutch.WorldIconsEnabled()) then
-            Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
+            Crutch.ComplainOSI()
         else
             EVENT_MANAGER:RegisterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, OnElixir)
             EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 221794)
