@@ -17,10 +17,11 @@
 main/CrutchAlerts.lua
 main/CrutchAlerts.xml
 main/GlobalEvents.lua
-main/Settings.lua
-main/ConsoleSettings.lua
 main/Style.lua
 main/Utils.lua
+
+PC/Settings.lua
+Console/ConsoleSettings.lua
 
 lang/en.lua
 lang/$(language).lua
