@@ -2,15 +2,32 @@ CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 local function UnlockUI(value)
+    if (value) then
+        local scene = SCENE_MANAGER:GetCurrentScene()
+        local function OnSceneStateChanged(oldState, newState)
+            if (newState == SCENE_HIDDEN) then
+                scene:UnregisterCallback("StateChange", OnSceneStateChanged)
+                UnlockUI(false)
+            end
+        end
+        scene:RegisterCallback("StateChange", OnSceneStateChanged)
+    end
+
     Crutch.unlock = value
     CrutchAlertsContainer:SetMovable(value)
     CrutchAlertsContainer:SetMouseEnabled(value)
     CrutchAlertsContainerBackdrop:SetHidden(not value)
+    if (value) then
+        Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, false)
+    end
 
     CrutchAlertsDamageable:SetMovable(value)
     CrutchAlertsDamageable:SetMouseEnabled(value)
     CrutchAlertsDamageableBackdrop:SetHidden(not value)
     CrutchAlertsDamageableLabel:SetHidden(not value)
+    if (value) then
+        Crutch.DisplayDamageable(10)
+    end
 
     CrutchAlertsCloudrest:SetMovable(value)
     CrutchAlertsCloudrest:SetMouseEnabled(value)
@@ -39,13 +56,11 @@ Crutch.UnlockUI = UnlockUI
 local ADD_ICON_SETTINGS = false
 
 function Crutch:CreateConsoleSettingsMenu()
-    d("|cFF0000CrutchAlerts creating console settings...|r")
-
     local settings = LibHarvensAddonSettings:AddAddon("CrutchAlerts", {
         allowDefaults = true,
         allowRefresh = true,
         defaultsFunction = function()
-            d("|cFF0000CrutchAlerts - not yet implemented|r")
+            UnlockUI(true)
         end,
     })
 
@@ -54,18 +69,6 @@ function Crutch:CreateConsoleSettingsMenu()
         return
     end
 
-    -- TODO
-        -- {
-        --     type = "checkbox",
-        --     name = "Unlock UI",
-        --     tooltip = "Unlock the frames for moving",
-        --     default = false,
-        --     getFunc = function() return Crutch.unlock end,
-        --     setFunc = UnlockUI,
-        --     width = "full",
-        -- },
-
-        -- TODO: PROMINENT: static, volatile, color swap
 ---------------------------------------------------------------------
 -- general
     
@@ -250,7 +253,9 @@ function Crutch:CreateConsoleSettingsMenu()
             Crutch.savedOptions.bossHealthBar.enabled = value
             Crutch.BossHealthBar.Initialize()
             Crutch.BossHealthBar.UpdateScale()
-            CrutchAlertsBossHealthBarContainer:SetHidden(not value)
+            if (value) then
+                Crutch.UnlockUI(true)
+            end
         end,
     })
 
@@ -258,7 +263,7 @@ function Crutch:CreateConsoleSettingsMenu()
         type = LibHarvensAddonSettings.ST_SLIDER,
         label = "Boss health bar size",
         tooltip = "The size to display the vertical boss health bars. Note: some elements may not update size properly until a reload",
-        min = 7, -- Any smaller on console and the text is too big
+        min = 5,
         max = 20,
         step = 1,
         default = 10,
@@ -266,7 +271,45 @@ function Crutch:CreateConsoleSettingsMenu()
         setFunction = function(value)
             Crutch.savedOptions.bossHealthBar.scale = value / 10
             Crutch.BossHealthBar.UpdateScale()
-            CrutchAlertsBossHealthBarContainer:SetHidden(false)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Boss health bar position X",
+        tooltip = "The horizontal position of the vertical boss health bars",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.bossHealthBarDisplay.x,
+        getFunction = function() return Crutch.savedOptions.bossHealthBarDisplay.x end,
+        setFunction = function(value)
+            Crutch.savedOptions.bossHealthBarDisplay.x = value
+            CrutchAlertsBossHealthBarContainer:ClearAnchors()
+            CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+                Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Boss health bar position Y",
+        tooltip = "The vertical position of the vertical boss health bars",
+        min = - GuiRoot:GetHeight() / 2,
+        max = GuiRoot:GetHeight() / 2,
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.bossHealthBarDisplay.y,
+        getFunction = function() return Crutch.savedOptions.bossHealthBarDisplay.y end,
+        setFunction = function(value)
+            Crutch.savedOptions.bossHealthBarDisplay.y = value
+            CrutchAlertsBossHealthBarContainer:ClearAnchors()
+            CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+                Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
+            Crutch.UnlockUI(true)
         end,
         disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
     })
@@ -319,6 +362,42 @@ function Crutch:CreateConsoleSettingsMenu()
         setFunction = function(value)
             Crutch.savedOptions.cloudrest.showSpears = value
         end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Spears indicator position X",
+        tooltip = "The horizontal position of the spears indicator",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.spearsDisplay.x,
+        getFunction = function() return Crutch.savedOptions.spearsDisplay.x end,
+        setFunction = function(value)
+            Crutch.savedOptions.spearsDisplay.x = value
+            CrutchAlertsCloudrest:ClearAnchors()
+            CrutchAlertsCloudrest:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.spearsDisplay.x, Crutch.savedOptions.spearsDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.cloudrest.showSpears end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Spears indicator position Y",
+        tooltip = "The vertical position of the spears indicator",
+        min = - GuiRoot:GetHeight() / 2,
+        max = GuiRoot:GetHeight() / 2,
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.spearsDisplay.y,
+        getFunction = function() return Crutch.savedOptions.spearsDisplay.y end,
+        setFunction = function(value)
+            Crutch.savedOptions.spearsDisplay.y = value
+            CrutchAlertsCloudrest:ClearAnchors()
+            CrutchAlertsCloudrest:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.spearsDisplay.x, Crutch.savedOptions.spearsDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.cloudrest.showSpears end,
     })
 
     settings:AddSetting({
@@ -578,6 +657,42 @@ end
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Cleanse pads position X",
+        tooltip = "The horizontal position of the cleanse pads indicator",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.cursePadsDisplay.x,
+        getFunction = function() return Crutch.savedOptions.cursePadsDisplay.x end,
+        setFunction = function(value)
+            Crutch.savedOptions.cursePadsDisplay.x = value
+            CrutchAlertsMawOfLorkhaj:ClearAnchors()
+            CrutchAlertsMawOfLorkhaj:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cursePadsDisplay.x, Crutch.savedOptions.cursePadsDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.mawoflorkhaj.showPads end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Cleanse pads position Y",
+        tooltip = "The vertical position of the cleanse pads indicator",
+        min = - GuiRoot:GetHeight() / 2,
+        max = GuiRoot:GetHeight() / 2,
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.cursePadsDisplay.y,
+        getFunction = function() return Crutch.savedOptions.cursePadsDisplay.y end,
+        setFunction = function(value)
+            Crutch.savedOptions.cursePadsDisplay.y = value
+            CrutchAlertsMawOfLorkhaj:ClearAnchors()
+            CrutchAlertsMawOfLorkhaj:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cursePadsDisplay.x, Crutch.savedOptions.cursePadsDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.mawoflorkhaj.showPads end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Ossein Cage",
     })
@@ -592,6 +707,42 @@ end
             Crutch.savedOptions.osseincage.showCarrion = value
             Crutch.OnPlayerActivated()
         end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Carrion position X",
+        tooltip = "The horizontal position of the Carrion progress bar",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.carrionDisplay.x,
+        getFunction = function() return Crutch.savedOptions.carrionDisplay.x end,
+        setFunction = function(value)
+            Crutch.savedOptions.carrionDisplay.x = value
+            CrutchAlertsCausticCarrion:ClearAnchors()
+            CrutchAlertsCausticCarrion:SetAnchor(TOPLEFT, GuiRoot, CENTER, Crutch.savedOptions.carrionDisplay.x, Crutch.savedOptions.carrionDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.osseincage.showCarrion end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Carrion position Y",
+        tooltip = "The vertical position of the Carrion progress bar",
+        min = - GuiRoot:GetHeight() / 2,
+        max = GuiRoot:GetHeight() / 2,
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.carrionDisplay.y,
+        getFunction = function() return Crutch.savedOptions.carrionDisplay.y end,
+        setFunction = function(value)
+            Crutch.savedOptions.carrionDisplay.y = value
+            CrutchAlertsCausticCarrion:ClearAnchors()
+            CrutchAlertsCausticCarrion:SetAnchor(TOPLEFT, GuiRoot, CENTER, Crutch.savedOptions.carrionDisplay.x, Crutch.savedOptions.carrionDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.osseincage.showCarrion end,
     })
 
     settings:AddSetting({

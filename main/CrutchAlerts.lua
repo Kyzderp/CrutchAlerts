@@ -30,19 +30,19 @@ local defaultOptions = {
     },
     spearsDisplay = {
         x = GuiRoot:GetWidth() / 4,
-        y = -100,
+        y = -GuiRoot:GetHeight() / 8,
     },
     cursePadsDisplay = {
         x = GuiRoot:GetWidth() / 4,
-        y = GuiRoot:GetHeight() / 4,
+        y = -GuiRoot:GetHeight() / 8,
     },
     bossHealthBarDisplay = {
-        x = -GuiRoot:GetWidth() / 4,
+        x = -GuiRoot:GetWidth() * 3 / 8,
         y = -100,
     },
     carrionDisplay = {
-        x = GuiRoot:GetWidth() / 4,
-        y = -100,
+        x = GuiRoot:GetWidth() * 3 / 16,
+        y = -GuiRoot:GetHeight() / 8,
     },
     debugLine = false,
     debugChatSpam = false,
