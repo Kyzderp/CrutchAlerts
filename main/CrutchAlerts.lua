@@ -72,7 +72,6 @@ local defaultOptions = {
     },
     bossHealthBar = {
         enabled = true,
-        firstTime = false,
         scale = 1,
         useFloorRounding = true,
     },
@@ -274,11 +273,6 @@ Crutch.OnPlayerActivated = OnPlayerActivated
 ---------------------------------------------------------------------
 local function OnPlayerActivatedFirstTime()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ActivatedFirstTime", EVENT_PLAYER_ACTIVATED)
-
-    if (Crutch.savedOptions.bossHealthBar.firstTime) then
-        Crutch.BossHealthBar.DisplayWarning()
-        Crutch.savedOptions.bossHealthBar.firstTime = false
-    end
 end
 
 ---------------------------------------------------------------------

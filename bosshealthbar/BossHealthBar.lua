@@ -506,31 +506,6 @@ BHB.OnBossesChanged = OnBossesChanged
 
 
 ---------------------------------------------------------------------------------------------------
--- First time BHB
----------------------------------------------------------------------------------------------------
-local function DisplayWarning()
-    local warningText = "CrutchAlerts has a new feature: vertical boss health bars with mechanic markers. It's still a work in progress, but I'd recommend adjusting the location on your UI or toggling it if you don't want it, before it gets in your way in real content!\nSettings > Addons > CrutchAlerts > Unlock UI / Vertical Boss Health Bar Settings."
-
-    if (not LibDialog) then
-        CHAT_ROUTER:AddSystemMessage(warningText)
-        return
-    end
-
-    LibDialog:RegisterDialog(
-        Crutch.name,
-        "BHBFirstTimeWarning",
-        "Vertical Boss Health Bars",
-        warningText .. "\n\nGo to settings now?",
-        function() if (LibAddonMenu2) then LibAddonMenu2:OpenToPanel(Crutch.addonPanel) end end,
-        nil,
-        nil,
-        true)
-    LibDialog:ShowDialog(Crutch.name, "BHBFirstTimeWarning")
-end
-BHB.DisplayWarning = DisplayWarning
-
-
----------------------------------------------------------------------------------------------------
 -- Scale, pt. 2
 ---------------------------------------------------------------------------------------------------
 local function UpdateScale(showAllForMoving)

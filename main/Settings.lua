@@ -1309,6 +1309,6 @@ function Crutch:CreateSettingsMenu()
         },
     }
 
-    CrutchAlerts.addonPanel = LAM:RegisterAddonPanel("CrutchAlertsOptions", panelData)
+    LAM:RegisterAddonPanel("CrutchAlertsOptions", panelData)
     LAM:RegisterOptionControls("CrutchAlertsOptions", optionsData)
 end
