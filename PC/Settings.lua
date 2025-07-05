@@ -49,6 +49,10 @@ local function UnlockUI(value)
     CrutchAlertsCausticCarrion:SetMovable(value)
     CrutchAlertsCausticCarrion:SetMouseEnabled(value)
     CrutchAlertsCausticCarrion:SetHidden(not value)
+
+    CrutchAlertsMawOfLorkhaj:SetMovable(value)
+    CrutchAlertsMawOfLorkhaj:SetMouseEnabled(value)
+    CrutchAlertsMawOfLorkhaj:SetHidden(not value)
 end
 Crutch.UnlockUI = UnlockUI
 
