@@ -31,6 +31,9 @@ Crutch.blacklist = {
     [103492] = true, -- Meditate
     [103652] = true, -- Deep Thoughts
     [103665] = true, -- Introspection
+    [115721] = true, -- Spirit Mender Reconstitute
+    [118914] = true, -- Spirit Guardian Reconstitute
+    [118851] = true, -- Intensive Mender Reconstitute
 
     [185805] = true, -- Fatecarver (cost mag)
     [193331] = true, -- Fatecarver (cost stam)
@@ -68,6 +71,8 @@ Crutch.blacklist = {
     [ 75967] = true, -- Dark Barrage
     [ 75968] = true, -- Dark Barrage
     [ 78015] = true, -- Dark Barrage
+
+    [229256] = true, -- Forbidden Knowledge (GAINED)
 }
 
 
@@ -447,6 +452,7 @@ Crutch.others = {
     [226181] = true, -- Venom Eruption (Garvin the Tracker)
     [229247] = true, -- Forbidden Knowledge (Orpheon the Tactician)
     [233821] = true, -- Cyclone (Flame Gryphon)
+    [109231] = true, -- Bog Slam (Argonian Behemoth)
 
 -- Oathsworn Pit
     [203989] = true, -- Hurl Axe (Anthelmir's Construct)
