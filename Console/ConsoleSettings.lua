@@ -14,23 +14,17 @@ local function UnlockUI(value)
     end
 
     Crutch.unlock = value
-    CrutchAlertsContainer:SetMovable(value)
-    CrutchAlertsContainer:SetMouseEnabled(value)
     CrutchAlertsContainerBackdrop:SetHidden(not value)
     if (value) then
         Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, false)
     end
 
-    CrutchAlertsDamageable:SetMovable(value)
-    CrutchAlertsDamageable:SetMouseEnabled(value)
     CrutchAlertsDamageableBackdrop:SetHidden(not value)
     CrutchAlertsDamageableLabel:SetHidden(not value)
     if (value) then
         Crutch.DisplayDamageable(10)
     end
 
-    CrutchAlertsCloudrest:SetMovable(value)
-    CrutchAlertsCloudrest:SetMouseEnabled(value)
     CrutchAlertsCloudrestBackdrop:SetHidden(not value)
     if (value) then
         Crutch.UpdateSpearsDisplay(3, 2, 1)
@@ -38,8 +32,6 @@ local function UnlockUI(value)
         Crutch.UpdateSpearsDisplay(0, 0, 0)
     end
 
-    CrutchAlertsBossHealthBarContainer:SetMovable(value)
-    CrutchAlertsBossHealthBarContainer:SetMouseEnabled(value)
     CrutchAlertsBossHealthBarContainer:SetHidden(not value)
     if (value and Crutch.savedOptions.bossHealthBar.enabled) then
         Crutch.BossHealthBar.ShowOrHideBars(true, false)
@@ -47,12 +39,8 @@ local function UnlockUI(value)
         Crutch.BossHealthBar.ShowOrHideBars()
     end
 
-    CrutchAlertsCausticCarrion:SetMovable(value)
-    CrutchAlertsCausticCarrion:SetMouseEnabled(value)
     CrutchAlertsCausticCarrion:SetHidden(not value)
 
-    CrutchAlertsMawOfLorkhaj:SetMovable(value)
-    CrutchAlertsMawOfLorkhaj:SetMouseEnabled(value)
     CrutchAlertsMawOfLorkhaj:SetHidden(not value)
 end
 Crutch.UnlockUI = UnlockUI

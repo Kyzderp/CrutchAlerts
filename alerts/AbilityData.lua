@@ -73,6 +73,8 @@ Crutch.blacklist = {
     [ 78015] = true, -- Dark Barrage
 
     [229256] = true, -- Forbidden Knowledge (GAINED)
+    [116584] = true, -- Frigid Cold (Lokk)
+    -- [123660] = true, -- Storm Bound
 }
 
 
