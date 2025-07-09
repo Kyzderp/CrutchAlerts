@@ -53,7 +53,7 @@ Crutch.blacklist = {
     [107630] = true, -- Mend Spirit
     [107637] = true, -- Symbiosis
 
--- Enemies
+-- Enemies general
     [ 45508] = true, -- Passing Through (assassin jumpflip)
     [ 25926] = true, -- Flare (Flame Atronach) TODO: tank mode?
     [113195] = true, -- Ice Bolt (Ghost) in BRP
@@ -72,9 +72,13 @@ Crutch.blacklist = {
     [ 75968] = true, -- Dark Barrage
     [ 78015] = true, -- Dark Barrage
 
-    [229256] = true, -- Forbidden Knowledge (GAINED)
+-- Trials
     [116584] = true, -- Frigid Cold (Lokk)
     -- [123660] = true, -- Storm Bound
+
+-- Dungeons
+    [229256] = true, -- Forbidden Knowledge (GAINED)
+    [241678] = true, -- Fluctuating Esseence YEL [sic]
 }
 
 
@@ -145,6 +149,9 @@ Crutch.testing = {
 
     [140606] = true, -- Meteor
     [134023] = true, -- Meteor
+
+    [241328] = true, -- Annihilation (buff Vykand after Ominous Vision, 10s)
+    [241685] = true, -- Fluctuating Esseence GRN [sic] (buff Refracted Soul Essence when it turns green maybe)
 }
 
 ---------------------------------------------------------------------
@@ -201,6 +208,9 @@ Crutch.gainedDuration = {
 
 -- Infinite Archive
     -- [222161] = true, -- Meteor (Butcher's Fire Shaman (Yandir))
+
+-- Black Gem Foundry
+    [241229] = true, -- Imminent Annihilation (Vykand)
 }
 
 
@@ -417,8 +427,11 @@ Crutch.others = {
     [207005] = true, -- Malediction (The Blind)
 
 -- Black Gem Foundry
+    [240426] = true, -- Seismic Splinters
+    [240363] = true, -- Soul Focus (Black Gem Monstrosity, initial 2750 begin, then 7000 begin)
     [241854] = true, -- Soulbinding Slam (High Soulbinder Vykand)
     [241863] = true, -- Soul Cascade (Vykand)
+    [241685] = true, -- Fluctuating Esseence GRN [sic] (3000 when the fountains become green)
 
 -- Coral Aerie
     [168947] = true, -- Lingering Current

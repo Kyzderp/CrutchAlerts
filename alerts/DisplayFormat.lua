@@ -130,10 +130,14 @@ Crutch.format = {
     [207005] = 200001.4, -- Malediction (The Blind) game only sends 200 for some reason
 
 -- Black Gem Foundry
+    [240426] = 800, -- Seismic Splinters
+    [240363] = 500, -- Soul Focus (Black Gem Monstrosity, initial 2750 begin, then 7000 begin)
     [241689] = 30200, -- Soul Essence Bombardment
-    [241662] = 100, -- Fluctuating Essence
+    [241662] = 100, -- Fluctuating Essence (red shooting out)
+    [241685] = 20200, -- Fluctuating Esseence GRN [sic] (3000 when the fountains become green)
     [241854] = 500, -- Soulbinding Slam (High Soulbinder Vykand)
     [241863] = 500, -- Soul Cascade (Vykand)
+    [241229] = 500, -- Imminent Annihilation (Vykand)
 
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)

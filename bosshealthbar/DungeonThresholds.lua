@@ -730,6 +730,46 @@ local dungeonThresholds = {
         [40] = "Alcunar",
         [20] = "Alcunar",
     },
+
+-- Black Gem Foundry TODO: translations
+    ["Prospector Lyrakta"] = {
+        [75] = "Adds",
+        [50] = "Adds",
+        [25] = "Adds",
+    },
+    ["Quarrymaster Saldezaar"] = {
+        normHealth = 4209965,
+        hmHealth = 13533758,
+        ["Normal"] = {
+            -- [80] = "Area denial",
+            [60] = "Slam",
+            -- [40] = "Area denial",
+            [20] = "Slam",
+        },
+        -- TODO: don't know vet
+        ["Hardmode"] = {
+            -- [85] = "Area denial",
+            [65] = "Slam",
+            [30] = "Slam",
+        },
+    },
+    ["Gemcarver Hynax"] = {
+        [75] = "Teleport",
+        [50] = "Teleport",
+        [25] = "Teleport",
+    },
+    -- Not sure about all these, they seem really inconsistent. Not sure if bug or intentional
+    -- ["Black Gem Monstrosity"] = {
+    --     [80] = "Fire", -- 83??
+    --     [50] = "Fire", -- 53?
+    --     [35] = "Fire", -- 33?
+    -- },
+    ["Misura, Assistant to the High Soulbinder"] = {
+        [75] = "Adds",
+        [50] = "Adds",
+        [25] = "Adds",
+    },
+    -- 60? 43?
 }
 
 ---------------------------------------------------------------------
