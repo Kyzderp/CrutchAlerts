@@ -416,6 +416,10 @@ Crutch.others = {
     [206488] = true, -- Glass Stomp (Shattered Champion)
     [207005] = true, -- Malediction (The Blind)
 
+-- Black Gem Foundry
+    [241854] = true, -- Soulbinding Slam (High Soulbinder Vykand)
+    [241863] = true, -- Soul Cascade (Vykand)
+
 -- Coral Aerie
     [168947] = true, -- Lingering Current
 

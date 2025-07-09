@@ -129,6 +129,12 @@ Crutch.format = {
 -- Bedlam Veil
     [207005] = 200001.4, -- Malediction (The Blind) game only sends 200 for some reason
 
+-- Black Gem Foundry
+    [241689] = 30200, -- Soul Essence Bombardment
+    [241662] = 100, -- Fluctuating Essence
+    [241854] = 500, -- Soulbinding Slam (High Soulbinder Vykand)
+    [241863] = 500, -- Soul Cascade (Vykand)
+
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
     [171742] = 500, -- Boughroot Slash

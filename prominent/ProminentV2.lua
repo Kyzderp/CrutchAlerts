@@ -803,7 +803,7 @@ function Crutch.RegisterProminents(zoneId)
         local settingsData = abilityData.settings
         if (type(abilityId) == "number") then
             local prominentEnabled
-            if (IsConsoleUI) then
+            if (IsConsoleUI()) then
                 prominentEnabled = Crutch.savedOptions.console.showProminent
             else
                 prominentEnabled = Crutch.savedOptions[zoneData.settingsSubcategory][settingsData.name]
