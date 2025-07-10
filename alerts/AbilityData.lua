@@ -152,6 +152,9 @@ Crutch.testing = {
 
     [241328] = true, -- Annihilation (buff Vykand after Ominous Vision, 10s)
     [241685] = true, -- Fluctuating Esseence GRN [sic] (buff Refracted Soul Essence when it turns green maybe)
+
+    [232460] = true, -- Titanic Clash on Valneer
+    [232465] = true, -- Titanic Clash on Myrinax
 }
 
 ---------------------------------------------------------------------

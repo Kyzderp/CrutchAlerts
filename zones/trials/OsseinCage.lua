@@ -160,6 +160,127 @@ end
 
 
 ---------------------------------------------------------------------
+-- Titan HP
+---------------------------------------------------------------------
+-- Jynorah hp to titan hp
+local TITAN_MAX_HPS = {
+    [85320632] = 242176464,
+    [27257920] = 151360288,
+    [10906420] = 35445864,
+}
+
+local TITAN_ATTACKS = {
+    -- Myrinax -> Valneer
+    [232242] = "Myrinax", -- Monstrous Cleave
+    [232243] = "Myrinax", -- Sparking Bolt
+    [235806] = "Myrinax", -- Backhand
+    -- Valneer -> Myrinax
+    [232244] = "Valneer", -- Blazing Flame Bolt
+    [232254] = "Valneer", -- Monstrous Cleave
+    [235807] = "Valneer", -- Backhand
+}
+
+local TITANS = {
+    ["Myrinax"] = "boss3",
+    ["Valneer"] = "boss4",
+}
+
+local titanMaxHp = 0
+local titanIds = {} -- { 12345 = {name = "Myrinax", hp = 3213544},}
+
+local function SpoofTitans()
+    -- Fake each boss for BHB
+    for name, tag in pairs(TITANS) do
+        Crutch.SpoofBoss(tag, name, function()
+            -- This probably isn't worth a reverse lookup, just iterate and find the right one
+            for _, data in pairs(titanIds) do
+                if (data.name == name) then
+                    return data.hp, titanMaxHp, titanMaxHp
+                end
+            end
+            Crutch.dbgOther("|cFF0000Couldn't find titans?????????|r")
+            return 0, 0, 0
+        end)
+    end
+end
+
+local function UnspoofTitans()
+    for name, tag in pairs(TITANS) do
+        Crutch.UnspoofBoss(tag)
+    end
+end
+
+-- Listen for incoming damage on the titans and subtract it from the max health
+local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+    -- Store the unit ids if not already known
+    if (titanMaxHp == 0) then
+        if (TITAN_ATTACKS[abilityId] == "Myrinax") then
+            local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+            titanMaxHp = TITAN_MAX_HPS[powerMax]
+            titanIds[sourceUnitId] = {name = "Myrinax", hp = titanMaxHp}
+            titanIds[targetUnitId] = {name = "Valneer", hp = titanMaxHp}
+            Crutch.dbgOther(string.format("Identified Myrinax %d and Valneer %d", sourceUnitId, targetUnitId))
+            SpoofTitans()
+        elseif (TITAN_ATTACKS[abilityId] == "Valneer") then
+            local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+            titanMaxHp = TITAN_MAX_HPS[powerMax]
+            titanIds[targetUnitId] = {name = "Myrinax", hp = titanMaxHp}
+            titanIds[sourceUnitId] = {name = "Valneer", hp = titanMaxHp}
+            Crutch.dbgOther(string.format("Identified Myrinax %d and Valneer %d", targetUnitId, sourceUnitId))
+            SpoofTitans()
+        end
+    end
+
+    local targetTitan = titanIds[targetUnitId]
+    if (not targetTitan) then return end
+
+    Crutch.dbgSpam(string.format("%s(%d) hit by %s(%d) for %d",
+        targetTitan.name,
+        targetUnitId,
+        GetAbilityName(abilityId),
+        abilityId,
+        hitValue))
+
+    targetTitan.hp = targetTitan.hp - hitValue
+
+    Crutch.dbgSpam(string.format("%s(%d) HP %d / %d (%.2f)",
+        targetTitan.name,
+        targetUnitId,
+        targetTitan.hp,
+        titanMaxHp,
+        targetTitan.hp * 100 / titanMaxHp))
+
+    Crutch.UpdateSpoofedBossHealth(TITANS[targetTitan.name], targetTitan.hp, titanMaxHp)
+end
+
+-- Event listening for all damage on enemies, registered only when Jynorah is active
+local function RegisterTitans()
+    Crutch.dbgOther("Registering titans")
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, OnTitanDamage)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE) -- Should be fine to ignore crits, since that's players only
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+end
+
+local function UnregisterTitans()
+    Crutch.dbgOther("Unregistering titans")
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT)
+end
+
+local function MaybeRegisterTitans()
+    -- Check if it's Jynorah
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (TITAN_MAX_HPS[powerMax]) then
+        RegisterTitans()
+    else
+        UnregisterTitans()
+    end
+end
+
+-- TODO: sync if you pass reticle over them?
+
+
+---------------------------------------------------------------------
 -- Stricken
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
@@ -340,6 +461,29 @@ function Crutch.RegisterOsseinCage()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Ossein Cage")
     InitFont()
 
+    Crutch.RegisterExitedGroupCombatListener("ExitedCombatCarrion", function()
+        carrionStacks = {}
+        titanIds = {}
+        titanMaxHp = 0
+        UnspoofTitans()
+    end)
+
+    -- Bosses changed, for titan spoofing
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCBossesChanged", EVENT_BOSSES_CHANGED, function()
+        -- Only do this when the bosses actually change
+        local bossHash = ""
+        for i = 1, BOSS_RANK_ITERATION_END do
+            local name = GetUnitNameIfExists("boss" .. tostring(i))
+            if (name and name ~= "") then
+                bossHash = bossHash .. name
+            end
+        end
+        if (bossHash == prevBosses) then return end
+        prevBosses = bossHash
+
+        MaybeRegisterTitans()
+    end)
+
     -- Caustic Carrion
     if (Crutch.savedOptions.osseincage.showCarrion) then
         if (not carrionFragment) then
@@ -348,7 +492,6 @@ function Crutch.RegisterOsseinCage()
         HUD_SCENE:AddFragment(carrionFragment)
         HUD_UI_SCENE:AddFragment(carrionFragment)
 
-        Crutch.RegisterExitedGroupCombatListener("ExitedCombatCarrion", function() carrionStacks = {} end)
 
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED, OnCausticCarrion)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 240708)
@@ -393,6 +536,7 @@ function Crutch.UnregisterOsseinCage()
         HUD_UI_SCENE:RemoveFragment(carrionFragment)
     end
 
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCBossesChanged", EVENT_BOSSES_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED)

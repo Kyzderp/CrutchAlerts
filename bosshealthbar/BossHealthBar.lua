@@ -12,6 +12,28 @@ local BHB = Crutch.BossHealthBar
 -- I was really hoping to be able to use status bar gradient colors, but it seems to have really unexpected behavior with the vertical orientation
 
 ---------------------------------------------------------------------------------------------------
+-- Boss spoofing
+---------------------------------------------------------------------------------------------------
+local spoofedBosses = {} -- {["boss3"] = {name = "Blazeforged Valneer", getHealthFunction = function() return powerValue, powerMax, powerEffectiveMax end}}
+
+local function SpoofBoss(unitTag, name, getHealthFunction)
+    spoofedBosses[unitTag] = {
+        name = name,
+        getHealthFunction = getHealthFunction,
+    }
+    BHB.ShowOrHideBars()
+    Crutch.dbgOther(string.format("Spoofing %s as %s", name, unitTag))
+end
+Crutch.SpoofBoss = SpoofBoss
+
+local function UnspoofBoss(unitTag)
+    spoofedBosses[unitTag] = nil
+    BHB.ShowOrHideBars()
+end
+Crutch.UnspoofBoss = UnspoofBoss
+
+
+---------------------------------------------------------------------------------------------------
 -- Util
 ---------------------------------------------------------------------------------------------------
 local function dbg(msg)
@@ -19,9 +41,20 @@ local function dbg(msg)
 end
 
 local function GetUnitNameIfExists(unitTag)
+    if (spoofedBosses[unitTag]) then
+        return spoofedBosses[unitTag].name
+    end
+
     if (DoesUnitExist(unitTag)) then
         return GetUnitName(unitTag)
     end
+end
+
+local function GetUnitHealths(unitTag)
+    if (spoofedBosses[unitTag]) then
+        return spoofedBosses[unitTag].getHealthFunction()
+    end
+    return GetUnitPower(unitTag, COMBAT_MECHANIC_FLAGS_HEALTH)
 end
 
 -- See settings for a wall of text about why this matters
@@ -136,7 +169,7 @@ end
 -- Check Thresholds.lua for boss stages
 -- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect boss1
 local function GetBossThresholds(optionalBossName)
-    local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetUnitName(GetFirstValidBossTag()))
+    local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetUnitNameIfExists(GetFirstValidBossTag()))
     local data
     if (GetZoneId(GetUnitZoneIndex("player")) == 1436) then
         -- Endless Archive has different boss thresholds
@@ -148,7 +181,7 @@ local function GetBossThresholds(optionalBossName)
     -- Detect HM or vet or normal first based on boss health
     -- If not found, prioritize HM, then vet, and finally whatever data there is
     -- If there's no stages, do a default 75, 50, 25
-    local _, powerMax, _ = GetUnitPower(GetFirstValidBossTag(), COMBAT_MECHANIC_FLAGS_HEALTH)
+    local _, powerMax, _ = GetUnitHealths(GetFirstValidBossTag())
     if (not data) then
         dbg(string.format("No data found for %s, using default", bossName))
         data = {
@@ -324,7 +357,7 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                 logNextPowerUpdate = logNextPowerUpdate - 1
             elseif (powerUpdateDebug and powerValue ~= prevValue) then
                 Crutch.dbgSpam(string.format("|c64e1fa[BHB]|r %s (boss%d) %.1fk || |c64e1fa%s|r / |c64e1fa%s|r (|c64e1fa%.3f|r)",
-                    GetUnitName(unitTag), index, (powerValue - prevValue) / 1000,
+                    GetUnitNameIfExists(unitTag), index, (powerValue - prevValue) / 1000,
                     ZO_CommaDelimitDecimalNumber(powerValue), ZO_CommaDelimitDecimalNumber(powerMax), powerValue * 100 / powerMax))
             end
 
@@ -361,6 +394,16 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         UpdateStagesWithBossHealth()
     end
 end
+
+local function UpdateSpoofedBossHealth(unitTag, value, max)
+    OnPowerUpdate(_, unitTag, _, _, value, max, max)
+end
+Crutch.UpdateSpoofedBossHealth = UpdateSpoofedBossHealth
+
+--[[
+/script CrutchAlerts.SpoofBoss("boss3", "yeetus", function() return 28394, 32939, 32939 end)
+/script CrutchAlerts.UpdateSpoofedBossHealth("boss3", 4939, 32939)
+]]
 
 local function ToggleHealthDebug()
     powerUpdateDebug = not powerUpdateDebug
@@ -434,7 +477,7 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
             statusBar:GetNamedChild("BossName"):SetText(name)
 
             -- Also need to manually update the boss health to initialize
-            local powerValue, powerMax, powerEffectiveMax = GetUnitPower(unitTag, COMBAT_MECHANIC_FLAGS_HEALTH)
+            local powerValue, powerMax, powerEffectiveMax = GetUnitHealths(unitTag)
             if (showAllForMoving) then
                 powerValue = math.random()
                 powerMax = 1
@@ -487,7 +530,7 @@ local function OnBossesChanged()
     -- There's no need to redraw the bars if bosses didn't change, which sometimes fires the event anyway for some reason
     if (bossHash ~= prevBosses) then
         prevBosses = bossHash
-        local boss1 = GetUnitName(GetFirstValidBossTag()) or ""
+        local boss1 = GetUnitNameIfExists(GetFirstValidBossTag()) or ""
         bossHealths = {}
 
         -- If boss1 has not changed, don't redraw stages, because some fights like Reef Guardian triggers bosses changed when a new one spawns. The stages' anchors get automatically updated because they're based on the container
