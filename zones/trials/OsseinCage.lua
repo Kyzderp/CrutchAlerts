@@ -181,8 +181,16 @@ local TITAN_ATTACKS = {
 }
 
 local TITANS = {
-    ["Myrinax"] = "boss3",
-    ["Valneer"] = "boss4",
+    ["Myrinax"] = {
+        tag = "boss3",
+        fgColor = {7/256, 87/256, 179/256, 0.73},
+        bgColor = {1/256, 11/256, 23/256, 0.66},
+    },
+    ["Valneer"] = {
+        tag = "boss4",
+        fgColor = {230/256, 129/256, 34/256, 0.73},
+        bgColor = {18/256, 9/256, 1/256, 0.66},
+    }
 }
 
 local titanMaxHp = 0
@@ -190,23 +198,26 @@ local titanIds = {} -- { 12345 = {name = "Myrinax", hp = 3213544},}
 
 local function SpoofTitans()
     -- Fake each boss for BHB
-    for name, tag in pairs(TITANS) do
-        Crutch.SpoofBoss(tag, name, function()
+    for name, data in pairs(TITANS) do
+        Crutch.SpoofBoss(data.tag, name, function()
             -- This probably isn't worth a reverse lookup, just iterate and find the right one
-            for _, data in pairs(titanIds) do
-                if (data.name == name) then
-                    return data.hp, titanMaxHp, titanMaxHp
+            for _, titan in pairs(titanIds) do
+                if (titan.name == name) then
+                    return titan.hp, titanMaxHp, titanMaxHp
                 end
             end
             Crutch.dbgOther("|cFF0000Couldn't find titans?????????|r")
-            return 0, 0, 0
-        end)
+            return 0.5, 1, 1
+        end,
+        data.fgColor,
+        data.bgColor)
     end
 end
+Crutch.SpoofTitans = SpoofTitans
 
 local function UnspoofTitans()
-    for name, tag in pairs(TITANS) do
-        Crutch.UnspoofBoss(tag)
+    for name, data in pairs(TITANS) do
+        Crutch.UnspoofBoss(data.tag)
     end
 end
 
@@ -250,7 +261,7 @@ local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, so
         titanMaxHp,
         targetTitan.hp * 100 / titanMaxHp))
 
-    Crutch.UpdateSpoofedBossHealth(TITANS[targetTitan.name], targetTitan.hp, titanMaxHp)
+    Crutch.UpdateSpoofedBossHealth(TITANS[targetTitan.name].tag, targetTitan.hp, titanMaxHp)
 end
 
 -- Event listening for all damage on enemies, registered only when Jynorah is active

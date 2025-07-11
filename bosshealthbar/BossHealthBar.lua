@@ -16,19 +16,40 @@ local BHB = Crutch.BossHealthBar
 ---------------------------------------------------------------------------------------------------
 local spoofedBosses = {} -- {["boss3"] = {name = "Blazeforged Valneer", getHealthFunction = function() return powerValue, powerMax, powerEffectiveMax end}}
 
-local function SpoofBoss(unitTag, name, getHealthFunction)
+local DEFAULT_FOREGROUND = {179/256, 18/256, 7/256, 0.73}
+local DEFAULT_BACKGROUND = {16/256, 0, 0, 0.66}
+
+local function SetBarColors(index, fgColor, bgColor)
+    local bar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
+    bar:SetColor(unpack(fgColor))
+    bar:GetNamedChild("Backdrop"):SetEdgeColor(unpack(bgColor))
+    bar:GetNamedChild("Backdrop"):SetCenterColor(unpack(bgColor))
+end
+
+local function SpoofBoss(unitTag, name, getHealthFunction, fgColor, bgColor)
     spoofedBosses[unitTag] = {
         name = name,
         getHealthFunction = getHealthFunction,
+        fgColor = fgColor or DEFAULT_FOREGROUND,
+        bgColor = bgColor or DEFAULT_BACKGROUND,
     }
+
     BHB.ShowOrHideBars()
+    local index = unitTag:sub(5, 5)
+    SetBarColors(index, spoofedBosses[unitTag].fgColor, spoofedBosses[unitTag].bgColor)
     Crutch.dbgOther(string.format("Spoofing %s as %s", name, unitTag))
 end
 Crutch.SpoofBoss = SpoofBoss
 
 local function UnspoofBoss(unitTag)
-    spoofedBosses[unitTag] = nil
-    BHB.ShowOrHideBars()
+    if (spoofedBosses[unitTag]) then
+        Crutch.dbgOther(string.format("Unspoofing %s", unitTag))
+        spoofedBosses[unitTag] = nil
+
+        BHB.ShowOrHideBars()
+        local index = unitTag:sub(5, 5)
+        SetBarColors(index, DEFAULT_FOREGROUND, DEFAULT_BACKGROUND)
+    end
 end
 Crutch.UnspoofBoss = UnspoofBoss
 
@@ -401,8 +422,11 @@ end
 Crutch.UpdateSpoofedBossHealth = UpdateSpoofedBossHealth
 
 --[[
-/script CrutchAlerts.SpoofBoss("boss3", "yeetus", function() return 28394, 32939, 32939 end)
+/script CrutchAlerts.SpoofBoss("boss3", "yeetus", function() return 28394, 32939, 32939 end,
+        {230/256, 129/256, 34/256, 0.73},
+        {18/256, 9/256, 1/256, 0.66})
 /script CrutchAlerts.UpdateSpoofedBossHealth("boss3", 4939, 32939)
+/script Crutch
 ]]
 
 local function ToggleHealthDebug()
