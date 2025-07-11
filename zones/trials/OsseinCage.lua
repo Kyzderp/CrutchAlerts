@@ -165,7 +165,7 @@ end
 -- Jynorah hp to titan hp
 local TITAN_MAX_HPS = {
     [85320632] = 242176464,
-    [27257920] = 151360288,
+    [37257920] = 151360288,
     [10906420] = 35445864,
 }
 
@@ -195,6 +195,8 @@ local TITANS = {
 
 local titanMaxHp = 0
 local titanIds = {} -- { 12345 = {name = "Myrinax", hp = 3213544},}
+local myrinaxFound = false
+local valneerFound = false
 
 local function SpoofTitans()
     -- Fake each boss for BHB
@@ -224,21 +226,34 @@ end
 -- Listen for incoming damage on the titans and subtract it from the max health
 local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     -- Store the unit ids if not already known
-    if (titanMaxHp == 0) then
+    -- Source shows as 0, so we can't do both at once
+    if (not valneerFound) then
         if (TITAN_ATTACKS[abilityId] == "Myrinax") then
             local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
             titanMaxHp = TITAN_MAX_HPS[powerMax]
-            titanIds[sourceUnitId] = {name = "Myrinax", hp = titanMaxHp}
             titanIds[targetUnitId] = {name = "Valneer", hp = titanMaxHp}
-            Crutch.dbgOther(string.format("Identified Myrinax %d and Valneer %d", sourceUnitId, targetUnitId))
-            SpoofTitans()
-        elseif (TITAN_ATTACKS[abilityId] == "Valneer") then
+            Crutch.dbgOther(string.format("Identified Valneer %d", targetUnitId))
+            valneerFound = true
+
+            -- Both found, initialize
+            if (myrinaxFound) then
+                SpoofTitans()
+            end
+        end
+    end
+
+    if (not myrinaxFound) then
+        if (TITAN_ATTACKS[abilityId] == "Valneer") then
             local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
             titanMaxHp = TITAN_MAX_HPS[powerMax]
             titanIds[targetUnitId] = {name = "Myrinax", hp = titanMaxHp}
-            titanIds[sourceUnitId] = {name = "Valneer", hp = titanMaxHp}
-            Crutch.dbgOther(string.format("Identified Myrinax %d and Valneer %d", targetUnitId, sourceUnitId))
-            SpoofTitans()
+            Crutch.dbgOther(string.format("Identified Myrinax %d", targetUnitId))
+            myrinaxFound = true
+
+            -- Both found, initialize
+            if (valneerFound) then
+                SpoofTitans()
+            end
         end
     end
 
@@ -468,6 +483,12 @@ end
 ---------------------------------------------------------------------
 local carrionFragment
 
+local function GetUnitNameIfExists(unitTag)
+    if (DoesUnitExist(unitTag)) then
+        return GetUnitName(unitTag)
+    end
+end
+
 function Crutch.RegisterOsseinCage()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Ossein Cage")
     InitFont()
@@ -476,6 +497,8 @@ function Crutch.RegisterOsseinCage()
         carrionStacks = {}
         titanIds = {}
         titanMaxHp = 0
+        myrinaxFound = false
+        valneerFound = false
         UnspoofTitans()
     end)
 

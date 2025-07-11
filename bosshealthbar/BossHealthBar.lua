@@ -426,7 +426,7 @@ Crutch.UpdateSpoofedBossHealth = UpdateSpoofedBossHealth
         {230/256, 129/256, 34/256, 0.73},
         {18/256, 9/256, 1/256, 0.66})
 /script CrutchAlerts.UpdateSpoofedBossHealth("boss3", 4939, 32939)
-/script Crutch
+/script CrutchAlerts.UnspoofBoss("boss3")
 ]]
 
 local function ToggleHealthDebug()
