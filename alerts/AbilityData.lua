@@ -54,6 +54,7 @@ Crutch.blacklist = {
     [107637] = true, -- Symbiosis
 
 -- Enemies general
+    [ 10845] = true, -- Run Away!
     [ 45508] = true, -- Passing Through (assassin jumpflip)
     [ 25926] = true, -- Flare (Flame Atronach) TODO: tank mode?
     [113195] = true, -- Ice Bolt (Ghost) in BRP
