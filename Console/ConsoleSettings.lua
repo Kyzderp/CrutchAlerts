@@ -738,6 +738,19 @@ end
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show titans' health bars",
+        tooltip = "Shows Blazeforged Valneer's and Sparkstorm Myrinax's health using the vertical boss health bars",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.osseincage.showTitansHp end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.showTitansHp = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_DROPDOWN,
         label = "Show Stricken timer",
         tooltip = "Shows an \"alert\" timer for Stricken. If set to \"Tank Only\" it will display only if your LFG role is tank",

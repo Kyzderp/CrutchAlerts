@@ -280,17 +280,23 @@ local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, so
 end
 
 -- Event listening for all damage on enemies, registered only when Jynorah is active
-local function RegisterTitans()
-    Crutch.dbgOther("Registering titans")
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, OnTitanDamage)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE) -- Should be fine to ignore crits, since that's players only
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
-end
-
 local function UnregisterTitans()
     Crutch.dbgOther("Unregistering titans")
+    UnspoofTitans()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT)
+end
+
+local function RegisterTitans()
+    UnregisterTitans()
+    if (not Crutch.savedOptions.osseincage.showTitansHp) then return end
+
+    Crutch.dbgOther("Registering titans")
+
+    -- Player damage ticks for only 1 each, so imo it's negligible enough to
+    -- not do that extra processing. So it should be fine to ignore crits and dots
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, OnTitanDamage)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE) 
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
 end
 
 local function MaybeRegisterTitans()
@@ -517,6 +523,7 @@ function Crutch.RegisterOsseinCage()
 
         MaybeRegisterTitans()
     end)
+    MaybeRegisterTitans()
 
     -- Caustic Carrion
     if (Crutch.savedOptions.osseincage.showCarrion) then

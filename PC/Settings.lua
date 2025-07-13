@@ -871,6 +871,19 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return not Crutch.savedOptions.osseincage.showCarrion end
                 },
                 {
+                    type = "checkbox",
+                    name = "Show titans' health bars",
+                    tooltip = "Shows Blazeforged Valneer's and Sparkstorm Myrinax's health using the vertical boss health bars",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.osseincage.showTitansHp end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.showTitansHp = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+                },
+                {
                     type = "dropdown",
                     name = "Show Stricken timer",
                     tooltip = "Shows an \"alert\" timer for Stricken. If set to \"Tank Only\" it will display only if your LFG role is tank",

@@ -123,6 +123,7 @@ local defaultOptions = {
         showChains = true,
         showCarrion = true,
         showCarrionIndividual = false,
+        showTitansHp = true,
     },
     rockgrove = {
         sludgeSides = true,
