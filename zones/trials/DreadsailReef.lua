@@ -166,7 +166,6 @@ local function GetUnitNameIfExists(unitTag)
     end
 end
 
-local prevBosses = ""
 function Crutch.RegisterDreadsailReef()
     -- Chat output for who picks up domes
     if (Crutch.savedOptions.general.showRaidDiag) then
@@ -213,20 +212,7 @@ function Crutch.RegisterDreadsailReef()
     end
 
     -- Taleria cleave
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRBossesChanged", EVENT_BOSSES_CHANGED, function()
-        -- Only do this when the bosses actually change
-        local bossHash = ""
-        for i = 1, BOSS_RANK_ITERATION_END do
-            local name = GetUnitNameIfExists("boss" .. tostring(i))
-            if (name and name ~= "") then
-                bossHash = bossHash .. name
-            end
-        end
-        if (bossHash == prevBosses) then return end
-        prevBosses = bossHash
-
-        TryEnablingTaleriaCleave()
-    end)
+    Crutch.RegisterBossChangedListener("CrutchDreadsailReef", TryEnablingTaleriaCleave)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Dreadsail Reef")
 end
@@ -245,7 +231,7 @@ function Crutch.UnregisterDreadsailReef()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRVolatileOther", EVENT_EFFECT_CHANGED)
 
     -- Taleria cleave
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRBossesChanged", EVENT_BOSSES_CHANGED)
+    Crutch.UnregisterBossChangedListener("CrutchDreadsailReef")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end

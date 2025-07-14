@@ -103,7 +103,6 @@ local function GetUnitNameIfExists(unitTag)
     end
 end
 
-local prevBosses = ""
 function Crutch.RegisterKynesAegis()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Kyne's Aegis")
 
@@ -131,20 +130,7 @@ function Crutch.RegisterKynesAegis()
             TryEnablingFalgravnIcons()
 
             -- Show icons on Falgravn
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "KABossesChanged", EVENT_BOSSES_CHANGED, function()
-                -- Only do this when the bosses actually change
-                local bossHash = ""
-                for i = 1, BOSS_RANK_ITERATION_END do
-                    local name = GetUnitNameIfExists("boss" .. tostring(i))
-                    if (name and name ~= "") then
-                        bossHash = bossHash .. name
-                    end
-                end
-                if (bossHash == prevBosses) then return end
-                prevBosses = bossHash
-
-                TryEnablingFalgravnIcons()
-            end)
+            Crutch.RegisterBossChangedListener("CrutchKynesAegis", TryEnablingFalgravnIcons)
         end
     end
 end
@@ -158,7 +144,7 @@ function Crutch.UnregisterKynesAegis()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT)
 
     -- Falgravn icons
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KABossesChanged", EVENT_BOSSES_CHANGED)
+    Crutch.UnregisterBossChangedListener("CrutchKynesAegis")
     DisableFalgravnIcons()
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Kyne's Aegis")

@@ -217,15 +217,11 @@ local function OnYolFly()
     end
 end
 
-local prevBoss = nil
 local function OnBossesChanged()
     -- Lokk: 86.2m / 107.8m : 86245152 / 107806440
     -- Lost Depths: 77620640 / 97025800
     -- Yol: 129.4m / 161.7m
     -- Nahv: 103.5m / 129.4m
-    local bossName = GetUnitName("boss1")
-    if (prevBoss == bossName) then return end
-
     local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
 
     -- Lokkestiiz check
@@ -236,8 +232,6 @@ local function OnBossesChanged()
         atLokk = false
         UpdateLokkIcons()
     end
-
-    prevBoss = bossName
 end
 
 ---------------------------------------------------------------------
@@ -292,7 +286,7 @@ function Crutch.RegisterSunspire()
 
     lokkHM = false
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
+    Crutch.RegisterBossChangedListener("CrutchSunspire", OnBossesChanged)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
@@ -368,7 +362,7 @@ function Crutch.RegisterSunspire()
 end
 
 function Crutch.UnregisterSunspire()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SunspireBossChange", EVENT_BOSSES_CHANGED)
+    Crutch.UnregisterBossChangedListener("CrutchSunspire")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED)

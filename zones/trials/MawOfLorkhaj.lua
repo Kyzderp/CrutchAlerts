@@ -151,7 +151,8 @@ local function RegisterZhajhassa()
         end
     end)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLBossesChanged", EVENT_BOSSES_CHANGED, function()
+    -- Show pads
+    Crutch.RegisterBossChangedListener("CrutchMawOfLorkhaj", function()
         if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds"
             and Crutch.savedOptions.mawoflorkhaj.showPads
             and DoesUnitExist("boss1")) then
@@ -181,7 +182,9 @@ end
 
 local function UnregisterZhajhassa()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MoLBossesChanged", EVENT_BOSSES_CHANGED)
+
+    Crutch.UnregisterBossChangedListener("CrutchMawOfLorkhaj")
+
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED)
 
     -- Crutch.DisableIcon("ZhajM1")

@@ -539,31 +539,13 @@ end
 BHB.ShowOrHideBars = ShowOrHideBars
 -- /script CrutchAlerts.BossHealthBar.ShowOrHideBars(1)
 
-local prevBosses = ""
-local prevBoss1 = ""
-local function OnBossesChanged()
-    local bossHash = ""
-
-    for i = 1, BOSS_RANK_ITERATION_END do
-        local name = GetUnitNameIfExists("boss" .. tostring(i))
-        if (name and name ~= "") then
-            bossHash = bossHash .. name
-        end
-    end
-
-    -- There's no need to redraw the bars if bosses didn't change, which sometimes fires the event anyway for some reason
-    if (bossHash ~= prevBosses) then
-        prevBosses = bossHash
-        local boss1 = GetUnitNameIfExists(GetFirstValidBossTag()) or ""
-        bossHealths = {}
-
-        -- If boss1 has not changed, don't redraw stages, because some fights like Reef Guardian triggers bosses changed when a new one spawns. The stages' anchors get automatically updated because they're based on the container
-        -- Note: I say "boss1" but actually use GetFirstValidBossTag() because Felms and Llothis (on their own) are both "boss2" for some reason, so "boss1" does not exist at all for those encounters. This caused the mechanics lines to not show up and potentially affected the NaN or too many anchors issues
-        if (prevBoss1 == boss1) then
-            ShowOrHideBars(false, true)
-        else
-            ShowOrHideBars()
-        end
+local function OnBossesChanged(boss1IsSame)
+    -- If boss1 has not changed, don't redraw stages, because some fights like Reef Guardian triggers bosses changed when a new one spawns. The stages' anchors get automatically updated because they're based on the container
+    -- Note: I say "boss1" but actually use GetFirstValidBossTag() because Felms and Llothis (on their own) are both "boss2" for some reason, so "boss1" does not exist at all for those encounters. This caused the mechanics lines to not show up and potentially affected the NaN or too many anchors issues
+    if (boss1IsSame) then
+        ShowOrHideBars(false, true)
+    else
+        ShowOrHideBars()
     end
 end
 BHB.OnBossesChanged = OnBossesChanged
@@ -590,24 +572,20 @@ BHB.UpdateScale = UpdateScale
 local bhbFragment = nil
 
 local function RegisterEvents()
-    EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarBossChange", EVENT_BOSSES_CHANGED, OnBossesChanged)
+    Crutch.RegisterBossChangedListener("CrutchBHBBossChange", OnBossesChanged)
 
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, OnPowerUpdate)
     EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
     EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
-
-    EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPlayerActivated", EVENT_PLAYER_ACTIVATED, OnBossesChanged)
 end
 
 -- Don't want event overload if the health bars are off
 local function UnregisterEvents()
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistering Boss Health Bar events")
 
-    EVENT_MANAGER:UnregisterForEvent("CrutchAlertsBossHealthBarBossChange", EVENT_BOSSES_CHANGED)
+    Crutch.UnregisterBossChangedListener("CrutchBHBBossChange")
 
     EVENT_MANAGER:UnregisterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE)
-
-    EVENT_MANAGER:UnregisterForEvent("CrutchAlertsBossHealthBarPlayerActivated", EVENT_PLAYER_ACTIVATED)
 end
 
 -- Entry point

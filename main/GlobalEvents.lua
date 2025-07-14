@@ -94,12 +94,78 @@ end
 
 
 ---------------------------------------------------------------------
+-- Listeners from other files
+-- listener: function to be called when bosses actually change
+-- param1: boss1IsSame - whether boss1 is the same as before the change
+---------------------------------------------------------------------
+local bossListeners = {} -- {["CrutchDreadsailReef"] = OnBossesChanged,}
+function Crutch.RegisterBossChangedListener(name, listener)
+    bossListeners[name] = listener
+    Crutch.dbgSpam("Registered boss change listener " .. name)
+end
+
+function Crutch.UnregisterBossChangedListener(name)
+    bossListeners[name] = nil
+    Crutch.dbgSpam("Unregistered boss change listener " .. name)
+end
+
+
+---------------------------------------------------------------------
+-- EVENT_BOSSES_CHANGED (and also player activation)
+---------------------------------------------------------------------
+local function GetUnitNameIfExists(unitTag)
+    if (DoesUnitExist(unitTag)) then
+        return GetUnitName(unitTag)
+    end
+end
+
+local function GetFirstValidBossTag()
+    for i = 1, BOSS_RANK_ITERATION_END do
+        local unitTag = "boss" .. tostring(i)
+        if (DoesUnitExist(unitTag)) then
+            return unitTag
+        end
+    end
+    return ""
+end
+
+
+local prevBosses = ""
+local prevBoss1 = ""
+local function OnBossesChanged()
+    local bossHash = ""
+
+    for i = 1, BOSS_RANK_ITERATION_END do
+        local name = GetUnitNameIfExists("boss" .. tostring(i))
+        if (name and name ~= "") then
+            bossHash = bossHash .. name
+        end
+    end
+
+    -- Only trigger off bosses truly changing (sometimes the event fires for no apparent reason?)
+    if (bossHash ~= prevBosses) then
+        prevBosses = bossHash
+        local boss1 = GetUnitName(GetFirstValidBossTag()) or ""
+
+        for _, listener in pairs(bossListeners) do
+            listener(prevBoss1 == boss1)
+        end
+        prevBoss1 = boss1
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
 function Crutch.InitializeGlobalEvents()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalCombat", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalBossesChanged", EVENT_BOSSES_CHANGED, OnBossesChanged)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalPlayerActivated", EVENT_PLAYER_ACTIVATED, OnBossesChanged)
 end
 
 function Crutch.UninitializeGlobalEvents()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalCombat", EVENT_PLAYER_COMBAT_STATE)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalBossesChanged", EVENT_BOSSES_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalPlayerActivated", EVENT_PLAYER_ACTIVATED)
 end

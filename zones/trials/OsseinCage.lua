@@ -515,20 +515,7 @@ function Crutch.RegisterOsseinCage()
     end)
 
     -- Bosses changed, for titan spoofing
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCBossesChanged", EVENT_BOSSES_CHANGED, function()
-        -- Only do this when the bosses actually change
-        local bossHash = ""
-        for i = 1, BOSS_RANK_ITERATION_END do
-            local name = GetUnitNameIfExists("boss" .. tostring(i))
-            if (name and name ~= "") then
-                bossHash = bossHash .. name
-            end
-        end
-        if (bossHash == prevBosses) then return end
-        prevBosses = bossHash
-
-        MaybeRegisterTitans()
-    end)
+    Crutch.RegisterBossChangedListener("CrutchOsseinCage", MaybeRegisterTitans)
     MaybeRegisterTitans()
 
     -- Caustic Carrion
@@ -583,7 +570,8 @@ function Crutch.UnregisterOsseinCage()
         HUD_UI_SCENE:RemoveFragment(carrionFragment)
     end
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCBossesChanged", EVENT_BOSSES_CHANGED)
+    Crutch.UnregisterBossChangedListener("CrutchOsseinCage")
+
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED)

@@ -266,7 +266,6 @@ local function GetUnitNameIfExists(unitTag)
     end
 end
 
-local prevBosses = ""
 function Crutch.RegisterLucentCitadel()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Lucent Citadel")
 
@@ -308,18 +307,7 @@ function Crutch.RegisterLucentCitadel()
 
         -- Show icons on certain bosses
         if (showCavot or showOrphic or showTempest) then
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED, function()
-                -- Only do this when the bosses actually change
-                local bossHash = ""
-                for i = 1, BOSS_RANK_ITERATION_END do
-                    local name = GetUnitNameIfExists("boss" .. tostring(i))
-                    if (name and name ~= "") then
-                        bossHash = bossHash .. name
-                    end
-                end
-                if (bossHash == prevBosses) then return end
-                prevBosses = bossHash
-
+            Crutch.RegisterBossChangedListener("CrutchLucentCitadel", function()
                 if (showCavot) then TryEnablingCavotIcon() end
                 if (showOrphic) then TryEnablingMirrorIcons() end
                 if (showTempest) then TryEnablingTempestIcons() end
@@ -351,7 +339,8 @@ function Crutch.RegisterLucentCitadel()
 end
 
 function Crutch.UnregisterLucentCitadel()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCBossesChanged", EVENT_BOSSES_CHANGED)
+    Crutch.UnregisterBossChangedListener("CrutchLucentCitadel")
+
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED)
