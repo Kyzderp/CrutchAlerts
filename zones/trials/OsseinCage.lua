@@ -289,7 +289,7 @@ end
 
 local function RegisterTitans()
     UnregisterTitans()
-    if (not Crutch.savedOptions.osseincage.showTitansHp) then return end
+    if (not Crutch.savedOptions.bossHealthBar.enabled or not Crutch.savedOptions.osseincage.showTitansHp) then return end
 
     Crutch.dbgOther("Registering titans")
 
