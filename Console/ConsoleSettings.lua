@@ -133,6 +133,40 @@ function Crutch:CreateConsoleSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Alerts position X",
+        tooltip = "The horizontal position of the general alerts",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.display.x,
+        getFunction = function() return Crutch.savedOptions.display.x end,
+        setFunction = function(value)
+            Crutch.savedOptions.display.x = value
+            CrutchAlertsContainer:ClearAnchors()
+            CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Alerts position Y",
+        tooltip = "The vertical position of the general alerts",
+        min = 0,
+        max = GuiRoot:GetHeight(),
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.display.y,
+        getFunction = function() return Crutch.savedOptions.display.y end,
+        setFunction = function(value)
+            Crutch.savedOptions.display.y = value
+            CrutchAlertsContainer:ClearAnchors()
+            CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Special Timers",
     })
@@ -214,6 +248,42 @@ function Crutch:CreateConsoleSettingsMenu()
             Crutch.savedOptions.general.showDamageable = value
             Crutch.OnPlayerActivated()
         end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Damageable timer position X",
+        tooltip = "The horizontal position of the damageable timer",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.damageableDisplay.x,
+        getFunction = function() return Crutch.savedOptions.damageableDisplay.x end,
+        setFunction = function(value)
+            Crutch.savedOptions.damageableDisplay.x = value
+            CrutchAlertsDamageable:ClearAnchors()
+            CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.general.showDamageable end
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Damageable timer position Y",
+        tooltip = "The vertical position of the damageable timer",
+        min = - GuiRoot:GetHeight() / 2,
+        max = GuiRoot:GetHeight() / 2,
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.damageableDisplay.y,
+        getFunction = function() return Crutch.savedOptions.damageableDisplay.y end,
+        setFunction = function(value)
+            Crutch.savedOptions.damageableDisplay.y = value
+            CrutchAlertsDamageable:ClearAnchors()
+            CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.general.showDamageable end
     })
 
     settings:AddSetting({
