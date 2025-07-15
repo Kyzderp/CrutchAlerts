@@ -1,10 +1,6 @@
 CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
-local LOKK_NONHM_HEALTH = 77620640
--- local LOKK_HM_HEALTH = 18177368 -- normal, for testing
-local LOKK_HM_HEALTH = 97025800
-
 ---------------------------------------------------------------------
 -- Time Breach
 ---------------------------------------------------------------------
@@ -41,10 +37,6 @@ Crutch.IsInNahvPortal = IsInNahvPortal
 ---------------------------------------------------------------------
 -- Lokkestiiz Icons
 ---------------------------------------------------------------------
-local atLokk = false
-local lokkHM = false
-local lokkBeamPhase = false
-
 local function EnableLokkIcons()
     if (not Crutch.savedOptions.sunspire.showLokkIcons) then return end
 
@@ -72,7 +64,6 @@ local function EnableLokkIcons()
         Crutch.EnableIcon("LokkBeamRH")
     end
 end
-Crutch.EnableLokkIcons = EnableLokkIcons
 
 local function DisableLokkIcons()
     Crutch.DisableIcon("SHLokkBeam1")
@@ -98,47 +89,64 @@ local function DisableLokkIcons()
     Crutch.DisableIcon("LokkBeamRH")
 end
 
-local function UpdateLokkIcons()
-    Crutch.dbgOther(string.format("attempting to update icons atLokk: %s lokkHM: %s lokkBeamPhase: %s", tostring(atLokk), tostring(lokkHM), tostring(lokkBeamPhase)))
-    if (atLokk and lokkHM and (lokkBeamPhase or not Crutch.groupInCombat)) then
+local LOKK_HM_HEALTH = 97025800
+local function MaybeEnableLokkIcons()
+    if (not Crutch.savedOptions.sunspire.showLokkIcons) then return end
+
+    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (maxHealth == LOKK_HM_HEALTH) then
         EnableLokkIcons()
+    end
+end
+
+-- Show icons during flight phase
+local function OnLokkFly()
+    MaybeEnableLokkIcons()
+end
+
+-- Hide icons after beam is over
+local function OnLokkBeam()
+    zo_callLater(function()
+        DisableLokkIcons()
+    end, 15000)
+end
+
+-- We also want to show icons before the fight starts. You'll either walk into
+-- a Lokk that already has HM turned on (bosses changed) or you'll already be
+-- at Lokk when HM changes (max health power update)
+local function OnBossesChanged()
+    -- Lokk: 86.2m / 107.8m : 86245152 / 107806440
+    -- Lost Depths: 77620640 / 97025800
+    -- Yol: 129.4m / 161.7m
+    -- Nahv: 103.5m / 129.4m
+    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+
+    -- Lokkestiiz HM check
+    if (maxHealth == LOKK_HM_HEALTH) then
+        MaybeEnableLokkIcons()
     else
+        -- Otherwise, leaving Lokk (or could be a wipe)
         DisableLokkIcons()
     end
 end
 
-local function IsBossLokkHM()
-    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-    return maxHealth == LOKK_HM_HEALTH
-end
+-- Make changes to icons only if the max health changed
+local prevMaxHealth = 0
+local function OnPowerUpdate(_, _, _, _, _, powerMax)
+    if (prevMaxHealth == powerMax) then
+        return
+    end
+    prevMaxHealth = powerMax
 
-local function OnLokkFly()
-    lokkBeamPhase = true
-    lokkHM = IsBossLokkHM()
-    UpdateLokkIcons()
-end
-
-local function OnLokkBeam()
-    zo_callLater(function()
-        lokkBeamPhase = false
-        UpdateLokkIcons()
-    end, 15000)
-end
-
-local function OnDifficultyChanged()
-    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-
-    -- Lokkestiiz check
-    if (maxHealth == LOKK_NONHM_HEALTH and lokkHM == true) then
-        lokkHM = false
-        UpdateLokkIcons()
-    elseif (maxHealth == LOKK_HM_HEALTH and lokkHM == false) then
-        lokkHM = true
-        UpdateLokkIcons()
+    -- Lokkestiiz HM check
+    if (powerMax == LOKK_HM_HEALTH) then
+        MaybeEnableLokkIcons()
     else
-        Crutch.dbgSpam(string.format("maxHealth: %d lokkHM: %s", maxHealth or 0, lokkHM and "true" or "false"))
+        -- Otherwise, it could be turning off HM
+        DisableLokkIcons()
     end
 end
+
 
 ---------------------------------------------------------------------
 -- Yolnahkriin Icons
@@ -217,22 +225,6 @@ local function OnYolFly()
     end
 end
 
-local function OnBossesChanged()
-    -- Lokk: 86.2m / 107.8m : 86245152 / 107806440
-    -- Lost Depths: 77620640 / 97025800
-    -- Yol: 129.4m / 161.7m
-    -- Nahv: 103.5m / 129.4m
-    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-
-    -- Lokkestiiz check
-    if (maxHealth == LOKK_NONHM_HEALTH or maxHealth == LOKK_HM_HEALTH) then
-        atLokk = true
-        UpdateLokkIcons()
-    else
-        atLokk = false
-        UpdateLokkIcons()
-    end
-end
 
 ---------------------------------------------------------------------
 -- Focused Fire
@@ -279,14 +271,9 @@ end
 ---------------------------------------------------------------------
 -- Register/Unregister
 local origOSIUnitErrorCheck = nil
-local origQueueMessage = nil
 
 function Crutch.RegisterSunspire()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Sunspire")
-
-    lokkHM = false
-
-    Crutch.RegisterBossChangedListener("CrutchSunspire", OnBossesChanged)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
@@ -299,18 +286,33 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 121216)
 
-    -- Register for Lokk flying (Gravechill)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT, OnLokkFly)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122820)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT, OnLokkFly)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122821)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT, OnLokkFly)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122822)
+    if (not Crutch.WorldIconsEnabled()) then
+        Crutch.ComplainOSI()
+    elseif (Crutch.savedOptions.sunspire.showLokkIcons) then
+        Crutch.RegisterBossChangedListener("CrutchSunspire", OnBossesChanged)
+        Crutch.RegisterEnteredGroupCombatListener("CrutchSunspire", DisableLokkIcons)
 
-    -- Register for Lokk beam (Storm Fury)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, OnLokkBeam)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 115702)
+        -- Register for Lokk difficulty change
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireHealthUpdate", EVENT_POWER_UPDATE, OnPowerUpdate)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SunspireHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss1")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SunspireHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
+
+        -- Register for Lokk flying (Gravechill)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT, OnLokkFly)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122820)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT, OnLokkFly)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122821)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT, OnLokkFly)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122822)
+
+        -- Register for Lokk beam (Storm Fury)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, OnLokkBeam)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 115702)
+
+        -- Trigger initial "changes," in case a reload was done while at Lokk
+        OnBossesChanged()
+    end
 
     -- Register for Yol flying (Takeoff)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT, OnYolFly75)
@@ -340,37 +342,22 @@ function Crutch.RegisterSunspire()
             end
         end
     end
-
-    -- Hook into CSA display to get Lokk difficulty change
-    origQueueMessage = CENTER_SCREEN_ANNOUNCE.QueueMessage
-    CENTER_SCREEN_ANNOUNCE.QueueMessage = function(s, messageParams)
-        -- Call this a second later, because sometimes the health hasn't changed yet
-        zo_callLater(function()
-            OnDifficultyChanged()
-        end, 1000)
-        return origQueueMessage(s, messageParams)
-    end
-
-    -- Trigger initial "changes," in case a reload was done while at Lokk
-    OnBossesChanged()
-    OnDifficultyChanged()
-    Crutch.RegisterEnteredGroupCombatListener("CrutchSunspire", DisableLokkIcons)
-
-    if (not Crutch.WorldIconsEnabled()) then
-        Crutch.ComplainOSI()
-    end
 end
 
 function Crutch.UnregisterSunspire()
-    Crutch.UnregisterBossChangedListener("CrutchSunspire")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED)
 
+    -- Lokk
+    Crutch.UnregisterBossChangedListener("CrutchSunspire")
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchSunspire")
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SunspireHealthUpdate", EVENT_POWER_UPDATE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT)
+
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT)
@@ -381,18 +368,8 @@ function Crutch.UnregisterSunspire()
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
     end
 
-    if (origQueueMessage) then
-        Crutch.dbgOther("|c88FFFF[CT]|r Restoring CSA.QueueMessage")
-        CENTER_SCREEN_ANNOUNCE.QueueMessage = origQueueMessage
-    end
-
-    atLokk = false
-    lokkHM = false
-    lokkBeamPhase = false
     DisableLokkIcons()
     DisableYolIcons()
-
-    Crutch.UnregisterEnteredGroupCombatListener("CrutchSunspire")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Sunspire")
 end
