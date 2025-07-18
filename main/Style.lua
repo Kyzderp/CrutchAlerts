@@ -4,20 +4,22 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
 local KEYBOARD_STYLE = {
-    alertFont = "$(BOLD_FONT)|32|soft-shadow-thick",
+    GetAlertFont = function(size)
+        return string.format("$(BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
+    end,
     damageableFont = "ZoFontWinH1",
     prominentFont = "$(BOLD_FONT)|80|soft-shadow-thick",
-    smallFont = "$(BOLD_FONT)|14|shadow",
     GetBHBFont = function(size)
         return string.format("$(BOLD_FONT)|%d|shadow", math.floor(size))
     end,
 }
 
 local GAMEPAD_STYLE = {
-    alertFont = "ZoFontGamepadBold34",
+    GetAlertFont = function(size)
+        return string.format("$(GAMEPAD_BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
+    end,
     damageableFont = "ZoFontGamepadBold27",
     prominentFont = "ZoFontGamepad61",
-    smallFont = "ZoFontGamepad18", -- Adding this so it exists, but console won't have an option to show this
     GetBHBFont = function(size)
         return string.format("$(GAMEPAD_MEDIUM_FONT)|%d|soft-shadow-thick", math.floor(size))
     end,

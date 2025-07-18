@@ -52,6 +52,7 @@ local defaultOptions = {
     subtitlesIgnoredZones = {},
     prominentV2FirstTime = true,
     general = {
+        alertScale = 36,
         showBegin = true,
             beginHideSelf = false,
         beginHideArcanist = false,

@@ -66,6 +66,12 @@ local function GetNumEntries(tab)
     return count
 end
 
+-- Scale is the size of the icon, default 36
+-- Default font size was 32
+local function GetScale()
+    return Crutch.savedOptions.general.alertScale
+end
+
 
 ---------------------------------------------------------------------
 -- Display
@@ -132,7 +138,12 @@ local function FindOrCreateControl()
         CrutchAlertsContainer,           -- parent
         "CrutchAlerts_Line_Template",    -- template
         "")                                     -- suffix
-    lineControl:SetAnchor(CENTER, CrutchAlertsContainer, CENTER, 0, (index - 1) * zo_floor(fontSize * 1.5))
+    if (index == 1) then
+        lineControl:SetAnchor(CENTER, CrutchAlertsContainer, CENTER, 0, 0)
+    else
+        local prevControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index - 1))
+        lineControl:SetAnchor(TOP, prevControl, BOTTOM, 0, GetScale() * 4 / 9)
+    end
 
     return index
 end
@@ -213,35 +224,43 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
 
     -- Keyboard vs gamepad fonts
     local styles = Crutch.GetStyles()
+    local scale = GetScale()
+    local alertFont = styles.GetAlertFont(scale * 8 / 9)
+    local smallFont = styles.GetAlertFont(scale * 7 / 18)
+
 
     -- Set the items
+    lineControl:SetHeight(scale)
     local labelControl = lineControl:GetNamedChild("Label")
-    labelControl:SetFont(styles.alertFont)
-    labelControl:SetWidth(1200)
+    labelControl:SetFont(alertFont)
+    labelControl:SetDimensions(1200, scale)
     labelControl:SetText(customColor and zo_strformat("|c<<1>><<2>>|r", customColor, textLabel) or zo_strformat("<<1>>", textLabel))
     labelControl:SetWidth(labelControl:GetTextWidth())
 
     if (hideTimer == 1) then
         lineControl:GetNamedChild("Timer"):SetHidden(true)
     else
-        lineControl:GetNamedChild("Timer"):SetHidden(false)
-        lineControl:GetNamedChild("Timer"):SetFont(styles.alertFont)
-        lineControl:GetNamedChild("Timer"):SetText(string.format("%.1f", timer / 1000))
-        lineControl:GetNamedChild("Timer"):SetWidth(fontSize * 4)
+        local timerLabel = lineControl:GetNamedChild("Timer")
+        timerLabel:SetHidden(false)
+        timerLabel:SetFont(alertFont)
+        timerLabel:SetText(string.format("%.1f", timer / 1000))
+        timerLabel:SetDimensions(200, scale)
+        timerLabel:SetWidth(timerLabel:GetTextWidth())
+        timerLabel:SetAnchor(LEFT, labelControl, RIGHT, scale * 5 / 18)
+        timerLabel:SetColor(unpack(GetTimerColor(timer)))
     end
 
-    lineControl:GetNamedChild("Icon"):SetTexture(GetAbilityIcon(abilityId))
-    lineControl:GetNamedChild("Id"):SetFont(styles.smallFont)
+    local iconControl = lineControl:GetNamedChild("Icon")
+    iconControl:SetTexture(GetAbilityIcon(abilityId))
+    iconControl:SetDimensions(scale, scale)
+    iconControl:SetAnchor(RIGHT, labelControl, LEFT, - scale * 2 / 9, 3)
+
+    lineControl:GetNamedChild("Id"):SetFont(smallFont)
     if (Crutch.savedOptions.debugLine) then
         lineControl:GetNamedChild("Id"):SetText(string.format("%d (%d) [%s%s]%s", abilityId, timer, sourceName, sourceString, resultString))
     else
         lineControl:GetNamedChild("Id"):SetText("")
     end
-
-    -- Reanchor
-    lineControl:GetNamedChild("Icon"):SetAnchor(RIGHT, labelControl, LEFT, -8, 3)
-    lineControl:GetNamedChild("Timer"):SetAnchor(LEFT, labelControl, RIGHT, 10)
-    lineControl:GetNamedChild("Timer"):SetColor(unpack(GetTimerColor(timer)))
 
     lineControl:SetHidden(false)
 

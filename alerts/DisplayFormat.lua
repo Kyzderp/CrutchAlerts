@@ -105,8 +105,8 @@ Crutch.format = {
     [150008] = 30000, -- Hemorrhaging Smack (Flesh Abomination)
     [149089] = 500, -- Astral Shield
     [157466] = 30800, -- Soul Remnant
-    [153517] = {info = 1110, text = "Clockwise |t32:32:esoui/art/housing/rotation_arrow_reverse.dds:inheritcolor|t"}, -- CW
-    [153518] = {info = 1210, text = "Counter-Clockwise|t32:32:esoui/art/housing/rotation_arrow.dds:inheritcolor|t"}, -- CCW
+    [153517] = {info = 1110, text = "Clockwise |t100%:100%:esoui/art/housing/rotation_arrow_reverse.dds:inheritcolor|t"}, -- CW
+    [153518] = {info = 1210, text = "Counter-Clockwise|t100%:100%:esoui/art/housing/rotation_arrow.dds:inheritcolor|t"}, -- CCW
 
 -- Sanctum Ophidia
     [ 56857] = 200, -- Emerald Eclipse (The Serpent)

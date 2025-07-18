@@ -148,6 +148,21 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "slider",
+                    name = "Alert size",
+                    tooltip = "The size to display the general alerts specified above",
+                    min = 5,
+                    max = 120,
+                    step = 1,
+                    default = 36,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.general.alertScale end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.alertScale = value
+                        Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, false)
+                    end,
+                },
+                {
                     type = "checkbox",
                     name = "Show damageable timers",
                     tooltip = "For certain encounters, show a countdown to when the boss or important adds will become damageable, tauntable, return to the arena, etc. This works best on English client, with some support for other languages.",

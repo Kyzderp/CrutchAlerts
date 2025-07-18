@@ -167,6 +167,21 @@ function Crutch:CreateConsoleSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Alerts size",
+        tooltip = "The size of the general alerts",
+        min = 5,
+        max = 120,
+        step = 1,
+        default = Crutch.defaultOptions.general.alertScale,
+        getFunction = function() return Crutch.savedOptions.general.alertScale end,
+        setFunction = function(value)
+            Crutch.savedOptions.general.alertScale = value
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Special Timers",
     })
