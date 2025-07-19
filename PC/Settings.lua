@@ -899,6 +899,34 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
                 },
                 {
+                    type = "checkbox",
+                    name = "Show twins icons",
+                    tooltip = "In the Jynorah + Skorkhif fight, shows icons in the world for close positioning. Requires OdySupportIcons",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.osseincage.showTwinsIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.showTwinsIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "slider",
+                    name = "Twins icons size",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.osseincage.twinsIconsSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.twinsIconsSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    disabled = function() return not Crutch.savedOptions.osseincage.showTwinsIcons end,
+                },
+                {
                     type = "dropdown",
                     name = "Show Stricken timer",
                     tooltip = "Shows an \"alert\" timer for Stricken. If set to \"Tank Only\" it will display only if your LFG role is tank",

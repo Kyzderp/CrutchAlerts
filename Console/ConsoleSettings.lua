@@ -822,6 +822,8 @@ end
         disable = function() return not Crutch.savedOptions.osseincage.showCarrion end,
     })
 
+    -- TODO: twins icons when supported
+
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show titans' health bars",

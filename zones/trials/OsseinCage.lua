@@ -280,38 +280,91 @@ local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, so
 end
 
 -- Event listening for all damage on enemies, registered only when Jynorah is active
-local function UnregisterTitans()
-    Crutch.dbgOther("Unregistering titans")
+local function UnregisterTwins()
+    Crutch.dbgOther("Unregistering twins")
     UnspoofTitans()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT)
+
+    Crutch.DisableIcon("OCBlueBossEntrance")
+    Crutch.DisableIcon("OCBlueHealEntrance")
+    Crutch.DisableIcon("OCBlue1Entrance")
+    Crutch.DisableIcon("OCBlue2Entrance")
+    Crutch.DisableIcon("OCBlue3Entrance")
+    Crutch.DisableIcon("OCBlue4Entrance")
+    Crutch.DisableIcon("OCRedBossEntrance")
+    Crutch.DisableIcon("OCRedHealEntrance")
+    Crutch.DisableIcon("OCRed1Entrance")
+    Crutch.DisableIcon("OCRed2Entrance")
+    Crutch.DisableIcon("OCRed3Entrance")
+    Crutch.DisableIcon("OCRed4Entrance")
+    Crutch.DisableIcon("OCBlueBossExit")
+    Crutch.DisableIcon("OCBlueHealExit")
+    Crutch.DisableIcon("OCBlue1Exit")
+    Crutch.DisableIcon("OCBlue2Exit")
+    Crutch.DisableIcon("OCBlue3Exit")
+    Crutch.DisableIcon("OCBlue4Exit")
+    Crutch.DisableIcon("OCRedBossExit")
+    Crutch.DisableIcon("OCRedHealExit")
+    Crutch.DisableIcon("OCRed1Exit")
+    Crutch.DisableIcon("OCRed2Exit")
+    Crutch.DisableIcon("OCRed3Exit")
+    Crutch.DisableIcon("OCRed4Exit")
 end
 
-local function RegisterTitans()
-    UnregisterTitans()
-    if (not Crutch.savedOptions.bossHealthBar.enabled or not Crutch.savedOptions.osseincage.showTitansHp) then return end
+local function RegisterTwins()
+    UnregisterTwins()
+    Crutch.dbgOther("Registering twins")
 
-    Crutch.dbgOther("Registering titans")
+    -- Titans BHB
+    if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.osseincage.showTitansHp) then
+        -- Player damage ticks for only 1 each, so imo it's negligible enough to
+        -- not do that extra processing. So it should be fine to ignore crits
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, OnTitanDamage)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE) 
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
 
-    -- Player damage ticks for only 1 each, so imo it's negligible enough to
-    -- not do that extra processing. So it should be fine to ignore crits
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, OnTitanDamage)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE) 
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+        -- The atro surges count as dots though
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, OnTitanDamage)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DOT_TICK)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+    end
 
-    -- The atro surges count as dots though
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, OnTitanDamage)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DOT_TICK)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+    if (Crutch.savedOptions.osseincage.showTwinsIcons) then
+        Crutch.EnableIcon("OCBlueBossEntrance")
+        Crutch.EnableIcon("OCBlueHealEntrance")
+        Crutch.EnableIcon("OCBlue1Entrance")
+        Crutch.EnableIcon("OCBlue2Entrance")
+        Crutch.EnableIcon("OCBlue3Entrance")
+        Crutch.EnableIcon("OCBlue4Entrance")
+        Crutch.EnableIcon("OCRedBossEntrance")
+        Crutch.EnableIcon("OCRedHealEntrance")
+        Crutch.EnableIcon("OCRed1Entrance")
+        Crutch.EnableIcon("OCRed2Entrance")
+        Crutch.EnableIcon("OCRed3Entrance")
+        Crutch.EnableIcon("OCRed4Entrance")
+        Crutch.EnableIcon("OCBlueBossExit")
+        Crutch.EnableIcon("OCBlueHealExit")
+        Crutch.EnableIcon("OCBlue1Exit")
+        Crutch.EnableIcon("OCBlue2Exit")
+        Crutch.EnableIcon("OCBlue3Exit")
+        Crutch.EnableIcon("OCBlue4Exit")
+        Crutch.EnableIcon("OCRedBossExit")
+        Crutch.EnableIcon("OCRedHealExit")
+        Crutch.EnableIcon("OCRed1Exit")
+        Crutch.EnableIcon("OCRed2Exit")
+        Crutch.EnableIcon("OCRed3Exit")
+        Crutch.EnableIcon("OCRed4Exit")
+    end
 end
 
-local function MaybeRegisterTitans()
+local function MaybeRegisterTwins()
     -- Check if it's Jynorah
     local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     if (TITAN_MAX_HPS[powerMax]) then
-        RegisterTitans()
+        RegisterTwins()
     else
-        UnregisterTitans()
+        UnregisterTwins()
     end
 end
 
@@ -515,8 +568,8 @@ function Crutch.RegisterOsseinCage()
     end)
 
     -- Bosses changed, for titan spoofing
-    Crutch.RegisterBossChangedListener("CrutchOsseinCage", MaybeRegisterTitans)
-    MaybeRegisterTitans()
+    Crutch.RegisterBossChangedListener("CrutchOsseinCage", MaybeRegisterTwins)
+    MaybeRegisterTwins()
 
     -- Caustic Carrion
     if (Crutch.savedOptions.osseincage.showCarrion) then
