@@ -171,13 +171,13 @@ local data = {
     ["ZhajM4"] = {x = 102563, y = 45948, z = 127971, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = GetZhajIconsSize},
 
     -- Jynorah + Skorkhif
-    ["OCBlueBossEntrance"] = {x = 104556, y = 26152, z = 129135, texture = "odysupporticons/icons/squares/squaretwo_red.dds",          size = GetOCIconsSize},
+    ["OCBlueBossEntrance"] = {x = 104556, y = 26152, z = 129135, texture = "odysupporticons/icons/squares/squaretwo_pink.dds",         size = GetOCIconsSize},
     ["OCBlueHealEntrance"] = {x = 104863, y = 26152, z = 128405, texture = "odysupporticons/icons/squares/squaretwo_blue.dds",         size = GetOCIconsSize},
     ["OCBlue1Entrance"] =    {x = 104110, y = 26152, z = 128614, texture = "odysupporticons/icons/squares/squaretwo_blue_one.dds",     size = GetOCIconsSize},
     ["OCBlue2Entrance"] =    {x = 104137, y = 26152, z = 128115, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds",     size = GetOCIconsSize},
     ["OCBlue3Entrance"] =    {x = 104536, y = 26152, z = 128677, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds",   size = GetOCIconsSize},
     ["OCBlue4Entrance"] =    {x = 104557, y = 26152, z = 128107, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds",    size = GetOCIconsSize},
-    ["OCRedBossEntrance"] =  {x = 105634, y = 26152, z = 129199, texture = "odysupporticons/icons/squares/squaretwo_red.dds",          size = GetOCIconsSize},
+    ["OCRedBossEntrance"] =  {x = 105634, y = 26152, z = 129199, texture = "odysupporticons/icons/squares/squaretwo_pink.dds",         size = GetOCIconsSize},
     ["OCRedHealEntrance"] =  {x = 105330, y = 26152, z = 128446, texture = "odysupporticons/icons/squares/squaretwo_orange.dds",       size = GetOCIconsSize},
     ["OCRed1Entrance"] =     {x = 106063, y = 26152, z = 128701, texture = "odysupporticons/icons/squares/squaretwo_orange_one.dds",   size = GetOCIconsSize},
     ["OCRed2Entrance"] =     {x = 106069, y = 26152, z = 128253, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds",   size = GetOCIconsSize},
