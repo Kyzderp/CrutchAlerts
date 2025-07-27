@@ -125,6 +125,7 @@ Crutch.uninterruptible = {
     [231801] = true, -- Spring (Noriwen)
     [233598] = true, -- Spark Smash (Jynorah)
     [233610] = true, -- Blazing Smash (Skorkhif)
+    [157466] = true, -- Soul Remnant
 }
 
 ---------------------------------------------------------------------
