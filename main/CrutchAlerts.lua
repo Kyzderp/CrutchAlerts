@@ -129,6 +129,7 @@ local defaultOptions = {
         useAOCHIcons = false,
         useMiddleIcons = true,
         twinsIconsSize = 100,
+        showEnfeeblementIcons = "HM", -- "NEVER", "VET", "HM", "ALWAYS"
     },
     rockgrove = {
         sludgeSides = true,

@@ -954,10 +954,28 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "dropdown",
+                    name = "Show Enfeeblement debuffs",
+                    tooltip = "Shows icons on players afflicted by Sparking Enfeeblement, Blazing Enfeeblement, or both. Requires OdySupportIcons",
+                    choices = {"Never", "Hardmode only", "Veteran + Hardmode", "Always"},
+                    choicesValues = {"NEVER", "HM", "VET", "ALWAYS"},
+                    default = "HM",
+                    getFunc = function()
+                        return Crutch.savedOptions.osseincage.showEnfeeblementIcons
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.showEnfeeblementIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return OSI == nil end,
+                },
+                {
+                    type = "dropdown",
                     name = "Show Stricken timer",
                     tooltip = "Shows an \"alert\" timer for Stricken. If set to \"Tank Only\" it will display only if your LFG role is tank",
                     choices = {"Never", "Tank Only", "Always"},
                     choicesValues = {"NEVER", "TANK", "ALWAYS"},
+                    default = "TANK",
                     getFunc = function()
                         return Crutch.savedOptions.osseincage.showStricken
                     end,

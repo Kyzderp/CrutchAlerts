@@ -321,16 +321,6 @@ local function RegisterTwins()
     end
 end
 
-local function MaybeRegisterTwins()
-    -- Check if it's Jynorah
-    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-    if (TITAN_MAX_HPS[powerMax]) then
-        RegisterTwins()
-    else
-        UnregisterTwins()
-    end
-end
-
 -- TODO: sync if you pass reticle over them?
 
 
@@ -373,7 +363,7 @@ local function OnEnfeeblement(enfeeblementStruct, changeType, unitTag)
         enfeeblementStruct[atName] = true
         UpdateEnfeeblementIcon(atName)
     elseif (changeType == EFFECT_RESULT_FADED) then
-        enfeeblementStruct[atName] = false
+        enfeeblementStruct[atName] = nil
         UpdateEnfeeblementIcon(atName)
     end
 end
@@ -386,8 +376,13 @@ Crutch.Blaze = function(tag, effect) OnEnfeeblement(blazing, effect, tag) end
 /script CrutchAlerts.Blaze("group1", EFFECT_RESULT_FADED)
 ]]
 
-local origOSIGetIconDataForPlayer = nil
+local function UnregisterEnfeeblement()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED)
+end
+
 local function RegisterEnfeeblement()
+    UnregisterEnfeeblement()
     if (OSI and OSI.SetMechanicIconForUnit) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag)
             OnEnfeeblement(sparking, changeType, unitTag)
@@ -403,9 +398,32 @@ local function RegisterEnfeeblement()
     end
 end
 
-local function UnregisterEnfeeblement()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED)
+---------------------------------------------------------------------
+-- Twins entry
+---------------------------------------------------------------------
+local function MaybeRegisterTwins()
+    -- Check if it's Jynorah
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (TITAN_MAX_HPS[powerMax]) then
+        RegisterTwins()
+    else
+        UnregisterTwins()
+    end
+
+    -- Only enable enfeeblement icons if the difficulty is appropriate
+    local enfeeblementOption = Crutch.savedOptions.osseincage.showEnfeeblementIcons
+    if (enfeeblementOption == "NEVER") then
+        UnregisterEnfeeblement()
+        return
+    elseif (enfeeblementOption == "ALWAYS") then
+        RegisterEnfeeblement()
+    elseif (enfeeblementOption == "HM" and powerMax == 85320632) then
+        RegisterEnfeeblement()
+    elseif (enfeeblementOption == "VET" and (powerMax == 85320632 or powerMax == 37257920)) then
+        RegisterEnfeeblement()
+    else
+        UnregisterEnfeeblement()
+    end
 end
 
 
