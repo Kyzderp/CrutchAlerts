@@ -170,7 +170,7 @@ local data = {
     ["ZhajM3"] = {x = 102853, y = 45947, z = 127674, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = GetZhajIconsSize},
     ["ZhajM4"] = {x = 102563, y = 45948, z = 127971, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = GetZhajIconsSize},
 
-    -- Jynorah + Skorkhif
+    -- Jynorah + Skorkhif, matching Asquart's OCH
     ["OCBlueBossEntrance"] = {x = 104556, y = 26152, z = 129135, texture = "odysupporticons/icons/squares/squaretwo_pink.dds",         size = GetOCIconsSize},
     ["OCBlueHealEntrance"] = {x = 104863, y = 26152, z = 128405, texture = "odysupporticons/icons/squares/squaretwo_blue.dds",         size = GetOCIconsSize},
     ["OCBlue1Entrance"] =    {x = 104110, y = 26152, z = 128614, texture = "odysupporticons/icons/squares/squaretwo_blue_one.dds",     size = GetOCIconsSize},
@@ -196,6 +196,45 @@ local data = {
     ["OCRed2Exit"] =     {x = 106040, y = 26152, z = 132551, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds",   size = GetOCIconsSize},
     ["OCRed3Exit"] =     {x = 105682, y = 26152, z = 132030, texture = "odysupporticons/icons/squares/squaretwo_orange_three.dds", size = GetOCIconsSize},
     ["OCRed4Exit"] =     {x = 105626, y = 26152, z = 132579, texture = "odysupporticons/icons/squares/squaretwo_orange_four.dds",  size = GetOCIconsSize},
+
+    -- Jynorah + Skorkhif, matching... someone's Elm's
+    ["OCAltRedBossEntrance"]  = {x = 105750, y = 26153, z = 128100, texture = "OdySupportIcons/icons/squares/squaretwo_pink.dds",       size = GetOCIconsSize},
+    ["OCAltRedHealEntrance"]  = {x = 105400, y = 26153, z = 128100, texture = "OdySupportIcons/icons/squares/squaretwo_orange.dds",       size = GetOCIconsSize},
+    ["OCAltRed1Entrance"]     = {x = 105750, y = 26153, z = 128350, texture = "OdySupportIcons/icons/squares/squaretwo_orange_one.dds",   size = GetOCIconsSize},
+    ["OCAltRed2Entrance"]     = {x = 105750, y = 26153, z = 127850, texture = "OdySupportIcons/icons/squares/squaretwo_orange_two.dds",   size = GetOCIconsSize},
+    ["OCAltRed3Entrance"]     = {x = 106250, y = 26153, z = 128350, texture = "OdySupportIcons/icons/squares/squaretwo_orange_three.dds", size = GetOCIconsSize},
+    ["OCAltRed4Entrance"]     = {x = 106250, y = 26153, z = 127850, texture = "OdySupportIcons/icons/squares/squaretwo_orange_four.dds",  size = GetOCIconsSize},
+    ["OCAltBlueBossEntrance"] = {x = 104450, y = 26153, z = 128100, texture = "OdySupportIcons/icons/squares/squaretwo_pink.dds",         size = GetOCIconsSize},
+    ["OCAltBlueHealEntrance"] = {x = 104800, y = 26153, z = 128100, texture = "OdySupportIcons/icons/squares/squaretwo_blue.dds",         size = GetOCIconsSize},
+    ["OCAltBlue1Entrance"]    = {x = 104450, y = 26153, z = 128350, texture = "OdySupportIcons/icons/squares/squaretwo_blue_one.dds",     size = GetOCIconsSize},
+    ["OCAltBlue2Entrance"]    = {x = 104450, y = 26153, z = 127850, texture = "OdySupportIcons/icons/squares/squaretwo_blue_two.dds",     size = GetOCIconsSize},
+    ["OCAltBlue3Entrance"]    = {x = 103950, y = 26153, z = 128350, texture = "OdySupportIcons/icons/squares/squaretwo_blue_three.dds",   size = GetOCIconsSize},
+    ["OCAltBlue4Entrance"]    = {x = 103950, y = 26153, z = 127850, texture = "OdySupportIcons/icons/squares/squaretwo_blue_four.dds",    size = GetOCIconsSize},
+
+    ["OCAltRedBossExit"]  = {x = 105750, y = 26153, z = 132700, texture = "OdySupportIcons/icons/squares/squaretwo_red.dds",       size = GetOCIconsSize},
+    ["OCAltRedHealExit"]  = {x = 105400, y = 26153, z = 132700, texture = "OdySupportIcons/icons/squares/squaretwo_orange.dds",       size = GetOCIconsSize},
+    ["OCAltRed1Exit"]     = {x = 105750, y = 26153, z = 132450, texture = "OdySupportIcons/icons/squares/squaretwo_orange_one.dds",   size = GetOCIconsSize},
+    ["OCAltRed2Exit"]     = {x = 105750, y = 26153, z = 132950, texture = "OdySupportIcons/icons/squares/squaretwo_orange_two.dds",   size = GetOCIconsSize},
+    ["OCAltRed3Exit"]     = {x = 106250, y = 26153, z = 132450, texture = "OdySupportIcons/icons/squares/squaretwo_orange_three.dds", size = GetOCIconsSize},
+    ["OCAltRed4Exit"]     = {x = 106250, y = 26153, z = 132950, texture = "OdySupportIcons/icons/squares/squaretwo_orange_four.dds",  size = GetOCIconsSize},
+    ["OCAltBlueBossExit"] = {x = 104450, y = 26153, z = 132700, texture = "OdySupportIcons/icons/squares/squaretwo_red.dds",         size = GetOCIconsSize},
+    ["OCAltBlueHealExit"] = {x = 104800, y = 26153, z = 132700, texture = "OdySupportIcons/icons/squares/squaretwo_blue.dds",         size = GetOCIconsSize},
+    ["OCAltBlue1Exit"]    = {x = 104450, y = 26153, z = 132450, texture = "OdySupportIcons/icons/squares/squaretwo_blue_one.dds",     size = GetOCIconsSize},
+    ["OCAltBlue2Exit"]    = {x = 104450, y = 26153, z = 132950, texture = "OdySupportIcons/icons/squares/squaretwo_blue_two.dds",     size = GetOCIconsSize},
+    ["OCAltBlue3Exit"]    = {x = 103950, y = 26153, z = 132450, texture = "OdySupportIcons/icons/squares/squaretwo_blue_three.dds",   size = GetOCIconsSize},
+    ["OCAltBlue4Exit"]    = {x = 103950, y = 26153, z = 132950, texture = "OdySupportIcons/icons/squares/squaretwo_blue_four.dds",    size = GetOCIconsSize},
+
+    -- Jynorah + Skorkhif middle
+    ["OCAltRedHealMiddle"]  = {x = 105400, y = 26153, z = 130300, texture = "OdySupportIcons/icons/squares/squaretwo_orange.dds",       size = GetOCIconsSize},
+    ["OCAltRed1Middle"]     = {x = 105750, y = 26153, z = 130050, texture = "OdySupportIcons/icons/squares/squaretwo_orange_one.dds",   size = GetOCIconsSize},
+    ["OCAltRed2Middle"]     = {x = 105750, y = 26153, z = 130550, texture = "OdySupportIcons/icons/squares/squaretwo_orange_two.dds",   size = GetOCIconsSize},
+    ["OCAltRed3Middle"]     = {x = 106250, y = 26153, z = 130050, texture = "OdySupportIcons/icons/squares/squaretwo_orange_three.dds", size = GetOCIconsSize},
+    ["OCAltRed4Middle"]     = {x = 106250, y = 26153, z = 130550, texture = "OdySupportIcons/icons/squares/squaretwo_orange_four.dds",  size = GetOCIconsSize},
+    ["OCAltBlueHealMiddle"] = {x = 104800, y = 26153, z = 130300, texture = "OdySupportIcons/icons/squares/squaretwo_blue.dds",         size = GetOCIconsSize},
+    ["OCAltBlue1Middle"]    = {x = 104450, y = 26153, z = 130050, texture = "OdySupportIcons/icons/squares/squaretwo_blue_one.dds",     size = GetOCIconsSize},
+    ["OCAltBlue2Middle"]    = {x = 104450, y = 26153, z = 130550, texture = "OdySupportIcons/icons/squares/squaretwo_blue_two.dds",     size = GetOCIconsSize},
+    ["OCAltBlue3Middle"]    = {x = 103950, y = 26153, z = 130050, texture = "OdySupportIcons/icons/squares/squaretwo_blue_three.dds",   size = GetOCIconsSize},
+    ["OCAltBlue4Middle"]    = {x = 103950, y = 26153, z = 130550, texture = "OdySupportIcons/icons/squares/squaretwo_blue_four.dds",    size = GetOCIconsSize},
 }
 
 
