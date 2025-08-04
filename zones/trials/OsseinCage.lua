@@ -372,6 +372,81 @@ end
 
 
 ---------------------------------------------------------------------
+-- Player-attached icons for Enfeeblement
+---------------------------------------------------------------------
+-- {"Kyzeragon" = true}
+local sparking = {}
+local blazing = {}
+
+local function UpdateEnfeeblementIcon(atName)
+    Crutch.RemoveMechanicIconForUnit(atName)
+
+    local icon, color
+    if (sparking[atName] and blazing[atName]) then
+        -- Purplish
+        icon = "/esoui/art/ava/ava_rankicon64_grandoverlord.dds"
+        color = {183/255, 38/255, 1}
+    elseif (sparking[atName]) then
+        -- Blue, matching OSI
+        icon = "/esoui/art/ava/ava_rankicon64_tribune.dds"
+        color = {0, 4/255, 1}
+    elseif (blazing[atName]) then
+        -- Orange, matching OSI
+        icon = "/esoui/art/ava/ava_rankicon64_prefect.dds"
+        color = {1, 113/255, 0}
+    else
+        -- No more icon
+        Crutch.dbgSpam("Removed icon for " .. atName)
+        return
+    end
+
+    Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", icon, atName))
+    Crutch.SetMechanicIconForUnit(atName, icon, nil, color)
+end
+
+local function OnEnfeeblement(enfeeblementStruct, changeType, unitTag)
+    local atName = GetUnitDisplayName(unitTag)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        enfeeblementStruct[atName] = true
+        UpdateEnfeeblementIcon(atName)
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        enfeeblementStruct[atName] = false
+        UpdateEnfeeblementIcon(atName)
+    end
+end
+Crutch.Spark = function(tag, effect) OnEnfeeblement(sparking, effect, tag) end
+Crutch.Blaze = function(tag, effect) OnEnfeeblement(blazing, effect, tag) end
+--[[
+/script CrutchAlerts.Spark("group1", EFFECT_RESULT_GAINED)
+/script CrutchAlerts.Spark("group1", EFFECT_RESULT_FADED)
+/script CrutchAlerts.Blaze("group1", EFFECT_RESULT_GAINED)
+/script CrutchAlerts.Blaze("group1", EFFECT_RESULT_FADED)
+]]
+
+local origOSIGetIconDataForPlayer = nil
+local function RegisterEnfeeblement()
+    if (OSI and OSI.SetMechanicIconForUnit) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag)
+            OnEnfeeblement(sparking, changeType, unitTag)
+        end)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 233644)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag)
+            OnEnfeeblement(blazing, changeType, unitTag)
+        end)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 233692)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    end
+end
+
+local function UnregisterEnfeeblement()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED)
+end
+
+
+---------------------------------------------------------------------
 -- Stricken
 ---------------------------------------------------------------------
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
@@ -565,11 +640,14 @@ function Crutch.RegisterOsseinCage()
         myrinaxFound = false
         valneerFound = false
         UnspoofTitans()
+        sparking = {}
+        blazing = {}
     end)
 
     -- Bosses changed, for titan spoofing
     Crutch.RegisterBossChangedListener("CrutchOsseinCage", MaybeRegisterTwins)
     MaybeRegisterTwins()
+    RegisterEnfeeblement()
 
     -- Caustic Carrion
     if (Crutch.savedOptions.osseincage.showCarrion) then
@@ -624,6 +702,8 @@ function Crutch.UnregisterOsseinCage()
     end
 
     Crutch.UnregisterBossChangedListener("CrutchOsseinCage")
+
+    UnregisterEnfeeblement()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED)
