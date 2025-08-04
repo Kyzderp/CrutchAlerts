@@ -592,7 +592,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Triplets icon size",
+                    name = "    Triplets icon size",
                     min = 20,
                     max = 300,
                     step = 10,
@@ -620,7 +620,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Assembly General icons size",
+                    name = "    Assembly General icons size",
                     min = 20,
                     max = 300,
                     step = 10,
@@ -680,7 +680,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Falgravn icon size",
+                    name = "    Falgravn icon size",
                     min = 20,
                     max = 300,
                     step = 10,
@@ -714,7 +714,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Cavot Agnan icon size",
+                    name = "    Cavot Agnan icon size",
                     tooltip = "The size of the icon for Cavot Agnan spawn",
                     min = 20,
                     max = 300,
@@ -756,7 +756,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Orphic icon size",
+                    name = "    Orphic icon size",
                     tooltip = "The size of the mirror icons",
                     min = 20,
                     max = 300,
@@ -812,7 +812,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Xoryn Tempest icon size",
+                    name = "    Tempest icon size",
                     tooltip = "The size of the Tempest icons",
                     min = 20,
                     max = 300,
@@ -912,12 +912,38 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return OSI == nil end,
                 },
                 {
+                    type = "checkbox",
+                    name = "    Match AOCH icons",
+                    tooltip = "Use icons that match Asquart's Ossein Cage Helper's icons",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.osseincage.useAOCHIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.useAOCHIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.osseincage.showTwinsIcons end,
+                },
+                {
+                    type = "checkbox",
+                    name = "    Show middle icons",
+                    tooltip = "Additionally shows a set of icons for positioning in the middle of the arena",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.osseincage.useMiddleIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.useMiddleIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.osseincage.showTwinsIcons end,
+                },
+                {
                     type = "slider",
-                    name = "Twins icons size",
+                    name = "    Twins icons size",
                     min = 20,
                     max = 300,
                     step = 10,
-                    default = 150,
+                    default = 100,
                     width = "full",
                     getFunc = function() return Crutch.savedOptions.osseincage.twinsIconsSize end,
                     setFunc = function(value)

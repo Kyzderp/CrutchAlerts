@@ -287,6 +287,8 @@ local function UnregisterTwins()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT)
 
     Crutch.DisableIconGroup("OCAOCH")
+    Crutch.DisableIconGroup("OCAlt")
+    Crutch.DisableIconGroup("OCMiddle")
 end
 
 local function RegisterTwins()
@@ -308,7 +310,14 @@ local function RegisterTwins()
     end
 
     if (Crutch.savedOptions.osseincage.showTwinsIcons) then
-        Crutch.EnableIconGroup("OCAOCH")
+        if (Crutch.savedOptions.osseincage.useAOCHIcons) then
+            Crutch.EnableIconGroup("OCAOCH")
+        else
+            Crutch.EnableIconGroup("OCAlt")
+        end
+        if (Crutch.savedOptions.osseincage.useMiddleIcons) then
+            Crutch.EnableIconGroup("OCMiddle")
+        end
     end
 end
 

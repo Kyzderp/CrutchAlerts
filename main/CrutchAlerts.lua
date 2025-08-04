@@ -126,7 +126,9 @@ local defaultOptions = {
         showCarrionIndividual = false,
         showTitansHp = true,
         showTwinsIcons = false,
-        twinsIconsSize = 150,
+        useAOCHIcons = false,
+        useMiddleIcons = true,
+        twinsIconsSize = 100,
     },
     rockgrove = {
         sludgeSides = true,
