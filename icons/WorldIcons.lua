@@ -169,37 +169,41 @@ local data = {
     ["ZhajM2"] = {x = 103134, y = 45919, z = 127905, texture = "odysupporticons/icons/squares/squaretwo_red_two.dds", size = GetZhajIconsSize},
     ["ZhajM3"] = {x = 102853, y = 45947, z = 127674, texture = "odysupporticons/icons/squares/squaretwo_red_three.dds", size = GetZhajIconsSize},
     ["ZhajM4"] = {x = 102563, y = 45948, z = 127971, texture = "odysupporticons/icons/squares/squaretwo_red_four.dds", size = GetZhajIconsSize},
-
-    -- Jynorah + Skorkhif, matching Asquart's OCH
-    ["OCBlueBossEntrance"] = {x = 104556, y = 26152, z = 129135, texture = "odysupporticons/icons/squares/squaretwo_pink.dds",         size = GetOCIconsSize},
-    ["OCBlueHealEntrance"] = {x = 104863, y = 26152, z = 128405, texture = "odysupporticons/icons/squares/squaretwo_blue.dds",         size = GetOCIconsSize},
-    ["OCBlue1Entrance"] =    {x = 104110, y = 26152, z = 128614, texture = "odysupporticons/icons/squares/squaretwo_blue_one.dds",     size = GetOCIconsSize},
-    ["OCBlue2Entrance"] =    {x = 104137, y = 26152, z = 128115, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds",     size = GetOCIconsSize},
-    ["OCBlue3Entrance"] =    {x = 104536, y = 26152, z = 128677, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds",   size = GetOCIconsSize},
-    ["OCBlue4Entrance"] =    {x = 104557, y = 26152, z = 128107, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds",    size = GetOCIconsSize},
-    ["OCRedBossEntrance"] =  {x = 105634, y = 26152, z = 129199, texture = "odysupporticons/icons/squares/squaretwo_pink.dds",         size = GetOCIconsSize},
-    ["OCRedHealEntrance"] =  {x = 105330, y = 26152, z = 128446, texture = "odysupporticons/icons/squares/squaretwo_orange.dds",       size = GetOCIconsSize},
-    ["OCRed1Entrance"] =     {x = 106063, y = 26152, z = 128701, texture = "odysupporticons/icons/squares/squaretwo_orange_one.dds",   size = GetOCIconsSize},
-    ["OCRed2Entrance"] =     {x = 106069, y = 26152, z = 128253, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds",   size = GetOCIconsSize},
-    ["OCRed3Entrance"] =     {x = 105652, y = 26152, z = 128729, texture = "odysupporticons/icons/squares/squaretwo_orange_three.dds", size = GetOCIconsSize},
-    ["OCRed4Entrance"] =     {x = 105661, y = 26152, z = 128177, texture = "odysupporticons/icons/squares/squaretwo_orange_four.dds",  size = GetOCIconsSize},
-
-    ["OCBlueBossExit"] = {x = 104560, y = 26152, z = 131493, texture = "odysupporticons/icons/squares/squaretwo_red.dds",          size = GetOCIconsSize},
-    ["OCBlueHealExit"] = {x = 104860, y = 26152, z = 132259, texture = "odysupporticons/icons/squares/squaretwo_blue.dds",         size = GetOCIconsSize},
-    ["OCBlue1Exit"] =    {x = 104137, y = 26152, z = 131962, texture = "odysupporticons/icons/squares/squaretwo_blue_one.dds",     size = GetOCIconsSize},
-    ["OCBlue2Exit"] =    {x = 104106, y = 26152, z = 132462, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds",     size = GetOCIconsSize},
-    ["OCBlue3Exit"] =    {x = 104568, y = 26152, z = 131949, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds",   size = GetOCIconsSize},
-    ["OCBlue4Exit"] =    {x = 104522, y = 26152, z = 132518, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds",    size = GetOCIconsSize},
-    ["OCRedBossExit"] =  {x = 105638, y = 26152, z = 131557, texture = "odysupporticons/icons/squares/squaretwo_red.dds",          size = GetOCIconsSize},
-    ["OCRedHealExit"] =  {x = 105330, y = 26152, z = 132273, texture = "odysupporticons/icons/squares/squaretwo_orange.dds",       size = GetOCIconsSize},
-    ["OCRed1Exit"] =     {x = 106087, y = 26152, z = 132105, texture = "odysupporticons/icons/squares/squaretwo_orange_one.dds",   size = GetOCIconsSize},
-    ["OCRed2Exit"] =     {x = 106040, y = 26152, z = 132551, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds",   size = GetOCIconsSize},
-    ["OCRed3Exit"] =     {x = 105682, y = 26152, z = 132030, texture = "odysupporticons/icons/squares/squaretwo_orange_three.dds", size = GetOCIconsSize},
-    ["OCRed4Exit"] =     {x = 105626, y = 26152, z = 132579, texture = "odysupporticons/icons/squares/squaretwo_orange_four.dds",  size = GetOCIconsSize},
 }
 
 -- New more organized data
 local iconGroups = {
+    -- Jynorah + Skorkhif, matching Asquart's OCH
+    ["OCAOCH"] = {
+        size = GetOCIconsSize,
+        icons = {
+            {x = 104556, y = 26152, z = 129135, texture = "odysupporticons/icons/squares/squaretwo_pink.dds"}, -- OCBlueBossEntrance
+            {x = 104863, y = 26152, z = 128405, texture = "odysupporticons/icons/squares/squaretwo_blue.dds"}, -- OCBlueHealEntrance
+            {x = 104110, y = 26152, z = 128614, texture = "odysupporticons/icons/squares/squaretwo_blue_one.dds"}, -- OCBlue1Entrance
+            {x = 104137, y = 26152, z = 128115, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds"}, -- OCBlue2Entrance
+            {x = 104536, y = 26152, z = 128677, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds"}, -- OCBlue3Entrance
+            {x = 104557, y = 26152, z = 128107, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds"}, -- OCBlue4Entrance
+            {x = 105634, y = 26152, z = 129199, texture = "odysupporticons/icons/squares/squaretwo_pink.dds"}, -- OCRedBossEntrance
+            {x = 105330, y = 26152, z = 128446, texture = "odysupporticons/icons/squares/squaretwo_orange.dds"}, -- OCRedHealEntrance
+            {x = 106063, y = 26152, z = 128701, texture = "odysupporticons/icons/squares/squaretwo_orange_one.dds"}, -- OCRed1Entrance
+            {x = 106069, y = 26152, z = 128253, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds"}, -- OCRed2Entrance
+            {x = 105652, y = 26152, z = 128729, texture = "odysupporticons/icons/squares/squaretwo_orange_three.dds"}, -- OCRed3Entrance
+            {x = 105661, y = 26152, z = 128177, texture = "odysupporticons/icons/squares/squaretwo_orange_four.dds"}, -- OCRed4Entrance
+
+            {x = 104560, y = 26152, z = 131493, texture = "odysupporticons/icons/squares/squaretwo_red.dds"}, -- OCBlueBossExit
+            {x = 104860, y = 26152, z = 132259, texture = "odysupporticons/icons/squares/squaretwo_blue.dds"}, -- OCBlueHealExit
+            {x = 104137, y = 26152, z = 131962, texture = "odysupporticons/icons/squares/squaretwo_blue_one.dds"}, -- OCBlue1Exit
+            {x = 104106, y = 26152, z = 132462, texture = "odysupporticons/icons/squares/squaretwo_blue_two.dds"}, -- OCBlue2Exit
+            {x = 104568, y = 26152, z = 131949, texture = "odysupporticons/icons/squares/squaretwo_blue_three.dds"}, -- OCBlue3Exit
+            {x = 104522, y = 26152, z = 132518, texture = "odysupporticons/icons/squares/squaretwo_blue_four.dds"}, -- OCBlue4Exit
+            {x = 105638, y = 26152, z = 131557, texture = "odysupporticons/icons/squares/squaretwo_red.dds"}, -- OCRedBossExit
+            {x = 105330, y = 26152, z = 132273, texture = "odysupporticons/icons/squares/squaretwo_orange.dds"}, -- OCRedHealExit
+            {x = 106087, y = 26152, z = 132105, texture = "odysupporticons/icons/squares/squaretwo_orange_one.dds"}, -- OCRed1Exit
+            {x = 106040, y = 26152, z = 132551, texture = "odysupporticons/icons/squares/squaretwo_orange_two.dds"}, -- OCRed2Exit
+            {x = 105682, y = 26152, z = 132030, texture = "odysupporticons/icons/squares/squaretwo_orange_three.dds"}, -- OCRed3Exit
+            {x = 105626, y = 26152, z = 132579, texture = "odysupporticons/icons/squares/squaretwo_orange_four.dds"}, -- OCRed4Exit
+        },
+    },
     -- Jynorah + Skorkhif, matching... someone's Elm's
     ["OCAlt"] = {
         size = GetOCIconsSize,
@@ -216,6 +220,7 @@ local iconGroups = {
             {x = 104450, y = 26153, z = 127850, texture = "OdySupportIcons/icons/squares/squaretwo_blue_two.dds"}, -- Blue2Entrance
             {x = 103950, y = 26153, z = 128350, texture = "OdySupportIcons/icons/squares/squaretwo_blue_three.dds"}, -- Blue3Entrance
             {x = 103950, y = 26153, z = 127850, texture = "OdySupportIcons/icons/squares/squaretwo_blue_four.dds"}, -- Blue4Entrance
+
             {x = 105750, y = 26153, z = 132700, texture = "OdySupportIcons/icons/squares/squaretwo_red.dds"}, -- RedBossExit
             {x = 105400, y = 26153, z = 132700, texture = "OdySupportIcons/icons/squares/squaretwo_orange.dds"}, -- RedHealExit
             {x = 105750, y = 26153, z = 132450, texture = "OdySupportIcons/icons/squares/squaretwo_orange_one.dds"}, -- Red1Exit
