@@ -628,7 +628,6 @@ function Crutch.RegisterOsseinCage()
     -- Bosses changed, for titan spoofing
     Crutch.RegisterBossChangedListener("CrutchOsseinCage", MaybeRegisterTwins)
     MaybeRegisterTwins()
-    RegisterEnfeeblement()
 
     -- Caustic Carrion
     if (Crutch.savedOptions.osseincage.showCarrion) then

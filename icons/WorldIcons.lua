@@ -204,7 +204,7 @@ local iconGroups = {
             {x = 105626, y = 26152, z = 132579, texture = "odysupporticons/icons/squares/squaretwo_orange_four.dds"}, -- OCRed4Exit
         },
     },
-    -- Jynorah + Skorkhif, matching... someone's Elm's
+    -- Jynorah + Skorkhif, matching... someone's Elm's (Minervyr via M0R via Plonk)
     ["OCAlt"] = {
         size = GetOCIconsSize,
         icons = {
