@@ -260,21 +260,21 @@ local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, so
     local targetTitan = titanIds[targetUnitId]
     if (not targetTitan) then return end
 
-    Crutch.dbgSpam(string.format("%s(%d) hit by %s(%d) for %d",
-        targetTitan.name,
-        targetUnitId,
-        GetAbilityName(abilityId),
-        abilityId,
-        hitValue))
+    -- Crutch.dbgSpam(string.format("%s(%d) hit by %s(%d) for %d",
+    --     targetTitan.name,
+    --     targetUnitId,
+    --     GetAbilityName(abilityId),
+    --     abilityId,
+    --     hitValue))
 
     targetTitan.hp = targetTitan.hp - hitValue
 
-    Crutch.dbgSpam(string.format("%s(%d) HP %d / %d (%.2f)",
-        targetTitan.name,
-        targetUnitId,
-        targetTitan.hp,
-        titanMaxHp,
-        targetTitan.hp * 100 / titanMaxHp))
+    -- Crutch.dbgSpam(string.format("%s(%d) HP %d / %d (%.2f)",
+    --     targetTitan.name,
+    --     targetUnitId,
+    --     targetTitan.hp,
+    --     titanMaxHp,
+    --     targetTitan.hp * 100 / titanMaxHp))
 
     Crutch.UpdateSpoofedBossHealth(TITANS[targetTitan.name].tag, targetTitan.hp, titanMaxHp)
 end
@@ -377,6 +377,7 @@ Crutch.Blaze = function(tag, effect) OnEnfeeblement(blazing, effect, tag) end
 ]]
 
 local function UnregisterEnfeeblement()
+    Crutch.dbgSpam("Unregistering Enfeeblement")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED)
 end
@@ -384,6 +385,7 @@ end
 local function RegisterEnfeeblement()
     UnregisterEnfeeblement()
     if (OSI and OSI.SetMechanicIconForUnit) then
+        Crutch.dbgSpam("Registering Enfeeblement")
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag)
             OnEnfeeblement(sparking, changeType, unitTag)
         end)
@@ -625,9 +627,20 @@ function Crutch.RegisterOsseinCage()
         blazing = {}
     end)
 
-    -- Bosses changed, for titan spoofing
+    -- Bosses changed, for titan spoofing and Enfeeblement markers
     Crutch.RegisterBossChangedListener("CrutchOsseinCage", MaybeRegisterTwins)
     MaybeRegisterTwins()
+
+    -- Register for OC difficulty change (to enable Enfeeblement)
+    local prevMaxHealth = 0
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, function(_, _, _, _, _, powerMax)
+        if (prevMaxHealth == powerMax) then return end -- Only check if the max health changed, not when % changes
+        prevMaxHealth = powerMax
+        Crutch.dbgSpam("max hp changed")
+        MaybeRegisterTwins()
+    end)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss1")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 
     -- Caustic Carrion
     if (Crutch.savedOptions.osseincage.showCarrion) then
@@ -685,6 +698,7 @@ function Crutch.UnregisterOsseinCage()
 
     UnregisterEnfeeblement()
 
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED)
