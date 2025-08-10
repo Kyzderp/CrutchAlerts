@@ -477,6 +477,7 @@ Crutch.others = {
     [229247] = true, -- Forbidden Knowledge (Orpheon the Tactician)
     [233821] = true, -- Cyclone (Flame Gryphon)
     [109231] = true, -- Bog Slam (Argonian Behemoth)
+    [224822] = true, -- Blast Powder (Noriwen)
 
 -- Oathsworn Pit
     [203989] = true, -- Hurl Axe (Anthelmir's Construct)

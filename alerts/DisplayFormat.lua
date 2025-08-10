@@ -161,6 +161,7 @@ Crutch.format = {
     [226181] = 200, -- Venom Eruption (Garvin the Tracker)
     [229247] = 800, -- Forbidden Knowledge (Orpheon the Tactician)
     [233821] = 100, -- Cyclone (Flame Gryphon)
+    [224822] = 100, -- Blast Powder (Noriwen)
 
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb

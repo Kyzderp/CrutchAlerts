@@ -628,12 +628,15 @@ function Crutch.RegisterOsseinCage()
     end)
 
     -- Bosses changed, for titan spoofing and Enfeeblement markers
-    Crutch.RegisterBossChangedListener("CrutchOsseinCage", MaybeRegisterTwins)
+    -- This is delayed a bit because HM wipes respawn the boss at the nonHM health, and then increase max health.
+    -- That doesn't seem to trigger my power update below? idk need more testing, but want to upload working version first
+    Crutch.RegisterBossChangedListener("CrutchOsseinCage", function() zo_callLater(MaybeRegisterTwins, 3000) end)
     MaybeRegisterTwins()
 
     -- Register for OC difficulty change (to enable Enfeeblement)
     local prevMaxHealth = 0
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, function(_, _, _, _, _, powerMax)
+        -- Crutch.dbgSpam(string.format("%d %d", powerMax, prevMaxHealth))
         if (prevMaxHealth == powerMax) then return end -- Only check if the max health changed, not when % changes
         prevMaxHealth = powerMax
         Crutch.dbgSpam("max hp changed")
