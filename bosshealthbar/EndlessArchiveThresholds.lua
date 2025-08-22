@@ -16,8 +16,8 @@ local endlessArchiveThresholds = {
     -- Ash Titan - no adds
 
     -- Barbas -- nothing interesting
-    -- Baron Zaudrus -- no adds i think
-    -- Bittergreen the Wild -- spriggans, don't be near them
+    -- Baron Zaudrus -- no real adds--watchlings explode quickly
+    -- Bittergreen the Wild -- spriggans, don't be near them (small conal)
 
     -- Caluurion -- not sure if relics are hp based. spawns exploding skellies
     -- Canonreeve Oraneth -- no hp gates, has squishy skelly spawns
@@ -42,10 +42,10 @@ local endlessArchiveThresholds = {
     },
     -- Dugan the Red
 
-    -- Exarch Kraglen -- nothing interesting
+    -- Exarch Kraglen -- nothing interesting, but knockback
 
     -- Garron the Returned -- Consume Life is timer based -- no hp gates, wraiths can hit hard
-    -- Ghemvas the Harbinger
+    -- Ghemvas the Harbinger -- scamps, DO NOT BE NEAR DURING BLITZ (flame aura), go outside during unstable phase
     [GetBossName(CRUTCH_BHB_GHEMVAS_THE_HARBINGER)] = {
         [50] = "Unstable Energy",
     },
@@ -69,7 +69,7 @@ local endlessArchiveThresholds = {
     [GetBossName(CRUTCH_BHB_LAATVULON)] = {
         [50] = "Blizzard",
     },
-    -- Lady Belain
+    -- Lady Belain -- RIP
     [GetBossName(CRUTCH_BHB_LADY_BELAIN)] = {
         [50] = "Awakening", -- She flies up and summons 2~4 voidmothers (random/inconsistent), and you take constant Awakening damage
         -- Seems like after 50 she also summons blood knights, 3 at once
@@ -79,7 +79,7 @@ local endlessArchiveThresholds = {
         [50] = "Batdance",
     },
     -- Limenauruus -- no hp gates, no adds
-    -- Lord Warden Dusk -- no hp gates? has shades
+    -- Lord Warden Dusk -- no hp gates? has shades. MUST get away from shadow orbs before they fully spawn in. might not be able to enter portal as avatar because of cc immunity? unsure. but darklight seems blockable? shimmering shield is helpful
 
     -- Marauder Bittog -- no hp gates
     -- Marauder Gothmau -- no hp gates
@@ -88,13 +88,13 @@ local endlessArchiveThresholds = {
     -- Marauder Zulfimbul -- no hp gates
 
     -- Molag Kena -- storm atros. might be possible to debuff while in shielded phase? arc 10 - bring extra healing or shield
-    -- Mulaamnir
+    -- Mulaamnir -- dragons strafe to perpendicular first
     [GetBossName(CRUTCH_BHB_MULAAMNIR)] = {
         [50] = "Storm", -- Storm atros at and below 50
     },
     -- Murklight
 
-    -- Nazaray
+    -- Nazaray -- wasps, need to kill 1 thing
     -- Nerien'eth -- Lethal Stab applies dot (probably snapshot)
     [GetBossName(CRUTCH_BHB_NERIENETH)] = {
         [50] = "Ebony Blade",
@@ -109,7 +109,7 @@ local endlessArchiveThresholds = {
     -- Rada al-Saran -- no hp gates
     -- Rakkhat -- no hp gates I think
     -- Razor Master Erthas -- flame atro(s)
-    -- Ri'Atahrashi -- no hp gates, no adds
+    -- Ri'Atahrashi -- no hp gates, no adds. fire may still hurt
     -- Risen Ruins -- no hp gates, has adds like nullifier. boulders may not be affected by cowardice? unsure
 
     -- Sail Ripper -- harpies, and storm cell is donut only that follows
@@ -126,7 +126,7 @@ local endlessArchiveThresholds = {
     -- Shadowrend -- no hp gates, has some shades
     -- Staada -- no hp gates no adds
     -- Sonolia the Matriarch -- no hp gates
-    -- Symphony of Blades -- no hp gates?
+    -- Symphony of Blades -- no hp gates? stuns on curse
 
     -- Taupezu Azzida -- no hp gates
     -- The Ascendant Lord -- no hp gates?
@@ -158,7 +158,7 @@ local endlessArchiveThresholds = {
     -- Valkynaz Nokvroz -- maybe no hp gates, but annoying magma scamps
     -- Varlariel -- clones seem to be on a timer, also has wisps
     -- Varzunon -- tons of little skellies, and blastbones that makes him big
-    -- Vila Theran
+    -- Vila Theran -- nothing interesting
     -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
     -- Vorenor Winterbourne -- no adds. bring purge for dot at 50 because snapshotted
     [GetBossName(CRUTCH_BHB_VORENOR_WINTERBOURNE)] = {
@@ -177,9 +177,9 @@ local endlessArchiveThresholds = {
     [GetBossName(CRUTCH_BHB_YOLNAHKRIIN)] = {
         [50] = "Cataclysm",
     },
-    -- Ysmgar
+    -- Ysmgar -- no real adds, but the things reaching him cause knockback or stagger wave, could be problem for weakening uptime
 
-    -- Z'Baza -- no hp gates
+    -- Z'Baza -- no hp gates, but lots of adds
     -- Zhaj'hassa the Forgotten -- no hp gates? small senches
 }
 

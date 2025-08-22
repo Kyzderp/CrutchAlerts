@@ -160,6 +160,69 @@ end
 
 
 ---------------------------------------------------------------------
+-- Puzzle cheating
+---------------------------------------------------------------------
+local puzzleSolutions = {
+    [203317] = "3 1 4 6 5 2 -- left",
+    [203319] = "3 1 4 6 5 2 -- left",
+    [203321] = "3 1 4 6 5 2 -- left",
+    [203323] = "3 1 4 6 5 2 -- left",
+    [203325] = "3 1 4 6 5 2 -- left",
+    [203327] = "3 1 4 6 5 2 -- left",
+
+    [210720] = "1 6 2 4 5 3 -- right",
+    [210722] = "1 6 2 4 5 3 -- right",
+    [210724] = "1 6 2 4 5 3 -- right",
+    [210726] = "1 6 2 4 5 3 -- right",
+    [210728] = "1 6 2 4 5 3 -- right",
+    [210730] = "1 6 2 4 5 3 -- right",
+
+    [210778] = "5 1 4 2 3 6",
+    [210780] = "5 1 4 2 3 6",
+    [210782] = "5 1 4 2 3 6",
+    [210784] = "5 1 4 2 3 6",
+    [210786] = "5 1 4 2 3 6",
+    [210788] = "5 1 4 2 3 6",
+
+    [210739] = "2 5 1 4 3",
+    [210741] = "2 5 1 4 3",
+    [210743] = "2 5 1 4 3",
+    [210745] = "2 5 1 4 3",
+    [210747] = "2 5 1 4 3",
+    [210749] = "2 5 1 4 3",
+
+    [192440] = "5 3 4 1 2 6 -- right, right",
+    [197209] = "5 3 4 1 2 6 -- right, right",
+    [197216] = "5 3 4 1 2 6 -- right, right",
+    [197219] = "5 3 4 1 2 6 -- right, right",
+    [197222] = "5 3 4 1 2 6 -- right, right",
+    [197226] = "5 3 4 1 2 6 -- right, right",
+
+    [210759] = "5 2 6 4 3 1 -- left, right",
+    [210761] = "5 2 6 4 3 1 -- left, right",
+    [210763] = "5 2 6 4 3 1 -- left, right",
+    [210765] = "5 2 6 4 3 1 -- left, right",
+    [210767] = "5 2 6 4 3 1 -- left, right",
+    [210769] = "5 2 6 4 3 1 -- left, right",
+
+    [210798] = "1 5 4 2 3 6 -- left",
+    [210800] = "1 5 4 2 3 6 -- left",
+    [210802] = "1 5 4 2 3 6 -- left",
+    [210804] = "1 5 4 2 3 6 -- left",
+    [210806] = "1 5 4 2 3 6 -- left",
+    [210808] = "1 5 4 2 3 6 -- left",
+
+    -- TODO: 3 5 1 4 2 6 -- left
+}
+
+local function OnPuzzleSolution(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    if (puzzleSolutions[abilityId]) then
+        Crutch.msg(puzzleSolutions[abilityId])
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Puzzle", EVENT_COMBAT_EVENT)
+    end
+end
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterEndlessArchive()
@@ -184,6 +247,11 @@ function Crutch.RegisterEndlessArchive()
         end
     end
 
+    if (Crutch.savedOptions.endlessArchive.printPuzzleSolution) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Puzzle", EVENT_COMBAT_EVENT, OnPuzzleSolution)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Puzzle", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    end
+
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Endless Archive")
 end
 
@@ -192,6 +260,7 @@ function Crutch.UnregisterEndlessArchive()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "IAMajorCowardice", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EAReticle", EVENT_RETICLE_TARGET_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Puzzle", EVENT_COMBAT_EVENT)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Endless Archive")
 end

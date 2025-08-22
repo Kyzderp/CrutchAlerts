@@ -137,7 +137,12 @@ Crutch.format = {
     [241685] = 20200, -- Fluctuating Esseence GRN [sic] (3000 when the fountains become green)
     [241854] = 500, -- Soulbinding Slam (High Soulbinder Vykand)
     [241863] = 500, -- Soul Cascade (Vykand)
-    [241229] = 500, -- Imminent Annihilation (Vykand)
+    -- [241229] = 500, -- Imminent Annihilation (Vykand)
+    [241326] = 500, -- Annihilation
+    [241327] = 500, -- Annihilation
+    [241328] = 500, -- Annihilation
+    [241329] = 500, -- Annihilation
+    [241224] = 500, -- Ominous Vision
 
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)

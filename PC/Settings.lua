@@ -1240,6 +1240,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Print puzzle solution",
+                    tooltip = "In the Corridor Puzzle room, when you get close to a switch, prints to chat the solution, if known, numbered from left to right. Currently missing 1 set of IDs, and works only for highest difficulty",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.endlessArchive.printPuzzleSolution end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.endlessArchive.printPuzzleSolution = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
         {

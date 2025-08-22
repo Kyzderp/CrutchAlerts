@@ -1082,6 +1082,18 @@ end
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Print puzzle solution",
+        tooltip = "In the Corridor Puzzle room, when you get close to a switch, prints to chat the solution, if known, numbered from left to right. Currently missing 1 set of IDs, and works only for highest difficulty",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.endlessArchive.printPuzzleSolution end,
+        setFunction = function(value)
+            Crutch.savedOptions.endlessArchive.printPuzzleSolution = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Maelstrom Arena",
     })

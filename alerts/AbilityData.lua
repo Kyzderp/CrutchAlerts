@@ -157,6 +157,13 @@ Crutch.testing = {
 
     [232460] = true, -- Titanic Clash on Valneer
     [232465] = true, -- Titanic Clash on Myrinax
+
+    [241326] = true, -- Annihilation
+    [241327] = true, -- Annihilation
+    [241328] = true, -- Annihilation
+    [241329] = true, -- Annihilation
+
+    [241224] = true, -- Ominous Vision
 }
 
 ---------------------------------------------------------------------
@@ -215,7 +222,8 @@ Crutch.gainedDuration = {
     -- [222161] = true, -- Meteor (Butcher's Fire Shaman (Yandir))
 
 -- Black Gem Foundry
-    [241229] = true, -- Imminent Annihilation (Vykand)
+    -- [241229] = true, -- Imminent Annihilation (Vykand) -- might not show on dead players
+    [241224] = true, -- Ominous Vision
 }
 
 
@@ -437,6 +445,10 @@ Crutch.others = {
     [241854] = true, -- Soulbinding Slam (High Soulbinder Vykand)
     [241863] = true, -- Soul Cascade (Vykand)
     [241685] = true, -- Fluctuating Esseence GRN [sic] (3000 when the fountains become green)
+    [241326] = true, -- Annihilation
+    [241327] = true, -- Annihilation
+    [241328] = true, -- Annihilation
+    [241329] = true, -- Annihilation
 
 -- Coral Aerie
     [168947] = true, -- Lingering Current

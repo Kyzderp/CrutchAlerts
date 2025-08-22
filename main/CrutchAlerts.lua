@@ -178,6 +178,7 @@ local defaultOptions = {
         dingUppercut = false,
         dingDangerous = true,
         potionIcon = true,
+        printPuzzleSolution = true,
     },
     vateshran = {
         showMissedAdds = false,
