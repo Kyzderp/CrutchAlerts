@@ -312,6 +312,7 @@ Crutch.others = {
     [232516] = true, -- Jynorah Titanic Clash
     [232517] = true, -- Skorikhif Titanic Clash
     [232397] = true, -- Effluvial Expellant (Shaper of Flesh)
+    [233762] = true, -- Abduct
 
 -- Rockgrove
     [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)

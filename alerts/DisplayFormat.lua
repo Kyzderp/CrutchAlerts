@@ -205,6 +205,7 @@ Crutch.format = {
     [209963] = 100, -- Fireball (Tho'at Shard (dragon))
     [192517] = 1500, -- Seeking Spheres (Tho'at Shard)
     [ 47481] = 2000500, -- Obliterate (Anka-Ra Destroyer)
+    [196235] = 2000500, -- Heavy Slash (Nerien'eth)
     [221792] = 2001503, -- Elixir of Diminishing (Fabled Brewmaster)
 
     [227772] = {info = 110, text = GetAbilityName(211987)}, -- Scaling (Meteor) -- seems to be 10 seconds before meteor blows up

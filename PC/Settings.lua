@@ -1232,7 +1232,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Play sound for dangerous abilities",
-                    tooltip = "Plays a ding sound for particularly dangerous abilities. Requires \"Begin\" casts on. Currently, this only includes:\n\n- Obliterate from Anka-Ra Destroyers on the Warrior encounter, because if you don't block or dodge it, the CC cannot be broken free of\n- Elixir of Diminishing from Brewmasters, which also stuns you for a duration",
+                    tooltip = "Plays a ding sound for particularly dangerous abilities. Requires \"Begin\" casts on. Currently, this only includes:\n\n- Heavy Slash from Nerien'eth\n- Obliterate from Anka-Ra Destroyers on the Warrior encounter, because if you don't block or dodge them, the CC cannot be broken free of\n- Elixir of Diminishing from Brewmasters, which also stuns you for a duration",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.endlessArchive.dingDangerous end,
                     setFunc = function(value)
