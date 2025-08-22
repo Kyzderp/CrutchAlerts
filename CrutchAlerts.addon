@@ -1,9 +1,9 @@
 ## Title: CrutchAlerts
 ## This addon is a crutch
 ## Author: Kyzeragon
-## Version: 1.18.2
+## Version: 1.18.3-alpha1
 ## AddOnVersion: 182
-## APIVersion: 101046 101047
+## APIVersion: 101047
 
 ## PCDependsOn: LibAddonMenu-2.0>=40
 ## ConsoleDependsOn: LibHarvensAddonSettings>=20002
