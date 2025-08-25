@@ -106,6 +106,7 @@ Crutch.filter = {
     [215107] = function(hitValue) return hitValue == 1200 end, -- Tempest (Xoryn) want it as soon as he casts, not after the cast when gained duration
     [227461] = function(hitValue) return hitValue == 1233 end, -- Ram (Marauder Zulfimbul) -- BEGIN timer is 1233, but DUR 10000. Only use BEGIN
     [ 56857] = function(hitValue) return hitValue == 4000 end, -- Emerald Eclipse (Serpent) -- BEGIN is 1400 before 4000 DUR
+    [246168] = function(hitValue) return hitValue == 500 end, -- Acute Enervation (initial targeting of first, for some reason is 500 then 2800, but then not another ~1s until the real cast)
 }
 
 
@@ -451,6 +452,7 @@ Crutch.others = {
     [241328] = true, -- Annihilation
     [241329] = true, -- Annihilation
     [240665] = true, -- Charged Lightning?
+    [246168] = true, -- Acute Enervation (initial targeting of first, for some reason is 500 then 2800, but then not another ~1s until the real cast)
 
 -- Coral Aerie
     [168947] = true, -- Lingering Current
