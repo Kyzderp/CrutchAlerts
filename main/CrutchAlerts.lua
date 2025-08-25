@@ -280,6 +280,7 @@ Crutch.OnPlayerActivated = OnPlayerActivated
 -- First time player activated
 ---------------------------------------------------------------------
 local function OnPlayerActivatedFirstTime()
+    -- Did I use to have stuff in here??
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ActivatedFirstTime", EVENT_PLAYER_ACTIVATED)
 end
 
@@ -339,12 +340,6 @@ local function Initialize()
     -- Debug chat panel
     if (LibFilteredChatPanel) then
         crutchLFCPFilter = LibFilteredChatPanel:CreateFilter(Crutch.name, "/esoui/art/ava/ava_rankicon64_volunteer.dds", {0.7, 0.7, 0.5}, false)
-    end
-
-    -- I paid once!
-    if (HodorReflexes and HodorReflexes.users) then
-        HodorReflexes.users["@Kyzeragone"] = {"Kyzeragone", "|c00ff00K|c00cc00y|c00aa00z|c008800e|c006600r|r", "HodorReflexes/users/misc/kyzeragon.dds"}
-        HodorReflexes.users["@TheClawlessConqueror"] = {"Clawless", "|c00ff00C|c00ee00l|c00dd00a|c00cc00w|c00bb00l|c00aa00e|c009900s|c008800s|r", "HodorReflexes/users/misc/kyzeragon.dds"}
     end
 
     -- Register for when entering zone

@@ -450,6 +450,7 @@ Crutch.others = {
     [241327] = true, -- Annihilation
     [241328] = true, -- Annihilation
     [241329] = true, -- Annihilation
+    [240665] = true, -- Charged Lightning?
 
 -- Coral Aerie
     [168947] = true, -- Lingering Current

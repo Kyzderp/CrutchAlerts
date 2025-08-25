@@ -7,7 +7,7 @@
 
 ## PCDependsOn: LibAddonMenu-2.0>=40
 ## ConsoleDependsOn: LibHarvensAddonSettings>=20002
-## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel HodorReflexes
+## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel
 
 ## SavedVariables: CrutchAlertsSavedVariables
 

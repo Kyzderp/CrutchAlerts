@@ -770,6 +770,17 @@ local dungeonThresholds = {
         [25] = "Adds",
     },
     -- 60? 43?
+
+-- Naj-Caldeesh TODO: translations
+    ["Voskrona Stonehulk Poxito"] = {
+        [90] = "Adds",
+        [80] = "Adds",
+        [70] = "Totem",
+        [60] = "Adds",
+        [50] = "Totem",
+        [40] = "Adds",
+        [30] = "Totem",
+    },
 }
 
 ---------------------------------------------------------------------

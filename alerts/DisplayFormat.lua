@@ -143,6 +143,7 @@ Crutch.format = {
     [241328] = 500, -- Annihilation
     [241329] = 500, -- Annihilation
     [241224] = 500, -- Ominous Vision
+    [240665] = 400, -- Charged Lightning?
 
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
