@@ -731,13 +731,13 @@ local dungeonThresholds = {
         [20] = "Alcunar",
     },
 
--- Black Gem Foundry TODO: translations
-    ["Prospector Lyrakta"] = {
+-- Black Gem Foundry
+    [GetBossName(CRUTCH_BHB_PROSPECTOR_LYRAKTA)] = {
         [75] = "Adds",
         [50] = "Adds",
         [25] = "Adds",
     },
-    ["Quarrymaster Saldezaar"] = {
+    [GetBossName(CRUTCH_BHB_QUARRYMASTER_SALDEZAAR)] = {
         normHealth = 4209965,
         hmHealth = 13533758,
         ["Normal"] = {
@@ -753,7 +753,7 @@ local dungeonThresholds = {
             [30] = "Slam",
         },
     },
-    ["Gemcarver Hynax"] = {
+    [GetBossName(CRUTCH_BHB_GEMCARVER_HYNAX)] = {
         [75] = "Teleport",
         [50] = "Teleport",
         [25] = "Teleport",
@@ -764,15 +764,15 @@ local dungeonThresholds = {
     --     [50] = "Fire", -- 53?
     --     [35] = "Fire", -- 33?
     -- },
-    ["Misura, Assistant to the High Soulbinder"] = {
+    [GetBossName(CRUTCH_BHB_MISURA_ASSISTANT_TO_THE_HIGH_SOULBINDER)] = {
         [75] = "Adds",
         [50] = "Adds",
         [25] = "Adds",
     },
     -- 60? 43?
 
--- Naj-Caldeesh TODO: translations
-    ["Voskrona Stonehulk Poxito"] = {
+-- Naj-Caldeesh
+    [GetBossName(CRUTCH_BHB_VOSKRONA_STONEHULK_POXITO)] = {
         [90] = "Adds",
         [80] = "Adds",
         [70] = "Totem",
@@ -781,7 +781,7 @@ local dungeonThresholds = {
         [40] = "Adds",
         [30] = "Totem",
     },
-    ["Talen-Lah"] = {
+    [GetBossName(CRUTCH_BHB_TALENLAH)] = {
         [75] = "Bar-Sakka", -- TODO
         [55] = "Talen-Lah", -- TODO
         [25] = "Bar-Sakka", -- TODO
