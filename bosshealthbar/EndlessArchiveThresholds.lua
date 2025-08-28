@@ -183,6 +183,92 @@ local endlessArchiveThresholds = {
     -- Zhaj'hassa the Forgotten -- no hp gates? small senches
 }
 
+--[[
+Cycle 1:
+Allene Pellingare
+Barbas
+Bittergreen the Wild
+Canonreeve Oraneth
+Captain Blackheart
+Cynhamoth 
+Death's Leviathan
+Dugan the Red
+Graufang
+Iceheart
+Kra'gh the Dreugh King
+Old Snagara
+Queen of the Reef
+Razor Master Erthas
+Shadowrend
+Sonolia the Matriarch
+Staada
+The Whisperer
+Tremorscale
+War Chief Ozozai
+
+Cycle 2:
+Ash Titan
+Exarch Kraglen
+Garron the Returned
+Glemyos Wildhorn
+Grothdarr
+High Kinlord Rilis
+Limenauruus
+Murklight
+Ra'khajin
+Ri'Atahrashi
+Risen Ruins
+Sail Ripper
+The Imperfect
+The Lava Queen
+The Sable Knight
+Vila Theran
+Vorenor Winterbourne
+Xeemhok the Trophy-Taker
+Ysmgar
+
+Cycle 3:
+Caluurion
+Councilor Vandacia
+Doylemish Ironheart
+Dranos Velador
+Ghemvas the Harbinger
+Kjarg the Tuskscraper
+Kovan Giryon
+Lady Belain
+Nerien'eth
+Prior Thierric Sarazen
+Rada al-Saran
+Selene
+Sentinel Aksalaz
+Symphony of Blades
+Taupezu Azzida
+The Ascendant Lord
+The Endling
+The Weeping Woman
+Valkynaz Nokvroz
+Varzunon
+Voidmother Elgroalif
+
+Cycle 4:
+Baron Zaudrus
+Laatvulon
+Lady Thorn
+Lord Warden Dusk
+Molag Kena
+Mulaamnir
+Nazaray
+Rakkhat
+The Mage
+The Serpent
+The Warrior
+Varlariel
+Yandir the Butcher
+Yolnahkriin
+Z'Baza
+Zhaj'hassa the Forgotten
+]]
+
 ---------------------------------------------------------------------
 -- Separate from the other files
 BHB.eaThresholds = endlessArchiveThresholds
