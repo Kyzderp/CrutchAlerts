@@ -781,6 +781,12 @@ local dungeonThresholds = {
         [40] = "Adds",
         [30] = "Totem",
     },
+    ["Talen-Lah"] = {
+        [75] = "Bar-Sakka", -- TODO
+        [55] = "Talen-Lah", -- TODO
+        [25] = "Bar-Sakka", -- TODO
+        [5] = "Talen-Lah", -- TODO
+    },
 }
 
 ---------------------------------------------------------------------

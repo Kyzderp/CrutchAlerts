@@ -170,6 +170,9 @@ Crutch.format = {
     [233821] = 100, -- Cyclone (Flame Gryphon)
     [224822] = 100, -- Blast Powder (Noriwen)
 
+-- Naj-Caldeesh
+    [242063] = 100, -- Ancient Blaze (Voskrona Stonehulk Poxito)
+
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb
     [163654] =  500, -- Dark Blast
