@@ -333,6 +333,7 @@ local function Initialize()
     Crutch.RegisterFatecarver()
     Crutch.InitializeGlobalEvents()
     Crutch.InitializeRenderSpace()
+    Crutch.Drawing.Initialize()
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()

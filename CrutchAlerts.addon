@@ -75,3 +75,6 @@ icons/WorldIcons.lua
 prominent/DamageTaken.lua
 prominent/Prominent.lua
 prominent/ProminentV2.lua
+
+Drawing/Drawing.xml
+Drawing/Drawing.lua

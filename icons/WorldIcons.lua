@@ -277,8 +277,11 @@ function Crutch.EnableIcon(name)
         return
     end
 
-    local icon = OSI.CreatePositionIcon(iconData.x, iconData.y, iconData.z, iconData.texture, iconData.size(), iconData.color or {1, 1, 1})
-    icons[name] = icon
+    -- local icon = OSI.CreatePositionIcon(iconData.x, iconData.y, iconData.z, iconData.texture, iconData.size(), iconData.color or {1, 1, 1})
+    -- icons[name] = icon
+    local size = iconData.size()
+    Crutch.Drawing.EnableWorldIcon(name, iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
+    icons[name] = name
 end
 
 function Crutch.DisableIcon(name)
@@ -290,7 +293,9 @@ function Crutch.DisableIcon(name)
         return
     end
 
-    OSI.DiscardPositionIcon(icons[name])
+    -- OSI.DiscardPositionIcon(icons[name])
+    -- icons[name] = nil
+    Crutch.Drawing.DisableWorldIcon(name)
     icons[name] = nil
 end
 
