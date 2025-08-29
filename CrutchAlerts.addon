@@ -76,5 +76,5 @@ prominent/DamageTaken.lua
 prominent/Prominent.lua
 prominent/ProminentV2.lua
 
-Drawing/Drawing.xml
-Drawing/Drawing.lua
+drawing/Drawing.xml
+drawing/Drawing.lua
