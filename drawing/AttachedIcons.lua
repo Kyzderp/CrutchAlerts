@@ -20,6 +20,8 @@ local Draw = Crutch.Drawing
 }
 ]]
 local unitIcons = {}
+Draw.unitIcons = unitIcons
+-- /script d(CrutchAlerts.Drawing.unitIcons)
 
 ---------------------------------------------------------------------
 -- Prioritization; logic for which icon to show
@@ -45,10 +47,10 @@ end
 local function ReevaluatePrioritization(unitTag)
     if (not unitIcons[unitTag]) then return end
 
-    local highestPriority = 0
+    local highestPriority = -1
     local highestName
     for uniqueName, iconData in pairs(unitIcons[unitTag].icons) do
-        if (iconData.priority > highestPriority) then
+        if (iconData.priority >= highestPriority) then
             highestPriority = iconData.priority
             highestName = uniqueName
         end
@@ -60,6 +62,7 @@ local function ReevaluatePrioritization(unitTag)
     if (not highestName) then
         if (currentKey) then
             RemoveAttachedIcon(currentKey)
+            unitIcons[unitTag].key = nil
             unitIcons[unitTag].active = nil
         end
         return
@@ -90,8 +93,7 @@ local function RemoveIconForUnit(unitTag, uniqueName)
         return
     end
 
-    RemoveAttachedIcon(unitIcons[unitTag].key)
-    unitIcons[unitTag] = nil
+    unitIcons[unitTag].icons[uniqueName] = nil
 
     ReevaluatePrioritization(unitTag)
 end
@@ -108,7 +110,6 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
         RemoveIconForUnit(unitTag, uniqueName)
     end
 
-    unitIcons[unitTag].key = key
     unitIcons[unitTag].icons[uniqueName] = {
         priority = priority,
         texture = texture,
@@ -183,16 +184,38 @@ end
 Draw.RefreshGroup = RefreshGroup
 -- /script CrutchAlerts.Drawing.RefreshGroup()
 
+---------------------------------------------------------------------
+-- Corpse icons
+local GROUP_DEAD_NAME = "CrutchAlertsGroupDead"
+local function OnDeathStateChanged(_, unitTag, isDead)
+    if (isDead) then
+        SetIconForUnit(unitTag, GROUP_DEAD_NAME, 2, "esoui/art/icons/mapkey/mapkey_groupboss.dds", 100, {1, 0, 0, 1})
+    else
+        RemoveIconForUnit(unitTag, GROUP_DEAD_NAME)
+    end
+end
 
 ---------------------------------------------------------------------
+-- Built-in events
 ---------------------------------------------------------------------
 local function InitializeAttachedIcons()
+    -- Group changes
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, RefreshGroup)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED, RefreshGroup)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT, RefreshGroup)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE, function() d("group update") RefreshGroup() end)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, RefreshGroup) -- TODO: could be more efficient
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS, RefreshGroup) -- TODO: could be more efficient
+
+    -- deadge
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    for i = 1, GetGroupSize() do
+        local tag = GetGroupUnitTagByIndex(i)
+        if (IsUnitOnline(tag) and IsUnitDead(tag)) then
+            OnDeathStateChanged(nil, tag, true)
+        end
+    end
 end
 Draw.InitializeAttachedIcons = InitializeAttachedIcons
 
