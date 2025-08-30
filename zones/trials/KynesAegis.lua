@@ -13,8 +13,8 @@ local function OnExplodingSpearBegin(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _
     if (unitTag) then
         zo_callLater(function()
             local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-            local key = Crutch.Drawing.EnableWorldIcon("/esoui/art/icons/death_recap_fire_ranged_arrow.dds", x, y, z, 100) -- TODO: a telegraph circle instead?
-            zo_callLater(function() Crutch.Drawing.DisableWorldIcon(key) end, 5000)
+            local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/icons/death_recap_fire_ranged_arrow.dds", x, y, z, 100) -- TODO: a telegraph circle instead?
+            zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, 5000)
         end, 500)
     end
 end

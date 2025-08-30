@@ -79,3 +79,4 @@ prominent/ProminentV2.lua
 drawing/Drawing.xml
 drawing/Drawing.lua
 drawing/Update.lua
+drawing/AttachedIcons.lua

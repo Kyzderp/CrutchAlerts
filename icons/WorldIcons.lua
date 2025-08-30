@@ -284,10 +284,8 @@ function Crutch.EnableIcon(name)
         return
     end
 
-    -- local icon = OSI.CreatePositionIcon(iconData.x, iconData.y, iconData.z, iconData.texture, iconData.size(), iconData.color or {1, 1, 1})
-    -- icons[name] = icon
     local size = iconData.size()
-    local key = Crutch.Drawing.EnableWorldIcon(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
+    local key = Crutch.Drawing.CreatePlacedIcon(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
     icons[name] = key
 end
 
@@ -300,9 +298,7 @@ function Crutch.DisableIcon(name)
         return
     end
 
-    -- OSI.DiscardPositionIcon(icons[name])
-    -- icons[name] = nil
-    Crutch.Drawing.DisableWorldIcon(icons[name])
+    Crutch.Drawing.RemovePlacedIcon(icons[name])
     icons[name] = nil
 end
 
@@ -328,10 +324,8 @@ function Crutch.EnableIconGroup(iconGroupName)
         if (icons[name]) then
             Crutch.dbgOther("|cFF0000Icon already enabled " .. name .. "|r")
         else
-            -- local icon = OSI.CreatePositionIcon(iconData.x, iconData.y, iconData.z, iconData.texture, size, iconData.color or {1, 1, 1})
-            -- icons[name] = icon
             local size = iconData.size()
-            local key = Crutch.Drawing.EnableWorldIcon(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
+            local key = Crutch.Drawing.CreatePlacedIcon(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
             icons[name] = key
         end
     end

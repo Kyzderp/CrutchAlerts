@@ -48,6 +48,7 @@ local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthB
     CrutchAlerts.dbgSpam("Created icon |t100%:100%:" .. texture .. "|t key " .. tostring(key))
     return key
 end
+Draw.CreateWorldIcon = CreateWorldIcon
 
 local function RemoveWorldIcon(key)
     if (not Draw.activeIcons[key]) then
@@ -63,20 +64,21 @@ local function RemoveWorldIcon(key)
     Draw.activeIcons[key] = nil
     Draw.MaybeStopPolling()
 end
+Draw.RemoveWorldIcon = RemoveWorldIcon
 
 ---------------------------------------------------------------------
 -- For calling from WorldIcons, migration from OSI
 ---------------------------------------------------------------------
-local function EnableWorldIcon(texture, x, y, z, size, color)
+local function CreatePlacedIcon(texture, x, y, z, size, color)
     color = color or {1, 1, 1, 1}
     return CreateWorldIcon(texture, x, y, z, size / 150, size / 150, color, true, true)
 end
-Draw.EnableWorldIcon = EnableWorldIcon
+Draw.CreatePlacedIcon = CreatePlacedIcon
 
-local function DisableWorldIcon(key)
+local function RemovePlacedIcon(key)
     RemoveWorldIcon(key)
 end
-Draw.DisableWorldIcon = DisableWorldIcon
+Draw.RemovePlacedIcon = RemovePlacedIcon
 
 ---------------------------------------------------------------------
 -- Testing for now
