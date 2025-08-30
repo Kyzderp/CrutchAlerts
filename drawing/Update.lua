@@ -19,6 +19,18 @@ local function DoUpdate()
     Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
 
     for key, icon in pairs(Draw.activeIcons) do
+        -- Update function, mostly for attached icons
+        if (icon.updateFunc) then
+            local function SetPosition(x, y, z)
+                icon.x = x
+                icon.y = y
+                icon.z = z
+                icon.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y, z))
+            end
+            icon.updateFunc(icon.control, SetPosition)
+        end
+
+        -- Facing camera instead of fixed
         if (icon.faceCamera) then
             if (not fX) then
                 fX, fY, fZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceForward()

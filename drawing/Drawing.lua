@@ -6,7 +6,7 @@ local Draw = Crutch.Drawing
 ---------------------------------------------------------------------
 -- wow, using a pool for the first time instead of making my own janky version
 local controlPool
-Draw.activeIcons = {} -- {[key] = {control = control, faceCamera = true}}
+Draw.activeIcons = {} -- {[key] = {control = control, faceCamera = true, x = x, y = y, z = z, updateFunc = function() end}}
 
 local function AcquireTexture()
     local control, key = controlPool:AcquireObject()
@@ -34,7 +34,7 @@ end
 ---------------------------------------------------------------------
 -- Creating and removing icons
 ---------------------------------------------------------------------
-local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera)
+local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, updateFunc)
     local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer)
     Draw.activeIcons[key] = {
         control = control,
@@ -42,6 +42,7 @@ local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthB
         x = x,
         y = y,
         z = z,
+        updateFunc = updateFunc,
     }
     Draw.MaybeStartPolling()
 

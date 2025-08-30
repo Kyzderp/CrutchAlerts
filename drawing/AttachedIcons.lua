@@ -54,7 +54,11 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
 
     local _, x, y, z = GetUnitWorldPosition(unitTag)
 
-    local key = Draw.CreateWorldIcon(texture, x, y + Y_OFFSET, z, size / 150, size / 150, color, false, true)
+    local function OnUpdate(control, setPositionFunc)
+        local _, x, y, z = GetUnitWorldPosition(unitTag)
+        setPositionFunc(x, y + Y_OFFSET, z)
+    end
+    local key = Draw.CreateWorldIcon(texture, x, y + Y_OFFSET, z, size / 150, size / 150, color, false, true, OnUpdate)
 
     unitIcons[unitTag].icons[uniqueName] = {
         key = key,
