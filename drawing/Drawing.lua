@@ -110,4 +110,5 @@ a[1].control:SetDrawLevel(10)
 function Draw.Initialize()
     CrutchAlertsDrawingCamera:Create3DRenderSpace()
     controlPool = ZO_ControlPool:New("CrutchAlertsDrawingTexture", CrutchAlertsDrawing)
+    Draw.InitializeAttachedIcons()
 end

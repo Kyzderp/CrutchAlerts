@@ -22,10 +22,12 @@ local function DoUpdate()
         -- Update function, mostly for attached icons
         if (icon.updateFunc) then
             local function SetPosition(x, y, z)
-                icon.x = x
-                icon.y = y
-                icon.z = z
-                icon.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y, z))
+                if (icon.x ~= x or icon.z ~= z or icon.y ~= y) then
+                    icon.x = x
+                    icon.y = y
+                    icon.z = z
+                    icon.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y, z))
+                end
             end
             icon.updateFunc(icon.control, SetPosition)
         end
