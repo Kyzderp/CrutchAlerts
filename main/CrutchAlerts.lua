@@ -70,7 +70,8 @@ local defaultOptions = {
         showJBeam = true,
     },
     drawing = {
-        useDepthBuffers = true,
+        useDepthBuffers = true, -- TODO
+        useLevels = true, -- Whether to avoid clipping / appearing out of order
     },
     console = { -- Some console-specific settings?
         showProminent = true,

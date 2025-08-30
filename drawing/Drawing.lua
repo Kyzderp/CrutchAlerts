@@ -39,6 +39,9 @@ local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthB
     Draw.activeIcons[key] = {
         control = control,
         faceCamera = faceCamera,
+        x = x,
+        y = y,
+        z = z,
     }
     Draw.MaybeStartPolling()
 
@@ -66,7 +69,7 @@ end
 ---------------------------------------------------------------------
 local function EnableWorldIcon(texture, x, y, z, size, color)
     color = color or {1, 1, 1, 1}
-    return CreateWorldIcon(texture, x, y, z, size / 150, size / 150, color, false, true)
+    return CreateWorldIcon(texture, x, y, z, size / 150, size / 150, color, true, true)
 end
 Draw.EnableWorldIcon = EnableWorldIcon
 
@@ -90,6 +93,12 @@ end
 Draw.TestBooger = TestBooger
 -- /script CrutchAlerts.Drawing.TestBooger(true)
 -- /script CrutchAlerts.Drawing.TestBooger(false)
+--[[
+/script local a = CrutchAlerts.Drawing.activeIcons
+d(a[1].control:GetDrawLevel())
+d(a[2].control:GetDrawLevel())
+a[1].control:SetDrawLevel(10)
+]]
 
 
 ---------------------------------------------------------------------

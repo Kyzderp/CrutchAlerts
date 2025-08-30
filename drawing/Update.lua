@@ -14,10 +14,13 @@ local function DoUpdate()
     local rX, rY, rZ
     local uX, uY, uZ
 
-    for _, icon in pairs(Draw.activeIcons) do
+    -- Camera position for z levels
+    local cX, cY, cZ
+    Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
+
+    for key, icon in pairs(Draw.activeIcons) do
         if (icon.faceCamera) then
             if (not fX) then
-                Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
                 fX, fY, fZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceForward()
                 rX, rY, rZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceRight()
                 uX, uY, uZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceUp()
@@ -26,6 +29,19 @@ local function DoUpdate()
             icon.control:Set3DRenderSpaceForward(fX, fY, fZ)
             icon.control:Set3DRenderSpaceRight(rX, rY, rZ)
             icon.control:Set3DRenderSpaceUp(uX, uY, uZ)
+        end
+
+        -- All controls have the same draw level, so farther away icons might display in front
+        -- of closer icons. With depth buffers off, this just draws them on top, and with depth
+        -- buffers on, they end up clipping weirdly with the transparent parts of the texture.
+        -- So, set the draw level manually based on the distance to the camera.
+        if (Crutch.savedOptions.drawing.useLevels) then
+            if (not cX) then
+                cX, cY, cZ = GuiRender3DPositionToWorldPosition(CrutchAlertsDrawingCamera:Get3DRenderSpaceOrigin())
+            end
+
+            local distanceToCamera = math.floor(Crutch.GetSquaredDistance(icon.x, icon.y, icon.z, cX, cY, cZ))
+            icon.control:SetDrawLevel(-distanceToCamera)
         end
     end
 end
