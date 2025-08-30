@@ -6,7 +6,7 @@ local Draw = Crutch.Drawing
 ---------------------------------------------------------------------
 -- wow, using a pool for the first time instead of making my own janky version
 local controlPool
-local activeIcons = {} -- {[key] = {control = control, faceCamera = true}}
+Draw.activeIcons = {} -- {[key] = {control = control, faceCamera = true}}
 
 local function AcquireTexture()
     local control, key = controlPool:AcquireObject()
@@ -36,27 +36,29 @@ end
 ---------------------------------------------------------------------
 local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera)
     local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer)
-    activeIcons[key] = {
+    Draw.activeIcons[key] = {
         control = control,
         faceCamera = faceCamera,
     }
+    Draw.MaybeStartPolling()
 
     CrutchAlerts.dbgSpam("Created icon |t100%:100%:" .. texture .. "|t key " .. tostring(key))
     return key
 end
 
 local function RemoveWorldIcon(key)
-    if (not activeIcons[key]) then
+    if (not Draw.activeIcons[key]) then
         CrutchAlerts.dbgOther("|cFF0000Icon \"" .. tostring(key) .. "\" does not exist")
         return
     end
     CrutchAlerts.dbgSpam("Removing icon " .. tostring(key))
 
-    local icon = activeIcons[key]
+    local icon = Draw.activeIcons[key]
     icon.control:Destroy3DRenderSpace()
     icon.control:SetHidden(true)
     controlPool:ReleaseObject(key)
-    activeIcons[key] = nil
+    Draw.activeIcons[key] = nil
+    Draw.MaybeStopPolling()
 end
 
 ---------------------------------------------------------------------
@@ -89,32 +91,6 @@ Draw.TestBooger = TestBooger
 -- /script CrutchAlerts.Drawing.TestBooger(true)
 -- /script CrutchAlerts.Drawing.TestBooger(false)
 
----------------------------------------------------------------------
--- Update
--- This is run continuously to update icons if needed
----------------------------------------------------------------------
--- TODO: only run this when there's stuff that needs it
-local function DoUpdate()
-    -- Get the camera matrix once per update; the same values are applied to each control
-    local fX, fY, fZ
-    local rX, rY, rZ
-    local uX, uY, uZ
-
-    for _, icon in pairs(activeIcons) do
-        if (icon.faceCamera) then
-            if (not fX) then
-                Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
-                fX, fY, fZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceForward()
-                rX, rY, rZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceRight()
-                uX, uY, uZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceUp()
-            end
-
-            icon.control:Set3DRenderSpaceForward(fX, fY, fZ)
-            icon.control:Set3DRenderSpaceRight(rX, rY, rZ)
-            icon.control:Set3DRenderSpaceUp(uX, uY, uZ)
-        end
-    end
-end
 
 ---------------------------------------------------------------------
 -- Init 3D render space and stuff idk
@@ -122,6 +98,4 @@ end
 function Draw.Initialize()
     CrutchAlertsDrawingCamera:Create3DRenderSpace()
     controlPool = ZO_ControlPool:New("CrutchAlertsDrawingTexture", CrutchAlertsDrawing)
-
-    EVENT_MANAGER:RegisterForUpdate(CrutchAlerts.name .. "DrawingUpdate", 10, DoUpdate)
 end
