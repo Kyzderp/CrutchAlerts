@@ -14,6 +14,10 @@ local Draw = Crutch.Drawing
         icons = {
             [uniqueName] = {
                 priority = 0, -- Higher shows before lower
+                texture = "",
+                size = 100,
+                color = {1, 1, 1, 1},
+                callback = function(control) end,
             },
         },
     },
@@ -32,12 +36,17 @@ local function RemoveAttachedIcon(key)
     Draw.RemoveWorldIcon(key)
 end
 
-local function CreateAttachedIcon(unitTag, texture, size, color)
+-- Creates the actual 3D control with update function
+local function CreateAttachedIcon(unitTag, texture, size, color, callback)
     local _, x, y, z = GetUnitWorldPosition(unitTag)
 
     local function OnUpdate(control, setPositionFunc)
         local _, x, y, z = GetUnitWorldPosition(unitTag)
         setPositionFunc(x, y + Y_OFFSET, z)
+
+        if (callback) then
+            callback(control)
+        end
     end
     local key = Draw.CreateWorldIcon(texture, x, y + Y_OFFSET, z, size / 150, size / 150, color, false, true, OnUpdate)
 
@@ -76,7 +85,7 @@ local function ReevaluatePrioritization(unitTag)
         RemoveAttachedIcon(currentKey)
     end
     local icon = unitIcons[unitTag].icons[highestName]
-    local key = CreateAttachedIcon(unitTag, icon.texture, icon.size, icon.color)
+    local key = CreateAttachedIcon(unitTag, icon.texture, icon.size, icon.color, icon.callback)
     unitIcons[unitTag].key = key
     unitIcons[unitTag].active = highestName
 end
@@ -98,7 +107,7 @@ local function RemoveIconForUnit(unitTag, uniqueName)
     ReevaluatePrioritization(unitTag)
 end
 
-local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color)
+local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, callback)
     if (not unitIcons[unitTag]) then
         unitIcons[unitTag] = {
             icons = {}
@@ -115,6 +124,7 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
         texture = texture,
         size = size or 100,
         color = color or {1, 1, 1, 1},
+        callback = callback,
     }
 
     ReevaluatePrioritization(unitTag)
@@ -189,7 +199,17 @@ Draw.RefreshGroup = RefreshGroup
 local GROUP_DEAD_NAME = "CrutchAlertsGroupDead"
 local function OnDeathStateChanged(_, unitTag, isDead)
     if (isDead) then
-        SetIconForUnit(unitTag, GROUP_DEAD_NAME, 2, "esoui/art/icons/mapkey/mapkey_groupboss.dds", 100, {1, 0, 0, 1})
+        SetIconForUnit(unitTag, GROUP_DEAD_NAME, 2, "esoui/art/icons/mapkey/mapkey_groupboss.dds", 100, {1, 0, 0, 1}, function(control)
+            local color
+            if (IsUnitBeingResurrected(unitTag)) then
+                color = {0.3, 0.7, 1, 1}
+            elseif (DoesUnitHaveResurrectPending(unitTag)) then
+                color = {1, 1, 1, 1}
+            else
+                color = {1, 0, 0, 1}
+            end
+            control:SetColor(unpack(color)) -- TODO: more efficient
+        end)
     else
         RemoveIconForUnit(unitTag, GROUP_DEAD_NAME)
     end
