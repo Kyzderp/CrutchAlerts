@@ -286,9 +286,7 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 121216)
 
-    if (not Crutch.WorldIconsEnabled()) then
-        Crutch.ComplainOSI()
-    elseif (Crutch.savedOptions.sunspire.showLokkIcons) then
+    if (Crutch.savedOptions.sunspire.showLokkIcons) then
         Crutch.RegisterBossChangedListener("CrutchSunspire", OnBossesChanged)
         Crutch.RegisterEnteredGroupCombatListener("CrutchSunspire", DisableLokkIcons)
 

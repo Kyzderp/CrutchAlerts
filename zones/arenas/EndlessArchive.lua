@@ -150,12 +150,10 @@ local function OnElixir(_, _, _, _, _, _, _, _, targetName, _, _, _, _, _, _, ta
     end
 
     -- Put an icon on the ground (get the position after the actual cast, 500ms)
-    -- zo_callLater(function()
-        Crutch.dbgSpam(zo_strformat("Elixir on <<1>> (<<2>>)", unitTag, targetName))
-        local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-        local potion = OSI.CreatePositionIcon(x, y, z, "/esoui/art/inventory/inventory_consumables_tabicon_active.dds", 150, {1, 0, 1})
-        zo_callLater(function() OSI.DiscardPositionIcon(potion) end, 16300)
-    -- end, 500)
+    Crutch.dbgSpam(zo_strformat("Elixir on <<1>> (<<2>>)", unitTag, targetName))
+    local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+    local key = Crutch.Drawing.EnableWorldIcon("/esoui/art/inventory/inventory_consumables_tabicon_active.dds", x, y, z, 150, {1, 0, 1})
+    zo_callLater(function() Crutch.Drawing.DisableWorldIcon(key) end, 16300)
 end
 
 
@@ -238,13 +236,9 @@ function Crutch.RegisterEndlessArchive()
     end
 
     if (Crutch.savedOptions.endlessArchive.potionIcon) then
-        if (not Crutch.WorldIconsEnabled()) then
-            Crutch.ComplainOSI()
-        else
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, OnElixir)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 221794)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-        end
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, OnElixir)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 221794)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "IAElixir", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
     end
 
     if (Crutch.savedOptions.endlessArchive.printPuzzleSolution) then

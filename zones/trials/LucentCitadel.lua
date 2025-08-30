@@ -269,50 +269,46 @@ end
 function Crutch.RegisterLucentCitadel()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Lucent Citadel")
 
-    if (not Crutch.WorldIconsEnabled()) then
-        Crutch.ComplainOSI()
-    else
-        local showCavot = Crutch.savedOptions.lucentcitadel.showCavotIcon
-        local showOrphic = Crutch.savedOptions.lucentcitadel.showOrphicIcons
-        local showTempest = Crutch.savedOptions.lucentcitadel.showTempestIcons
+    local showCavot = Crutch.savedOptions.lucentcitadel.showCavotIcon
+    local showOrphic = Crutch.savedOptions.lucentcitadel.showOrphicIcons
+    local showTempest = Crutch.savedOptions.lucentcitadel.showTempestIcons
 
-        -- In case we reload at Cavot Agnan
-        if (showCavot) then TryEnablingCavotIcon() end
+    -- In case we reload at Cavot Agnan
+    if (showCavot) then TryEnablingCavotIcon() end
 
-        -- In case we reload at Orphic
-        if (showOrphic) then TryEnablingMirrorIcons() end
+    -- In case we reload at Orphic
+    if (showOrphic) then TryEnablingMirrorIcons() end
 
-        -- In case we reload at Xoryn... for some reason
-        if (showTempest) then
-            TryEnablingTempestIcons()
+    -- In case we reload at Xoryn... for some reason
+    if (showTempest) then
+        TryEnablingTempestIcons()
 
-            --  Show tempest icons when the trial starts...
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCTrialStarted", EVENT_RAID_TRIAL_STARTED, function()
-                if (not tempestEnabled) then
-                    EnableTempestIcons()
-                    tempestEnabled = true
+        --  Show tempest icons when the trial starts...
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCTrialStarted", EVENT_RAID_TRIAL_STARTED, function()
+            if (not tempestEnabled) then
+                EnableTempestIcons()
+                tempestEnabled = true
+            end
+        end)
+        -- ... and hide them once adds are killed
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE, function(_, scoreUpdateReason)
+            if (scoreUpdateReason == RAID_POINT_REASON_KILL_BANNERMEN) then
+                if (tempestEnabled) then
+                    DisableTempestIcons()
+                    tempestEnabled = false
                 end
-            end)
-            -- ... and hide them once adds are killed
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE, function(_, scoreUpdateReason)
-                if (scoreUpdateReason == RAID_POINT_REASON_KILL_BANNERMEN) then
-                    if (tempestEnabled) then
-                        DisableTempestIcons()
-                        tempestEnabled = false
-                    end
-                    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE)
-                end
-            end)
-        end
+                EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE)
+            end
+        end)
+    end
 
-        -- Show icons on certain bosses
-        if (showCavot or showOrphic or showTempest) then
-            Crutch.RegisterBossChangedListener("CrutchLucentCitadel", function()
-                if (showCavot) then TryEnablingCavotIcon() end
-                if (showOrphic) then TryEnablingMirrorIcons() end
-                if (showTempest) then TryEnablingTempestIcons() end
-            end)
-        end
+    -- Show icons on certain bosses
+    if (showCavot or showOrphic or showTempest) then
+        Crutch.RegisterBossChangedListener("CrutchLucentCitadel", function()
+            if (showCavot) then TryEnablingCavotIcon() end
+            if (showOrphic) then TryEnablingMirrorIcons() end
+            if (showTempest) then TryEnablingTempestIcons() end
+        end)
     end
 
     -- Icons/line for Arcane Conveyance

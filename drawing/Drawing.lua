@@ -35,22 +35,22 @@ end
 -- Creating and removing icons
 ---------------------------------------------------------------------
 local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera)
-    CrutchAlerts.dbgSpam("Creating icon |t100%:100%:" .. texture .. "|t")
     local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer)
     activeIcons[key] = {
         control = control,
         faceCamera = faceCamera,
     }
 
+    CrutchAlerts.dbgSpam("Created icon |t100%:100%:" .. texture .. "|t key " .. tostring(key))
     return key
 end
 
 local function RemoveWorldIcon(key)
     if (not activeIcons[key]) then
-        CrutchAlerts.dbgOther("|cFF0000Icon \"" .. key .. "\" does not exist")
+        CrutchAlerts.dbgOther("|cFF0000Icon \"" .. tostring(key) .. "\" does not exist")
         return
     end
-    CrutchAlerts.dbgSpam("Removing icon " .. key)
+    CrutchAlerts.dbgSpam("Removing icon " .. tostring(key))
 
     local icon = activeIcons[key]
     icon.control:Destroy3DRenderSpace()

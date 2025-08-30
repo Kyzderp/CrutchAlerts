@@ -13,8 +13,8 @@ local function OnExplodingSpearBegin(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _
     if (unitTag) then
         zo_callLater(function()
             local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-            local spear1 = OSI.CreatePositionIcon(x, y, z, "/esoui/art/icons/death_recap_fire_ranged_arrow.dds", 100)
-            zo_callLater(function() OSI.DiscardPositionIcon(spear1) end, 5000)
+            local key = Crutch.Drawing.EnableWorldIcon("/esoui/art/icons/death_recap_fire_ranged_arrow.dds", x, y, z, 100) -- TODO: a telegraph circle instead?
+            zo_callLater(function() Crutch.Drawing.DisableWorldIcon(key) end, 5000)
         end, 500)
     end
 end
@@ -109,13 +109,6 @@ function Crutch.RegisterKynesAegis()
     if (not Crutch.WorldIconsEnabled()) then
         Crutch.ComplainOSI()
     else
-        --Spear
-        if (Crutch.savedOptions.kynesaegis.showSpearIcon) then
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, OnExplodingSpearBegin)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 133936)
-        end
-
         -- Prison icon
         if (Crutch.savedOptions.kynesaegis.showPrisonIcon) then
             EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, OnPrisonEffect)
@@ -124,14 +117,21 @@ function Crutch.RegisterKynesAegis()
             EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 132468)
             EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
         end
+    end
 
-        -- Falgravn icons
-        if (Crutch.savedOptions.kynesaegis.showFalgravnIcons) then
-            TryEnablingFalgravnIcons()
+    --Spear
+    if (Crutch.savedOptions.kynesaegis.showSpearIcon) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, OnExplodingSpearBegin)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 133936)
+    end
 
-            -- Show icons on Falgravn
-            Crutch.RegisterBossChangedListener("CrutchKynesAegis", TryEnablingFalgravnIcons)
-        end
+    -- Falgravn icons
+    if (Crutch.savedOptions.kynesaegis.showFalgravnIcons) then
+        TryEnablingFalgravnIcons()
+
+        -- Show icons on Falgravn
+        Crutch.RegisterBossChangedListener("CrutchKynesAegis", TryEnablingFalgravnIcons)
     end
 end
 

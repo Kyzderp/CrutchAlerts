@@ -579,7 +579,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show safe spot for triplets",
-                    tooltip = "In the triplets fight, shows an icon in the world that is outside of Shock Field. Requires OdySupportIcons",
+                    tooltip = "In the triplets fight, shows an icon in the world that is outside of Shock Field",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
                     setFunc = function(value)
@@ -587,7 +587,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "slider",
@@ -607,7 +606,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Assembly General icons",
-                    tooltip = "Shows icons in the world for execute positions. Requires OdySupportIcons",
+                    tooltip = "Shows icons in the world for execute positions",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.hallsoffabrication.showAGIcons end,
                     setFunc = function(value)
@@ -615,7 +614,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "slider",
@@ -641,7 +639,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Exploding Spear landing spot",
-                    tooltip = "On trash packs with Half-Giant Raiders, show icons at the approximate locations where Exploding Spears will land. Requires OdySupportIcons",
+                    tooltip = "On trash packs with Half-Giant Raiders, show icons at the approximate locations where Exploding Spears will land",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.kynesaegis.showSpearIcon end,
                     setFunc = function(value)
@@ -649,7 +647,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",
@@ -667,7 +664,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Falgravn 2nd floor DPS stacks",
-                    tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks. Requires OdySupportIcons",
+                    tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.kynesaegis.showFalgravnIcons end,
                     setFunc = function(value)
@@ -675,7 +672,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "slider",
@@ -701,7 +697,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Cavot Agnan spawn spot",
-                    tooltip = "Shows icon for where Cavot Agnan will spawn. Requires OdySupportIcons",
+                    tooltip = "Shows icon for where Cavot Agnan will spawn",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.showCavotIcon end,
                     setFunc = function(value)
@@ -709,7 +705,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "slider",
@@ -730,7 +725,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Orphic Shattered Shard mirror icons",
-                    tooltip = "Shows icons for each mirror on the Orphic Shattered Shard fight. Requires OdySupportIcons",
+                    tooltip = "Shows icons for each mirror on the Orphic Shattered Shard fight",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
                     setFunc = function(value)
@@ -738,7 +733,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",
@@ -799,7 +793,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Xoryn Tempest position icons",
-                    tooltip = "Shows icons for group member positions on the Xoryn fight for Tempest (and at the beginning of the trial, for practice purposes). Requires OdySupportIcons",
+                    tooltip = "Shows icons for group member positions on the Xoryn fight for Tempest (and at the beginning of the trial, for practice purposes)",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.showTempestIcons end,
                     setFunc = function(value)
@@ -807,7 +801,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "slider",
@@ -900,7 +893,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show twins icons",
-                    tooltip = "In the Jynorah + Skorkhif fight, shows icons in the world for close positioning. Requires OdySupportIcons",
+                    tooltip = "In the Jynorah + Skorkhif fight, shows icons in the world for close positioning",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.osseincage.showTwinsIcons end,
                     setFunc = function(value)
@@ -908,7 +901,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",
@@ -1038,7 +1030,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show center of Ansuul arena",
-                    tooltip = "In the Ansuul fight, shows an icon in the world on the center of the arena. Requires OdySupportIcons",
+                    tooltip = "In the Ansuul fight, shows an icon in the world on the center of the arena",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
                     setFunc = function(value)
@@ -1046,7 +1038,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "slider",
@@ -1072,14 +1063,13 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Lokkestiiz HM beam position icons",
-                    tooltip = "During flight phase on Lokkestiiz hardmode, shows 1~8 DPS and 2 healer positions in the world for Storm Fury. Requires OdySupportIcons",
+                    tooltip = "During flight phase on Lokkestiiz hardmode, shows 1~8 DPS and 2 healer positions in the world for Storm Fury",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.sunspire.showLokkIcons end,
                     setFunc = function(value)
                         Crutch.savedOptions.sunspire.showLokkIcons = value
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",
@@ -1111,14 +1101,13 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Yolnahkriin position icons",
-                    tooltip = "During flight phase on Yolnahkriin, shows icons in the world for where the next head stack and (right) wing stack will be when Yolnahkriin lands. Requires OdySupportIcons",
+                    tooltip = "During flight phase on Yolnahkriin, shows icons in the world for where the next head stack and (right) wing stack will be when Yolnahkriin lands",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.sunspire.showYolIcons end,
                     setFunc = function(value)
                         Crutch.savedOptions.sunspire.showYolIcons = value
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",
@@ -1208,14 +1197,13 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Brewmaster elixir spot",
-                    tooltip = "Displays an icon on where the Fabled Brewmaster may have thrown an Elixir of Diminishing. Note that it will not work on elixirs that are thrown at your group members' pets, but should for yourself, your pets, your companion, and your actual group member. Requires OdySupportIcons",
+                    tooltip = "Displays an icon on where the Fabled Brewmaster may have thrown an Elixir of Diminishing. Note that it will not work on elixirs that are thrown at your group members' pets, but should for yourself, your pets, your companion, and your actual group member",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.endlessArchive.potionIcon end,
                     setFunc = function(value)
                         Crutch.savedOptions.endlessArchive.potionIcon = value
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",

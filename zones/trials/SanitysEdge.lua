@@ -7,13 +7,9 @@ local Crutch = CrutchAlerts
 function Crutch.RegisterSanitysEdge()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Sanity's Edge")
 
-    if (not Crutch.WorldIconsEnabled()) then
-        Crutch.ComplainOSI()
-    else
-        -- Ansuul icon
-        if (Crutch.savedOptions.sanitysedge.showAnsuulIcon) then
-            Crutch.EnableIcon("AnsuulCenter")
-        end
+    -- Ansuul icon
+    if (Crutch.savedOptions.sanitysedge.showAnsuulIcon) then
+        Crutch.EnableIcon("AnsuulCenter")
     end
 end
 
