@@ -5,14 +5,15 @@ local Draw = Crutch.Drawing
 
 ---------------------------------------------------------------------
 -- wow, using a pool for the first time instead of making my own janky version
-local controlPool -- TODO
+local controlPool
 local activeIcons = {} -- {[name] = {control = control, faceCamera = true, key = key}}
 
 local function AcquireTexture()
     local control, key = controlPool:AcquireObject()
 
-    -- TODO: reset stuff here once I start poking that
     control:SetHidden(false)
+    control:Create3DRenderSpace()
+    control:SetColor(1, 1, 1, 1)
 
     return control, key
 end
@@ -20,11 +21,10 @@ end
 ---------------------------------------------------------------------
 -- The core 3D code, at its simplest... or close to it
 ---------------------------------------------------------------------
-local function Create3DControl(name, texture, x, y, z, width, height, useDepthBuffer)
-    -- local control = WINDOW_MANAGER:CreateControl("$(parent)" .. name, CrutchAlertsDrawing, CT_TEXTURE)
+local function Create3DControl(name, texture, x, y, z, width, height, color, useDepthBuffer)
     local control, key = AcquireTexture()
     control:SetTexture(texture)
-    control:Create3DRenderSpace()
+    control:SetColor(unpack(color))
     control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y, z))
     control:Set3DLocalDimensions(width, height)
     control:Set3DRenderSpaceUsesDepthBuffer(useDepthBuffer)
@@ -32,14 +32,16 @@ local function Create3DControl(name, texture, x, y, z, width, height, useDepthBu
 end
 
 ---------------------------------------------------------------------
-local function CreateWorldIcon(name, texture, x, y, z, width, height, useDepthBuffer, faceCamera)
+-- Creating and removing icons
+---------------------------------------------------------------------
+local function CreateWorldIcon(name, texture, x, y, z, width, height, color, useDepthBuffer, faceCamera)
     if (activeIcons[name]) then
         CrutchAlerts.dbgOther("|cFF0000Icon \"" .. name .. "\" already exists")
         return
     end
 
     CrutchAlerts.dbgSpam("Creating icon " .. name)
-    local control, key = Create3DControl(name, texture, x, y, z, width, height, useDepthBuffer)
+    local control, key = Create3DControl(name, texture, x, y, z, width, height, color, useDepthBuffer)
     activeIcons[name] = {
         control = control,
         faceCamera = faceCamera,
@@ -64,8 +66,9 @@ end
 ---------------------------------------------------------------------
 -- For calling from WorldIcons, migration from OSI
 ---------------------------------------------------------------------
-local function EnableWorldIcon(name, texture, x, y, z, size)
-    CreateWorldIcon(name, texture, x, y, z, size / 150, size / 150, false, true)
+local function EnableWorldIcon(name, texture, x, y, z, size, color)
+    color = color or {1, 1, 1, 1}
+    CreateWorldIcon(name, texture, x, y, z, size / 150, size / 150, color, false, true)
 end
 Draw.EnableWorldIcon = EnableWorldIcon
 
@@ -79,13 +82,14 @@ Draw.DisableWorldIcon = DisableWorldIcon
 ---------------------------------------------------------------------
 local num = 1
 
-local function TestBooger(faceCamera)
+local function TestBooger(faceCamera, color)
     local name = "Icon" .. tostring(num)
     num = num + 1
+    color = color or {1, 1, 1, 1}
 
     local _, x, y, z = GetUnitWorldPosition("player")
 
-    CreateWorldIcon(name, "esoui/art/icons/targetdummy_voriplasm_01.dds", x, y + 50, z, 1, 1, true, faceCamera)
+    CreateWorldIcon(name, "esoui/art/icons/targetdummy_voriplasm_01.dds", x, y + 50, z, 1, 1, color, true, faceCamera)
 end
 Draw.TestBooger = TestBooger
 -- /script CrutchAlerts.Drawing.TestBooger(true)
@@ -122,5 +126,3 @@ function Draw.Initialize()
 
     EVENT_MANAGER:RegisterForUpdate(CrutchAlerts.name .. "DrawingUpdate", 10, DoUpdate)
 end
-
-SLASH_COMMANDS["/testcrutch"] = function() TestBooger() end

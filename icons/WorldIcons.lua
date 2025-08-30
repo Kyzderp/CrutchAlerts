@@ -260,9 +260,16 @@ function Crutch.WorldIconsEnabled()
     return OSI ~= nil and OSI.CreatePositionIcon ~= nil
 end
 
+function Crutch.PlacedIconsEnabled()
+    if (IsConsoleUI()) then
+        return Crutch.enableDrawingOnConsole
+    end
+    return true
+end
+
 ---------------------------------------------------------------------
 function Crutch.EnableIcon(name)
-    if (not Crutch.WorldIconsEnabled()) then
+    if (not Crutch.PlacedIconsEnabled()) then
         return
     end
 
@@ -285,7 +292,7 @@ function Crutch.EnableIcon(name)
 end
 
 function Crutch.DisableIcon(name)
-    if (not Crutch.WorldIconsEnabled()) then
+    if (not Crutch.PlacedIconsEnabled()) then
         return
     end
 
@@ -303,7 +310,7 @@ end
 ---------------------------------------------------------------------
 -- Icon groups
 function Crutch.EnableIconGroup(iconGroupName)
-    if (not Crutch.WorldIconsEnabled()) then
+    if (not Crutch.PlacedIconsEnabled()) then
         return
     end
 
@@ -321,14 +328,17 @@ function Crutch.EnableIconGroup(iconGroupName)
         if (icons[name]) then
             Crutch.dbgOther("|cFF0000Icon already enabled " .. name .. "|r")
         else
-            local icon = OSI.CreatePositionIcon(iconData.x, iconData.y, iconData.z, iconData.texture, size, iconData.color or {1, 1, 1})
-            icons[name] = icon
+            -- local icon = OSI.CreatePositionIcon(iconData.x, iconData.y, iconData.z, iconData.texture, size, iconData.color or {1, 1, 1})
+            -- icons[name] = icon
+            local size = iconData.size()
+            Crutch.Drawing.EnableWorldIcon(name, iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
+            icons[name] = name
         end
     end
 end
 
 function Crutch.DisableIconGroup(iconGroupName)
-    if (not Crutch.WorldIconsEnabled()) then
+    if (not Crutch.PlacedIconsEnabled()) then
         return
     end
 

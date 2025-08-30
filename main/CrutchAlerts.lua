@@ -17,6 +17,7 @@ Crutch.registered = {
 }
 
 Crutch.unlock = false
+Crutch.enableDrawingOnConsole = false -- TODO: this is just here to gate WIP
 
 -- Defaults
 local defaultOptions = {
@@ -67,6 +68,9 @@ local defaultOptions = {
         showDamageable = true,
         showRaidDiag = false,
         showJBeam = true,
+    },
+    drawing = {
+        useDepthBuffers = true,
     },
     console = { -- Some console-specific settings?
         showProminent = true,
