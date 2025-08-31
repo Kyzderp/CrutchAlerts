@@ -240,7 +240,27 @@ end
 
 ---------------------------------------------------------------------
 -- Crown
+local GROUP_CROWN_NAME = "CrutchAlertsGroupCrown"
+local GROUP_CROWN_PRIORITY = 105
+local currentCrown
 -- TODO: /esoui/art/icons/mapkey/mapkey_groupleader.dds
+
+local function OnCrownChange(_, unitTag)
+    if (currentCrown == unitTag) then return end
+
+    if (currentCrown) then
+        RemoveIconForUnit(currentCrown, GROUP_CROWN_NAME)
+    end
+
+    currentCrown = unitTag
+
+    SetIconForUnit(unitTag,
+        GROUP_CROWN_NAME,
+        GROUP_CROWN_PRIORITY,
+        "esoui/art/icons/mapkey/mapkey_groupleader.dds",
+        100,
+        {0, 1, 0, 1})
+end
 
 ---------------------------------------------------------------------
 local function RefreshGroup()
@@ -250,14 +270,20 @@ local function RefreshGroup()
 
     playerGroupTag = nil
 
-    -- Deaths
     for i = 1, GetGroupSize() do
         local tag = GetGroupUnitTagByIndex(i)
         if (AreUnitsEqual("player", tag)) then
             playerGroupTag = tag
         end
+
+        -- Deaths
         if (IsUnitOnline(tag)) then
             OnDeathStateChanged(nil, tag, IsUnitDead(tag))
+        end
+
+        -- Crown
+        if (IsUnitGroupLeader(tag)) then
+            OnCrownChange(nil, tag)
         end
     end
     OnDeathStateChanged(nil, "player", IsUnitDead("player"))
@@ -290,6 +316,9 @@ local function InitializeAttachedIcons()
         ZO_PostHook("UpdateSelectedLFGRole", RefreshGroup)
         hooked = true
     end
+
+    -- Crown
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeader", EVENT_LEADER_UPDATE, OnCrownChange) -- TODO: could be more efficient
 end
 Draw.InitializeAttachedIcons = InitializeAttachedIcons
 
@@ -304,6 +333,10 @@ local function UnregisterAttachedIcons()
 
     -- deadge
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedPlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
+
+    -- Crown
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeader", EVENT_LEADER_UPDATE)
 end
 Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 
@@ -315,7 +348,7 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 -- Add an icon for a (likely group member) unit
 -- unitTag - the unit tag, e.g. "group1". If grouped, trying to use "player" will automatically use the group unit tag instead
 -- uniqueName - unique name, such as your addon name + mechanic name
--- priority - order in which icons are displayed. Higher number takes precedence. Built-in role icons are currently 100, built-in dead group member icons are 110
+-- priority - order in which icons are displayed. Higher number takes precedence. Built-in role icons are currently 100, crown is 105, dead group member icons are 110
 -- texture - path to the texture
 -- size - size to display at. Default 100
 -- color - color of the icon, in format {r, g, b, a}. Default {1, 1, 1, 1}
