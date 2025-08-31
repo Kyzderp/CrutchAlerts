@@ -7,6 +7,7 @@ local Draw = Crutch.Drawing
 -- wow, using a pool for the first time instead of making my own janky version
 local controlPool
 Draw.activeIcons = {} -- {[key] = {control = control, faceCamera = true, x = x, y = y, z = z, updateFunc = function() end}}
+-- /script d(CrutchAlerts.Drawing.activeIcons)
 
 local function AcquireTexture()
     local control, key = controlPool:AcquireObject()
@@ -96,7 +97,7 @@ local num = 1
 local function TestBooger(faceCamera, color)
     color = color or {1, 1, 1, 1}
 
-    local _, x, y, z = GetUnitWorldPosition("player")
+    local _, x, y, z = GetUnitRawWorldPosition("player")
 
     CreateWorldIcon("esoui/art/icons/targetdummy_voriplasm_01.dds", x, y + 50, z, 1, 1, color, true, faceCamera)
 end

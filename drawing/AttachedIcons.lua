@@ -38,10 +38,10 @@ end
 
 -- Creates the actual 3D control with update function
 local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callback)
-    local _, x, y, z = GetUnitWorldPosition(unitTag)
+    local _, x, y, z = GetUnitRawWorldPosition(unitTag)
 
     local function OnUpdate(control, setPositionFunc)
-        local _, x, y, z = GetUnitWorldPosition(unitTag)
+        local _, x, y, z = GetUnitRawWorldPosition(unitTag)
         setPositionFunc(x, y + yOffset, z)
 
         if (callback) then
@@ -111,6 +111,8 @@ local function RemoveIconForUnit(unitTag, uniqueName)
         return
     end
 
+    Crutch.dbgSpam(string.format("RemoveIconForUnit %s (%s) %s was: |t100%%:100%%:%s|t", unitTag, GetUnitDisplayName(unitTag), uniqueName, unitIcons[unitTag].icons[uniqueName].texture))
+
     unitIcons[unitTag].icons[uniqueName] = nil
 
     ReevaluatePrioritization(unitTag)
@@ -132,6 +134,8 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
         d(string.format("|cFFFF00Icon already exists for %s uniqueName %s, removing first and then replacing...|r", unitTag, uniqueName))
         RemoveIconForUnit(unitTag, uniqueName)
     end
+
+    Crutch.dbgSpam(string.format("SetIconForUnit %s (%s) %s |t100%%:100%%:%s|t", unitTag, GetUnitDisplayName(unitTag), uniqueName, texture))
 
     unitIcons[unitTag].icons[uniqueName] = {
         priority = priority,
