@@ -30,25 +30,29 @@ Draw.unitIcons = unitIcons
 ---------------------------------------------------------------------
 -- Prioritization; logic for which icon to show
 ---------------------------------------------------------------------
-local Y_OFFSET = 300 -- TODO: setting
+local GROUP_ROLE_PRIORITY = 100
+local NORMAL_Y_OFFSET = 350 -- TODO: setting
+
+local GROUP_DEAD_PRIORITY = 110
+local DEAD_Y_OFFSET = 100 -- TODO: setting
 
 local function RemoveAttachedIcon(key)
     Draw.RemoveWorldIcon(key)
 end
 
 -- Creates the actual 3D control with update function
-local function CreateAttachedIcon(unitTag, texture, size, color, callback)
+local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callback)
     local _, x, y, z = GetUnitWorldPosition(unitTag)
 
     local function OnUpdate(control, setPositionFunc)
         local _, x, y, z = GetUnitWorldPosition(unitTag)
-        setPositionFunc(x, y + Y_OFFSET, z)
+        setPositionFunc(x, y + yOffset, z)
 
         if (callback) then
             callback(control)
         end
     end
-    local key = Draw.CreateWorldIcon(texture, x, y + Y_OFFSET, z, size / 150, size / 150, color, false, true, OnUpdate)
+    local key = Draw.CreateWorldIcon(texture, x, y + yOffset, z, size / 150, size / 150, color, false, true, OnUpdate)
 
     return key
 end
@@ -85,7 +89,7 @@ local function ReevaluatePrioritization(unitTag)
         RemoveAttachedIcon(currentKey)
     end
     local icon = unitIcons[unitTag].icons[highestName]
-    local key = CreateAttachedIcon(unitTag, icon.texture, icon.size, icon.color, icon.callback)
+    local key = CreateAttachedIcon(unitTag, icon.texture, icon.size, icon.color, icon.yOffset, icon.callback)
     unitIcons[unitTag].key = key
     unitIcons[unitTag].active = highestName
 end
@@ -98,7 +102,7 @@ local function RemoveIconForUnit(unitTag, uniqueName)
     if (not unitIcons[unitTag]) then return end
 
     if (not unitIcons[unitTag].icons[uniqueName]) then
-        d("|cFF0000No icon " .. uniqueName .. " for " .. unitTag .. "|r")
+        -- d("|cFF0000No icon " .. uniqueName .. " for " .. unitTag .. "|r")
         return
     end
 
@@ -107,7 +111,7 @@ local function RemoveIconForUnit(unitTag, uniqueName)
     ReevaluatePrioritization(unitTag)
 end
 
-local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, callback)
+local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, callback)
     if (not unitIcons[unitTag]) then
         unitIcons[unitTag] = {
             icons = {}
@@ -124,6 +128,7 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
         texture = texture,
         size = size or 100,
         color = color or {1, 1, 1, 1},
+        yOffset = yOffset or NORMAL_Y_OFFSET,
         callback = callback,
     }
 
@@ -170,10 +175,11 @@ local function CreateGroupRoleIcons()
         -- SetIconForUnit(unitTag, uniqueName, priority, texture, size, color)
         SetIconForUnit(player.unitTag,
             GROUP_ROLE_NAME,
-            1,
+            GROUP_ROLE_PRIORITY,
             textures[player.role],
             100,
-            colors[player.role])
+            colors[player.role],
+            NORMAL_Y_OFFSET)
     end
 end
 Draw.CreateGroupRoleIcons = CreateGroupRoleIcons
@@ -187,19 +193,12 @@ local function DestroyAllRoleIcons()
     end
 end
 
-local function RefreshGroup()
-    DestroyAllRoleIcons()
-    CreateGroupRoleIcons()
-end
-Draw.RefreshGroup = RefreshGroup
--- /script CrutchAlerts.Drawing.RefreshGroup()
-
 ---------------------------------------------------------------------
 -- Corpse icons
 local GROUP_DEAD_NAME = "CrutchAlertsGroupDead"
 local function OnDeathStateChanged(_, unitTag, isDead)
     if (isDead) then
-        SetIconForUnit(unitTag, GROUP_DEAD_NAME, 2, "esoui/art/icons/mapkey/mapkey_groupboss.dds", 100, {1, 0, 0, 1}, function(control)
+        local function Callback(control)
             local color
             if (IsUnitBeingResurrected(unitTag)) then
                 color = {0.3, 0.7, 1, 1}
@@ -209,11 +208,40 @@ local function OnDeathStateChanged(_, unitTag, isDead)
                 color = {1, 0, 0, 1}
             end
             control:SetColor(unpack(color)) -- TODO: more efficient
-        end)
+        end
+
+        SetIconForUnit(unitTag,
+            GROUP_DEAD_NAME,
+            GROUP_DEAD_PRIORITY,
+            "esoui/art/icons/mapkey/mapkey_groupboss.dds",
+            100,
+            {1, 0, 0, 1},
+            DEAD_Y_OFFSET,
+            Callback)
     else
         RemoveIconForUnit(unitTag, GROUP_DEAD_NAME)
     end
 end
+
+---------------------------------------------------------------------
+-- Crown
+-- TODO: /esoui/art/icons/mapkey/mapkey_groupleader.dds
+
+---------------------------------------------------------------------
+local function RefreshGroup()
+    DestroyAllRoleIcons()
+    CreateGroupRoleIcons()
+
+    for i = 1, GetGroupSize() do
+        local tag = GetGroupUnitTagByIndex(i)
+        if (IsUnitOnline(tag)) then
+            OnDeathStateChanged(nil, tag, IsUnitDead(tag))
+        end
+    end
+end
+Draw.RefreshGroup = RefreshGroup
+-- /script CrutchAlerts.Drawing.RefreshGroup()
+
 
 ---------------------------------------------------------------------
 -- Built-in events
@@ -230,14 +258,22 @@ local function InitializeAttachedIcons()
     -- deadge
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    for i = 1, GetGroupSize() do
-        local tag = GetGroupUnitTagByIndex(i)
-        if (IsUnitOnline(tag) and IsUnitDead(tag)) then
-            OnDeathStateChanged(nil, tag, true)
-        end
-    end
 end
 Draw.InitializeAttachedIcons = InitializeAttachedIcons
+
+local function UnregisterAttachedIcons()
+    -- Group changes
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS)
+
+    -- deadge
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
+end
+Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 
 ---------------------------------------------------------------------
 
