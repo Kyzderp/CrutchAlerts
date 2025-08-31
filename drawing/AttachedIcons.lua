@@ -48,7 +48,7 @@ local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callba
             callback(control)
         end
     end
-    local key = Draw.CreateWorldIcon(texture, x, y + yOffset, z, size / 150, size / 150, color, false, true, OnUpdate)
+    local key = Draw.CreateWorldIcon(texture, x, y + yOffset, z, size / 150, size / 150, color, false, true, nil, OnUpdate)
 
     return key
 end
@@ -283,6 +283,10 @@ local function RefreshGroup()
         -- Deaths
         if (IsUnitOnline(tag)) then
             OnDeathStateChanged(nil, tag, IsUnitDead(tag))
+        else
+            -- Sometimes offline players are also dead, but it doesn't
+            -- make sense to show dead icon if they're offline
+            OnDeathStateChanged(nil, tag, false)
         end
 
         -- Crown

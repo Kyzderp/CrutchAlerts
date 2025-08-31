@@ -21,21 +21,28 @@ end
 ---------------------------------------------------------------------
 -- The core 3D code, at its simplest... or close to it
 ---------------------------------------------------------------------
-local function Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer)
+-- forwardRightUp = {{fX}}
+local function Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, forwardRightUp)
     local control, key = AcquireTexture()
     control:SetTexture(texture)
     control:SetColor(unpack(color))
     control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y, z))
     control:Set3DLocalDimensions(width, height)
     control:Set3DRenderSpaceUsesDepthBuffer(useDepthBuffer)
+
+    if (forwardRightUp) then
+        control:Set3DRenderSpaceForward(unpack(forwardRightUp[1]))
+        control:Set3DRenderSpaceRight(unpack(forwardRightUp[2]))
+        control:Set3DRenderSpaceUp(unpack(forwardRightUp[3]))
+    end
     return control, key
 end
 
 ---------------------------------------------------------------------
 -- Creating and removing icons
 ---------------------------------------------------------------------
-local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, updateFunc)
-    local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer)
+local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, forwardRightUp, updateFunc)
+    local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, forwardRightUp)
     Draw.activeIcons[key] = {
         control = control,
         faceCamera = faceCamera,
@@ -102,6 +109,26 @@ d(a[1].control:GetDrawLevel())
 d(a[2].control:GetDrawLevel())
 a[1].control:SetDrawLevel(10)
 ]]
+
+local function TestJet(size)
+    local start = 90000
+    local forwardRightUp = {
+        {0, 0, 1},
+        {-1, 0, 0},
+        {0, 1, 0},
+    }
+    size = size or 20
+    local key = CreateWorldIcon("CrutchAlerts/assets/jet2.dds", 98000, 44000, 101500, size, size, {1, 1, 1, 1}, true, false, forwardRightUp, function(control, setPositionFunc)
+        start = start + 15
+        setPositionFunc(start, 44000, 106000)
+    end)
+
+    zo_callLater(function() RemoveWorldIcon(key) end, 30000)
+end
+Draw.TestJet = TestJet
+-- /script CrutchAlerts.Drawing.TestJet()
+-- /script d("|t100%:100%:CrutchAlerts/assets/jet.dds|t")
+-- /script d("|t100%:100%:CrutchAlerts/assets/directional/N.dds|t")
 
 
 ---------------------------------------------------------------------
