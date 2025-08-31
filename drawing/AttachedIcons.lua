@@ -116,7 +116,7 @@ local function RemoveIconForUnit(unitTag, uniqueName)
     ReevaluatePrioritization(unitTag)
 end
 
-local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, callback)
+local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, persistOutsideCombat, callback)
     if (unitTag == "player" and playerGroupTag) then
         unitTag = playerGroupTag
         Crutch.dbgSpam("Translating player tag to " .. playerGroupTag)
@@ -139,6 +139,7 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
         size = size or 100,
         color = color or {1, 1, 1, 1},
         yOffset = yOffset or NORMAL_Y_OFFSET,
+        persistOutsideCombat = persistOutsideCombat,
         callback = callback,
     }
 
@@ -183,14 +184,14 @@ local function CreateGroupRoleIcons()
     }
 
     for _, player in ipairs(tagsToDo) do
-        -- SetIconForUnit(unitTag, uniqueName, priority, texture, size, color)
         SetIconForUnit(player.unitTag,
             GROUP_ROLE_NAME,
             GROUP_ROLE_PRIORITY,
             textures[player.role],
             100,
             colors[player.role],
-            NORMAL_Y_OFFSET)
+            NORMAL_Y_OFFSET,
+            true)
     end
 end
 Draw.CreateGroupRoleIcons = CreateGroupRoleIcons
@@ -232,6 +233,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             100,
             {1, 0, 0, 1},
             DEAD_Y_OFFSET,
+            true,
             Callback)
     else
         RemoveIconForUnit(unitTag, GROUP_DEAD_NAME)
@@ -259,7 +261,9 @@ local function OnCrownChange(_, unitTag)
         GROUP_CROWN_PRIORITY,
         "esoui/art/icons/mapkey/mapkey_groupleader.dds",
         100,
-        {0, 1, 0, 1})
+        {0, 1, 0, 1},
+        nil,
+        true)
 end
 
 ---------------------------------------------------------------------
@@ -319,6 +323,17 @@ local function InitializeAttachedIcons()
 
     -- Crown
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeader", EVENT_LEADER_UPDATE, OnCrownChange) -- TODO: could be more efficient
+
+    -- Combat persistence
+    Crutch.RegisterExitedGroupCombatListener("CrutchAttachedIconsCombat", function()
+        for unitTag, tagData in pairs(unitIcons) do
+            for uniqueName, iconData in pairs(tagData.icons) do
+                if (not iconData.persistOutsideCombat) then
+                    RemoveIconForUnit(unitTag, uniqueName)
+                end
+            end
+        end
+    end)
 end
 Draw.InitializeAttachedIcons = InitializeAttachedIcons
 
@@ -337,6 +352,9 @@ local function UnregisterAttachedIcons()
 
     -- Crown
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeader", EVENT_LEADER_UPDATE)
+
+    -- Combat persistence
+    Crutch.UnregisterExitedGroupCombatListener("CrutchAttachedIconsCombat")
 end
 Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 
@@ -352,9 +370,9 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 -- texture - path to the texture
 -- size - size to display at. Default 100
 -- color - color of the icon, in format {r, g, b, a}. Default {1, 1, 1, 1}
--- yOffset - Y offset for the icon, to not overlap with player. Default 350
-function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset)
-    SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset)
+-- persistOutsideCombat - whether to keep this icon when exiting combat. Otherwise, icon is removed when all group members exit combat. Default false. Note: if the group isn't already in combat, the icon will still show, because it's only removed on combat exit
+function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)
+    SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)
 end
 -- /script CrutchAlerts.SetAttachedIconForUnit("player", "CrutchAlertsTest", 200, "esoui/art/icons/targetdummy_voriplasm_01.dds")
 
