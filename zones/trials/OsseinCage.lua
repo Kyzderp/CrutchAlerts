@@ -330,9 +330,10 @@ end
 -- {"Kyzeragon" = true}
 local sparking = {}
 local blazing = {}
+local ENFEEBLEMENT_UNIQUE_NAME = "CrutchAlertsOCEnfeeblement"
 
-local function UpdateEnfeeblementIcon(atName)
-    Crutch.RemoveMechanicIconForUnit(atName)
+local function UpdateEnfeeblementIcon(atName, unitTag)
+    Crutch.RemoveAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME)
 
     local icon, color
     if (sparking[atName] and blazing[atName]) then
@@ -354,17 +355,17 @@ local function UpdateEnfeeblementIcon(atName)
     end
 
     Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", icon, atName))
-    Crutch.SetMechanicIconForUnit(atName, icon, nil, color)
+    Crutch.SetAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME, 500, icon, 100, color)
 end
 
 local function OnEnfeeblement(enfeeblementStruct, changeType, unitTag)
     local atName = GetUnitDisplayName(unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
         enfeeblementStruct[atName] = true
-        UpdateEnfeeblementIcon(atName)
+        UpdateEnfeeblementIcon(atName, unitTag)
     elseif (changeType == EFFECT_RESULT_FADED) then
         enfeeblementStruct[atName] = nil
-        UpdateEnfeeblementIcon(atName)
+        UpdateEnfeeblementIcon(atName, unitTag)
     end
 end
 Crutch.Spark = function(tag, effect) OnEnfeeblement(sparking, effect, tag) end
@@ -469,7 +470,7 @@ end
 -- 4 seconds later, the real tether starts, 232780 and 232779. The initial debuff fades immediately after
 -- We need to account for the possibility of someone dying during the 4 seconds,
 -- which means the tether doesn't cast
-
+local CHAIN_UNIQUE_NAME = "CrutchAlertsOCChain"
 local chainsDisplaying1, chainsDisplaying2 -- unit tag of player if there is some kind of chains on them
 
 local UNSAFE = 20 -- Chains have red effect when under 20m
@@ -507,7 +508,7 @@ local function AddChainToPlayer(unitTag)
     local iconPath = "esoui/art/trials/vitalitydepletion.dds"
 
     Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, GetUnitDisplayName(unitTag)))
-    Crutch.SetMechanicIconForUnit(GetUnitDisplayName(unitTag), iconPath, 100, {1, 0, 1})
+    Crutch.SetAttachedIconForUnit(unitTag, CHAIN_UNIQUE_NAME, 200, iconPath, 100, {1, 0, 1, 1})
 
 
     if (not chainsDisplaying1) then
@@ -526,8 +527,8 @@ Crutch.AddChainToPlayer = AddChainToPlayer -- /script CrutchAlerts.AddChainToPla
 -- Completely remove it from both players, and remove the line
 local function RemoveChain()
     Crutch.RemoveLine()
-    Crutch.RemoveMechanicIconForUnit(GetUnitDisplayName(chainsDisplaying1))
-    Crutch.RemoveMechanicIconForUnit(GetUnitDisplayName(chainsDisplaying2))
+    Crutch.RemoveAttachedIconForUnit(chainsDisplaying1, CHAIN_UNIQUE_NAME)
+    Crutch.RemoveAttachedIconForUnit(chainsDisplaying2, CHAIN_UNIQUE_NAME)
     chainsDisplaying1 = nil
     chainsDisplaying2 = nil
 end

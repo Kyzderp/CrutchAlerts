@@ -379,3 +379,4 @@ end
 function Crutch.RemoveAttachedIconForUnit(unitTag, uniqueName)
     RemoveIconForUnit(unitTag, uniqueName)
 end
+-- /script CrutchAlerts.RemoveAttachedIconForUnit("player", "CrutchAlertsGroupDead")
