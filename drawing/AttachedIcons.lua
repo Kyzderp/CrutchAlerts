@@ -30,11 +30,7 @@ Draw.unitIcons = unitIcons
 ---------------------------------------------------------------------
 -- Prioritization; logic for which icon to show
 ---------------------------------------------------------------------
-local GROUP_ROLE_PRIORITY = 100
 local NORMAL_Y_OFFSET = 350 -- TODO: setting
-
-local GROUP_DEAD_PRIORITY = 110
-local DEAD_Y_OFFSET = 100 -- TODO: setting
 
 local function RemoveAttachedIcon(key)
     Draw.RemoveWorldIcon(key)
@@ -98,7 +94,16 @@ end
 ---------------------------------------------------------------------
 -- Internal API
 ---------------------------------------------------------------------
+-- If player is grouped but someone tries to add an icon for "player"
+-- just use the group unit tag
+local playerGroupTag
+
 local function RemoveIconForUnit(unitTag, uniqueName)
+    if (unitTag == "player" and playerGroupTag) then
+        unitTag = playerGroupTag
+        Crutch.dbgSpam("Translating player tag to " .. playerGroupTag)
+    end
+
     if (not unitIcons[unitTag]) then return end
 
     if (not unitIcons[unitTag].icons[uniqueName]) then
@@ -112,6 +117,11 @@ local function RemoveIconForUnit(unitTag, uniqueName)
 end
 
 local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, callback)
+    if (unitTag == "player" and playerGroupTag) then
+        unitTag = playerGroupTag
+        Crutch.dbgSpam("Translating player tag to " .. playerGroupTag)
+    end
+
     if (not unitIcons[unitTag]) then
         unitIcons[unitTag] = {
             icons = {}
@@ -138,8 +148,9 @@ end
 ---------------------------------------------------------------------
 -- Built-in icons
 ---------------------------------------------------------------------
--- TODO: if something calls "player"
+-- LFG roles
 local GROUP_ROLE_NAME = "CrutchAlertsGroupRole"
+local GROUP_ROLE_PRIORITY = 100
 
 local function CreateGroupRoleIcons()
     local tagsToDo = {}
@@ -196,6 +207,9 @@ end
 ---------------------------------------------------------------------
 -- Corpse icons
 local GROUP_DEAD_NAME = "CrutchAlertsGroupDead"
+local GROUP_DEAD_PRIORITY = 110
+local DEAD_Y_OFFSET = 100 -- TODO: setting
+
 local function OnDeathStateChanged(_, unitTag, isDead)
     if (isDead) then
         local function Callback(control)
@@ -232,8 +246,12 @@ local function RefreshGroup()
     DestroyAllRoleIcons()
     CreateGroupRoleIcons()
 
+    playerGroupTag = nil
     for i = 1, GetGroupSize() do
         local tag = GetGroupUnitTagByIndex(i)
+        if (AreUnitsEqual("player", tag)) then
+            playerGroupTag = tag
+        end
         if (IsUnitOnline(tag)) then
             OnDeathStateChanged(nil, tag, IsUnitDead(tag))
         end
@@ -280,4 +298,19 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 ---------------------------------------------------------------------
 -- Public API
 ---------------------------------------------------------------------
+-- Add an icon for a (likely group member) unit
+-- unitTag - the unit tag, e.g. "group1". If grouped, trying to use "player" will automatically use the group unit tag instead
+-- uniqueName - unique name, such as your addon name + mechanic name
+-- priority - order in which icons are displayed. Higher number takes precedence. Built-in role icons are currently 100, built-in dead group member icons are 110
+-- texture - path to the texture
+-- size - size to display at. Default 100
+-- color - color of the icon, in format {r, g, b, a}. Default {1, 1, 1, 1}
+-- yOffset - Y offset for the icon, to not overlap with player. Default 350
+function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset)
+    SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset)
+end
+-- /script CrutchAlerts.SetAttachedIconForUnit("player", "CrutchAlertsTest", 200, "esoui/art/icons/targetdummy_voriplasm_01.dds")
 
+function Crutch.RemoveAttachedIconForUnit(unitTag, uniqueName)
+    RemoveIconForUnit(unitTag, uniqueName)
+end
