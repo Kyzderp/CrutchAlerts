@@ -202,6 +202,7 @@ local function DestroyAllRoleIcons()
             RemoveIconForUnit(unitTag, GROUP_ROLE_NAME)
         end
     end
+    RemoveIconForUnit("player", GROUP_ROLE_NAME)
 end
 
 ---------------------------------------------------------------------
@@ -243,10 +244,13 @@ end
 
 ---------------------------------------------------------------------
 local function RefreshGroup()
+    -- Roles
     DestroyAllRoleIcons()
     CreateGroupRoleIcons()
 
     playerGroupTag = nil
+
+    -- Deaths
     for i = 1, GetGroupSize() do
         local tag = GetGroupUnitTagByIndex(i)
         if (AreUnitsEqual("player", tag)) then
@@ -256,6 +260,7 @@ local function RefreshGroup()
             OnDeathStateChanged(nil, tag, IsUnitDead(tag))
         end
     end
+    OnDeathStateChanged(nil, "player", IsUnitDead("player"))
 end
 Draw.RefreshGroup = RefreshGroup
 -- /script CrutchAlerts.Drawing.RefreshGroup()
@@ -264,6 +269,7 @@ Draw.RefreshGroup = RefreshGroup
 ---------------------------------------------------------------------
 -- Built-in events
 ---------------------------------------------------------------------
+local hooked = false
 local function InitializeAttachedIcons()
     -- Group changes
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, RefreshGroup)
@@ -276,6 +282,14 @@ local function InitializeAttachedIcons()
     -- deadge
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedPlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AttachedPlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_UNIT_TAG, "player")
+
+    -- Self role change
+    if (not hooked) then
+        ZO_PostHook("UpdateSelectedLFGRole", RefreshGroup)
+        hooked = true
+    end
 end
 Draw.InitializeAttachedIcons = InitializeAttachedIcons
 
