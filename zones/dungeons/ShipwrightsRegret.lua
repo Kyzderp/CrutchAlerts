@@ -13,6 +13,7 @@ clients.
 ]]
 
 local firstBombTarget
+local BOMB_UNIQUE_NAME = "CrutchAlertsSRBomb"
 
 local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     local secondBombTarget = Crutch.groupIdToTag[targetUnitId]
@@ -33,11 +34,15 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
         second = temp
     end
 
+    -- TODO: get rid of this
+    local nameToTag = {}
+
     -- Then, get the remaining group members
     local third, fourth
     for i = 1, GetGroupSize() do
         local tag = GetGroupUnitTagByIndex(i)
         local name = GetUnitDisplayName(tag)
+        nameToTag[name] = tag
         if (name ~= first and name ~= second) then
             if (not third) then
                 third = name
@@ -64,11 +69,13 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
     }
     local toStack = stacks[GetUnitDisplayName("player")]
 
+    -- TODO: this is leftover from OSI migration. Should just store the unit tag
+    local unitTag = nameToTag[toStack]
+
     -- Put icon on the person we should stack with
-    if (OSI) then
-        Crutch.SetMechanicIconForUnit(toStack, "odysupporticons/icons/emoji-poop.dds")
-        zo_callLater(function() Crutch.RemoveMechanicIconForUnit(toStack) end, 5000)
-    end
+    Crutch.SetAttachedIconForUnit(unitTag, BOMB_UNIQUE_NAME, 500, "CrutchAlerts/assets/poop.dds")
+    zo_callLater(function() Crutch.RemoveAttachedIconForUnit(unitTag) end, 5000)
+
     Crutch.DisplayNotification(168314, string.format("|cAAAAAASuggested stack: |cff00ff%s|r", toStack), 5000, 0, 0, 0, 0, false)
 end
 

@@ -256,10 +256,6 @@ local iconGroups = {
 
 
 ---------------------------------------------------------------------
-function Crutch.WorldIconsEnabled()
-    return OSI ~= nil and OSI.CreatePositionIcon ~= nil
-end
-
 function Crutch.PlacedIconsEnabled()
     if (IsConsoleUI()) then
         return Crutch.enableDrawingOnConsole
@@ -347,7 +343,6 @@ function Crutch.DisableIconGroup(iconGroupName)
         local name = iconGroupName .. "_" .. tostring(i)
         if (icons[name]) then
             Crutch.Drawing.RemovePlacedIcon(icons[name])
-            -- OSI.DiscardPositionIcon(icons[name])
             icons[name] = nil
         end
     end

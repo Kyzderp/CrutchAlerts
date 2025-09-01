@@ -23,17 +23,18 @@ end
 -- Falgravn
 ---------------------------------------------------------------------
 local prisoned = {}
+local PRISON_UNIQUE_NAME = "CrutchAlertsKAPrison"
 
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnPrisonBegin(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId)
     if (hitValue ~= 1500) then return end
     local unitTag = Crutch.groupIdToTag[targetUnitId]
     if (unitTag) then
-        OSI.SetMechanicIconForUnit(GetUnitDisplayName(unitTag), "/esoui/art/icons/death_recap_oblivion.dds")
+        Crutch.SetAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME, 500, "/esoui/art/icons/death_recap_oblivion.dds")
         zo_callLater(function()
             if (not prisoned[unitTag]) then
                 -- Remove the icon if not prisoned, this can happen if the bitter knight dies during the cast
-                OSI.RemoveMechanicIconForUnit(GetUnitDisplayName(unitTag))
+                Crutch.RemoveAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME)
             end
         end, 2000)
     end
@@ -44,10 +45,10 @@ local function OnPrisonEffect(_, changeType, _, _, unitTag)
     -- seems to be 1.5s for the cast, then 8s for the prison?
     if (changeType == EFFECT_RESULT_GAINED) then
         prisoned[unitTag] = true
-        OSI.SetMechanicIconForUnit(GetUnitDisplayName(unitTag), "/esoui/art/icons/death_recap_oblivion.dds")
+        Crutch.SetAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME, 500, "/esoui/art/icons/death_recap_oblivion.dds")
     elseif (changeType == EFFECT_RESULT_FADED) then
         prisoned[unitTag] = nil
-        OSI.RemoveMechanicIconForUnit(GetUnitDisplayName(unitTag))
+        Crutch.RemoveAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME)
     end
 end
 
@@ -106,17 +107,13 @@ end
 function Crutch.RegisterKynesAegis()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Kyne's Aegis")
 
-    if (not Crutch.WorldIconsEnabled()) then
-        Crutch.ComplainOSI()
-    else
-        -- Prison icon
-        if (Crutch.savedOptions.kynesaegis.showPrisonIcon) then
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, OnPrisonEffect)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 132473)
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, OnPrisonBegin)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 132468)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
-        end
+    -- Prison icon
+    if (Crutch.savedOptions.kynesaegis.showPrisonIcon) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, OnPrisonEffect)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 132473)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, OnPrisonBegin)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 132468)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_BEGIN)
     end
 
     --Spear

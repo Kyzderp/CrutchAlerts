@@ -166,18 +166,6 @@ local function RegisterZhajhassa()
     -- Jone's Blessing (57525) fires when a pad's buff is restored, with the target unit ID as the pad's ID
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED, OnPadChanged)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 57525) -- Jone's Blessing
-
-    -- if (not Crutch.WorldIconsEnabled()) then
-    --     Crutch.ComplainOSI()
-    -- else
-    --     -- Zhaj'hassa icons
-    --     if (Crutch.savedOptions.mawoflorkhaj.showZhajIcons) then
-    --         Crutch.EnableIcon("ZhajM1")
-    --         Crutch.EnableIcon("ZhajM2")
-    --         Crutch.EnableIcon("ZhajM3")
-    --         Crutch.EnableIcon("ZhajM4")
-    --     end
-    -- end
 end
 
 local function UnregisterZhajhassa()

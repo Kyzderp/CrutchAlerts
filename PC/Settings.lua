@@ -651,7 +651,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Blood Prison icon",
-                    tooltip = "Shows icon above player who is targeted by Blood Prison, slightly before the bubble even shows up. Requires OdySupportIcons",
+                    tooltip = "Shows icon above player who is targeted by Blood Prison, slightly before the bubble even shows up",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.kynesaegis.showPrisonIcon end,
                     setFunc = function(value)
@@ -659,7 +659,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "checkbox",
@@ -946,7 +945,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "dropdown",
                     name = "Show Enfeeblement debuffs",
-                    tooltip = "Shows icons on players afflicted by Sparking Enfeeblement, Blazing Enfeeblement, or both. Requires OdySupportIcons",
+                    tooltip = "Shows icons on players afflicted by Sparking Enfeeblement, Blazing Enfeeblement, or both",
                     choices = {"Never", "Hardmode only", "Veteran + Hardmode", "Always"},
                     choicesValues = {"NEVER", "HM", "VET", "ALWAYS"},
                     default = "HM",
@@ -958,7 +957,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
                 },
                 {
                     type = "dropdown",
