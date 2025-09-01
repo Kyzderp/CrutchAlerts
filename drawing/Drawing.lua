@@ -118,8 +118,9 @@ local function TestJet(size)
         {-1, 0, 0},
         {0, 1, 0},
     }
-    size = size or 20
-    local key = CreateWorldIcon("CrutchAlerts/assets/jet2.dds", 98000, 44000, 101500, size, size, {1, 1, 1, 1}, true, false, forwardRightUp, function(control, setPositionFunc)
+    local width = size or 20
+    local height = size / 128 * 600
+    local key = CreateWorldIcon("CrutchAlerts/assets/jet.dds", 98000, 44000, 101500, width, height, {1, 1, 1, 1}, true, false, forwardRightUp, function(control, setPositionFunc)
         start = start + 15
         setPositionFunc(start, 44000, 106000)
     end)
