@@ -782,10 +782,10 @@ local dungeonThresholds = {
         [30] = "Totem",
     },
     [GetBossName(CRUTCH_BHB_TALENLAH)] = {
-        [75] = "Bar-Sakka", -- TODO
-        [55] = "Talen-Lah", -- TODO
-        [25] = "Bar-Sakka", -- TODO
-        [5] = "Talen-Lah", -- TODO
+        [70] = "Bar-Sakka",
+        [55] = "Talen-Lah",
+        [30] = "Bar-Sakka",
+        [5] = "Together", -- TODO
     },
 }
 
