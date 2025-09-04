@@ -80,7 +80,7 @@ Draw.RemoveWorldIcon = RemoveWorldIcon
 ---------------------------------------------------------------------
 local function CreatePlacedIcon(texture, x, y, z, size, color)
     color = color or {1, 1, 1, 1}
-    return CreateWorldIcon(texture, x, y, z, size / 150, size / 150, color, true, true)
+    return CreateWorldIcon(texture, x, y, z, size / 150, size / 150, color, false, true)
 end
 Draw.CreatePlacedIcon = CreatePlacedIcon
 
@@ -88,6 +88,27 @@ local function RemovePlacedIcon(key)
     RemoveWorldIcon(key)
 end
 Draw.RemovePlacedIcon = RemovePlacedIcon
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------
+local function CreateGroundCircle(x, y, z, radius, color, useDepthBuffer, forwardRightUp)
+    if (not x) then
+        _, x, y, z = GetUnitRawWorldPosition("player")
+    end
+
+    forwardRightUp = forwardRightUp or {
+        {0, -1, 0},
+        {-1, 0, 0},
+        {0, 0, 1},
+    }
+    radius = radius or 12
+    local size = radius * 2
+
+    color = color or {1, 0, 0, 1}
+
+    return CreateWorldIcon("CrutchAlerts/assets/floor/circle.dds", x, y, z, size, size, color, useDepthBuffer, false, forwardRightUp)
+end
+Draw.CreateGroundCircle = CreateGroundCircle
 
 ---------------------------------------------------------------------
 -- Testing for now
@@ -119,7 +140,7 @@ local function TestJet(size)
         {0, 1, 0},
     }
     local width = size or 20
-    local height = size / 128 * 600
+    local height = width / 600 * 128
     local key = CreateWorldIcon("CrutchAlerts/assets/jet.dds", 98000, 44000, 101500, width, height, {1, 1, 1, 1}, true, false, forwardRightUp, function(control, setPositionFunc)
         start = start + 15
         setPositionFunc(start, 44000, 106000)
@@ -131,6 +152,35 @@ Draw.TestJet = TestJet
 -- /script CrutchAlerts.Drawing.TestJet()
 -- /script d("|t100%:100%:CrutchAlerts/assets/jet.dds|t")
 -- /script d("|t100%:100%:CrutchAlerts/assets/directional/N.dds|t")
+
+local lastKey
+local function TestCircle(radius, x, y, z, useDepthBuffer)
+    if (lastKey) then
+        RemoveWorldIcon(lastKey)
+    end
+    if (not x) then
+        _, x, y, z = GetUnitRawWorldPosition("player")
+    end
+
+    local forwardRightUp = {
+        {0, -1, 0},
+        {-1, 0, 0},
+        {0, 0, 1},
+    }
+    radius = radius or 12
+    local size = radius * 2
+
+    lastKey = CreateWorldIcon("CrutchAlerts/assets/floor/circle.dds", x, y, z, size, size, {1, 0, 0, 1}, useDepthBuffer, false, forwardRightUp)
+end
+Draw.TestCircle = TestCircle
+--[[
+/script CrutchAlerts.Drawing.TestCircle()
+/script
+Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
+d(CrutchAlertsDrawingCamera:Get3DRenderSpaceForward())
+d(CrutchAlertsDrawingCamera:Get3DRenderSpaceRight())
+d(CrutchAlertsDrawingCamera:Get3DRenderSpaceUp())
+]]
 
 
 ---------------------------------------------------------------------

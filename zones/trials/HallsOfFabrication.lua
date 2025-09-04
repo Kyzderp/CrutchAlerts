@@ -24,6 +24,25 @@ local function HandleOverheadRail()
     Crutch.DisplayDamageable(23.2)
 end
 
+---------------------------------------------------------------------
+local tripletsCircleKey
+local function EnableTripletsCircle(x, y, z, radius)
+    if (tripletsCircleKey) then
+        Crutch.Drawing.RemoveWorldIcon(tripletsCircleKey)
+    end
+
+    x = x or 30155
+    y = y or 52960
+    z = z or 73255
+    radius = radius or 3.1
+    local useDepthBuffer = true -- TODO: setting?
+    tripletsCircleKey = Crutch.Drawing.CreateGroundCircle(x, y, z, radius, {1, 0, 0, 1}, useDepthBuffer)
+end
+Crutch.EnableTripletsCircle = EnableTripletsCircle
+--/script CrutchAlerts.EnableTripletsCircle()
+--/script CrutchAlerts.EnableTripletsCircle(30160, 52960, 73250)
+--/script CrutchAlerts.EnableTripletsCircle(30155, 52960, 73255)
+
 
 ---------------------------------------------------------------------
 -- Register/Unregister
@@ -40,7 +59,8 @@ function Crutch.RegisterHallsOfFabrication()
 
     -- Triplets icon
     if (Crutch.savedOptions.hallsoffabrication.showTripletsIcon) then
-        Crutch.EnableIcon("TripletsSafe")
+        -- Crutch.EnableIcon("TripletsSafe")
+        EnableTripletsCircle()
     end
 
     -- AG icons
@@ -63,6 +83,7 @@ function Crutch.UnregisterHallsOfFabrication()
 
     -- Triplets icon
     Crutch.DisableIcon("TripletsSafe")
+    Crutch.Drawing.RemoveWorldIcon(tripletsCircleKey)
 
     -- AG icons
     Crutch.DisableIcon("AGN")

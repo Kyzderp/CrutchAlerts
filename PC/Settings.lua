@@ -579,7 +579,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show safe spot for triplets",
-                    tooltip = "In the triplets fight, shows an icon in the world that is outside of Shock Field",
+                    tooltip = "In the triplets fight, shows the approximate outline of Shock Field even when it's not active",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
                     setFunc = function(value)
