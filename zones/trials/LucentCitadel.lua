@@ -5,6 +5,8 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 -- Icons for Arcane Conveyance
 ---------------------------------------------------------------------
+local CONVEYANCE_UNIQUE_NAME = "CrutchAlertsLCArcaneConveyance"
+
 -- Arcane Conveyance starts off with an initial debuff, 223028 and 223029
 -- 4 seconds later, the real tether starts, 223060. The initial debuff seems to fade immediately after
 -- We need to account for the possibility of someone dying during the 4 seconds,
@@ -21,7 +23,7 @@ local function AddArcaneConveyanceToPlayer(unitTag)
     local iconPath = "esoui/art/trials/vitalitydepletion.dds"
 
     Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, GetUnitDisplayName(unitTag)))
-    Crutch.SetMechanicIconForUnit(GetUnitDisplayName(unitTag), iconPath, 150, {1, 0, 1})
+    Crutch.SetAttachedIconForUnit(unitTag, CONVEYANCE_UNIQUE_NAME, 500, iconPath, 150, {1, 0, 1, 1})
 
 
     if (not conveyanceDisplaying1) then
@@ -38,8 +40,8 @@ end
 -- Completely remove it from both players, and remove the line
 local function RemoveArcaneConveyance()
     Crutch.RemoveLine()
-    Crutch.RemoveMechanicIconForUnit(GetUnitDisplayName(conveyanceDisplaying1))
-    Crutch.RemoveMechanicIconForUnit(GetUnitDisplayName(conveyanceDisplaying2))
+    Crutch.RemoveAttachedIconForUnit(conveyanceDisplaying1, CONVEYANCE_UNIQUE_NAME)
+    Crutch.RemoveAttachedIconForUnit(conveyanceDisplaying2, CONVEYANCE_UNIQUE_NAME)
     conveyanceDisplaying1 = nil
     conveyanceDisplaying2 = nil
 end

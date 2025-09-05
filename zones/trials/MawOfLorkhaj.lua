@@ -185,14 +185,16 @@ end
 ---------------------------------------------------------------------
 -- TWINS
 ---------------------------------------------------------------------
+local ASPECT_UNIQUE_NAME = "CrutchAlertsMoLAspect"
+
 -- lunar duration -> shadow conversion duration -> lunar faded -> shadow duration -> conversion faded
 local currentlyDisplayingAbility = {}
 
 local ASPECT_ICONS = {
-    [59639] = {path = "/esoui/art/ava/ava_rankicon64_lieutenant.dds", color = {0, 0, 1}}, -- Shadow Aspect
-    [59640] = {path = "/esoui/art/ava/ava_rankicon64_prefect.dds", color = {1, 206/255, 0}}, -- Lunar Aspect
-    [59699] = {path = "/esoui/art/ava/ava_rankicon64_legate.dds", color = {0, 0, 1}}, -- Conversion (to shadow)
-    [75460] = {path = "/esoui/art/ava/ava_rankicon64_tribune.dds", color = {1, 206/255, 0}}, -- Conversion (to lunar)
+    [59639] = {path = "/esoui/art/ava/ava_rankicon64_lieutenant.dds", color = {0, 0, 1, 1}}, -- Shadow Aspect
+    [59640] = {path = "/esoui/art/ava/ava_rankicon64_prefect.dds", color = {1, 206/255, 0, 1}}, -- Lunar Aspect
+    [59699] = {path = "/esoui/art/ava/ava_rankicon64_legate.dds", color = {0, 0, 1, 1}}, -- Conversion (to shadow)
+    [75460] = {path = "/esoui/art/ava/ava_rankicon64_tribune.dds", color = {1, 206/255, 0, 1}}, -- Conversion (to lunar)
 }
 
 local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _, _, abilityId, _)
@@ -204,12 +206,12 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-        Crutch.SetMechanicIconForUnit(atName, iconPath, nil, iconData.color)
+        Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, 500, iconPath, 100, iconData.color)
     elseif (changeType == EFFECT_RESULT_FADED) then
         -- The aspect faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
-            Crutch.RemoveMechanicIconForUnit(atName)
+            Crutch.RemoveAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME)
             currentlyDisplayingAbility[atName] = nil
         end
     end
@@ -217,8 +219,9 @@ end
 Crutch.TestAspect = function(unitTag, abilityId) OnAspect(_, EFFECT_RESULT_GAINED, _, _, unitTag, _, _, _, _, _, _, _, _, _, _, abilityId) end
 
 local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId, abilityId)
-    local atName = GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId])
-    if (not atName) then
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    local atName = GetUnitDisplayName(unitTag)
+    if (not unitTag or not atName) then
         Crutch.dbgSpam(string.format("couldn't find atName for %d", targetUnitId))
         return
     end
@@ -230,7 +233,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
         currentlyDisplayingAbility[atName] = abilityId
 
         Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-        Crutch.SetMechanicIconForUnit(atName, iconPath, nil, iconData.color)
+        Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, 500, iconPath, 100, iconData.color)
 
         -- If self, display a prominent alert because COLOR SWAP!
         local showProminent
@@ -246,7 +249,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
         -- The conversion faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
-            Crutch.RemoveMechanicIconForUnit(atName)
+            Crutch.RemoveAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME)
             currentlyDisplayingAbility[atName] = nil
         end
     end
@@ -254,21 +257,21 @@ end
 
 local origOSIGetIconDataForPlayer = nil
 local function RegisterTwins()
-    if (OSI and OSI.SetMechanicIconForUnit) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, OnAspect)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59639) -- Shadow Aspect (duration)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, OnAspect)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59639) -- Shadow Aspect (duration)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, OnAspect)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59640) -- Lunar Aspect (duration)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, OnAspect)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59640) -- Lunar Aspect (duration)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_COMBAT_EVENT, OnConversion)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 59699) -- Conversion (to shadow)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_COMBAT_EVENT, OnConversion)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 59699) -- Conversion (to shadow)
 
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, OnConversion)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 75460) -- Conversion (to lunar)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, OnConversion)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 75460) -- Conversion (to lunar)
 
+    if (OSI) then
         -- Override the dead icon to be whichever color
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.GetIconDataForPlayer")
         origOSIGetIconDataForPlayer = OSI.GetIconDataForPlayer
@@ -295,18 +298,14 @@ local function RegisterTwins()
 end
 
 local function UnregisterTwins()
-    if (OSI and OSI.SetMechanicIconForUnit) then
-        OSI.ResetMechanicIcons()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_EFFECT_CHANGED)
 
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED)
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED)
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_EFFECT_CHANGED)
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_EFFECT_CHANGED)
-
-        if (OSI and origOSIGetIconDataForPlayer) then
-            Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.GetIconDataForPlayer")
-            OSI.GetIconDataForPlayer = origOSIGetIconDataForPlayer
-        end
+    if (OSI and origOSIGetIconDataForPlayer) then
+        Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.GetIconDataForPlayer")
+        OSI.GetIconDataForPlayer = origOSIGetIconDataForPlayer
     end
 end
 

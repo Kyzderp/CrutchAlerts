@@ -69,7 +69,6 @@ alerts/Events.lua
 alerts/Fatecarver.lua
 
 icons/DrawLine.lua
-icons/Overrides.lua
 icons/WorldIcons.lua
 
 prominent/DamageTaken.lua
