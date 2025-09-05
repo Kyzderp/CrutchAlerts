@@ -9,12 +9,15 @@ local Crutch = CrutchAlerts
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnExplodingSpearBegin(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     local unitTag = Crutch.groupIdToTag[targetUnitId]
-    -- Persist icon for 5 seconds
     if (unitTag) then
         zo_callLater(function()
             local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-            local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/icons/death_recap_fire_ranged_arrow.dds", x, y, z, 100) -- TODO: a telegraph circle instead?
-            zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, 5000)
+            -- local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/icons/death_recap_fire_ranged_arrow.dds", x, y, z, 100) -- TODO: a telegraph circle instead?
+            -- zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, 5000)
+
+            -- Circle is more obvious if it's not accurate, but oh well...
+            local circleKey = Crutch.Drawing.CreateGroundCircle(x, y + 5, z, 4, {1, 0.5, 0, 0.5}, true)
+            zo_callLater(function() Crutch.Drawing.RemoveWorldIcon(circleKey) end, 4000)
         end, 500)
     end
 end

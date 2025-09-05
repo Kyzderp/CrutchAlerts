@@ -639,7 +639,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Exploding Spear landing spot",
-                    tooltip = "On trash packs with Half-Giant Raiders, show icons at the approximate locations where Exploding Spears will land",
+                    tooltip = "On trash packs with Half-Giant Raiders, shows circles at the approximate locations where Exploding Spears will land (may vary due to latency)",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.kynesaegis.showSpearIcon end,
                     setFunc = function(value)
