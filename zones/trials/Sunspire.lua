@@ -229,6 +229,8 @@ end
 ---------------------------------------------------------------------
 -- Focused Fire
 ---------------------------------------------------------------------
+local FOCUSED_FIRE_UNIQUE_NAME = "CrutchAlertsSSFocusedFire"
+
 -- Check each group member to see who has the Focused Fire DEBUFF
 local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     local toClear = {}
@@ -246,23 +248,19 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
             end
         end
 
-        if (OSI and not hasFocusedFire) then
-            OSI.SetMechanicIconForUnit(GetUnitDisplayName(unitTag), "odysupporticons/icons/squares/marker_lightblue.dds")
-            table.insert(toClear, GetUnitDisplayName(unitTag))
+        if (Crutch.savedOptions.sunspire.yolFocusedFire and not hasFocusedFire) then
+            Crutch.SetAttachedIconForUnit(unitTag, FOCUSED_FIRE_UNIQUE_NAME, 500, "CrutchAlerts/assets/shape/chevron.dds", 100, {0, 1, 1, 1}, false)
+            table.insert(toClear, unitTag)
         end
     end
 
     -- Clear icons 7 seconds later
-    if (OSI) then
-        OSI.SetMechanicIconSize(200)
-        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "ClearIcons", 7000, function()
-                EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "ClearIcons")
-                for _, name in pairs(toClear) do
-                    OSI.RemoveMechanicIconForUnit(name)
-                end
-                OSI.ResetMechanicIconSize()
-            end)
-    end
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "ClearIcons", 7000, function()
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "ClearIcons")
+        for _, unitTag in pairs(toClear) do
+            Crutch.RemoveAttachedIconForUnit(unitTag, FOCUSED_FIRE_UNIQUE_NAME)
+        end
+    end)
 end
 
 

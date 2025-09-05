@@ -765,7 +765,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Arcane Conveyance tether",
-                    tooltip = "Shows a line connecting group members who are about to (or have already received) the Arcane Conveyance tether from Dariel Lemonds. If OdySupportIcons is enabled, also shows icons above their heads",
+                    tooltip = "Shows a line connecting group members who are about to (or have already received) the Arcane Conveyance tether from Dariel Lemonds",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.lucentcitadel.showArcaneConveyance end,
                     setFunc = function(value)
@@ -977,7 +977,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show Dominator's Chains tether",
-                    tooltip = "Shows a line connecting group members who are about to (or have already received) the Dominator's Chains tether from Overfiend Kazpian. If OdySupportIcons is enabled, also shows icons above their heads",
+                    tooltip = "Shows a line connecting group members who are about to (or have already received) the Dominator's Chains tether from Overfiend Kazpian",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.osseincage.showChains end,
                     setFunc = function(value)
@@ -1132,6 +1132,17 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.sunspire.yolIconsSize = value
                     end,
                     disabled = function() return not Crutch.savedOptions.sunspire.showYolIcons end,
+                },
+                {
+                    type = "checkbox",
+                    name = "Show players without Focused Fire",
+                    tooltip = "When Yolnahkriin starts casting Focus Fire, show icons above players who do not have the Focused Fire debuff. This is mainly to help the OT not go to the wrong stack",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sunspire.yolFocusedFire end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.yolFocusedFire = value
+                    end,
+                    width = "full",
                 },
             }),
         },
@@ -1397,7 +1408,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Suggest stacks for Soul Bomb",
-                    tooltip = "Displays a notification for suggested person to stack on for Soul Bomb on Foreman Bradiggan hardmode when there are 2 bombs. If OdySupportIcons is enabled, also shows an icon above that person's head. The suggested stack is alphabetical based on @ name",
+                    tooltip = "Displays a notification for suggested person to stack on for Soul Bomb on Foreman Bradiggan hardmode when there are 2 bombs. Also shows an icon above that person's head. The suggested stack is alphabetical based on @ name",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.shipwrightsRegret.showBombStacks end,
                     setFunc = function(value)

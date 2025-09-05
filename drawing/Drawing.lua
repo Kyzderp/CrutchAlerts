@@ -97,8 +97,8 @@ local function CreateGroundCircle(x, y, z, radius, color, useDepthBuffer, forwar
     end
 
     forwardRightUp = forwardRightUp or {
-        {0, -1, 0},
-        {-1, 0, 0},
+        {0, 1, 0},
+        {1, 0, 0},
         {0, 0, 1},
     }
     radius = radius or 12
@@ -175,6 +175,7 @@ end
 Draw.TestCircle = TestCircle
 --[[
 /script CrutchAlerts.Drawing.TestCircle()
+/script CrutchAlerts.Drawing.TestCircle(nil, nil, nil, nil, true)
 /script
 Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
 d(CrutchAlertsDrawingCamera:Get3DRenderSpaceForward())

@@ -15,12 +15,6 @@ function Crutch.msg(msg)
     end
 end
 
-function Crutch.ComplainOSI()
-    if (not IsConsoleUI()) then
-        Crutch.msg("You must install OdySupportIcons 1.6.3+ to display in-world icons")
-    end
-end
-
 ---------------------------------------------------------------------
 -- Getting lang string with caps format
 ---------------------------------------------------------------------

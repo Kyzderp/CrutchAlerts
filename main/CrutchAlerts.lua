@@ -151,6 +151,7 @@ local defaultOptions = {
         showYolIcons = true,
         yolLeftIcons = false,
         yolIconsSize = 150,
+        yolFocusedFire = true,
     },
     mawoflorkhaj = {
         showPads = true,
