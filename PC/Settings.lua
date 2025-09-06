@@ -354,6 +354,30 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show crown",
+                    tooltip = "Whether to show a crown icon for the group leader",
+                    default = Crutch.defaultOptions.drawing.attached.showCrown,
+                    getFunc = function() return Crutch.savedOptions.drawing.attached.showCrown end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.attached.showCrown = value
+                        Crutch.Drawing.RefreshGroup()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show dead group members",
+                    tooltip = "Whether to show skull icons for group members who are deadge",
+                    default = Crutch.defaultOptions.drawing.attached.showDead,
+                    getFunc = function() return Crutch.savedOptions.drawing.attached.showDead end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.attached.showDead = value
+                        Crutch.Drawing.RefreshGroup()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show group icon for self",
                     tooltip = "Whether to show the role, crown, and death icons for yourself. This setting does not affect icons from mechanics",
                     default = Crutch.defaultOptions.drawing.attached.showSelfRole,

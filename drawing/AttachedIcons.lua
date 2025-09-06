@@ -228,11 +228,19 @@ local GROUP_DEAD_PRIORITY = 110
 local DEAD_Y_OFFSET = 100 -- TODO: setting
 
 local function OnDeathStateChanged(_, unitTag, isDead)
-    if (IsSelf(unitTag) and not Crutch.savedOptions.drawing.attached.showSelfRole) then
-        return
-    end
-
     if (isDead) then
+        -- No deadge
+        if (not Crutch.savedOptions.drawing.attached.showDead) then
+            RemoveIconForUnit(unitTag, GROUP_DEAD_NAME)
+            return
+        end
+
+        -- No self
+        if (IsSelf(unitTag) and not Crutch.savedOptions.drawing.attached.showSelfRole) then
+            RemoveIconForUnit(unitTag, GROUP_DEAD_NAME)
+            return
+        end
+
         local function Callback(control)
             local color
             if (IsUnitBeingResurrected(unitTag)) then
@@ -266,13 +274,17 @@ local GROUP_CROWN_PRIORITY = 105
 local currentCrown
 
 local function OnCrownChange(_, unitTag)
-    if (currentCrown == unitTag) then return end
-
     if (currentCrown) then
         RemoveIconForUnit(currentCrown, GROUP_CROWN_NAME)
         currentCrown = nil
     end
 
+    -- No crown
+    if (not Crutch.savedOptions.drawing.attached.showCrown) then
+        return
+    end
+
+    -- No self
     if (IsSelf(unitTag) and not Crutch.savedOptions.drawing.attached.showSelfRole) then
         return
     end
