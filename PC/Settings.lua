@@ -289,7 +289,59 @@ function Crutch:CreateSettingsMenu()
                 },
             }
         },
--- subtitles
+-- in-world icons
+        {
+            type = "submenu",
+            name = "Icon Settings",
+            controls = {
+                {
+                    type = "description",
+                    text = "Crutch can use the 3D API to draw textures (mostly single icons) in the world, including ones attached to players, as well as on the ground for positioning or other mechanics. Note that in order for these icons to be occluded by game objects, e.g. not show behind walls, you must have \"SubSampling Quality\" set to \"High\" in your Video settings.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Use drawing levels",
+                    tooltip = "Whether to show closer icons on top of farther icons. If OFF, icons may appear somewhat out of order when viewing one on top of another, or have transparent edges that clip other icons. If ON, there may be a slight performance reduction",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.drawing.useLevels end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.useLevels = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "description",
+                    title = "|c08BD1DPlayer Icons|r",
+                    text = "These are settings for icons attached to group members, which will also apply to icons shown from mechanics, such as MoL twins Aspects.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show group icon for self",
+                    tooltip = "Whether to show the role, crown, and death icons for yourself. This setting does not affect icons from mechanics",
+                    default = Crutch.defaultOptions.drawing.attached.showSelfRole,
+                    getFunc = function() return Crutch.savedOptions.drawing.attached.showSelfRole end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.attached.showSelfRole = value
+                        Crutch.Drawing.RefreshGroup()
+                    end,
+                    width = "full",
+                },
+                -- {
+                --     type = "checkbox",
+                --     name = "Hide behind objects",
+                --     tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see a",
+                --     default = true,
+                --     getFunc = function() return Crutch.savedOptions.drawing.useDepthBuffers end,
+                --     setFunc = function(value)
+                --         Crutch.savedOptions.drawing.useDepthBuffers = value
+                --     end,
+                --     width = "full",
+                -- },
+            },
+        },
+-- misc
         {
             type = "submenu",
             name = "Miscellaneous Settings",

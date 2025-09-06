@@ -98,6 +98,10 @@ end
 -- just use the group unit tag
 local playerGroupTag
 
+local function IsSelf(unitTag)
+    return unitTag == "player" or unitTag == playerGroupTag
+end
+
 local function RemoveIconForUnit(unitTag, uniqueName)
     if (unitTag == "player" and playerGroupTag) then
         unitTag = playerGroupTag
@@ -158,19 +162,18 @@ local GROUP_ROLE_NAME = "CrutchAlertsGroupRole"
 local GROUP_ROLE_PRIORITY = 100
 
 local function CreateGroupRoleIcons()
+    local showSelf = Crutch.savedOptions.drawing.attached.showSelfRole
     local tagsToDo = {}
     if (GetGroupSize() <= 1) then
-        -- TODO: setting
-        table.insert(tagsToDo, {unitTag = "player", role = GetSelectedLFGRole()})
+        if (showSelf) then
+            table.insert(tagsToDo, {unitTag = "player", role = GetSelectedLFGRole()})
+        end
     else
         for i = 1, GetGroupSize() do
             local tag = GetGroupUnitTagByIndex(i)
-            if (IsUnitOnline(tag)) then
-                -- TODO: roles options
+            if (IsUnitOnline(tag) and (showSelf or not IsSelf(tag))) then
                 local role = GetGroupMemberSelectedRole(tag)
-                if (role == LFG_ROLE_TANK or role == LFG_ROLE_HEAL) then
-                    table.insert(tagsToDo, {unitTag = tag, role = role})
-                end
+                table.insert(tagsToDo, {unitTag = tag, role = role})
             end
         end
     end
@@ -188,6 +191,7 @@ local function CreateGroupRoleIcons()
     }
 
     for _, player in ipairs(tagsToDo) do
+        -- TODO: roles options
         SetIconForUnit(player.unitTag,
             GROUP_ROLE_NAME,
             GROUP_ROLE_PRIORITY,
@@ -217,6 +221,10 @@ local GROUP_DEAD_PRIORITY = 110
 local DEAD_Y_OFFSET = 100 -- TODO: setting
 
 local function OnDeathStateChanged(_, unitTag, isDead)
+    if (IsSelf(unitTag) and not Crutch.savedOptions.drawing.attached.showSelfRole) then
+        return
+    end
+
     if (isDead) then
         local function Callback(control)
             local color
@@ -249,13 +257,17 @@ end
 local GROUP_CROWN_NAME = "CrutchAlertsGroupCrown"
 local GROUP_CROWN_PRIORITY = 105
 local currentCrown
--- TODO: /esoui/art/icons/mapkey/mapkey_groupleader.dds
 
 local function OnCrownChange(_, unitTag)
     if (currentCrown == unitTag) then return end
 
     if (currentCrown) then
         RemoveIconForUnit(currentCrown, GROUP_CROWN_NAME)
+        currentCrown = nil
+    end
+
+    if (IsSelf(unitTag) and not Crutch.savedOptions.drawing.attached.showSelfRole) then
+        return
     end
 
     currentCrown = unitTag
@@ -313,7 +325,7 @@ local function InitializeAttachedIcons()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, RefreshGroup)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED, RefreshGroup)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT, RefreshGroup)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE, function() d("group update") RefreshGroup() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE, function() Crutch.dbgOther("group update") RefreshGroup() end)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, RefreshGroup) -- TODO: could be more efficient
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS, RefreshGroup) -- TODO: could be more efficient
 
@@ -359,7 +371,7 @@ local function UnregisterAttachedIcons()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedPlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
 
     -- Crown
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeader", EVENT_LEADER_UPDATE)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupLeader", EVENT_LEADER_UPDATE)
 
     -- Combat persistence
     Crutch.UnregisterExitedGroupCombatListener("CrutchAttachedIconsCombat")

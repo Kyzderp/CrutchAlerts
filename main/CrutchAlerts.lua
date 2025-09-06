@@ -70,8 +70,17 @@ local defaultOptions = {
         showJBeam = true,
     },
     drawing = {
-        useDepthBuffers = true, -- TODO
         useLevels = true, -- Whether to avoid clipping / appearing out of order
+        attached = {
+            showSelfRole = false,
+            useDepthBuffers = false,
+        },
+        placedPositioning = {
+            useDepthBuffers = false,
+        },
+        otherPlaced = {
+            useDepthBuffers = true,
+        },
     },
     console = { -- Some console-specific settings?
         showProminent = true,
