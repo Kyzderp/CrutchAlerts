@@ -80,10 +80,16 @@ local defaultOptions = {
             showCrown = false,
             useDepthBuffers = false,
         },
+        -- positioning marker icons that face the camera, placed in the world
         placedPositioning = {
             useDepthBuffers = false,
         },
-        otherPlaced = {
+        -- icons that face the player, placed in the world, like brewmaster potions
+        placedIcon = {
+            useDepthBuffers = false,
+        },
+        -- mostly textures that are oriented a certain way, like telegraph circles
+        placedOriented = {
             useDepthBuffers = true,
         },
     },

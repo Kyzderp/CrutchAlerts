@@ -414,5 +414,3 @@ function Crutch.AddEffectDefaults()
     end
 end
 
-
--- TODO: settings

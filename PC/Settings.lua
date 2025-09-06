@@ -81,7 +81,7 @@ function Crutch:CreateSettingsMenu()
 -- general
         {
             type = "submenu",
-            name = "General Settings",
+            name = "General",
             controls = {
                 {
                     type = "checkbox",
@@ -231,7 +231,7 @@ function Crutch:CreateSettingsMenu()
 -- boss health bar
         {
             type = "submenu",
-            name = "Vertical Boss Health Bar Settings",
+            name = "Vertical Boss Health Bar",
             controls = {
                 {
                     type = "checkbox",
@@ -292,7 +292,7 @@ function Crutch:CreateSettingsMenu()
 -- in-world icons
         {
             type = "submenu",
-            name = "Icon Settings",
+            name = "In-World Icons / Textures",
             controls = {
                 {
                     type = "description",
@@ -312,104 +312,181 @@ function Crutch:CreateSettingsMenu()
                 },
                 -- Attached icons
                 {
-                    type = "description",
-                    title = "|c08BD1DPlayer Icons|r",
-                    text = "These are settings for icons attached to group members, which will also apply to icons shown from mechanics, such as MoL twins Aspects.",
-                    width = "full",
+                    type = "submenu",
+                    name = "Group Member Icons",
+                    controls = {
+                        {
+                            type = "description",
+                            text = "These are settings for icons attached to group members, which will also apply to icons shown from mechanics, such as MoL twins Aspects.",
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Show group icon for self",
+                            tooltip = "Whether to show the role, crown, and death icons for yourself. This setting does not affect icons from mechanics",
+                            default = Crutch.defaultOptions.drawing.attached.showSelfRole,
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.showSelfRole end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.showSelfRole = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Hide icons behind objects",
+                            tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
+                            default = Crutch.defaultOptions.drawing.attached.useDepthBuffers,
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.useDepthBuffers end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.useDepthBuffers = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                        },
+                        {
+                            type = "divider",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Show tanks",
+                            tooltip = "Whether to show tank icons for group members with LFG role set as tank",
+                            default = Crutch.defaultOptions.drawing.attached.showTank,
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.showTank end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.showTank = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Show healers",
+                            tooltip = "Whether to show healer icons for group members with LFG role set as healer",
+                            default = Crutch.defaultOptions.drawing.attached.showHeal,
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.showHeal end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.showHeal = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Show damage dealers",
+                            tooltip = "Whether to show dps icons for group members with LFG role set as dps",
+                            default = Crutch.defaultOptions.drawing.attached.showDps,
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.showDps end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.showDps = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Show crown",
+                            tooltip = "Whether to show a crown icon for the group leader",
+                            default = Crutch.defaultOptions.drawing.attached.showCrown,
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.showCrown end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.showCrown = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Show dead group members",
+                            tooltip = "Whether to show skull icons for group members who are deadge",
+                            default = Crutch.defaultOptions.drawing.attached.showDead,
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.showDead end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.showDead = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                        },
+                    },
                 },
+                -- placedPositioning icons
                 {
-                    type = "checkbox",
-                    name = "Show group icon for self",
-                    tooltip = "Whether to show the role, crown, and death icons for yourself. This setting does not affect icons from mechanics",
-                    default = Crutch.defaultOptions.drawing.attached.showSelfRole,
-                    getFunc = function() return Crutch.savedOptions.drawing.attached.showSelfRole end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.drawing.attached.showSelfRole = value
-                        Crutch.Drawing.RefreshGroup()
-                    end,
-                    width = "full",
+                    type = "submenu",
+                    name = "Positioning Markers",
+                    controls = {
+                        {
+                            type = "description",
+                            text = "These are settings for positioning-type markers placed on the ground, such as Lokkestiiz HM beam phase positions.",
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Hide icons behind objects",
+                            tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
+                            default = Crutch.defaultOptions.drawing.placedPositioning.useDepthBuffers,
+                            getFunc = function() return Crutch.savedOptions.drawing.placedPositioning.useDepthBuffers end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.placedPositioning.useDepthBuffers = value
+                                Crutch.OnPlayerActivated()
+                            end,
+                            width = "full",
+                        },
+                    },
                 },
+                -- placedOriented icons
                 {
-                    type = "checkbox",
-                    name = "Hide icons behind objects",
-                    tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
-                    default = Crutch.defaultOptions.drawing.attached.useDepthBuffers,
-                    getFunc = function() return Crutch.savedOptions.drawing.attached.useDepthBuffers end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.drawing.attached.useDepthBuffers = value
-                        Crutch.Drawing.RefreshGroup()
-                    end,
-                    width = "full",
+                    type = "submenu",
+                    name = "Oriented Textures",
+                    controls = {
+                        {
+                            type = "description",
+                            text = "These are settings for various textures that are drawn in the world, that are oriented in a certain way, instead of always facing the player. For example, circles drawn on the ground, like in HoF triplets, fall under this category.",
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Hide textures behind objects",
+                            tooltip = "Whether to use depth buffers to have textures be hidden by objects. For example, if this is ON, you won't be able to see the circle behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
+                            default = Crutch.defaultOptions.drawing.placedOriented.useDepthBuffers,
+                            getFunc = function() return Crutch.savedOptions.drawing.placedOriented.useDepthBuffers end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.placedOriented.useDepthBuffers = value
+                                Crutch.OnPlayerActivated()
+                            end,
+                            width = "full",
+                        },
+                    },
                 },
+                -- placedIcon icons
                 {
-                    type = "divider",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show tanks",
-                    tooltip = "Whether to show tank icons for group members with LFG role set as tank",
-                    default = Crutch.defaultOptions.drawing.attached.showTank,
-                    getFunc = function() return Crutch.savedOptions.drawing.attached.showTank end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.drawing.attached.showTank = value
-                        Crutch.Drawing.RefreshGroup()
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show healers",
-                    tooltip = "Whether to show healer icons for group members with LFG role set as healer",
-                    default = Crutch.defaultOptions.drawing.attached.showHeal,
-                    getFunc = function() return Crutch.savedOptions.drawing.attached.showHeal end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.drawing.attached.showHeal = value
-                        Crutch.Drawing.RefreshGroup()
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show damage dealers",
-                    tooltip = "Whether to show dps icons for group members with LFG role set as dps",
-                    default = Crutch.defaultOptions.drawing.attached.showDps,
-                    getFunc = function() return Crutch.savedOptions.drawing.attached.showDps end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.drawing.attached.showDps = value
-                        Crutch.Drawing.RefreshGroup()
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show crown",
-                    tooltip = "Whether to show a crown icon for the group leader",
-                    default = Crutch.defaultOptions.drawing.attached.showCrown,
-                    getFunc = function() return Crutch.savedOptions.drawing.attached.showCrown end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.drawing.attached.showCrown = value
-                        Crutch.Drawing.RefreshGroup()
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show dead group members",
-                    tooltip = "Whether to show skull icons for group members who are deadge",
-                    default = Crutch.defaultOptions.drawing.attached.showDead,
-                    getFunc = function() return Crutch.savedOptions.drawing.attached.showDead end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.drawing.attached.showDead = value
-                        Crutch.Drawing.RefreshGroup()
-                    end,
-                    width = "full",
+                    type = "submenu",
+                    name = "Other Icons",
+                    controls = {
+                        {
+                            type = "description",
+                            text = "These are settings for other icons that appear to face the player, such as thrown potions from IA Brewmasters.",
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Hide icons behind objects",
+                            tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
+                            default = Crutch.defaultOptions.drawing.placedIcon.useDepthBuffers,
+                            getFunc = function() return Crutch.savedOptions.drawing.placedIcon.useDepthBuffers end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.placedIcon.useDepthBuffers = value
+                                Crutch.OnPlayerActivated()
+                            end,
+                            width = "full",
+                        },
+                    },
                 },
             },
         },
 -- misc
         {
             type = "submenu",
-            name = "Miscellaneous Settings",
+            name = "Miscellaneous",
             controls = {
                 {
                     type = "checkbox",
@@ -469,7 +546,7 @@ function Crutch:CreateSettingsMenu()
 -- debug
         {
             type = "submenu",
-            name = "Debug Settings",
+            name = "Debug",
             controls = {
                 {
                     type = "checkbox",

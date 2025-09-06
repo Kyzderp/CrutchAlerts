@@ -90,10 +90,25 @@ end
 Draw.RemovePlacedIcon = RemovePlacedIcon
 
 ---------------------------------------------------------------------
+-- Ground circle
+-- x, y, z: default to player position
+-- radius: radius in meters
+-- color: default red
+-- useDepthBuffer: if nil, defaults to user setting for placedOriented
+-- forwardRightUp: orientation vectors(?), defaults to being flat on the ground
 ---------------------------------------------------------------------
 local function CreateGroundCircle(x, y, z, radius, color, useDepthBuffer, forwardRightUp)
     if (not x) then
         _, x, y, z = GetUnitRawWorldPosition("player")
+    end
+
+    radius = radius or 12
+    local size = radius * 2
+
+    color = color or {1, 0, 0, 1}
+
+    if (useDepthBuffer == nil) then
+        useDepthBuffer = Crutch.savedOptions.drawing.placedOriented.useDepthBuffers
     end
 
     forwardRightUp = forwardRightUp or {
@@ -101,10 +116,6 @@ local function CreateGroundCircle(x, y, z, radius, color, useDepthBuffer, forwar
         {1, 0, 0},
         {0, 0, 1},
     }
-    radius = radius or 12
-    local size = radius * 2
-
-    color = color or {1, 0, 0, 1}
 
     return CreateWorldIcon("CrutchAlerts/assets/floor/circle.dds", x, y, z, size, size, color, useDepthBuffer, false, forwardRightUp)
 end
