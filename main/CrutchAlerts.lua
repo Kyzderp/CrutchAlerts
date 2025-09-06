@@ -73,6 +73,11 @@ local defaultOptions = {
         useLevels = true, -- Whether to avoid clipping / appearing out of order
         attached = {
             showSelfRole = false,
+            showDps = false,
+            showHeal = false,
+            showTank = false,
+            showDead = true,
+            showCrown = false,
             useDepthBuffers = false,
         },
         placedPositioning = {

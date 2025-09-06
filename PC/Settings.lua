@@ -318,6 +318,42 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show tanks",
+                    tooltip = "Whether to show tank icons for group members with LFG role set as tank",
+                    default = Crutch.defaultOptions.drawing.attached.showTank,
+                    getFunc = function() return Crutch.savedOptions.drawing.attached.showTank end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.attached.showTank = value
+                        Crutch.Drawing.RefreshGroup()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show healers",
+                    tooltip = "Whether to show healer icons for group members with LFG role set as healer",
+                    default = Crutch.defaultOptions.drawing.attached.showHeal,
+                    getFunc = function() return Crutch.savedOptions.drawing.attached.showHeal end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.attached.showHeal = value
+                        Crutch.Drawing.RefreshGroup()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show damage dealers",
+                    tooltip = "Whether to show dps icons for group members with LFG role set as dps",
+                    default = Crutch.defaultOptions.drawing.attached.showDps,
+                    getFunc = function() return Crutch.savedOptions.drawing.attached.showDps end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.attached.showDps = value
+                        Crutch.Drawing.RefreshGroup()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show group icon for self",
                     tooltip = "Whether to show the role, crown, and death icons for yourself. This setting does not affect icons from mechanics",
                     default = Crutch.defaultOptions.drawing.attached.showSelfRole,

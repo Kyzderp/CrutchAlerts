@@ -190,16 +190,23 @@ local function CreateGroupRoleIcons()
         [LFG_ROLE_TANK] = {0, 0.6, 1, 1},
     }
 
+    local options = {
+        [LFG_ROLE_DPS] = Crutch.savedOptions.drawing.attached.showDps,
+        [LFG_ROLE_HEAL] = Crutch.savedOptions.drawing.attached.showHeal,
+        [LFG_ROLE_TANK] = Crutch.savedOptions.drawing.attached.showTank,
+    }
+
     for _, player in ipairs(tagsToDo) do
-        -- TODO: roles options
-        SetIconForUnit(player.unitTag,
-            GROUP_ROLE_NAME,
-            GROUP_ROLE_PRIORITY,
-            textures[player.role],
-            100,
-            colors[player.role],
-            NORMAL_Y_OFFSET,
-            true)
+        if (options[player.role]) then
+            SetIconForUnit(player.unitTag,
+                GROUP_ROLE_NAME,
+                GROUP_ROLE_PRIORITY,
+                textures[player.role],
+                100,
+                colors[player.role],
+                NORMAL_Y_OFFSET,
+                true)
+        end
     end
 end
 Draw.CreateGroupRoleIcons = CreateGroupRoleIcons
