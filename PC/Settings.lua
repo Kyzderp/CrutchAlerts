@@ -310,11 +310,39 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                -- Attached icons
                 {
                     type = "description",
                     title = "|c08BD1DPlayer Icons|r",
                     text = "These are settings for icons attached to group members, which will also apply to icons shown from mechanics, such as MoL twins Aspects.",
                     width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show group icon for self",
+                    tooltip = "Whether to show the role, crown, and death icons for yourself. This setting does not affect icons from mechanics",
+                    default = Crutch.defaultOptions.drawing.attached.showSelfRole,
+                    getFunc = function() return Crutch.savedOptions.drawing.attached.showSelfRole end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.attached.showSelfRole = value
+                        Crutch.Drawing.RefreshGroup()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Hide icons behind objects",
+                    tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
+                    default = Crutch.defaultOptions.drawing.attached.useDepthBuffers,
+                    getFunc = function() return Crutch.savedOptions.drawing.attached.useDepthBuffers end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.attached.useDepthBuffers = value
+                        Crutch.Drawing.RefreshGroup()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "divider",
                 },
                 {
                     type = "checkbox",
@@ -376,29 +404,6 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-                {
-                    type = "checkbox",
-                    name = "Show group icon for self",
-                    tooltip = "Whether to show the role, crown, and death icons for yourself. This setting does not affect icons from mechanics",
-                    default = Crutch.defaultOptions.drawing.attached.showSelfRole,
-                    getFunc = function() return Crutch.savedOptions.drawing.attached.showSelfRole end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.drawing.attached.showSelfRole = value
-                        Crutch.Drawing.RefreshGroup()
-                    end,
-                    width = "full",
-                },
-                -- {
-                --     type = "checkbox",
-                --     name = "Hide behind objects",
-                --     tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see a",
-                --     default = true,
-                --     getFunc = function() return Crutch.savedOptions.drawing.useDepthBuffers end,
-                --     setFunc = function(value)
-                --         Crutch.savedOptions.drawing.useDepthBuffers = value
-                --     end,
-                --     width = "full",
-                -- },
             },
         },
 -- misc

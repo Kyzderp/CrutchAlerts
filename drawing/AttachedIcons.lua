@@ -48,7 +48,19 @@ local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callba
             callback(control)
         end
     end
-    local key = Draw.CreateWorldIcon(texture, x, y + yOffset, z, size / 150, size / 150, color, false, true, nil, OnUpdate)
+
+    local key = Draw.CreateWorldIcon(
+        texture,
+        x,
+        y + yOffset,
+        z,
+        size / 150,
+        size / 150,
+        color,
+        Crutch.savedOptions.drawing.attached.useDepthBuffers,
+        true,
+        nil,
+        OnUpdate)
 
     return key
 end
