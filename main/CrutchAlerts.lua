@@ -82,18 +82,22 @@ local defaultOptions = {
             useDepthBuffers = false,
             size = 100,
             yOffset = 350,
+            opacity = 0.8,
         },
         -- positioning marker icons that face the camera, placed in the world
         placedPositioning = {
             useDepthBuffers = false,
+            opacity = 0.8,
         },
         -- icons that face the player, placed in the world, like brewmaster potions
         placedIcon = {
             useDepthBuffers = false,
+            opacity = 1,
         },
         -- mostly textures that are oriented a certain way, like telegraph circles
         placedOriented = {
             useDepthBuffers = true,
+            opacity = 0.6,
         },
     },
     console = { -- Some console-specific settings?

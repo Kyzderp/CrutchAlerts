@@ -152,7 +152,7 @@ local function OnElixir(_, _, _, _, _, _, _, _, targetName, _, _, _, _, _, _, ta
     -- Put an icon on the ground (get the position after the actual cast, 500ms)
     Crutch.dbgSpam(zo_strformat("Elixir on <<1>> (<<2>>)", unitTag, targetName))
     local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-    local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/inventory/inventory_consumables_tabicon_active.dds", x, y + 50, z, 150, {1, 0, 1, 1})
+    local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/inventory/inventory_consumables_tabicon_active.dds", x, y + 50, z, 150, {1, 0, 1})
     zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, 16300)
 end
 

@@ -119,28 +119,16 @@ Draw.TestJet = TestJet
 -- /script d("|t100%:100%:CrutchAlerts/assets/directional/N.dds|t")
 
 local lastKey
-local function TestCircle(radius, x, y, z, useDepthBuffer)
+local function TestCircle(radius, x, y, z)
     if (lastKey) then
         RemoveWorldTexture(lastKey)
     end
-    if (not x) then
-        _, x, y, z = GetUnitRawWorldPosition("player")
-    end
-
-    local forwardRightUp = {
-        {0, -1, 0},
-        {-1, 0, 0},
-        {0, 0, 1},
-    }
-    radius = radius or 12
-    local size = radius * 2
-
-    lastKey = CreateWorldTexture("CrutchAlerts/assets/floor/circle.dds", x, y, z, size, size, {1, 0, 0, 1}, useDepthBuffer, false, forwardRightUp)
+    lastkey = Draw.CreateGroundCircle(x, y, z, radius)
 end
 Draw.TestCircle = TestCircle
 --[[
 /script CrutchAlerts.Drawing.TestCircle()
-/script CrutchAlerts.Drawing.TestCircle(nil, nil, nil, nil, true)
+/script CrutchAlerts.Drawing.TestCircle(nil, nil, nil, nil)
 /script
 Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
 d(CrutchAlertsDrawingCamera:Get3DRenderSpaceForward())

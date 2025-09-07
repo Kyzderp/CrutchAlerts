@@ -35,7 +35,7 @@ local function EnableTripletsCircle(x, y, z, radius)
     y = y or 52960
     z = z or 73255
     radius = radius or 3.1
-    tripletsCircleKey = Crutch.Drawing.CreateGroundCircle(x, y, z, radius, {1, 0, 0, 1})
+    tripletsCircleKey = Crutch.Drawing.CreateGroundCircle(x, y, z, radius, {1, 0, 0})
 end
 Crutch.EnableTripletsCircle = EnableTripletsCircle
 --/script CrutchAlerts.EnableTripletsCircle()

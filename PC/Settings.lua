@@ -378,6 +378,21 @@ function Crutch:CreateSettingsMenu()
                             end,
                         },
                         {
+                            type = "slider",
+                            name = "Opacity",
+                            tooltip = "How transparent the icons are. Mechanic icons may display differently",
+                            min = 0,
+                            max = 100,
+                            step = 5,
+                            default = Crutch.defaultOptions.drawing.attached.opacity * 100,
+                            width = "full",
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.opacity * 100 end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.opacity = value / 100
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                        },
+                        {
                             type = "checkbox",
                             name = "Hide icons behind objects",
                             tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
@@ -465,6 +480,21 @@ function Crutch:CreateSettingsMenu()
                             width = "full",
                         },
                         {
+                            type = "slider",
+                            name = "Opacity",
+                            tooltip = "How transparent the markers are. Mechanic markers may display differently",
+                            min = 0,
+                            max = 100,
+                            step = 5,
+                            default = Crutch.defaultOptions.drawing.placedPositioning.opacity * 100,
+                            width = "full",
+                            getFunc = function() return Crutch.savedOptions.drawing.placedPositioning.opacity * 100 end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.placedPositioning.opacity = value / 100
+                                Crutch.OnPlayerActivated()
+                            end,
+                        },
+                        {
                             type = "checkbox",
                             name = "Hide icons behind objects",
                             tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
@@ -489,6 +519,21 @@ function Crutch:CreateSettingsMenu()
                             width = "full",
                         },
                         {
+                            type = "slider",
+                            name = "Opacity",
+                            tooltip = "How transparent the textures are. Mechanic textures may display differently",
+                            min = 0,
+                            max = 100,
+                            step = 5,
+                            default = Crutch.defaultOptions.drawing.placedOriented.opacity * 100,
+                            width = "full",
+                            getFunc = function() return Crutch.savedOptions.drawing.placedOriented.opacity * 100 end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.placedOriented.opacity = value / 100
+                                Crutch.OnPlayerActivated()
+                            end,
+                        },
+                        {
                             type = "checkbox",
                             name = "Hide textures behind objects",
                             tooltip = "Whether to use depth buffers to have textures be hidden by objects. For example, if this is ON, you won't be able to see the circle behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
@@ -511,6 +556,21 @@ function Crutch:CreateSettingsMenu()
                             type = "description",
                             text = "These are settings for other icons that appear to face the player, such as thrown potions from IA Brewmasters.",
                             width = "full",
+                        },
+                        {
+                            type = "slider",
+                            name = "Opacity",
+                            tooltip = "How transparent the icons are. Mechanic icons may display differently",
+                            min = 0,
+                            max = 100,
+                            step = 5,
+                            default = Crutch.defaultOptions.drawing.placedIcon.opacity * 100,
+                            width = "full",
+                            getFunc = function() return Crutch.savedOptions.drawing.placedIcon.opacity * 100 end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.placedIcon.opacity = value / 100
+                                Crutch.OnPlayerActivated()
+                            end,
                         },
                         {
                             type = "checkbox",

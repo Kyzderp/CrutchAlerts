@@ -151,11 +151,19 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
 
     Crutch.dbgSpam(string.format("SetIconForUnit %s (%s) %s |t100%%:100%%:%s|t", unitTag, GetUnitDisplayName(unitTag) or "???", uniqueName, texture))
 
+    if (not color) then
+        color = {1, 1, 1}
+    end
+
+    if (not color[4]) then
+        color[4] = Crutch.savedOptions.drawing.attached.opacity
+    end
+
     unitIcons[unitTag].icons[uniqueName] = {
         priority = priority,
         texture = texture,
         size = size or Crutch.savedOptions.drawing.attached.size,
-        color = color or {1, 1, 1, 1},
+        color = color,
         yOffset = yOffset or Crutch.savedOptions.drawing.attached.yOffset,
         persistOutsideCombat = persistOutsideCombat,
         callback = callback,
@@ -195,9 +203,9 @@ local function CreateGroupRoleIcons()
     }
 
     local colors = {
-        [LFG_ROLE_DPS] = {1, 0.2, 0.2, 1},
-        [LFG_ROLE_HEAL] = {1, 0.9, 0, 1},
-        [LFG_ROLE_TANK] = {0, 0.6, 1, 1},
+        [LFG_ROLE_DPS] = {1, 0.2, 0.2},
+        [LFG_ROLE_HEAL] = {1, 0.9, 0},
+        [LFG_ROLE_TANK] = {0, 0.6, 1},
     }
 
     local options = {
@@ -254,11 +262,11 @@ local function OnDeathStateChanged(_, unitTag, isDead)
         local function Callback(control)
             local color
             if (IsUnitBeingResurrected(unitTag)) then
-                color = {0.3, 0.7, 1, 1}
+                color = {0.3, 0.7, 1}
             elseif (DoesUnitHaveResurrectPending(unitTag)) then
-                color = {1, 1, 1, 1}
+                color = {1, 1, 1}
             else
-                color = {1, 0, 0, 1}
+                color = {1, 0, 0}
             end
             control:SetColor(unpack(color)) -- TODO: more efficient
         end
@@ -268,7 +276,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             GROUP_DEAD_PRIORITY,
             "esoui/art/icons/mapkey/mapkey_groupboss.dds",
             nil,
-            {1, 0, 0, 1},
+            {1, 0, 0},
             DEAD_Y_OFFSET,
             true,
             Callback)
@@ -306,7 +314,7 @@ local function OnCrownChange(_, unitTag)
         GROUP_CROWN_PRIORITY,
         "esoui/art/icons/mapkey/mapkey_groupleader.dds",
         nil,
-        {0, 1, 0, 1},
+        {0, 1, 0},
         nil,
         true)
 end
@@ -419,7 +427,7 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 -- priority - order in which icons are displayed. Higher number takes precedence. Built-in role icons are currently 100, crown is 105, dead group member icons are 110
 -- texture - path to the texture
 -- size - size to display at. Default 100, but set via user settings
--- color - color of the icon, in format {r, g, b, a}. Default {1, 1, 1, 1}
+-- color - color of the icon, in format {r, g, b, a}. To use the user setting for alpha, leave out a, e.g. {1, 0.4, 0.8}
 -- persistOutsideCombat - whether to keep this icon when exiting combat. Otherwise, icon is removed when all group members exit combat. Default false. Note: if the group isn't already in combat, the icon will still show, because it's only removed on combat exit
 function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)
     SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)

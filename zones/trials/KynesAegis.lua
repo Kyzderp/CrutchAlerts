@@ -16,7 +16,7 @@ local function OnExplodingSpearBegin(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _
             -- zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, 5000)
 
             -- Circle is more obvious if it's not accurate, but oh well...
-            local circleKey = Crutch.Drawing.CreateGroundCircle(x, y + 5, z, 4, {1, 0.5, 0, 0.5})
+            local circleKey = Crutch.Drawing.CreateGroundCircle(x, y + 5, z, 4, {1, 0.5, 0})
             zo_callLater(function() Crutch.Drawing.RemoveGroundCircle(circleKey) end, 4000)
         end, 500)
     end
