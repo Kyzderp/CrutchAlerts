@@ -24,7 +24,7 @@ local Draw = Crutch.Drawing
 }
 ]]
 local unitIcons = {}
-Draw.unitIcons = unitIcons
+-- Draw.unitIcons = unitIcons
 -- /script d(CrutchAlerts.Drawing.unitIcons)
 
 ---------------------------------------------------------------------
