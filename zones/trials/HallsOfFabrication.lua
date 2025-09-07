@@ -28,7 +28,7 @@ end
 local tripletsCircleKey
 local function EnableTripletsCircle(x, y, z, radius)
     if (tripletsCircleKey) then
-        Crutch.Drawing.RemoveWorldIcon(tripletsCircleKey)
+        Crutch.Drawing.RemoveGroundCircle(tripletsCircleKey)
     end
 
     x = x or 30155
@@ -82,7 +82,7 @@ function Crutch.UnregisterHallsOfFabrication()
 
     -- Triplets icon
     Crutch.DisableIcon("TripletsSafe")
-    Crutch.Drawing.RemoveWorldIcon(tripletsCircleKey)
+    Crutch.Drawing.RemoveGroundCircle(tripletsCircleKey)
 
     -- AG icons
     Crutch.DisableIcon("AGN")

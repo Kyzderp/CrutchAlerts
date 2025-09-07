@@ -249,7 +249,7 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
         end
 
         if (Crutch.savedOptions.sunspire.yolFocusedFire and not hasFocusedFire) then
-            Crutch.SetAttachedIconForUnit(unitTag, FOCUSED_FIRE_UNIQUE_NAME, 500, "CrutchAlerts/assets/shape/chevron.dds", 100, {0, 1, 1, 1}, false)
+            Crutch.SetAttachedIconForUnit(unitTag, FOCUSED_FIRE_UNIQUE_NAME, 500, "CrutchAlerts/assets/shape/chevron.dds", 50, {0, 1, 1, 0.6}, false)
             table.insert(toClear, unitTag)
         end
     end

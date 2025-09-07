@@ -40,9 +40,27 @@ local function Create3DControl(texture, x, y, z, width, height, color, useDepthB
 end
 
 ---------------------------------------------------------------------
--- Creating and removing icons
+-- Creating and removing textures
+--
+-- It is NOT recommended to use these functions directly! This is the
+-- common entry point for several different "types" of textures.
+--
+-- See AttachedIcons.lua for a framework for showing icons above
+-- group members' heads, with prioritization.
+-- See PlacedTextures.lua for functions for placing marker icons in
+-- the world, as well as "oriented" textures, e.g. circles on the
+-- ground.
+--
+-- Those other functions are recommended because they respect the
+-- user's settings for use of depth buffers for different types, as
+-- well as other settings for group member icons, which are set in
+-- CrutchAlerts settings.
+--
+-- @param updateFunc - function with params: control, setPositionFunc
+--     control - the actual texture control, can be used to change color
+--     setPositionFunc - function(x, y, z), called every update tick
 ---------------------------------------------------------------------
-local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, forwardRightUp, updateFunc)
+local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, forwardRightUp, updateFunc)
     local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, forwardRightUp)
     Draw.activeIcons[key] = {
         control = control,
@@ -57,9 +75,9 @@ local function CreateWorldIcon(texture, x, y, z, width, height, color, useDepthB
     CrutchAlerts.dbgSpam("Created icon |t100%:100%:" .. texture .. "|t key " .. tostring(key))
     return key
 end
-Draw.CreateWorldIcon = CreateWorldIcon
+Draw.CreateWorldTexture = CreateWorldTexture
 
-local function RemoveWorldIcon(key)
+local function RemoveWorldTexture(key)
     if (not Draw.activeIcons[key]) then
         CrutchAlerts.dbgOther("|cFF0000Icon \"" .. tostring(key) .. "\" does not exist")
         return
@@ -73,76 +91,12 @@ local function RemoveWorldIcon(key)
     Draw.activeIcons[key] = nil
     Draw.MaybeStopPolling()
 end
-Draw.RemoveWorldIcon = RemoveWorldIcon
+Draw.RemoveWorldTexture = RemoveWorldTexture
 
----------------------------------------------------------------------
--- For calling from WorldIcons, migration from OSI
----------------------------------------------------------------------
-local function CreatePlacedIcon(texture, x, y, z, size, color)
-    color = color or {1, 1, 1, 1}
-    return CreateWorldIcon(texture, x, y, z, size / 150, size / 150, color, false, true)
-end
-Draw.CreatePlacedIcon = CreatePlacedIcon
-
-local function RemovePlacedIcon(key)
-    RemoveWorldIcon(key)
-end
-Draw.RemovePlacedIcon = RemovePlacedIcon
-
----------------------------------------------------------------------
--- Ground circle
--- x, y, z: default to player position
--- radius: radius in meters
--- color: default red
--- useDepthBuffer: if nil, defaults to user setting for placedOriented
--- forwardRightUp: orientation vectors(?), defaults to being flat on the ground
----------------------------------------------------------------------
-local function CreateGroundCircle(x, y, z, radius, color, useDepthBuffer, forwardRightUp)
-    if (not x) then
-        _, x, y, z = GetUnitRawWorldPosition("player")
-    end
-
-    radius = radius or 12
-    local size = radius * 2
-
-    color = color or {1, 0, 0, 1}
-
-    if (useDepthBuffer == nil) then
-        useDepthBuffer = Crutch.savedOptions.drawing.placedOriented.useDepthBuffers
-    end
-
-    forwardRightUp = forwardRightUp or {
-        {0, 1, 0},
-        {1, 0, 0},
-        {0, 0, 1},
-    }
-
-    return CreateWorldIcon("CrutchAlerts/assets/floor/circle.dds", x, y, z, size, size, color, useDepthBuffer, false, forwardRightUp)
-end
-Draw.CreateGroundCircle = CreateGroundCircle
 
 ---------------------------------------------------------------------
 -- Testing for now
 ---------------------------------------------------------------------
-local num = 1
-
-local function TestBooger(faceCamera, color)
-    color = color or {1, 1, 1, 1}
-
-    local _, x, y, z = GetUnitRawWorldPosition("player")
-
-    CreateWorldIcon("esoui/art/icons/targetdummy_voriplasm_01.dds", x, y + 50, z, 1, 1, color, true, faceCamera)
-end
-Draw.TestBooger = TestBooger
--- /script CrutchAlerts.Drawing.TestBooger(true)
--- /script CrutchAlerts.Drawing.TestBooger(false)
---[[
-/script local a = CrutchAlerts.Drawing.activeIcons
-d(a[1].control:GetDrawLevel())
-d(a[2].control:GetDrawLevel())
-a[1].control:SetDrawLevel(10)
-]]
-
 local function TestJet(size)
     local start = 90000
     local forwardRightUp = {
@@ -152,12 +106,12 @@ local function TestJet(size)
     }
     local width = size or 20
     local height = width / 600 * 128
-    local key = CreateWorldIcon("CrutchAlerts/assets/jet.dds", 98000, 44000, 101500, width, height, {1, 1, 1, 1}, true, false, forwardRightUp, function(control, setPositionFunc)
+    local key = CreateWorldTexture("CrutchAlerts/assets/jet.dds", 98000, 44000, 101500, width, height, {1, 1, 1, 1}, true, false, forwardRightUp, function(control, setPositionFunc)
         start = start + 15
         setPositionFunc(start, 44000, 106000)
     end)
 
-    zo_callLater(function() RemoveWorldIcon(key) end, 30000)
+    zo_callLater(function() RemoveWorldTexture(key) end, 30000)
 end
 Draw.TestJet = TestJet
 -- /script CrutchAlerts.Drawing.TestJet()
@@ -167,7 +121,7 @@ Draw.TestJet = TestJet
 local lastKey
 local function TestCircle(radius, x, y, z, useDepthBuffer)
     if (lastKey) then
-        RemoveWorldIcon(lastKey)
+        RemoveWorldTexture(lastKey)
     end
     if (not x) then
         _, x, y, z = GetUnitRawWorldPosition("player")
@@ -181,7 +135,7 @@ local function TestCircle(radius, x, y, z, useDepthBuffer)
     radius = radius or 12
     local size = radius * 2
 
-    lastKey = CreateWorldIcon("CrutchAlerts/assets/floor/circle.dds", x, y, z, size, size, {1, 0, 0, 1}, useDepthBuffer, false, forwardRightUp)
+    lastKey = CreateWorldTexture("CrutchAlerts/assets/floor/circle.dds", x, y, z, size, size, {1, 0, 0, 1}, useDepthBuffer, false, forwardRightUp)
 end
 Draw.TestCircle = TestCircle
 --[[

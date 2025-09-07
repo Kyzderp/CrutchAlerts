@@ -79,3 +79,4 @@ drawing/Drawing.xml
 drawing/Drawing.lua
 drawing/Update.lua
 drawing/AttachedIcons.lua
+drawing/PlacedTextures.lua

@@ -33,7 +33,7 @@ Draw.unitIcons = unitIcons
 local NORMAL_Y_OFFSET = 350 -- TODO: setting
 
 local function RemoveAttachedIcon(key)
-    Draw.RemoveWorldIcon(key)
+    Draw.RemoveWorldTexture(key)
 end
 
 -- Creates the actual 3D control with update function
@@ -49,7 +49,7 @@ local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callba
         end
     end
 
-    local key = Draw.CreateWorldIcon(
+    local key = Draw.CreateWorldTexture(
         texture,
         x,
         y + yOffset,

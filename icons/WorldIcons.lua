@@ -281,7 +281,7 @@ function Crutch.EnableIcon(name)
     end
 
     local size = iconData.size()
-    local key = Crutch.Drawing.CreatePlacedIcon(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
+    local key = Crutch.Drawing.CreatePlacedPositionMarker(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
     icons[name] = key
 end
 
@@ -294,7 +294,7 @@ function Crutch.DisableIcon(name)
         return
     end
 
-    Crutch.Drawing.RemovePlacedIcon(icons[name])
+    Crutch.Drawing.RemovePlacedPositionMarker(icons[name])
     icons[name] = nil
 end
 
@@ -320,7 +320,7 @@ function Crutch.EnableIconGroup(iconGroupName)
         if (icons[name]) then
             Crutch.dbgOther("|cFF0000Icon already enabled " .. name .. "|r")
         else
-            local key = Crutch.Drawing.CreatePlacedIcon(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
+            local key = Crutch.Drawing.CreatePlacedPositionMarker(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
             icons[name] = key
         end
     end
@@ -342,7 +342,7 @@ function Crutch.DisableIconGroup(iconGroupName)
     for i, _ in ipairs(iconGroup.icons) do
         local name = iconGroupName .. "_" .. tostring(i)
         if (icons[name]) then
-            Crutch.Drawing.RemovePlacedIcon(icons[name])
+            Crutch.Drawing.RemovePlacedPositionMarker(icons[name])
             icons[name] = nil
         end
     end
