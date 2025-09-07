@@ -153,18 +153,10 @@ Crutch.testing = {
     [140606] = true, -- Meteor
     [134023] = true, -- Meteor
 
-    [241328] = true, -- Annihilation (buff Vykand after Ominous Vision, 10s)
     [241685] = true, -- Fluctuating Esseence GRN [sic] (buff Refracted Soul Essence when it turns green maybe)
 
     [232460] = true, -- Titanic Clash on Valneer
     [232465] = true, -- Titanic Clash on Myrinax
-
-    [241326] = true, -- Annihilation
-    [241327] = true, -- Annihilation
-    [241328] = true, -- Annihilation
-    [241329] = true, -- Annihilation
-
-    [241224] = true, -- Ominous Vision
 }
 
 ---------------------------------------------------------------------

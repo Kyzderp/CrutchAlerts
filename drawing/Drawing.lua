@@ -123,7 +123,7 @@ local function TestCircle(radius, x, y, z)
     if (lastKey) then
         RemoveWorldTexture(lastKey)
     end
-    lastkey = Draw.CreateGroundCircle(x, y, z, radius)
+    lastKey = Draw.CreateGroundCircle(x, y, z, radius)
 end
 Draw.TestCircle = TestCircle
 --[[

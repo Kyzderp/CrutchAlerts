@@ -56,6 +56,7 @@ Draw.RemovePlacedPositionMarker = RemovePlacedPositionMarker
 -- @returns key: you must use this key to remove the circle later
 ---------------------------------------------------------------------
 local function CreateGroundCircle(x, y, z, radius, color, forwardRightUp)
+    local _
     if (not x) then
         _, x, y, z = GetUnitRawWorldPosition("player")
     end

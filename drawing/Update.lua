@@ -68,13 +68,9 @@ function Draw.MaybeStartPolling()
     if (polling) then return end
 
     -- Only start polling if there are icons
-    local hasIcons = false
-    for _, _ in pairs(Draw.activeIcons) do
-        hasIcons = true
-        break
+    if (not next(Draw.activeIcons)) then
+        return
     end
-
-    if (not hasIcons) then return end
 
     -- Has icons, can start polling
     EVENT_MANAGER:RegisterForUpdate(CrutchAlerts.name .. "DrawingUpdate", Crutch.savedOptions.drawing.interval, DoUpdate)
@@ -85,13 +81,9 @@ function Draw.MaybeStopPolling()
     if (not polling) then return end
 
     -- Only stop polling if there are no more icons
-    local hasIcons = false
-    for _, _ in pairs(Draw.activeIcons) do
-        hasIcons = true
-        break
+    if (next(Draw.activeIcons)) then
+        return
     end
-
-    if (hasIcons) then return end
 
     -- No more icons, can stop polling
     EVENT_MANAGER:UnregisterForUpdate(CrutchAlerts.name .. "DrawingUpdate")

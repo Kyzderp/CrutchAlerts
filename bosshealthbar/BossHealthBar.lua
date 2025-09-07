@@ -417,7 +417,7 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
 end
 
 local function UpdateSpoofedBossHealth(unitTag, value, max)
-    OnPowerUpdate(_, unitTag, _, _, value, max, max)
+    OnPowerUpdate(nil, unitTag, nil, nil, value, max, max)
 end
 Crutch.UpdateSpoofedBossHealth = UpdateSpoofedBossHealth
 
@@ -507,7 +507,7 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
                 powerMax = 1
             end
             dbg(string.format("%s (%s) value: %d max: %d effectiveMax: %d", name, unitTag, powerValue, powerMax, powerEffectiveMax))
-            OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffectiveMax)
+            OnPowerUpdate(nil, unitTag, nil, nil, powerValue, powerMax, powerEffectiveMax)
         else
             local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(i))
             if (statusBar) then
