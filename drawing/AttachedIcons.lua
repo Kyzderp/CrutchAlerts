@@ -155,15 +155,16 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
         color = {1, 1, 1}
     end
 
-    if (not color[4]) then
-        color[4] = Crutch.savedOptions.drawing.attached.opacity
+    local r, g, b, a = unpack(color)
+    if (not a) then
+        a = Crutch.savedOptions.drawing.attached.opacity
     end
 
     unitIcons[unitTag].icons[uniqueName] = {
         priority = priority,
         texture = texture,
         size = size or Crutch.savedOptions.drawing.attached.size,
-        color = color,
+        color = {r, g, b, a},
         yOffset = yOffset or Crutch.savedOptions.drawing.attached.yOffset,
         persistOutsideCombat = persistOutsideCombat,
         callback = callback,
@@ -196,6 +197,7 @@ local function CreateGroupRoleIcons()
         end
     end
 
+    -- TODO: combine
     local textures = {
         [LFG_ROLE_DPS] = "esoui/art/lfg/gamepad/lfg_roleicon_dps.dds",
         [LFG_ROLE_HEAL] = "esoui/art/lfg/gamepad/lfg_roleicon_healer.dds",
@@ -203,9 +205,9 @@ local function CreateGroupRoleIcons()
     }
 
     local colors = {
-        [LFG_ROLE_DPS] = {1, 0.2, 0.2},
-        [LFG_ROLE_HEAL] = {1, 0.9, 0},
-        [LFG_ROLE_TANK] = {0, 0.6, 1},
+        [LFG_ROLE_DPS] = Crutch.savedOptions.drawing.attached.dpsColor,
+        [LFG_ROLE_HEAL] = Crutch.savedOptions.drawing.attached.healColor,
+        [LFG_ROLE_TANK] = Crutch.savedOptions.drawing.attached.tankColor,
     }
 
     local options = {
@@ -260,15 +262,15 @@ local function OnDeathStateChanged(_, unitTag, isDead)
         end
 
         local function Callback(control)
-            local color
+            local r, g, b
             if (IsUnitBeingResurrected(unitTag)) then
-                color = {0.3, 0.7, 1}
+                r, g, b = unpack(Crutch.savedOptions.drawing.attached.rezzingColor)
             elseif (DoesUnitHaveResurrectPending(unitTag)) then
-                color = {1, 1, 1}
+                r, g, b = unpack(Crutch.savedOptions.drawing.attached.pendingColor)
             else
-                color = {1, 0, 0}
+                r, g, b = unpack(Crutch.savedOptions.drawing.attached.deadColor)
             end
-            control:SetColor(unpack(color)) -- TODO: more efficient
+            control:SetColor(r, g, b, Crutch.savedOptions.drawing.attached.opacity) -- TODO: more efficient
         end
 
         SetIconForUnit(unitTag,
@@ -276,7 +278,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             GROUP_DEAD_PRIORITY,
             "esoui/art/icons/mapkey/mapkey_groupboss.dds",
             nil,
-            {1, 0, 0},
+            Crutch.savedOptions.drawing.attached.deadColor,
             DEAD_Y_OFFSET,
             true,
             Callback)
@@ -314,7 +316,7 @@ local function OnCrownChange(_, unitTag)
         GROUP_CROWN_PRIORITY,
         "esoui/art/icons/mapkey/mapkey_groupleader.dds",
         nil,
-        {0, 1, 0},
+        Crutch.savedOptions.drawing.attached.crownColor,
         nil,
         true)
 end

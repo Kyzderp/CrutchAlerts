@@ -74,11 +74,24 @@ local defaultOptions = {
         interval = 10, -- ms between updates
         attached = {
             showSelfRole = false,
+
             showDps = false,
+            dpsColor = {1, 0.2, 0.2},
+
             showHeal = false,
+            healColor = {1, 0.9, 0},
+
             showTank = false,
+            tankColor = {0, 0.6, 1},
+
             showDead = true,
+            rezzingColor = {0.3, 0.7, 1},
+            pendingColor = {1, 1, 1},
+            deadColor = {1, 0, 0},
+
             showCrown = false,
+            crownColor = {0, 1, 0},
+
             useDepthBuffers = false,
             size = 100,
             yOffset = 350,

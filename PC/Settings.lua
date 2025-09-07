@@ -417,7 +417,20 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.savedOptions.drawing.attached.showTank = value
                                 Crutch.Drawing.RefreshGroup()
                             end,
-                            width = "full",
+                            width = "half",
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "Tank color",
+                            tooltip = "Color of the tank icons",
+                            default = Crutch.defaultOptions.drawing.attached.tankColor,
+                            getFunc = function() return unpack(Crutch.savedOptions.drawing.attached.tankColor) end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.tankColor = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function() return not Crutch.savedOptions.drawing.attached.showTank end
                         },
                         {
                             type = "checkbox",
@@ -429,7 +442,20 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.savedOptions.drawing.attached.showHeal = value
                                 Crutch.Drawing.RefreshGroup()
                             end,
-                            width = "full",
+                            width = "half",
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "Healer color",
+                            tooltip = "Color of the healer icons",
+                            default = Crutch.defaultOptions.drawing.attached.healColor,
+                            getFunc = function() return unpack(Crutch.savedOptions.drawing.attached.healColor) end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.healColor = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function() return not Crutch.savedOptions.drawing.attached.showHeal end
                         },
                         {
                             type = "checkbox",
@@ -441,7 +467,20 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.savedOptions.drawing.attached.showDps = value
                                 Crutch.Drawing.RefreshGroup()
                             end,
-                            width = "full",
+                            width = "half",
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "DPS color",
+                            tooltip = "Color of the DPS icons",
+                            default = Crutch.defaultOptions.drawing.attached.dpsColor,
+                            getFunc = function() return unpack(Crutch.savedOptions.drawing.attached.dpsColor) end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.dpsColor = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function() return not Crutch.savedOptions.drawing.attached.showDps end
                         },
                         {
                             type = "checkbox",
@@ -453,7 +492,23 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.savedOptions.drawing.attached.showCrown = value
                                 Crutch.Drawing.RefreshGroup()
                             end,
-                            width = "full",
+                            width = "half",
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "Crown color",
+                            tooltip = "Color of the tank icons",
+                            default = Crutch.defaultOptions.drawing.attached.crownColor,
+                            getFunc = function() return unpack(Crutch.savedOptions.drawing.attached.crownColor) end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.crownColor = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function() return not Crutch.savedOptions.drawing.attached.showCrown end
+                        },
+                        {
+                            type = "divider",
                         },
                         {
                             type = "checkbox",
@@ -465,7 +520,46 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.savedOptions.drawing.attached.showDead = value
                                 Crutch.Drawing.RefreshGroup()
                             end,
-                            width = "full",
+                            width = "half",
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "Dead color",
+                            tooltip = "Color of the dead player icons",
+                            default = Crutch.defaultOptions.drawing.attached.deadColor,
+                            getFunc = function() return unpack(Crutch.savedOptions.drawing.attached.deadColor) end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.deadColor = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function() return not Crutch.savedOptions.drawing.attached.showDead end
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "Resurrecting color",
+                            tooltip = "Color of the dead player icons while being resurrected",
+                            default = Crutch.defaultOptions.drawing.attached.rezzingColor,
+                            getFunc = function() return unpack(Crutch.savedOptions.drawing.attached.rezzingColor) end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.rezzingColor = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function() return not Crutch.savedOptions.drawing.attached.showDead end
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "Rez pending color",
+                            tooltip = "Color of the dead player icons when resurrection is pending",
+                            default = Crutch.defaultOptions.drawing.attached.pendingColor,
+                            getFunc = function() return unpack(Crutch.savedOptions.drawing.attached.pendingColor) end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.pendingColor = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function() return not Crutch.savedOptions.drawing.attached.showDead end
                         },
                     },
                 },

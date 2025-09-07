@@ -19,8 +19,9 @@ local function CreatePlacedPositionMarker(texture, x, y, z, size, color)
     size = size or 150
 
     color = color or {1, 1, 1}
-    if (not color[4]) then
-        color[4] = Crutch.savedOptions.drawing.placedPositioning.opacity
+    local r, g, b, a = unpack(color)
+    if (not a) then
+        a = Crutch.savedOptions.drawing.placedPositioning.opacity
     end
 
     return Draw.CreateWorldTexture(
@@ -30,7 +31,7 @@ local function CreatePlacedPositionMarker(texture, x, y, z, size, color)
         z,
         size / 150,
         size / 150,
-        color,
+        {r, g, b, a},
         Crutch.savedOptions.drawing.placedPositioning.useDepthBuffers,
         true)
 end
@@ -63,8 +64,9 @@ local function CreateGroundCircle(x, y, z, radius, color, forwardRightUp)
     local size = radius * 2
 
     color = color or {1, 0, 0}
-    if (not color[4]) then
-        color[4] = Crutch.savedOptions.drawing.placedOriented.opacity
+    local r, g, b, a = unpack(color)
+    if (not a) then
+        a = Crutch.savedOptions.drawing.placedOriented.opacity
     end
 
     forwardRightUp = forwardRightUp or {
@@ -80,7 +82,7 @@ local function CreateGroundCircle(x, y, z, radius, color, forwardRightUp)
         z,
         size,
         size,
-        color,
+        {r, g, b, a},
         Crutch.savedOptions.drawing.placedOriented.useDepthBuffers,
         false,
         forwardRightUp)
@@ -108,9 +110,11 @@ Draw.RemoveGroundCircle = RemoveGroundCircle
 ---------------------------------------------------------------------
 local function CreatePlacedIcon(texture, x, y, z, size, color)
     size = size or 150
+
     color = color or {1, 1, 1}
-    if (not color[4]) then
-        color[4] = Crutch.savedOptions.drawing.placedIcon.opacity
+    local r, g, b, a = unpack(color)
+    if (not a) then
+        a = Crutch.savedOptions.drawing.placedIcon.opacity
     end
 
     return Draw.CreateWorldTexture(
