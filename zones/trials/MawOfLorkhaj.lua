@@ -1,6 +1,4 @@
-CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
-
 
 ---------------------------------------------------------------------
 -- ZHAJ'HASSA

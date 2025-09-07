@@ -1,4 +1,3 @@
-CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 local function GetNoSubtitlesZoneIdsAndNames()

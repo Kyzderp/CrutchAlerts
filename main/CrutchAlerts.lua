@@ -2,8 +2,10 @@
 -- CrutchAlerts
 -- @author Kyzeragon
 -----------------------------------------------------------
-
-CrutchAlerts = CrutchAlerts or {}
+CrutchAlerts = {
+    BossHealthBar = {},
+    Drawing = {},
+}
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
 Crutch.version = "2.0.0-beta1"

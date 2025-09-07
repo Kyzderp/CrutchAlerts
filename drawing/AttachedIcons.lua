@@ -1,5 +1,3 @@
-CrutchAlerts = CrutchAlerts or {}
-CrutchAlerts.Drawing = CrutchAlerts.Drawing or {}
 local Crutch = CrutchAlerts
 local Draw = Crutch.Drawing
 

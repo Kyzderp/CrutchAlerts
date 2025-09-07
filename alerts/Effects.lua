@@ -1,6 +1,4 @@
-CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
-
 
 ---------------------------------------------------------------------
 -- This is a generic system for displaying timers as "alerts" for

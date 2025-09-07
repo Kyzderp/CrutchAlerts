@@ -1,4 +1,3 @@
-CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 -- Data for prominent display of notifications

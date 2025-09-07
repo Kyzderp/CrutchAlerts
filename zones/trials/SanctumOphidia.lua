@@ -1,6 +1,4 @@
-CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
-
 
 ---------------------------------------------------------------------
 local function OnMagBombFaded(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId, _)

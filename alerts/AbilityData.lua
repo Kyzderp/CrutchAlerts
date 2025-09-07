@@ -1,4 +1,3 @@
-CrutchAlerts = CrutchAlerts or {}
 local Crutch = CrutchAlerts
 
 -- Also see format.lua for formatting, damageable.lua for boss timer data, and prominent.lua for prominent alerts data
