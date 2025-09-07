@@ -300,6 +300,21 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "slider",
+                    name = "Update interval",
+                    tooltip = "How often to update icons to follow players or face the camera, in milliseconds. Smaller interval appears smoother, but may reduce performance",
+                    min = 1,
+                    max = 100,
+                    step = 1,
+                    default = Crutch.defaultOptions.drawing.interval,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.drawing.interval end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.drawing.interval = value
+                        Crutch.Drawing.ForceRestartPolling()
+                    end,
+                },
+                {
                     type = "checkbox",
                     name = "Use drawing levels",
                     tooltip = "Whether to show closer icons on top of farther icons. If OFF, icons may appear somewhat out of order when viewing one on top of another, or have transparent edges that clip other icons. If ON, there may be a slight performance reduction",
@@ -331,6 +346,36 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.Drawing.RefreshGroup()
                             end,
                             width = "full",
+                        },
+                        {
+                            type = "slider",
+                            name = "Size",
+                            tooltip = "General size of icons. Mechanic icons may display different sizes",
+                            min = 0,
+                            max = 400,
+                            step = 10,
+                            default = Crutch.defaultOptions.drawing.attached.size,
+                            width = "full",
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.size end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.size = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                        },
+                        {
+                            type = "slider",
+                            name = "Vertical offset",
+                            tooltip = "Y coordinate offset for non-death icons",
+                            min = 0,
+                            max = 500,
+                            step = 25,
+                            default = Crutch.defaultOptions.drawing.attached.yOffset,
+                            width = "full",
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.yOffset end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.yOffset = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
                         },
                         {
                             type = "checkbox",

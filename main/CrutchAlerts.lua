@@ -71,6 +71,7 @@ local defaultOptions = {
     },
     drawing = {
         useLevels = true, -- Whether to avoid clipping / appearing out of order
+        interval = 10, -- ms between updates
         attached = {
             showSelfRole = false,
             showDps = false,
@@ -79,6 +80,8 @@ local defaultOptions = {
             showDead = true,
             showCrown = false,
             useDepthBuffers = false,
+            size = 100,
+            yOffset = 350,
         },
         -- positioning marker icons that face the camera, placed in the world
         placedPositioning = {

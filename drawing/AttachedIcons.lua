@@ -30,8 +30,6 @@ Draw.unitIcons = unitIcons
 ---------------------------------------------------------------------
 -- Prioritization; logic for which icon to show
 ---------------------------------------------------------------------
-local NORMAL_Y_OFFSET = 350 -- TODO: setting
-
 local function RemoveAttachedIcon(key)
     Draw.RemoveWorldTexture(key)
 end
@@ -156,9 +154,9 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
     unitIcons[unitTag].icons[uniqueName] = {
         priority = priority,
         texture = texture,
-        size = size or 100,
+        size = size or Crutch.savedOptions.drawing.attached.size,
         color = color or {1, 1, 1, 1},
-        yOffset = yOffset or NORMAL_Y_OFFSET,
+        yOffset = yOffset or Crutch.savedOptions.drawing.attached.yOffset,
         persistOutsideCombat = persistOutsideCombat,
         callback = callback,
     }
@@ -214,9 +212,9 @@ local function CreateGroupRoleIcons()
                 GROUP_ROLE_NAME,
                 GROUP_ROLE_PRIORITY,
                 textures[player.role],
-                100,
+                nil,
                 colors[player.role],
-                NORMAL_Y_OFFSET,
+                nil,
                 true)
         end
     end
@@ -237,7 +235,7 @@ end
 -- Corpse icons
 local GROUP_DEAD_NAME = "CrutchAlertsGroupDead"
 local GROUP_DEAD_PRIORITY = 110
-local DEAD_Y_OFFSET = 100 -- TODO: setting
+local DEAD_Y_OFFSET = 100
 
 local function OnDeathStateChanged(_, unitTag, isDead)
     if (isDead) then
@@ -269,7 +267,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             GROUP_DEAD_NAME,
             GROUP_DEAD_PRIORITY,
             "esoui/art/icons/mapkey/mapkey_groupboss.dds",
-            100,
+            nil,
             {1, 0, 0, 1},
             DEAD_Y_OFFSET,
             true,
@@ -307,7 +305,7 @@ local function OnCrownChange(_, unitTag)
         GROUP_CROWN_NAME,
         GROUP_CROWN_PRIORITY,
         "esoui/art/icons/mapkey/mapkey_groupleader.dds",
-        100,
+        nil,
         {0, 1, 0, 1},
         nil,
         true)
@@ -388,6 +386,7 @@ local function InitializeAttachedIcons()
 end
 Draw.InitializeAttachedIcons = InitializeAttachedIcons
 
+-- TODO: use this at some point?
 local function UnregisterAttachedIcons()
     -- Group changes
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED)
@@ -419,7 +418,7 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 -- uniqueName - unique name, such as your addon name + mechanic name
 -- priority - order in which icons are displayed. Higher number takes precedence. Built-in role icons are currently 100, crown is 105, dead group member icons are 110
 -- texture - path to the texture
--- size - size to display at. Default 100
+-- size - size to display at. Default 100, but set via user settings
 -- color - color of the icon, in format {r, g, b, a}. Default {1, 1, 1, 1}
 -- persistOutsideCombat - whether to keep this icon when exiting combat. Otherwise, icon is removed when all group members exit combat. Default false. Note: if the group isn't already in combat, the icon will still show, because it's only removed on combat exit
 function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)

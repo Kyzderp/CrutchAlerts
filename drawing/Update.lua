@@ -77,7 +77,7 @@ function Draw.MaybeStartPolling()
     if (not hasIcons) then return end
 
     -- Has icons, can start polling
-    EVENT_MANAGER:RegisterForUpdate(CrutchAlerts.name .. "DrawingUpdate", 10, DoUpdate)
+    EVENT_MANAGER:RegisterForUpdate(CrutchAlerts.name .. "DrawingUpdate", Crutch.savedOptions.drawing.interval, DoUpdate)
     polling = true
 end
 
@@ -96,4 +96,11 @@ function Draw.MaybeStopPolling()
     -- No more icons, can stop polling
     EVENT_MANAGER:UnregisterForUpdate(CrutchAlerts.name .. "DrawingUpdate")
     polling = false
+end
+
+-- To be called from settings only, to update interval
+function Draw.ForceRestartPolling()
+    EVENT_MANAGER:UnregisterForUpdate(CrutchAlerts.name .. "DrawingUpdate")
+    polling = false
+    Draw.MaybeStartPolling()
 end
