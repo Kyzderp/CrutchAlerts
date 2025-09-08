@@ -70,7 +70,7 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
     }
     Draw.MaybeStartPolling()
 
-    CrutchAlerts.dbgSpam("Created icon |t100%:100%:" .. texture .. "|t key " .. tostring(key))
+    CrutchAlerts.dbgSpam("Created texture |t100%:100%:" .. texture .. "|t key " .. tostring(key))
     return key
 end
 Draw.CreateWorldTexture = CreateWorldTexture
@@ -80,7 +80,7 @@ local function RemoveWorldTexture(key)
         CrutchAlerts.dbgOther("|cFF0000Icon \"" .. tostring(key) .. "\" does not exist")
         return
     end
-    CrutchAlerts.dbgSpam("Removing icon " .. tostring(key))
+    CrutchAlerts.dbgSpam("Removing texture " .. tostring(key))
 
     local icon = Draw.activeIcons[key]
     icon.control:Destroy3DRenderSpace()

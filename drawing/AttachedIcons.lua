@@ -25,6 +25,18 @@ local unitIcons = {}
 -- Draw.unitIcons = unitIcons
 -- /script d(CrutchAlerts.Drawing.unitIcons)
 
+local function DumpUnitIcons()
+    d("============== attached icons dump ==============")
+    for tag, data in pairs(unitIcons) do
+        d(string.format("%s (%s)\n----key: %s\n----active: %s", GetUnitDisplayName(tag) or "NO USER", tag, data.key or "NO KEY", data.active or "NO ACTIVE"))
+        for uniqueName, icon in pairs(data.icons) do
+            d(string.format("----%s: %d [|t100%%:100%%:%s|t]", uniqueName, icon.priority, icon.texture))
+        end
+    end
+end
+Draw.DumpUnitIcons = DumpUnitIcons
+-- /script CrutchAlerts.Drawing.DumpUnitIcons()
+
 ---------------------------------------------------------------------
 -- Prioritization; logic for which icon to show
 ---------------------------------------------------------------------
@@ -178,6 +190,103 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
     }
 
     ReevaluatePrioritization(unitTag)
+end
+
+---------------------------------------------------------------------
+-- Suppressing icons, used to not show icons in opposite portals or
+-- when failing other checks, e.g. zone
+---------------------------------------------------------------------
+-- This is kinda hacky, basically just displaying a blank icon at
+-- high priority to suppress other icons. It would be more proper to
+-- not create any icons.
+local SUPPRESS_NAME = "CrutchAlertsSuppress"
+local SUPPRESS_PRIORITY = 10001 -- 10000 is the highest valid priority for public calling
+local suppressionFilters = {} -- {[name] = function(unitTag) return true end,}
+
+-- Suppression is auto removed upon combat end
+local function SuppressIcons(unitTag)
+    SetIconForUnit(unitTag, SUPPRESS_NAME, SUPPRESS_PRIORITY, "blank.dds")
+end
+
+local function UnsuppressIcons(unitTag)
+    RemoveIconForUnit(unitTag, SUPPRESS_NAME)
+end
+
+local function ShouldUnitBeShown(unitTag)
+    -- Self is always valid. Whether to show self is done elsewhere
+    if (AreUnitsEqual("player", unitTag)) then
+        return true
+    end
+
+    -- Check all filters. If any return false, the icon should be suppressed
+    for _, filter in pairs(suppressionFilters) do
+        if (not filter(unitTag)) then
+            return false
+        end
+    end
+
+    return true
+end
+
+local function EvaluateSuppressionFor(unitTag)
+    if (not ShouldUnitBeShown(unitTag)) then
+        SuppressIcons(unitTag)
+    else
+        UnsuppressIcons(unitTag)
+    end
+end
+Draw.EvaluateSuppressionFor = EvaluateSuppressionFor
+
+-- Must be called to update suppression, so it should be called when
+-- you enter a portal. This is already called from RefreshGroup as well.
+local function EvaluateAllSuppression()
+    -- Intentionally use index here, instead of GetGroupUnitTagByIndex,
+    -- in order to clean up tags that no longer exist
+    for i = 1, MAX_GROUP_SIZE_THRESHOLD do
+        local unitTag = "group" .. tostring(i)
+
+        if (not DoesUnitExist(unitTag)) then
+            -- No player exists / just left group, so clean up the old icon
+            UnsuppressIcons(unitTag)
+        elseif (IsUnitOnline(unitTag)) then
+            EvaluateSuppressionFor(unitTag)
+        end
+    end
+end
+Draw.EvaluateAllSuppression = EvaluateAllSuppression
+
+-- Register a filter for suppressing icons.
+-- filterFunc is called with parameter unitTag.
+-- If the function returns false, icons for the tag will be suppressed.
+local function RegisterSuppressionFilter(name, filterFunc)
+    Crutch.dbgSpam("Registering suppression filter " .. name)
+    suppressionFilters[name] = filterFunc
+    EvaluateAllSuppression()
+end
+Draw.RegisterSuppressionFilter = RegisterSuppressionFilter
+
+local function UnregisterSuppressionFilter(name)
+    Crutch.dbgSpam("Unregistering suppression filter " .. name)
+    suppressionFilters[name] = nil
+    EvaluateAllSuppression()
+end
+Draw.UnregisterSuppressionFilter = UnregisterSuppressionFilter
+
+local suppressionInitialized = false
+local function InitializeSuppression()
+    if (suppressionInitialized) then return end
+    suppressionInitialized = true
+
+    -- Built-in filters for suppressing icons when not in the same zone etc.
+    RegisterSuppressionFilter("CrutchAlertsSameWorld", function(unitTag)
+        -- Different instance is still same world
+        return IsGroupMemberInSameWorldAsPlayer(unitTag)
+    end)
+
+    RegisterSuppressionFilter("CrutchAlertsRemoteRegion", function(unitTag)
+        -- Different instance counts as remote region
+        return not IsGroupMemberInRemoteRegion(unitTag)
+    end)
 end
 
 ---------------------------------------------------------------------
@@ -341,10 +450,13 @@ local function OnCrownChange(_, unitTag)
 end
 
 ---------------------------------------------------------------------
+-- Group refresh
+---------------------------------------------------------------------
 local function RefreshGroup()
     Crutch.dbgSpam("|c0055FF[draw]|r doing RefreshGroup")
-    -- Do a first pass because unit tags could have changed
-    -- This could probably be done as part of another loop, but meh
+    -- Do a first pass because unit tags could have changed.
+    -- This could probably be done as part of another loop, but meh.
+    -- Also probably could use Crutch.playerGroupTag...
     for i = 1, GetGroupSize() do
         local tag = GetGroupUnitTagByIndex(i)
         if (AreUnitsEqual("player", tag)) then
@@ -357,24 +469,35 @@ local function RefreshGroup()
     DestroyAllRoleIcons()
     CreateGroupRoleIcons()
 
-    for i = 1, GetGroupSize() do
-        local tag = GetGroupUnitTagByIndex(i)
+    for i = 1, MAX_GROUP_SIZE_THRESHOLD do
+        -- Intentionally use index here, instead of GetGroupUnitTagByIndex,
+        -- in order to clean up tags that no longer exist
+        local tag = "group" .. tostring(i)
 
-        -- Deaths
-        if (IsUnitOnline(tag)) then
-            OnDeathStateChanged(nil, tag, IsUnitDead(tag))
-        else
-            -- Sometimes offline players are also dead, but it doesn't
-            -- make sense to show dead icon if they're offline
+        if (not DoesUnitExist(tag)) then
+            -- No player exists / just left group, so clean up the old icon
             OnDeathStateChanged(nil, tag, false)
+        else
+            -- Deaths
+            if (IsUnitOnline(tag)) then
+                OnDeathStateChanged(nil, tag, IsUnitDead(tag))
+            else
+                -- Sometimes offline players are also dead, but it doesn't
+                -- make sense to show dead icon if they're offline
+                OnDeathStateChanged(nil, tag, false)
+            end
+
+            -- Crown
+            if (IsUnitGroupLeader(tag)) then
+                OnCrownChange(nil, tag)
+            end
         end
 
-        -- Crown
-        if (IsUnitGroupLeader(tag)) then
-            OnCrownChange(nil, tag)
-        end
     end
     OnDeathStateChanged(nil, "player", IsUnitDead("player"))
+
+    -- Suppression
+    EvaluateAllSuppression()
 end
 Draw.RefreshGroup = RefreshGroup
 -- /script CrutchAlerts.Drawing.RefreshGroup()
@@ -424,6 +547,9 @@ local function InitializeAttachedIcons()
             end
         end
     end)
+
+    -- Suppression
+    InitializeSuppression()
 end
 Draw.InitializeAttachedIcons = InitializeAttachedIcons
 
@@ -463,6 +589,10 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 -- color - color of the icon, in format {r, g, b, a}. To use the user setting for alpha, leave out a, e.g. {1, 0.4, 0.8}
 -- persistOutsideCombat - whether to keep this icon when exiting combat. Otherwise, icon is removed when all group members exit combat. Default false. Note: if the group isn't already in combat, the icon will still show, because it's only removed on combat exit
 function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)
+    if (priority < 0 or priority > 10000) then
+        Crutch.msg("|cFF0000Invalid priority for " .. uniqueName .. " icon; use 0~10000")
+        return
+    end
     SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)
 end
 -- /script CrutchAlerts.SetAttachedIconForUnit("player", "CrutchAlertsTest", 200, "esoui/art/icons/targetdummy_voriplasm_01.dds")
