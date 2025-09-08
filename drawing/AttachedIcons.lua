@@ -332,6 +332,7 @@ end
 
 ---------------------------------------------------------------------
 local function RefreshGroup()
+    Crutch.dbgSpam("|c0055FF[draw]|r doing RefreshGroup")
     -- Do a first pass because unit tags could have changed
     -- This could probably be done as part of another loop, but meh
     for i = 1, GetGroupSize() do
@@ -368,6 +369,12 @@ end
 Draw.RefreshGroup = RefreshGroup
 -- /script CrutchAlerts.Drawing.RefreshGroup()
 
+local function RefreshGroupTimeout()
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "AttachedGroupRefreshTimeout", 200, function()
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "AttachedGroupRefreshTimeout")
+        RefreshGroup()
+    end)
+end
 
 ---------------------------------------------------------------------
 -- Built-in events
@@ -375,12 +382,12 @@ Draw.RefreshGroup = RefreshGroup
 local hooked = false
 local function InitializeAttachedIcons()
     -- Group changes
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: player activated") RefreshGroup() end)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: member joined") RefreshGroup() end)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: member left") RefreshGroup() end)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: update") RefreshGroup() end)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: member role change") RefreshGroup() end) -- TODO: could be more efficient
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: member connected status") RefreshGroup() end) -- TODO: could be more efficient
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: player activated") RefreshGroupTimeout() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member joined") RefreshGroupTimeout() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member left") RefreshGroupTimeout() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: update") RefreshGroupTimeout() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member role change") RefreshGroupTimeout() end) -- TODO: could be more efficient
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member connected status") RefreshGroupTimeout() end) -- TODO: could be more efficient
 
     -- deadge
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
@@ -390,7 +397,7 @@ local function InitializeAttachedIcons()
 
     -- Self role change
     if (not hooked) then
-        ZO_PostHook("UpdateSelectedLFGRole", function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: UpdateSelectedLFGRole") RefreshGroup() end)
+        ZO_PostHook("UpdateSelectedLFGRole", function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: UpdateSelectedLFGRole") RefreshGroupTimeout() end)
         hooked = true
     end
 
