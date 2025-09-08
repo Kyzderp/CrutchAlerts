@@ -107,7 +107,16 @@ end
 local playerGroupTag
 
 local function IsSelf(unitTag)
-    return unitTag == "player" or unitTag == playerGroupTag
+    if (unitTag == "player") then
+        return true
+    end
+
+    if (AreUnitsEqual("player", unitTag)) then
+        playerGroupTag = unitTag
+        return true
+    end
+
+    return false
 end
 
 local function RemoveIconForUnit(unitTag, uniqueName)
@@ -143,7 +152,7 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
     end
 
     if (unitIcons[unitTag].icons[uniqueName]) then
-        d(string.format("|cFFFF00Icon already exists for %s uniqueName %s, removing first and then replacing...|r", unitTag, uniqueName))
+        Crutch.dbgSpam(string.format("|cFFFF00Icon already exists for %s uniqueName %s, removing first and then replacing...|r", unitTag, uniqueName))
         RemoveIconForUnit(unitTag, uniqueName)
     end
 
@@ -183,12 +192,14 @@ local function CreateGroupRoleIcons()
     local tagsToDo = {}
     if (GetGroupSize() <= 1) then
         if (showSelf) then
+            Crutch.dbgSpam("size")
             table.insert(tagsToDo, {unitTag = "player", role = GetSelectedLFGRole()})
         end
     else
         for i = 1, GetGroupSize() do
             local tag = GetGroupUnitTagByIndex(i)
             if (IsUnitOnline(tag) and (showSelf or not IsSelf(tag))) then
+                Crutch.dbgSpam(tag)
                 local role = GetGroupMemberSelectedRole(tag)
                 table.insert(tagsToDo, {unitTag = tag, role = role})
             end
@@ -321,17 +332,22 @@ end
 
 ---------------------------------------------------------------------
 local function RefreshGroup()
-    -- Roles
-    DestroyAllRoleIcons()
-    CreateGroupRoleIcons()
-
-    playerGroupTag = nil
-
+    -- Do a first pass because unit tags could have changed
+    -- This could probably be done as part of another loop, but meh
     for i = 1, GetGroupSize() do
         local tag = GetGroupUnitTagByIndex(i)
         if (AreUnitsEqual("player", tag)) then
             playerGroupTag = tag
+            break
         end
+    end
+
+    -- Roles
+    DestroyAllRoleIcons()
+    CreateGroupRoleIcons()
+
+    for i = 1, GetGroupSize() do
+        local tag = GetGroupUnitTagByIndex(i)
 
         -- Deaths
         if (IsUnitOnline(tag)) then
@@ -359,12 +375,12 @@ Draw.RefreshGroup = RefreshGroup
 local hooked = false
 local function InitializeAttachedIcons()
     -- Group changes
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, RefreshGroup)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED, RefreshGroup)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT, RefreshGroup)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE, function() Crutch.dbgOther("group update") RefreshGroup() end)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, RefreshGroup) -- TODO: could be more efficient
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS, RefreshGroup) -- TODO: could be more efficient
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: player activated") RefreshGroup() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: member joined") RefreshGroup() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: member left") RefreshGroup() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: update") RefreshGroup() end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: member role change") RefreshGroup() end) -- TODO: could be more efficient
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS, function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: member connected status") RefreshGroup() end) -- TODO: could be more efficient
 
     -- deadge
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
@@ -374,7 +390,7 @@ local function InitializeAttachedIcons()
 
     -- Self role change
     if (not hooked) then
-        ZO_PostHook("UpdateSelectedLFGRole", RefreshGroup)
+        ZO_PostHook("UpdateSelectedLFGRole", function() Crutch.dbgSpam("|c0000FF[draw]|r RefreshGroup reason: UpdateSelectedLFGRole") RefreshGroup() end)
         hooked = true
     end
 
