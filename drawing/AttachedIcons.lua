@@ -255,6 +255,7 @@ end
 local GROUP_DEAD_NAME = "CrutchAlertsGroupDead"
 local GROUP_DEAD_PRIORITY = 110
 local DEAD_Y_OFFSET = 100
+local deadColorOverrides = {} -- {[unitTag] = {0, 1, 0},}
 
 local function OnDeathStateChanged(_, unitTag, isDead)
     if (isDead) then
@@ -272,10 +273,12 @@ local function OnDeathStateChanged(_, unitTag, isDead)
 
         local function Callback(control)
             local r, g, b
-            if (IsUnitBeingResurrected(unitTag)) then
-                r, g, b = unpack(Crutch.savedOptions.drawing.attached.rezzingColor)
-            elseif (DoesUnitHaveResurrectPending(unitTag)) then
+            if (DoesUnitHaveResurrectPending(unitTag)) then
                 r, g, b = unpack(Crutch.savedOptions.drawing.attached.pendingColor)
+            elseif (deadColorOverrides[unitTag]) then
+                r, g, b = unpack(deadColorOverrides[unitTag])
+            elseif (IsUnitBeingResurrected(unitTag)) then
+                r, g, b = unpack(Crutch.savedOptions.drawing.attached.rezzingColor)
             else
                 r, g, b = unpack(Crutch.savedOptions.drawing.attached.deadColor)
             end
@@ -295,6 +298,13 @@ local function OnDeathStateChanged(_, unitTag, isDead)
         RemoveIconForUnit(unitTag, GROUP_DEAD_NAME)
     end
 end
+
+-- Override the dead and rezzing colors. That means pending color
+-- still takes priority over this. Set to nil to remove the override.
+local function OverrideDeadColor(unitTag, color)
+    deadColorOverrides[unitTag] = color
+end
+Draw.OverrideDeadColor = OverrideDeadColor
 
 ---------------------------------------------------------------------
 -- Crown
@@ -460,4 +470,4 @@ end
 function Crutch.RemoveAttachedIconForUnit(unitTag, uniqueName)
     RemoveIconForUnit(unitTag, uniqueName)
 end
--- /script CrutchAlerts.RemoveAttachedIconForUnit("player", "CrutchAlertsGroupDead")
+-- /script CrutchAlerts.RemoveAttachedIconForUnit("player", "CrutchAlertsTest")

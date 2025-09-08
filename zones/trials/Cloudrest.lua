@@ -31,6 +31,8 @@ end
 ---------------------------------------------------------------------
 -- PLAYER STATE
 ---------------------------------------------------------------------
+-- Still used for overriding OSI icons (for now), and not showing
+-- alerts for Rele and Galenwe interruptibles while in portal
 local function IsInShadowWorld(unitTag)
     if (not unitTag) then unitTag = Crutch.playerGroupTag end
 
@@ -192,8 +194,10 @@ local function OnShadowOfTheFallenChanged(_, changeType, _, _, unitTag, _, _, st
 
     if (changeType == EFFECT_RESULT_GAINED) then
         groupShadowOfTheFallen[unitTag] = true
+        Crutch.Drawing.OverrideDeadColor(unitTag, {0.8, 0.2, 1})
     elseif (changeType == EFFECT_RESULT_FADED) then
         groupShadowOfTheFallen[unitTag] = false
+        Crutch.Drawing.OverrideDeadColor(unitTag, nil)
     end
 end
 
