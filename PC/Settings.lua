@@ -301,8 +301,8 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "slider",
                     name = "Update interval",
-                    tooltip = "How often to update icons to follow players or face the camera, in milliseconds. Smaller interval appears smoother, but may reduce performance",
-                    min = 1,
+                    tooltip = "How often to update icons to follow players or face the camera, in milliseconds. Smaller interval appears smoother, but may reduce performance. Set to 0 to update every frame",
+                    min = 0,
                     max = 100,
                     step = 1,
                     default = Crutch.defaultOptions.drawing.interval,
