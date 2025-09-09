@@ -7,6 +7,8 @@ local spearsSent = 0
 local orbsDunked = 0
 
 ---------------------------------------------------------------------
+-- Portal
+---------------------------------------------------------------------
 local effectResults = {
     [EFFECT_RESULT_FADED] = "FADED",
     [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
@@ -21,18 +23,27 @@ local groupShadowWorld = {}
 local function OnShadowWorldChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     Crutch.dbgOther(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
 
+    local changed = false
     if (changeType == EFFECT_RESULT_GAINED) then
         groupShadowWorld[unitTag] = true
+        changed = true
     elseif (changeType == EFFECT_RESULT_FADED) then
         groupShadowWorld[unitTag] = false
+        changed = true
+    end
+
+    -- Update suppression
+    if (changed) then
+        -- If it was the player entering or exiting portal, all units need to be refreshed
+        if (AreUnitsEqual("player", unitTag)) then
+            Crutch.Drawing.EvaluateAllSuppression()
+        else
+            Crutch.Drawing.EvaluateSuppressionFor(unitTag)
+        end
     end
 end
 
----------------------------------------------------------------------
--- PLAYER STATE
----------------------------------------------------------------------
--- Still used for overriding OSI icons (for now), and not showing
--- alerts for Rele and Galenwe interruptibles while in portal
+-- Also used for not showing alerts for Rele and Galenwe interruptibles while in portal
 local function IsInShadowWorld(unitTag)
     if (not unitTag) then unitTag = Crutch.playerGroupTag end
 
@@ -42,25 +53,11 @@ local function IsInShadowWorld(unitTag)
 end
 Crutch.IsInShadowWorld = IsInShadowWorld
 
-local function OnWipe()
-    -- Reset
-    if (not IsUnitInCombat("player")) then
-        Crutch.dbgOther("|cFF7777Resetting Cloudrest values|r")
-        amuletSmashed = false
-        spearsRevealed = 0
-        spearsSent = 0
-        orbsDunked = 0
-        Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
-    end
+local PORTAL_SUPPRESSION_FILTER = "CrutchAlertsCloudrestPortal"
+local function CRPortalFilter(unitTag)
+    return IsInShadowWorld(unitTag) == IsInShadowWorld(Crutch.playerGroupTag)
 end
 
-local function OnCombatStateChanged(_, inCombat)
-    -- This is weird because we exit combat when entering portal, so it shouldn't
-    -- actually trigger a reset. Check again 3 seconds later whether we're out
-    if (not inCombat) then
-        zo_callLater(OnWipe, 3000)
-    end
-end
 
 ---------------------------------------------------------------------
 -- EXECUTE FLARES
@@ -231,7 +228,15 @@ local origOSIGetIconDataForPlayer = nil
 
 function Crutch.RegisterCloudrest()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Cloudrest")
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestCombatState", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
+
+    Crutch.RegisterExitedGroupCombatListener("ExtiedCombatCloudrest", function()
+        Crutch.dbgOther("|cFF7777Resetting Cloudrest values|r")
+        amuletSmashed = false
+        spearsRevealed = 0
+        spearsSent = 0
+        orbsDunked = 0
+        Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
+    end)
 
     -- Register break amulet
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT, OnAmuletSmashed)
@@ -329,10 +334,14 @@ function Crutch.RegisterCloudrest()
             return icon, color, size, anim, offset, isMech
         end
     end
+
+    -- Suppress attached icons when in different portal
+    Crutch.Drawing.RegisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER, CRPortalFilter)
 end
 
 function Crutch.UnregisterCloudrest()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestCombatState", EVENT_PLAYER_COMBAT_STATE)
+    Crutch.UnregisterExitedGroupCombatListener("ExtiedCombatCloudrest")
+
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT)
@@ -350,6 +359,8 @@ function Crutch.UnregisterCloudrest()
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
         OSI.GetIconDataForPlayer = origOSIGetIconDataForPlayer
     end
+
+    Crutch.Drawing.UnregisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER)
 
     amuletSmashed = false
     spearsRevealed = 0

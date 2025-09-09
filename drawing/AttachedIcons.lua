@@ -164,7 +164,7 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
     end
 
     if (unitIcons[unitTag].icons[uniqueName]) then
-        Crutch.dbgSpam(string.format("|cFFFF00Icon already exists for %s uniqueName %s, removing first and then replacing...|r", unitTag, uniqueName))
+        Crutch.dbgSpam(string.format("Icon already exists for %s uniqueName %s, removing first and then replacing...", unitTag, uniqueName))
         RemoveIconForUnit(unitTag, uniqueName)
     end
 
