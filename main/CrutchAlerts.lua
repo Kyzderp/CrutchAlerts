@@ -78,7 +78,7 @@ local defaultOptions = {
             showSelfRole = false,
 
             showDps = false,
-            dpsColor = {1, 0.2, 0.2},
+            dpsColor = {1, 0.5, 0},
 
             showHeal = false,
             healColor = {1, 0.9, 0},

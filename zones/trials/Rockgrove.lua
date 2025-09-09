@@ -77,10 +77,23 @@ local groupBitterMarrow = {}
 local function OnBitterMarrowChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     Crutch.dbgOther(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
 
+    local changed = false
     if (changeType == EFFECT_RESULT_GAINED) then
         groupBitterMarrow[unitTag] = true
+        changed = true
     elseif (changeType == EFFECT_RESULT_FADED) then
         groupBitterMarrow[unitTag] = false
+        changed = true
+    end
+
+    -- Update suppression
+    if (changed) then
+        -- If it was the player entering or exiting portal, all units need to be refreshed
+        if (AreUnitsEqual("player", unitTag)) then
+            Crutch.Drawing.EvaluateAllSuppression()
+        else
+            Crutch.Drawing.EvaluateSuppressionFor(unitTag)
+        end
     end
 end
 
@@ -91,6 +104,12 @@ local function IsInBahseiPortal(unitTag)
     if (groupBitterMarrow[unitTag] == true) then return true end
 
     return false
+end
+
+-- Suppression for attached icons
+local PORTAL_SUPPRESSION_FILTER = "CrutchAlertsBahseiPortal"
+local function BahseiPortalFilter(unitTag)
+    return IsInBahseiPortal(unitTag) == IsInBahseiPortal(Crutch.playerGroupTag)
 end
 
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
@@ -226,6 +245,9 @@ function Crutch.RegisterRockgrove()
             end
         end
     end
+
+    -- Suppress attached icons when in different portal
+    Crutch.Drawing.RegisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER, BahseiPortalFilter)
 end
 
 function Crutch.UnregisterRockgrove()
@@ -242,6 +264,8 @@ function Crutch.UnregisterRockgrove()
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
     end
+
+    Crutch.Drawing.UnregisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Rockgrove")
 end
