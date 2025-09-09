@@ -17,10 +17,23 @@ local groupTimeBreach = {}
 local function OnTimeBreachChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     Crutch.dbgOther(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
 
+    local changed = false
     if (changeType == EFFECT_RESULT_GAINED) then
         groupTimeBreach[unitTag] = true
+        changed = true
     elseif (changeType == EFFECT_RESULT_FADED) then
         groupTimeBreach[unitTag] = false
+        changed = true
+    end
+
+    -- Update suppression
+    if (changed) then
+        -- If it was the player entering or exiting portal, all units need to be refreshed
+        if (AreUnitsEqual("player", unitTag)) then
+            Crutch.Drawing.EvaluateAllSuppression()
+        else
+            Crutch.Drawing.EvaluateSuppressionFor(unitTag)
+        end
     end
 end
 
@@ -32,6 +45,12 @@ local function IsInNahvPortal(unitTag)
     return false
 end
 Crutch.IsInNahvPortal = IsInNahvPortal
+
+-- Suppression for attached icons
+local PORTAL_SUPPRESSION_FILTER = "CrutchAlertsNahvPortal"
+local function NahvPortalFilter(unitTag)
+    return IsInNahvPortal(unitTag) == IsInNahvPortal(Crutch.playerGroupTag)
+end
 
 ---------------------------------------------------------------------
 -- Lokkestiiz Icons
@@ -337,6 +356,9 @@ function Crutch.RegisterSunspire()
             end
         end
     end
+
+    -- Suppress attached icons when in different portal
+    Crutch.Drawing.RegisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER, NahvPortalFilter)
 end
 
 function Crutch.UnregisterSunspire()
@@ -362,6 +384,8 @@ function Crutch.UnregisterSunspire()
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")
         OSI.UnitErrorCheck = origOSIUnitErrorCheck
     end
+
+    Crutch.Drawing.UnregisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER)
 
     DisableLokkIcons()
     DisableYolIcons()
