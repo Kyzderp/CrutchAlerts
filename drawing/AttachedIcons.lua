@@ -48,12 +48,12 @@ end
 local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callback)
     local _, x, y, z = GetUnitRawWorldPosition(unitTag)
 
-    local function OnUpdate(control, setPositionFunc)
+    local function OnUpdate(control, setPositionFunc, setColorFunc)
         local _, x, y, z = GetUnitRawWorldPosition(unitTag)
         setPositionFunc(x, y + yOffset, z)
 
         if (callback) then
-            callback(control)
+            callback(control, setPositionFunc, setColorFunc)
         end
     end
 
@@ -301,14 +301,12 @@ local function CreateGroupRoleIcons()
     local tagsToDo = {}
     if (GetGroupSize() <= 1) then
         if (showSelf) then
-            Crutch.dbgSpam("size")
             table.insert(tagsToDo, {unitTag = "player", role = GetSelectedLFGRole()})
         end
     else
         for i = 1, GetGroupSize() do
             local tag = GetGroupUnitTagByIndex(i)
-            if (IsUnitOnline(tag) and (showSelf or not IsSelf(tag))) then
-                Crutch.dbgSpam(tag)
+            if (tag and IsUnitOnline(tag) and (showSelf or not IsSelf(tag))) then
                 local role = GetGroupMemberSelectedRole(tag)
                 table.insert(tagsToDo, {unitTag = tag, role = role})
             end
@@ -380,7 +378,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             return
         end
 
-        local function Callback(control)
+        local function Callback(_, _, setColorFunc)
             local r, g, b
             if (DoesUnitHaveResurrectPending(unitTag)) then
                 r, g, b = unpack(Crutch.savedOptions.drawing.attached.pendingColor)
@@ -391,7 +389,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             else
                 r, g, b = unpack(Crutch.savedOptions.drawing.attached.deadColor)
             end
-            control:SetColor(r, g, b, Crutch.savedOptions.drawing.attached.opacity) -- TODO: more efficient
+            setColorFunc(r, g, b)
         end
 
         SetIconForUnit(unitTag,

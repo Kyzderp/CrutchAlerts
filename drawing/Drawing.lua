@@ -55,8 +55,10 @@ end
 -- CrutchAlerts settings.
 --
 -- @param updateFunc - function with params: control, setPositionFunc
---     control - the actual texture control, can be used to change color
---     setPositionFunc - function(x, y, z), called every update tick
+--     control - the actual texture control, usage TBD...
+--     setPositionFunc - function(x, y, z)
+--     setColorFunc - function(r, g, b, a)
+--     setOrientationFunc - function(forward, right, up). should not be called for icons that face camera
 ---------------------------------------------------------------------
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, forwardRightUp, updateFunc)
     local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, forwardRightUp)
@@ -66,6 +68,8 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         x = x,
         y = y,
         z = z,
+        color = {r = color[1], g = color[2], b = color[3], a = color[4]},
+        forwardRightUp = forwardRightUp and {forward = forwardRightUp[1], right = forwardRightUp[2], up = forwardRightUp[3]} or {},
         updateFunc = updateFunc,
     }
     Draw.MaybeStartPolling()
