@@ -8,7 +8,7 @@ local Draw = Crutch.Drawing
 --
 -- texture: texture path
 -- x, y, z: raw world position
--- size: a sort of arbitrary number. 100~150 should look pretty "normal"
+-- size: a sort of arbitrary number. 150 creates an icon with diameter of 1 meter
 -- color: {r, g, b, a} (max value 1), default white (uncolored). Leave off the alpha to use user-specified opacity
 --
 -- @returns key: you must use this key to remove the icon later
@@ -43,11 +43,55 @@ Draw.RemovePlacedPositionMarker = RemovePlacedPositionMarker
 
 
 ---------------------------------------------------------------------
--- Placed textures, no built-in usage yet.
+-- Icons placed in the world that face the player, e.g. IA Brewmaster
+-- potions.
+-- They use the drawing.placedIcon settings.
+--
+-- texture: texture path
+-- x, y, z: raw world position
+-- size: a sort of arbitrary number. 150 creates an icon with diameter of 1 meter
+-- color: {r, g, b, a} (max value 1), default white (uncolored). Leave off the alpha to use user-specified opacity
+-- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
+--
+-- @returns key - you must use this key to remove the icon later
+---------------------------------------------------------------------
+local function CreatePlacedIcon(texture, x, y, z, size, color, updateFunc)
+    size = size or 150
+
+    color = color or {1, 1, 1}
+    local r, g, b, a = unpack(color)
+    if (not a) then
+        a = Crutch.savedOptions.drawing.placedIcon.opacity
+    end
+
+    return Draw.CreateWorldTexture(
+        texture,
+        x,
+        y,
+        z,
+        size / 150,
+        size / 150,
+        color,
+        Crutch.savedOptions.drawing.placedIcon.useDepthBuffers,
+        true,
+        nil,
+        updateFunc)
+end
+Draw.CreatePlacedIcon = CreatePlacedIcon
+
+-- Convenience method
+local function RemovePlacedIcon(key)
+    Draw.RemoveWorldTexture(key)
+end
+Draw.RemovePlacedIcon = RemovePlacedIcon
+
+
+---------------------------------------------------------------------
+-- Placed textures, no built-in usage yet, but see Drawing.lua:TestPoop() for example usage.
 -- They use the drawing.placedOriented settings.
 --
 -- x, y, z: default to player position
--- size: the approximate diameter in meters
+-- size: diameter in meters, default 1
 -- color: {r, g, b, a} (max value 1), default white. Leave off the alpha to use user-specified opacity
 -- forwardRightUp: orientation vectors(?), defaults to being flat on the ground
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
@@ -102,7 +146,7 @@ Draw.RemoveOrientedTexture = RemoveOrientedTexture
 -- They use the drawing.placedOriented settings.
 --
 -- x, y, z: default to player position
--- radius: radius in meters
+-- radius: radius in meters, default 3
 -- color: {r, g, b, a} (max value 1), default red. Leave off the alpha to use user-specified opacity
 -- forwardRightUp: orientation vectors(?), defaults to being flat on the ground
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
@@ -133,46 +177,3 @@ local function RemoveGroundCircle(key)
 end
 Draw.RemoveGroundCircle = RemoveGroundCircle
 
-
----------------------------------------------------------------------
--- Icons placed in the world that face the player, e.g. IA Brewmaster
--- potions.
--- They use the drawing.placedIcon settings.
---
--- texture: texture path
--- x, y, z: raw world position
--- size: a sort of arbitrary number. 100~150 should look pretty "normal"
--- color: {r, g, b, a} (max value 1), default white (uncolored). Leave off the alpha to use user-specified opacity
--- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
---
--- @returns key - you must use this key to remove the icon later
----------------------------------------------------------------------
-local function CreatePlacedIcon(texture, x, y, z, size, color, updateFunc)
-    size = size or 150
-
-    color = color or {1, 1, 1}
-    local r, g, b, a = unpack(color)
-    if (not a) then
-        a = Crutch.savedOptions.drawing.placedIcon.opacity
-    end
-
-    return Draw.CreateWorldTexture(
-        texture,
-        x,
-        y,
-        z,
-        size / 150,
-        size / 150,
-        color,
-        Crutch.savedOptions.drawing.placedIcon.useDepthBuffers,
-        true,
-        nil,
-        updateFunc)
-end
-Draw.CreatePlacedIcon = CreatePlacedIcon
-
--- Convenience method
-local function RemovePlacedIcon(key)
-    Draw.RemoveWorldTexture(key)
-end
-Draw.RemovePlacedIcon = RemovePlacedIcon
