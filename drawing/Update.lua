@@ -119,6 +119,9 @@ function Draw.MaybeStartPolling()
     -- Has icons, can start polling
     EVENT_MANAGER:RegisterForUpdate(CrutchAlerts.name .. "DrawingUpdate", Crutch.savedOptions.drawing.interval, DoUpdate)
     polling = true
+
+    -- Also run once immediately
+    DoUpdate()
 end
 
 function Draw.MaybeStopPolling()

@@ -47,7 +47,7 @@ Draw.RemovePlacedPositionMarker = RemovePlacedPositionMarker
 -- They use the drawing.placedOriented settings.
 --
 -- x, y, z: default to player position
--- size: a sort of arbitrary number. 100~150 is similar to default over-head icons
+-- size: the approximate diameter in meters
 -- color: {r, g, b, a} (max value 1), default white. Leave off the alpha to use user-specified opacity
 -- forwardRightUp: orientation vectors(?), defaults to being flat on the ground
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
@@ -60,7 +60,7 @@ local function CreateOrientedTexture(texture, x, y, z, size, color, forwardRight
         _, x, y, z = GetUnitRawWorldPosition("player")
     end
 
-    size = size or 100
+    size = size or 1
 
     color = color or {1, 1, 1}
     local r, g, b, a = unpack(color)
@@ -97,7 +97,8 @@ Draw.RemoveOrientedTexture = RemoveOrientedTexture
 
 
 ---------------------------------------------------------------------
--- Ground circles, e.g. triplets Shock Field.
+-- Ground circles, e.g. triplets Shock Field. Just for convenient use
+-- of CreateOrientedTexture.
 -- They use the drawing.placedOriented settings.
 --
 -- x, y, z: default to player position
@@ -109,36 +110,18 @@ Draw.RemoveOrientedTexture = RemoveOrientedTexture
 -- @returns key: you must use this key to remove the circle later
 ---------------------------------------------------------------------
 local function CreateGroundCircle(x, y, z, radius, color, forwardRightUp, updateFunc)
-    local _
-    if (not x) then
-        _, x, y, z = GetUnitRawWorldPosition("player")
-    end
-
-    radius = radius or 12
+    radius = radius or 3
     local size = radius * 2
 
     color = color or {1, 0, 0}
-    local r, g, b, a = unpack(color)
-    if (not a) then
-        a = Crutch.savedOptions.drawing.placedOriented.opacity
-    end
 
-    forwardRightUp = forwardRightUp or {
-        {0, 1, 0},
-        {1, 0, 0},
-        {0, 0, 1},
-    }
-
-    return Draw.CreateWorldTexture(
+    return CreateOrientedTexture(
         "CrutchAlerts/assets/floor/circle.dds",
         x,
         y,
         z,
         size,
-        size,
-        {r, g, b, a},
-        Crutch.savedOptions.drawing.placedOriented.useDepthBuffers,
-        false,
+        color,
         forwardRightUp,
         updateFunc)
 end

@@ -40,3 +40,34 @@ function Crutch.GetUnitTagsDistance(unitTag1, unitTag2)
     end
     return zo_sqrt(Crutch.GetSquaredDistance(p1x, p1y, p1z, p2x, p2y, p2z)) / 100
 end
+
+
+---------------------------------------------------------------------
+-- HSL to RGB
+-- https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
+---------------------------------------------------------------------
+local function HueToRGB(p, q, t)
+    if (t < 0) then t = t + 1 end
+    if (t > 1) then t = t - 1 end
+    if (t < 1 / 6) then
+        return p + (q - p) * 6 * t
+    end
+    if (t < 0.5) then
+        return q
+    end
+    if (t < 2 / 3) then
+        return p + (q - p) * (2 / 3 - t) * 6
+    end
+    return p
+end
+
+-- ZOS has RGB to HSL but not backwards :sadge:
+function Crutch.ConvertHSLToRGB(h, s, l)
+    if (saturation == 0) then
+        return l, l, l
+    else
+        local q = (l < 0.5) and (l * (1 + s)) or (l + s - l * s)
+        local p = 2 * l - q
+        return HueToRGB(p, q, h + 1 / 3), HueToRGB(p, q, h), HueToRGB(p, q, h - 1 / 3)
+    end
+end

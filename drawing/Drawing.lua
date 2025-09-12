@@ -99,27 +99,6 @@ Draw.RemoveWorldTexture = RemoveWorldTexture
 ---------------------------------------------------------------------
 -- Testing for now
 ---------------------------------------------------------------------
-local function TestJet(size)
-    local start = 90000
-    local forwardRightUp = {
-        {0, 0, 1},
-        {-1, 0, 0},
-        {0, 1, 0},
-    }
-    local width = size or 20
-    local height = width / 600 * 128
-    local key = CreateWorldTexture("CrutchAlerts/assets/jet.dds", 98000, 44000, 101500, width, height, {1, 1, 1, 1}, true, false, forwardRightUp, function(control, setPositionFunc)
-        start = start + 15
-        setPositionFunc(start, 44000, 106000)
-    end)
-
-    zo_callLater(function() RemoveWorldTexture(key) end, 30000)
-end
-Draw.TestJet = TestJet
--- /script CrutchAlerts.Drawing.TestJet()
--- /script d("|t100%:100%:CrutchAlerts/assets/jet.dds|t")
--- /script d("|t100%:100%:CrutchAlerts/assets/directional/N.dds|t")
-
 local lastKey
 local function TestCircle(radius, x, y, z)
     if (lastKey) then
@@ -130,12 +109,63 @@ end
 Draw.TestCircle = TestCircle
 --[[
 /script CrutchAlerts.Drawing.TestCircle()
-/script CrutchAlerts.Drawing.TestCircle(nil, nil, nil, nil)
-/script
-Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
-d(CrutchAlertsDrawingCamera:Get3DRenderSpaceForward())
-d(CrutchAlertsDrawingCamera:Get3DRenderSpaceRight())
-d(CrutchAlertsDrawingCamera:Get3DRenderSpaceUp())
+]]
+
+-- Example usage of some PlacedTextures APIs
+local keys = {}
+local function TestPoop(radius)
+    -- Calling function should keep track of keys that are returned,
+    -- so that the textures can be removed later
+    for _, key in ipairs(keys) do
+        RemoveWorldTexture(key)
+    end
+    keys = {}
+
+    local _, x, y, z = GetUnitRawWorldPosition("player")
+    radius = radius or 3
+
+    -- Places circle at player's feet
+    local function CircleFunc(_, setPositionFunc, setColorFunc, setOrientationFunc)
+        -- Make circle follow the player
+        local _, x, y, z = GetUnitRawWorldPosition("player")
+        setPositionFunc(x, y, z)
+
+        -- Make color change every update
+        local time = GetGameTimeMilliseconds() % 2000 / 2000
+        setColorFunc(Crutch.ConvertHSLToRGB(time, 1, 0.5))
+    end
+    table.insert(keys, Draw.CreateGroundCircle(x, y, z, radius, nil, nil, CircleFunc))
+
+    -- Places poops orbiting the player
+    local numPoops = 20
+    local cycleTime = 3000
+    for i = 1, numPoops do
+        local function PoopFunc(_, setPositionFunc, setColorFunc, setOrientationFunc)
+            local _, x, y, z = GetUnitRawWorldPosition("player")
+            local time = (GetGameTimeMilliseconds() + i / numPoops * cycleTime) % cycleTime / cycleTime
+
+            -- Make ring of poops follow the player, but orbiting at a distance
+            local angle = time * 2 * math.pi
+            local poopX = x + radius * 100 * math.cos(angle)
+            local poopZ = z + radius * 100 * math.sin(angle)
+            setPositionFunc(poopX, y + 150, poopZ)
+
+            -- Make color change every update
+            setColorFunc(Crutch.ConvertHSLToRGB(time, 1, 0.5))
+
+            -- Make orientation change every update. This faces them towards player
+            local forward = {x - poopX, 0, z - poopZ}
+            local right = {z - poopZ, 0, poopX - x}
+            local up = {0, 1, 0}
+            setOrientationFunc(forward, right, up)
+        end
+
+        table.insert(keys, Draw.CreateOrientedTexture("CrutchAlerts/assets/poop.dds", x, y, z, 0.3, nil, nil, PoopFunc))
+    end
+end
+Draw.TestPoop = TestPoop
+--[[
+/script CrutchAlerts.Drawing.TestPoop()
 ]]
 
 
