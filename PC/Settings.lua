@@ -569,7 +569,7 @@ function Crutch:CreateSettingsMenu()
                     controls = {
                         {
                             type = "description",
-                            text = "These are settings for positioning-type markers placed on the ground, such as Lokkestiiz HM beam phase positions.",
+                            text = "These are settings for positioning-type markers placed on the ground, such as Lokkestiiz HM beam phase and Xoryn Tempest positions.",
                             width = "full",
                         },
                         {
@@ -595,6 +595,18 @@ function Crutch:CreateSettingsMenu()
                             getFunc = function() return Crutch.savedOptions.drawing.placedPositioning.useDepthBuffers end,
                             setFunc = function(value)
                                 Crutch.savedOptions.drawing.placedPositioning.useDepthBuffers = value
+                                Crutch.OnPlayerActivated()
+                            end,
+                            width = "full",
+                        },
+                        {
+                            type = "checkbox",
+                            name = "Use flat icons",
+                            tooltip = "Whether to have icons lie flat on the ground, instead of facing the camera. No guarantees of being easy to read; they are upright when you are facing directly north",
+                            default = Crutch.defaultOptions.drawing.placedPositioning.flat,
+                            getFunc = function() return Crutch.savedOptions.drawing.placedPositioning.flat end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.placedPositioning.flat = value
                                 Crutch.OnPlayerActivated()
                             end,
                             width = "full",

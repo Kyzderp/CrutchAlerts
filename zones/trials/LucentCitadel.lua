@@ -347,6 +347,7 @@ function Crutch.UnregisterLucentCitadel()
     -- Icons
     DisableMirrorIcons()
     DisableTempestIcons()
+    tempestEnabled = false
 
     tethered = {}
 

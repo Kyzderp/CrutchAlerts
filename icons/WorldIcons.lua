@@ -279,8 +279,8 @@ function Crutch.EnableIcon(name)
         return
     end
 
-    local size = iconData.size()
-    local key = Crutch.Drawing.CreatePlacedPositionMarker(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
+    local size = iconData.size() / 1.5
+    local key = Crutch.Drawing.CreatePlacedPositionMarker(iconData.texture, iconData.x, iconData.y, iconData.z, size)
     icons[name] = key
 end
 
@@ -312,14 +312,14 @@ function Crutch.EnableIconGroup(iconGroupName)
     end
 
     -- Enable individual icons, using the same size throughout
-    local size = iconGroup.size()
+    local size = iconGroup.size() / 1.5
     for i, iconData in ipairs(iconGroup.icons) do
         local name = iconGroupName .. "_" .. tostring(i)
 
         if (icons[name]) then
             Crutch.dbgOther("|cFF0000Icon already enabled " .. name .. "|r")
         else
-            local key = Crutch.Drawing.CreatePlacedPositionMarker(iconData.texture, iconData.x, iconData.y + size / 2, iconData.z, size)
+            local key = Crutch.Drawing.CreatePlacedPositionMarker(iconData.texture, iconData.x, iconData.y, iconData.z, size)
             icons[name] = key
         end
     end

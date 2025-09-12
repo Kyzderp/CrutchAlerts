@@ -424,6 +424,29 @@ local function MaybeRegisterTwins()
     else
         UnregisterEnfeeblement()
     end
+
+    -- Reflective Scales
+    -- TODO: setting
+    -- local damageTypes = {
+    --     [ACTION_RESULT_DAMAGE] = "",
+    --     [ACTION_RESULT_CRITICAL_DAMAGE] = "",
+    --     [ACTION_RESULT_DOT_TICK] = " (dot)",
+    --     [ACTION_RESULT_DOT_TICK_CRITICAL] = " (dot)",
+    -- }
+    -- for damageResult, str in pairs(damageTypes) do
+    --     -- Only enable if on HM
+    --     if (powerMax == 85320632) then
+    --         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT, function(_, _, _, _, _, _, _, sourceType, _, _, _, _, _, _, _, targetUnitId, abilityId)
+    --             if (sourceType == COMBAT_UNIT_TYPE_PLAYER and titanIds[targetUnitId]) then
+    --                 Crutch.msg(string.format("You hit a titan with |cFFFF00%s|r%s", GetAbilityName(abilityId), str))
+    --             end
+    --         end)
+    --         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, damageResult) 
+    --         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+    --     else
+    --         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT)
+    --     end
+    -- end
 end
 
 

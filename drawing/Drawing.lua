@@ -128,7 +128,7 @@ local function TestPoop(radius)
     local function CircleFunc(_, setPositionFunc, setColorFunc, setOrientationFunc)
         -- Make circle follow the player
         local _, x, y, z = GetUnitRawWorldPosition("player")
-        setPositionFunc(x, y, z)
+        setPositionFunc(x, y + 5, z) -- Small y bump because of clipping with depth buffers on
 
         -- Make color change every update
         local time = GetGameTimeMilliseconds() % 2000 / 2000

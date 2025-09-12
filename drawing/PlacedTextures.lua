@@ -7,14 +7,14 @@ local Draw = Crutch.Drawing
 -- They use the drawing.placedPositioning settings.
 --
 -- texture: texture path
--- x, y, z: raw world position
--- size: a sort of arbitrary number. 150 creates an icon with diameter of 1 meter
+-- x, y, z: raw world position of the bottom of the icon (y offset is automatically added)
+-- size: 100 creates an icon with diameter of 1 meter
 -- color: {r, g, b, a} (max value 1), default white (uncolored). Leave off the alpha to use user-specified opacity
 --
 -- @returns key: you must use this key to remove the icon later
 ---------------------------------------------------------------------
 local function CreatePlacedPositionMarker(texture, x, y, z, size, color)
-    size = size or 150
+    size = size or 100
 
     color = color or {1, 1, 1}
     local r, g, b, a = unpack(color)
@@ -22,16 +22,30 @@ local function CreatePlacedPositionMarker(texture, x, y, z, size, color)
         a = Crutch.savedOptions.drawing.placedPositioning.opacity
     end
 
+    local faceCamera = not Crutch.savedOptions.drawing.placedPositioning.flat
+    local forwardRightUp
+    if (faceCamera) then
+        y = y + size / 2
+    else
+        forwardRightUp = {
+            {0, -1, 0},
+            {1, 0, 0},
+            {0, 0, -1},
+        }
+        y = y + 5 -- To hopefully not sink in the ground, if depth buffers are off
+    end
+
     return Draw.CreateWorldTexture(
         texture,
         x,
         y,
         z,
-        size / 150,
-        size / 150,
+        size / 100,
+        size / 100,
         {r, g, b, a},
         Crutch.savedOptions.drawing.placedPositioning.useDepthBuffers,
-        true)
+        faceCamera,
+        forwardRightUp)
 end
 Draw.CreatePlacedPositionMarker = CreatePlacedPositionMarker
 
@@ -49,14 +63,14 @@ Draw.RemovePlacedPositionMarker = RemovePlacedPositionMarker
 --
 -- texture: texture path
 -- x, y, z: raw world position
--- size: a sort of arbitrary number. 150 creates an icon with diameter of 1 meter
+-- size: 100 creates an icon with diameter of 1 meter
 -- color: {r, g, b, a} (max value 1), default white (uncolored). Leave off the alpha to use user-specified opacity
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
 --
 -- @returns key - you must use this key to remove the icon later
 ---------------------------------------------------------------------
 local function CreatePlacedIcon(texture, x, y, z, size, color, updateFunc)
-    size = size or 150
+    size = size or 100
 
     color = color or {1, 1, 1}
     local r, g, b, a = unpack(color)
@@ -69,8 +83,8 @@ local function CreatePlacedIcon(texture, x, y, z, size, color, updateFunc)
         x,
         y,
         z,
-        size / 150,
-        size / 150,
+        size / 100,
+        size / 100,
         color,
         Crutch.savedOptions.drawing.placedIcon.useDepthBuffers,
         true,

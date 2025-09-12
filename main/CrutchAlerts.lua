@@ -95,7 +95,7 @@ local defaultOptions = {
             crownColor = {0, 1, 0},
 
             useDepthBuffers = false,
-            size = 100,
+            size = 70,
             yOffset = 350,
             opacity = 0.8,
         },
@@ -103,6 +103,7 @@ local defaultOptions = {
         placedPositioning = {
             useDepthBuffers = false,
             opacity = 0.8,
+            flat = false,
         },
         -- icons that face the player, placed in the world, like brewmaster potions
         placedIcon = {
