@@ -176,62 +176,62 @@ local iconGroups = {
     ["OCAOCH"] = {
         size = GetOCIconsSize,
         icons = {
-            {x = 104556, y = 26152, z = 129135, texture = "CrutchAlerts/assets/shape/diamond_magenta.dds"}, -- OCBlueBossEntrance
-            {x = 104863, y = 26152, z = 128405, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- OCBlueHealEntrance
-            {x = 104110, y = 26152, z = 128614, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- OCBlue1Entrance
-            {x = 104137, y = 26152, z = 128115, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- OCBlue2Entrance
-            {x = 104536, y = 26152, z = 128677, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- OCBlue3Entrance
-            {x = 104557, y = 26152, z = 128107, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- OCBlue4Entrance
-            {x = 105634, y = 26152, z = 129199, texture = "CrutchAlerts/assets/shape/diamond_magenta.dds"}, -- OCRedBossEntrance
-            {x = 105330, y = 26152, z = 128446, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- OCRedHealEntrance
-            {x = 106063, y = 26152, z = 128701, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- OCRed1Entrance
-            {x = 106069, y = 26152, z = 128253, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- OCRed2Entrance
-            {x = 105652, y = 26152, z = 128729, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- OCRed3Entrance
-            {x = 105661, y = 26152, z = 128177, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- OCRed4Entrance
+            {x = 104556, y = 26157, z = 129135, texture = "CrutchAlerts/assets/shape/diamond_magenta.dds"}, -- OCBlueBossEntrance
+            {x = 104863, y = 26157, z = 128405, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- OCBlueHealEntrance
+            {x = 104110, y = 26157, z = 128614, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- OCBlue1Entrance
+            {x = 104137, y = 26157, z = 128115, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- OCBlue2Entrance
+            {x = 104536, y = 26157, z = 128677, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- OCBlue3Entrance
+            {x = 104557, y = 26157, z = 128107, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- OCBlue4Entrance
+            {x = 105634, y = 26157, z = 129199, texture = "CrutchAlerts/assets/shape/diamond_magenta.dds"}, -- OCRedBossEntrance
+            {x = 105330, y = 26157, z = 128446, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- OCRedHealEntrance
+            {x = 106063, y = 26157, z = 128701, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- OCRed1Entrance
+            {x = 106069, y = 26157, z = 128253, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- OCRed2Entrance
+            {x = 105652, y = 26157, z = 128729, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- OCRed3Entrance
+            {x = 105661, y = 26157, z = 128177, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- OCRed4Entrance
 
-            {x = 104560, y = 26152, z = 131493, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- OCBlueBossExit
-            {x = 104860, y = 26152, z = 132259, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- OCBlueHealExit
-            {x = 104137, y = 26152, z = 131962, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- OCBlue1Exit
-            {x = 104106, y = 26152, z = 132462, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- OCBlue2Exit
-            {x = 104568, y = 26152, z = 131949, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- OCBlue3Exit
-            {x = 104522, y = 26152, z = 132518, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- OCBlue4Exit
-            {x = 105638, y = 26152, z = 131557, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- OCRedBossExit
-            {x = 105330, y = 26152, z = 132273, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- OCRedHealExit
-            {x = 106087, y = 26152, z = 132105, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- OCRed1Exit
-            {x = 106040, y = 26152, z = 132551, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- OCRed2Exit
-            {x = 105682, y = 26152, z = 132030, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- OCRed3Exit
-            {x = 105626, y = 26152, z = 132579, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- OCRed4Exit
+            {x = 104560, y = 26157, z = 131493, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- OCBlueBossExit
+            {x = 104860, y = 26157, z = 132259, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- OCBlueHealExit
+            {x = 104137, y = 26157, z = 131962, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- OCBlue1Exit
+            {x = 104106, y = 26157, z = 132462, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- OCBlue2Exit
+            {x = 104568, y = 26157, z = 131949, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- OCBlue3Exit
+            {x = 104522, y = 26157, z = 132518, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- OCBlue4Exit
+            {x = 105638, y = 26157, z = 131557, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- OCRedBossExit
+            {x = 105330, y = 26157, z = 132273, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- OCRedHealExit
+            {x = 106087, y = 26157, z = 132105, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- OCRed1Exit
+            {x = 106040, y = 26157, z = 132551, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- OCRed2Exit
+            {x = 105682, y = 26157, z = 132030, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- OCRed3Exit
+            {x = 105626, y = 26157, z = 132579, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- OCRed4Exit
         },
     },
     -- Jynorah + Skorkhif, matching... someone's Elm's (Minervyr via M0R via Plonk)
     ["OCAlt"] = {
         size = GetOCIconsSize,
         icons = {
-            {x = 105750, y = 26153, z = 128100, texture = "CrutchAlerts/assets/shape/diamond_magenta.dds"}, -- RedBossEntrance
-            {x = 105400, y = 26153, z = 128100, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- RedHealEntrance
-            {x = 105750, y = 26153, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- Red1Entrance
-            {x = 105750, y = 26153, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- Red2Entrance
-            {x = 106250, y = 26153, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- Red3Entrance
-            {x = 106250, y = 26153, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- Red4Entrance
-            {x = 104450, y = 26153, z = 128100, texture = "CrutchAlerts/assets/shape/diamond_magenta.dds"}, -- BlueBossEntrance
-            {x = 104800, y = 26153, z = 128100, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- BlueHealEntrance
-            {x = 104450, y = 26153, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- Blue1Entrance
-            {x = 104450, y = 26153, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- Blue2Entrance
-            {x = 103950, y = 26153, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- Blue3Entrance
-            {x = 103950, y = 26153, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Entrance
+            {x = 105750, y = 26157, z = 128100, texture = "CrutchAlerts/assets/shape/diamond_magenta.dds"}, -- RedBossEntrance
+            {x = 105400, y = 26157, z = 128100, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- RedHealEntrance
+            {x = 105750, y = 26157, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- Red1Entrance
+            {x = 105750, y = 26157, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- Red2Entrance
+            {x = 106250, y = 26157, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- Red3Entrance
+            {x = 106250, y = 26157, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- Red4Entrance
+            {x = 104450, y = 26157, z = 128100, texture = "CrutchAlerts/assets/shape/diamond_magenta.dds"}, -- BlueBossEntrance
+            {x = 104800, y = 26157, z = 128100, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- BlueHealEntrance
+            {x = 104450, y = 26157, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- Blue1Entrance
+            {x = 104450, y = 26157, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- Blue2Entrance
+            {x = 103950, y = 26157, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- Blue3Entrance
+            {x = 103950, y = 26157, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Entrance
 
-            {x = 105750, y = 26153, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- RedBossExit
-            {x = 105400, y = 26153, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- RedHealExit
-            {x = 105750, y = 26153, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- Red1Exit
-            {x = 105750, y = 26153, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- Red2Exit
-            {x = 106250, y = 26153, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- Red3Exit
-            {x = 106250, y = 26153, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- Red4Exit
-            {x = 104450, y = 26153, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- BlueBossExit
-            {x = 104800, y = 26153, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- BlueHealExit
-            {x = 104450, y = 26153, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- Blue1Exit
-            {x = 104450, y = 26153, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- Blue2Exit
-            {x = 103950, y = 26153, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- Blue3Exit
-            {x = 103950, y = 26153, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Exit
+            {x = 105750, y = 26157, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- RedBossExit
+            {x = 105400, y = 26157, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- RedHealExit
+            {x = 105750, y = 26157, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- Red1Exit
+            {x = 105750, y = 26157, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- Red2Exit
+            {x = 106250, y = 26157, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- Red3Exit
+            {x = 106250, y = 26157, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- Red4Exit
+            {x = 104450, y = 26157, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- BlueBossExit
+            {x = 104800, y = 26157, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- BlueHealExit
+            {x = 104450, y = 26157, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- Blue1Exit
+            {x = 104450, y = 26157, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- Blue2Exit
+            {x = 103950, y = 26157, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- Blue3Exit
+            {x = 103950, y = 26157, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Exit
         },
     },
 
@@ -239,16 +239,16 @@ local iconGroups = {
     ["OCMiddle"] = {
         size = GetOCIconsSize,
         icons = {
-            {x = 105400, y = 26153, z = 130300, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- RedHealMiddle
-            {x = 105750, y = 26153, z = 130050, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- Red1Middle
-            {x = 105750, y = 26153, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- Red2Middle
-            {x = 106250, y = 26153, z = 130050, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- Red3Middle
-            {x = 106250, y = 26153, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- Red4Middle
-            {x = 104800, y = 26153, z = 130300, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- BlueHealMiddle
-            {x = 104450, y = 26153, z = 130050, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- Blue1Middle
-            {x = 104450, y = 26153, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- Blue2Middle
-            {x = 103950, y = 26153, z = 130050, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- Blue3Middle
-            {x = 103950, y = 26153, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Middle
+            {x = 105400, y = 26157, z = 130300, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- RedHealMiddle
+            {x = 105750, y = 26157, z = 130050, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- Red1Middle
+            {x = 105750, y = 26157, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- Red2Middle
+            {x = 106250, y = 26157, z = 130050, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- Red3Middle
+            {x = 106250, y = 26157, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- Red4Middle
+            {x = 104800, y = 26157, z = 130300, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- BlueHealMiddle
+            {x = 104450, y = 26157, z = 130050, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- Blue1Middle
+            {x = 104450, y = 26157, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- Blue2Middle
+            {x = 103950, y = 26157, z = 130050, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- Blue3Middle
+            {x = 103950, y = 26157, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Middle
         },
     },
 }
