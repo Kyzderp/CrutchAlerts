@@ -156,6 +156,10 @@ Crutch.testing = {
 
     [232460] = true, -- Titanic Clash on Valneer
     [232465] = true, -- Titanic Clash on Myrinax
+
+    [119596] = true, -- Storm Breath (80%)
+    [122794] = true, -- Storm Breath 2 (50%)
+    [122961] = true, -- Storm Breath (20%)
 }
 
 ---------------------------------------------------------------------

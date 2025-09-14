@@ -178,6 +178,7 @@ local defaultOptions = {
         useMiddleIcons = true,
         twinsIconsSize = 100,
         showEnfeeblementIcons = "HM", -- "NEVER", "VET", "HM", "ALWAYS"
+        printHMReflectiveScales = true,
     },
     rockgrove = {
         sludgeSides = true,

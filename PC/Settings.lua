@@ -1363,6 +1363,18 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "checkbox",
+                    name = "Print titan damage on HM",
+                    tooltip = "On hardmode, prints to chat when you damage a titan, which would proc Reflective Scales. For now, it doesn't print until the titan health bars appear",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.osseincage.printHMReflectiveScales end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.printHMReflectiveScales = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
                     type = "dropdown",
                     name = "Show Stricken timer",
                     tooltip = "Shows an \"alert\" timer for Stricken. If set to \"Tank Only\" it will display only if your LFG role is tank",
