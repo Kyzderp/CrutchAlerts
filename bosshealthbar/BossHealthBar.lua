@@ -33,7 +33,7 @@ local function SpoofBoss(unitTag, name, getHealthFunction, fgColor, bgColor)
         bgColor = bgColor or DEFAULT_BACKGROUND,
     }
 
-    BHB.ShowOrHideBars()
+    BHB.ShowOrHideBars(false, true)
     local index = unitTag:sub(5, 5)
     SetBarColors(index, spoofedBosses[unitTag].fgColor, spoofedBosses[unitTag].bgColor)
     Crutch.dbgOther(string.format("Spoofing %s as %s", name, unitTag))
@@ -45,7 +45,7 @@ local function UnspoofBoss(unitTag)
         Crutch.dbgOther(string.format("Unspoofing %s", unitTag))
         spoofedBosses[unitTag] = nil
 
-        BHB.ShowOrHideBars()
+        BHB.ShowOrHideBars(false, true)
         local index = unitTag:sub(5, 5)
         SetBarColors(index, DEFAULT_FOREGROUND, DEFAULT_BACKGROUND)
     end
@@ -241,6 +241,12 @@ end
 local bossHealths = {} -- { [1] = {current = 7231, max = 329131,}, }
 
 local function GetBossHealth(id)
+    -- Do not include spoofed bosses in stage highlighting
+    local tag = "boss" .. tostring(id)
+    if (spoofedBosses[tag]) then
+        return 0
+    end
+
     if (not bossHealths[id]) then
         return 0
     end

@@ -77,7 +77,7 @@ local function SpoofFelms()
         end
         return GetRegenningHp("3"), miniMaxHp, miniMaxHp
     end,
-    {99/255, 15/255, 0, 0.73},
+    {120/255, 15/255, 0, 0.73},
     {30/255, 5/255, 0, 0.66})
 end
 
@@ -149,7 +149,7 @@ local function StopRegenning(indexString)
             {5/255, 20/255, 0, 0.66})
     elseif (indexString == "3") then
         Crutch.SetBarColors(indexString,
-            {99/255, 15/255, 0, 0.73},
+            {120/255, 15/255, 0, 0.73},
             {30/255, 5/255, 0, 0.66})
     end
 end
@@ -236,7 +236,8 @@ function Crutch.RegisterAsylumSanctorium()
     RegisterMinis()
 
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatASMinis", function()
-        UnspoofMinis()
+        UnregisterMinis()
+        RegisterMinis()
     end)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Asylum Sanctorium")
