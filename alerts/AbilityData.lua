@@ -160,6 +160,9 @@ Crutch.testing = {
     [119596] = true, -- Storm Breath (80%)
     [122794] = true, -- Storm Breath 2 (50%)
     [122961] = true, -- Storm Breath (20%)
+
+    [99990] = true, -- Dormant (Llothis, Felms)
+    [58246] = true,
 }
 
 ---------------------------------------------------------------------
