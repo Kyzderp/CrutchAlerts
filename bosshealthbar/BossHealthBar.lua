@@ -23,6 +23,7 @@ local function SetBarColors(index, fgColor, bgColor)
     bar:GetNamedChild("Backdrop"):SetEdgeColor(unpack(bgColor))
     bar:GetNamedChild("Backdrop"):SetCenterColor(unpack(bgColor))
 end
+Crutch.SetBarColors = SetBarColors
 
 local function SpoofBoss(unitTag, name, getHealthFunction, fgColor, bgColor)
     spoofedBosses[unitTag] = {

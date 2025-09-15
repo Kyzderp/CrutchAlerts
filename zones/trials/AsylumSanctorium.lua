@@ -39,10 +39,17 @@ local MINI_HPS = {
 
 local miniMaxHp
 
--- local LLOTHIS_NAME = "Saint Llothis the Pious^M"
+-- Could put these all in a more generic struct
 local FELMS_NAME = "Saint Felms the Bold^M"
 local llothisId, felmsId
 local llothisHp, felmsHp
+local regenning = {["2"] = false, ["3"] = false} -- 2: llothis, 3: felms
+
+-- TODO: stop using these strings
+local function GetRegenningHp(indexString)
+    local elapsed = GetGameTimeSeconds() - regenning[indexString]
+    return miniMaxHp * elapsed / 45
+end
 
 local function SpoofLlothis()
     local _, olmsMaxHp = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
@@ -50,7 +57,10 @@ local function SpoofLlothis()
     llothisHp = miniMaxHp
 
     Crutch.SpoofBoss("boss2", "Saint Llothis the Pious", function()
-        return llothisHp, miniMaxHp, miniMaxHp
+        if (not regenning["2"]) then
+            return llothisHp, miniMaxHp, miniMaxHp
+        end
+        return GetRegenningHp("2"), miniMaxHp, miniMaxHp
     end,
     {15/255, 113/255, 0, 0.73},
     {5/255, 20/255, 0, 0.66})
@@ -62,7 +72,10 @@ local function SpoofFelms()
     felmsHp = miniMaxHp
 
     Crutch.SpoofBoss("boss3", "Saint Felms the Bold", function()
-        return felmsHp, miniMaxHp, miniMaxHp
+        if (not regenning["3"]) then
+            return felmsHp, miniMaxHp, miniMaxHp
+        end
+        return GetRegenningHp("3"), miniMaxHp, miniMaxHp
     end,
     {99/255, 15/255, 0, 0.73},
     {30/255, 5/255, 0, 0.66})
@@ -114,14 +127,43 @@ local function OnMiniDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, sou
     end
 end
 
+local function RegenWhileDormant(indexString)
+    regenning[indexString] = GetGameTimeSeconds()
+    Crutch.SetBarColors(indexString,
+        {92/255, 92/255, 92/255, 0.73},
+        {28/255, 28/255, 28/255, 0.66})
+
+    -- ZO_StatusBar_SmoothTransition(self, value, max, forceInit, onStopCallback, customApproachAmountMs)
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "ASRegen" .. indexString, 1000, function()
+        Crutch.UpdateSpoofedBossHealth("boss" .. indexString, GetRegenningHp(indexString), miniMaxHp)
+    end)
+end
+
+local function StopRegenning(indexString)
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "ASRegen" .. indexString)
+    regenning[indexString] = false
+    -- TODO: uggo
+    if (indexString == "2") then
+        Crutch.SetBarColors(indexString,
+            {15/255, 113/255, 0, 0.73},
+            {5/255, 20/255, 0, 0.66})
+    elseif (indexString == "3") then
+        Crutch.SetBarColors(indexString,
+            {99/255, 15/255, 0, 0.73},
+            {30/255, 5/255, 0, 0.66})
+    end
+end
+
 -- Listen for Dormant to reset hp
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnDormant(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unitId)
     if (unitId == llothisId) then
         if (changeType == EFFECT_RESULT_GAINED) then
             Crutch.dbgOther("Llothis now dormant")
+            RegenWhileDormant("2")
         elseif (changeType == EFFECT_RESULT_FADED) then
             Crutch.dbgOther("Llothis no longer dormant")
+            StopRegenning("2")
             llothisHp = miniMaxHp
             Crutch.UpdateSpoofedBossHealth("boss2", llothisHp, miniMaxHp)
         end
@@ -131,8 +173,10 @@ local function OnDormant(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unit
     if (unitId == felmsId) then
         if (changeType == EFFECT_RESULT_GAINED) then
             Crutch.dbgOther("Felms now dormant")
+            RegenWhileDormant("3")
         elseif (changeType == EFFECT_RESULT_FADED) then
             Crutch.dbgOther("Felms no longer dormant")
+            StopRegenning("3")
             felmsHp = miniMaxHp
             Crutch.UpdateSpoofedBossHealth("boss3", felmsHp, miniMaxHp)
         end
