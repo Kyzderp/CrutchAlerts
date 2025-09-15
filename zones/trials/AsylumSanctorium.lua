@@ -39,9 +39,10 @@ local MINI_HPS = {
 
 local miniMaxHp
 
-local LLOTHIS_NAME = "Saint Llothis the Pious^M"
+-- local LLOTHIS_NAME = "Saint Llothis the Pious^M"
+local FELMS_NAME = "Saint Felms the Bold^M"
 local llothisId, felmsId
-local llothisHp
+local llothisHp, felmsHp
 
 local function SpoofLlothis()
     local _, olmsMaxHp = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
@@ -51,12 +52,25 @@ local function SpoofLlothis()
     Crutch.SpoofBoss("boss2", "Saint Llothis the Pious", function()
         return llothisHp, miniMaxHp, miniMaxHp
     end,
-    {25/255, 123/255, 0, 0.73},
+    {15/255, 113/255, 0, 0.73},
     {5/255, 20/255, 0, 0.66})
 end
 
-local function UnspoofLlothis()
+local function SpoofFelms()
+    local _, olmsMaxHp = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    miniMaxHp = MINI_HPS[olmsMaxHp]
+    felmsHp = miniMaxHp
+
+    Crutch.SpoofBoss("boss3", "Saint Felms the Bold", function()
+        return felmsHp, miniMaxHp, miniMaxHp
+    end,
+    {99/255, 15/255, 0, 0.73},
+    {30/255, 5/255, 0, 0.66})
+end
+
+local function UnspoofMinis()
     Crutch.UnspoofBoss("boss2")
+    Crutch.UnspoofBoss("boss3")
 end
 
 --[[
@@ -66,44 +80,62 @@ end
 ]]
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnMiniDetectionCombat(_, _, _, _, _, _, sourceName, _, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
-    if (abilityId == 58246) then -- Speedboost
-        llothisId = targetUnitId
-    elseif (sourceName == LLOTHIS_NAME and sourceUnitId ~= 0) then
-        llothisId = sourceUnitId
-    elseif (targetName == LLOTHIS_NAME and targetUnitId ~= 0) then
-        llothisId = targetUnitId
+    if (sourceName == FELMS_NAME and sourceUnitId ~= 0) then
+        felmsId = sourceUnitId
+    elseif (targetName == FELMS_NAME and targetUnitId ~= 0) then
+        felmsId = targetUnitId
     else
-        -- Crutch.dbgSpam(string.format("not llothis event %s %d - %s %d", sourceName, sourceUnitId, targetName, targetUnitId))
+        -- Crutch.dbgSpam(string.format("not felms event %s %d - %s %d", sourceName, sourceUnitId, targetName, targetUnitId))
         return
     end
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASMiniDetection", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT)
+    Crutch.dbgOther(string.format("detected Felms %d from %s %d - %s %d - %s (%d)", felmsId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
+    SpoofFelms()
+end
+
+local function OnSpeedboost(_, _, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId, abilityId)
+    llothisId = targetUnitId
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT)
     Crutch.dbgOther(string.format("detected Llothis %d from %s %d - %s %d - %s (%d)", llothisId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
     SpoofLlothis()
 end
 
 -- TODO: first hit might get missed due to being the first event?
 local function OnMiniDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
-    if (targetUnitId ~= llothisId) then return end
-
-    Crutch.dbgSpam(string.format("damage to llothis %d by %s (%d)", hitValue, GetAbilityName(abilityId), abilityId))
-
-    llothisHp = llothisHp - hitValue
-
-    Crutch.UpdateSpoofedBossHealth("boss2", llothisHp, miniMaxHp)
+    if (targetUnitId == llothisId) then
+        -- Crutch.dbgSpam(string.format("damage to llothis %d by %s (%d)", hitValue, GetAbilityName(abilityId), abilityId))
+        llothisHp = llothisHp - hitValue
+        Crutch.UpdateSpoofedBossHealth("boss2", llothisHp, miniMaxHp)
+    elseif (targetUnitId == felmsId) then
+        felmsHp = felmsHp - hitValue
+        Crutch.UpdateSpoofedBossHealth("boss3", felmsHp, miniMaxHp)
+    end
 end
 
 -- Listen for Dormant to reset hp
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnDormant(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unitId)
-    if (unitId ~= llothisId) then return end
+    if (unitId == llothisId) then
+        if (changeType == EFFECT_RESULT_GAINED) then
+            Crutch.dbgOther("Llothis now dormant")
+        elseif (changeType == EFFECT_RESULT_FADED) then
+            Crutch.dbgOther("Llothis no longer dormant")
+            llothisHp = miniMaxHp
+            Crutch.UpdateSpoofedBossHealth("boss2", llothisHp, miniMaxHp)
+        end
+        return
+    end
 
-    if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.dbgOther("Llothis now dormant")
-    elseif (changeType == EFFECT_RESULT_FADED) then
-        Crutch.dbgOther("Llothis no longer dormant")
-        llothisHp = miniMaxHp
-        Crutch.UpdateSpoofedBossHealth("boss2", llothisHp, miniMaxHp)
+    if (unitId == felmsId) then
+        if (changeType == EFFECT_RESULT_GAINED) then
+            Crutch.dbgOther("Felms now dormant")
+        elseif (changeType == EFFECT_RESULT_FADED) then
+            Crutch.dbgOther("Felms no longer dormant")
+            felmsHp = miniMaxHp
+            Crutch.UpdateSpoofedBossHealth("boss3", felmsHp, miniMaxHp)
+        end
     end
 end
 
@@ -114,8 +146,12 @@ local damageTypes = {
     [ACTION_RESULT_DOT_TICK_CRITICAL] = "tick*",
 }
 local function RegisterMinis()
-    -- Events for detecting the mini
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASMiniDetection", EVENT_COMBAT_EVENT, OnMiniDetectionCombat)
+    -- Llothis detection only needs Speedboost
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT, OnSpeedboost)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 58246)
+
+    -- Events for detecting Felms
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT, OnMiniDetectionCombat)
 
     -- Damage events for hp changes
     for actionResult, str in pairs(damageTypes) do
@@ -131,9 +167,8 @@ local function RegisterMinis()
 end
 
 local function UnregisterMinis()
-    UnspoofLlothis()
-
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASMiniDetection", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT)
 
     for actionResult, str in pairs(damageTypes) do
         local eventName = Crutch.name .. "ASMinis" .. tostring(actionResult)
@@ -141,6 +176,8 @@ local function UnregisterMinis()
     end
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASMiniDormant", EVENT_EFFECT_CHANGED)
+
+    UnspoofMinis()
 end
 
 ---------------------------------------------------------------------
@@ -155,7 +192,7 @@ function Crutch.RegisterAsylumSanctorium()
     RegisterMinis()
 
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatASMinis", function()
-        UnspoofLlothis()
+        UnspoofMinis()
     end)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Asylum Sanctorium")
