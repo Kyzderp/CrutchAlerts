@@ -893,7 +893,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Color Ody death icon",
-                    tooltip = "Colors the OdySupportIcons death icon purple if a player's shade is still up. Requires OdySupportIcons",
+                    tooltip = "Colors the OdySupportIcons death icon purple if a player's shade is still up",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.cloudrest.deathIconColor end,
                     setFunc = function(value)
