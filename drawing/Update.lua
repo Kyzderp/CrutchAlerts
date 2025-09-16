@@ -71,7 +71,15 @@ local function DoUpdate()
                 end
             end
 
-            icon.updateFunc(icon.control, SetPosition, SetColor, SetOrientation)
+            -- Callback to set texture, keeping old if nil
+            local function SetTexture(path)
+                if (path and icon.texture ~= path) then
+                    icon.texture = path
+                    icon.control:SetTexture(path)
+                end
+            end
+
+            icon.updateFunc(icon.control, SetPosition, SetColor, SetOrientation, SetTexture)
         end
 
         -- Facing camera instead of fixed

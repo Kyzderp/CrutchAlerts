@@ -60,6 +60,7 @@ local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
     Crutch.DisplayNotification(157860, label, 5000, 0, 0, 0, 0, true)
 end
 
+
 ---------------------------------------------------------------------
 -- Bahsei
 ---------------------------------------------------------------------
@@ -118,9 +119,41 @@ local function OnKissOfDeath(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, target
     Crutch.msg(zo_strformat("Kiss of Death |cFF00FF<<1>>", GetUnitDisplayName(unitTag)))
 end
 
+
 ------------------------------------------------------------
 -- Curse icons
 ------------------------------------------------------------
+local CURSE_UNIQUE_NAME = "CrutchAlertsRGDeathTouch"
+
+-- TODO: they fade in on the first time loading
+local function GetTextureForDuration(durationMillis)
+    local duration = math.ceil(durationMillis / 1000)
+    if (duration > 8 or duration < 1) then
+        return "CrutchAlerts/assets/shape/diamond_orange.dds"
+    end
+
+    return string.format("CrutchAlerts/assets/shape/diamond_orange_%d.dds", duration)
+end
+
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
+    if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
+        local duration = (endTime - beginTime) * 1000
+        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, GetTextureForDuration(duration), 120, nil, false, function(_, _, setTextureFunc)
+            local duration = endTime * 1000 - GetGameTimeMilliseconds()
+            if (duration < -1000) then
+                Crutch.RemoveAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME)
+                return
+            end
+            setTextureFunc(GetTextureForDuration(duration))
+        end)
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.RemoveAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME)
+    end
+end
+Crutch.OnDeathTouch = OnDeathTouch
+-- /script CrutchAlerts.OnDeathTouch(nil, EFFECT_RESULT_GAINED, nil, nil, "player", GetGameTimeMilliseconds() / 1000, GetGameTimeMilliseconds() / 1000 + 9)
+-- /script CrutchAlerts.OnDeathTouch(nil, EFFECT_RESULT_FADED, nil, nil, "player")
 
 
 ------------------------------------------------------------
@@ -150,6 +183,7 @@ local function OnBleeding(_, changeType, _, _, unitTag, beginTime, endTime)
         Crutch.DisplayNotification(153179, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
     end
 end
+
 
 ---------------------------------------------------------------------
 -- Register/Unregister
@@ -185,6 +219,11 @@ function Crutch.RegisterRockgrove()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 153179)
     end
 
+    -- Register for Death Touch
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, OnDeathTouch)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
+
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
@@ -213,6 +252,7 @@ function Crutch.UnregisterRockgrove()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")

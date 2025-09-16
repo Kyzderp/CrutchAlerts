@@ -48,12 +48,12 @@ end
 local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callback)
     local _, x, y, z = GetUnitRawWorldPosition(unitTag)
 
-    local function OnUpdate(control, setPositionFunc, setColorFunc)
+    local function OnUpdate(control, setPositionFunc, setColorFunc, _, setTextureFunc)
         local _, x, y, z = GetUnitRawWorldPosition(unitTag)
         setPositionFunc(x, y + yOffset, z)
 
         if (callback) then
-            callback(control, setPositionFunc, setColorFunc)
+            callback(control, setColorFunc, setTextureFunc)
         end
     end
 
@@ -378,7 +378,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             return
         end
 
-        local function Callback(_, _, setColorFunc)
+        local function Callback(_, setColorFunc)
             local r, g, b
             if (DoesUnitHaveResurrectPending(unitTag)) then
                 r, g, b = unpack(Crutch.savedOptions.drawing.attached.pendingColor)
@@ -586,12 +586,16 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 -- size - size to display at. Default 100, but set via user settings
 -- color - color of the icon, in format {r, g, b, a}. To use the user setting for alpha, leave out a, e.g. {1, 0.4, 0.8}
 -- persistOutsideCombat - whether to keep this icon when exiting combat. Otherwise, icon is removed when all group members exit combat. Default false. Note: if the group isn't already in combat, the icon will still show, because it's only removed on combat exit
-function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)
+-- callback - same as updateFunc documented in Drawing.lua:CreateWorldTexture, but with the invalid functions removed (since position and orientation are already handled for attached icons)
+--     control - the actual texture control, usage TBD...
+--     setColorFunc - function(r, g, b, a)
+--     setTextureFunc - function(path)
+function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat, callback)
     if (priority < 0 or priority > 10000) then
         Crutch.msg("|cFF0000Invalid priority for " .. uniqueName .. " icon; use 0~10000")
         return
     end
-    SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat)
+    SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, nil, persistOutsideCombat, callback)
 end
 -- /script CrutchAlerts.SetAttachedIconForUnit("player", "CrutchAlertsTest", 200, "esoui/art/icons/targetdummy_voriplasm_01.dds")
 

@@ -59,6 +59,7 @@ end
 --     setPositionFunc - function(x, y, z)
 --     setColorFunc - function(r, g, b, a)
 --     setOrientationFunc - function(forward, right, up). should not be called for icons that face camera
+--     setTextureFunc - function(path)
 ---------------------------------------------------------------------
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, forwardRightUp, updateFunc)
     local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, forwardRightUp)
@@ -70,6 +71,7 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         z = z,
         color = {r = color[1], g = color[2], b = color[3], a = color[4]},
         forwardRightUp = forwardRightUp and {forward = forwardRightUp[1], right = forwardRightUp[2], up = forwardRightUp[3]} or {},
+        texture = texture,
         updateFunc = updateFunc,
     }
     Draw.MaybeStartPolling()
@@ -125,7 +127,7 @@ local function TestPoop(radius)
     radius = radius or 3
 
     -- Places circle at player's feet
-    local function CircleFunc(_, setPositionFunc, setColorFunc, setOrientationFunc)
+    local function CircleFunc(_, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
         -- Make circle follow the player
         local _, x, y, z = GetUnitRawWorldPosition("player")
         setPositionFunc(x, y + 5, z) -- Small y bump because of clipping with depth buffers on
@@ -140,7 +142,7 @@ local function TestPoop(radius)
     local numPoops = 20
     local cycleTime = 3000
     for i = 1, numPoops do
-        local function PoopFunc(_, setPositionFunc, setColorFunc, setOrientationFunc)
+        local function PoopFunc(_, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
             local _, x, y, z = GetUnitRawWorldPosition("player")
             local time = (GetGameTimeMilliseconds() + i / numPoops * cycleTime) % cycleTime / cycleTime
 
