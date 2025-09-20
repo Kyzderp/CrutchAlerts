@@ -17,11 +17,14 @@ local function AcquireTexture()
     return control, key
 end
 
+local function IsDOF(orientation)
+    return type(orientation[1]) == "number"
+end
+
 ---------------------------------------------------------------------
 -- The core 3D code, at its simplest... or close to it
 ---------------------------------------------------------------------
--- forwardRightUp = {{fX}}
-local function Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, forwardRightUp)
+local function Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
     local control, key = AcquireTexture()
     control:SetTexture(texture)
     control:SetColor(unpack(color))
@@ -29,10 +32,16 @@ local function Create3DControl(texture, x, y, z, width, height, color, useDepthB
     control:Set3DLocalDimensions(width, height)
     control:Set3DRenderSpaceUsesDepthBuffer(useDepthBuffer)
 
-    if (forwardRightUp) then
-        control:Set3DRenderSpaceForward(unpack(forwardRightUp[1]))
-        control:Set3DRenderSpaceRight(unpack(forwardRightUp[2]))
-        control:Set3DRenderSpaceUp(unpack(forwardRightUp[3]))
+    if (orientation) then
+        if (IsDOF(orientation)) then
+            -- pitch, yaw, roll
+            control:Set3DRenderSpaceOrientation(unpack(orientation))
+        else
+            -- forward, right, up
+            control:Set3DRenderSpaceForward(unpack(orientation[1]))
+            control:Set3DRenderSpaceRight(unpack(orientation[2]))
+            control:Set3DRenderSpaceUp(unpack(orientation[3]))
+        end
     end
     return control, key
 end
@@ -54,15 +63,15 @@ end
 -- well as other settings for group member icons, which are set in
 -- CrutchAlerts settings.
 --
--- @param updateFunc - function with params: control, setPositionFunc
+-- @param updateFunc - function called in Update.lua with params:
 --     control - the actual texture control, usage TBD...
 --     setPositionFunc - function(x, y, z)
 --     setColorFunc - function(r, g, b, a)
---     setOrientationFunc - function(forward, right, up). should not be called for icons that face camera
+--     setOrientationFunc - function(forward, right, up) or function(pitch, yaw, roll). Should not be called for icons that face camera
 --     setTextureFunc - function(path)
 ---------------------------------------------------------------------
-local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, forwardRightUp, updateFunc)
-    local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, forwardRightUp)
+local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
+    local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
     Draw.activeIcons[key] = {
         control = control,
         faceCamera = faceCamera,
@@ -70,7 +79,7 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         y = y,
         z = z,
         color = {r = color[1], g = color[2], b = color[3], a = color[4]},
-        forwardRightUp = forwardRightUp and {forward = forwardRightUp[1], right = forwardRightUp[2], up = forwardRightUp[3]} or {},
+        orientation = orientation and {first = orientation[1], second = orientation[2], third = orientation[3]} or {},
         texture = texture,
         updateFunc = updateFunc,
     }
@@ -160,6 +169,9 @@ local function TestPoop(radius)
             local right = {z - poopZ, 0, poopX - x}
             local up = {0, 1, 0}
             setOrientationFunc(forward, right, up)
+
+            -- Alternatively, set pitch, yaw, roll
+            -- setOrientationFunc(0, 0, angle)
         end
 
         table.insert(keys, Draw.CreateOrientedTexture("CrutchAlerts/assets/poop.dds", x, y, z, 0.3, nil, nil, PoopFunc))

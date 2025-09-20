@@ -54,20 +54,51 @@ local function DoUpdate()
             end
 
             -- Callback to set orientation, keeping old if nil
-            local function SetOrientation(forward, right, up)
-                if (forward and icon.forwardRightUp.forward ~= forward) then
-                    icon.forwardRightUp.forward = forward
-                    icon.control:Set3DRenderSpaceForward(unpack(forward))
+            -- Either ({fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}) or (pitch, yaw, roll)
+            local function SetOrientation(first, second, third)
+                local function IsDOF(value)
+                    return type(value) == "number"
                 end
-                if (right and icon.forwardRightUp.right ~= right) then
-                    icon.forwardRightUp.right = right
-                    changed = true
-                    icon.control:Set3DRenderSpaceRight(unpack(right))
+                local value = first or second or third
+                local isDOF = IsDOF(value)
+                if (isDOF == IsDOF(icon.orientation)) then
+                    first = first or icon.orientation.first
+                    second = second or icon.orientation.second
+                    third = third or icon.orientation.third
+                else
+                    -- New orientation type is different from old
+                    if (not first and not second and not third) then
+                        return -- It's fine if it's all nil, but why is it being called...?
+                    end
+
+                    if (not first or not second or not third) then
+                        CrutchAlerts.msg("|cFF0000Caller attempted to set different orientation axis system but not all values are specified!")
+                        return
+                    end
                 end
-                if (up and icon.forwardRightUp.up ~= up) then
-                    icon.forwardRightUp.up = up
-                    changed = true
-                    icon.control:Set3DRenderSpaceUp(unpack(up))
+
+                if (isDOF) then
+                    -- Pitch, Yaw, Roll
+                    if (icon.orientation.first ~= first or icon.orientation.second ~= second or icon.orientation.third ~= third) then
+                        icon.orientation.first = first
+                        icon.orientation.second = second
+                        icon.orientation.third = third
+                        icon.control:Set3DRenderSpaceOrientation(first, second, third)
+                    end
+                else
+                    -- Forward, Right, Up
+                    if (icon.orientation.first ~= first) then
+                        icon.orientation.first = first
+                        icon.control:Set3DRenderSpaceForward(unpack(first))
+                    end
+                    if (icon.orientation.second ~= second) then
+                        icon.orientation.second = second
+                        icon.control:Set3DRenderSpaceRight(unpack(second))
+                    end
+                    if (icon.orientation.third ~= third) then
+                        icon.orientation.third = third
+                        icon.control:Set3DRenderSpaceUp(unpack(third))
+                    end
                 end
             end
 
