@@ -191,3 +191,100 @@ local function RemoveGroundCircle(key)
 end
 Draw.RemoveGroundCircle = RemoveGroundCircle
 
+
+---------------------------------------------------------------------
+-- Line
+---------------------------------------------------------------------
+-- Returns, midpointX, midpointY, midpointZ, pitch, yaw, textureHeight
+local function CalculateValues(x1, y1, z1, x2, y2, z2)
+    -- Midpoint
+    local oX = (x1 + x2) / 2
+    local oY = (y1 + y2) / 2
+    local oZ = (z1 + z2) / 2
+
+    -- Roll doesn't change; pitch is the elevation change; yaw is the "flat" rotation in the XZ plane
+    local xzDistance = math.sqrt((x2 - x1)^2 + (z2 - z1)^2)
+    local pitch = math.pi / 2 - math.atan2(y2 - y1, xzDistance)
+    local yaw = math.pi / 2 - math.atan2(z2 - z1, x2 - x1)
+
+    -- Height
+    local distance = math.sqrt(Crutch.GetSquaredDistance(x1, y1, z1, x2, y2, z2))
+
+    return oX, oY, oZ, pitch, yaw, distance / 100
+end
+
+---------------------------------------------------------------------
+-- A rectangle on the ground from point 1 to point 2
+-- This uses the drawing.placedOriented settings.
+--
+-- x1, y1, z1: coordinates of point 1
+-- x2, y2, z2: coordinates of point 2
+-- width: thickness of the line in meters, default 1
+-- color: {r, g, b, a} (max value 1), default white. Leave off the alpha to use user-specified opacity
+-- useDepthBuffers: whether to use depth buffers. Defaults to user setting for placedOriented
+-- updateFunc: a function that gets called every update tick, can be used to update color, etc. See Drawing.lua:CreateWorldTexture for the params provided
+-- getPointsFunc: a function with no params that gets called every update tick. Return x1, y1, z1, x2, y2, z2 to have a line that moves dynamically
+--
+-- @returns key: you must use this key to remove the line later
+---------------------------------------------------------------------
+local function CreateLine(x1, y1, z1, x2, y2, z2, width, color, useDepthBuffers, updateFunc, getPointsFunc)
+    color = color or {1, 1, 1}
+    local r, g, b, a = unpack(color)
+    if (not a) then
+        a = Crutch.savedOptions.drawing.placedOriented.opacity
+    end
+
+    if (useDepthBuffers == nil) then
+        useDepthBuffers = Crutch.savedOptions.drawing.placedOriented.useDepthBuffers
+    end
+
+    local oX, oY, oZ, pitch, yaw, height = CalculateValues(x1, y1, z1, x2, y2, z2)
+
+    -- Wrapper for updateFunc that also uses getPointsFunc to set things
+    local function UpdateFunctionWrapper(control, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
+        if (updateFunc) then
+            updateFunc(control, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
+        end
+
+        if (getPointsFunc) then
+            local x1, y1, z1, x2, y2, z2 = getPointsFunc()
+
+            local oX, oY, oZ, pitch, yaw, height = CalculateValues(x1, y1, z1, x2, y2, z2)
+
+            setPositionFunc(oX, oY, oZ)
+            setOrientationFunc(pitch, yaw, 0)
+
+            -- TODO: setDimensionsFunc?
+            width = width or control:Get3DLocalDimensions()
+            control:Set3DLocalDimensions(width, height)
+        end
+    end
+
+    return Draw.CreateWorldTexture(
+        "CrutchAlerts/assets/floor/square.dds",
+        oX,
+        oY,
+        oZ,
+        width or 1,
+        height,
+        {r, g, b, a},
+        useDepthBuffers,
+        false,
+        {pitch, yaw, 0},
+        UpdateFunctionWrapper)
+end
+Draw.CreateLine = CreateLine
+
+-- Convenience method
+local function RemoveLine(key)
+    Draw.RemoveWorldTexture(key)
+end
+Draw.RemoveLine = RemoveLine
+
+--[[
+/script _, x1, y1, z1 = GetUnitRawWorldPosition("player")
+/script _, x2, y2, z2 = GetUnitRawWorldPosition("player") local key = CrutchAlerts.Drawing.CreateLine(x1, y1, z1, x2, y2, z2, nil, nil, nil, function()
+local _, x2, y2, z2 = GetUnitRawWorldPosition("player")
+return x1, y1, z1, x2, y2, z2
+end)
+]]
