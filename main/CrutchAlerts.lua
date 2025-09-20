@@ -8,7 +8,7 @@ CrutchAlerts = {
 }
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "2.0.1"
+Crutch.version = "2.1.0-alpha1"
 
 Crutch.registered = {
     begin = false,
@@ -417,6 +417,7 @@ local function Initialize()
         [1301] = Crutch.UnregisterCoralAerie,
         [1302] = Crutch.UnregisterShipwrightsRegret,
         [1471] = Crutch.UnregisterBedlamVeil,
+        [1552] = Crutch.UnregisterBlackGemFoundry,
     }
 
     zoneRegisters = {
@@ -440,6 +441,7 @@ local function Initialize()
         [1301] = Crutch.RegisterCoralAerie,
         [1302] = Crutch.RegisterShipwrightsRegret,
         [1471] = Crutch.RegisterBedlamVeil,
+        [1552] = Crutch.RegisterBlackGemFoundry,
     }
 end
 

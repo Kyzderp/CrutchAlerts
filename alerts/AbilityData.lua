@@ -161,8 +161,8 @@ Crutch.testing = {
     [122794] = true, -- Storm Breath 2 (50%)
     [122961] = true, -- Storm Breath (20%)
 
-    [99990] = true, -- Dormant (Llothis, Felms)
-    [58246] = true,
+    [240244] = true, -- Rupture 2 Hide (Quarrymaster Saldezaar)
+    [240240] = true, -- Rupture
 }
 
 ---------------------------------------------------------------------

@@ -767,7 +767,12 @@ local dungeonThresholds = {
         [50] = "Adds",
         [25] = "Adds",
     },
-    -- 60? 43?
+    ["High Soulbinder Vykand"] = { -- TODO: localization
+        hmHealth = 25659976,
+        ["Hardmode"] = {
+            [60] = "Annihilation",
+        },
+    }
 
 -- Naj-Caldeesh
     [GetBossName(CRUTCH_BHB_VOSKRONA_STONEHULK_POXITO)] = {

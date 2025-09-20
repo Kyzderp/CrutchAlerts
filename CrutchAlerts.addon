@@ -1,8 +1,8 @@
 ## Title: CrutchAlerts
 ## This addon is a crutch
 ## Author: Kyzeragon
-## Version: 2.0.1
-## AddOnVersion: 20001
+## Version: 2.1.0-alpha1
+## AddOnVersion: 20080
 ## APIVersion: 101047
 
 ## PCDependsOn: LibAddonMenu-2.0>=40
@@ -49,6 +49,7 @@ zones/arenas/MaelstromArena.lua
 zones/arenas/VateshranHollows.lua
 
 zones/dungeons/BedlamVeil.lua
+zones/dungeons/BlackGemFoundry.lua
 zones/dungeons/CoralAerie.lua
 zones/dungeons/ShipwrightsRegret.lua
 
