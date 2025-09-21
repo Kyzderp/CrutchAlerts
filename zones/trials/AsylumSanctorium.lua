@@ -40,7 +40,7 @@ local MINI_HPS = {
 local miniMaxHp
 
 -- Could put these all in a more generic struct
-local FELMS_NAME = "Saint Felms the Bold^M"
+local FELMS_NAME = GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD)
 local llothisId, felmsId
 local llothisHp, felmsHp
 local regenning = {["2"] = false, ["3"] = false} -- 2: llothis, 3: felms
@@ -224,6 +224,19 @@ local function UnregisterMinis()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASMiniDormant", EVENT_EFFECT_CHANGED)
 
     UnspoofMinis()
+
+    llothisId = nil
+    felmsId = nil
+end
+
+local function MaybeRegisterMinis()
+    -- Check if it's Olms
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (MINI_HPS[powerMax]) then
+        RegisterMinis()
+    else
+        UnregisterMinis()
+    end
 end
 
 ---------------------------------------------------------------------
@@ -235,11 +248,12 @@ function Crutch.RegisterAsylumSanctorium()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASDefiledBlast", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASDefiledBlast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 95545)
 
-    RegisterMinis()
+    Crutch.RegisterBossChangedListener("CrutchAsylum", MaybeRegisterMinis)
+    MaybeRegisterMinis()
 
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatASMinis", function()
         UnregisterMinis()
-        RegisterMinis()
+        MaybeRegisterMinis()
     end)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Asylum Sanctorium")
@@ -249,6 +263,7 @@ function Crutch.UnregisterAsylumSanctorium()
     -- Defiling Dye Blast
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASDefiledBlast", EVENT_COMBAT_EVENT)
 
+    Crutch.UnregisterBossChangedListener("CrutchAsylum")
     UnregisterMinis()
 
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatASMinis")
