@@ -233,6 +233,9 @@ local defaultOptions = {
     vateshran = {
         showMissedAdds = false,
     },
+    blackGemFoundry = {
+        showRuptureLine = true,
+    },
     shipwrightsRegret = {
         showBombStacks = true,
     },

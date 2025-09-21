@@ -50,13 +50,15 @@ end
 function Crutch.RegisterBlackGemFoundry()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Black Gem Foundry")
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BGFRuptureHide", EVENT_COMBAT_EVENT, OnRuptureHide)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BGFRuptureHide", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 240244)
+    if (Crutch.savedOptions.blackGemFoundry.showRuptureLine) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BGFRuptureHide", EVENT_COMBAT_EVENT, OnRuptureHide)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BGFRuptureHide", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 240244)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BGFRupture", EVENT_COMBAT_EVENT, OnRupture)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BGFRupture", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 240240)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BGFRupture", EVENT_COMBAT_EVENT, OnRupture)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BGFRupture", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 240240)
 
-    Crutch.RegisterExitedGroupCombatListener("BGFRupture", OnRupture)
+        Crutch.RegisterExitedGroupCombatListener("BGFRupture", OnRupture)
+    end
 end
 
 function Crutch.UnregisterBlackGemFoundry()

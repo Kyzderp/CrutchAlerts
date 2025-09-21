@@ -739,16 +739,13 @@ local dungeonThresholds = {
         normHealth = 4209965,
         hmHealth = 13533758,
         ["Normal"] = {
-            -- [80] = "Area denial",
-            [60] = "Slam",
-            -- [40] = "Area denial",
-            [20] = "Slam",
+            [60] = "Rupture",
+            [20] = "Rupture",
         },
         -- TODO: don't know vet
         ["Hardmode"] = {
-            -- [85] = "Area denial",
-            [65] = "Slam",
-            [30] = "Slam",
+            [65] = "Rupture",
+            [30] = "Rupture",
         },
     },
     [GetBossName(CRUTCH_BHB_GEMCARVER_HYNAX)] = {

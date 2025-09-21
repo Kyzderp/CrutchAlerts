@@ -1819,6 +1819,24 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Black Gem Foundry",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show Rupture preview line",
+                    tooltip = "Shows a line during the ping pong phase on Quarrymaster Saldezaar, to help preview where you would get ponged to",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.blackGemFoundry.showRuptureLine end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.blackGemFoundry.showRuptureLine = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+            }
+        },
+        {
+            type = "submenu",
             name = "Shipwright's Regret",
             controls = {
                 {
