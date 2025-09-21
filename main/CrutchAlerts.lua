@@ -127,6 +127,7 @@ local defaultOptions = {
     asylumsanctorium = {
         dingSelfCone = true,
         dingOthersCone = false,
+        showMinisHp = true,
     },
     cloudrest = {
         showSpears = true,

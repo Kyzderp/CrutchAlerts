@@ -850,6 +850,19 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show minis' health bars",
+                    tooltip = "Shows Felms' and Llothis' health using the vertical boss health bars",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.asylumsanctorium.showMinisHp end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.asylumsanctorium.showMinisHp = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+                },
             }
         },
         {

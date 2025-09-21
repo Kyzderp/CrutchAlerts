@@ -190,6 +190,8 @@ local damageTypes = {
     [ACTION_RESULT_DOT_TICK_CRITICAL] = "tick*",
 }
 local function RegisterMinis()
+    if (not Crutch.savedOptions.asylumsanctorium.showMinisHp) then return end
+
     -- Llothis detection only needs Speedboost
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT, OnSpeedboost)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 58246)
