@@ -220,9 +220,11 @@ function Crutch.RegisterRockgrove()
     end
 
     -- Register for Death Touch
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, OnDeathTouch)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
+    if (Crutch.savedOptions.rockgrove.showCurseIcons) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, OnDeathTouch)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
+    end
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then

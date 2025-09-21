@@ -1435,6 +1435,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Death Touch icons",
+                    tooltip = "Shows icons above group members' heads when they have Death Touch (Bahsei curse), counting down to when they would explode",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.showCurseIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.showCurseIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             })),
         },
         {
