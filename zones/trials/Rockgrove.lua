@@ -125,10 +125,22 @@ end
 ------------------------------------------------------------
 local CURSE_UNIQUE_NAME = "CrutchAlertsRGDeathTouch"
 
--- TODO: they fade in on the first time loading
+local texturesLoaded = false
+local function LoadCurseTextures()
+    if (texturesLoaded) then return end
+    local textures = {}
+    for i = 0, 9 do
+        table.insert(textures, string.format("CrutchAlerts/assets/shape/diamond_orange_%d.dds", i))
+    end
+    Crutch.Drawing.LoadTextures(textures)
+    texturesLoaded = true
+end
+Crutch.LoadCurseTextures = LoadCurseTextures
+-- /script CrutchAlerts.LoadCurseTextures() CrutchAlerts.OnDeathTouch(nil, EFFECT_RESULT_GAINED, nil, nil, "player", GetGameTimeMilliseconds() / 1000, GetGameTimeMilliseconds() / 1000 + 9)
+
 local function GetTextureForDuration(durationMillis)
     local duration = math.ceil(durationMillis / 1000)
-    if (duration > 8 or duration < 1) then
+    if (duration > 9 or duration < 0) then
         return "CrutchAlerts/assets/shape/diamond_orange.dds"
     end
 
@@ -192,6 +204,8 @@ local origOSIUnitErrorCheck = nil
 
 function Crutch.RegisterRockgrove()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Rockgrove")
+
+    LoadCurseTextures()
 
     Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function() numBleeds = 0 end)
 

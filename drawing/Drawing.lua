@@ -17,6 +17,20 @@ local function AcquireTexture()
     return control, key
 end
 
+-- Just a workaround for now; textures fade in when they are loaded for the first time,
+-- but that doesn't look good when used for curse countdown, so load them in before
+-- they need to be used.
+local function LoadTextures(textures)
+    local control, key = controlPool:AcquireObject()
+    control:SetHidden(true)
+    for _, texture in ipairs(textures) do
+        control:SetTexture(texture)
+    end
+    controlPool:ReleaseObject(key)
+end
+Draw.LoadTextures = LoadTextures
+
+-- Pitch, yaw, roll
 local function IsDOF(orientation)
     return type(orientation[1]) == "number"
 end
