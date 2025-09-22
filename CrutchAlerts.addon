@@ -24,6 +24,7 @@ main/Utils.lua
 PC/Settings.lua
 Console/GeneralSettings.lua
 Console/ContentSettings.lua
+Console/DrawingSettings.lua
 
 lang/en.lua
 lang/$(language).lua
