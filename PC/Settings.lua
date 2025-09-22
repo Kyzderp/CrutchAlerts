@@ -995,7 +995,7 @@ function Crutch:CreateSettingsMenu()
             controls = Crutch.GetProminentSettings(975, {
                 {
                     type = "checkbox",
-                    name = "Show safe spot for triplets",
+                    name = "Show Shock Field for triplets",
                     tooltip = "In the triplets fight, shows the approximate outline of Shock Field even when it's not active",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
@@ -1004,21 +1004,6 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                },
-                {
-                    type = "slider",
-                    name = "    Triplets icon size",
-                    min = 20,
-                    max = 300,
-                    step = 10,
-                    default = 150,
-                    width = "full",
-                    getFunc = function() return Crutch.savedOptions.hallsoffabrication.tripletsIconSize end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.hallsoffabrication.tripletsIconSize = value
-                        Crutch.OnPlayerActivated()
-                    end,
-                    disabled = function() return not Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
                 },
                 {
                     type = "checkbox",
@@ -1165,7 +1150,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "    Orphic icon size",
+                    name = "    Orphic icons size",
                     tooltip = "The size of the mirror icons",
                     min = 20,
                     max = 300,
@@ -1220,7 +1205,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "    Tempest icon size",
+                    name = "    Tempest icons size",
                     tooltip = "The size of the Tempest icons",
                     min = 20,
                     max = 300,
@@ -1308,7 +1293,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show twins icons",
+                    name = "Show curse positioning icons",
                     tooltip = "In the Jynorah + Skorkhif fight, shows icons in the world for close positioning",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.osseincage.showTwinsIcons end,
@@ -1346,7 +1331,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "    Twins icons size",
+                    name = "    Curse positioning icons size",
                     min = 20,
                     max = 300,
                     step = 10,
@@ -1524,7 +1509,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Lokkestiiz HM icon size",
+                    name = "Lokkestiiz HM icons size",
                     tooltip = "Updated size will show after the icons are hidden and shown again",
                     min = 20,
                     max = 300,
@@ -1562,7 +1547,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Yolnahkriin icon size",
+                    name = "Yolnahkriin icons size",
                     min = 20,
                     max = 300,
                     step = 10,

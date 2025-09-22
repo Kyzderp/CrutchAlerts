@@ -44,8 +44,6 @@ local function UnlockUI(value)
 end
 Crutch.UnlockUI = UnlockUI
 
-local ADD_ICON_SETTINGS = false
-
 function Crutch.CreateConsoleGeneralSettingsMenu()
     local settings = LibHarvensAddonSettings:AddAddon("CrutchAlerts - General", {
         allowDefaults = true,

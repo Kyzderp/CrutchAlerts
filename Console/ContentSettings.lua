@@ -51,6 +51,19 @@ function Crutch.CreateConsoleContentSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show minis' health bars",
+        tooltip = "Shows Felms' and Llothis' health using the vertical boss health bars",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.asylumsanctorium.showMinisHp end,
+        setFunction = function(value)
+            Crutch.savedOptions.asylumsanctorium.showMinisHp = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Cloudrest",
     })
@@ -142,7 +155,6 @@ function Crutch.CreateConsoleContentSettingsMenu()
         end,
     })
 
-if (ADD_ICON_SETTINGS) then
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Halls of Fabrication",
@@ -150,32 +162,43 @@ if (ADD_ICON_SETTINGS) then
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show safe spot for triplets",
-        tooltip = "In the triplets fight, shows an icon in the world that is outside of Shock Field. Requires OdySupportIcons",
+        label = "Show Shock Field for triplets",
+        tooltip = "In the triplets fight, shows the approximate outline of Shock Field even when it's not active",
         default = true,
         getFunction = function() return Crutch.savedOptions.hallsoffabrication.showTripletsIcon end,
         setFunction = function(value)
             Crutch.savedOptions.hallsoffabrication.showTripletsIcon = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
     })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Assembly General icons",
-        tooltip = "Shows icons in the world for execute positions. Requires OdySupportIcons",
+        tooltip = "Shows icons in the world for execute positions",
         default = true,
         getFunction = function() return Crutch.savedOptions.hallsoffabrication.showAGIcons end,
         setFunction = function(value)
             Crutch.savedOptions.hallsoffabrication.showAGIcons = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
     })
-end
 
-if (ADD_ICON_SETTINGS) then
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Assembly General icons size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 150,
+        getFunction = function() return Crutch.savedOptions.hallsoffabrication.agIconsSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.hallsoffabrication.agIconsSize = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.hallsoffabrication.showAGIcons end,
+    })
+
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Kyne's Aegis",
@@ -184,78 +207,101 @@ if (ADD_ICON_SETTINGS) then
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Exploding Spear landing spot",
-        tooltip = "On trash packs with Half-Giant Raiders, show icons at the approximate locations where Exploding Spears will land. Requires OdySupportIcons",
+        tooltip = "On trash packs with Half-Giant Raiders, shows circles at the approximate locations where Exploding Spears will land (may vary due to latency)",
         default = true,
         getFunction = function() return Crutch.savedOptions.kynesaegis.showSpearIcon end,
         setFunction = function(value)
             Crutch.savedOptions.kynesaegis.showSpearIcon = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
     })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Blood Prison icon",
-        tooltip = "Shows icon above player who is targeted by Blood Prison, slightly before the bubble even shows up. Requires OdySupportIcons",
+        tooltip = "Shows icon above player who is targeted by Blood Prison, slightly before the bubble even shows up",
         default = true,
         getFunction = function() return Crutch.savedOptions.kynesaegis.showPrisonIcon end,
         setFunction = function(value)
             Crutch.savedOptions.kynesaegis.showPrisonIcon = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
     })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Falgravn 2nd floor DPS stacks",
-        tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks. Requires OdySupportIcons",
+        tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks",
         default = true,
         getFunction = function() return Crutch.savedOptions.kynesaegis.showFalgravnIcons end,
         setFunction = function(value)
             Crutch.savedOptions.kynesaegis.showFalgravnIcons = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
     })
-end
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Falgravn icons size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 150,
+        getFunction = function() return Crutch.savedOptions.kynesaegis.falgravnIconsSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.kynesaegis.falgravnIconsSize = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.kynesaegis.showFalgravnIcons end,
+    })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Lucent Citadel",
     })
 
-if (ADD_ICON_SETTINGS) then
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Cavot Agnan spawn spot",
-        tooltip = "Shows icon for where Cavot Agnan will spawn. Requires OdySupportIcons",
+        tooltip = "Shows icon for where Cavot Agnan will spawn",
         default = true,
         getFunction = function() return Crutch.savedOptions.lucentcitadel.showCavotIcon end,
         setFunction = function(value)
             Crutch.savedOptions.lucentcitadel.showCavotIcon = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Cavot Agnan icon size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 100,
+        getFunction = function() return Crutch.savedOptions.lucentcitadel.cavotIconSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.lucentcitadel.cavotIconSize = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.lucentcitadel.showCavotIcon end,
     })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Orphic Shattered Shard mirror icons",
-        tooltip = "Shows icons for each mirror on the Orphic Shattered Shard fight. Requires OdySupportIcons",
+        tooltip = "Shows icons for each mirror on the Orphic Shattered Shard fight",
         default = true,
         getFunction = function() return Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
         setFunction = function(value)
             Crutch.savedOptions.lucentcitadel.showOrphicIcons = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
     })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "    Orphic numbered icons",
+        label = "Orphic numbered icons",
         tooltip = "Uses numbers 1~8 instead of cardinal directions N/SW/etc. for the mirror icons",
         default = false,
         getFunction = function() return Crutch.savedOptions.lucentcitadel.orphicIconsNumbers end,
@@ -265,12 +311,26 @@ if (ADD_ICON_SETTINGS) then
         end,
         disable = function() return not Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
     })
-end
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Orphic icons size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 150,
+        getFunction = function() return Crutch.savedOptions.lucentcitadel.orphicIconSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.lucentcitadel.orphicIconSize = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.lucentcitadel.showOrphicIcons end,
+    })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Arcane Conveyance tether",
-        tooltip = "Shows a line connecting group members who are about to (or have already received) the Arcane Conveyance tether from Dariel Lemonds. If OdySupportIcons is enabled, also shows icons above their heads",
+        tooltip = "Shows a line connecting group members who are about to (or have already received) the Arcane Conveyance tether from Dariel Lemonds",
         default = true,
         getFunction = function() return Crutch.savedOptions.lucentcitadel.showArcaneConveyance end,
         setFunction = function(value)
@@ -312,20 +372,32 @@ end
         },
     })
 
-if (ADD_ICON_SETTINGS) then
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Xoryn Tempest position icons",
-        tooltip = "Shows icons for group member positions on the Xoryn fight for Tempest (and at the beginning of the trial, for practice purposes). Requires OdySupportIcons",
+        tooltip = "Shows icons for group member positions on the Xoryn fight for Tempest (and at the beginning of the trial, for practice purposes)",
         default = true,
         getFunction = function() return Crutch.savedOptions.lucentcitadel.showTempestIcons end,
         setFunction = function(value)
             Crutch.savedOptions.lucentcitadel.showTempestIcons = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
     })
-end
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Tempest icons size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 150,
+        getFunction = function() return Crutch.savedOptions.lucentcitadel.tempestIconsSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.lucentcitadel.tempestIconsSize = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.lucentcitadel.showTempestIcons end,
+    })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
@@ -433,8 +505,6 @@ end
         disable = function() return not Crutch.savedOptions.osseincage.showCarrion end,
     })
 
-    -- TODO: twins icons when supported
-
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show titans' health bars",
@@ -446,6 +516,96 @@ end
             Crutch.OnPlayerActivated()
         end,
         disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show curse positioning icons",
+        tooltip = "In the Jynorah + Skorkhif fight, shows icons in the world for close positioning",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.osseincage.showTwinsIcons end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.showTwinsIcons = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show middle icons",
+        tooltip = "Additionally shows a set of icons for positioning in the middle of the arena",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.osseincage.useMiddleIcons end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.useMiddleIcons = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.osseincage.showTwinsIcons end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Curse positioning icons size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 100,
+        getFunction = function() return Crutch.savedOptions.osseincage.twinsIconsSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.twinsIconsSize = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.osseincage.showTwinsIcons end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_DROPDOWN,
+        label = "Show Enfeeblement debuffs",
+        tooltip = "Shows icons on players afflicted by Sparking Enfeeblement, Blazing Enfeeblement, or both",
+        getFunction = function()
+            local names = {
+                ["NEVER"] = "Never",
+                ["HM"] = "Hardmode only",
+                ["VET"] = "Veteran + Hardmode",
+                ["ALWAYS"] = "Always",
+            }
+            return names[Crutch.savedOptions.osseincage.showEnfeeblementIcons]
+        end,
+        setFunction = function(combobox, name, item)
+            Crutch.savedOptions.osseincage.showEnfeeblementIcons = item.data
+            Crutch.OnPlayerActivated()
+        end,
+        default = "Hardmode only",
+        items = {
+            {
+                name = "Never",
+                data = "NEVER",
+            },
+            {
+                name = "Hardmode only",
+                data = "HM",
+            },
+            {
+                name = "Veteran + Hardmode",
+                data = "VET",
+            },
+            {
+                name = "Always",
+                data = "ALWAYS",
+            },
+        },
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Print titan damage on HM",
+        tooltip = "On hardmode, prints to chat when you damage a titan, which would proc Reflective Scales. For now, it doesn't print until the titan health bars appear",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.osseincage.printHMReflectiveScales end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.printHMReflectiveScales = value
+            Crutch.OnPlayerActivated()
+        end,
     })
 
     settings:AddSetting({
@@ -484,7 +644,7 @@ end
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Dominator's Chains tether",
-        tooltip = "Shows a line connecting group members who are about to (or have already received) the Dominator's Chains tether from Overfiend Kazpian. If OdySupportIcons is enabled, also shows icons above their heads",
+        tooltip = "Shows a line connecting group members who are about to (or have already received) the Dominator's Chains tether from Overfiend Kazpian",
         default = true,
         getFunction = function() return Crutch.savedOptions.osseincage.showChains end,
         setFunction = function(value)
@@ -543,7 +703,18 @@ end
         },
     })
 
-if (ADD_ICON_SETTINGS) then
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Death Touch icons",
+        tooltip = "Shows icons above group members' heads when they have Death Touch (Bahsei curse), counting down to when they would explode",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.rockgrove.showCurseIcons end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.showCurseIcons = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Sanity's Edge",
@@ -553,18 +724,30 @@ if (ADD_ICON_SETTINGS) then
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show center of Ansuul arena",
-        tooltip = "In the Ansuul fight, shows an icon in the world on the center of the arena. Requires OdySupportIcons",
+        tooltip = "In the Ansuul fight, shows an icon in the world on the center of the arena",
         default = true,
         getFunction = function() return Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
         setFunction = function(value)
             Crutch.savedOptions.sanitysedge.showAnsuulIcon = value
             Crutch.OnPlayerActivated()
         end,
-        disable = function() return OSI == nil end,
     })
-end
 
-if (ADD_ICON_SETTINGS) then
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Ansuul icon size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 150,
+        getFunction = function() return Crutch.savedOptions.sanitysedge.ansuulIconSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.sanitysedge.ansuulIconSize = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
+    })
+
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Sunspire",
@@ -573,18 +756,17 @@ if (ADD_ICON_SETTINGS) then
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Lokkestiiz HM beam position icons",
-        tooltip = "During flight phase on Lokkestiiz hardmode, shows 1~8 DPS and 2 healer positions in the world for Storm Fury. Requires OdySupportIcons",
+        tooltip = "During flight phase on Lokkestiiz hardmode, shows 1~8 DPS and 2 healer positions in the world for Storm Fury",
         default = true,
         getFunction = function() return Crutch.savedOptions.sunspire.showLokkIcons end,
         setFunction = function(value)
             Crutch.savedOptions.sunspire.showLokkIcons = value
         end,
-        disable = function() return OSI == nil end,
     })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "    Lokkestiiz solo heal icons",
+        label = "Lokkestiiz solo heal icons",
         tooltip = "Use solo healer positions for the Lokkestiiz hardmode icons. This is for 9 damage dealers and 1 healer. If you change this option while at the Lokkestiiz fight, the new icons will show up the next time icons are displayed",
         default = false,
         getFunction = function() return Crutch.savedOptions.sunspire.lokkIconsSoloHeal end,
@@ -595,20 +777,33 @@ if (ADD_ICON_SETTINGS) then
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Lokkestiiz HM icons size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 150,
+        getFunction = function() return Crutch.savedOptions.sunspire.lokkIconsSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.sunspire.lokkIconsSize = value
+        end,
+        disable = function() return not Crutch.savedOptions.sunspire.showLokkIcons end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Yolnahkriin position icons",
-        tooltip = "During flight phase on Yolnahkriin, shows icons in the world for where the next head stack and (right) wing stack will be when Yolnahkriin lands. Requires OdySupportIcons",
+        tooltip = "During flight phase on Yolnahkriin, shows icons in the world for where the next head stack and (right) wing stack will be when Yolnahkriin lands",
         default = true,
         getFunction = function() return Crutch.savedOptions.sunspire.showYolIcons end,
         setFunction = function(value)
             Crutch.savedOptions.sunspire.showYolIcons = value
         end,
-        disable = function() return OSI == nil end,
     })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "    Yolnahkriin left position icons",
+        label = "Yolnahkriin left position icons",
         tooltip = "Use left icons instead of right icons during flight phase on Yolnahkriin",
         default = false,
         getFunction = function() return Crutch.savedOptions.sunspire.yolLeftIcons end,
@@ -617,7 +812,31 @@ if (ADD_ICON_SETTINGS) then
         end,
         disable = function() return not Crutch.savedOptions.sunspire.showYolIcons end,
     })
-end
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Yolnahkriin icons size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 150,
+        getFunction = function() return Crutch.savedOptions.sunspire.yolIconsSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.sunspire.yolIconsSize = value
+        end,
+        disable = function() return not Crutch.savedOptions.sunspire.showYolIcons end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show players without Focused Fire",
+        tooltip = "When Yolnahkriin starts casting Focus Fire, show icons above players who do not have the Focused Fire debuff. This is mainly to help the OT not go to the wrong stack",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.sunspire.yolFocusedFire end,
+        setFunction = function(value)
+            Crutch.savedOptions.sunspire.yolFocusedFire = value
+        end,
+    })
 
     ---------------------------------------------------------------------
     -- arenas
@@ -656,19 +875,16 @@ end
         end,
     })
 
-if (ADD_ICON_SETTINGS) then
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Brewmaster elixir spot",
-        tooltip = "Displays an icon on where the Fabled Brewmaster may have thrown an Elixir of Diminishing. Note that it will not work on elixirs that are thrown at your group members' pets, but should for yourself, your pets, your companion, and your actual group member. Requires OdySupportIcons",
+        tooltip = "Displays an icon on where the Fabled Brewmaster may have thrown an Elixir of Diminishing. Note that it will not work on elixirs that are thrown at your group members' pets, but should for yourself, your pets, your companion, and your actual group member",
         default = true,
         getFunction = function() return Crutch.savedOptions.endlessArchive.potionIcon end,
         setFunction = function(value)
             Crutch.savedOptions.endlessArchive.potionIcon = value
         end,
-        disable = function() return OSI == nil end,
     })
-end
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
@@ -729,13 +945,30 @@ end
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Black Gem Foundry",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Rupture preview line",
+        tooltip = "Shows a line during the ping pong phase on Quarrymaster Saldezaar, to help preview where you would get ponged to",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.blackGemFoundry.showRuptureLine end,
+        setFunction = function(value)
+            Crutch.savedOptions.blackGemFoundry.showRuptureLine = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
         label = "Shipwright's Regret",
     })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Suggest stacks for Soul Bomb",
-        tooltip = "Displays a notification for suggested person to stack on for Soul Bomb on Foreman Bradiggan hardmode when there are 2 bombs. If OdySupportIcons is enabled, also shows an icon above that person's head. The suggested stack is alphabetical based on @ name",
+        tooltip = "Displays a notification for suggested person to stack on for Soul Bomb on Foreman Bradiggan hardmode when there are 2 bombs. Also shows an icon above that person's head. The suggested stack is alphabetical based on @ name",
         default = true,
         getFunction = function() return Crutch.savedOptions.shipwrightsRegret.showBombStacks end,
         setFunction = function(value)
