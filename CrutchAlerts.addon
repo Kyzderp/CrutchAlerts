@@ -23,6 +23,7 @@ main/Utils.lua
 
 PC/Settings.lua
 Console/GeneralSettings.lua
+Console/ContentSettings.lua
 
 lang/en.lua
 lang/$(language).lua

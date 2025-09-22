@@ -353,7 +353,8 @@ local function Initialize()
     end
 
     if (IsConsoleUI()) then
-        Crutch:CreateConsoleSettingsMenu()
+        Crutch.CreateConsoleGeneralSettingsMenu()
+        Crutch.CreateConsoleContentSettingsMenu()
     else
         Crutch:CreateSettingsMenu()
     end
