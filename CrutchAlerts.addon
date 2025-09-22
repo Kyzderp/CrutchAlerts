@@ -22,7 +22,7 @@ main/Style.lua
 main/Utils.lua
 
 PC/Settings.lua
-Console/ConsoleSettings.lua
+Console/GeneralSettings.lua
 
 lang/en.lua
 lang/$(language).lua
