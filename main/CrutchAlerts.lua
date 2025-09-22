@@ -19,7 +19,6 @@ Crutch.registered = {
 }
 
 Crutch.unlock = false
-Crutch.enableDrawingOnConsole = false -- TODO: this is just here to gate WIP
 
 -- Defaults
 local defaultOptions = {

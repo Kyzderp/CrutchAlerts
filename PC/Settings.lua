@@ -458,8 +458,8 @@ function Crutch:CreateSettingsMenu()
                         },
                         {
                             type = "checkbox",
-                            name = "Show damage dealers",
-                            tooltip = "Whether to show dps icons for group members with LFG role set as dps",
+                            name = "Show DPS",
+                            tooltip = "Whether to show DPS icons for group members with LFG role set as DPS",
                             default = Crutch.defaultOptions.drawing.attached.showDps,
                             getFunc = function() return Crutch.savedOptions.drawing.attached.showDps end,
                             setFunc = function(value)
@@ -496,7 +496,7 @@ function Crutch:CreateSettingsMenu()
                         {
                             type = "colorpicker",
                             name = "Crown color",
-                            tooltip = "Color of the tank icons",
+                            tooltip = "Color of the crown icon",
                             default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.drawing.attached.crownColor)),
                             getFunc = function() return unpack(Crutch.savedOptions.drawing.attached.crownColor) end,
                             setFunc = function(r, g, b)

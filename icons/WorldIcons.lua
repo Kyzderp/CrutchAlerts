@@ -255,19 +255,7 @@ local iconGroups = {
 
 
 ---------------------------------------------------------------------
-function Crutch.PlacedIconsEnabled()
-    if (IsConsoleUI()) then
-        return Crutch.enableDrawingOnConsole
-    end
-    return true
-end
-
----------------------------------------------------------------------
 function Crutch.EnableIcon(name)
-    if (not Crutch.PlacedIconsEnabled()) then
-        return
-    end
-
     if (icons[name]) then
         Crutch.dbgOther("|cFF0000Icon already enabled " .. name .. "|r")
         return
@@ -285,10 +273,6 @@ function Crutch.EnableIcon(name)
 end
 
 function Crutch.DisableIcon(name)
-    if (not Crutch.PlacedIconsEnabled()) then
-        return
-    end
-
     if (not icons[name]) then
         return
     end
@@ -301,10 +285,6 @@ end
 ---------------------------------------------------------------------
 -- Icon groups
 function Crutch.EnableIconGroup(iconGroupName)
-    if (not Crutch.PlacedIconsEnabled()) then
-        return
-    end
-
     local iconGroup = iconGroups[iconGroupName]
     if (not iconGroup) then
         Crutch.dbgOther("|cFF0000Invalid icon group name " .. iconGroupName .. "|r")
@@ -326,10 +306,6 @@ function Crutch.EnableIconGroup(iconGroupName)
 end
 
 function Crutch.DisableIconGroup(iconGroupName)
-    if (not Crutch.PlacedIconsEnabled()) then
-        return
-    end
-
     local iconGroup = iconGroups[iconGroupName]
     if (not iconGroup) then
         Crutch.dbgOther("|cFF0000Invalid icon group name " .. iconGroupName .. "|r")
