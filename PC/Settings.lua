@@ -1239,7 +1239,18 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show Twins Color Swap",
+                    name = "Show Twins Aspect icons",
+                    tooltip = "In the Vashai + S'kinrai fight, shows icons above players' heads with their Shadow or Lunar Aspect",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.mawoflorkhaj.showTwinsIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.mawoflorkhaj.showTwinsIcons = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Twins color swap",
                     tooltip = "In the twins fight, shows a prominent alert when you receive Shadow/Lunar Conversion",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.mawoflorkhaj.prominentColorSwap end,

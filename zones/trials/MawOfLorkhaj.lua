@@ -130,10 +130,21 @@ local function OnPadChanged(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _
     end
 end
 
+-- TODO: this shows up at twins when the bosses are just npcs, because
+-- the health is zhaj for some reason. Should change to matching using
+-- text
+local function IsZhajhassa()
+    if (not DoesUnitExist("boss1")) then return end
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (powerMax == 41915160 or
+        powerMax == 10906420) then
+        return true
+    end
+    return false
+end
+
 local function RegisterZhajhassa()
-    if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds"
-        and Crutch.savedOptions.mawoflorkhaj.showPads
-        and DoesUnitExist("boss1")) then
+    if (Crutch.savedOptions.mawoflorkhaj.showPads and IsZhajhassa()) then
         -- This is Zhaj'hassa
         CrutchAlertsMawOfLorkhaj:SetHidden(false)
         UpdatePadsDisplay()
@@ -151,9 +162,7 @@ local function RegisterZhajhassa()
 
     -- Show pads
     Crutch.RegisterBossChangedListener("CrutchMawOfLorkhaj", function()
-        if (GetMapTileTexture() == "Art/maps/reapersmarch/Maw_of_Lorkaj_Base_0.dds"
-            and Crutch.savedOptions.mawoflorkhaj.showPads
-            and DoesUnitExist("boss1")) then
+        if (Crutch.savedOptions.mawoflorkhaj.showPads and IsZhajhassa()) then
             -- This is Zhaj'hassa
             CrutchAlertsMawOfLorkhaj:SetHidden(false)
         else
@@ -203,8 +212,10 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
         local iconPath = iconData.path
         currentlyDisplayingAbility[atName] = abilityId
 
-        Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-        Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, 500, iconPath, 100, iconData.color)
+        if (Crutch.savedOptions.mawoflorkhaj.showTwinsIcons) then
+            Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
+            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, 500, iconPath, 100, iconData.color)
+        end
     elseif (changeType == EFFECT_RESULT_FADED) then
         -- The aspect faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then
@@ -230,8 +241,10 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
         local iconPath = iconData.path
         currentlyDisplayingAbility[atName] = abilityId
 
-        Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-        Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, 500, iconPath, 100, iconData.color)
+        if (Crutch.savedOptions.mawoflorkhaj.showTwinsIcons) then
+            Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
+            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, 500, iconPath, 100, iconData.color)
+        end
 
         -- If self, display a prominent alert because COLOR SWAP!
         local showProminent

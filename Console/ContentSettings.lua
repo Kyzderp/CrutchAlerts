@@ -453,6 +453,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Twins Aspect icons",
+        tooltip = "In the Vashai + S'kinrai fight, shows icons above players' heads with their Shadow or Lunar Aspect",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.mawoflorkhaj.showTwinsIcons end,
+        setFunction = function(value)
+            Crutch.savedOptions.mawoflorkhaj.showTwinsIcons = value
+        end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Ossein Cage",
     })

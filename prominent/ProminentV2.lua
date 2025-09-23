@@ -279,6 +279,26 @@ local prominentData = {
                 default = true,
             },
         },
+        -- Thunderous Impact (Zhaj'hassa)
+        -- [57441] = {
+        --     event = EVENT_COMBAT_EVENT,
+        --     filters = {
+        --         [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+        --         [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+        --     },
+        --     text = "SHATTER",
+        --     color = {1, 0, 0},
+        --     slot = 1,
+        --     playSound = true,
+        --     millis = 1000,
+        --     settings = {
+        --         name = "prominentThunderousImpact",
+        --         title = "Alert Thunderous Impact",
+        --         description = "Shows a prominent alert when Zhaj'hassa targets you to shatter your armor with Thunderous Impact",
+        --         checkOldForDefault = true,
+        --         default = true,
+        --     },
+        -- },
         -- Grip of Lorkhaj (Zhaj'hassa)
         [76049] = { -- 57469 is probably the cast
             event = EVENT_EFFECT_CHANGED,
