@@ -193,6 +193,7 @@ end
 -- TWINS
 ---------------------------------------------------------------------
 local ASPECT_UNIQUE_NAME = "CrutchAlertsMoLAspect"
+local ASPECT_PRIORITY = 108
 
 -- lunar duration -> shadow conversion duration -> lunar faded -> shadow duration -> conversion faded
 local currentlyDisplayingAbility = {}
@@ -214,14 +215,20 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
 
         if (Crutch.savedOptions.mawoflorkhaj.showTwinsIcons) then
             Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, 500, iconPath, 100, iconData.color)
+            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, ASPECT_PRIORITY, iconPath, 100, iconData.color)
         end
+
+        -- Color dead icon regardless
+        Crutch.Drawing.OverrideDeadColor(unitTag, iconData.color)
+
     elseif (changeType == EFFECT_RESULT_FADED) then
         -- The aspect faded, but we should only remove the icon if it's the currently displayed one
         if (abilityId == currentlyDisplayingAbility[atName]) then
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
             Crutch.RemoveAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME)
             currentlyDisplayingAbility[atName] = nil
+
+            Crutch.Drawing.OverrideDeadColor(unitTag, nil)
         end
     end
 end
@@ -243,8 +250,11 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
 
         if (Crutch.savedOptions.mawoflorkhaj.showTwinsIcons) then
             Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, 500, iconPath, 100, iconData.color)
+            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, ASPECT_PRIORITY, iconPath, 100, iconData.color)
         end
+
+        -- Color dead icon regardless
+        Crutch.Drawing.OverrideDeadColor(unitTag, iconData.color)
 
         -- If self, display a prominent alert because COLOR SWAP!
         local showProminent
@@ -262,6 +272,8 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
             Crutch.dbgSpam(string.format("Removing %s(%d) for %s", GetAbilityName(abilityId), abilityId, atName))
             Crutch.RemoveAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME)
             currentlyDisplayingAbility[atName] = nil
+
+            Crutch.Drawing.OverrideDeadColor(unitTag, nil)
         end
     end
 end
