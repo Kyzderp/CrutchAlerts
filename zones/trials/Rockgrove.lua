@@ -151,13 +151,13 @@ end
 local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         local duration = (endTime - beginTime) * 1000
-        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, GetTextureForDuration(duration), 120, nil, false, function(_, _, setTextureFunc)
+        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, GetTextureForDuration(duration), 120, nil, false, function(icon)
             local duration = endTime * 1000 - GetGameTimeMilliseconds()
             if (duration < -1000) then
                 Crutch.RemoveAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME)
                 return
             end
-            setTextureFunc(GetTextureForDuration(duration))
+            icon:SetTexture(GetTextureForDuration(duration))
         end)
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.RemoveAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME)

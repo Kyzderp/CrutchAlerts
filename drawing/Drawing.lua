@@ -31,8 +31,8 @@ end
 Draw.LoadTextures = LoadTextures
 
 -- Pitch, yaw, roll
-local function IsDOF(orientation)
-    return type(orientation[1]) == "number"
+local function IsDOF(value)
+    return type(value) == "number"
 end
 
 ---------------------------------------------------------------------
@@ -47,7 +47,7 @@ local function Create3DControl(texture, x, y, z, width, height, color, useDepthB
     control:Set3DRenderSpaceUsesDepthBuffer(useDepthBuffer)
 
     if (orientation) then
-        if (IsDOF(orientation)) then
+        if (IsDOF(orientation[1])) then
             -- pitch, yaw, roll
             control:Set3DRenderSpaceOrientation(unpack(orientation))
         else
@@ -60,6 +60,92 @@ local function Create3DControl(texture, x, y, z, width, height, color, useDepthB
     return control, key
 end
 
+---------------------------------------------------------------------
+-- Icon callbacks on update
+---------------------------------------------------------------------
+-- Callback to set position, keeping old if nil
+local function SetPosition(icon, x, y, z)
+    if (icon.x ~= x or icon.z ~= z or icon.y ~= y) then
+        icon.x = x or icon.x
+        icon.y = y or icon.y
+        icon.z = z or icon.z
+        icon.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(icon.x, icon.y, icon.z))
+    end
+end
+
+-- Callback to set color, keeping old if nil
+local function SetColor(icon, r, g, b, a)
+    -- Not sure if doing this is actually more efficient
+    local changed = false
+    if (r and icon.color.r ~= r) then
+        icon.color.r = r
+        changed = true
+    end
+    if (g and icon.color.g ~= g) then
+        icon.color.g = g
+        changed = true
+    end
+    if (b and icon.color.b ~= b) then
+        icon.color.b = b
+        changed = true
+    end
+    if (a and icon.color.a ~= a) then
+        icon.color.a = a
+        changed = true
+    end
+    if (changed) then
+        icon.control:SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
+    end
+end
+
+-- Callback to set orientation, keeping old if nil
+-- Either ({fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}) or (pitch, yaw, roll)
+local function SetOrientation(icon, first, second, third)
+    local value = first or second or third
+    local isDOF = IsDOF(value)
+    if (isDOF == IsDOF(icon.orientation)) then
+        first = first or icon.orientation.first
+        second = second or icon.orientation.second
+        third = third or icon.orientation.third
+    else
+        -- New orientation type is different from old
+        if (not first and not second and not third) then
+            return -- It's fine if it's all nil, but why is it being called...?
+        end
+
+        if (not first or not second or not third) then
+            CrutchAlerts.msg("|cFF0000Caller attempted to set different orientation axis system but not all values are specified!")
+            return
+        end
+    end
+
+    -- TODO: fix all this garbo
+    if (isDOF) then
+        -- Pitch, Yaw, Roll
+        if (icon.orientation.first ~= first or icon.orientation.second ~= second or icon.orientation.third ~= third) then
+            icon.orientation.first = first
+            icon.orientation.second = second
+            icon.orientation.third = third
+            icon.control:Set3DRenderSpaceOrientation(first, second, third)
+        end
+    else
+        -- Forward, Right, Up
+        icon.orientation.first = first
+        icon.control:Set3DRenderSpaceForward(unpack(first))
+        icon.orientation.second = second
+        icon.control:Set3DRenderSpaceRight(unpack(second))
+        icon.orientation.third = third
+        icon.control:Set3DRenderSpaceUp(unpack(third))
+    end
+end
+
+-- Callback to set texture, keeping old if nil
+local function SetTexture(icon, path)
+    if (path and icon.texture ~= path) then
+        icon.texture = path
+        icon.control:SetTexture(path)
+    end
+end
 ---------------------------------------------------------------------
 -- Creating and removing textures
 --
@@ -77,12 +163,15 @@ end
 -- well as other settings for group member icons, which are set in
 -- CrutchAlerts settings.
 --
--- @param updateFunc - function called in Update.lua with params:
---     control - the actual texture control, usage TBD...
---     setPositionFunc - function(x, y, z)
---     setColorFunc - function(r, g, b, a)
---     setOrientationFunc - function(forward, right, up) or function(pitch, yaw, roll). Should not be called for icons that face camera
---     setTextureFunc - function(path)
+-- @param updateFunc - function called in Update.lua with param icon.
+-- The icon can then be updated using calls like:
+--     icon:SetPosition(x, y, z)
+--     icon:SetColor(r, g, b, a)
+--     icon:SetOrientation(forward, right, up) or icon:SetOrientation(pitch, yaw, roll). Should not be called for icons that face camera
+--     icon:SetTexture(path)
+-- Since this is called many times a second, the caller should take
+-- care to make it performant, e.g. do not create tables or functions
+-- on every call.
 ---------------------------------------------------------------------
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
     local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
@@ -96,6 +185,11 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         orientation = orientation and {first = orientation[1], second = orientation[2], third = orientation[3]} or {},
         texture = texture,
         updateFunc = updateFunc,
+
+        SetPosition = SetPosition,
+        SetColor = SetColor,
+        SetOrientation = SetOrientation,
+        SetTexture = SetTexture,
     }
     Draw.MaybeStartPolling()
 
@@ -150,14 +244,14 @@ local function TestPoop(radius)
     radius = radius or 3
 
     -- Places circle at player's feet
-    local function CircleFunc(_, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
+    local function CircleFunc(icon)
         -- Make circle follow the player
         local _, x, y, z = GetUnitRawWorldPosition("player")
-        setPositionFunc(x, y + 5, z) -- Small y bump because of clipping with depth buffers on
+        icon:SetPosition(x, y + 5, z) -- Small y bump because of clipping with depth buffers on
 
         -- Make color change every update
         local time = GetGameTimeMilliseconds() % 2000 / 2000
-        setColorFunc(Crutch.ConvertHSLToRGB(time, 1, 0.5))
+        icon:SetColor(Crutch.ConvertHSLToRGB(time, 1, 0.5))
     end
     table.insert(keys, Draw.CreateGroundCircle(x, y, z, radius, nil, nil, CircleFunc))
 
@@ -165,7 +259,10 @@ local function TestPoop(radius)
     local numPoops = 20
     local cycleTime = 3000
     for i = 1, numPoops do
-        local function PoopFunc(_, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
+        local forward = {}
+        local right = {}
+        local up = {}
+        local function PoopFunc(icon)
             local _, x, y, z = GetUnitRawWorldPosition("player")
             local time = (GetGameTimeMilliseconds() + i / numPoops * cycleTime) % cycleTime / cycleTime
 
@@ -173,19 +270,25 @@ local function TestPoop(radius)
             local angle = time * 2 * math.pi
             local poopX = x + radius * 100 * math.cos(angle)
             local poopZ = z + radius * 100 * math.sin(angle)
-            setPositionFunc(poopX, y + 150, poopZ)
+            icon:SetPosition(poopX, y + 150, poopZ)
 
             -- Make color change every update
-            setColorFunc(Crutch.ConvertHSLToRGB(time, 1, 0.5))
+            icon:SetColor(Crutch.ConvertHSLToRGB(time, 1, 0.5))
 
             -- Make orientation change every update. This faces them towards player
-            local forward = {x - poopX, 0, z - poopZ}
-            local right = {z - poopZ, 0, poopX - x}
-            local up = {0, 1, 0}
-            setOrientationFunc(forward, right, up)
+            forward[1] = x - poopX
+            forward[2] = 0
+            forward[3] = z - poopZ
+            right[1] = z - poopZ
+            right[2] = 0
+            right[3] = poopX - x
+            up[1] = 0
+            up[2] = 1
+            up[3] = 0
+            icon:SetOrientation(forward, right, up)
 
             -- Alternatively, set pitch, yaw, roll
-            -- setOrientationFunc(0, 0, angle)
+            -- icon:SetOrientation(0, 0, angle)
         end
 
         table.insert(keys, Draw.CreateOrientedTexture("CrutchAlerts/assets/poop.dds", x, y, z, 0.3, nil, nil, PoopFunc))

@@ -241,9 +241,9 @@ local function CreateLine(x1, y1, z1, x2, y2, z2, width, color, useDepthBuffers,
     local oX, oY, oZ, pitch, yaw, height = CalculateValues(x1, y1, z1, x2, y2, z2)
 
     -- Wrapper for updateFunc that also uses getPointsFunc to set things
-    local function UpdateFunctionWrapper(control, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
+    local function UpdateFunctionWrapper(icon)
         if (updateFunc) then
-            updateFunc(control, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
+            updateFunc(icon)
         end
 
         if (getPointsFunc) then
@@ -251,12 +251,12 @@ local function CreateLine(x1, y1, z1, x2, y2, z2, width, color, useDepthBuffers,
 
             local oX, oY, oZ, pitch, yaw, height = CalculateValues(x1, y1, z1, x2, y2, z2)
 
-            setPositionFunc(oX, oY, oZ)
-            setOrientationFunc(pitch, yaw, 0)
+            icon:SetPosition(oX, oY, oZ)
+            icon:SetOrientation(pitch, yaw, 0)
 
             -- TODO: setDimensionsFunc?
-            width = width or control:Get3DLocalDimensions()
-            control:Set3DLocalDimensions(width, height)
+            width = width or icon.control:Get3DLocalDimensions()
+            icon.control:Set3DLocalDimensions(width, height)
         end
     end
 
@@ -283,7 +283,7 @@ Draw.RemoveLine = RemoveLine
 
 --[[
 /script _, x1, y1, z1 = GetUnitRawWorldPosition("player")
-/script _, x2, y2, z2 = GetUnitRawWorldPosition("player") local key = CrutchAlerts.Drawing.CreateLine(x1, y1, z1, x2, y2, z2, nil, nil, nil, function()
+/script _, x2, y2, z2 = GetUnitRawWorldPosition("player") local key = CrutchAlerts.Drawing.CreateLine(x1, y1, z1, x2, y2, z2, nil, nil, nil, nil, function()
 local _, x2, y2, z2 = GetUnitRawWorldPosition("player")
 return x1, y1, z1, x2, y2, z2
 end)
