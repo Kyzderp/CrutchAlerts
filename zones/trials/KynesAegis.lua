@@ -11,7 +11,7 @@ local function OnExplodingSpearBegin(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _
     if (unitTag) then
         zo_callLater(function()
             local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-            local iconKey = Crutch.Drawing.CreatePlacedIcon("/esoui/art/icons/death_recap_fire_ranged_arrow.dds", x, y, z, 60)
+            local iconKey = Crutch.Drawing.CreatePlacedIcon("/esoui/art/icons/death_recap_fire_ranged_arrow.dds", x, y + 30, z, 60)
             local circleKey = Crutch.Drawing.CreateGroundCircle(x, y + 5, z, 4, {1, 0.5, 0}) -- Circle is more obvious if it's not accurate, but oh well...
 
             zo_callLater(function()
