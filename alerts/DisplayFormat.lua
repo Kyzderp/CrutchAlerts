@@ -175,6 +175,7 @@ Crutch.format = {
 -- Shipwright's Regret
     [168314] = 1505, -- Soul Bomb
     [163654] =  500, -- Dark Blast
+    [164480] =  300, -- Smash (Drowned Hulk)
 
 -- Scrivener's Hall
     [182334] = 105.3, -- Rain of Fire (Valinna)

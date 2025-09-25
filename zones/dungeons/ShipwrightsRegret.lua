@@ -59,7 +59,9 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
     end
 
     -- Third will stack on First, and Fourth will stack on Second
-    Crutch.dbgOther(string.format("|c00FF00Suggested stacks: %s -> %s ; %s -> %s", third, first, fourth, second))
+    if (Crutch.savedOptions.general.showRaidDiag) then
+        Crutch.msg(string.format("Suggested stacks: |c00FF00%s -> %s ; %s -> %s", third, first, fourth, second))
+    end
     local stacks = {
         [first] = third,
         [second] = fourth,
@@ -73,7 +75,7 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
 
     -- Put icon on the person we should stack with
     Crutch.SetAttachedIconForUnit(unitTag, BOMB_UNIQUE_NAME, 500, "CrutchAlerts/assets/poop.dds")
-    zo_callLater(function() Crutch.RemoveAttachedIconForUnit(unitTag) end, 5000)
+    zo_callLater(function() Crutch.RemoveAttachedIconForUnit(unitTag, BOMB_UNIQUE_NAME) end, 5000)
 
     Crutch.DisplayNotification(168314, string.format("|cAAAAAASuggested stack: |cff00ff%s|r", toStack), 5000, 0, 0, 0, 0, false)
 end

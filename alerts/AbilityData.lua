@@ -508,6 +508,7 @@ Crutch.others = {
     [163676] = true, -- Jet (Numirril when he jets to a player)
     [165021] = true, -- Jet (Numirril when he jets away)
     [167906] = true, -- Jet (Numirril when he jets to the edge to go into immune phase)
+    [164480] = true, -- Smash (Drowned Hulk)
 
 -- The Cauldron
     [146314] = true, -- Execute (Taskmaster Viccia interruptible "oneshot" but is blockable)
