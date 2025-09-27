@@ -11,25 +11,36 @@ local Crutch = CrutchAlerts
 Crutch.blacklist = {
 -- Self-sourced
     [ 37059] = true, -- Mount Up
-    [103706] = true, -- Channeled Acceleration
+
     [ 23316] = true, -- Summon Volatile Familiar
     [ 23319] = true, -- Summon Unstable Clannfear
     [ 24636] = true, -- Summon Twilight Tormentor
+    [ 24794] = true, -- Heavy Attack (Overload)
+    [ 24810] = true, -- Heavy Attack (Power Overload)
+    [114797] = true, -- Heavy Attack (Energy Overload)
+
     [ 87875] = true, -- Betty Netch
     [ 86103] = true, -- Bull Netch
+
     [ 26114] = true, -- Puncturing Strikes
     [ 26792] = true, -- Biting Jabs
     [ 26797] = true, -- Puncturing Sweep
+
     [ 31816] = true, -- Stone Giant
+
     [ 59525] = true, -- Arcane Engine Guardian
     [ 59539] = true, -- Robust Engine Guardian
     [ 59541] = true, -- Healthy Engine Guardian
+
     [ 32986] = true, -- Mist Form
     [ 38965] = true, -- Blood Mist
     [ 38963] = true, -- Elusive Mist
+
     [103492] = true, -- Meditate
     [103652] = true, -- Deep Thoughts
     [103665] = true, -- Introspection
+    [103706] = true, -- Channeled Acceleration
+
     [115721] = true, -- Spirit Mender Reconstitute
     [118914] = true, -- Spirit Guardian Reconstitute
     [118851] = true, -- Intensive Mender Reconstitute
