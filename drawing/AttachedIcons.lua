@@ -296,6 +296,24 @@ end
 local GROUP_ROLE_NAME = "CrutchAlertsGroupRole"
 local GROUP_ROLE_PRIORITY = 100
 
+local ROLE_SETTINGS = {
+    [LFG_ROLE_DPS] = {
+        texture = "esoui/art/lfg/gamepad/lfg_roleicon_dps.dds",
+        color = function() return Crutch.savedOptions.drawing.attached.dpsColor end,
+        show = function() return Crutch.savedOptions.drawing.attached.showDps end,
+    },
+    [LFG_ROLE_HEAL] = {
+        texture = "esoui/art/lfg/gamepad/lfg_roleicon_healer.dds",
+        color = function() return Crutch.savedOptions.drawing.attached.healColor end,
+        show = function() return Crutch.savedOptions.drawing.attached.showHeal end,
+    },
+    [LFG_ROLE_TANK] = {
+        texture = "esoui/art/lfg/gamepad/lfg_roleicon_tank.dds",
+        color = function() return Crutch.savedOptions.drawing.attached.tankColor end,
+        show = function() return Crutch.savedOptions.drawing.attached.showTank end,
+    },
+}
+
 local function CreateGroupRoleIcons()
     local showSelf = Crutch.savedOptions.drawing.attached.showSelfRole
     local tagsToDo = {}
@@ -313,33 +331,16 @@ local function CreateGroupRoleIcons()
         end
     end
 
-    -- TODO: combine
-    local textures = {
-        [LFG_ROLE_DPS] = "esoui/art/lfg/gamepad/lfg_roleicon_dps.dds",
-        [LFG_ROLE_HEAL] = "esoui/art/lfg/gamepad/lfg_roleicon_healer.dds",
-        [LFG_ROLE_TANK] = "esoui/art/lfg/gamepad/lfg_roleicon_tank.dds",
-    }
-
-    local colors = {
-        [LFG_ROLE_DPS] = Crutch.savedOptions.drawing.attached.dpsColor,
-        [LFG_ROLE_HEAL] = Crutch.savedOptions.drawing.attached.healColor,
-        [LFG_ROLE_TANK] = Crutch.savedOptions.drawing.attached.tankColor,
-    }
-
-    local options = {
-        [LFG_ROLE_DPS] = Crutch.savedOptions.drawing.attached.showDps,
-        [LFG_ROLE_HEAL] = Crutch.savedOptions.drawing.attached.showHeal,
-        [LFG_ROLE_TANK] = Crutch.savedOptions.drawing.attached.showTank,
-    }
 
     for _, player in ipairs(tagsToDo) do
-        if (options[player.role]) then
+        local settings = ROLE_SETTINGS[player.role]
+        if (settings.show()) then
             SetIconForUnit(player.unitTag,
                 GROUP_ROLE_NAME,
                 GROUP_ROLE_PRIORITY,
-                textures[player.role],
+                settings.texture,
                 nil,
-                colors[player.role],
+                settings.color(),
                 nil,
                 true)
         end
