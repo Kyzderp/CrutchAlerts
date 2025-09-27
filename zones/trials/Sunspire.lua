@@ -167,6 +167,65 @@ end
 
 
 ---------------------------------------------------------------------
+-- Storm Breath
+---------------------------------------------------------------------
+
+local function RegisterStormBreath()
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, function()
+        local key = Crutch.Drawing.CreateWorldTexture(
+            "CrutchAlerts/assets/floor/square.dds",
+            114900, 56105, 106100,
+            50,
+            8,
+            {1, 0, 0, 0.2},
+            true,
+            false,
+            {math.pi/2, 0.03, 0},
+            nil)
+        zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, 18000)
+    end)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 119596)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+
+    -- storm breath 20%
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, function()
+        local key3 = Crutch.Drawing.CreateWorldTexture(
+            "CrutchAlerts/assets/floor/square.dds",
+            115000, 56106, 106164,
+            50,
+            8,
+            {1, 0, 0, 0.2},
+            true,
+            false,
+            {math.pi/2, math.pi/4 + 0.13, 0},
+            nil)
+        zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key3) end, 18000)
+
+        -- second strafe ~8.3s later
+        zo_callLater(function()
+            local key4 = Crutch.Drawing.CreateWorldTexture(
+                "CrutchAlerts/assets/floor/square.dds",
+                115000, 56107, 106164,
+                50,
+                8,
+                {1, 0, 0, 0.2},
+                true,
+                false,
+                {math.pi/2, math.pi*3/4 + 0.13, 0},
+                nil)
+            zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key4) end, 18000)
+        end, 8300)
+    end)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122961)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+end
+
+local function UnregisterStormBreath()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT)
+end
+
+---------------------------------------------------------------------
 -- Yolnahkriin Icons
 ---------------------------------------------------------------------
 local function DisableYolIcons()
@@ -328,6 +387,10 @@ function Crutch.RegisterSunspire()
         OnBossesChanged()
     end
 
+    if (Crutch.savedOptions.sunspire.telegraphStormBreath) then
+        RegisterStormBreath()
+    end
+
     -- Register for Yol flying (Takeoff)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT, OnYolFly75)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124910)
@@ -374,6 +437,8 @@ function Crutch.UnregisterSunspire()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT)
+
+    UnregisterStormBreath()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT)

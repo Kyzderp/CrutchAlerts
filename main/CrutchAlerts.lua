@@ -193,6 +193,7 @@ local defaultOptions = {
         showLokkIcons = true,
         lokkIconsSize = 150,
         lokkIconsSoloHeal = false,
+        telegraphStormBreath = false,
         showYolIcons = true,
         yolLeftIcons = false,
         yolIconsSize = 150,
