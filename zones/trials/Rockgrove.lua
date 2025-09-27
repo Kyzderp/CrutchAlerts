@@ -262,6 +262,8 @@ function Crutch.RegisterRockgrove()
 end
 
 function Crutch.UnregisterRockgrove()
+    texturesLoaded = false
+
     Crutch.UnregisterExitedGroupCombatListener("RockgroveExitedCombat")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_COMBAT_EVENT)
