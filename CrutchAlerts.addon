@@ -13,7 +13,7 @@
 
 ## PCDependsOn: LibAddonMenu-2.0>=40
 ## ConsoleDependsOn: LibHarvensAddonSettings>=20002
-## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel
+## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibGroupBroadcast>=91
 
 ## SavedVariables: CrutchAlertsSavedVariables
 
@@ -26,6 +26,8 @@ main/CrutchAlerts.xml
 main/GlobalEvents.lua
 main/Style.lua
 main/Utils.lua
+
+sharing/BroadcastHandler.lua
 
 PC/Settings.lua
 Console/GeneralSettings.lua

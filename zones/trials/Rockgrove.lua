@@ -125,7 +125,7 @@ end
 ------------------------------------------------------------
 local CURSE_LINE_Y_OFFSET = 5
 
-local function DrawConfirmedCurseLines(x, y, z, angle)
+local function DrawConfirmedCurseLines(x, y, z, angle, duration)
     local key = Crutch.Drawing.CreateWorldTexture(
         "CrutchAlerts/assets/floor/curse.dds",
         x, y + CURSE_LINE_Y_OFFSET, z,
@@ -134,13 +134,13 @@ local function DrawConfirmedCurseLines(x, y, z, angle)
         true,
         false,
         {-math.pi/2, angle, 0})
-    zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, 8000)
+    zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, duration or 8000)
 end
 
 local playerCurseLinesKey
-local function DrawInProgressCurseLines(unitTag)
-    local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-    local _, _, heading = GetMapPlayerPosition(unitTag)
+local function DrawInProgressCurseLines()
+    local _, x, y, z = GetUnitRawWorldPosition("player")
+    local _, _, heading = GetMapPlayerPosition("player")
 
     playerCurseLinesKey = Crutch.Drawing.CreateWorldTexture(
         "CrutchAlerts/assets/floor/curse.dds",
@@ -151,18 +151,49 @@ local function DrawInProgressCurseLines(unitTag)
         false,
         {-math.pi/2, heading, 0},
         function(icon)
-            local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-            local _, _, heading = GetMapPlayerPosition(unitTag)
+            local _, x, y, z = GetUnitRawWorldPosition("player")
+            local _, _, heading = GetMapPlayerPosition("player")
             icon:SetPosition(x, y + CURSE_LINE_Y_OFFSET, z)
             icon:SetOrientation(-math.pi/2, heading, 0)
         end)
 end
 
-local function OnDeathTouchLines(_, changeType, _, _, unitTag)
-    if (not AreUnitsEqual("player", unitTag)) then return end
+local explosions = {} -- {[unitTag] = {timestamp = 12343254, x = 341...}}
+local function OnGroupMemberCurseReceived(unitTag, timestamp, x, y, z, heading)
+    -- Don't do self
+    if (AreUnitsEqual("player", unitTag)) then return end
 
+    local explosion = explosions[unitTag]
+    if (not explosion) then
+        Crutch.dbgOther("|cFF0000Didn't find explosion for " .. GetUnitDisplayName(unitTag))
+        return
+    end
+
+    if (math.abs(timestamp - explosion.timestamp) > 1) then
+        Crutch.dbgOther("|cFF0000Timestamps don't match for " .. GetUnitDisplayName(unitTag))
+        return
+    end
+
+    local remainingDuration = (explosion.timestamp + 9 - GetTimeStamp()) * 1000 -- would be full seconds, but good enough (+1 second for safety)
+    DrawConfirmedCurseLines(x, y, z, heading, remainingDuration)
+end
+Crutch.OnGroupMemberCurseReceived = OnGroupMemberCurseReceived
+
+local function OnDeathTouchLines(_, changeType, _, _, unitTag)
+    -- Group member curse
+    if (not AreUnitsEqual("player", unitTag)) then
+        -- Save the explosion timestamp
+        if (changeType == EFFECT_RESULT_FADED) then
+            explosions[unitTag] = {
+                timestamp = GetTimeStamp(),
+            }
+        end
+        return
+    end
+
+    -- Self curse
     if (changeType == EFFECT_RESULT_GAINED) then
-        DrawInProgressCurseLines(unitTag)
+        DrawInProgressCurseLines()
     elseif (changeType == EFFECT_RESULT_FADED) then
         -- Remove in progress lines
         if (playerCurseLinesKey) then
@@ -173,10 +204,21 @@ local function OnDeathTouchLines(_, changeType, _, _, unitTag)
         local _, x, y, z = GetUnitRawWorldPosition("player")
         local _, _, heading = GetMapPlayerPosition("player")
         DrawConfirmedCurseLines(x, y, z, heading)
+
+        -- Send to group members
+        CrutchAlerts.Broadcast.SendCurseHeading()
     end
 end
 Crutch.OnDeathTouchLines = OnDeathTouchLines
 -- /script CrutchAlerts.OnDeathTouchLines(nil, EFFECT_RESULT_GAINED, nil, nil, "player", GetGameTimeMilliseconds() / 1000, GetGameTimeMilliseconds() / 1000 + 9) zo_callLater(function() CrutchAlerts.OnDeathTouchLines(nil, EFFECT_RESULT_FADED, nil, nil, "player") end, 9000)
+
+local function TestCurseLines()
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLinesTest", EVENT_EFFECT_CHANGED, OnDeathTouchLines)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLinesTest", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLinesTest", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 61509)
+end
+Crutch.TestCurseLines = TestCurseLines
+-- /script CrutchAlerts.TestCurseLines()
 
 
 ------------------------------------------------------------
@@ -334,6 +376,7 @@ function Crutch.UnregisterRockgrove()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")

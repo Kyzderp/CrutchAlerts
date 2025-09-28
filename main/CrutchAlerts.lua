@@ -394,6 +394,9 @@ local function Initialize()
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()
 
+    -- Data sharing
+    Crutch.InitializeBroadcast()
+
     -- Debug chat panel
     if (LibFilteredChatPanel) then
         crutchLFCPFilter = LibFilteredChatPanel:CreateFilter(Crutch.name, "/esoui/art/ava/ava_rankicon64_volunteer.dds", {0.7, 0.7, 0.5}, false)
