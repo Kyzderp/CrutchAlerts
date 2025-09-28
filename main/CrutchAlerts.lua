@@ -184,6 +184,7 @@ local defaultOptions = {
         sludgeSides = true,
         showBleeding = "HEAL", -- "NEVER", "HEAL", "ALWAYS"
         showCurseIcons = true,
+        showCurseLines = false,
     },
     sanitysedge = {
         showAnsuulIcon = true,

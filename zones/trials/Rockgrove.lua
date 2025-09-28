@@ -121,6 +121,65 @@ end
 
 
 ------------------------------------------------------------
+-- Curse lines
+------------------------------------------------------------
+local CURSE_LINE_Y_OFFSET = 5
+
+local function DrawConfirmedCurseLines(x, y, z, angle)
+    local key = Crutch.Drawing.CreateWorldTexture(
+        "CrutchAlerts/assets/floor/curse.dds",
+        x, y + CURSE_LINE_Y_OFFSET, z,
+        44.5, 44.5,
+        {1, 0, 0, 0.8},
+        true,
+        false,
+        {-math.pi/2, angle, 0})
+    zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, 8000)
+end
+
+local playerCurseLinesKey
+local function DrawInProgressCurseLines(unitTag)
+    local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+    local _, _, heading = GetMapPlayerPosition(unitTag)
+
+    playerCurseLinesKey = Crutch.Drawing.CreateWorldTexture(
+        "CrutchAlerts/assets/floor/curse.dds",
+        x, y + CURSE_LINE_Y_OFFSET, z,
+        44.5, 44.5,
+        {1, 1, 1, 0.1},
+        true,
+        false,
+        {-math.pi/2, heading, 0},
+        function(icon)
+            local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+            local _, _, heading = GetMapPlayerPosition(unitTag)
+            icon:SetPosition(x, y + CURSE_LINE_Y_OFFSET, z)
+            icon:SetOrientation(-math.pi/2, heading, 0)
+        end)
+end
+
+local function OnDeathTouchLines(_, changeType, _, _, unitTag)
+    if (not AreUnitsEqual("player", unitTag)) then return end
+
+    if (changeType == EFFECT_RESULT_GAINED) then
+        DrawInProgressCurseLines(unitTag)
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        -- Remove in progress lines
+        if (playerCurseLinesKey) then
+            Crutch.Drawing.RemoveWorldTexture(playerCurseLinesKey)
+            playerCurseLinesKey = nil
+        end
+
+        local _, x, y, z = GetUnitRawWorldPosition("player")
+        local _, _, heading = GetMapPlayerPosition("player")
+        DrawConfirmedCurseLines(x, y, z, heading)
+    end
+end
+Crutch.OnDeathTouchLines = OnDeathTouchLines
+-- /script CrutchAlerts.OnDeathTouchLines(nil, EFFECT_RESULT_GAINED, nil, nil, "player", GetGameTimeMilliseconds() / 1000, GetGameTimeMilliseconds() / 1000 + 9) zo_callLater(function() CrutchAlerts.OnDeathTouchLines(nil, EFFECT_RESULT_FADED, nil, nil, "player") end, 9000)
+
+
+------------------------------------------------------------
 -- Curse icons
 ------------------------------------------------------------
 local CURSE_UNIQUE_NAME = "CrutchAlertsRGDeathTouch"
@@ -147,7 +206,6 @@ local function GetTextureForDuration(durationMillis)
     return string.format("CrutchAlerts/assets/shape/diamond_orange_%d.dds", duration)
 end
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         local duration = (endTime - beginTime) * 1000
@@ -238,6 +296,11 @@ function Crutch.RegisterRockgrove()
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, OnDeathTouch)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
+    end
+    if (Crutch.savedOptions.rockgrove.showCurseLines) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, OnDeathTouchLines)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
     end
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
