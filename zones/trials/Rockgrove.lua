@@ -126,13 +126,11 @@ end
 local CURSE_LINE_Y_OFFSET = 5
 
 local function DrawConfirmedCurseLines(x, y, z, angle, duration)
-    local key = Crutch.Drawing.CreateWorldTexture(
+    local key = Crutch.Drawing.CreateOrientedTexture(
         "CrutchAlerts/assets/floor/curse.dds",
         x, y + CURSE_LINE_Y_OFFSET, z,
-        44.5, 44.5,
+        44.5,
         {1, 0, 0, 0.8},
-        true,
-        false,
         {-math.pi/2, angle, 0})
     zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, duration or 8000)
 end
@@ -141,14 +139,11 @@ local playerCurseLinesKey
 local function DrawInProgressCurseLines()
     local _, x, y, z = GetUnitRawWorldPosition("player")
     local _, _, heading = GetMapPlayerPosition("player")
-
-    playerCurseLinesKey = Crutch.Drawing.CreateWorldTexture(
+    playerCurseLinesKey = Crutch.Drawing.CreateOrientedTexture(
         "CrutchAlerts/assets/floor/curse.dds",
         x, y + CURSE_LINE_Y_OFFSET, z,
-        44.5, 44.5,
+        44.5,
         {1, 1, 1, 0.1},
-        true,
-        false,
         {-math.pi/2, heading, 0},
         function(icon)
             local _, x, y, z = GetUnitRawWorldPosition("player")

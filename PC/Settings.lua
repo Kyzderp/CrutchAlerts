@@ -1456,6 +1456,19 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "[TESTING] Show Death Touch lines",
+                    tooltip = "Shows lines for potential curse AoE travel directions when a group member explodes. Requires LibGroupBroadcast",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.showCurseLines end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.showCurseLines = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return LibGroupBroadcast == nil end,
+                },
             })),
         },
         {
