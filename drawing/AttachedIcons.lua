@@ -334,7 +334,7 @@ local function CreateGroupRoleIcons()
 
     for _, player in ipairs(tagsToDo) do
         local settings = ROLE_SETTINGS[player.role]
-        if (settings.show()) then
+        if (settings and settings.show()) then
             SetIconForUnit(player.unitTag,
                 GROUP_ROLE_NAME,
                 GROUP_ROLE_PRIORITY,
