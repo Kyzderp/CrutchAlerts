@@ -10,12 +10,12 @@ local rgProtocol
 local HEADING_PRECISION = 10000
 
 local function OnCurseHeading(unitTag, data)
-    Crutch.dbgOther(string.format("Received data from %s: [%d] {%d, %d, %d} %f", GetUnitDisplayName(unitTag), data.timestamp, data.x, data.y, data.z, data.heading / HEADING_PRECISION))
+    Crutch.dbgOther(string.format("Received data from %s: {%d, %d, %d} %f", GetUnitDisplayName(unitTag), data.x, data.y, data.z, data.heading / HEADING_PRECISION))
 
-    Crutch.OnGroupMemberCurseReceived(unitTag, data.timestamp, data.x, data.y, data.z, data.heading / HEADING_PRECISION)
+    Crutch.OnGroupMemberCurseReceived(unitTag, data.x, data.y, data.z, data.heading / HEADING_PRECISION)
 end
 
-local function SendCurseHeading()
+local function SendCurseExplosion()
     if (not rgProtocol) then
         Crutch.dbgSpam("Can't send heading because no LibGroupBroadcast")
         return
@@ -23,23 +23,23 @@ local function SendCurseHeading()
 
     local _, x, y, z = GetUnitRawWorldPosition("player")
     local _, _, heading = GetMapPlayerPosition("player")
-    local time = GetTimeStamp()
 
     rgProtocol:Send({
-        timestamp = time,
         x = x,
         y = y,
         z = z,
         heading = heading * HEADING_PRECISION
     })
 end
-BC.SendCurseHeading = SendCurseHeading
--- /script CrutchAlerts.Broadcast.SendCurseHeading()
+BC.SendCurseExplosion = SendCurseExplosion
+-- /script CrutchAlerts.Broadcast.SendCurseExplosion()
 
 
 ---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
+local TRIAL_PROTOCOL_ID_1 = 210
+
 function Crutch.InitializeBroadcast()
     local LGB = LibGroupBroadcast
 
@@ -48,13 +48,12 @@ function Crutch.InitializeBroadcast()
         return
     end
 
-    local handler = LGB:RegisterHandler("CrutchAlertsBroadcastHandler")
+    local handler = LGB:RegisterHandler("CrutchAlerts")
     handler:SetDisplayName("CrutchAlerts")
     handler:SetDescription("'Tis a crutch.")
 
     -- Death Touch
-    rgProtocol = handler:DeclareProtocol(511, "CurseHeadingProtocol") -- TODO: reserve protocols
-    rgProtocol:AddField(LGB.CreateNumericField("timestamp"))
+    rgProtocol = handler:DeclareProtocol(TRIAL_PROTOCOL_ID_1, "CurseExplosionProtocol")
     rgProtocol:AddField(LGB.CreateNumericField("x"))
     rgProtocol:AddField(LGB.CreateNumericField("y"))
     rgProtocol:AddField(LGB.CreateNumericField("z"))

@@ -184,7 +184,13 @@ local defaultOptions = {
         sludgeSides = true,
         showBleeding = "HEAL", -- "NEVER", "HEAL", "ALWAYS"
         showCurseIcons = true,
+
+        showCursePreview = false,
+        cursePreviewColor = {1, 1, 1, 0.2},
         showCurseLines = false,
+        curseLineColor = {1, 0, 0, 0.8},
+        showOthersCurseLines = false,
+        othersCurseLineColor = {1, 0, 0, 0.8},
     },
     sanitysedge = {
         showAnsuulIcon = true,

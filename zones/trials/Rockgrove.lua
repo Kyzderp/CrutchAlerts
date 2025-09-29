@@ -125,25 +125,27 @@ end
 ------------------------------------------------------------
 local CURSE_LINE_Y_OFFSET = 5
 
-local function DrawConfirmedCurseLines(x, y, z, angle, duration)
+local function DrawConfirmedCurseLines(x, y, z, angle, color, duration)
     local key = Crutch.Drawing.CreateOrientedTexture(
         "CrutchAlerts/assets/floor/curse.dds",
         x, y + CURSE_LINE_Y_OFFSET, z,
         44.5,
-        {1, 0, 0, 0.8},
+        color,
         {-math.pi/2, angle, 0})
-    zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, duration or 8000)
+    zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, duration)
 end
 
 local playerCurseLinesKey
 local function DrawInProgressCurseLines()
+    if (not Crutch.savedOptions.rockgrove.showCursePreview) then return end
+
     local _, x, y, z = GetUnitRawWorldPosition("player")
     local _, _, heading = GetMapPlayerPosition("player")
     playerCurseLinesKey = Crutch.Drawing.CreateOrientedTexture(
         "CrutchAlerts/assets/floor/curse.dds",
         x, y + CURSE_LINE_Y_OFFSET, z,
         44.5,
-        {1, 1, 1, 0.1},
+        Crutch.savedOptions.rockgrove.cursePreviewColor,
         {-math.pi/2, heading, 0},
         function(icon)
             local _, x, y, z = GetUnitRawWorldPosition("player")
@@ -153,24 +155,48 @@ local function DrawInProgressCurseLines()
         end)
 end
 
-local explosions = {} -- {[unitTag] = {timestamp = 12343254, x = 341...}}
-local function OnGroupMemberCurseReceived(unitTag, timestamp, x, y, z, heading)
+-- Keep track of timestamps of explosions, setting an expiry of 8 seconds
+-- If the LGB curse event isn't received within the expire time, remove
+-- the tracked explosion. Otherwise, assume the received event corresponds
+-- to the first in the queue.
+local explosions = {} -- {[unitTag] = {12343254, 12323567}}
+local function OnGroupMemberCurseReceived(unitTag, x, y, z, heading)
     -- Don't do self
     if (AreUnitsEqual("player", unitTag)) then return end
 
-    local explosion = explosions[unitTag]
-    if (not explosion) then
+    local explosionTimes = explosions[unitTag]
+    if (not explosionTimes) then
         Crutch.dbgOther("|cFF0000Didn't find explosion for " .. GetUnitDisplayName(unitTag))
         return
     end
 
-    if (math.abs(timestamp - explosion.timestamp) > 1) then
-        Crutch.dbgOther("|cFF0000Timestamps don't match for " .. GetUnitDisplayName(unitTag))
+    local currentTime = GetTimeStamp()
+
+    -- Pop off queue and check it's within range
+    local explosion
+    while (#explosionTimes > 0) do
+        local explosionTime = table.remove(explosionTimes, 1)
+        if (currentTime - explosionTime < 8) then
+            explosion = explosionTime
+            break
+        end
+    end
+
+    -- Check setting. This is after clearing queue intentionally
+    if (Crutch.savedOptions.rockgrove.showOthersCurseLines) then return end
+
+    if (not explosion) then
+        Crutch.dbgOther("|cFF0000Curse event for " .. GetUnitDisplayName(unitTag) .. " received out of range of known explosions")
         return
     end
 
-    local remainingDuration = (explosion.timestamp + 9 - GetTimeStamp()) * 1000 -- would be full seconds, but good enough (+1 second for safety)
-    DrawConfirmedCurseLines(x, y, z, heading, remainingDuration)
+    local remainingDuration = (explosion + 9 - GetTimeStamp()) * 1000 -- would be full seconds, but good enough (+1 second for safety)
+    if (remainingDuration < 0) then
+        Crutch.dbgOther("|cFF0000Curse event for " .. GetUnitDisplayName(unitTag) .. " has < 0 remaining duration?! Should not be possible")
+        return
+    end
+
+    DrawConfirmedCurseLines(x, y, z, heading, Crutch.savedOptions.rockgrove.othersCurseLineColor, remainingDuration)
 end
 Crutch.OnGroupMemberCurseReceived = OnGroupMemberCurseReceived
 
@@ -179,9 +205,10 @@ local function OnDeathTouchLines(_, changeType, _, _, unitTag)
     if (not AreUnitsEqual("player", unitTag)) then
         -- Save the explosion timestamp
         if (changeType == EFFECT_RESULT_FADED) then
-            explosions[unitTag] = {
-                timestamp = GetTimeStamp(),
-            }
+            if (not explosions[unitTag]) then
+                explosions[unitTag] = {}
+            end
+            table.insert(explosions[unitTag], GetTimeStamp())
         end
         return
     end
@@ -196,12 +223,15 @@ local function OnDeathTouchLines(_, changeType, _, _, unitTag)
             playerCurseLinesKey = nil
         end
 
-        local _, x, y, z = GetUnitRawWorldPosition("player")
-        local _, _, heading = GetMapPlayerPosition("player")
-        DrawConfirmedCurseLines(x, y, z, heading)
+        -- Draw confirmed lines for self
+        if (Crutch.savedOptions.rockgrove.showCurseLines) then
+            local _, x, y, z = GetUnitRawWorldPosition("player")
+            local _, _, heading = GetMapPlayerPosition("player")
+            DrawConfirmedCurseLines(x, y, z, heading, Crutch.savedOptions.rockgrove.curseLineColor, 8000)
+        end
 
-        -- Send to group members
-        CrutchAlerts.Broadcast.SendCurseHeading()
+        -- Always send to group members
+        CrutchAlerts.Broadcast.SendCurseExplosion()
     end
 end
 Crutch.OnDeathTouchLines = OnDeathTouchLines
@@ -302,7 +332,10 @@ function Crutch.RegisterRockgrove()
 
     LoadCurseTextures()
 
-    Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function() numBleeds = 0 end)
+    Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function()
+        numBleeds = 0
+        explosions = {}
+    end)
 
     -- Register the Noxious Sludge
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, OnNoxiousSludgeGained)
@@ -334,11 +367,11 @@ function Crutch.RegisterRockgrove()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
     end
-    if (Crutch.savedOptions.rockgrove.showCurseLines) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, OnDeathTouchLines)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
-    end
+
+    -- Register for Death Touch lines
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, OnDeathTouchLines)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
