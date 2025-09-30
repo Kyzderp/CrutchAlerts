@@ -126,11 +126,13 @@ end
 local CURSE_LINE_Y_OFFSET = 5
 
 local function DrawConfirmedCurseLines(x, y, z, angle, color, duration)
-    local key = Crutch.Drawing.CreateOrientedTexture(
+    local key = Crutch.Drawing.CreateWorldTexture(
         "CrutchAlerts/assets/floor/curse.dds",
         x, y + CURSE_LINE_Y_OFFSET, z,
-        44.5,
+        44.5, 44.5,
         color,
+        false,
+        false,
         {-math.pi/2, angle, 0})
     zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, duration)
     -- TODO: remove lines early if going into portal
@@ -265,6 +267,7 @@ local function TestCurseLines()
 end
 Crutch.TestCurseLines = TestCurseLines
 -- /script CrutchAlerts.TestCurseLines()
+-- /script CrutchAlerts.savedOptions.drawing.placedOriented.useDepthBuffers = false
 
 
 ------------------------------------------------------------
