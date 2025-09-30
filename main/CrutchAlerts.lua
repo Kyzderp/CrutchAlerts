@@ -188,9 +188,9 @@ local defaultOptions = {
         showCursePreview = false,
         cursePreviewColor = {1, 1, 1, 0.2},
         showCurseLines = false,
-        curseLineColor = {1, 0, 0, 0.8},
+        curseLineColor = {1, 0, 0, 0.7},
         showOthersCurseLines = false,
-        othersCurseLineColor = {1, 0, 0, 0.8},
+        othersCurseLineColor = {1, 0, 0, 0.7},
     },
     sanitysedge = {
         showAnsuulIcon = true,

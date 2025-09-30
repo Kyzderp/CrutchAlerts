@@ -728,6 +728,81 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
+        label = "",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show your curse preview lines",
+        tooltip = "Shows lines for potential curse AoE trajectories when you have Death Touch, so you can try to position them away from the group. All 4 possible directions are shown, but only 2 directions will have real AoEs",
+        default = Crutch.defaultOptions.rockgrove.showCursePreview,
+        getFunction = function() return Crutch.savedOptions.rockgrove.showCursePreview end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.showCursePreview = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_COLOR,
+        label = "Preview lines color",
+        tooltip = "Color of the preview lines for yourself",
+        default = Crutch.defaultOptions.rockgrove.cursePreviewColor,
+        getFunction = function() return unpack(Crutch.savedOptions.rockgrove.cursePreviewColor) end,
+        setFunction = function(r, g, b, a)
+            Crutch.savedOptions.rockgrove.cursePreviewColor = {r, g, b, a}
+        end,
+        disable = function() return not Crutch.savedOptions.rockgrove.showCursePreview end
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show your curse lines",
+        tooltip = "Shows lines for potential curse AoE trajectories when your Death Touch expires. All 4 possible directions are shown, but only 2 directions have real AoEs. The trajectory could be slightly inaccurate due to desync, especially if you're moving fast",
+        default = Crutch.defaultOptions.rockgrove.showCurseLines,
+        getFunction = function() return Crutch.savedOptions.rockgrove.showCurseLines end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.showCurseLines = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_COLOR,
+        label = "Curse lines color",
+        tooltip = "Color of the curse lines for yourself",
+        default = Crutch.defaultOptions.rockgrove.curseLineColor,
+        getFunction = function() return unpack(Crutch.savedOptions.rockgrove.curseLineColor) end,
+        setFunction = function(r, g, b, a)
+            Crutch.savedOptions.rockgrove.curseLineColor = {r, g, b, a}
+        end,
+        disable = function() return not Crutch.savedOptions.rockgrove.showCurseLines end
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show group members' curse lines",
+        tooltip = "Shows lines for potential curse AoE trajectories when another player's Death Touch expires. All 4 possible directions are shown, but only 2 directions have real AoEs. The trajectory could be inaccurate due to desync, especially if the player is moving fast. Requires LibGroupBroadcast, and the other players must also have this version of CrutchAlerts with LibGroupBroadcast (they do not need to have curse lines on)",
+        default = Crutch.defaultOptions.rockgrove.showOthersCurseLines,
+        getFunction = function() return Crutch.savedOptions.rockgrove.showOthersCurseLines end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.showOthersCurseLines = value
+        end,
+        disable = function() return LibGroupBroadcast == nil end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_COLOR,
+        label = "Group curse lines color",
+        tooltip = "Color of the curse lines for other group members",
+        default = Crutch.defaultOptions.rockgrove.othersCurseLineColor,
+        getFunction = function() return unpack(Crutch.savedOptions.rockgrove.othersCurseLineColor) end,
+        setFunction = function(r, g, b, a)
+            Crutch.savedOptions.rockgrove.othersCurseLineColor = {r, g, b, a}
+        end,
+        disable = function() return LibGroupBroadcast == nil or not Crutch.savedOptions.rockgrove.showOthersCurseLines end
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
         label = "Sanity's Edge",
     })
 

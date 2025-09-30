@@ -1457,17 +1457,77 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "divider",
+                },
+                {
                     type = "checkbox",
-                    name = "[TESTING] Show Death Touch lines",
-                    tooltip = "Shows lines for potential curse AoE travel directions when a group member explodes. Requires LibGroupBroadcast",
-                    default = false,
+                    name = "Show your curse preview lines",
+                    tooltip = "Shows lines for potential curse AoE trajectories when you have Death Touch, so you can try to position them away from the group. All 4 possible directions are shown, but only 2 directions will have real AoEs",
+                    default = Crutch.defaultOptions.rockgrove.showCursePreview,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.showCursePreview end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.showCursePreview = value
+                    end,
+                    width = "half",
+                },
+                {
+                    type = "colorpicker",
+                    name = "Preview lines color",
+                    tooltip = "Color of the preview lines for yourself",
+                    default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.rockgrove.cursePreviewColor)),
+                    getFunc = function() return unpack(Crutch.savedOptions.rockgrove.cursePreviewColor) end,
+                    setFunc = function(r, g, b, a)
+                        Crutch.savedOptions.rockgrove.cursePreviewColor = {r, g, b, a}
+                    end,
+                    width = "half",
+                    disabled = function() return not Crutch.savedOptions.rockgrove.showCursePreview end
+                },
+                {
+                    type = "checkbox",
+                    name = "Show your curse lines",
+                    tooltip = "Shows lines for potential curse AoE trajectories when your Death Touch expires. All 4 possible directions are shown, but only 2 directions have real AoEs. The trajectory could be slightly inaccurate due to desync, especially if you're moving fast",
+                    default = Crutch.defaultOptions.rockgrove.showCurseLines,
                     getFunc = function() return Crutch.savedOptions.rockgrove.showCurseLines end,
                     setFunc = function(value)
                         Crutch.savedOptions.rockgrove.showCurseLines = value
-                        Crutch.OnPlayerActivated()
                     end,
-                    width = "full",
+                    width = "half",
+                },
+                {
+                    type = "colorpicker",
+                    name = "Curse lines color",
+                    tooltip = "Color of the curse lines for yourself",
+                    default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.rockgrove.curseLineColor)),
+                    getFunc = function() return unpack(Crutch.savedOptions.rockgrove.curseLineColor) end,
+                    setFunc = function(r, g, b, a)
+                        Crutch.savedOptions.rockgrove.curseLineColor = {r, g, b, a}
+                    end,
+                    width = "half",
+                    disabled = function() return not Crutch.savedOptions.rockgrove.showCurseLines end
+                },
+                {
+                    type = "checkbox",
+                    name = "Show group members' curse lines",
+                    tooltip = "Shows lines for potential curse AoE trajectories when another player's Death Touch expires. All 4 possible directions are shown, but only 2 directions have real AoEs. The trajectory could be inaccurate due to desync, especially if the player is moving fast. Requires LibGroupBroadcast, and the other players must also have this version of CrutchAlerts with LibGroupBroadcast (they do not need to have curse lines on)",
+                    default = Crutch.defaultOptions.rockgrove.showOthersCurseLines,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.showOthersCurseLines end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.showOthersCurseLines = value
+                    end,
+                    width = "half",
                     disabled = function() return LibGroupBroadcast == nil end,
+                },
+                {
+                    type = "colorpicker",
+                    name = "Group curse lines color",
+                    tooltip = "Color of the curse lines for other group members",
+                    default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.rockgrove.othersCurseLineColor)),
+                    getFunc = function() return unpack(Crutch.savedOptions.rockgrove.othersCurseLineColor) end,
+                    setFunc = function(r, g, b, a)
+                        Crutch.savedOptions.rockgrove.othersCurseLineColor = {r, g, b, a}
+                    end,
+                    width = "half",
+                    disabled = function() return LibGroupBroadcast == nil or not Crutch.savedOptions.rockgrove.showOthersCurseLines end
                 },
             })),
         },

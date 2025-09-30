@@ -133,10 +133,17 @@ local function DrawConfirmedCurseLines(x, y, z, angle, color, duration)
         color,
         {-math.pi/2, angle, 0})
     zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, duration)
+    -- TODO: remove lines early if going into portal
 end
 
 local playerCurseLinesKey
 local function DrawInProgressCurseLines()
+    -- Remove in progress lines
+    if (playerCurseLinesKey) then
+        Crutch.Drawing.RemoveWorldTexture(playerCurseLinesKey)
+        playerCurseLinesKey = nil
+    end
+
     if (not Crutch.savedOptions.rockgrove.showCursePreview) then return end
 
     local _, x, y, z = GetUnitRawWorldPosition("player")
@@ -183,7 +190,7 @@ local function OnGroupMemberCurseReceived(unitTag, x, y, z, heading)
     end
 
     -- Check setting. This is after clearing queue intentionally
-    if (Crutch.savedOptions.rockgrove.showOthersCurseLines) then return end
+    if (not Crutch.savedOptions.rockgrove.showOthersCurseLines) then return end
 
     if (not explosion) then
         Crutch.dbgOther("|cFF0000Curse event for " .. GetUnitDisplayName(unitTag) .. " received out of range of known explosions")
@@ -200,7 +207,9 @@ local function OnGroupMemberCurseReceived(unitTag, x, y, z, heading)
 end
 Crutch.OnGroupMemberCurseReceived = OnGroupMemberCurseReceived
 
-local function OnDeathTouchLines(_, changeType, _, _, unitTag)
+local function OnDeathTouchLinesTimeout(changeType, unitTag, playerX, playerY, playerZ, playerHeading)
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CurseLineTimeout" .. unitTag)
+
     -- Group member curse
     if (not AreUnitsEqual("player", unitTag)) then
         -- Save the explosion timestamp
@@ -225,17 +234,29 @@ local function OnDeathTouchLines(_, changeType, _, _, unitTag)
 
         -- Draw confirmed lines for self
         if (Crutch.savedOptions.rockgrove.showCurseLines) then
-            local _, x, y, z = GetUnitRawWorldPosition("player")
-            local _, _, heading = GetMapPlayerPosition("player")
-            DrawConfirmedCurseLines(x, y, z, heading, Crutch.savedOptions.rockgrove.curseLineColor, 8000)
+            DrawConfirmedCurseLines(playerX, playerY, playerZ, playerHeading, Crutch.savedOptions.rockgrove.curseLineColor, 8000)
         end
 
         -- Always send to group members
         CrutchAlerts.Broadcast.SendCurseExplosion()
     end
 end
-Crutch.OnDeathTouchLines = OnDeathTouchLines
--- /script CrutchAlerts.OnDeathTouchLines(nil, EFFECT_RESULT_GAINED, nil, nil, "player", GetGameTimeMilliseconds() / 1000, GetGameTimeMilliseconds() / 1000 + 9) zo_callLater(function() CrutchAlerts.OnDeathTouchLines(nil, EFFECT_RESULT_FADED, nil, nil, "player") end, 9000)
+
+-- EFFECT_RESULT_FADED fires when you aren't previously cursed, but you walk into cursed ground aoe, it keeps refreshing
+-- So add a very short timeout to make sure it's actually an explosion
+local function OnDeathTouchLines(_, changeType, _, _, unitTag)
+    -- We get the positions here to avoid being... 10ms off
+    local _, playerX, playerY, playerZ = GetUnitRawWorldPosition("player")
+    local _, _, playerHeading = GetMapPlayerPosition("player")
+    if (changeType == EFFECT_RESULT_FADED) then
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CurseLineTimeout" .. unitTag, 10, function()
+            OnDeathTouchLinesTimeout(changeType, unitTag, playerX, playerY, playerZ, playerHeading)
+        end)
+    else
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CurseLineTimeout" .. unitTag)
+        OnDeathTouchLinesTimeout(changeType, unitTag, playerX, playerY, playerZ, playerHeading)
+    end
+end
 
 local function TestCurseLines()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLinesTest", EVENT_EFFECT_CHANGED, OnDeathTouchLines)

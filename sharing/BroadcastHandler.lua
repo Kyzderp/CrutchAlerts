@@ -10,7 +10,7 @@ local rgProtocol
 local HEADING_PRECISION = 10000
 
 local function OnCurseHeading(unitTag, data)
-    Crutch.dbgOther(string.format("Received data from %s: {%d, %d, %d} %f", GetUnitDisplayName(unitTag), data.x, data.y, data.z, data.heading / HEADING_PRECISION))
+    Crutch.dbgOther(string.format("Received curse data from %s: {%d, %d, %d} %f", GetUnitDisplayName(unitTag), data.x, data.y, data.z, data.heading / HEADING_PRECISION))
 
     Crutch.OnGroupMemberCurseReceived(unitTag, data.x, data.y, data.z, data.heading / HEADING_PRECISION)
 end
@@ -38,7 +38,8 @@ BC.SendCurseExplosion = SendCurseExplosion
 ---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
-local TRIAL_PROTOCOL_ID_1 = 210
+-- 210~219 have been reserved for Crutch
+local CURSE_PROTOCOL_ID = 210
 
 function Crutch.InitializeBroadcast()
     local LGB = LibGroupBroadcast
@@ -50,10 +51,10 @@ function Crutch.InitializeBroadcast()
 
     local handler = LGB:RegisterHandler("CrutchAlerts")
     handler:SetDisplayName("CrutchAlerts")
-    handler:SetDescription("'Tis a crutch.")
+    handler:SetDescription("'Tis a crutch. Shares info for combat events in PvE content.")
 
     -- Death Touch
-    rgProtocol = handler:DeclareProtocol(TRIAL_PROTOCOL_ID_1, "CurseExplosionProtocol")
+    rgProtocol = handler:DeclareProtocol(CURSE_PROTOCOL_ID, "CurseExplosionProtocol")
     rgProtocol:AddField(LGB.CreateNumericField("x"))
     rgProtocol:AddField(LGB.CreateNumericField("y"))
     rgProtocol:AddField(LGB.CreateNumericField("z"))
