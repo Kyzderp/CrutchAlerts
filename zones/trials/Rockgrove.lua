@@ -122,6 +122,8 @@ end
 
 ------------------------------------------------------------
 -- Curse lines
+-- Ideas, curve estimate, data sharing, etc. implementation
+-- help from @M0R_Gaming and @Ooki42
 ------------------------------------------------------------
 local CURSE_LINE_Y_OFFSET = 5
 

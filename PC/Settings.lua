@@ -1457,12 +1457,15 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
-                    type = "divider",
+                    type = "description",
+                    title = "|c08BD1D[BETA] Curse Lines|r",
+                    text = "Shows lines for potential curse AoE trajectories after Death Touch expires. All 4 possible directions are shown, but only 2 directions will have real AoEs.",
+                    width = "full",
                 },
                 {
                     type = "checkbox",
                     name = "Show your curse preview lines",
-                    tooltip = "Shows lines for potential curse AoE trajectories when you have Death Touch, so you can try to position them away from the group. All 4 possible directions are shown, but only 2 directions will have real AoEs",
+                    tooltip = "Shows lines when you have Death Touch, so you can try to position them away from the group",
                     default = Crutch.defaultOptions.rockgrove.showCursePreview,
                     getFunc = function() return Crutch.savedOptions.rockgrove.showCursePreview end,
                     setFunc = function(value)
@@ -1485,7 +1488,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show your curse lines",
-                    tooltip = "Shows lines for potential curse AoE trajectories when your Death Touch expires. All 4 possible directions are shown, but only 2 directions have real AoEs. The trajectory could be slightly inaccurate due to desync, especially if you're moving fast",
+                    tooltip = "Shows lines when your Death Touch expires. The trajectory could be slightly inaccurate due to desync, especially if you're moving fast",
                     default = Crutch.defaultOptions.rockgrove.showCurseLines,
                     getFunc = function() return Crutch.savedOptions.rockgrove.showCurseLines end,
                     setFunc = function(value)
@@ -1508,7 +1511,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show group members' curse lines",
-                    tooltip = "Shows lines for potential curse AoE trajectories when another player's Death Touch expires. All 4 possible directions are shown, but only 2 directions have real AoEs. The trajectory could be inaccurate due to desync, especially if the player is moving fast. Requires LibGroupBroadcast, and the other players must also have this version of CrutchAlerts with LibGroupBroadcast (they do not need to have curse lines on)",
+                    tooltip = "Shows lines when another player's Death Touch expires. The trajectory could be inaccurate due to desync, especially if the player is moving fast. Requires LibGroupBroadcast, and the other players must also have this version of CrutchAlerts with LibGroupBroadcast (they do not need to have curse lines on)",
                     default = Crutch.defaultOptions.rockgrove.showOthersCurseLines,
                     getFunc = function() return Crutch.savedOptions.rockgrove.showOthersCurseLines end,
                     setFunc = function(value)

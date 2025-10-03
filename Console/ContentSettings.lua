@@ -728,7 +728,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
-        label = "",
+        label = "[BETA] Curse Lines",
     })
 
     settings:AddSetting({

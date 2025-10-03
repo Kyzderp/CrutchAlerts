@@ -8,7 +8,7 @@ CrutchAlerts = {
 }
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "2.2.0-alpha1"
+Crutch.version = "2.2.0-beta1"
 
 Crutch.registered = {
     begin = false,
@@ -188,9 +188,9 @@ local defaultOptions = {
         showCursePreview = false,
         cursePreviewColor = {1, 1, 1, 0.2},
         showCurseLines = false,
-        curseLineColor = {1, 0, 0, 0.7},
+        curseLineColor = {1, 1, 0, 0.5},
         showOthersCurseLines = false,
-        othersCurseLineColor = {1, 0, 0, 0.7},
+        othersCurseLineColor = {1, 1, 0, 0.5},
     },
     sanitysedge = {
         showAnsuulIcon = true,
