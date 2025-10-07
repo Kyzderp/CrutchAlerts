@@ -60,6 +60,37 @@ end
 
 
 ---------------------------------------------------------------------
+-- Flare icons
+---------------------------------------------------------------------
+local FLARE_UNIQUE_NAME = "CrutchAlertsCRFlare"
+
+local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+
+    if (not unitTag) then return end
+
+    local period = 800
+    local startTime = GetGameTimeMilliseconds()
+    local yellow = ZO_ColorDef:New(1, 1, 0)
+    local red = ZO_ColorDef:New(1, 0, 0)
+    local function Callback(icon)
+        -- local elapsed = zo_clamp((GetGameTimeMilliseconds() - startTime) / 7000, 0, 1)
+        local elapsed = (GetGameTimeMilliseconds() - startTime) % period
+        if (elapsed > period / 2) then
+            elapsed = period - elapsed
+        end
+        elapsed = elapsed / period
+        icon:SetColor(ZO_ColorDef.LerpRGB(yellow, red, elapsed))
+    end
+
+    Crutch.SetAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME, 500, "/esoui/art/icons/progression_tabicon_flames_down.dds", 120, {1, 0.5, 0}, nil, Callback)
+    zo_callLater(function() Crutch.RemoveAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME) end, 7000)
+end
+Crutch.OnRoaringFlareIcon = OnRoaringFlareIcon
+-- /script CrutchAlerts.groupIdToTag[12345] = "player" CrutchAlerts.OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 12345)
+
+
+---------------------------------------------------------------------
 -- EXECUTE FLARES
 ---------------------------------------------------------------------
 
@@ -243,7 +274,20 @@ function Crutch.RegisterCloudrest()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 106023) -- Breaking the amulet (takes 4 seconds)
 
-    -- Register the Roaring Flares
+    -- Register Flare icons
+    if (Crutch.savedOptions.cloudrest.showFlareIcon) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT, OnRoaringFlareIcon)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103531) -- Flare 1 throughout the fight
+
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT, OnRoaringFlareIcon)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 110431) -- Flare 2 in execute
+    end
+
+    -- Register Flare sides
     if (Crutch.savedOptions.cloudrest.showFlaresSides) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT, OnRoaringFlareGained)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
@@ -348,6 +392,8 @@ function Crutch.UnregisterCloudrest()
     Crutch.UnregisterExitedGroupCombatListener("ExtiedCombatCloudrest")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT)

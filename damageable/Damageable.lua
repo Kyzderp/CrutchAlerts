@@ -401,11 +401,13 @@ local SUBTITLE_TIMES = {
 
 -- Moongrave Fane
     ["Nisaazda"] = {
+        -- Risen Ruins
+        ["Renald is slippery, but Nisaazda will catch him in time. You will not be so lucky."] = 9.5,
         -- Kujo Kethba
         ["This one won't have to."] = 12.8,
     },
     ["Grundwulf"] = {
-        ["I can feel it! Haha"] = 19, -- TODO
+        ["I can feel it! Haha"] = 19,
     },
 
 -- Moon Hunter Keep

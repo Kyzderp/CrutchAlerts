@@ -8,7 +8,7 @@ CrutchAlerts = {
 }
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "2.2.0"
+Crutch.version = "2.3.0-alpha1"
 
 Crutch.registered = {
     begin = false,
@@ -133,6 +133,7 @@ local defaultOptions = {
         spearsSound = true,
         deathIconColor = true,
         showFlaresSides = true,
+        showFlareIcon = true,
     },
     dreadsailreef = {
         alertStaticStacks = true,

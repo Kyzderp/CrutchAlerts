@@ -128,8 +128,20 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show flare icon",
+        tooltip = "Shows icons above players who are targeted by Roaring Flare",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cloudrest.showFlareIcon end,
+        setFunction = function(value)
+            Crutch.savedOptions.cloudrest.showFlareIcon = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show flare sides",
-        tooltip = "On Z'Maja during execute with +Siroria, show which side each of the two people with Roaring Flares can go to (will be same sides as RaidNotifier)",
+        tooltip = "On Z'Maja during execute with +Siroria, show which side each of the two people with Roaring Flares can go to",
         default = true,
         getFunction = function() return Crutch.savedOptions.cloudrest.showFlaresSides end,
         setFunction = function(value)

@@ -893,6 +893,18 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show flare icon",
+                    tooltip = "Shows icons above players who are targeted by Roaring Flare",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.showFlareIcon end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.showFlareIcon = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show flare sides",
                     tooltip = "On Z'Maja during execute with +Siroria, show which side each of the two people with Roaring Flares can go to (will be same sides as RaidNotifier)",
                     default = true,
