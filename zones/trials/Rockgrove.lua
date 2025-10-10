@@ -4,6 +4,18 @@ local Crutch = CrutchAlerts
 local EXIT_LEFT_POOL = {x = 91973, y = 35751, z = 81764}  -- from QRH so that we use the same sorting
 
 ---------------------------------------------------------------------
+-- Sludge icons
+---------------------------------------------------------------------
+local SLUDGE_UNIQUE_NAME = "CrutchAlertsRGSludge"
+local function OnSludgeIcon(changeType, unitTag)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        Crutch.SetAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME, 500, "CrutchAlerts/assets/poop.dds", nil, {0.8, 1, 0.8})
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.RemoveAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME)
+    end
+end
+
+---------------------------------------------------------------------
 -- OAXILTSO: NOXIOUS SLUDGE SIDES
 ---------------------------------------------------------------------
 local sludgeTag1 = nil
@@ -11,6 +23,10 @@ local lastSludge = 0 -- for resetting
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
+    if (Crutch.savedOptions.rockgrove.showSludgeIcons) then
+        OnSludgeIcon(changeType, unitTag)
+    end
+
     if (changeType ~= EFFECT_RESULT_GAINED) then return end
     Crutch.dbgSpam(string.format("|c00FF00Noxious Sludge: %s (%s)|r", GetUnitDisplayName(unitTag), unitTag))
 

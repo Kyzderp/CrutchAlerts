@@ -1441,6 +1441,17 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "checkbox",
+                    name = "Show Noxious Sludge icons",
+                    tooltip = "Shows icons above players who receive Noxious Sludge from Oaxiltso",
+                    default = Crutch.defaultOptions.rockgrove.showSludgeIcons,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.showSludgeIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.showSludgeIcons = value
+                    end,
+                    width = "full",
+                },
+                {
                     type = "dropdown",
                     name = "Show Bleeding timer",
                     tooltip = "Shows an \"alert\" timer for Bleeding from Flesh Abominations' Hemorrhaging Smack. If set to \"Self/Heal Only\" it will display only if your LFG role is healer or if the bleed is on yourself",
