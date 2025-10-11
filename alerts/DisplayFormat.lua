@@ -97,6 +97,8 @@ Crutch.format = {
     [232397] = 500, -- Effluvial Expellant (Shaper of Flesh)
     [236569] = 500, -- Spectral Revenge (Osteon Spectral Revenant)
     [238800] = 800, -- Phantasmal Barrage
+    [234276] = 1105, -- Blazing Curse (Skorkhif)
+    [234000] = 1405, -- Sparking Curse (Jynorah)
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)

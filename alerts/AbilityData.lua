@@ -163,17 +163,12 @@ Crutch.testing = {
     [140606] = true, -- Meteor
     [134023] = true, -- Meteor
 
-    [241685] = true, -- Fluctuating Esseence GRN [sic] (buff Refracted Soul Essence when it turns green maybe)
-
-    [232460] = true, -- Titanic Clash on Valneer
-    [232465] = true, -- Titanic Clash on Myrinax
-
     [119596] = true, -- Storm Breath (80%)
     [122794] = true, -- Storm Breath 2 (50%)
     [122961] = true, -- Storm Breath (20%)
 
-    [240244] = true, -- Rupture 2 Hide (Quarrymaster Saldezaar)
-    [240240] = true, -- Rupture
+    [233512] = true, -- Valneer Titanic Clash Leap
+    [233500] = true, -- Myrinax Titanic Clash Leap
 }
 
 ---------------------------------------------------------------------
@@ -320,9 +315,11 @@ Crutch.others = {
     [238800] = true, -- Phantasmal Barrage
     [235201] = true, -- Storm Slam (Molag Kena)
     [232516] = true, -- Jynorah Titanic Clash
-    [232517] = true, -- Skorikhif Titanic Clash
+    [232517] = true, -- Skorkhif Titanic Clash
     [232397] = true, -- Effluvial Expellant (Shaper of Flesh)
     [233762] = true, -- Abduct
+    [234276] = true, -- Blazing Curse (Skorkhif)
+    [234000] = true, -- Sparking Curse (Jynorah)
 
 -- Rockgrove
     [149089] = true, -- Astral Shield (Sul-Xan Soulweaver)
