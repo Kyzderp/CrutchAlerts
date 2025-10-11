@@ -9,7 +9,7 @@ local EXIT_LEFT_POOL = {x = 91973, y = 35751, z = 81764}  -- from QRH so that we
 local SLUDGE_UNIQUE_NAME = "CrutchAlertsRGSludge"
 local function OnSludgeIcon(changeType, unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.SetAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME, 500, "CrutchAlerts/assets/poop.dds", nil, {0.8, 1, 0.8})
+        Crutch.SetAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME, 500, "CrutchAlerts/assets/poop.dds", nil, {0.6, 1, 0.6})
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.RemoveAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME)
     end

@@ -169,6 +169,39 @@ end
 ---------------------------------------------------------------------
 -- Storm Breath
 ---------------------------------------------------------------------
+local xX, xY, xZ = 114941, 56106, 105959
+local function Do20StormBreath()
+    local poopKey = Crutch.Drawing.CreatePlacedIcon("CrutchAlerts/assets/poop.dds", xX, xY, xZ, 50, {1, 0, 0})
+    zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(poopKey) end, 60000)
+
+    local key3 = Crutch.Drawing.CreateWorldTexture(
+        "CrutchAlerts/assets/floor/square.dds",
+        xX, xY, xZ,
+        50,
+        8,
+        {1, 0, 0, 0.2},
+        true,
+        false,
+        {math.pi/2, math.pi/4 + 0.13, 0},
+        nil)
+    zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key3) end, 18000)
+
+    -- second strafe ~8.3s later
+    zo_callLater(function()
+        local key4 = Crutch.Drawing.CreateWorldTexture(
+            "CrutchAlerts/assets/floor/square.dds",
+            xX, xY + 1, xZ,
+            50,
+            8,
+            {1, 0, 0, 0.2},
+            true,
+            false,
+            {math.pi/2, math.pi*3/4 + 0.19, 0},
+            nil)
+        zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key4) end, 18000)
+    end, 8300)
+end
+Crutch.Do20StormBreath = Do20StormBreath
 
 local function RegisterStormBreath()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, function()
@@ -188,34 +221,7 @@ local function RegisterStormBreath()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
 
     -- storm breath 20%
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, function()
-        local key3 = Crutch.Drawing.CreateWorldTexture(
-            "CrutchAlerts/assets/floor/square.dds",
-            115000, 56106, 106164,
-            50,
-            8,
-            {1, 0, 0, 0.2},
-            true,
-            false,
-            {math.pi/2, math.pi/4 + 0.13, 0},
-            nil)
-        zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key3) end, 18000)
-
-        -- second strafe ~8.3s later
-        zo_callLater(function()
-            local key4 = Crutch.Drawing.CreateWorldTexture(
-                "CrutchAlerts/assets/floor/square.dds",
-                115000, 56107, 106164,
-                50,
-                8,
-                {1, 0, 0, 0.2},
-                true,
-                false,
-                {math.pi/2, math.pi*3/4 + 0.13, 0},
-                nil)
-            zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key4) end, 18000)
-        end, 8300)
-    end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, Do20StormBreath)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122961)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
 end

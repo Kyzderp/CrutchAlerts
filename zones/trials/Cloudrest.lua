@@ -83,7 +83,7 @@ local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, t
         icon:SetColor(ZO_ColorDef.LerpRGB(yellow, red, elapsed))
     end
 
-    Crutch.SetAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME, 500, "/esoui/art/icons/progression_tabicon_flames_down.dds", 120, {1, 0.5, 0}, nil, Callback)
+    Crutch.SetAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME, 500, "/esoui/art/icons/dragonknight_ardent_flame.dds", 120, {1, 0.5, 0}, nil, Callback)
     zo_callLater(function() Crutch.RemoveAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME) end, 7000)
 end
 Crutch.OnRoaringFlareIcon = OnRoaringFlareIcon
