@@ -6,12 +6,12 @@ local Crutch = CrutchAlerts
 local initialized = false
 local renderSpace
 local controlContainer
-function Crutch.InitializeRenderSpace()
+function Crutch.InitializeLineRenderSpace()
     if (initialized) then
         return
     end
 
-    renderSpace = WINDOW_MANAGER:CreateControl("CrutchAlertsRenderSpace", GuiRoot, CT_CONTROL)
+    renderSpace = WINDOW_MANAGER:CreateControl("CrutchAlertsLineRenderSpace", GuiRoot, CT_CONTROL)
     renderSpace:SetAnchorFill(GuiRoot)
     renderSpace:Create3DRenderSpace()
     renderSpace:SetHidden(true)

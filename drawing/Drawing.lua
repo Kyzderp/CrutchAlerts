@@ -174,8 +174,10 @@ end
 -- on every call.
 ---------------------------------------------------------------------
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
-    local control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
+    local control, key
+    control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
     Draw.activeIcons[key] = {
+        isSpace = false, -- TODO
         control = control,
         faceCamera = faceCamera,
         x = x,
@@ -186,6 +188,7 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         texture = texture,
         updateFunc = updateFunc,
 
+        -- Callback functions
         SetPosition = SetPosition,
         SetColor = SetColor,
         SetOrientation = SetOrientation,

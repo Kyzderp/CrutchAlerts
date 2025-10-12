@@ -1,22 +1,17 @@
 <GuiXml>
     <Controls>
-        <TopLevelControl name="CrutchAlertsSpace">
-            <Controls>
-                <Control name="$(parent)Orient" space="WORLD" mouseEnabled="false" tier="LOW" layer="BACKGROUND">
-                    <Anchor point="CENTER" relativeTo="GuiRoot"/>
-                    <Dimensions x="50" y="50"/>
-                    <Controls>
-                        <Label name="$(parent)Label" font="$(BOLD_FONT)|1|soft-shadow-thick" color="BBBBBB" text="asdf" hidden="false" space="WORLD">
-                            <AnchorFill/>
-                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetX="0" offsetY="0"/>
-                        </Label>
-                        <Texture name="$(parent)Icon" textureFile="esoui/art/champion/champion_points_stamina_icon-hud-32.dds" tier="MEDIUM" mouseEnabled="false">
-                            <Dimensions x="1" y="1"/>
-                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
-                        </Texture>
-                    </Controls>
-                </Control>
-            </Controls>
+        <TopLevelControl name="CrutchAlertsSpace" layer="BACKGROUND">
         </TopLevelControl>
+
+        <Control name="CrutchAlertsSpaceControl" virtual="true" space="WORLD">
+            <Dimensions x="100" y="100"/>
+            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER"/>
+            <Controls>
+                <Texture name="$(parent)Texture">
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                    <Dimensions x="100" y="100"/>
+                </Texture>
+            </Controls>
+        </Control>
     </Controls>
 </GuiXml>

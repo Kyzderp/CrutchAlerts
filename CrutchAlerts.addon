@@ -93,5 +93,5 @@ drawing/Update.lua
 drawing/AttachedIcons.lua
 drawing/PlacedTextures.lua
 
-; drawing/SpaceDrawing.xml
-; drawing/SpaceDrawing.lua
+drawing/SpaceDrawing.xml
+drawing/SpaceDrawing.lua

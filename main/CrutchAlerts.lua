@@ -396,8 +396,9 @@ local function Initialize()
     Crutch.RegisterEffectChanged()
     Crutch.RegisterFatecarver()
     Crutch.InitializeGlobalEvents()
-    Crutch.InitializeRenderSpace()
+    Crutch.InitializeLineRenderSpace()
     Crutch.Drawing.Initialize()
+    Crutch.Drawing.InitializeSpace()
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()
