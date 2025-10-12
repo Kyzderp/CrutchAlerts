@@ -9,6 +9,7 @@ local function AcquireControl()
 
     control:SetHidden(false)
     control:SetTransformNormalizedOriginPoint(0.5, 0.5)
+    control:SetScale(0.01)
 
     return control, key
 end
@@ -26,7 +27,6 @@ local function CreateSpaceControl(texture, x, y, z, width, height, color, orient
     local tY = y / 100
     local tZ = (z - oZ) / 100
     control:SetTransformOffset(tX, tY, tZ)
-    control:SetScale(0.01)
 
     local textureControl = control:GetNamedChild("Texture")
     textureControl:SetTexture(texture)
@@ -48,6 +48,14 @@ local function CreateSpaceControl(texture, x, y, z, width, height, color, orient
     return control, key
 end
 Draw.CreateSpaceControl = CreateSpaceControl
+
+local function ReleaseSpaceControl(key)
+    local icon = Draw.activeIcons[key]
+
+    icon.control:SetHidden(true)
+    controlPool:ReleaseObject(key)
+end
+Draw.ReleaseSpaceControl = ReleaseSpaceControl
 
 
 ---------------------------------------------------------------------

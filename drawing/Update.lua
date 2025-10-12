@@ -11,45 +11,51 @@ local function DoUpdate()
     local rX, rY, rZ
     local uX, uY, uZ
 
+    local cameraPitch, cameraYaw
+
     -- Camera position for z levels
     local cX, cY, cZ
     Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
 
     for key, icon in pairs(Draw.activeIcons) do
-        if (not icon.isSpace) then
-            -- Update function, mostly for attached icons
-            if (icon.updateFunc) then
-                icon.updateFunc(icon)
-                -- icon.updateFunc(icon.control, SetPosition, SetColor, SetOrientation, SetTexture)
+        -- Update function, mostly for attached icons
+        if (icon.updateFunc) then
+            icon.updateFunc(icon)
+        end
+
+        -- Facing camera instead of fixed
+        if (icon.faceCamera) then
+            if (not fX) then
+                fX, fY, fZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceForward()
+                rX, rY, rZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceRight()
+                uX, uY, uZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceUp()
+
+                cameraPitch = zo_atan2(fY, zo_sqrt(fX * fX + fZ * fZ))
+                cameraYaw = zo_atan2(fX, fZ) - math.pi
             end
 
-            -- Facing camera instead of fixed
-            if (icon.faceCamera) then
-                if (not fX) then
-                    fX, fY, fZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceForward()
-                    rX, rY, rZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceRight()
-                    uX, uY, uZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceUp()
-                end
-
+            if (icon.isSpace) then
+                icon.control:SetTransformRotation(cameraPitch, cameraYaw, 0)
+            else
                 icon.control:Set3DRenderSpaceForward(fX, fY, fZ)
                 icon.control:Set3DRenderSpaceRight(rX, rY, rZ)
                 icon.control:Set3DRenderSpaceUp(uX, uY, uZ)
             end
+        end
 
-            -- All controls have the same draw level, so farther away icons might display in front
-            -- of closer icons. With depth buffers off, this just draws them on top, and with depth
-            -- buffers on, they end up clipping weirdly with the transparent parts of the texture.
-            -- So, set the draw level manually based on the distance to the camera.
-            -- Things can still appear off if a small texture overlaps a large texture, because the
-            -- center of the large texture is closer, but the small should be above. Oh well.
-            if (Crutch.savedOptions.drawing.useLevels) then
-                if (not cX) then
-                    cX, cY, cZ = GuiRender3DPositionToWorldPosition(CrutchAlertsDrawingCamera:Get3DRenderSpaceOrigin())
-                end
-
-                local distanceToCamera = math.floor(Crutch.GetSquaredDistance(icon.x, icon.y, icon.z, cX, cY, cZ))
-                icon.control:SetDrawLevel(-distanceToCamera)
+        -- All controls have the same draw level, so farther away icons might display in front
+        -- of closer icons. With depth buffers off, this just draws them on top, and with depth
+        -- buffers on, they end up clipping weirdly with the transparent parts of the texture.
+        -- So, set the draw level manually based on the distance to the camera.
+        -- Things can still appear off if a small texture overlaps a large texture, because the
+        -- center of the large texture is closer, but the small should be above. Oh well.
+        if (Crutch.savedOptions.drawing.useLevels and not icon.isSpace) then
+            if (not cX) then
+                cX, cY, cZ = GuiRender3DPositionToWorldPosition(CrutchAlertsDrawingCamera:Get3DRenderSpaceOrigin())
             end
+
+            local distanceToCamera = math.floor(Crutch.GetSquaredDistance(icon.x, icon.y, icon.z, cX, cY, cZ))
+            icon.control:SetDrawLevel(-distanceToCamera)
         end
     end
 end

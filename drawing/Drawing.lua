@@ -69,7 +69,15 @@ local function SetPosition(icon, x, y, z)
         icon.x = x or icon.x
         icon.y = y or icon.y
         icon.z = z or icon.z
-        icon.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(icon.x, icon.y, icon.z))
+        if (icon.isSpace) then
+            local oX, oY, oZ = GuiRender3DPositionToWorldPosition(0, 0, 0) -- TODO: is this expensive?
+            local tX = (x - oX) / 100
+            local tY = y / 100
+            local tZ = (z - oZ) / 100
+            icon.control:SetTransformOffset(tX, tY, tZ)
+        else
+            icon.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(icon.x, icon.y, icon.z))
+        end
     end
 end
 
@@ -94,7 +102,11 @@ local function SetColor(icon, r, g, b, a)
         changed = true
     end
     if (changed) then
-        icon.control:SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
+        if (icon.isSpace) then
+            icon.control:GetNamedChild("Texture"):SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
+        else
+            icon.control:SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
+        end
     end
 end
 
@@ -143,7 +155,11 @@ end
 local function SetTexture(icon, path)
     if (path and icon.texture ~= path) then
         icon.texture = path
-        icon.control:SetTexture(path)
+        if (icon.isSpace) then
+            icon.control:GetNamedChild("Texture"):SetTexture(path)
+        else
+            icon.control:SetTexture(path)
+        end
     end
 end
 ---------------------------------------------------------------------
@@ -173,11 +189,17 @@ end
 -- care to make it performant, e.g. do not create tables or functions
 -- on every call.
 ---------------------------------------------------------------------
+local useSpace = false
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
+    local isSpace = useSpace and not useDepthBuffer
     local control, key
-    control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
+    if (isSpace) then
+        control, key = Draw.CreateSpaceControl(texture, x, y, z, width, height, color, orientation)
+    else
+        control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
+    end
     Draw.activeIcons[key] = {
-        isSpace = false, -- TODO
+        isSpace = isSpace,
         control = control,
         faceCamera = faceCamera,
         x = x,
@@ -196,7 +218,13 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
     }
     Draw.MaybeStartPolling()
 
-    CrutchAlerts.dbgSpam("Created texture |t100%:100%:" .. texture .. "|t key " .. tostring(key))
+    CrutchAlerts.dbgSpam(string.format("Created texture |t100%%:100%%:%s|t key %s %s {%d, %d, %d}",
+        texture,
+        key,
+        isSpace and "SPACE" or "RenderSpace",
+        x,
+        y,
+        z))
     return key
 end
 Draw.CreateWorldTexture = CreateWorldTexture
@@ -209,9 +237,14 @@ local function RemoveWorldTexture(key)
     CrutchAlerts.dbgSpam("Removing texture " .. tostring(key))
 
     local icon = Draw.activeIcons[key]
-    icon.control:Destroy3DRenderSpace()
-    icon.control:SetHidden(true)
-    controlPool:ReleaseObject(key)
+
+    if (icon.isSpace) then
+        Draw.ReleaseSpaceControl(key)
+    else
+        icon.control:Destroy3DRenderSpace()
+        icon.control:SetHidden(true)
+        controlPool:ReleaseObject(key)
+    end
     Draw.activeIcons[key] = nil
     Draw.MaybeStopPolling()
 end
