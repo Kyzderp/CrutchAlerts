@@ -189,7 +189,7 @@ end
 -- care to make it performant, e.g. do not create tables or functions
 -- on every call.
 ---------------------------------------------------------------------
-local useSpace = false
+local useSpace = true
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
     local isSpace = useSpace and not useDepthBuffer
     local control, key
@@ -218,13 +218,14 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
     }
     Draw.MaybeStartPolling()
 
-    CrutchAlerts.dbgSpam(string.format("Created texture |t100%%:100%%:%s|t key %s %s {%d, %d, %d}",
+    CrutchAlerts.dbgSpam(string.format("Created texture |t100%%:100%%:%s|t key %s %s {%d, %d, %d} %s",
         texture,
         key,
         isSpace and "SPACE" or "RenderSpace",
         x,
         y,
-        z))
+        z,
+        control:GetName()))
     return key
 end
 Draw.CreateWorldTexture = CreateWorldTexture

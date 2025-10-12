@@ -134,7 +134,7 @@ end
 local function RemoveIconForUnit(unitTag, uniqueName)
     if (unitTag == "player" and playerGroupTag) then
         unitTag = playerGroupTag
-        Crutch.dbgSpam("Translating player tag to " .. playerGroupTag)
+        Crutch.dbgSpam("Translating player tag to " .. playerGroupTag .. " to remove " .. uniqueName)
     end
 
     if (not unitIcons[unitTag]) then return end
@@ -154,7 +154,7 @@ end
 local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, persistOutsideCombat, callback)
     if (unitTag == "player" and playerGroupTag) then
         unitTag = playerGroupTag
-        Crutch.dbgSpam("Translating player tag to " .. playerGroupTag)
+        Crutch.dbgSpam("Translating player tag to " .. playerGroupTag  .. " to set " .. uniqueName)
     end
 
     if (not unitIcons[unitTag]) then
@@ -438,14 +438,20 @@ local function OnCrownChange(_, unitTag)
 
     currentCrown = unitTag
 
-    SetIconForUnit(unitTag,
-        GROUP_CROWN_NAME,
-        GROUP_CROWN_PRIORITY,
-        "esoui/art/icons/mapkey/mapkey_groupleader.dds",
-        nil,
-        Crutch.savedOptions.drawing.attached.crownColor,
-        nil,
-        true)
+    -- TODO: calling this on even just the next frame "fixes" the
+    -- issue where Space control is offset. Unsure if race condition
+    -- or what, might be acquiring + releasing + acquiring in the
+    -- same frame that bugs something?
+    zo_callLater(function()
+        SetIconForUnit(unitTag,
+            GROUP_CROWN_NAME,
+            GROUP_CROWN_PRIORITY,
+            "esoui/art/icons/mapkey/mapkey_groupleader.dds",
+            nil,
+            Crutch.savedOptions.drawing.attached.crownColor,
+            nil,
+            true)
+    end, 0)
 end
 
 ---------------------------------------------------------------------

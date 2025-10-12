@@ -8,8 +8,9 @@ local function AcquireControl()
     local control, key = controlPool:AcquireObject()
 
     control:SetHidden(false)
-    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
     control:SetScale(0.01)
+    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
+    control:SetTransformScale(1)
 
     return control, key
 end
@@ -68,6 +69,7 @@ end
 Draw.TestSpacePoop = TestSpacePoop
 --[[
 /script CrutchAlerts.Drawing.TestSpacePoop()
+/tb CrutchAlertsSpaceCrutchAlertsSpaceControl1
 ]]
 
 ---------------------------------------------------------------------
