@@ -10,6 +10,9 @@ local rgProtocol
 local HEADING_PRECISION = 10000
 
 local function OnCurseHeading(unitTag, data)
+    -- Possible if PTE
+    if (not DoesUnitExist(unitTag)) then return end
+
     Crutch.dbgOther(string.format("Received curse data from %s: {%d, %d, %d} %f", GetUnitDisplayName(unitTag), data.x, data.y, data.z, data.heading / HEADING_PRECISION))
 
     Crutch.OnGroupMemberCurseReceived(unitTag, data.x, data.y, data.z, data.heading / HEADING_PRECISION)

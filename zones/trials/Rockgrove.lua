@@ -448,6 +448,10 @@ function Crutch.UnregisterRockgrove()
         Crutch.RemoveAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME)
     end
     sludges = {}
+    if (playerCurseLinesKey) then
+        Crutch.Drawing.RemoveWorldTexture(playerCurseLinesKey)
+        playerCurseLinesKey = nil
+    end
 
     Crutch.UnregisterExitedGroupCombatListener("RockgroveExitedCombat")
 
