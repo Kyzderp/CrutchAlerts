@@ -46,17 +46,8 @@ local function Create3DControl(texture, x, y, z, width, height, color, useDepthB
     control:Set3DLocalDimensions(width, height)
     control:Set3DRenderSpaceUsesDepthBuffer(useDepthBuffer)
 
-    if (orientation) then
-        if (IsDOF(orientation[1])) then
-            -- pitch, yaw, roll
-            control:Set3DRenderSpaceOrientation(unpack(orientation))
-        else
-            -- forward, right, up
-            control:Set3DRenderSpaceForward(unpack(orientation[1]))
-            control:Set3DRenderSpaceRight(unpack(orientation[2]))
-            control:Set3DRenderSpaceUp(unpack(orientation[3]))
-        end
-    end
+    -- pitch, yaw, roll
+    control:Set3DRenderSpaceOrientation(unpack(orientation))
     return control, key
 end
 
@@ -110,44 +101,57 @@ local function SetColor(icon, r, g, b, a)
     end
 end
 
+-- Util
+local function ConvertToPitchYawRollIfNeeded(first, second, third)
+    if (IsDOF(first or second or third)) then
+        return first, second, third
+    end
+
+    local fX, fY, fZ = unpack(first)
+    local rX, rY, rZ = unpack(second)
+
+    local pitch = zo_atan2(fY, zo_sqrt(fX * fX + fZ * fZ))
+    local yaw = zo_atan2(fX, fZ) - math.pi
+    local roll = zo_atan2(rY, zo_sqrt(rX * rX + rZ * rZ))
+
+    -- Crutch.dbgOther(string.format("Converted to %f %f %f", pitch, yaw, roll))
+    return pitch, yaw, roll
+end
+Draw.ConvertToPitchYawRollIfNeeded = ConvertToPitchYawRollIfNeeded
+
 -- Callback to set orientation, keeping old if nil
 -- Either ({fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}) or (pitch, yaw, roll)
+-- (pitch, yaw, roll) is preferred for slightly less math
 local function SetOrientation(icon, first, second, third)
-    local value = first or second or third
-    local isDOF = IsDOF(value)
-    if (isDOF == IsDOF(icon.orientation)) then
-        first = first or icon.orientation.first
-        second = second or icon.orientation.second
-        third = third or icon.orientation.third
-    else
-        -- New orientation type is different from old
-        if (not first and not second and not third) then
-            return -- It's fine if it's all nil, but why is it being called...?
-        end
+    if (not first and not second and not third) then
+        return -- It's fine if it's all nil, but why is it being called...?
+    end
 
+    -- If using forward right up, all values must be specified
+    local isDOF = IsDOF(first or second or third)
+    if (not isDOF) then
         if (not first or not second or not third) then
-            CrutchAlerts.msg("|cFF0000Caller attempted to set different orientation axis system but not all values are specified!")
+            CrutchAlerts.msg("|cFF0000Caller attempted to use {forward, right, up} system but not all values are specified!")
             return
         end
     end
 
-    -- TODO: fix all this garbo
-    if (isDOF) then
-        -- Pitch, Yaw, Roll
-        if (icon.orientation.first ~= first or icon.orientation.second ~= second or icon.orientation.third ~= third) then
-            icon.orientation.first = first
-            icon.orientation.second = second
-            icon.orientation.third = third
-            icon.control:Set3DRenderSpaceOrientation(first, second, third)
+    local pitch, yaw, roll = ConvertToPitchYawRollIfNeeded(first, second, third)
+    pitch = pitch or icon.orientation.pitch
+    yaw = yaw or icon.orientation.yaw
+    roll = roll or icon.orientation.roll
+
+    if (pitch ~= icon.orientation.pitch or
+        yaw ~= icon.orientation.yaw or
+        roll ~= icon.orientation.roll) then
+        icon.orientation.pitch = pitch
+        icon.orientation.yaw = yaw
+        icon.orientation.roll = roll
+        if (icon.isSpace) then
+            icon.control:SetTransformRotation(pitch, yaw, roll)
+        else
+            icon.control:Set3DRenderSpaceOrientation(pitch, yaw, roll)
         end
-    else
-        -- Forward, Right, Up
-        icon.orientation.first = first
-        icon.control:Set3DRenderSpaceForward(unpack(first))
-        icon.orientation.second = second
-        icon.control:Set3DRenderSpaceRight(unpack(second))
-        icon.orientation.third = third
-        icon.control:Set3DRenderSpaceUp(unpack(third))
     end
 end
 
@@ -183,7 +187,7 @@ end
 -- The icon can then be updated using calls like:
 --     icon:SetPosition(x, y, z)
 --     icon:SetColor(r, g, b, a)
---     icon:SetOrientation(forward, right, up) or icon:SetOrientation(pitch, yaw, roll). Should not be called for icons that face camera
+--     icon:SetOrientation(forward, right, up) or icon:SetOrientation(pitch, yaw, roll). (pitch, yaw, roll) is preferred for slightly less math. Should not be called for icons that face camera
 --     icon:SetTexture(path)
 -- Since this is called many times a second, the caller should take
 -- care to make it performant, e.g. do not create tables or functions
@@ -191,12 +195,15 @@ end
 ---------------------------------------------------------------------
 local useSpace = true
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
-    local isSpace = useSpace and not useDepthBuffer
+    orientation = orientation or {0, 0, 0}
+    local pitch, yaw, roll = ConvertToPitchYawRollIfNeeded(unpack(orientation))
+
+    local isSpace = useSpace and not useDepthBuffer and width == height -- Space framework is only squares for now
     local control, key
     if (isSpace) then
-        control, key = Draw.CreateSpaceControl(texture, x, y, z, width, height, color, orientation)
+        control, key = Draw.CreateSpaceControl(texture, x, y, z, width, height, color, {pitch, yaw, roll})
     else
-        control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
+        control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, {pitch, yaw, roll})
     end
     Draw.activeIcons[key] = {
         isSpace = isSpace,
@@ -206,7 +213,7 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         y = y,
         z = z,
         color = {r = color[1], g = color[2], b = color[3], a = color[4]},
-        orientation = orientation and {first = orientation[1], second = orientation[2], third = orientation[3]} or {},
+        orientation = {pitch = pitch, yaw = yaw, roll = roll},
         texture = texture,
         updateFunc = updateFunc,
 
@@ -334,6 +341,34 @@ end
 Draw.TestPoop = TestPoop
 --[[
 /script CrutchAlerts.Drawing.TestPoop()
+]]
+
+local function TestOrientation()
+    local _, x, y, z = GetUnitRawWorldPosition("player")
+    -- local forward = {0, -1, 0}
+    -- local right = {-1, 0, .4}
+    -- local up = {.4, 0, 1}
+
+    Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
+    local fX, fY, fZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceForward()
+    local rX, rY, rZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceRight()
+    local uX, uY, uZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceUp()
+
+    local forward = {fX, fY, fZ}
+    local right = {rX, rY, rZ}
+    local up = {uX, uY, uZ}
+
+    CrutchAlerts.Drawing.CreateWorldTexture("CrutchAlerts/assets/shape/diamond_orange_4.dds", x, y, z, 1, 1, {0, 1, 0, 0.5}, false, false, {forward, right, up})
+
+    zo_callLater(function()
+        _, x, y, z = GetUnitRawWorldPosition("player")
+        local pitch, yaw, roll = CrutchAlerts.Drawing.ConvertToPitchYawRollIfNeeded(forward, right, up)
+        CrutchAlerts.Drawing.CreateWorldTexture("CrutchAlerts/assets/shape/diamond_orange_4.dds", x, y, z, 1, 1, {0, 0, 1, 0.5}, false, false, {pitch, yaw, roll})
+    end, 1000)
+end
+Draw.TestOrientation = TestOrientation
+--[[
+/script CrutchAlerts.Drawing.TestOrientation()
 ]]
 
 

@@ -107,7 +107,7 @@ Draw.RemovePlacedIcon = RemovePlacedIcon
 -- x, y, z: default to player position
 -- size: diameter in meters, default 1
 -- color: {r, g, b, a} (max value 1), default white. Leave off the alpha to use user-specified opacity
--- orientation: 3 orientation vectors(?) or 3 degrees of freedom, defaults to being flat on the ground. Either {{fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}} or {pitch, yaw, roll}
+-- orientation: 3 orientation vectors(?) or 3 degrees of freedom, defaults to being flat on the ground. Either {{fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}} or {pitch, yaw, roll}. {pitch, yaw, roll} is preferred for slightly less math
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
 --
 -- @returns key: you must use this key to remove the texture later
@@ -162,7 +162,7 @@ Draw.RemoveOrientedTexture = RemoveOrientedTexture
 -- x, y, z: default to player position
 -- radius: radius in meters, default 3
 -- color: {r, g, b, a} (max value 1), default red. Leave off the alpha to use user-specified opacity
--- orientation: 3 orientation vectors(?) or 3 degrees of freedom, defaults to being flat on the ground. Either {{fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}} or {pitch, yaw, roll}
+-- orientation: 3 orientation vectors(?) or 3 degrees of freedom, defaults to being flat on the ground. Either {{fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}} or {pitch, yaw, roll}. {pitch, yaw, roll} is preferred for slightly less math
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
 --
 -- @returns key: you must use this key to remove the circle later

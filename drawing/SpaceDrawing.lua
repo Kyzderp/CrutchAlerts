@@ -9,8 +9,6 @@ local function AcquireControl()
 
     control:SetHidden(false)
     control:SetScale(0.01)
-    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
-    control:SetTransformScale(1)
 
     return control, key
 end
@@ -33,19 +31,12 @@ local function CreateSpaceControl(texture, x, y, z, width, height, color, orient
     textureControl:SetTexture(texture)
     textureControl:SetColor(unpack(color))
 
-    -- TODO: width, height
+    -- TODO: different width and height
+    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
+    control:SetTransformScale(width)
 
-    -- if (orientation) then
-    --     if (IsDOF(orientation[1])) then
-    --         -- pitch, yaw, roll
-    --         control:SetTransformRotation(unpack(orientation))
-    --     else
-    --         -- forward, right, up
-    --         control:Set3DRenderSpaceForward(unpack(orientation[1]))
-    --         control:Set3DRenderSpaceRight(unpack(orientation[2]))
-    --         control:Set3DRenderSpaceUp(unpack(orientation[3]))
-    --     end
-    -- end
+    -- pitch, yaw, roll
+    control:SetTransformRotation(unpack(orientation))
     return control, key
 end
 Draw.CreateSpaceControl = CreateSpaceControl
