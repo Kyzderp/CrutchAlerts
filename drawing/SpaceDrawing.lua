@@ -12,6 +12,14 @@ local function AcquireControl()
 
     control:SetAnchor(CENTER, GuiRoot, CENTER)
 
+    control:GetNamedChild("Texture"):SetSpace(SPACE_INTERFACE)
+    control:GetNamedChild("Texture"):SetTransformOffset(0, 0, 0.001)
+    control:GetNamedChild("Texture"):SetSpace(SPACE_WORLD)
+
+    control:GetNamedChild("Label"):SetSpace(SPACE_INTERFACE)
+    control:GetNamedChild("Label"):SetTransformOffset(0, 0, 0.002)
+    control:GetNamedChild("Label"):SetSpace(SPACE_WORLD)
+
     -- To not clash with RenderSpace keys when put in Draw.activeIcons together
     local spaceKey = "Space" .. key
     return control, spaceKey
@@ -41,6 +49,7 @@ local function ReleaseSpaceControl(key)
     local icon = Draw.activeIcons[key]
 
     icon.control:SetHidden(true)
+    icon.control:GetNamedChild("Backdrop"):SetHidden(true)
     icon.control:GetNamedChild("Texture"):SetHidden(true)
     icon.control:GetNamedChild("Label"):SetHidden(true)
 
@@ -78,7 +87,25 @@ local function SetText(icon, text)
     local label = icon.control:GetNamedChild("Label")
     if (label:GetText() ~= text) then
         label:SetText(text)
+        label:SetDimensions(2000, 2000)
+        label:SetDimensions(label:GetTextWidth(), label:GetTextHeight())
     end
+end
+
+local function SetBackdropColors(icon, centerR, centerG, centerB, centerA, edgeR, edgeG, edgeB, edgeA)
+    local backdrop = icon.control:GetNamedChild("Backdrop")
+
+    if (centerR or centerG or centerB) then
+        backdrop:SetCenterColor(centerR, centerG, centerB, centerA)
+    end
+
+    if (edgeR or edgeG or edgeB) then
+        backdrop:SetEdgeColor(edgeR, edgeG, edgeB, edgeA)
+    end
+end
+
+local function SetBackdropRoll(icon, roll)
+    icon.control:GetNamedChild("Backdrop"):SetTransformRotation(0, 0, roll)
 end
 
 ---------------------------------------------------------------------
@@ -95,6 +122,13 @@ options = {
         path = "CrutchAlerts/assets/poop.dds",
         size = 0.8,
         color = {1, 1, 1, 0.7},
+    },
+    backdrop = {
+        width = 100,
+        height = 100,
+        centerColor = {0, 0, 1, 1},
+        edgeColor = {0, 0, 0.2, 1},
+        roll = math.pi/4,
     },
 }
 ]]
@@ -122,6 +156,16 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         textureControl:SetTransformScale(options.texture.size)
     end
 
+    if (options.backdrop) then
+        local backdrop = control:GetNamedChild("Backdrop")
+        backdrop:SetHidden(false)
+        backdrop:SetDimensions(options.backdrop.width or 100, options.backdrop.height or 100)
+        backdrop:SetCenterColor(unpack(options.backdrop.centerColor))
+        backdrop:SetEdgeColor(unpack(options.backdrop.edgeColor))
+
+        backdrop:SetTransformRotation(0, 0, options.backdrop.roll or 0)
+    end
+
     -- TODO?
     control:SetTransformScale(1)
 
@@ -141,7 +185,9 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         options.texture and Draw.SetColor or nil,
         options.texture and Draw.SetTexture or nil,
         options.label and SetText or nil,
-        options.label and function(icon, r, g, b, a) Draw.SetColor(icon, r, g, b, a, "Label") end or nil)
+        options.label and function(icon, r, g, b, a) Draw.SetColor(icon, r, g, b, a, "Label") end or nil,
+        options.backdrop and SetBackdropColors or nil,
+        options.backdrop and SetBackdropRoll or nil)
 
     return control, key
 end
@@ -209,6 +255,40 @@ end
 Draw.TestPoopText = TestPoopText
 --[[
 /script CrutchAlerts.Drawing.TestPoopText()
+]]
+
+local function TestMarker()
+    local _, x, y, z = GetUnitRawWorldPosition("player")
+    local options = {
+        label = {
+            text = "8",
+            size = 80,
+            color = {1, 1, 1, 1},
+        },
+        backdrop = {
+            width = 100,
+            height = 100,
+            centerColor = {0, 0, 1, 1},
+            edgeColor = {0, 0, 0.2, 1},
+        },
+    }
+
+    -- CreateSpaceControl(x, y, z, true, nil, options)
+    CreateSpaceControl(x, y, z, true, nil, options, function(icon)
+        local time = GetGameTimeMilliseconds() % 3000 / 3000
+        icon:SetFontColor(Crutch.ConvertHSLToRGB(time, 1, 0.5))
+        icon:SetText(math.floor(GetGameTimeSeconds() % 10))
+
+        local time3 = (GetGameTimeMilliseconds() + 2000) % 3000 / 3000
+        local centerR, centerG, centerB = Crutch.ConvertHSLToRGB(time3, 1, 0.5)
+        local edgeR, edgeG, edgeB = Crutch.ConvertHSLToRGB(time3, 1, 0.06)
+        icon:SetBackdropColors(centerR, centerG, centerB, 1, edgeR, edgeG, edgeB, 1)
+        icon:SetBackdropRoll(time3 * math.pi * 2 * 2)
+    end)
+end
+Draw.TestMarker = TestMarker
+--[[
+/script CrutchAlerts.Drawing.TestMarker()
 ]]
 
 

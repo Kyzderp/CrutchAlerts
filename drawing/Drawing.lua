@@ -122,7 +122,7 @@ Draw.SetTexture = SetTexture
 ---------------------------------------------------------------------
 -- Common for both Space and RenderSpace
 ---------------------------------------------------------------------
-local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextFunc, setFontColorFunc)
+local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextFunc, setFontColorFunc, setBackdropColorsFunc, setBackdropRollFunc)
     Draw.activeIcons[key] = {
         isSpace = isSpace,
         control = control,
@@ -141,6 +141,8 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  fac
         SetTexture = setTextureFunc, -- All RenderSpace; Space textures
         SetText = setTextFunc, -- Space labels
         SetFontColor = setFontColorFunc, -- Space labels
+        SetBackdropColors = setBackdropColorsFunc, -- Space backdrops
+        SetBackdropRoll = setBackdropRollFunc, -- Space backdrops
     }
     Draw.MaybeStartPolling()
 

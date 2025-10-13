@@ -7,6 +7,11 @@
             <Dimensions x="100" y="100"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER"/>
             <Controls>
+                <Backdrop name="$(parent)Backdrop" centerColor="FFFFFFFF" edgeColor="FF222222" hidden="true">
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                    <Dimensions x="100" y="100"/>
+                    <Edge edgeSize="6"/>
+                </Backdrop>
                 <Texture name="$(parent)Texture" hidden="true" level="1">
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                     <Dimensions x="100" y="100"/>
