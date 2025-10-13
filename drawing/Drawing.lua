@@ -34,31 +34,19 @@ Draw.SetPosition = SetPosition
 
 -- Callback to set color, keeping old if nil
 local function SetColor(icon, r, g, b, a, childControlName)
-    -- Not sure if doing this is actually more efficient
-    local changed = false
-    if (r and icon.color.r ~= r) then
-        icon.color.r = r
-        changed = true
+    local control
+    if (icon.isSpace) then
+        control = icon.control:GetNamedChild(childControlName or "Texture")
+    else
+        control = icon.control
     end
-    if (g and icon.color.g ~= g) then
-        icon.color.g = g
-        changed = true
-    end
-    if (b and icon.color.b ~= b) then
-        icon.color.b = b
-        changed = true
-    end
-    if (a and icon.color.a ~= a) then
-        icon.color.a = a
-        changed = true
-    end
-    if (changed) then
-        if (icon.isSpace) then
-            icon.control:GetNamedChild(childControlName or "Texture"):SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
-        else
-            icon.control:SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
-        end
-    end
+
+    local oldR, oldG, oldB, oldA = control:GetColor()
+    r = r or oldR
+    g = g or oldG
+    b = b or oldB
+
+    control:SetColor(r, g, b, a)
 end
 Draw.SetColor = SetColor
 
@@ -128,12 +116,13 @@ local function SetTexture(icon, path)
         end
     end
 end
+Draw.SetTexture = SetTexture
 
 
 ---------------------------------------------------------------------
 -- Common for both Space and RenderSpace
 ---------------------------------------------------------------------
-local function CreateControlCommon(isSpace, control, key, texture, x, y, z, color, faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc, setTextFunc)
+local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextFunc, setFontColorFunc)
     Draw.activeIcons[key] = {
         isSpace = isSpace,
         control = control,
@@ -141,17 +130,17 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z, colo
         x = x,
         y = y,
         z = z,
-        color = {r = color[1], g = color[2], b = color[3], a = color[4]},
         orientation = {pitch = pitch, yaw = yaw, roll = roll},
         texture = texture,
         updateFunc = updateFunc,
 
         -- Callback functions
         SetPosition = setPositionFunc,
-        SetColor = setColorFunc,
         SetOrientation = setOrientationFunc,
+        SetColor = setColorFunc,
         SetTexture = setTextureFunc, -- All RenderSpace; Space textures
         SetText = setTextFunc, -- Space labels
+        SetFontColor = setFontColorFunc, -- Space labels
     }
     Draw.MaybeStartPolling()
 
@@ -220,13 +209,12 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         key,
         texture,
         x, y, z,
-        color,
         faceCamera,
         pitch, yaw, roll,
         updateFunc,
         SetPosition,
-        SetColor,
         SetOrientation,
+        SetColor,
         SetTexture)
 
     return key

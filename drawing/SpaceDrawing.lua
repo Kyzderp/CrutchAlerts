@@ -72,7 +72,7 @@ Draw.CreateSpaceTexture = CreateSpaceTexture
 
 
 ---------------------------------------------------------------------
--- Text label
+-- Update functions
 ---------------------------------------------------------------------
 local function SetText(icon, text)
     local label = icon.control:GetNamedChild("Label")
@@ -81,17 +81,46 @@ local function SetText(icon, text)
     end
 end
 
--- Public API
-local function CreateSpaceLabel(text, x, y, z, fontSize, color, faceCamera, orientation, updateFunc)
+---------------------------------------------------------------------
+-- Generic public API
+-- @param options: table with options for which elements to enable
+--[[
+options = {
+    label = {
+        text = "Hello world",
+        size = 100,
+        color = {0.5, 1, 0.6, 0.8},
+    },
+    texture = {
+        path = "CrutchAlerts/assets/poop.dds",
+        size = 0.8,
+        color = {1, 1, 1, 0.7},
+    },
+}
+]]
+---------------------------------------------------------------------
+local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, updateFunc)
+    orientation = orientation or {0, 0, 0}
     local control, key = CreateSpaceControlCommon(x, y, z, orientation)
 
-    local labelControl = control:GetNamedChild("Label")
-    labelControl:SetHidden(false)
-    labelControl:SetFont(Crutch.GetStyles().GetMarkerFont(fontSize))
-    labelControl:SetColor(unpack(color))
-    labelControl:SetText(text)
-    labelControl:SetDimensions(2000, 2000)
-    labelControl:SetDimensions(labelControl:GetTextWidth(), labelControl:GetTextHeight())
+    if (options.label) then
+        local label = control:GetNamedChild("Label")
+        label:SetHidden(false)
+        label:SetFont(Crutch.GetStyles().GetMarkerFont(options.label.size))
+        label:SetAlpha(1) -- In case it's not specified by color
+        label:SetColor(unpack(options.label.color))
+        label:SetText(options.label.text)
+        label:SetDimensions(2000, 2000)
+        label:SetDimensions(label:GetTextWidth(), label:GetTextHeight())
+    end
+
+    if (options.texture) then
+        local textureControl = control:GetNamedChild("Texture")
+        textureControl:SetHidden(false)
+        textureControl:SetTexture(options.texture.path)
+        textureControl:SetColor(unpack(options.texture.color))
+        textureControl:SetTransformScale(options.texture.size)
+    end
 
     -- TODO?
     control:SetTransformScale(1)
@@ -102,23 +131,40 @@ local function CreateSpaceLabel(text, x, y, z, fontSize, color, faceCamera, orie
         true, -- isSpace
         control,
         key,
-        nil, -- texture
+        options.texture and options.texture.path, -- texture
         x, y, z,
-        color,
         faceCamera,
         pitch, yaw, roll,
         updateFunc,
         Draw.SetPosition,
-        function(icon, r, g, b, a) Draw.SetColor(icon, r, g, b, a, "Label") end,
         Draw.SetOrientation,
-        nil, -- SetTexture
-        SetText)
+        options.texture and Draw.SetColor or nil,
+        options.texture and Draw.SetTexture or nil,
+        options.label and SetText or nil,
+        options.label and function(icon, r, g, b, a) Draw.SetColor(icon, r, g, b, a, "Label") end or nil)
 
     return control, key
 end
+Draw.CreateSpaceControl = CreateSpaceControl
+
+
+---------------------------------------------------------------------
+-- Text label
+---------------------------------------------------------------------
+-- Public API
+local function CreateSpaceLabel(text, x, y, z, fontSize, color, faceCamera, orientation, updateFunc)
+    local options = {
+        label = {
+            text = text,
+            size = fontSize,
+            color = color,
+        }
+    }
+    return CreateSpaceControl(x, y, z, faceCamera, orientation, options, updateFunc)
+end
 Draw.CreateSpaceLabel = CreateSpaceLabel
 --[[
-/script local _, x, y, z = GetUnitRawWorldPosition("player") CrutchAlerts.Drawing.CreateSpaceLabel("asdfasdfs fdsfs", x, y, z, 120, {1, 1, 1, 1}, true, {0, 0, 0}, function(icon) local time = GetGameTimeMilliseconds() % 3000 / 3000 icon:SetColor(CrutchAlerts.ConvertHSLToRGB(time, 1, 0.5)) icon:SetText(math.floor(GetGameTimeSeconds())) end)
+/script local _, x, y, z = GetUnitRawWorldPosition("player") CrutchAlerts.Drawing.CreateSpaceLabel("asdfasdfs fdsfs", x, y, z, 120, {1, 1, 1, 1}, true, {0, 0, 0}, function(icon) local time = GetGameTimeMilliseconds() % 3000 / 3000 icon:SetFontColor(CrutchAlerts.ConvertHSLToRGB(time, 1, 0.5)) icon:SetText(math.floor(GetGameTimeSeconds())) end)
 ]]
 
 
@@ -134,6 +180,37 @@ Draw.TestSpacePoop = TestSpacePoop
 /script CrutchAlerts.Drawing.TestSpacePoop()
 /tb CrutchAlertsSpaceCrutchAlertsSpaceControl1
 ]]
+
+local function TestPoopText()
+    local _, x, y, z = GetUnitRawWorldPosition("player")
+    local options = {
+        label = {
+            text = "my armory has a mind of its own",
+            size = 80,
+            color = {1, 1, 1, 1},
+        },
+        texture = {
+            path = "CrutchAlerts/assets/poop.dds",
+            size = 1,
+            color = {1, 1, 1, 1},
+        },
+    }
+
+    -- CreateSpaceControl(x, y, z, true, nil, options)
+    CreateSpaceControl(x, y, z, true, nil, options, function(icon)
+        local time = GetGameTimeMilliseconds() % 3000 / 3000
+        icon:SetFontColor(CrutchAlerts.ConvertHSLToRGB(time, 1, 0.5))
+        icon:SetText(math.floor(GetGameTimeSeconds()))
+
+        local time2 = (GetGameTimeMilliseconds() + 1500) % 3000 / 3000
+        icon:SetColor(CrutchAlerts.ConvertHSLToRGB(time2, 1, 0.5))
+    end)
+end
+Draw.TestPoopText = TestPoopText
+--[[
+/script CrutchAlerts.Drawing.TestPoopText()
+]]
+
 
 ---------------------------------------------------------------------
 -- Init

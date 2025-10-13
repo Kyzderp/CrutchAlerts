@@ -35,6 +35,7 @@ local function DoUpdate()
             end
 
             if (icon.isSpace) then
+                -- TODO: retain roll?
                 icon.control:SetTransformRotation(cameraPitch, cameraYaw, 0)
             else
                 icon.control:Set3DRenderSpaceForward(fX, fY, fZ)
