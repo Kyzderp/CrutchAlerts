@@ -10,7 +10,9 @@ local function AcquireControl()
     control:SetHidden(false)
     control:SetScale(0.01)
 
-    return control, key
+    -- To not clash with RenderSpace keys when put in Draw.activeIcons together
+    local spaceKey = "Space" .. key
+    return control, spaceKey
 end
 
 
@@ -40,13 +42,15 @@ local function ReleaseSpaceControl(key)
     icon.control:GetNamedChild("Texture"):SetHidden(true)
     icon.control:GetNamedChild("Label"):SetHidden(true)
 
-    controlPool:ReleaseObject(key)
+    local realKey = string.sub(key, 6)
+    controlPool:ReleaseObject(realKey)
 end
 Draw.ReleaseSpaceControl = ReleaseSpaceControl
 
 
 ---------------------------------------------------------------------
 -- Texture, similar to RenderSpace
+-- DO NOT CALL THIS DIRECTLY. See Draw.CreateWorldTexture
 ---------------------------------------------------------------------
 local function CreateSpaceTexture(texture, x, y, z, width, height, color, orientation)
     local control, key = CreateSpaceControlCommon(x, y, z, orientation)

@@ -2,53 +2,12 @@ local Crutch = CrutchAlerts
 local Draw = Crutch.Drawing
 
 ---------------------------------------------------------------------
--- wow, using a pool for the first time instead of making my own janky version
-local controlPool
 Draw.activeIcons = {} -- {[key] = {control = control, faceCamera = true, x = x, y = y, z = z, updateFunc = function() end}}
 -- /script d(CrutchAlerts.Drawing.activeIcons)
-
-local function AcquireTexture()
-    local control, key = controlPool:AcquireObject()
-
-    control:SetHidden(false)
-    control:Create3DRenderSpace()
-    control:SetColor(1, 1, 1, 1)
-
-    return control, key
-end
-
--- Just a workaround for now; textures fade in when they are loaded for the first time,
--- but that doesn't look good when used for curse countdown, so load them in before
--- they need to be used.
-local function LoadTextures(textures)
-    local control, key = controlPool:AcquireObject()
-    control:SetHidden(true)
-    for _, texture in ipairs(textures) do
-        control:SetTexture(texture)
-    end
-    controlPool:ReleaseObject(key)
-end
-Draw.LoadTextures = LoadTextures
 
 -- Pitch, yaw, roll
 local function IsDOF(value)
     return type(value) == "number"
-end
-
----------------------------------------------------------------------
--- The core 3D code, at its simplest... or close to it
----------------------------------------------------------------------
-local function Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, orientation)
-    local control, key = AcquireTexture()
-    control:SetTexture(texture)
-    control:SetColor(unpack(color))
-    control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y, z))
-    control:Set3DLocalDimensions(width, height)
-    control:Set3DRenderSpaceUsesDepthBuffer(useDepthBuffer)
-
-    -- pitch, yaw, roll
-    control:Set3DRenderSpaceOrientation(unpack(orientation))
-    return control, key
 end
 
 ---------------------------------------------------------------------
@@ -61,7 +20,7 @@ local function SetPosition(icon, x, y, z)
         icon.y = y or icon.y
         icon.z = z or icon.z
         if (icon.isSpace) then
-            local oX, oY, oZ = GuiRender3DPositionToWorldPosition(0, 0, 0) -- TODO: is this expensive?
+            local oX, oY, oZ = GuiRender3DPositionToWorldPosition(0, 0, 0) -- TODO: maybe move this out
             local tX = (x - oX) / 100
             local tY = y / 100
             local tZ = (z - oZ) / 100
@@ -195,12 +154,14 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z, colo
     CrutchAlerts.dbgSpam(string.format("Created texture |t100%%:100%%:%s|t key %s %s {%d, %d, %d} %s",
         texture,
         key,
-        isSpace and "SPACE" or "RenderSpace",
+        isSpace and "Space" or "RenderSpace",
         x,
         y,
         z,
         control:GetName()))
 end
+Draw.CreateControlCommon = CreateControlCommon
+
 
 ---------------------------------------------------------------------
 -- Creating and removing textures
@@ -239,7 +200,7 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
     if (isSpace) then
         control, key = Draw.CreateSpaceTexture(texture, x, y, z, width, height, color, {pitch, yaw, roll})
     else
-        control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, {pitch, yaw, roll})
+        control, key = Draw.CreateRenderSpaceTexture(texture, x, y, z, width, height, color, useDepthBuffer, {pitch, yaw, roll})
     end
 
     CreateControlCommon(
@@ -273,10 +234,9 @@ local function RemoveWorldTexture(key)
     if (icon.isSpace) then
         Draw.ReleaseSpaceControl(key)
     else
-        icon.control:Destroy3DRenderSpace()
-        icon.control:SetHidden(true)
-        controlPool:ReleaseObject(key)
+        Draw.ReleaseRenderSpaceTexture(key)
     end
+
     Draw.activeIcons[key] = nil
     Draw.MaybeStopPolling()
 end
@@ -394,13 +354,3 @@ Draw.TestOrientation = TestOrientation
 --[[
 /script CrutchAlerts.Drawing.TestOrientation()
 ]]
-
-
----------------------------------------------------------------------
--- Init 3D render space and stuff idk
----------------------------------------------------------------------
-function Draw.Initialize()
-    CrutchAlertsDrawingCamera:Create3DRenderSpace()
-    controlPool = ZO_ControlPool:New("CrutchAlertsDrawingTexture", CrutchAlertsDrawing)
-    Draw.InitializeAttachedIcons()
-end
