@@ -166,6 +166,42 @@ local function SetTexture(icon, path)
         end
     end
 end
+
+
+---------------------------------------------------------------------
+-- Common for both Space and RenderSpace
+---------------------------------------------------------------------
+local function CreateControlCommon(isSpace, control, key, texture, x, y, z, color,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
+    Draw.activeIcons[key] = {
+        isSpace = isSpace,
+        control = control,
+        faceCamera = faceCamera,
+        x = x,
+        y = y,
+        z = z,
+        color = {r = color[1], g = color[2], b = color[3], a = color[4]},
+        orientation = {pitch = pitch, yaw = yaw, roll = roll},
+        texture = texture,
+        updateFunc = updateFunc,
+
+        -- Callback functions
+        SetPosition = setPositionFunc,
+        SetColor = setColorFunc,
+        SetOrientation = setOrientationFunc,
+        SetTexture = setTextureFunc,
+    }
+    Draw.MaybeStartPolling()
+
+    CrutchAlerts.dbgSpam(string.format("Created texture |t100%%:100%%:%s|t key %s %s {%d, %d, %d} %s",
+        texture,
+        key,
+        isSpace and "SPACE" or "RenderSpace",
+        x,
+        y,
+        z,
+        control:GetName()))
+end
+
 ---------------------------------------------------------------------
 -- Creating and removing textures
 --
@@ -201,38 +237,26 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
     local isSpace = useSpace and not useDepthBuffer and width == height -- Space framework is only squares for now
     local control, key
     if (isSpace) then
-        control, key = Draw.CreateSpaceControl(texture, x, y, z, width, height, color, {pitch, yaw, roll})
+        control, key = Draw.CreateSpaceTexture(texture, x, y, z, width, height, color, {pitch, yaw, roll})
     else
         control, key = Create3DControl(texture, x, y, z, width, height, color, useDepthBuffer, {pitch, yaw, roll})
     end
-    Draw.activeIcons[key] = {
-        isSpace = isSpace,
-        control = control,
-        faceCamera = faceCamera,
-        x = x,
-        y = y,
-        z = z,
-        color = {r = color[1], g = color[2], b = color[3], a = color[4]},
-        orientation = {pitch = pitch, yaw = yaw, roll = roll},
-        texture = texture,
-        updateFunc = updateFunc,
 
-        -- Callback functions
-        SetPosition = SetPosition,
-        SetColor = SetColor,
-        SetOrientation = SetOrientation,
-        SetTexture = SetTexture,
-    }
-    Draw.MaybeStartPolling()
-
-    CrutchAlerts.dbgSpam(string.format("Created texture |t100%%:100%%:%s|t key %s %s {%d, %d, %d} %s",
-        texture,
+    CreateControlCommon(
+        isSpace,
+        control,
         key,
-        isSpace and "SPACE" or "RenderSpace",
-        x,
-        y,
-        z,
-        control:GetName()))
+        texture,
+        x, y, z,
+        color,
+        faceCamera,
+        pitch, yaw, roll,
+        updateFunc,
+        SetPosition,
+        SetColor,
+        SetOrientation,
+        SetTexture)
+
     return key
 end
 Draw.CreateWorldTexture = CreateWorldTexture

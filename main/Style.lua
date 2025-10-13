@@ -11,6 +11,9 @@ local KEYBOARD_STYLE = {
     GetBHBFont = function(size)
         return string.format("$(BOLD_FONT)|%d|shadow", math.floor(size))
     end,
+    GetMarkerFont = function(size)
+        return string.format("$(BOLD_FONT)|%d|thick-outline", math.floor(size))
+    end,
 }
 
 local GAMEPAD_STYLE = {
@@ -21,6 +24,9 @@ local GAMEPAD_STYLE = {
     prominentFont = "ZoFontGamepad61",
     GetBHBFont = function(size)
         return string.format("$(GAMEPAD_MEDIUM_FONT)|%d|soft-shadow-thick", math.floor(size))
+    end,
+    GetMarkerFont = function(size)
+        return string.format("$(GAMEPAD_BOLD_FONT)|%d|thick-outline", math.floor(size))
     end,
 }
 

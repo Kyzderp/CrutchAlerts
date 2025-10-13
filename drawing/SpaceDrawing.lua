@@ -17,8 +17,9 @@ end
 ---------------------------------------------------------------------
 -- Core
 ---------------------------------------------------------------------
-local function CreateSpaceControl(texture, x, y, z, width, height, color, orientation)
+local function CreateSpaceControlCommon(x, y, z, orientation)
     local control, key = AcquireControl()
+    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
 
     -- Position is a bit different from RenderSpace
     local oX, oY, oZ = GuiRender3DPositionToWorldPosition(0, 0, 0)
@@ -27,27 +28,65 @@ local function CreateSpaceControl(texture, x, y, z, width, height, color, orient
     local tZ = (z - oZ) / 100
     control:SetTransformOffset(tX, tY, tZ)
 
-    local textureControl = control:GetNamedChild("Texture")
-    textureControl:SetTexture(texture)
-    textureControl:SetColor(unpack(color))
-
-    -- TODO: different width and height
-    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
-    control:SetTransformScale(width)
-
     -- pitch, yaw, roll
     control:SetTransformRotation(unpack(orientation))
     return control, key
 end
-Draw.CreateSpaceControl = CreateSpaceControl
 
 local function ReleaseSpaceControl(key)
     local icon = Draw.activeIcons[key]
 
     icon.control:SetHidden(true)
+    icon.control:GetNamedChild("Texture"):SetHidden(true)
+    icon.control:GetNamedChild("Label"):SetHidden(true)
+
     controlPool:ReleaseObject(key)
 end
 Draw.ReleaseSpaceControl = ReleaseSpaceControl
+
+
+---------------------------------------------------------------------
+-- Texture, similar to RenderSpace
+---------------------------------------------------------------------
+local function CreateSpaceTexture(texture, x, y, z, width, height, color, orientation)
+    local control, key = CreateSpaceControlCommon(x, y, z, orientation)
+
+    local textureControl = control:GetNamedChild("Texture")
+    textureControl:SetHidden(false)
+    textureControl:SetTexture(texture)
+    textureControl:SetColor(unpack(color))
+
+    -- TODO: width and height?
+    control:SetTransformScale(width)
+
+    return control, key
+end
+Draw.CreateSpaceTexture = CreateSpaceTexture
+
+
+---------------------------------------------------------------------
+-- Text label
+---------------------------------------------------------------------
+local function CreateSpaceLabel(text, x, y, z, size, color, orientation)
+    local control, key = CreateSpaceControlCommon(x, y, z, orientation)
+
+    local labelControl = control:GetNamedChild("Label")
+    labelControl:SetHidden(false)
+    labelControl:SetFont(Crutch.GetStyles().GetMarkerFont(size))
+    labelControl:SetColor(unpack(color))
+    labelControl:SetText(text)
+    labelControl:SetDimensions(2000, 2000)
+    labelControl:SetDimensions(labelControl:GetTextWidth(), labelControl:GetTextHeight())
+
+    -- TODO?
+    control:SetTransformScale(1)
+
+    return control, key
+end
+Draw.CreateSpaceLabel = CreateSpaceLabel
+--[[
+/script local _, x, y, z = GetUnitRawWorldPosition("player") CrutchAlerts.Drawing.CreateSpaceLabel("asdfasdfs fdsfs", x, y, z, 120, {1, 1, 1, 1}, {0, 0, 0})
+]]
 
 
 ---------------------------------------------------------------------
@@ -55,7 +94,7 @@ Draw.ReleaseSpaceControl = ReleaseSpaceControl
 ---------------------------------------------------------------------
 local function TestSpacePoop()
     local _, x, y, z = GetUnitRawWorldPosition("player")
-    CreateSpaceControl("CrutchAlerts/assets/poop.dds", x, y, z, 1, 1, {1, 1, 1}, {0, 0, 0})
+    CreateSpaceTexture("CrutchAlerts/assets/poop.dds", x, y, z, 1, 1, {1, 1, 1}, {0, 0, 0})
 end
 Draw.TestSpacePoop = TestSpacePoop
 --[[

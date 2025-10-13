@@ -23,15 +23,11 @@ local function CreatePlacedPositionMarker(texture, x, y, z, size, color)
     end
 
     local faceCamera = not Crutch.savedOptions.drawing.placedPositioning.flat
-    local forwardRightUp
+    local orientation
     if (faceCamera) then
         y = y + size / 2
     else
-        forwardRightUp = {
-            {0, -1, 0},
-            {1, 0, 0},
-            {0, 0, -1},
-        }
+        orientation = {-math.pi/2, 0, 0}
         y = y + 5 -- To hopefully not sink in the ground, if depth buffers are off
     end
 
@@ -45,7 +41,7 @@ local function CreatePlacedPositionMarker(texture, x, y, z, size, color)
         {r, g, b, a},
         Crutch.savedOptions.drawing.placedPositioning.useDepthBuffers,
         faceCamera,
-        forwardRightUp)
+        orientation)
 end
 Draw.CreatePlacedPositionMarker = CreatePlacedPositionMarker
 
