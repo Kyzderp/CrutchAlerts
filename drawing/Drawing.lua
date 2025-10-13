@@ -30,9 +30,10 @@ local function SetPosition(icon, x, y, z)
         end
     end
 end
+Draw.SetPosition = SetPosition
 
 -- Callback to set color, keeping old if nil
-local function SetColor(icon, r, g, b, a)
+local function SetColor(icon, r, g, b, a, childControlName)
     -- Not sure if doing this is actually more efficient
     local changed = false
     if (r and icon.color.r ~= r) then
@@ -53,12 +54,13 @@ local function SetColor(icon, r, g, b, a)
     end
     if (changed) then
         if (icon.isSpace) then
-            icon.control:GetNamedChild("Texture"):SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
+            icon.control:GetNamedChild(childControlName or "Texture"):SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
         else
             icon.control:SetColor(icon.color.r, icon.color.g, icon.color.b, icon.color.a)
         end
     end
 end
+Draw.SetColor = SetColor
 
 -- Util
 local function ConvertToPitchYawRollIfNeeded(first, second, third)
@@ -113,6 +115,7 @@ local function SetOrientation(icon, first, second, third)
         end
     end
 end
+Draw.SetOrientation = SetOrientation
 
 -- Callback to set texture, keeping old if nil
 local function SetTexture(icon, path)
@@ -130,7 +133,7 @@ end
 ---------------------------------------------------------------------
 -- Common for both Space and RenderSpace
 ---------------------------------------------------------------------
-local function CreateControlCommon(isSpace, control, key, texture, x, y, z, color,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc)
+local function CreateControlCommon(isSpace, control, key, texture, x, y, z, color, faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setColorFunc, setOrientationFunc, setTextureFunc, setTextFunc)
     Draw.activeIcons[key] = {
         isSpace = isSpace,
         control = control,
@@ -147,12 +150,20 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z, colo
         SetPosition = setPositionFunc,
         SetColor = setColorFunc,
         SetOrientation = setOrientationFunc,
-        SetTexture = setTextureFunc,
+        SetTexture = setTextureFunc, -- All RenderSpace; Space textures
+        SetText = setTextFunc, -- Space labels
     }
     Draw.MaybeStartPolling()
 
-    CrutchAlerts.dbgSpam(string.format("Created texture |t100%%:100%%:%s|t key %s %s {%d, %d, %d} %s",
-        texture,
+    local controlDebugString = ""
+    if (texture) then
+        controlDebugString = string.format("texture |t100%%:100%%:%s|t", texture)
+    elseif (setTextFunc) then
+        controlDebugString = "text label"
+    end
+
+    CrutchAlerts.dbgSpam(string.format("Created %s key %s %s {%d, %d, %d} %s",
+        controlDebugString,
         key,
         isSpace and "Space" or "RenderSpace",
         x,

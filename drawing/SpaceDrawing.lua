@@ -42,7 +42,7 @@ local function ReleaseSpaceControl(key)
     icon.control:GetNamedChild("Texture"):SetHidden(true)
     icon.control:GetNamedChild("Label"):SetHidden(true)
 
-    local realKey = string.sub(key, 6)
+    local realKey = tonumber(string.sub(key, 6))
     controlPool:ReleaseObject(realKey)
 end
 Draw.ReleaseSpaceControl = ReleaseSpaceControl
@@ -50,7 +50,8 @@ Draw.ReleaseSpaceControl = ReleaseSpaceControl
 
 ---------------------------------------------------------------------
 -- Texture, similar to RenderSpace
--- DO NOT CALL THIS DIRECTLY. See Draw.CreateWorldTexture
+-- DO NOT CALL THIS DIRECTLY. See Draw.CreateWorldTexture for entry
+-- point (except that's not the recommended entry point either...)
 ---------------------------------------------------------------------
 local function CreateSpaceTexture(texture, x, y, z, width, height, color, orientation)
     local control, key = CreateSpaceControlCommon(x, y, z, orientation)
@@ -71,12 +72,20 @@ Draw.CreateSpaceTexture = CreateSpaceTexture
 ---------------------------------------------------------------------
 -- Text label
 ---------------------------------------------------------------------
-local function CreateSpaceLabel(text, x, y, z, size, color, orientation)
+local function SetText(icon, text)
+    local label = icon.control:GetNamedChild("Label")
+    if (label:GetText() ~= text) then
+        label:SetText(text)
+    end
+end
+
+-- Public API
+local function CreateSpaceLabel(text, x, y, z, fontSize, color, faceCamera, orientation, updateFunc)
     local control, key = CreateSpaceControlCommon(x, y, z, orientation)
 
     local labelControl = control:GetNamedChild("Label")
     labelControl:SetHidden(false)
-    labelControl:SetFont(Crutch.GetStyles().GetMarkerFont(size))
+    labelControl:SetFont(Crutch.GetStyles().GetMarkerFont(fontSize))
     labelControl:SetColor(unpack(color))
     labelControl:SetText(text)
     labelControl:SetDimensions(2000, 2000)
@@ -85,11 +94,29 @@ local function CreateSpaceLabel(text, x, y, z, size, color, orientation)
     -- TODO?
     control:SetTransformScale(1)
 
+    local pitch, yaw, roll = Draw.ConvertToPitchYawRollIfNeeded(unpack(orientation))
+
+    Draw.CreateControlCommon(
+        true, -- isSpace
+        control,
+        key,
+        nil, -- texture
+        x, y, z,
+        color,
+        faceCamera,
+        pitch, yaw, roll,
+        updateFunc,
+        Draw.SetPosition,
+        function(icon, r, g, b, a) Draw.SetColor(icon, r, g, b, a, "Label") end,
+        Draw.SetOrientation,
+        nil, -- SetTexture
+        SetText)
+
     return control, key
 end
 Draw.CreateSpaceLabel = CreateSpaceLabel
 --[[
-/script local _, x, y, z = GetUnitRawWorldPosition("player") CrutchAlerts.Drawing.CreateSpaceLabel("asdfasdfs fdsfs", x, y, z, 120, {1, 1, 1, 1}, {0, 0, 0})
+/script local _, x, y, z = GetUnitRawWorldPosition("player") CrutchAlerts.Drawing.CreateSpaceLabel("asdfasdfs fdsfs", x, y, z, 120, {1, 1, 1, 1}, true, {0, 0, 0}, function(icon) local time = GetGameTimeMilliseconds() % 3000 / 3000 icon:SetColor(CrutchAlerts.ConvertHSLToRGB(time, 1, 0.5)) icon:SetText(math.floor(GetGameTimeSeconds())) end)
 ]]
 
 
