@@ -10,6 +10,8 @@ local function AcquireControl()
     control:SetHidden(false)
     control:SetScale(0.01)
 
+    control:SetAnchor(CENTER, GuiRoot, CENTER)
+
     -- To not clash with RenderSpace keys when put in Draw.activeIcons together
     local spaceKey = "Space" .. key
     return control, spaceKey
