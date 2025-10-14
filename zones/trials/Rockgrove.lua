@@ -319,6 +319,7 @@ local function GetTextureForDuration(durationMillis)
     return string.format("CrutchAlerts/assets/shape/diamond_orange_%d.dds", duration)
 end
 
+local cycleTime = 700
 local function DeathTouchIconUpdate(icon, unitTag, endTime)
     local duration = endTime * 1000 - GetGameTimeMilliseconds()
     if (duration < -1000) then
@@ -326,36 +327,41 @@ local function DeathTouchIconUpdate(icon, unitTag, endTime)
         return
     end
 
+    -- Countdown text
     local text
     if (duration <= 0) then
         text = "!"
     elseif (duration < 1000) then
         text = string.format("%.1f", duration / 1000)
-        icon:SetBackdropRoll(duration / 1000 * math.pi * 4)
     else
         text = tostring(math.ceil(duration / 1000))
     end
     icon:SetText(text)
+
+    -- Pulsing animation in last 2s
+    if (duration <= 2000) then
+        local t = ((2000 - duration) % cycleTime) / cycleTime
+        Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t)
+    end
 end
 
 local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         local duration = (endTime - beginTime) * 1000
-        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, GetTextureForDuration(duration), 120, nil, false, function(icon)
+        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, "CrutchAlerts/assets/shape/diamond_orange.dds", 120, nil, false, function(icon)
             DeathTouchIconUpdate(icon, unitTag, endTime)
         end,
         {
             label = {
                 text = "9",
-                size = 60,
+                size = 45,
                 color = {1, 1, 1, 0.8},
             },
-            backdrop = {
-                width = 80,
-                height = 80,
-                centerColor = {1, 0.5, 0, 0.8},
-                edgeColor = {0.2, 0.1, 0, 0.8},
-                roll = math.pi/4,
+            composite = {
+                size = 1.7,
+                init = function(composite)
+                    Crutch.Drawing.Animation.PulseInitial(composite, "CrutchAlerts/assets/shape/diamond_orange.dds", 0.5)
+                end,
             },
         })
         --[[

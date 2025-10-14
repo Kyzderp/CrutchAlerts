@@ -5,7 +5,7 @@
 CrutchAlerts = {
     BossHealthBar = {},
     Drawing = {
-        Animations = {},
+        Animation = {},
     },
 }
 local Crutch = CrutchAlerts

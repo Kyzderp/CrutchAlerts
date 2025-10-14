@@ -1,6 +1,6 @@
 local Crutch = CrutchAlerts
 local Draw = Crutch.Drawing
-local Anim = Draw.Animations
+local Anim = Draw.Animation
 
 ---------------------------------------------------------------------
 -- Pulsing animation
@@ -22,6 +22,7 @@ local function PulseUpdate(composite, t)
     composite:SetInsets(surface2, inset2, -inset2, inset2, -inset2)
     composite:SetSurfaceAlpha(surface2, zo_clamp(zo_lerp(2, 0, t2), 0, 1))
 end
+Anim.PulseUpdate = PulseUpdate
 
 local function PulseInitial(composite, texturePath, initialSize)
     composite:SetTexture(texturePath)
@@ -41,6 +42,7 @@ local function PulseInitial(composite, texturePath, initialSize)
     local surfaceOrig = composite:AddSurface(0, 1, 0, 1)
     composite:SetInsets(surfaceOrig, inset, -inset, inset, -inset)
 end
+Anim.PulseInitial = PulseInitial
 
 local function TestPulse()
     local cycleTime = 700
@@ -64,7 +66,7 @@ local function TestPulse()
                 color = {1, 1, 1, 0.8},
             },
             composite = {
-                size = 1.5,
+                size = 1.7,
                 init = function(composite)
                     PulseInitial(composite, "CrutchAlerts/assets/shape/diamond_orange.dds", 0.5)
                 end,
