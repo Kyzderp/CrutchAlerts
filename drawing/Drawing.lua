@@ -143,7 +143,7 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  fac
         SetFontColor = setFontColorFunc, -- Space labels
         SetBackdropColors = setBackdropColorsFunc, -- Space backdrops
         SetBackdropRoll = setBackdropRollFunc, -- Space backdrops
-        GetCompositeTexutre = getCompositeFunc, -- Returns composite texture so caller can just use ZOS APIs
+        GetCompositeTexture = getCompositeFunc, -- Returns composite texture so caller can just use ZOS APIs
     }
     Draw.MaybeStartPolling()
 

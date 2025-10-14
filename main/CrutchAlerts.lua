@@ -4,7 +4,9 @@
 -----------------------------------------------------------
 CrutchAlerts = {
     BossHealthBar = {},
-    Drawing = {},
+    Drawing = {
+        Animations = {},
+    },
 }
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"

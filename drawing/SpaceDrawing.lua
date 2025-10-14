@@ -21,7 +21,7 @@ local function AcquireControl()
     control:GetNamedChild("Composite"):SetSpace(SPACE_WORLD)
 
     control:GetNamedChild("Label"):SetSpace(SPACE_INTERFACE)
-    control:GetNamedChild("Label"):SetTransformOffset(0, 0, 0.003)
+    control:GetNamedChild("Label"):SetTransformOffset(0, 0, 0.05)
     control:GetNamedChild("Label"):SetSpace(SPACE_WORLD)
 
     -- To not clash with RenderSpace keys when put in Draw.activeIcons together

@@ -19,7 +19,13 @@
                 <TextureComposite name="$(parent)Composite" hidden="true">
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                     <Dimensions x="100" y="100"/>
-                </Texture>
+                    <Controls>
+                        <!-- <Backdrop name="$(parent)BackdropTest" centerColor="00FFFFFF" edgeColor="FF222222" hidden="false">
+                            <AnchorFill/>
+                            <Edge edgeSize="6"/>
+                        </Backdrop> -->
+                    </Controls>
+                </TextureComposite>
                 <Label name="$(parent)Label" hidden="true" verticalAlignment="CENTER" horizontalAlignment="CENTER">
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetY="4"/>
                     <Dimensions x="100" y="100"/>
