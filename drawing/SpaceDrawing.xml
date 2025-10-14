@@ -17,7 +17,7 @@
                     <Dimensions x="100" y="100"/>
                 </Texture>
                 <Label name="$(parent)Label" hidden="true" verticalAlignment="CENTER" horizontalAlignment="CENTER" level="2">
-                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetY="4"/>
                     <Dimensions x="100" y="100"/>
                 </Label>
             </Controls>

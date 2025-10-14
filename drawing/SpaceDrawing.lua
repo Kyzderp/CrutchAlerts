@@ -189,7 +189,7 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         options.backdrop and SetBackdropColors or nil,
         options.backdrop and SetBackdropRoll or nil)
 
-    return control, key
+    return key
 end
 Draw.CreateSpaceControl = CreateSpaceControl
 

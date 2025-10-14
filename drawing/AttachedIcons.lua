@@ -22,7 +22,7 @@ local Draw = Crutch.Drawing
 }
 ]]
 local unitIcons = {}
--- Draw.unitIcons = unitIcons
+Draw.unitIcons = unitIcons
 -- /script d(CrutchAlerts.Drawing.unitIcons)
 
 local function DumpUnitIcons()
@@ -45,7 +45,7 @@ local function RemoveAttachedIcon(key)
 end
 
 -- Creates the actual 3D control with update function
-local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callback)
+local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callback, spaceOptions)
     local _, x, y, z = GetUnitRawWorldPosition(unitTag)
 
     local function OnUpdate(icon)
@@ -57,18 +57,30 @@ local function CreateAttachedIcon(unitTag, texture, size, color, yOffset, callba
         end
     end
 
-    local key = Draw.CreateWorldTexture(
-        texture,
-        x,
-        y + yOffset,
-        z,
-        size / 100,
-        size / 100,
-        color,
-        Crutch.savedOptions.drawing.attached.useDepthBuffers,
-        true,
-        nil,
-        OnUpdate)
+    local key
+    if (spaceOptions) then
+        key = Draw.CreateSpaceControl(
+            x,
+            y + yOffset,
+            z,
+            true, -- faceCamera
+            nil, -- orientation
+            spaceOptions,
+            OnUpdate)
+    else
+        key = Draw.CreateWorldTexture(
+            texture,
+            x,
+            y + yOffset,
+            z,
+            size / 100,
+            size / 100,
+            color,
+            Crutch.savedOptions.drawing.attached.useDepthBuffers,
+            true,
+            nil,
+            OnUpdate)
+    end
 
     return key
 end
@@ -105,7 +117,7 @@ local function ReevaluatePrioritization(unitTag)
         RemoveAttachedIcon(currentKey)
     end
     local icon = unitIcons[unitTag].icons[highestName]
-    local key = CreateAttachedIcon(unitTag, icon.texture, icon.size, icon.color, icon.yOffset, icon.callback)
+    local key = CreateAttachedIcon(unitTag, icon.texture, icon.size, icon.color, icon.yOffset, icon.callback, icon.spaceOptions)
     unitIcons[unitTag].key = key
     unitIcons[unitTag].active = highestName
 end
@@ -151,7 +163,7 @@ local function RemoveIconForUnit(unitTag, uniqueName)
     ReevaluatePrioritization(unitTag)
 end
 
-local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, persistOutsideCombat, callback)
+local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, persistOutsideCombat, callback, spaceOptions)
     if (unitTag == "player" and playerGroupTag) then
         unitTag = playerGroupTag
         Crutch.dbgSpam("Translating player tag to " .. playerGroupTag  .. " to set " .. uniqueName)
@@ -187,6 +199,7 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
         yOffset = yOffset or Crutch.savedOptions.drawing.attached.yOffset,
         persistOutsideCombat = persistOutsideCombat,
         callback = callback,
+        spaceOptions = spaceOptions,
     }
 
     ReevaluatePrioritization(unitTag)
@@ -588,12 +601,13 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 -- color - color of the icon, in format {r, g, b, a}. To use the user setting for alpha, leave out a, e.g. {1, 0.4, 0.8}
 -- persistOutsideCombat - whether to keep this icon when exiting combat. Otherwise, icon is removed when all group members exit combat. Default false. Note: if the group isn't already in combat, the icon will still show, because it's only removed on combat exit
 -- callback - same as updateFunc documented in Drawing.lua:CreateWorldTexture
-function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat, callback)
+-- spaceOptions - optional table that forces the icon to use the Space API regardless of user's depth buffer setting. See SpaceDrawing.lua: CreateSpaceControl
+function Crutch.SetAttachedIconForUnit(unitTag, uniqueName, priority, texture, size, color, persistOutsideCombat, callback, spaceOptions)
     if (priority < 0 or priority > 10000) then
         Crutch.msg("|cFF0000Invalid priority for " .. uniqueName .. " icon; use 0~10000")
         return
     end
-    SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, nil, persistOutsideCombat, callback)
+    SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, nil, persistOutsideCombat, callback, spaceOptions)
 end
 -- /script CrutchAlerts.SetAttachedIconForUnit("player", "CrutchAlertsTest", 200, "esoui/art/icons/targetdummy_voriplasm_01.dds")
 

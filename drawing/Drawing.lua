@@ -226,6 +226,7 @@ Draw.CreateWorldTexture = CreateWorldTexture
 local function RemoveWorldTexture(key)
     if (not Draw.activeIcons[key]) then
         CrutchAlerts.dbgOther("|cFF0000Icon \"" .. tostring(key) .. "\" does not exist")
+        assert(false)
         return
     end
     CrutchAlerts.dbgSpam("Removing texture " .. tostring(key))
