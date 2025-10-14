@@ -122,7 +122,7 @@ Draw.SetTexture = SetTexture
 ---------------------------------------------------------------------
 -- Common for both Space and RenderSpace
 ---------------------------------------------------------------------
-local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextFunc, setFontColorFunc, setBackdropColorsFunc, setBackdropRollFunc)
+local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextFunc, setFontColorFunc, setBackdropColorsFunc, setBackdropRollFunc, getCompositeFunc)
     Draw.activeIcons[key] = {
         isSpace = isSpace,
         control = control,
@@ -143,6 +143,7 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  fac
         SetFontColor = setFontColorFunc, -- Space labels
         SetBackdropColors = setBackdropColorsFunc, -- Space backdrops
         SetBackdropRoll = setBackdropRollFunc, -- Space backdrops
+        GetCompositeTexutre = getCompositeFunc, -- Returns composite texture so caller can just use ZOS APIs
     }
     Draw.MaybeStartPolling()
 

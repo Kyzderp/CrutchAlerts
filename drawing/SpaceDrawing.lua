@@ -16,8 +16,12 @@ local function AcquireControl()
     control:GetNamedChild("Texture"):SetTransformOffset(0, 0, 0.001)
     control:GetNamedChild("Texture"):SetSpace(SPACE_WORLD)
 
+    control:GetNamedChild("Composite"):SetSpace(SPACE_INTERFACE)
+    control:GetNamedChild("Composite"):SetTransformOffset(0, 0, 0.002)
+    control:GetNamedChild("Composite"):SetSpace(SPACE_WORLD)
+
     control:GetNamedChild("Label"):SetSpace(SPACE_INTERFACE)
-    control:GetNamedChild("Label"):SetTransformOffset(0, 0, 0.002)
+    control:GetNamedChild("Label"):SetTransformOffset(0, 0, 0.003)
     control:GetNamedChild("Label"):SetSpace(SPACE_WORLD)
 
     -- To not clash with RenderSpace keys when put in Draw.activeIcons together
@@ -51,6 +55,8 @@ local function ReleaseSpaceControl(key)
     icon.control:SetHidden(true)
     icon.control:GetNamedChild("Backdrop"):SetHidden(true)
     icon.control:GetNamedChild("Texture"):SetHidden(true)
+    icon.control:GetNamedChild("Composite"):SetHidden(true)
+    icon.control:GetNamedChild("Composite"):ClearAllSurfaces()
     icon.control:GetNamedChild("Label"):SetHidden(true)
 
     local realKey = tonumber(string.sub(key, 6))
@@ -130,6 +136,17 @@ options = {
         edgeColor = {0, 0, 0.2, 1},
         roll = math.pi/4,
     },
+    composite = {
+        -- Init callback to use the ZOS APIs upon control creation, because it's too complicated to add wrappers
+        init = function(composite)
+            composite:SetTexture("CrutchAlerts/assets/poop.dds")
+            local surfaceIndex = composite:AddSurface(0, 0.5, 0, 1)
+            composite:SetInsets(surfaceIndex, 0, 0, 0, 0)
+            surfaceIndex = composite:AddSurface(0.5, 1, 0, 1)
+            composite:SetInsets(surfaceIndex, 0, 0, 0, 0)
+        end,
+        size = 0.8,
+    },
 }
 ]]
 ---------------------------------------------------------------------
@@ -139,31 +156,37 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
 
     if (options.label) then
         local label = control:GetNamedChild("Label")
-        label:SetHidden(false)
         label:SetFont(Crutch.GetStyles().GetMarkerFont(options.label.size))
         label:SetAlpha(1) -- In case it's not specified by color
         label:SetColor(unpack(options.label.color))
         label:SetText(options.label.text)
         label:SetDimensions(2000, 2000)
         label:SetDimensions(label:GetTextWidth(), label:GetTextHeight())
+        label:SetHidden(false)
+    end
+
+    if (options.composite) then
+        local composite = control:GetNamedChild("Composite")
+        options.composite.init(composite)
+        composite:SetTransformScale(options.composite.size)
+        composite:SetHidden(false)
     end
 
     if (options.texture) then
         local textureControl = control:GetNamedChild("Texture")
-        textureControl:SetHidden(false)
         textureControl:SetTexture(options.texture.path)
         textureControl:SetColor(unpack(options.texture.color))
         textureControl:SetTransformScale(options.texture.size)
+        textureControl:SetHidden(false)
     end
 
     if (options.backdrop) then
         local backdrop = control:GetNamedChild("Backdrop")
-        backdrop:SetHidden(false)
         backdrop:SetDimensions(options.backdrop.width or 100, options.backdrop.height or 100)
         backdrop:SetCenterColor(unpack(options.backdrop.centerColor))
         backdrop:SetEdgeColor(unpack(options.backdrop.edgeColor))
-
         backdrop:SetTransformRotation(0, 0, options.backdrop.roll or 0)
+        backdrop:SetHidden(false)
     end
 
     -- TODO?
@@ -187,7 +210,8 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         options.label and SetText or nil,
         options.label and function(icon, r, g, b, a) Draw.SetColor(icon, r, g, b, a, "Label") end or nil,
         options.backdrop and SetBackdropColors or nil,
-        options.backdrop and SetBackdropRoll or nil)
+        options.backdrop and SetBackdropRoll or nil,
+        options.composite and function(icon) return icon.control:GetNamedChild("Composite") end or nil)
 
     return key
 end
