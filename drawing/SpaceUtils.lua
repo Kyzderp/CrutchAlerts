@@ -61,7 +61,7 @@ local function TestPulse()
         "player",
         "CrutchAlertsTestPulse",
         500,
-        "CrutchAlerts/assets/poop.dds", -- TODO: make texture path not required
+        nil,
         120,
         nil,
         false,
@@ -79,7 +79,7 @@ local function TestPulse()
             composite = {
                 size = 1.7,
                 init = function(composite)
-                    PulseInitial(composite, "CrutchAlerts/assets/shape/diamond_orange.dds", 0.5)
+                    PulseInitial(composite, "CrutchAlerts/assets/shape/diamond.dds", 0.5, {1, 1, 1, 0.8})
                 end,
             },
         })
@@ -88,3 +88,59 @@ Draw.TestPulse = TestPulse
 -- /script CrutchAlerts.Drawing.TestPulse()
 -- /script CrutchAlerts.RemoveAttachedIconForUnit("player", "CrutchAlertsTestPulse")
 -- /script CrutchAlertsSpaceCrutchAlertsSpaceControl1Composite:SetInsets(2, 0.25, -.25, .25, -0.25)
+
+
+
+---------------------------------------------------------------------
+-- Chevron "boost" animation
+-- t: 0~1 fraction of the time of the full cycle
+---------------------------------------------------------------------
+local function BoostUpdate(composite, t)
+end
+Anim.BoostUpdate = BoostUpdate
+
+local chevronHeight = 0.4
+local function BoostInitial(composite, colorFrom, colorTo)
+    composite:SetTexture("CrutchAlerts/assets/shape/chevronthin.dds")
+
+    local from = ZO_ColorDef:New(colorFrom[1], colorFrom[2], colorFrom[3])
+    local to = ZO_ColorDef:New(colorTo[1], colorTo[2], colorTo[3])
+    for i = 1, 4 do
+        composite:AddSurface(0, 1, 0, 1)
+
+        -- SetInsets(*luaindex* _surfaceIndex_, *number* _left_, *number* _right_, *number* _top_, *number* _bottom_)
+        local offset = i * chevronHeight
+        composite:SetInsets(i, 0, 0, -offset, -offset)
+
+        composite:SetColor(i, ZO_ColorDef.LerpRGB(from, to, (i - 1) / 3))
+    end
+end
+Anim.BoostInitial = BoostInitial
+
+local function TestBoost()
+    local cycleTime = 700
+    Crutch.SetAttachedIconForUnit(
+        "player",
+        "CrutchAlertsTestBoost",
+        500,
+        nil,
+        120,
+        nil,
+        false,
+        function(icon)
+            local time = GetGameTimeMilliseconds() % cycleTime
+            local t = time / cycleTime
+            BoostUpdate(icon:GetCompositeTexture(), t)
+        end,
+        {
+            composite = {
+                size = 1,
+                init = function(composite)
+                    BoostInitial(composite, {1, 1, 0}, {1, 0, 0})
+                end,
+            },
+        })
+end
+Draw.TestBoost = TestBoost
+-- /script CrutchAlerts.Drawing.TestBoost()
+-- /script CrutchAlerts.RemoveAttachedIconForUnit("player", "CrutchAlertsTestBoost")
