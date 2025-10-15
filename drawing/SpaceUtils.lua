@@ -6,8 +6,9 @@ local Anim = Draw.Animation
 -- Pulsing animation
 -- initialSize: 0~1 fraction of the full composite size
 -- t: 0~1 fraction of the time of the full cycle
+-- color: nil (no change) or color of all surfaces
 ---------------------------------------------------------------------
-local function PulseUpdate(composite, t)
+local function PulseUpdate(composite, t, color)
     -- Surface 1 expanding outwards
     local inset = (1 - t) / 2
     local surface1 = 1
@@ -21,26 +22,36 @@ local function PulseUpdate(composite, t)
     local surface2 = 2
     composite:SetInsets(surface2, inset2, -inset2, inset2, -inset2)
     composite:SetSurfaceAlpha(surface2, zo_clamp(zo_lerp(2, 0, t2), 0, 1))
+
+    -- Set color for all surfaces
+    if (color) then
+        for i = 1, composite:GetNumSurfaces() do
+            local a = composite:GetSurfaceAlpha(i)
+            composite:SetColor(i, color[1], color[2], color[3], a)
+        end
+    end
 end
 Anim.PulseUpdate = PulseUpdate
 
-local function PulseInitial(composite, texturePath, initialSize)
+local function PulseInitial(composite, texturePath, initialSize, color)
     composite:SetTexture(texturePath)
 
     -- AddSurface(*number* _left_, *number* _right_, *number* _top_, *number* _bottom_)
     local surface1 = composite:AddSurface(0, 1, 0, 1)
     composite:SetInsets(surface1, 0, 0, 0, 0)
-    composite:SetSurfaceAlpha(surface1, 0)
+    composite:SetColor(surface1, color[1], color[2], color[3], 0)
 
     local surface2 = composite:AddSurface(0, 1, 0, 1)
     composite:SetInsets(surface2, 0, 0, 0, 0)
     composite:SetSurfaceAlpha(surface2, 0)
+    composite:SetColor(surface2, color[1], color[2], color[3], 0)
 
     -- Actual texture goes last
     -- SetInsets(*luaindex* _surfaceIndex_, *number* _left_, *number* _right_, *number* _top_, *number* _bottom_)
     local inset = (1 - initialSize) / 2
     local surfaceOrig = composite:AddSurface(0, 1, 0, 1)
     composite:SetInsets(surfaceOrig, inset, -inset, inset, -inset)
+    composite:SetColor(surfaceOrig, color[1], color[2], color[3], color[4])
 end
 Anim.PulseInitial = PulseInitial
 

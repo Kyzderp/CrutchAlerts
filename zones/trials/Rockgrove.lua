@@ -331,7 +331,7 @@ local function DeathTouchIconUpdate(icon, unitTag, endTime)
     local text
     if (duration <= 0) then
         text = "!"
-    elseif (duration < 1000) then
+    elseif (duration <= 1100) then
         text = string.format("%.1f", duration / 1000)
     else
         text = tostring(math.ceil(duration / 1000))
@@ -340,15 +340,23 @@ local function DeathTouchIconUpdate(icon, unitTag, endTime)
 
     -- Pulsing animation in last 2s
     if (duration <= 2000) then
+        -- Color
+        local color
+        if (duration < 1000) then
+            color = {1, 0, 0}
+        elseif (duration < 2000) then
+            color = {1, 0.35, 0}
+        end
+
         local t = ((2000 - duration) % cycleTime) / cycleTime
-        Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t)
+        Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, color)
     end
 end
 
 local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         local duration = (endTime - beginTime) * 1000
-        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, "CrutchAlerts/assets/shape/diamond_orange.dds", 120, nil, false, function(icon)
+        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, nil, 120, nil, false, function(icon)
             DeathTouchIconUpdate(icon, unitTag, endTime)
         end,
         {
@@ -360,7 +368,8 @@ local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
             composite = {
                 size = 1.7,
                 init = function(composite)
-                    Crutch.Drawing.Animation.PulseInitial(composite, "CrutchAlerts/assets/shape/diamond_orange.dds", 0.5)
+                    Crutch.Drawing.Animation.PulseInitial(composite, "CrutchAlerts/assets/shape/diamond.dds", 0.5, {1, 0.5, 0, 1})
+                    composite:SetAlpha(0.8)
                 end,
             },
         })

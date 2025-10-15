@@ -156,7 +156,7 @@ local function RemoveIconForUnit(unitTag, uniqueName)
         return
     end
 
-    Crutch.dbgSpam(string.format("RemoveIconForUnit %s (%s) %s was: |t100%%:100%%:%s|t", unitTag, GetUnitDisplayName(unitTag) or "???", uniqueName, unitIcons[unitTag].icons[uniqueName].texture))
+    Crutch.dbgSpam(string.format("RemoveIconForUnit %s (%s) %s was: |t100%%:100%%:%s|t", unitTag, GetUnitDisplayName(unitTag) or "???", uniqueName, unitIcons[unitTag].icons[uniqueName].texture or "blank.dds"))
 
     unitIcons[unitTag].icons[uniqueName] = nil
 
@@ -180,7 +180,7 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
         RemoveIconForUnit(unitTag, uniqueName)
     end
 
-    Crutch.dbgSpam(string.format("SetIconForUnit %s (%s) %s |t100%%:100%%:%s|t", unitTag, GetUnitDisplayName(unitTag) or "???", uniqueName, texture))
+    Crutch.dbgSpam(string.format("SetIconForUnit %s (%s) %s |t100%%:100%%:%s|t", unitTag, GetUnitDisplayName(unitTag) or "???", uniqueName, texture or "blank.dds"))
 
     if (not color) then
         color = {1, 1, 1}

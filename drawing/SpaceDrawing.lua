@@ -54,10 +54,14 @@ local function ReleaseSpaceControl(key)
 
     icon.control:SetHidden(true)
     icon.control:GetNamedChild("Backdrop"):SetHidden(true)
+    icon.control:GetNamedChild("Backdrop"):SetAlpha(1)
     icon.control:GetNamedChild("Texture"):SetHidden(true)
+    icon.control:GetNamedChild("Texture"):SetAlpha(1)
     icon.control:GetNamedChild("Composite"):SetHidden(true)
     icon.control:GetNamedChild("Composite"):ClearAllSurfaces()
+    icon.control:GetNamedChild("Composite"):SetAlpha(1)
     icon.control:GetNamedChild("Label"):SetHidden(true)
+    icon.control:GetNamedChild("Label"):SetAlpha(1)
 
     local realKey = tonumber(string.sub(key, 6))
     controlPool:ReleaseObject(realKey)
@@ -167,8 +171,8 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
 
     if (options.composite) then
         local composite = control:GetNamedChild("Composite")
-        options.composite.init(composite)
         composite:SetTransformScale(options.composite.size)
+        options.composite.init(composite)
         composite:SetHidden(false)
     end
 
