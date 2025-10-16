@@ -90,12 +90,25 @@ Draw.TestPulse = TestPulse
 -- /script CrutchAlertsSpaceCrutchAlertsSpaceControl1Composite:SetInsets(2, 0.25, -.25, .25, -0.25)
 
 
-
 ---------------------------------------------------------------------
 -- Chevron "boost" animation
 -- t: 0~1 fraction of the time of the full cycle
 ---------------------------------------------------------------------
+local boostStates = {
+    [1] = {true, false, false, false},
+    [2] = {true, true, false, false},
+    [3] = {true, true, true, false},
+    [4] = {true, true, true, true},
+    [5] = {false, true, true, true},
+    [6] = {false, false, true, true},
+    [7] = {false, false, false, true},
+}
 local function BoostUpdate(composite, t)
+    local frame = zo_clamp(math.floor(t * 7) + 1, 1, 7)
+    local states = boostStates[frame]
+    for i = 1, 4 do
+        composite:SetSurfaceHidden(i, not states[i])
+    end
 end
 Anim.BoostUpdate = BoostUpdate
 
@@ -103,8 +116,12 @@ local chevronHeight = 0.4
 local function BoostInitial(composite, colorFrom, colorTo)
     composite:SetTexture("CrutchAlerts/assets/shape/chevronthin.dds")
 
+    -- Gradient?
+    colorFrom = colorFrom or {1, 1, 1}
+    colorTo = colorTo or {1, 1, 1}
     local from = ZO_ColorDef:New(colorFrom[1], colorFrom[2], colorFrom[3])
     local to = ZO_ColorDef:New(colorTo[1], colorTo[2], colorTo[3])
+
     for i = 1, 4 do
         composite:AddSurface(0, 1, 0, 1)
 
@@ -118,7 +135,7 @@ end
 Anim.BoostInitial = BoostInitial
 
 local function TestBoost()
-    local cycleTime = 700
+    local cycleTime = 1000
     Crutch.SetAttachedIconForUnit(
         "player",
         "CrutchAlertsTestBoost",
