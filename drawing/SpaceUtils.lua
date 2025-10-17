@@ -107,12 +107,12 @@ local function BoostUpdate(composite, t)
     local frame = zo_clamp(math.floor(t * 7) + 1, 1, 7)
     local states = boostStates[frame]
     for i = 1, 4 do
-        composite:SetSurfaceHidden(i, not states[i])
+        composite:SetSurfaceHidden(i, not states[5 - i]) -- they were made in reverse because... reasons
     end
 end
 Anim.BoostUpdate = BoostUpdate
 
-local chevronHeight = 0.4
+local chevronHeight = 0.35
 local function BoostInitial(composite, colorFrom, colorTo)
     composite:SetTexture("CrutchAlerts/assets/shape/chevronthin.dds")
 
@@ -135,7 +135,7 @@ end
 Anim.BoostInitial = BoostInitial
 
 local function TestBoost()
-    local cycleTime = 1000
+    local cycleTime = 700
     Crutch.SetAttachedIconForUnit(
         "player",
         "CrutchAlertsTestBoost",
@@ -153,7 +153,7 @@ local function TestBoost()
             composite = {
                 size = 1,
                 init = function(composite)
-                    BoostInitial(composite, {1, 1, 0}, {1, 0, 0})
+                    BoostInitial(composite, {1, 0, 0}, {1, 1, 0})
                 end,
             },
         })

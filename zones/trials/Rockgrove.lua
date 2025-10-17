@@ -338,17 +338,17 @@ local function DeathTouchIconUpdate(icon, unitTag, endTime)
     end
     icon:SetText(text)
 
-    -- Pulsing animation in last 2s
-    if (duration <= 2000) then
+    -- Pulsing animation in last few seconds
+    if (duration <= 2500) then
         -- Color
         local color
         if (duration < 1000) then
             color = {1, 0, 0}
-        elseif (duration < 2000) then
+        else
             color = {1, 0.35, 0}
         end
 
-        local t = ((2000 - duration) % cycleTime) / cycleTime
+        local t = ((2500 - duration) % cycleTime) / cycleTime
         Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, color)
     end
 end

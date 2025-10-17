@@ -218,16 +218,16 @@ local iconGroups = {
             {x = 104450, y = 26157, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- Blue1Entrance
             {x = 104450, y = 26157, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- Blue2Entrance
             {x = 103950, y = 26157, z = 128350, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- Blue3Entrance
-            {x = 103950, y = 26157, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Entrance
+            {x = 103950, y = 26160, z = 127850, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Entrance
 
             {x = 105750, y = 26157, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- RedBossExit
-            {x = 105400, y = 26157, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- RedHealExit
+            {x = 105400, y = 26161, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_orange.dds"}, -- RedHealExit
             {x = 105750, y = 26157, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- Red1Exit
             {x = 105750, y = 26157, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- Red2Exit
             {x = 106250, y = 26157, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_orange_3.dds"}, -- Red3Exit
             {x = 106250, y = 26157, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_orange_4.dds"}, -- Red4Exit
             {x = 104450, y = 26157, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- BlueBossExit
-            {x = 104800, y = 26157, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- BlueHealExit
+            {x = 104800, y = 26161, z = 132700, texture = "CrutchAlerts/assets/shape/diamond_blue.dds"}, -- BlueHealExit
             {x = 104450, y = 26157, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- Blue1Exit
             {x = 104450, y = 26157, z = 132950, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- Blue2Exit
             {x = 103950, y = 26157, z = 132450, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- Blue3Exit
