@@ -1634,6 +1634,18 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show some Lokkestiiz HM Storm Breath telegraphs",
+                    tooltip = "During flight phase on Lokkestiiz hardmode, shows approximate telegraphs for some of the Storm Breaths and Storm Trails afterwards, mainly the ones that people tend to stand in...",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.sunspire.telegraphStormBreath end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.telegraphStormBreath = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show Yolnahkriin position icons",
                     tooltip = "During flight phase on Yolnahkriin, shows icons in the world for where the next head stack and (right) wing stack will be when Yolnahkriin lands",
                     default = true,

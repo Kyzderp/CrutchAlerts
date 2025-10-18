@@ -108,11 +108,15 @@ local function DisableLokkIcons()
 end
 
 local LOKK_HM_HEALTH = 97025800
+local function IsLokkHM()
+    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    return maxHealth == LOKK_HM_HEALTH
+end
+
 local function MaybeEnableLokkIcons()
     if (not Crutch.savedOptions.sunspire.showLokkIcons) then return end
 
-    local _, maxHealth = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-    if (maxHealth == LOKK_HM_HEALTH) then
+    if (IsLokkHM()) then
         EnableLokkIcons()
     end
 end
@@ -171,8 +175,9 @@ end
 ---------------------------------------------------------------------
 local xX, xY, xZ = 114941, 56106, 105959
 local function Do20StormBreath()
-    local poopKey = Crutch.Drawing.CreatePlacedIcon("CrutchAlerts/assets/poop.dds", xX, xY, xZ, 50, {1, 0, 0})
-    zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(poopKey) end, 60000)
+    -- local poopKey = Crutch.Drawing.CreatePlacedIcon("CrutchAlerts/assets/poop.dds", xX, xY, xZ, 50, {1, 0, 0})
+    -- zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(poopKey) end, 60000)
+    if (not IsLokkHM()) then return end
 
     local key3 = Crutch.Drawing.CreateWorldTexture(
         "CrutchAlerts/assets/floor/square.dds",
@@ -196,7 +201,7 @@ local function Do20StormBreath()
             {1, 0, 0, 0.2},
             true,
             false,
-            {math.pi/2, math.pi*3/4 + 0.19, 0},
+            {math.pi/2, math.pi*3/4 + 0.24, 0},
             nil)
         zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key4) end, 18000)
     end, 8300)
@@ -205,6 +210,7 @@ Crutch.Do20StormBreath = Do20StormBreath
 
 local function RegisterStormBreath()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, function()
+        if (not IsLokkHM()) then return end
         local key = Crutch.Drawing.CreateWorldTexture(
             "CrutchAlerts/assets/floor/square.dds",
             114900, 56105, 106100,
