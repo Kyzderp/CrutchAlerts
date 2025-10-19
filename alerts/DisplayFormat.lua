@@ -147,6 +147,9 @@ Crutch.format = {
     [240665] = 400, -- Charged Lightning?
     [246168] = 204.3, -- Acute Enervation (initial targeting of first, for some reason is 500 then 2800, but then not another ~1s until the real cast)
 
+-- Coral Aerie
+    [163153] = 600, -- Coalescing Shadows
+
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
     [171742] = 500, -- Boughroot Slash

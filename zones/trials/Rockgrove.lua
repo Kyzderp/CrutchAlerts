@@ -364,6 +364,7 @@ local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
                 text = "9",
                 size = 45,
                 color = {1, 1, 1, 0.8},
+                -- color = {0.2, 0.1, 0, 0.8},
             },
             composite = {
                 size = 1.7,
@@ -506,6 +507,8 @@ function Crutch.UnregisterRockgrove()
         Crutch.Drawing.RemoveWorldTexture(playerCurseLinesKey)
         playerCurseLinesKey = nil
     end
+
+    groupBitterMarrow = {}
 
     Crutch.UnregisterExitedGroupCombatListener("RockgroveExitedCombat")
 

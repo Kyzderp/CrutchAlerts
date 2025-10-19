@@ -169,6 +169,9 @@ Crutch.testing = {
 
     [233512] = true, -- Valneer Titanic Clash Leap
     [233500] = true, -- Myrinax Titanic Clash Leap
+
+    -- [163152] = true, -- Coalescing Shadows
+    [163153] = true, -- Coalescing Shadows?
 }
 
 ---------------------------------------------------------------------
@@ -229,6 +232,9 @@ Crutch.gainedDuration = {
 -- Black Gem Foundry
     -- [241229] = true, -- Imminent Annihilation (Vykand) -- might not show on dead players
     [241224] = true, -- Ominous Vision
+
+-- Coral Aerie
+    [163153] = true, -- Coalescing Shadows
 }
 
 
