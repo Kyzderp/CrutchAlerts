@@ -64,6 +64,7 @@ end
 ---------------------------------------------------------------------
 local FLARE_UNIQUE_NAME = "CrutchAlertsCRFlare"
 
+local cycleTime = 700
 local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     local unitTag = Crutch.groupIdToTag[targetUnitId]
 
@@ -83,7 +84,28 @@ local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, t
         icon:SetColor(ZO_ColorDef.LerpRGB(yellow, red, elapsed))
     end
 
-    Crutch.SetAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME, 500, "/esoui/art/icons/dragonknight_ardent_flame.dds", 120, {1, 0.5, 0}, nil, Callback)
+    -- Crutch.SetAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME, 500, "/esoui/art/icons/dragonknight_ardent_flame.dds", 120, {1, 0.5, 0}, nil, Callback)
+    Crutch.SetAttachedIconForUnit(
+        unitTag,
+        FLARE_UNIQUE_NAME,
+        500,
+        nil,
+        120,
+        nil,
+        false,
+        function(icon)
+            local time = GetGameTimeMilliseconds() % cycleTime
+            local t = time / cycleTime
+            Crutch.Drawing.Animation.BoostUpdate(icon:GetCompositeTexture(), t)
+        end,
+        {
+            composite = {
+                size = 1,
+                init = function(composite)
+                    Crutch.Drawing.Animation.BoostInitial(composite, {1, 0, 0}, {1, 1, 0})
+                end,
+            },
+        })
     zo_callLater(function() Crutch.RemoveAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME) end, 7000)
 end
 Crutch.OnRoaringFlareIcon = OnRoaringFlareIcon
