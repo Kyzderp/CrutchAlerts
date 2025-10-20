@@ -297,28 +297,6 @@ Crutch.TestCurseLines = TestCurseLines
 ------------------------------------------------------------
 local CURSE_UNIQUE_NAME = "CrutchAlertsRGDeathTouch"
 
-local texturesLoaded = false
-local function LoadCurseTextures()
-    if (texturesLoaded) then return end
-    local textures = {}
-    for i = 0, 9 do
-        table.insert(textures, string.format("CrutchAlerts/assets/shape/diamond_orange_%d.dds", i))
-    end
-    Crutch.Drawing.LoadTextures(textures)
-    texturesLoaded = true
-end
-Crutch.LoadCurseTextures = LoadCurseTextures
--- /script CrutchAlerts.LoadCurseTextures() CrutchAlerts.OnDeathTouch(nil, EFFECT_RESULT_GAINED, nil, nil, "player", GetGameTimeMilliseconds() / 1000, GetGameTimeMilliseconds() / 1000 + 9)
-
-local function GetTextureForDuration(durationMillis)
-    local duration = math.ceil(durationMillis / 1000)
-    if (duration > 9 or duration < 0) then
-        return "CrutchAlerts/assets/shape/diamond_orange.dds"
-    end
-
-    return string.format("CrutchAlerts/assets/shape/diamond_orange_%d.dds", duration)
-end
-
 local cycleTime = 700
 local function DeathTouchIconUpdate(icon, unitTag, endTime)
     local duration = endTime * 1000 - GetGameTimeMilliseconds()
@@ -364,7 +342,6 @@ local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
                 text = "9",
                 size = 45,
                 color = {1, 1, 1, 0.8},
-                -- color = {0.2, 0.1, 0, 0.8},
             },
             composite = {
                 size = 1.7,
@@ -374,16 +351,6 @@ local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
                 end,
             },
         })
-        --[[
-        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, GetTextureForDuration(duration), 120, nil, false, function(icon)
-            local duration = endTime * 1000 - GetGameTimeMilliseconds()
-            if (duration < -1000) then
-                Crutch.RemoveAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME)
-                return
-            end
-            icon:SetTexture(GetTextureForDuration(duration))
-        end)
-        ]]
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.RemoveAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME)
     end
@@ -430,8 +397,6 @@ local origOSIUnitErrorCheck = nil
 
 function Crutch.RegisterRockgrove()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Rockgrove")
-
-    LoadCurseTextures()
 
     Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function()
         numBleeds = 0
@@ -496,8 +461,6 @@ function Crutch.RegisterRockgrove()
 end
 
 function Crutch.UnregisterRockgrove()
-    texturesLoaded = false
-
     -- These can linger if PTE'ing
     for unitTag, _ in pairs(sludges) do
         Crutch.RemoveAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME)

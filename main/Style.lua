@@ -12,11 +12,7 @@ local KEYBOARD_STYLE = {
         return string.format("$(BOLD_FONT)|%d|shadow", math.floor(size))
     end,
     GetMarkerFont = function(size)
-        -- return string.format("$(BOLD_FONT)|%d", math.floor(size))
         return string.format("$(BOLD_FONT)|%d|thick-outline", math.floor(size))
-        -- return string.format("$(BOLD_FONT)|%d|shadow", math.floor(size))
-        -- return string.format("$(BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
-        -- return string.format("$(BOLD_FONT)|%d|soft-shadow-thin", math.floor(size))
     end,
 }
 

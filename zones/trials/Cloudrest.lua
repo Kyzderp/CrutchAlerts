@@ -75,7 +75,6 @@ local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, t
     local yellow = ZO_ColorDef:New(1, 1, 0)
     local red = ZO_ColorDef:New(1, 0, 0)
     local function Callback(icon)
-        -- local elapsed = zo_clamp((GetGameTimeMilliseconds() - startTime) / 7000, 0, 1)
         local elapsed = (GetGameTimeMilliseconds() - startTime) % period
         if (elapsed > period / 2) then
             elapsed = period - elapsed
@@ -84,7 +83,6 @@ local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, t
         icon:SetColor(ZO_ColorDef.LerpRGB(yellow, red, elapsed))
     end
 
-    -- Crutch.SetAttachedIconForUnit(unitTag, FLARE_UNIQUE_NAME, 500, "/esoui/art/icons/dragonknight_ardent_flame.dds", 120, {1, 0.5, 0}, nil, Callback)
     Crutch.SetAttachedIconForUnit(
         unitTag,
         FLARE_UNIQUE_NAME,

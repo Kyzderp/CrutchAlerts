@@ -33,7 +33,6 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
         second = temp
     end
 
-    -- TODO: get rid of this
     local nameToTag = {}
 
     -- Then, get the remaining group members
@@ -70,7 +69,6 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
     }
     local toStack = stacks[GetUnitDisplayName("player")]
 
-    -- TODO: this is leftover from OSI migration. Should just store the unit tag
     local unitTag = nameToTag[toStack]
 
     -- Put icon on the person we should stack with
