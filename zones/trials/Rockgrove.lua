@@ -298,6 +298,8 @@ Crutch.TestCurseLines = TestCurseLines
 local CURSE_UNIQUE_NAME = "CrutchAlertsRGDeathTouch"
 
 local cycleTime = 700
+local red = {1, 0, 0}
+local redorange = {1, 0.35, 0}
 local function DeathTouchIconUpdate(icon, unitTag, endTime)
     local duration = endTime * 1000 - GetGameTimeMilliseconds()
     if (duration < -1000) then
@@ -318,16 +320,14 @@ local function DeathTouchIconUpdate(icon, unitTag, endTime)
 
     -- Pulsing animation in last few seconds
     if (duration <= 2500) then
-        -- Color
-        local color
-        if (duration < 1000) then
-            color = {1, 0, 0}
-        else
-            color = {1, 0.35, 0}
-        end
-
         local t = ((2500 - duration) % cycleTime) / cycleTime
-        Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, color)
+
+        -- Color
+        if (duration < 1000) then
+            Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, red)
+        else
+            Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, redorange)
+        end
     end
 end
 

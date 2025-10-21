@@ -65,23 +65,16 @@ end
 local FLARE_UNIQUE_NAME = "CrutchAlertsCRFlare"
 
 local cycleTime = 700
+local function RoaringFlareUpdate(icon)
+    local time = GetGameTimeMilliseconds() % cycleTime
+    local t = time / cycleTime
+    Crutch.Drawing.Animation.BoostUpdate(icon:GetCompositeTexture(), t)
+end
+
 local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     local unitTag = Crutch.groupIdToTag[targetUnitId]
 
     if (not unitTag) then return end
-
-    local period = 800
-    local startTime = GetGameTimeMilliseconds()
-    local yellow = ZO_ColorDef:New(1, 1, 0)
-    local red = ZO_ColorDef:New(1, 0, 0)
-    local function Callback(icon)
-        local elapsed = (GetGameTimeMilliseconds() - startTime) % period
-        if (elapsed > period / 2) then
-            elapsed = period - elapsed
-        end
-        elapsed = elapsed / period
-        icon:SetColor(ZO_ColorDef.LerpRGB(yellow, red, elapsed))
-    end
 
     Crutch.SetAttachedIconForUnit(
         unitTag,
@@ -91,11 +84,7 @@ local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, t
         120,
         nil,
         false,
-        function(icon)
-            local time = GetGameTimeMilliseconds() % cycleTime
-            local t = time / cycleTime
-            Crutch.Drawing.Animation.BoostUpdate(icon:GetCompositeTexture(), t)
-        end,
+        RoaringFlareUpdate,
         {
             composite = {
                 size = 1,
