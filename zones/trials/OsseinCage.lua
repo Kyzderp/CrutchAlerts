@@ -277,6 +277,8 @@ local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, so
     Crutch.UpdateSpoofedBossHealth(TITANS[targetTitan.name].tag, targetTitan.hp, titanMaxHp)
 end
 
+local exitKey
+
 -- Event listening for all damage on enemies, registered only when Jynorah is active
 local function UnregisterTwins()
     Crutch.dbgOther("Unregistering twins")
@@ -287,6 +289,11 @@ local function UnregisterTwins()
     Crutch.DisableIconGroup("OCAOCH")
     Crutch.DisableIconGroup("OCAlt")
     Crutch.DisableIconGroup("OCMiddle")
+
+    if (exitKey) then
+        Crutch.Drawing.RemoveWorldTexture(exitKey)
+        exitKey = nil
+    end
 end
 
 local function RegisterTwins()
@@ -316,6 +323,11 @@ local function RegisterTwins()
         if (Crutch.savedOptions.osseincage.useMiddleIcons) then
             Crutch.EnableIconGroup("OCMiddle")
         end
+
+        if (exitKey) then
+            Crutch.Drawing.RemoveWorldTexture(exitKey)
+        end
+        exitKey = Crutch.Drawing.CreateSpaceLabel("Exit", 105100, 26400, 133400, 120, {1, 1, 1}, false, {0, math.pi, 0})
     end
 end
 
