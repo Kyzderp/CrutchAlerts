@@ -344,23 +344,45 @@ Crutch.OnPlayerActivated = OnPlayerActivated
 ---------------------------------------------------------------------
 -- First time player activated
 ---------------------------------------------------------------------
+-- caveman profiling
+local lastTime
+local queuedMessages = {}
+local function PrintTime(reason)
+    if (not lastTime) then
+        lastTime = GetGameTimeMilliseconds()
+        return
+    end
+
+    local now = GetGameTimeMilliseconds()
+    table.insert(queuedMessages, string.format("%d - %s",
+        now - lastTime,
+        reason))
+    lastTime = now
+end
+
 local function OnPlayerActivatedFirstTime()
     -- Did I use to have stuff in here??
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ActivatedFirstTime", EVENT_PLAYER_ACTIVATED)
+    for _, msg in ipairs(queuedMessages) do
+        Crutch.dbgOther(msg)
+    end
 end
 
 ---------------------------------------------------------------------
 -- Initialize 
 ---------------------------------------------------------------------
 local function Initialize()
+    PrintTime("init")
     -- Settings and saved variables
     Crutch.AddProminentDefaults()
     Crutch.AddEffectDefaults()
+    PrintTime("defaults done")
     Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
     if (Crutch.savedOptions.prominentV2FirstTime) then
         Crutch.InitProminentV2Options()
         Crutch.savedOptions.prominentV2FirstTime = false
     end
+    PrintTime("savedOptions done")
 
     if (IsConsoleUI()) then
         Crutch.CreateConsoleGeneralSettingsMenu()
@@ -369,6 +391,7 @@ local function Initialize()
     else
         Crutch:CreateSettingsMenu()
     end
+    PrintTime("settings done")
 
     -- Position
     CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
@@ -376,38 +399,56 @@ local function Initialize()
     CrutchAlertsCloudrest:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.spearsDisplay.x, Crutch.savedOptions.spearsDisplay.y)
     CrutchAlertsMawOfLorkhaj:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cursePadsDisplay.x, Crutch.savedOptions.cursePadsDisplay.y)
     CrutchAlertsCausticCarrion:SetAnchor(TOPLEFT, GuiRoot, CENTER, Crutch.savedOptions.carrionDisplay.x, Crutch.savedOptions.carrionDisplay.y)
-
+    PrintTime("positioning done")
     -- Register events
     if (Crutch.savedOptions.general.showBegin) then
         Crutch.RegisterBegin()
     end
+    PrintTime("begin done")
     if (Crutch.savedOptions.general.showGained) then
         Crutch.RegisterGained()
     end
+    PrintTime("gained done")
     if (Crutch.savedOptions.general.showOthers) then
         Crutch.RegisterOthers()
     end
+    PrintTime("others done")
 
     -- Init general
     Crutch.InitializeStyles()
+    PrintTime("styles done")
     Crutch.InitializeDamageable()
+    PrintTime("damageable done")
     Crutch.InitializeDamageTaken()
+    PrintTime("damage taken done")
     Crutch.RegisterInterrupts()
+    PrintTime("interrupts done")
     Crutch.RegisterTest()
+    PrintTime("test done")
     Crutch.RegisterStacks()
+    PrintTime("stacks done")
     Crutch.RegisterEffectChanged()
+    PrintTime("effect changed done")
     Crutch.RegisterFatecarver()
+    PrintTime("fatecarver done")
     Crutch.InitializeGlobalEvents()
+    PrintTime("global events done")
     Crutch.InitializeLineRenderSpace()
+    PrintTime("line render done")
     Crutch.Drawing.InitializeRenderSpace()
+    PrintTime("renderspace done")
     Crutch.Drawing.InitializeSpace()
+    PrintTime("space done")
     Crutch.Drawing.InitializeAttachedIcons()
+    PrintTime("attached icons done")
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()
+    PrintTime("bhb done")
 
     -- Data sharing
     Crutch.InitializeBroadcast()
+    PrintTime("broadcast done")
 
     -- Debug chat panel
     if (LibFilteredChatPanel) then
@@ -418,6 +459,7 @@ local function Initialize()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ActivatedFirstTime", EVENT_PLAYER_ACTIVATED, OnPlayerActivatedFirstTime)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Activated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 
+    PrintTime("player activation register done")
     zoneUnregisters = {
         [639 ] = Crutch.UnregisterSanctumOphidia,
         [725 ] = Crutch.UnregisterMawOfLorkhaj,
@@ -465,6 +507,7 @@ local function Initialize()
         [1471] = Crutch.RegisterBedlamVeil,
         [1552] = Crutch.RegisterBlackGemFoundry,
     }
+    PrintTime("finished")
 end
 
 
