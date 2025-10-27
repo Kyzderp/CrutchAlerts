@@ -322,9 +322,12 @@ local FOCUSED_FIRE_UNIQUE_NAME = "CrutchAlertsSSFocusedFire"
 
 -- Check each group member to see who has the Focused Fire DEBUFF
 local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+    local targetTag = Crutch.groupIdToTag[targetUnitId]
+    Crutch.dbgOther(zo_strformat("<<1>> is targeted"))
+
     local toClear = {}
-    for g = 1, GetGroupSize() do
-        local unitTag = GetGroupUnitTagByIndex(g)
+    for groupIndex = 1, GetGroupSize() do
+        local unitTag = GetGroupUnitTagByIndex(groupIndex)
         local hasFocusedFire = false
         for i = 1, GetNumBuffs(unitTag) do
             local buffName, _, _, _, stackCount, iconFilename, _, _, _, _, abilityId, _, _ = GetUnitBuffInfo(unitTag, i)
@@ -337,7 +340,9 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
             end
         end
 
-        if (Crutch.savedOptions.sunspire.yolFocusedFire and not hasFocusedFire) then
+        -- Show icon if icons are enabled, the group member does not have focused fire,
+        -- and they are not the target of focus fire (to avoid confusion since they will see an arrow on their own stack)
+        if (Crutch.savedOptions.sunspire.yolFocusedFire and not hasFocusedFire and unitTag ~= targetTag) then
             Crutch.SetAttachedIconForUnit(unitTag, FOCUSED_FIRE_UNIQUE_NAME, 500, "CrutchAlerts/assets/shape/chevron.dds", 30, {0, 1, 1, 0.6}, false)
             table.insert(toClear, unitTag)
         end
