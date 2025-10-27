@@ -55,6 +55,7 @@ zones/trials/Cloudrest.xml
 zones/trials/MawOfLorkhaj.xml
 zones/trials/OsseinCage.xml
 
+zones/arenas/DragonstarArena.lua
 zones/arenas/EndlessArchive.lua
 zones/arenas/MaelstromArena.lua
 zones/arenas/VateshranHollows.lua

@@ -442,6 +442,7 @@ Crutch.others = {
         [54411] = true, -- Celestial Blast (Shadowcaster)
         [91937] = true, -- Burst of Embers (Daedroth)
         [54841] = true, -- Ice Charge (Dwarven Ice Centurion)
+        [81744] = true, -- Portal Spawn
     },
 
     -- Infinite Archive
