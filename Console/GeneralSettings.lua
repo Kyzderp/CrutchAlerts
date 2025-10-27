@@ -121,11 +121,7 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         getFunction = function() return Crutch.savedOptions.general.showOthers end,
         setFunction = function(value)
             Crutch.savedOptions.general.showOthers = value
-            if (value) then
-                Crutch.RegisterOthers()
-            else
-                Crutch.UnregisterOthers()
-            end
+            Crutch.RegisterOthers()
         end,
     })
 

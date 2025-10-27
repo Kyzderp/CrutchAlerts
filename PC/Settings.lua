@@ -137,11 +137,7 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.general.showOthers end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.showOthers = value
-                        if (value) then
-                            Crutch.RegisterOthers()
-                        else
-                            Crutch.UnregisterOthers()
-                        end
+                        Crutch.RegisterOthers()
                     end,
                     width = "full",
                 },

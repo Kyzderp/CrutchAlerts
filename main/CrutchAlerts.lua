@@ -336,6 +336,7 @@ local function OnPlayerActivated()
     end
     Crutch.RegisterProminents(zoneId)
     Crutch.RegisterEffects(zoneId)
+    Crutch.RegisterOthers()
 
     Crutch.zoneId = zoneId
 end
@@ -409,9 +410,7 @@ local function Initialize()
         Crutch.RegisterGained()
     end
     PrintTime("gained done")
-    if (Crutch.savedOptions.general.showOthers) then
-        Crutch.RegisterOthers()
-    end
+    Crutch.RegisterOthers()
     PrintTime("others done")
 
     -- Init general

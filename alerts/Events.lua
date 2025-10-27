@@ -183,7 +183,9 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     end
 
     -- Ignore abilities that are in the "others" because they will be displayed from there
-    if (Crutch.savedOptions.general.showOthers and Crutch.others[abilityId]) then return end
+    if (Crutch.savedOptions.general.showOthers) then
+        if (Crutch.others[Crutch.zoneId] and Crutch.others[Crutch.zoneId][abilityId]) then return end
+    end
 
     -- Setting for not showing casts on self (things like Recall and others not already blacklisted)
     if (Crutch.savedOptions.general.beginHideSelf and result == ACTION_RESULT_BEGIN and sourceType == COMBAT_UNIT_TYPE_PLAYER) then return end
@@ -522,27 +524,58 @@ local function OnCombatEventOthers(_, result, isError, abilityName, _, _, source
     Crutch.DisplayNotification(abilityId, FormatAbilityName(abilityId) .. targetName, hitValue, sourceUnitId, sourceName, sourceType, result)
 end
 
+local othersCurrentlyRegistered = {}
+-- function Dump()
+--     d(othersCurrentlyRegistered)
+-- end
+
+local function RegisterOthersByZone(zoneData)
+    for abilityId, _ in pairs(zoneData) do
+        table.insert(othersCurrentlyRegistered, abilityId)
+
+        local eventName = Crutch.name .. "OthersBegin" .. tostring(abilityId)
+        EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
+        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+
+        eventName = Crutch.name .. "OthersGained" .. tostring(abilityId)
+        EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
+        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+
+        eventName = Crutch.name .. "OthersGainedDuration" .. tostring(abilityId)
+        EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
+        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    end
+end
+
 function Crutch.RegisterOthers()
-    if (Crutch.registered.others) then return end
-    Crutch.dbgOther("Registered Others")
+    Crutch.dbgOther("Registering Others")
 
-    RegisterData(Crutch.others, "OthersBegin", ACTION_RESULT_BEGIN, nil, OnCombatEventOthers)
-    RegisterData(Crutch.others, "OthersGained", ACTION_RESULT_EFFECT_GAINED, nil, OnCombatEventOthers)
-    RegisterData(Crutch.others, "OthersGainedDuration", ACTION_RESULT_EFFECT_GAINED_DURATION, nil, OnCombatEventOthers)
+    -- Unregister previous events
+    for _, id in ipairs(othersCurrentlyRegistered) do
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OthersBegin" .. tostring(id), EVENT_COMBAT_EVENT)
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OthersGained" .. tostring(id), EVENT_COMBAT_EVENT)
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OthersGainedDuration" .. tostring(id), EVENT_COMBAT_EVENT)
+    end
+    ZO_ClearTable(othersCurrentlyRegistered)
 
-    Crutch.registered.others = true
+    -- Do not continue if others off (can be called from settings turning off)
+    if (not Crutch.savedOptions.general.showOthers) then return end
+
+    -- Register the new zone
+    local zoneId = GetZoneId(GetUnitZoneIndex("player"))
+    local zoneData = Crutch.others[zoneId]
+    if (zoneData) then
+        Crutch.dbgOther("Registering others for " .. tostring(zoneId))
+        RegisterOthersByZone(zoneData)
+    end
+
+    -- And also register global. There really shouldn't be many here
+    RegisterOthersByZone(Crutch.others["*"])
 end
 
-function Crutch.UnregisterOthers()
-    if (not Crutch.registered.others) then return end
-    Crutch.dbgOther("Unregistered Others")
-
-    UnregisterData(Crutch.others, "OthersBegin")
-    UnregisterData(Crutch.others, "OthersGained")
-    UnregisterData(Crutch.others, "OthersGainedDuration")
-
-    Crutch.registered.others = false
-end
 
 ---------------------------------------------------------------------
 --[[
