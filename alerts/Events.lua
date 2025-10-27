@@ -62,16 +62,13 @@ end
 
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function RegisterData(data, eventName, resultFilter, unitFilter, eventHandler)
-    for id, time in pairs(data) do
-        local wrapper = function(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
-            eventHandler(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, time)
-        end
-        RegisterEvent(EVENT_COMBAT_EVENT, resultFilter, unitFilter, id, wrapper, eventName)
+    for id, _ in pairs(data) do
+        RegisterEvent(EVENT_COMBAT_EVENT, resultFilter, unitFilter, id, eventHandler, eventName)
     end
 end
 
 local function UnregisterData(data, eventName)
-    for id, time in pairs(data) do
+    for id, _ in pairs(data) do
         UnregisterEvent(EVENT_COMBAT_EVENT, id, eventName)
     end
 end
@@ -229,7 +226,8 @@ function Crutch.RegisterGained()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gained", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
 
-    RegisterData(Crutch.gainedDuration, "Duration", ACTION_RESULT_EFFECT_GAINED_DURATION, nil, function(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)
+    RegisterData(Crutch.gainedDuration, "Duration", ACTION_RESULT_EFFECT_GAINED_DURATION, nil, function(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+        -- TODO: unwrap this somehow; creating functions not good
         if (targetType == COMBAT_UNIT_TYPE_PLAYER) then
             OnCombatEventAll(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
         end
@@ -333,7 +331,7 @@ end
 ---------------------------------------------------------------------
 -- Crutch.test (unknown timers)
 
-local function OnCombatEventTest(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)
+local function OnCombatEventTest(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
     -- Spammy debug
     if (not Crutch.savedOptions.debugChatSpam) then return end
 
@@ -477,7 +475,7 @@ end
 -- Crutch.others (on anyone)
 ---------------------------------------------------------------------
 
-local function OnCombatEventOthers(result, isError, abilityName, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, timer)
+local function OnCombatEventOthers(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
     -- Actual display
     targetName = GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId])
     if (targetName) then
