@@ -74,25 +74,34 @@ local numFrosts = {
 
 local function OnFrostDroppable(abilityId)
     -- Show regular timer
-    local last = numFrosts[abilityId] == 3
-    local label = zo_strformat("|c8ef5f5Drop<<1>> <<C:2>> |cFF0000now!|r", last and " LAST" or "", GetAbilityName(abilityId))
-    Crutch.DisplayNotification(abilityId, label, 9000 - TIME_UNTIL_DROP, 0, 0, 0, 0, false) -- This would go away on normal because there's no Overwhelming, but whatever
+    if (Crutch.savedOptions.cloudrest.showFrostAlert) then
+        local last = numFrosts[abilityId] == 3
+        local label = zo_strformat("|c8ef5f5Drop<<1>> <<C:2>> |cFF0000now!|r", last and " LAST" or "", GetAbilityName(abilityId))
+        Crutch.DisplayNotification(abilityId, label, 9000 - TIME_UNTIL_DROP, 0, 0, 0, 0, false) -- This would go away on normal because there's no Overwhelming, but whatever
+    end
 
     -- Do prominent for drop frost
-    -- TODO: setting for prominent
-    Crutch.DisplayProminent(888007)
+    local doProminent
+    if (IsConsoleUI()) then
+        doProminent = Crutch.savedOptions.console.showProminent
+    else
+        doProminent = Crutch.savedOptions.cloudrest.dropFrostProminent
+    end
+
+    if (doProminent) then
+        Crutch.DisplayProminent(888007)
+    end
 end
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, _, _, _, _, _, _, unitId, abilityId)
-    -- TODO: setting
-
     if (changeType == EFFECT_RESULT_FADED) then
-        -- TODO: check
         Crutch.InterruptAbility(abilityId, true)
     elseif (changeType == EFFECT_RESULT_GAINED) then
-        local label = zo_strformat("|c8ef5f5Drop <<C:1>> in|r", GetAbilityName(abilityId))
-        Crutch.DisplayNotification(abilityId, label, TIME_UNTIL_DROP, 0, 0, 0, 0, false)
+        if (Crutch.savedOptions.cloudrest.showFrostAlert) then
+            local label = zo_strformat("|c8ef5f5Drop <<C:1>> in|r", GetAbilityName(abilityId))
+            Crutch.DisplayNotification(abilityId, label, TIME_UNTIL_DROP, 0, 0, 0, 0, false)
+        end
 
         -- Track the number of that particular frost
         local num = numFrosts[abilityId]

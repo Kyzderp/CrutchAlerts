@@ -889,6 +889,28 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show Hoarfrost timer",
+                    tooltip = "Shows a timer for when you can drop Hoarfrost, and a timer after that for when Overwhelming Hoarfrost would kill you (on veteran)",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.showFrostAlert end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.showFrostAlert = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Alert drop Hoarfrost",
+                    tooltip = "Displays a prominent alert and ding sound when you can drop Hoarfrost",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.dropFrostProminent end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.dropFrostProminent = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show flare icon",
                     tooltip = "Shows icons above players who are targeted by Roaring Flare",
                     default = true,

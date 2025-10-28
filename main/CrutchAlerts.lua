@@ -136,6 +136,9 @@ local defaultOptions = {
         deathIconColor = true,
         showFlaresSides = true,
         showFlareIcon = true,
+        dropFrostProminent = true,
+        showFrostAlert = true,
+        showFrostIcons = false,
     },
     dreadsailreef = {
         alertStaticStacks = true,

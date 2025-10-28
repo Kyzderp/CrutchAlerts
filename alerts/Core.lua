@@ -297,7 +297,11 @@ local function AdjustControlsOnInterrupt(unitId, abilityId, suppressStopped)
 
         -- Only show "stopped" if we're not choosing to suppress it, and it hasn't already expired naturally
         -- i.e. if the current time is not yet within 100ms of the expire time
-        if (not suppressStopped and GetGameTimeMilliseconds() < freeControls[index].expireTime - 100) then
+        if (suppressStopped) then
+            -- Remove immediately
+            freeControls[index].expireTime = GetGameTimeMilliseconds() - 1
+            UpdateDisplay()
+        elseif (GetGameTimeMilliseconds() < freeControls[index].expireTime - 100) then
             freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
 
             -- Set the text to "stopped"

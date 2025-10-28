@@ -128,6 +128,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Hoarfrost timer",
+        tooltip = "Shows a timer for when you can drop Hoarfrost, and a timer after that for when Overwhelming Hoarfrost would kill you (on veteran)",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cloudrest.showFrostAlert end,
+        setFunction = function(value)
+            Crutch.savedOptions.cloudrest.showFrostAlert = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show flare icon",
         tooltip = "Shows icons above players who are targeted by Roaring Flare",
         default = true,
