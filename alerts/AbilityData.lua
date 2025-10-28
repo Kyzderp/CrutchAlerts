@@ -156,10 +156,6 @@ Crutch.testing = {
 
     [155184] = true, -- Catastrophe (Magma Incarnate)
 
-    -- [63029] = true, -- Radiant Destruction
-    -- [63044] = true, -- Radiant Glory
-    -- [63046] = true, -- Radiant Oppression
-
     [140606] = true, -- Meteor
     [134023] = true, -- Meteor
 
@@ -169,9 +165,6 @@ Crutch.testing = {
 
     [233512] = true, -- Valneer Titanic Clash Leap
     [233500] = true, -- Myrinax Titanic Clash Leap
-
-    -- [163152] = true, -- Coalescing Shadows
-    [163153] = true, -- Coalescing Shadows?
 }
 
 ---------------------------------------------------------------------

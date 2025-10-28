@@ -10,7 +10,7 @@ CrutchAlerts = {
 }
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"
-Crutch.version = "2.3.1"
+Crutch.version = "2.4.0"
 
 Crutch.registered = {
     begin = false,
@@ -365,8 +365,8 @@ local function PrintTime(reason)
 end
 
 local function OnPlayerActivatedFirstTime()
-    -- Did I use to have stuff in here??
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ActivatedFirstTime", EVENT_PLAYER_ACTIVATED)
+
     for _, msg in ipairs(queuedMessages) do
         Crutch.dbgOther(msg)
     end
