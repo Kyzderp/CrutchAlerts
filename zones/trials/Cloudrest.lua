@@ -107,14 +107,15 @@ local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, 
         numFrosts[abilityId] = num
         Crutch.dbgOther(GetUnitDisplayName(unitTag) .. " got hoarfrost #" .. num)
 
-        -- Show timer until droppable
-        if (Crutch.savedOptions.cloudrest.showFrostAlert) then
-            local label = zo_strformat("|c8ef5f5Drop <<C:1>> (<<2>>) in|r", GetAbilityName(abilityId), num == 3 and "last" or num)
-            Crutch.DisplayNotification(abilityId, label, TIME_UNTIL_DROP, 0, 0, 0, 0, false)
-        end
-
-        -- If it's current player, do an alert later
+        -- If it's you...
         if (AreUnitsEqual(unitTag, "player")) then
+            -- ... show timer until droppable...
+            if (Crutch.savedOptions.cloudrest.showFrostAlert) then
+                local label = zo_strformat("|c8ef5f5Drop <<C:1>> (<<2>>) in|r", GetAbilityName(abilityId), num == 3 and "last" or num)
+                Crutch.DisplayNotification(abilityId, label, TIME_UNTIL_DROP, 0, 0, 0, 0, false)
+            end
+
+            -- ... and also show drop timer/prominent later
             zo_callLater(function() OnFrostDroppable(abilityId) end, TIME_UNTIL_DROP)
         end
 
