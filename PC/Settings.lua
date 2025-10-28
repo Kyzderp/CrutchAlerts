@@ -911,13 +911,12 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show flare icon",
-                    tooltip = "Shows icons above players who are targeted by Roaring Flare",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.cloudrest.showFlareIcon end,
+                    name = "Show Hoarfrost icon",
+                    tooltip = "Shows icons above players who currently have Hoarfrost",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.showFrostIcons end,
                     setFunc = function(value)
-                        Crutch.savedOptions.cloudrest.showFlareIcon = value
-                        Crutch.OnPlayerActivated()
+                        Crutch.savedOptions.cloudrest.showFrostIcons = value
                     end,
                     width = "full",
                 },
@@ -929,6 +928,18 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.cloudrest.showFlaresSides end,
                     setFunc = function(value)
                         Crutch.savedOptions.cloudrest.showFlaresSides = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show flare icon",
+                    tooltip = "Shows icons above players who are targeted by Roaring Flare",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.showFlareIcon end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.showFlareIcon = value
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",

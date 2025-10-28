@@ -97,6 +97,7 @@ end
 local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, _, _, _, _, _, _, unitId, abilityId)
     if (changeType == EFFECT_RESULT_FADED) then
         Crutch.InterruptAbility(abilityId, true)
+        Crutch.RemoveAttachedIconForUnit(unitTag, FROST_UNIQUE_NAME)
     elseif (changeType == EFFECT_RESULT_GAINED) then
         -- Track the number of that particular frost
         local num = numFrosts[abilityId] + 1
@@ -115,6 +116,11 @@ local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, 
         -- If it's current player, do an alert later
         if (AreUnitsEqual(unitTag, "player")) then
             zo_callLater(function() OnFrostDroppable(abilityId) end, TIME_UNTIL_DROP)
+        end
+
+        -- Add icon
+        if (Crutch.savedOptions.cloudrest.showFrostIcons) then
+            Crutch.SetAttachedIconForUnit(unitTag, FROST_UNIQUE_NAME, 500, "esoui/art/icons/heraldrycrests_misc_snowflake_01.dds", nil, {0, 0.9, 1})
         end
     end
 end

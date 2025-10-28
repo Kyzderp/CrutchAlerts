@@ -139,13 +139,12 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show flare icon",
-        tooltip = "Shows icons above players who are targeted by Roaring Flare",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.cloudrest.showFlareIcon end,
+        label = "Show Hoarfrost icon",
+        tooltip = "Shows icons above players who currently have Hoarfrost",
+        default = false,
+        getFunction = function() return Crutch.savedOptions.cloudrest.showFrostIcons end,
         setFunction = function(value)
-            Crutch.savedOptions.cloudrest.showFlareIcon = value
-            Crutch.OnPlayerActivated()
+            Crutch.savedOptions.cloudrest.showFrostIcons = value
         end,
     })
 
@@ -157,6 +156,18 @@ function Crutch.CreateConsoleContentSettingsMenu()
         getFunction = function() return Crutch.savedOptions.cloudrest.showFlaresSides end,
         setFunction = function(value)
             Crutch.savedOptions.cloudrest.showFlaresSides = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show flare icon",
+        tooltip = "Shows icons above players who are targeted by Roaring Flare",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cloudrest.showFlareIcon end,
+        setFunction = function(value)
+            Crutch.savedOptions.cloudrest.showFlareIcon = value
             Crutch.OnPlayerActivated()
         end,
     })
