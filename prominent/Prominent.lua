@@ -14,6 +14,7 @@ Crutch.prominent = {
     [888003] = {text = "COLOR SWAP", color = {1, 0, 0}, slot = 1, playSound = true, millis = 1000}, -- vMol color swap
     [888004] = {text = "STATIC", color = {0.5, 1, 1}, slot = 1, playSound = true, millis = 1000}, -- vDSR static stacks
     [888006] = {text = "POISON", color = {0.5, 1, 0.5}, slot = 2, playSound = true, millis = 1000}, -- vDSR poison stacks
+    [888007] = {text = "DROP FROST", color = {0, 0.7, 1}, slot = 2, playSound = true, millis = 1000}, -- vCR drop hoarfrost
 }
 
 Crutch.prominentDisplaying = {} -- {[12459] = 1,}

@@ -284,7 +284,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     end
 end
 
-local function AdjustControlsOnInterrupt(unitId, abilityId)
+local function AdjustControlsOnInterrupt(unitId, abilityId, suppressStopped)
     if (Crutch.uninterruptible[abilityId]) then -- Some abilities show up as immediately interrupted, don't do that
         return
     end
@@ -295,9 +295,9 @@ local function AdjustControlsOnInterrupt(unitId, abilityId)
     if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
         freeControls[index].interrupted = true
 
-        -- Only show "stopped" if it hasn't already expired naturally
+        -- Only show "stopped" if we're not choosing to suppress it, and it hasn't already expired naturally
         -- i.e. if the current time is not yet within 100ms of the expire time
-        if (GetGameTimeMilliseconds() < freeControls[index].expireTime - 100) then
+        if (not suppressStopped and GetGameTimeMilliseconds() < freeControls[index].expireTime - 100) then
             freeControls[index].expireTime = GetGameTimeMilliseconds() + 1000 -- Hide it after 1 second
 
             -- Set the text to "stopped"
@@ -339,12 +339,12 @@ function Crutch.Interrupted(targetUnitId)
 end
 
 -- To be called when an ability by any enemy is interrupted
-function Crutch.InterruptAbility(abilityId)
+function Crutch.InterruptAbility(abilityId, suppressStopped)
     -- Check through all displaying alerts to find matching ability IDs
     local expiredTimer = "0"
     for unitId, unitData in pairs(displaying) do
         if (unitData[abilityId]) then
-            expiredTimer = AdjustControlsOnInterrupt(unitId, abilityId)
+            expiredTimer = AdjustControlsOnInterrupt(unitId, abilityId, suppressStopped)
         end
     end
     return expiredTimer

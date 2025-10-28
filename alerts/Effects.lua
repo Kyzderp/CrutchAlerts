@@ -91,32 +91,6 @@ local effectData = {
     -- Cloudrest
     [1051] = {
         settingsSubcategory = "cloudrest",
-        -- Hoarfrost
-        [103695] = {
-            format = "|c8ef5f5<<C:1>>|r",
-            duration = 9000, -- Time until Overwhelming Hoarfrost... on vet
-            filters = {
-                [REGISTER_FILTER_UNIT_TAG] = "player",
-            },
-            settings = {
-                name = "effectHoarfrost",
-                title = "Show Hoarfrost Timer",
-                description = "Shows an \"alert\" timer for when Hoarfrost will kill you (on veteran difficulty)",
-            },
-        },
-        -- Hoarfrost (in execute)
-        [110516] = {
-            format = "|c8ef5f5<<C:1>>|r",
-            duration = 9000, -- Time until Overwhelming Hoarfrost... on vet
-            filters = {
-                [REGISTER_FILTER_UNIT_TAG] = "player",
-            },
-            settings = {
-                name = "effectHoarfrost",
-                title = "Show Hoarfrost Timer",
-                description = "Shows an \"alert\" timer for when Hoarfrost will kill you (on veteran difficulty)",
-            },
-        },
         -- Voltaic Overload
         [87346] = {
             format = "|c8ef5f5<<C:1>>|r",

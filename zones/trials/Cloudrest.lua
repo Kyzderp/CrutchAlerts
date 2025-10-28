@@ -60,6 +60,56 @@ end
 
 
 ---------------------------------------------------------------------
+-- Hoarfrost icons / alerts
+---------------------------------------------------------------------
+local FROST_UNIQUE_NAME = "CrutchAlertsCRHoarfrost"
+local TIME_UNTIL_DROP = 5800
+local HOARFROST_ID = 103695
+local HOARFROST_EXECUTE_ID = 110516
+
+local numFrosts = {
+    [HOARFROST_ID] = 0,
+    [HOARFROST_EXECUTE_ID] = 0,
+}
+
+local function OnFrostDroppable(abilityId)
+    -- Show regular timer
+    local last = numFrosts[abilityId] == 3
+    local label = zo_strformat("|c8ef5f5Drop<<1>> <<C:2>> |cFF0000now!|r", last and " LAST" or "", GetAbilityName(abilityId))
+    Crutch.DisplayNotification(abilityId, label, 9000 - TIME_UNTIL_DROP, 0, 0, 0, 0, false) -- This would go away on normal because there's no Overwhelming, but whatever
+
+    -- Do prominent for drop frost
+    -- TODO: setting for prominent
+    Crutch.DisplayProminent(888007)
+end
+
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, _, _, _, _, _, _, unitId, abilityId)
+    -- TODO: setting
+
+    if (changeType == EFFECT_RESULT_FADED) then
+        -- TODO: check
+        Crutch.InterruptAbility(abilityId, true)
+    elseif (changeType == EFFECT_RESULT_GAINED) then
+        local label = zo_strformat("|c8ef5f5Drop <<C:1>> in|r", GetAbilityName(abilityId))
+        Crutch.DisplayNotification(abilityId, label, TIME_UNTIL_DROP, 0, 0, 0, 0, false)
+
+        -- Track the number of that particular frost
+        local num = numFrosts[abilityId]
+        if (num == 3) then
+            num = 0
+        end
+        numFrosts[abilityId] = num + 1
+        Crutch.dbgOther(GetUnitDisplayName(unitTag) .. " got hoarfrost #" .. numFrosts[abilityId])
+
+        -- If it's current player, do an alert later
+        if (AreUnitsEqual(unitTag, "player")) then
+            zo_callLater(function() OnFrostDroppable(abilityId) end, TIME_UNTIL_DROP)
+        end
+    end
+end
+
+---------------------------------------------------------------------
 -- Flare icons
 ---------------------------------------------------------------------
 local FLARE_UNIQUE_NAME = "CrutchAlertsCRFlare"
@@ -276,6 +326,8 @@ function Crutch.RegisterCloudrest()
         spearsSent = 0
         orbsDunked = 0
         Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
+        numFrosts[HOARFROST_ID] = 0
+        numFrosts[HOARFROST_EXECUTE_ID] = 0
     end)
 
     -- Register break amulet
@@ -308,6 +360,15 @@ function Crutch.RegisterCloudrest()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 110431) -- Flare 2 in execute
     end
+
+    -- Register Hoarfrost for icons/alerts
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, OnHoarfrost)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, HOARFROST_ID)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, OnHoarfrost)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, HOARFROST_EXECUTE_ID)
 
     -- Register Olorime Spears - spear appearing
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, OnOlorimeSpears)
