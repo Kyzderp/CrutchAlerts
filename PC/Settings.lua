@@ -221,6 +221,42 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "submenu",
+                    name = "Advanced IDs",
+                    controls = {
+                        {
+                            type = "description",
+                            text = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above.",
+                            width = "full",
+                        },
+                        {
+                            type = "editbox",
+                            name = "Blacklist IDs, separated by commas",
+                            default = "",
+                            getFunc = function()
+                                local str = ""
+                                for id, _ in pairs(Crutch.savedOptions.general.blacklist) do
+                                    str = string.format("%s%d, ", str, id)
+                                end
+                                return str
+                            end,
+                            setFunc = function(value)
+                                local ids = {}
+                                for _, id in ipairs({zo_strsplit(",", value)}) do
+                                    id = tonumber(id)
+                                    if (id) then
+                                        ids[id] = true
+                                    end
+                                end
+                                Crutch.savedOptions.general.blacklist = ids
+                            end,
+                            isExtraWide = true,
+                            isMultiline = true,
+                            width = "full",
+                        },
+                    },
+                },
             }
         },
 -- boss health bar

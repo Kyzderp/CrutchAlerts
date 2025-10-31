@@ -156,7 +156,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     end
 
     -- Ignore abilities that are blacklisted
-    if (Crutch.blacklist[abilityId]) then return end
+    if (Crutch.blacklist[abilityId] or Crutch.savedOptions.general.blacklist[abilityId]) then return end
 
     -- Spammy debug
     SpamDebug(result, sourceName, sourceType, targetName, targetType, hitValue, sourceUnitId, targetUnitId, abilityId, "A")
@@ -478,6 +478,9 @@ end
 ---------------------------------------------------------------------
 
 local function OnCombatEventOthers(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+    -- Ignore abilities that are blacklisted
+    if (Crutch.blacklist[abilityId] or Crutch.savedOptions.general.blacklist[abilityId]) then return end
+
     -- Actual display
     targetName = GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId])
     if (targetName) then

@@ -67,11 +67,12 @@ local defaultOptions = {
         hitValueBelowThreshold = 75,
             hitValueUseWhitelist = true,
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
-        useNonNoneBlacklist = true,
-        useNoneBlacklist = true,
         showDamageable = true,
         showRaidDiag = false,
         showJBeam = true,
+
+        -- Custom IDs
+        blacklist = {}, -- {[1234] = true,}
     },
     drawing = {
         useLevels = true, -- Whether to avoid clipping / appearing out of order
