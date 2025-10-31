@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constans
 
 ---------------------------------------------------------------------
 -- Quarrymaster Saldezaar
@@ -18,7 +19,7 @@ end
 local key
 local function DrawSlamLine()
     local x1, y1, z1 = GetLineEndpoint()
-    key = Crutch.Drawing.CreateLine(x1, y1, z1, CENTER_X, CENTER_Y, CENTER_Z, 0.3, {1, 0, 0}, nil, nil, function()
+    key = Crutch.Drawing.CreateLine(x1, y1, z1, CENTER_X, CENTER_Y, CENTER_Z, 0.3, C.RED, nil, nil, function()
         local x1, y1, z1 = GetLineEndpoint()
         return x1, y1, z1, CENTER_X, CENTER_Y, CENTER_Z
     end)

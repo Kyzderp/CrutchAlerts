@@ -1,5 +1,6 @@
 local Crutch = CrutchAlerts
 local Draw = Crutch.Drawing
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Marker icons placed in the world, for positioning, e.g. Lokk HM.
@@ -16,7 +17,7 @@ local Draw = Crutch.Drawing
 local function CreatePlacedPositionMarker(texture, x, y, z, size, color)
     size = size or 100
 
-    color = color or {1, 1, 1}
+    color = color or C.WHITE
     local r, g, b, a = unpack(color)
     if (not a) then
         a = Crutch.savedOptions.drawing.placedPositioning.opacity
@@ -68,7 +69,7 @@ Draw.RemovePlacedPositionMarker = RemovePlacedPositionMarker
 local function CreatePlacedIcon(texture, x, y, z, size, color, updateFunc)
     size = size or 100
 
-    color = color or {1, 1, 1}
+    color = color or C.WHITE
     local r, g, b, a = unpack(color)
     if (not a) then
         a = Crutch.savedOptions.drawing.placedIcon.opacity
@@ -116,12 +117,13 @@ local function CreateOrientedTexture(texture, x, y, z, size, color, orientation,
 
     size = size or 1
 
-    color = color or {1, 1, 1}
+    color = color or C.WHITE
     local r, g, b, a = unpack(color)
     if (not a) then
         a = Crutch.savedOptions.drawing.placedOriented.opacity
     end
 
+    -- TODO: don't use vectors here
     orientation = orientation or {
         {0, 1, 0},
         {1, 0, 0},
@@ -167,7 +169,7 @@ local function CreateGroundCircle(x, y, z, radius, color, orientation, updateFun
     radius = radius or 3
     local size = radius * 2
 
-    color = color or {1, 0, 0}
+    color = color or C.RED
 
     return CreateOrientedTexture(
         "CrutchAlerts/assets/floor/circle.dds",
@@ -224,7 +226,7 @@ end
 -- @returns key: you must use this key to remove the line later
 ---------------------------------------------------------------------
 local function CreateLine(x1, y1, z1, x2, y2, z2, width, color, useDepthBuffers, updateFunc, getPointsFunc)
-    color = color or {1, 1, 1}
+    color = color or C.WHITE
     local r, g, b, a = unpack(color)
     if (not a) then
         a = Crutch.savedOptions.drawing.placedOriented.opacity

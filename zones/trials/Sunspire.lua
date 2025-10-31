@@ -175,7 +175,7 @@ end
 ---------------------------------------------------------------------
 local xX, xY, xZ = 114941, 56106, 105959
 local function Do20StormBreath()
-    -- local poopKey = Crutch.Drawing.CreatePlacedIcon("CrutchAlerts/assets/poop.dds", xX, xY, xZ, 50, {1, 0, 0})
+    -- local poopKey = Crutch.Drawing.CreatePlacedIcon("CrutchAlerts/assets/poop.dds", xX, xY, xZ, 50)
     -- zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(poopKey) end, 60000)
     if (not IsLokkHM()) then return end
 

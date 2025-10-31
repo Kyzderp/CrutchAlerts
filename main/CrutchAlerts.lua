@@ -7,6 +7,7 @@ CrutchAlerts = {
     Drawing = {
         Animation = {},
     },
+    Constants = {},
 }
 local Crutch = CrutchAlerts
 Crutch.name = "CrutchAlerts"

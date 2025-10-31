@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 local amuletSmashed = false
@@ -156,7 +157,7 @@ local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, t
             composite = {
                 size = 1,
                 init = function(composite)
-                    Crutch.Drawing.Animation.BoostInitial(composite, {1, 0, 0}, {1, 1, 0})
+                    Crutch.Drawing.Animation.BoostInitial(composite, C.RED, {1, 1, 0})
                 end,
             },
         })

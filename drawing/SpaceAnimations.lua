@@ -1,6 +1,7 @@
 local Crutch = CrutchAlerts
 local Draw = Crutch.Drawing
 local Anim = Draw.Animation
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Pulsing animation
@@ -117,8 +118,8 @@ local function BoostInitial(composite, colorFrom, colorTo)
     composite:SetTexture("CrutchAlerts/assets/shape/chevronthin.dds")
 
     -- Gradient?
-    colorFrom = colorFrom or {1, 1, 1}
-    colorTo = colorTo or {1, 1, 1}
+    colorFrom = colorFrom or C.WHITE
+    colorTo = colorTo or C.WHITE
     local from = ZO_ColorDef:New(colorFrom[1], colorFrom[2], colorFrom[3])
     local to = ZO_ColorDef:New(colorTo[1], colorTo[2], colorTo[3])
 
@@ -153,7 +154,7 @@ local function TestBoost()
             composite = {
                 size = 1,
                 init = function(composite)
-                    BoostInitial(composite, {1, 0, 0}, {1, 1, 0})
+                    BoostInitial(composite, C.RED, {1, 1, 0})
                 end,
             },
         })

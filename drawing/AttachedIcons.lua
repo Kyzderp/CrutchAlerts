@@ -1,5 +1,6 @@
 local Crutch = CrutchAlerts
 local Draw = Crutch.Drawing
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- A bit of a framework to show icons attached to players
@@ -182,9 +183,7 @@ local function SetIconForUnit(unitTag, uniqueName, priority, texture, size, colo
 
     Crutch.dbgSpam(string.format("SetIconForUnit %s (%s) %s |t100%%:100%%:%s|t", unitTag, GetUnitDisplayName(unitTag) or "???", uniqueName, texture or "blank.dds"))
 
-    if (not color) then
-        color = {1, 1, 1}
-    end
+    color = color or C.WHITE
 
     local r, g, b, a = unpack(color)
     if (not a) then

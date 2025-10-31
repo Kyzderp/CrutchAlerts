@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 -- Data for prominent display of notifications
 -- Key by zoneId so we only register each one in the right zone
@@ -196,7 +197,7 @@ local prominentData = {
                 filterFunction = function() return GetSelectedLFGRole() == LFG_ROLE_TANK end,
             },
             text = "BOOGER",
-            color = {1, 0, 0},
+            color = C.RED,
             slot = 1,
             playSound = true,
             millis = 1000,
@@ -267,7 +268,7 @@ local prominentData = {
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
             text = "SHATTER",
-            color = {1, 0, 0},
+            color = C.RED,
             slot = 1,
             playSound = true,
             millis = 1000,
@@ -287,7 +288,7 @@ local prominentData = {
         --         [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
         --     },
         --     text = "SHATTER",
-        --     color = {1, 0, 0},
+        --     color = C.RED,
         --     slot = 1,
         --     playSound = true,
         --     millis = 1000,
@@ -345,7 +346,7 @@ local prominentData = {
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED,
             },
             text = "UNSTABLE",
-            color = {1, 0, 0},
+            color = C.RED,
             slot = 2,
             playSound = true,
             millis = 2000,
@@ -396,7 +397,7 @@ local prominentData = {
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "CHAIN",
-            color = {1, 0, 0},
+            color = C.RED,
             slot = 1,
             playSound = true,
             millis = 1000,
@@ -581,7 +582,7 @@ local prominentData = {
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
             },
             text = "METEOR",
-            color = {1, 0, 0},
+            color = C.RED,
             slot = 1,
             playSound = true,
             millis = 1000,

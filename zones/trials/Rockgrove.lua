@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 local EXIT_LEFT_POOL = {x = 91973, y = 35751, z = 81764}  -- from QRH so that we use the same sorting
@@ -298,8 +299,6 @@ Crutch.TestCurseLines = TestCurseLines
 local CURSE_UNIQUE_NAME = "CrutchAlertsRGDeathTouch"
 
 local cycleTime = 700
-local red = {1, 0, 0}
-local redorange = {1, 0.35, 0}
 local function DeathTouchIconUpdate(icon, unitTag, endTime)
     local duration = endTime * 1000 - GetGameTimeMilliseconds()
     if (duration < -1000) then
@@ -324,9 +323,9 @@ local function DeathTouchIconUpdate(icon, unitTag, endTime)
 
         -- Color
         if (duration < 1000) then
-            Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, red)
+            Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, C.RED)
         else
-            Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, redorange)
+            Crutch.Drawing.Animation.PulseUpdate(icon:GetCompositeTexture(), t, C.REDORANGE)
         end
     end
 end

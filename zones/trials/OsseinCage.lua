@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Caustic Carrion
@@ -327,7 +328,7 @@ local function RegisterTwins()
         if (exitKey) then
             Crutch.Drawing.RemoveWorldTexture(exitKey)
         end
-        exitKey = Crutch.Drawing.CreateSpaceLabel("Exit", 105100, 26400, 133400, 120, {1, 1, 1}, false, {0, math.pi, 0})
+        exitKey = Crutch.Drawing.CreateSpaceLabel("Exit", 105100, 26400, 133400, 120, C.WHITE, false, {0, math.pi, 0})
     end
 end
 

@@ -1,5 +1,6 @@
 local Crutch = CrutchAlerts
 local Draw = Crutch.Drawing
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 local controlPool
@@ -247,7 +248,7 @@ Draw.CreateSpaceLabel = CreateSpaceLabel
 ---------------------------------------------------------------------
 local function TestSpacePoop()
     local _, x, y, z = GetUnitRawWorldPosition("player")
-    CreateSpaceTexture("CrutchAlerts/assets/poop.dds", x, y, z, 1, 1, {1, 1, 1}, {0, 0, 0})
+    CreateSpaceTexture("CrutchAlerts/assets/poop.dds", x, y, z, 1, 1, C.WHITE, {0, 0, 0})
 end
 Draw.TestSpacePoop = TestSpacePoop
 --[[

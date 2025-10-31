@@ -23,6 +23,7 @@
 ; and of course Lamierina7 for creating OdySupportIcons :D
 
 main/CrutchAlerts.lua
+main/Constants.lua
 main/CrutchAlerts.xml
 main/GlobalEvents.lua
 main/Style.lua
