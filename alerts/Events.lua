@@ -585,19 +585,19 @@ end
 /script CrutchAlerts.Test()
 ]]
 function Crutch.Test()
-    OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1, 0, 0, 120890)
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
-    OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED_DURATION, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
+    OnCombatEventOthers(nil, ACTION_RESULT_EFFECT_GAINED, false, "Crush", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1, nil, nil, nil, 0, 0, 120890)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "Crush", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, nil, nil, nil, 0, 0, 120890)
+    OnCombatEventOthers(nil, ACTION_RESULT_EFFECT_GAINED_DURATION, false, "Crush", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, nil, nil, nil, 0, 0, 120890)
 
-    OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1, 0, 0, 120890)
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
-    OnCombatEventOthers(ACTION_RESULT_EFFECT_GAINED_DURATION, false, "Crush", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, 0, 0, 120890)
+    OnCombatEventOthers(nil, ACTION_RESULT_EFFECT_GAINED, false, "Crush", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1, nil, nil, nil, 0, 0, 120890)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "Crush", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, nil, nil, nil, 0, 0, 120890)
+    OnCombatEventOthers(nil, ACTION_RESULT_EFFECT_GAINED_DURATION, false, "Crush", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 2000, nil, nil, nil, 0, 0, 120890)
 
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "Focus Fire", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, 0, 0, 121722)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "Focus Fire", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, nil, nil, nil, 0, 0, 121722)
 
     -- Bahsei portal
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "asdf", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, 0, 0, 153517)
-    OnCombatEventOthers(ACTION_RESULT_BEGIN, false, "asdf", "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, 0, 0, 153518)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "asdf", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, nil, nil, nil, 0, 0, 153517)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "asdf", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, nil, nil, nil, 0, 0, 153518)
 end
 
 ---------------------------------------------------------------------

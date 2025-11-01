@@ -60,15 +60,14 @@ local defaultOptions = {
         alertScale = 36,
         showBegin = true,
             beginHideSelf = false,
-        beginHideArcanist = false,
         showGained = true,
         showOthers = true,
         showProminent = true,
         hitValueBelowThreshold = 75,
-            hitValueUseWhitelist = true,
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
         showDamageable = true,
         showRaidDiag = false,
+        beginHideArcanist = false, -- has been changed to be its own thing, reusing the setting
         showJBeam = true,
 
         -- Custom IDs
