@@ -227,12 +227,13 @@ function Crutch:CreateSettingsMenu()
                     controls = {
                         {
                             type = "description",
-                            text = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above.",
+                            text = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above. To find IDs, you can turn on |c99FF99CrutchAlerts > Debug > Show debug on alert|r, and the ID is the first number shown on the small gray text under the alert. Alternatively, you can find IDs from online sources such as ESOLogs, player-maintained spreadsheets, or UESP.",
                             width = "full",
                         },
                         {
                             type = "editbox",
                             name = "Blacklist IDs, separated by commas",
+                            tooltip = "IDs added to this blacklist will no longer be shown in \"begin casts,\" \"gained casts,\" and \"casts on others.\"",
                             default = "",
                             getFunc = function()
                                 local str = ""
@@ -253,6 +254,18 @@ function Crutch:CreateSettingsMenu()
                             end,
                             isExtraWide = true,
                             isMultiline = true,
+                            width = "full",
+                        },
+                        {
+                            type = "description",
+                            name = "Current blacklist:",
+                            text = function()
+                                local str = ""
+                                for id, _ in pairs(Crutch.savedOptions.general.blacklist) do
+                                    str = string.format("%s%s (%d), ", str, GetAbilityName(id) or "INVALID", id)
+                                end
+                                return str
+                            end,
                             width = "full",
                         },
                     },
