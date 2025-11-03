@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 local function GetFalgravnIconsSize()
@@ -251,6 +252,21 @@ local iconGroups = {
             {x = 103950, y = 26157, z = 130550, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- Blue4Middle
         },
     },
+
+    -- Orphic Shattered Shard mirror with directions
+    ["OrphicDirections"] = {
+        size = GetOrphicIconSize,
+        icons = {
+            {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "N", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "NE", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "E", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "SE", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "S", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "SW", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "W", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "NW", orientation = {0, math.pi, 0}}, -- TODO orientation
+        },
+    },
 }
 
 
@@ -299,7 +315,38 @@ function Crutch.EnableIconGroup(iconGroupName)
         if (icons[name]) then
             Crutch.dbgOther("|cFF0000Icon already enabled " .. name .. "|r")
         else
-            local key = Crutch.Drawing.CreatePlacedPositionMarker(iconData.texture, iconData.x, iconData.y, iconData.z, size)
+            local key
+            if (iconData.text) then
+                -- Use fancy space
+                local options = {}
+                if (iconData.texture) then
+                    options.texture = {
+                        path = iconData.texture,
+                        size = size / 100, -- TODO
+                        color = iconData.color,
+                    }
+                end
+
+                if (iconData.text) then
+                    options.label = {
+                        text = iconData.text,
+                        size = size, -- TODO
+                        color = C.WHITE,
+                    }
+                end
+
+                key = Crutch.Drawing.CreateSpaceControl(
+                    iconData.x,
+                    iconData.y,
+                    iconData.z,
+                    iconData.orientation == nil, -- face camera if orientation not specified
+                    iconData.orientation,
+                    options,
+                    nil) -- updateFunc
+            else
+                -- Use only texture
+                key = Crutch.Drawing.CreatePlacedPositionMarker(iconData.texture, iconData.x, iconData.y, iconData.z, size)
+            end
             icons[name] = key
         end
     end

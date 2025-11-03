@@ -7,3 +7,4 @@ local C = Crutch.Constants
 C.WHITE = {1, 1, 1}
 C.RED = {1, 0, 0}
 C.REDORANGE = {1, 0.35, 0}
+C.BLUE = {0, 0, 1}
