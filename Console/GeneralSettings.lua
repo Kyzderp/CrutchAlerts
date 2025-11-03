@@ -383,4 +383,30 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         end,
         disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
     })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_COLOR,
+        label = "Foreground color",
+        tooltip = "Foreground color of the bars. Does not apply to special cases like OC titans and AS minis. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+        default = Crutch.defaultOptions.bossHealthBar.foreground,
+        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.foreground) end,
+        setFunction = function(r, g, b, a)
+            Crutch.savedOptions.bossHealthBar.foreground = {r, g, b, a}
+            Crutch.BossHealthBar.UpdateColors()
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_COLOR,
+        label = "Background color",
+        tooltip = "Background color of the bars. Does not apply to special cases like OC titans and AS minis. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+        default = Crutch.defaultOptions.bossHealthBar.background,
+        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.background) end,
+        setFunction = function(r, g, b, a)
+            Crutch.savedOptions.bossHealthBar.background = {r, g, b, a}
+            Crutch.BossHealthBar.UpdateColors()
+            Crutch.UnlockUI(true)
+        end,
+    })
 end

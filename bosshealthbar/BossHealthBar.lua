@@ -14,10 +14,10 @@ local BHB = Crutch.BossHealthBar
 ---------------------------------------------------------------------------------------------------
 local spoofedBosses = {} -- {["boss3"] = {name = "Blazeforged Valneer", getHealthFunction = function() return powerValue, powerMax, powerEffectiveMax end}}
 
-local DEFAULT_FOREGROUND = {179/256, 18/256, 7/256, 0.73}
-local DEFAULT_BACKGROUND = {16/256, 0, 0, 0.66}
-
 local function SetBarColors(index, fgColor, bgColor)
+    fgColor = fgColor or Crutch.savedOptions.bossHealthBar.foreground
+    bgColor = bgColor or Crutch.savedOptions.bossHealthBar.background
+
     local bar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
     bar:SetColor(unpack(fgColor))
     bar:GetNamedChild("Backdrop"):SetEdgeColor(unpack(bgColor))
@@ -29,8 +29,8 @@ local function SpoofBoss(unitTag, name, getHealthFunction, fgColor, bgColor)
     spoofedBosses[unitTag] = {
         name = name,
         getHealthFunction = getHealthFunction,
-        fgColor = fgColor or DEFAULT_FOREGROUND,
-        bgColor = bgColor or DEFAULT_BACKGROUND,
+        fgColor = fgColor or Crutch.savedOptions.bossHealthBar.foreground,
+        bgColor = bgColor or Crutch.savedOptions.bossHealthBar.background,
     }
 
     BHB.ShowOrHideBars(false, true)
@@ -47,7 +47,7 @@ local function UnspoofBoss(unitTag)
 
         BHB.ShowOrHideBars(false, true)
         local index = unitTag:sub(5, 5)
-        SetBarColors(index, DEFAULT_FOREGROUND, DEFAULT_BACKGROUND)
+        SetBarColors(index, nil, nil)
     end
 end
 Crutch.UnspoofBoss = UnspoofBoss
@@ -465,6 +465,7 @@ local function GetOrCreateStatusBar(index)
             CrutchAlertsBossHealthBarContainer, -- parent
             "CrutchAlertsBossHealthBarBarTemplate", -- template
             "") -- suffix
+        SetBarColors(index, nil, nil)
         dbg("Created new control Bar" .. tostring(index))
     end
     -- Scale-related changes
@@ -573,7 +574,7 @@ BHB.OnBossesChanged = OnBossesChanged
 
 
 ---------------------------------------------------------------------------------------------------
--- Scale, pt. 2
+-- Style refresh
 ---------------------------------------------------------------------------------------------------
 local function UpdateScale(showAllForMoving)
     if (showAllForMoving == nil) then showAllForMoving = true end
@@ -583,6 +584,15 @@ local function UpdateScale(showAllForMoving)
     ShowOrHideBars(showAllForMoving)
 end
 BHB.UpdateScale = UpdateScale
+
+local function UpdateColors()
+    ShowOrHideBars(true)
+    for i, BOSS_RANK_ITERATION_END do
+        SetBarColors(i, nil, nil)
+    end
+end
+BHB.UpdateColors = UpdateColors
+
 
 ---------------------------------------------------------------------------------------------------
 -- Init

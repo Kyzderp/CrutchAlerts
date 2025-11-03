@@ -125,6 +125,8 @@ local defaultOptions = {
         enabled = true,
         scale = 1,
         useFloorRounding = true,
+        foreground = {179/256, 18/256, 7/256, 0.73},
+        background = {16/256, 0, 0, 0.66},
     },
     asylumsanctorium = {
         dingSelfCone = true,

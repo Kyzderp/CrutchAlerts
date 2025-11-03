@@ -309,6 +309,32 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
                 },
                 {
+                    type = "colorpicker",
+                    name = "Foreground color",
+                    tooltip = "Foreground color of the bars. Does not apply to special cases like OC titans and AS minis. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+                    default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.bossHealthBar.foreground)),
+                    getFunc = function() return unpack(Crutch.savedOptions.bossHealthBar.foreground) end,
+                    setFunc = function(r, g, b, a)
+                        Crutch.savedOptions.bossHealthBar.foreground = {r, g, b, a}
+                        Crutch.BossHealthBar.UpdateColors()
+                        CrutchAlertsBossHealthBarContainer:SetHidden(false)
+                    end,
+                    width = "half",
+                },
+                {
+                    type = "colorpicker",
+                    name = "Background color",
+                    tooltip = "Background color of the bars. Does not apply to special cases like OC titans and AS minis. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+                    default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.bossHealthBar.background)),
+                    getFunc = function() return unpack(Crutch.savedOptions.bossHealthBar.background) end,
+                    setFunc = function(r, g, b, a)
+                        Crutch.savedOptions.bossHealthBar.background = {r, g, b, a}
+                        Crutch.BossHealthBar.UpdateColors()
+                        CrutchAlertsBossHealthBarContainer:SetHidden(false)
+                    end,
+                    width = "half",
+                },
+                {
                     type = "checkbox",
                     name = "Use \"floor\" rounding",
                     tooltip = "Whether to use the \"floor\" or \"half round up\" rounding method to display boss health %.\n\nTurning this ON means the displayed health will be more accurate relative to the mechanic % labels.\n\nTurning this OFF means the displayed health will match the rest of the UI, including the default target attribute bars.\n\nFor more info on why this matters, see the WHY? below.",
