@@ -6,7 +6,7 @@ local Crutch = CrutchAlerts
 -- Note: sometimes stuck in combat can occur (for example ice round)
 -- so the timer ends up not being accurate
 ---------------------------------------------------------------------
-local TIME_TO_NEXT = 16600
+local TIME_TO_NEXT = 13100
 local combatExitTime
 
 local round
@@ -19,18 +19,13 @@ local function OnCombatExitedTimeout()
 
     -- Done with a round, increment
     round = round + 1
-    local prefix
-    if (round < 5) then
-        prefix = "Round " .. tostring(round)
-    elseif (round == 5) then
-        prefix = "Boss round"
-    else
+    if (round > 5) then
         return -- Was boss
     end
 
     -- And display next round
     local timer = combatExitTime + TIME_TO_NEXT - GetGameTimeMilliseconds()
-    Crutch.DisplayDamageable(timer / 1000, prefix .. " in |c%s%.1f|r")
+    Crutch.DisplayDamageable(timer / 1000, "Portal spawns in |c%s%.1f|r")
 end
 
 -- Sometimes combat exit happens during the round (maybe adds are
