@@ -491,27 +491,27 @@ local SUBTITLE_TIMES = {
 -- DSA
     ["Hiath the Battlemaster"] = {
         -- Arena 1 start
-        ["We have new challengers! Will they survive the competition, or will their blood decorate the floor of our grand Arena?"] = {time = 23.7, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["We have new challengers! Will they survive the competition, or will their blood decorate the floor of our grand Arena?"] = {time = 20.0, displayFormat = "Round 1 in |c%s%.1f|r"},
         -- Arena 2 start
-        ["You dare to go on? This pleases my master. Let's hope you continue to please her and she grants you the strength to survive the coming battles."] = {time = 27.3, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["You dare to go on? This pleases my master. Let's hope you continue to please her and she grants you the strength to survive the coming battles."] = {time = 23.8, displayFormat = "Round 1 in |c%s%.1f|r"},
         -- 3
-        ["Every victory elevates you in the eyes of the master, mortals. But how will you fare in the marsh? Can you handle the mud and the bugs and the creatures intent on eating you once they defeat you?"] = {time = 30.6, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["Every victory elevates you in the eyes of the master, mortals. But how will you fare in the marsh? Can you handle the mud and the bugs and the creatures intent on eating you once they defeat you?"] = {time = 27.1, displayFormat = "Round 1 in |c%s%.1f|r"},
         -- 4
-        ["I'm sure you're starting to wonder what's going on in here. You'll come to understand—provided you survive!"] = {time = 28.8, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["I'm sure you're starting to wonder what's going on in here. You'll come to understand—provided you survive!"] = {time = 25.3, displayFormat = "Round 1 in |c%s%.1f|r"},
         -- 5
-        ["How puzzling! What could those strange tiles be used for? I guess you better figure it out quickly—if you don't want to die, of course!"] = {time = 25.6, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["How puzzling! What could those strange tiles be used for? I guess you better figure it out quickly—if you don't want to die, of course!"] = {time = 22.1, displayFormat = "Round 1 in |c%s%.1f|r"},
         -- 7
-        ["And so your journey takes you into the depths of my master's domain. Her most-beloved worshipers reside here, including her favorite champions. Those who would gladly sacrifice themselves to become something … more."] = {time = 34.7, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["And so your journey takes you into the depths of my master's domain. Her most-beloved worshipers reside here, including her favorite champions. Those who would gladly sacrifice themselves to become something … more."] = {time = 31.2, displayFormat = "Round 1 in |c%s%.1f|r"},
         -- 9
-        ["You must think you're really something. Arena after arena, you emerge victorious. But you are nothing. Nothing but lowly insects waiting to be stepped on."] = {time = 35.7, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["You must think you're really something. Arena after arena, you emerge victorious. But you are nothing. Nothing but lowly insects waiting to be stepped on."] = {time = 32.2, displayFormat = "Round 1 in |c%s%.1f|r"},
     },
     ["Boethiah"] = {
         -- 6
-        ["Now the real challenge begins, my honored contestants. My champion has been silenced so that I may congratulate you personally for making it this far. From this point on, you will be pushed to your limits."] = {time = 43.6, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["Now the real challenge begins, my honored contestants. My champion has been silenced so that I may congratulate you personally for making it this far. From this point on, you will be pushed to your limits."] = {time = 40.1, displayFormat = "Round 1 in |c%s%.1f|r"},
         -- 8
-        ["Your strength knows no bounds. Rarely have I seen a group that works so well together. The last time must have been, oh, those poor Mages Guild members I found in the Dwemer ruins years ago."] = {time = 39.5, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["Your strength knows no bounds. Rarely have I seen a group that works so well together. The last time must have been, oh, those poor Mages Guild members I found in the Dwemer ruins years ago."] = {time = 36.0, displayFormat = "Round 1 in |c%s%.1f|r"},
         -- 10 TODO: precise time unknown; 39 from Cas for now
-        ["And so the final challenge begins. Those who would represent me as champion now stand in this arena, deep within my realm. Only those who remain standing will receive my highest honor."] = {time = 39, displayFormat = "Round 1 in |c%s%.1f|r"},
+        ["And so the final challenge begins. Those who would represent me as champion now stand in this arena, deep within my realm. Only those who remain standing will receive my highest honor."] = {time = 35.5, displayFormat = "Round 1 in |c%s%.1f|r"},
     },
 
 -----------
