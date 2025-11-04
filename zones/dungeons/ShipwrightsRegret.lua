@@ -94,5 +94,8 @@ end
 function Crutch.UnregisterShipwrightsRegret()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SoulBomb2", EVENT_COMBAT_EVENT)
 
+    -- Clean up in case of PTE; unit tags may change
+    Crutch.RemoveAllAttachedIcons(BOMB_UNIQUE_NAME)
+
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Shipwright's Regret")
 end

@@ -749,5 +749,9 @@ function Crutch.UnregisterOsseinCage()
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT)
     end
 
+    -- Clean up in case of PTE; unit tags may change
+    Crutch.RemoveAllAttachedIcons(ENFEEBLEMENT_UNIQUE_NAME)
+    Crutch.RemoveAllAttachedIcons(CHAIN_UNIQUE_NAME)
+
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Ossein Cage")
 end

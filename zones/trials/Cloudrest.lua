@@ -508,5 +508,9 @@ function Crutch.UnregisterCloudrest()
     orbsDunked = 0
     Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
 
+    -- Clean up in case of PTE; unit tags may change
+    Crutch.RemoveAllAttachedIcons(FROST_UNIQUE_NAME)
+    Crutch.RemoveAllAttachedIcons(FLARE_UNIQUE_NAME)
+
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Cloudrest")
 end

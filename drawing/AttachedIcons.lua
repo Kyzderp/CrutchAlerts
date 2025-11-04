@@ -144,8 +144,8 @@ local function IsSelf(unitTag)
     return false
 end
 
-local function RemoveIconForUnit(unitTag, uniqueName)
-    if (unitTag == "player" and playerGroupTag) then
+local function RemoveIconForUnit(unitTag, uniqueName, forcePlayer)
+    if (unitTag == "player" and playerGroupTag and not forcePlayer) then
         unitTag = playerGroupTag
         Crutch.dbgSpam("Translating player tag to " .. playerGroupTag .. " to remove " .. uniqueName)
     end
@@ -614,3 +614,12 @@ function Crutch.RemoveAttachedIconForUnit(unitTag, uniqueName)
     RemoveIconForUnit(unitTag, uniqueName)
 end
 -- /script CrutchAlerts.RemoveAttachedIconForUnit("player", "CrutchAlertsTest")
+
+-- Recommend using this to clean up all mechanic icons upon leaving instance; unit
+-- tags can change on rezone, so simply keeping track of tags may not be enough
+function Crutch.RemoveAllAttachedIcons(uniqueName)
+    for i, MAX_GROUP_SIZE_THRESHOLD do
+        RemoveIconForUnit("group" .. tostring(i), uniqueName)
+    end
+    RemoveIconForUnit("player", uniqueName, true)
+end

@@ -393,5 +393,8 @@ function Crutch.UnregisterMawOfLorkhaj()
     UnregisterTwins()
     UnregisterRakkhat()
 
+    -- Clean up in case of PTE; unit tags may change
+    Crutch.RemoveAllAttachedIcons(ASPECT_UNIQUE_NAME)
+
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Maw of Lorkhaj")
 end

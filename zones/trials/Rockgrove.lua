@@ -8,15 +8,12 @@ local EXIT_LEFT_POOL = {x = 91973, y = 35751, z = 81764}  -- from QRH so that we
 -- Sludge icons
 ---------------------------------------------------------------------
 local SLUDGE_UNIQUE_NAME = "CrutchAlertsRGSludge"
-local sludges = {}
 
 local function OnSludgeIcon(changeType, unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
         Crutch.SetAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME, 500, "CrutchAlerts/assets/poop.dds", nil, {0.6, 1, 0.6})
-        sludges[unitTag] = true
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.RemoveAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME)
-        sludges[unitTag] = nil
     end
 end
 
@@ -460,11 +457,8 @@ function Crutch.RegisterRockgrove()
 end
 
 function Crutch.UnregisterRockgrove()
-    -- These can linger if PTE'ing
-    for unitTag, _ in pairs(sludges) do
-        Crutch.RemoveAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME)
-    end
-    sludges = {}
+    -- Clean up in case of PTE; unit tags may change
+    Crutch.RemoveAllAttachedIcons(SLUDGE_UNIQUE_NAME)
     if (playerCurseLinesKey) then
         Crutch.Drawing.RemoveWorldTexture(playerCurseLinesKey)
         playerCurseLinesKey = nil

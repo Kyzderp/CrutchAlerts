@@ -147,5 +147,8 @@ function Crutch.UnregisterKynesAegis()
     Crutch.UnregisterBossChangedListener("CrutchKynesAegis")
     DisableFalgravnIcons()
 
+    -- Clean up in case of PTE; unit tags may change
+    Crutch.RemoveAllAttachedIcons(PRISON_UNIQUE_NAME)
+
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Kyne's Aegis")
 end
