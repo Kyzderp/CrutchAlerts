@@ -182,13 +182,13 @@ local TITAN_ATTACKS = {
 local TITANS = {
     ["Myrinax"] = {
         tag = "boss3",
-        fgColor = {7/255, 87/255, 179/255, 0.73},
-        bgColor = {1/255, 11/255, 23/255, 0.66},
+        fgColor = {7/255, 87/255, 179/255},
+        bgColor = {1/255, 11/255, 23/255},
     },
     ["Valneer"] = {
         tag = "boss4",
-        fgColor = {230/255, 129/255, 34/255, 0.73},
-        bgColor = {18/255, 9/255, 1/255, 0.66},
+        fgColor = {230/255, 129/255, 34/255},
+        bgColor = {18/255, 9/255, 1/255},
     }
 }
 
@@ -221,6 +221,13 @@ local function UnspoofTitans()
         Crutch.UnspoofBoss(data.tag)
     end
 end
+
+function CrutchAlerts.TestSpoof()
+    UnspoofTitans()
+    ZO_ClearTable(titanIds)
+    SpoofTitans()
+end
+
 
 -- Listen for incoming damage on the titans and subtract it from the max health
 local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)

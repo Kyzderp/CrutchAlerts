@@ -19,9 +19,10 @@ local function SetBarColors(index, fgColor, bgColor)
     bgColor = bgColor or Crutch.savedOptions.bossHealthBar.background
 
     local bar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
-    bar:SetColor(unpack(fgColor))
-    bar:GetNamedChild("Backdrop"):SetEdgeColor(unpack(bgColor))
-    bar:GetNamedChild("Backdrop"):SetCenterColor(unpack(bgColor))
+    -- Use the user-set alphas if not specified
+    bar:SetColor(fgColor[1], fgColor[2], fgColor[3], fgColor[4] or Crutch.savedOptions.bossHealthBar.foreground[4])
+    bar:GetNamedChild("Backdrop"):SetEdgeColor(bgColor[1], bgColor[2], bgColor[3], bgColor[4] or Crutch.savedOptions.bossHealthBar.background[4])
+    bar:GetNamedChild("Backdrop"):SetCenterColor(bgColor[1], bgColor[2], bgColor[3], bgColor[4] or Crutch.savedOptions.bossHealthBar.background[4])
 end
 Crutch.SetBarColors = SetBarColors
 
