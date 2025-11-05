@@ -587,7 +587,7 @@ BHB.UpdateScale = UpdateScale
 
 local function UpdateColors()
     ShowOrHideBars(true)
-    for i, BOSS_RANK_ITERATION_END do
+    for i = 1, BOSS_RANK_ITERATION_END do
         SetBarColors(i, nil, nil)
     end
 end

@@ -618,7 +618,7 @@ end
 -- Recommend using this to clean up all mechanic icons upon leaving instance; unit
 -- tags can change on rezone, so simply keeping track of tags may not be enough
 function Crutch.RemoveAllAttachedIcons(uniqueName)
-    for i, MAX_GROUP_SIZE_THRESHOLD do
+    for i = 1, MAX_GROUP_SIZE_THRESHOLD do
         RemoveIconForUnit("group" .. tostring(i), uniqueName)
     end
     RemoveIconForUnit("player", uniqueName, true)

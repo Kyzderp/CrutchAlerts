@@ -233,7 +233,7 @@ function Crutch:CreateSettingsMenu()
                         {
                             type = "editbox",
                             name = "Blacklist IDs, separated by commas",
-                            tooltip = "IDs added to this blacklist will no longer be shown in \"begin casts,\" \"gained casts,\" and \"casts on others.\"",
+                            tooltip = "IDs added to this blacklist will no longer be shown in \"begin casts,\" \"gained casts,\" and \"casts on others.\" For example, to suppress Bahsei HM portal direction alerts, add 153517,153518",
                             default = "",
                             getFunc = function()
                                 local str = ""
