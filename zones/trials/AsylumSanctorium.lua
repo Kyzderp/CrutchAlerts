@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Llothis
@@ -62,8 +63,8 @@ local function SpoofLlothis()
         end
         return GetRegenningHp("2"), miniMaxHp, miniMaxHp
     end,
-    {15/255, 113/255, 0},
-    {5/255, 20/255, 0})
+    C.LLOTHIS_FG,
+    C.LLOTHIS_BG)
 end
 
 local function SpoofFelms()
@@ -77,8 +78,8 @@ local function SpoofFelms()
         end
         return GetRegenningHp("3"), miniMaxHp, miniMaxHp
     end,
-    {120/255, 15/255, 0},
-    {30/255, 5/255, 0})
+    C.FELMS_FG,
+    C.FELMS_BG)
 end
 
 local function UnspoofMinis()
@@ -130,8 +131,8 @@ end
 local function RegenWhileDormant(indexString)
     regenning[indexString] = GetGameTimeSeconds()
     Crutch.SetBarColors(indexString,
-        {92/255, 92/255, 92/255},
-        {28/255, 28/255, 28/255})
+        C.DORMANT_FG,
+        C.DORMANT_BG)
 
     -- ZO_StatusBar_SmoothTransition(self, value, max, forceInit, onStopCallback, customApproachAmountMs)
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "ASRegen" .. indexString, 1000, function()
@@ -145,12 +146,12 @@ local function StopRegenning(indexString)
     -- TODO: uggo
     if (indexString == "2") then
         Crutch.SetBarColors(indexString,
-            {15/255, 113/255, 0},
-            {5/255, 20/255, 0})
+            C.LLOTHIS_FG,
+            C.LLOTHIS_BG)
     elseif (indexString == "3") then
         Crutch.SetBarColors(indexString,
-            {120/255, 15/255, 0},
-            {30/255, 5/255, 0})
+            C.FELMS_FG,
+            C.FELMS_BG)
     end
 end
 

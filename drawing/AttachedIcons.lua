@@ -326,28 +326,29 @@ local ROLE_SETTINGS = {
     },
 }
 
+local tagsToDo = {}
 local function CreateGroupRoleIcons()
     local showSelf = Crutch.savedOptions.drawing.attached.showSelfRole
-    local tagsToDo = {}
+    ZO_ClearTable(tagsToDo)
     if (GetGroupSize() <= 1) then
         if (showSelf) then
-            table.insert(tagsToDo, {unitTag = "player", role = GetSelectedLFGRole()})
+            tagsToDo["player"] = GetSelectedLFGRole()
         end
     else
         for i = 1, GetGroupSize() do
             local tag = GetGroupUnitTagByIndex(i)
             if (tag and IsUnitOnline(tag) and (showSelf or not IsSelf(tag))) then
                 local role = GetGroupMemberSelectedRole(tag)
-                table.insert(tagsToDo, {unitTag = tag, role = role})
+                tagsToDo[tag] = role
             end
         end
     end
 
 
-    for _, player in ipairs(tagsToDo) do
-        local settings = ROLE_SETTINGS[player.role]
+    for unitTag, role in ipairs(tagsToDo) do
+        local settings = ROLE_SETTINGS[role]
         if (settings and settings.show()) then
-            SetIconForUnit(player.unitTag,
+            SetIconForUnit(unitTag,
                 GROUP_ROLE_NAME,
                 GROUP_ROLE_PRIORITY,
                 settings.texture,

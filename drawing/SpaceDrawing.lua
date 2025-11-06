@@ -156,7 +156,7 @@ options = {
 ]]
 ---------------------------------------------------------------------
 local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, updateFunc)
-    orientation = orientation or {0, 0, 0}
+    orientation = orientation or C.ZERO_ORIENTATION
     local control, key = CreateSpaceControlCommon(x, y, z, orientation)
 
     if (options.label) then
@@ -248,7 +248,7 @@ Draw.CreateSpaceLabel = CreateSpaceLabel
 ---------------------------------------------------------------------
 local function TestSpacePoop()
     local _, x, y, z = GetUnitRawWorldPosition("player")
-    CreateSpaceTexture("CrutchAlerts/assets/poop.dds", x, y, z, 1, 1, C.WHITE, {0, 0, 0})
+    CreateSpaceTexture("CrutchAlerts/assets/poop.dds", x, y, z, 1, 1, C.WHITE, C.ZERO_ORIENTATION)
 end
 Draw.TestSpacePoop = TestSpacePoop
 --[[

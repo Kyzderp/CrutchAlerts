@@ -1,5 +1,6 @@
 local Crutch = CrutchAlerts
 local Draw = Crutch.Drawing
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 Draw.activeIcons = {} -- {[key] = {control = control, faceCamera = true, x = x, y = y, z = z, updateFunc = function() end}}
@@ -194,16 +195,21 @@ Draw.CreateControlCommon = CreateControlCommon
 -- on every call.
 ---------------------------------------------------------------------
 local useSpace = true
+local orientationTable = {}
+
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
-    orientation = orientation or {0, 0, 0}
+    orientation = orientation or C.ZERO_ORIENTATION
     local pitch, yaw, roll = ConvertToPitchYawRollIfNeeded(unpack(orientation))
+    orientationTable[1] = pitch
+    orientationTable[2] = yaw
+    orientationTable[3] = roll
 
     local isSpace = useSpace and not useDepthBuffer and width == height -- Space framework is only squares for now
     local control, key
     if (isSpace) then
-        control, key = Draw.CreateSpaceTexture(texture, x, y, z, width, height, color, {pitch, yaw, roll})
+        control, key = Draw.CreateSpaceTexture(texture, x, y, z, width, height, color, orientationTable)
     else
-        control, key = Draw.CreateRenderSpaceTexture(texture, x, y, z, width, height, color, useDepthBuffer, {pitch, yaw, roll})
+        control, key = Draw.CreateRenderSpaceTexture(texture, x, y, z, width, height, color, useDepthBuffer, orientationTable)
     end
 
     CreateControlCommon(
