@@ -345,7 +345,7 @@ local function CreateGroupRoleIcons()
     end
 
 
-    for unitTag, role in ipairs(tagsToDo) do
+    for unitTag, role in pairs(tagsToDo) do
         local settings = ROLE_SETTINGS[role]
         if (settings and settings.show()) then
             SetIconForUnit(unitTag,
