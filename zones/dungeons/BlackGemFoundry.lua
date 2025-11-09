@@ -1,5 +1,5 @@
 local Crutch = CrutchAlerts
-local C = Crutch.Constans
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Quarrymaster Saldezaar
