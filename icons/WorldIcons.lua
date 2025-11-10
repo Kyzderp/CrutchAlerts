@@ -112,8 +112,6 @@ local data = {
     ["Sphere7"] = {x = 42475, y = 49977, z = 24515, texture = "CrutchAlerts/assets/shape/diamond_red_7.dds", size = function() return 100 end},
     ["Sphere8"] = {x = 43506, y = 49977, z = 24719, texture = "CrutchAlerts/assets/shape/diamond_red_8.dds", size = function() return 100 end},
 
-    ["TripletsSafe"] = {x = 29758, y = 52950, z = 73169, texture = "CrutchAlerts/assets/poop.dds", size = GetTripletsIconSize},
-
     -- Assembly General
     ["AGN"] = {x = 75001, y = 54955, z = 69658, texture = "CrutchAlerts/assets/directional/N.dds", size = GetAGIconsSize},
     ["AGNE"] = {x = 75610, y = 54919, z = 69394, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds", size = GetAGIconsSize},
@@ -272,14 +270,14 @@ local iconGroups = {
     ["AGExecute"] = {
         size = GetAGIconsSize,
         icons = {
-            {x = 75001, y = 54955, z = 69658, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "N"}, -- N
-            {x = 75380, y = 54955, z = 69982, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "E"}, -- E
-            {x = 75006, y = 54956, z = 70319, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "S"}, -- S
-            {x = 74630, y = 54956, z = 70005, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "W"}, -- W
-            {x = 75610, y = 54919, z = 69394, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- NE
-            {x = 75601, y = 54919, z = 70600, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- SE
-            {x = 74410, y = 54918, z = 70614, texture = "CrutchAlerts/assets/shape/diamond_red_2.dds"}, -- SW
-            {x = 74405, y = 54919, z = 69422, texture = "CrutchAlerts/assets/shape/diamond_red_1.dds"}, -- NW
+            {x = 75001, y = 54955, z = 69670, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "N"}, -- N
+            {x = 75380, y = 54955, z = 70000, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "E"}, -- E
+            {x = 75001, y = 54955, z = 70320, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "S"}, -- S
+            {x = 74630, y = 54955, z = 70000, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "W"}, -- W
+            {x = 75590, y = 54919, z = 69410, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- NE
+            {x = 75590, y = 54919, z = 70590, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- SE
+            {x = 74410, y = 54919, z = 70590, texture = "CrutchAlerts/assets/shape/diamond_red_2.dds"}, -- SW
+            {x = 74410, y = 54919, z = 69410, texture = "CrutchAlerts/assets/shape/diamond_red_1.dds"}, -- NW
         },
     },
 }
@@ -351,6 +349,7 @@ function Crutch.EnableIconGroup(iconGroupName)
                 end
 
                 local faceCamera, orientation
+                local y = iconData.y
                 if (iconData.orientation) then
                     -- If icon specifies an orientation, always use that
                     faceCamera = false
@@ -363,11 +362,12 @@ function Crutch.EnableIconGroup(iconGroupName)
                     -- Face camera
                     faceCamera = true
                     orientation = nil
+                    y = y + size / 2 -- set the bottom of the icon as the point
                 end
 
                 key = Crutch.Drawing.CreateSpaceControl(
                     iconData.x,
-                    iconData.y,
+                    y,
                     iconData.z,
                     faceCamera,
                     orientation,

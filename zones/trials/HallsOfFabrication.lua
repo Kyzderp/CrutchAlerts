@@ -59,20 +59,24 @@ function Crutch.RegisterHallsOfFabrication()
 
     -- Triplets icon
     if (Crutch.savedOptions.hallsoffabrication.showTripletsIcon) then
-        -- Crutch.EnableIcon("TripletsSafe")
         EnableTripletsCircle()
     end
 
     -- AG icons
+    -- TODO: make them only show on AG
     if (Crutch.savedOptions.hallsoffabrication.showAGIcons) then
-        Crutch.EnableIcon("AGN")
-        Crutch.EnableIcon("AGNE")
-        Crutch.EnableIcon("AGE")
-        Crutch.EnableIcon("AGSE")
-        Crutch.EnableIcon("AGS")
-        Crutch.EnableIcon("AGSW")
-        Crutch.EnableIcon("AGW")
-        Crutch.EnableIcon("AGNW")
+        if (Crutch.savedOptions.experimental) then
+            Crutch.EnableIconGroup("AGExecute")
+        else
+            Crutch.EnableIcon("AGN")
+            Crutch.EnableIcon("AGNE")
+            Crutch.EnableIcon("AGE")
+            Crutch.EnableIcon("AGSE")
+            Crutch.EnableIcon("AGS")
+            Crutch.EnableIcon("AGSW")
+            Crutch.EnableIcon("AGW")
+            Crutch.EnableIcon("AGNW")
+        end
     end
 end
 
@@ -82,21 +86,24 @@ function Crutch.UnregisterHallsOfFabrication()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name.."Spooder", EVENT_COMBAT_EVENT)
 
     -- Triplets icon
-    Crutch.DisableIcon("TripletsSafe")
     if (tripletsCircleKey) then
         Crutch.Drawing.RemoveGroundCircle(tripletsCircleKey)
         tripletsCircleKey = nil
     end
 
     -- AG icons
-    Crutch.DisableIcon("AGN")
-    Crutch.DisableIcon("AGNE")
-    Crutch.DisableIcon("AGE")
-    Crutch.DisableIcon("AGSE")
-    Crutch.DisableIcon("AGS")
-    Crutch.DisableIcon("AGSW")
-    Crutch.DisableIcon("AGW")
-    Crutch.DisableIcon("AGNW")
+    if (Crutch.savedOptions.experimental) then
+        Crutch.DisableIconGroup("AGExecute")
+    else
+        Crutch.DisableIcon("AGN")
+        Crutch.DisableIcon("AGNE")
+        Crutch.DisableIcon("AGE")
+        Crutch.DisableIcon("AGSE")
+        Crutch.DisableIcon("AGS")
+        Crutch.DisableIcon("AGSW")
+        Crutch.DisableIcon("AGW")
+        Crutch.DisableIcon("AGNW")
+    end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Halls of Fabrication")
 end

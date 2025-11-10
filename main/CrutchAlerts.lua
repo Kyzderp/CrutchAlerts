@@ -8,10 +8,13 @@ CrutchAlerts = {
         Animation = {},
     },
     Constants = {},
+
+    name = "CrutchAlerts",
+    version = "2.5.2",
+
+    unlock = false,
 }
 local Crutch = CrutchAlerts
-Crutch.name = "CrutchAlerts"
-Crutch.version = "2.5.2"
 
 Crutch.registered = {
     begin = false,
@@ -21,7 +24,8 @@ Crutch.registered = {
     interrupts = false,
 }
 
-Crutch.unlock = false
+-- currently: space icon groups
+-- /script CrutchAlerts.savedOptions.experimental = true
 
 -- Defaults
 local defaultOptions = {
