@@ -28,7 +28,7 @@ local function CreatePlacedPositionMarker(texture, x, y, z, size, color)
     if (faceCamera) then
         y = y + size / 2
     else
-        orientation = {-math.pi/2, 0, 0}
+        orientation = C.FLAT_ORIENTATION
         y = y + 5 -- To hopefully not sink in the ground, if depth buffers are off
     end
 

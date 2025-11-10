@@ -253,7 +253,7 @@ local iconGroups = {
         },
     },
 
-    -- Orphic Shattered Shard mirror with directions
+    -- Orphic Shattered Shard mirror with directions, using Space
     ["OrphicDirections"] = {
         size = GetOrphicIconSize,
         icons = {
@@ -265,6 +265,21 @@ local iconGroups = {
             {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "SW", orientation = {0, math.pi, 0}}, -- TODO orientation
             {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "W", orientation = {0, math.pi, 0}}, -- TODO orientation
             {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "NW", orientation = {0, math.pi, 0}}, -- TODO orientation
+        },
+    },
+
+    -- HoF AG execute using Space
+    ["AGExecute"] = {
+        size = GetAGIconsSize,
+        icons = {
+            {x = 75001, y = 54955, z = 69658, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "N"}, -- N
+            {x = 75380, y = 54955, z = 69982, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "E"}, -- E
+            {x = 75006, y = 54956, z = 70319, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "S"}, -- S
+            {x = 74630, y = 54956, z = 70005, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "W"}, -- W
+            {x = 75610, y = 54919, z = 69394, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- NE
+            {x = 75601, y = 54919, z = 70600, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- SE
+            {x = 74410, y = 54918, z = 70614, texture = "CrutchAlerts/assets/shape/diamond_red_2.dds"}, -- SW
+            {x = 74405, y = 54919, z = 69422, texture = "CrutchAlerts/assets/shape/diamond_red_1.dds"}, -- NW
         },
     },
 }
@@ -330,17 +345,32 @@ function Crutch.EnableIconGroup(iconGroupName)
                 if (iconData.text) then
                     options.label = {
                         text = iconData.text,
-                        size = size, -- TODO
+                        size = size * 0.5, -- TODO
                         color = C.WHITE,
                     }
+                end
+
+                local faceCamera, orientation
+                if (iconData.orientation) then
+                    -- If icon specifies an orientation, always use that
+                    faceCamera = false
+                    orientation = iconData.orientation
+                elseif (Crutch.savedOptions.drawing.placedPositioning.flat) then
+                    -- Flat
+                    faceCamera = false
+                    orientation = C.FLAT_ORIENTATION
+                else
+                    -- Face camera
+                    faceCamera = true
+                    orientation = nil
                 end
 
                 key = Crutch.Drawing.CreateSpaceControl(
                     iconData.x,
                     iconData.y,
                     iconData.z,
-                    iconData.orientation == nil, -- face camera if orientation not specified
-                    iconData.orientation,
+                    faceCamera,
+                    orientation,
                     options,
                     nil) -- updateFunc
             else

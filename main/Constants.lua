@@ -7,6 +7,7 @@ local C = Crutch.Constants
 C.WHITE = {1, 1, 1}
 C.RED = {1, 0, 0}
 C.REDORANGE = {1, 0.35, 0}
+C.ORANGE = {1, 0.5, 0}
 C.BLUE = {0, 0, 1}
 C.BLACK = {0, 0, 0}
 
@@ -23,3 +24,4 @@ C.DORMANT_BG = {28/255, 28/255, 28/255}
 -- Tables
 ---------------------------------------------------------------------
 C.ZERO_ORIENTATION = C.BLACK -- used for blank orientations
+C.FLAT_ORIENTATION = {-math.pi/2, 0, 0}
