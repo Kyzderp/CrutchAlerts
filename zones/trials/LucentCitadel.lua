@@ -144,15 +144,25 @@ local function EnableMirrorIcons()
             Crutch.EnableIcon("OrphicNum8")
         else
             if (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) then
-                Crutch.EnableIcon("OrphicN")
-                Crutch.EnableIcon("OrphicE")
-                Crutch.EnableIcon("OrphicS")
-                Crutch.EnableIcon("OrphicW")
+                if (Crutch.savedOptions.experimental) then
+                    Crutch.EnableIconGroup("OrphicDirectionsVet")
+                else
+                    Crutch.EnableIcon("OrphicN")
+                    Crutch.EnableIcon("OrphicE")
+                    Crutch.EnableIcon("OrphicS")
+                    Crutch.EnableIcon("OrphicW")
+                end
             end
-            Crutch.EnableIcon("OrphicNE")
-            Crutch.EnableIcon("OrphicSE")
-            Crutch.EnableIcon("OrphicSW")
-            Crutch.EnableIcon("OrphicNW")
+
+            -- Normal doesn't have the extra ones spawning in
+            if (Crutch.savedOptions.experimental) then
+                Crutch.EnableIconGroup("OrphicDirections")
+            else
+                Crutch.EnableIcon("OrphicNE")
+                Crutch.EnableIcon("OrphicSE")
+                Crutch.EnableIcon("OrphicSW")
+                Crutch.EnableIcon("OrphicNW")
+            end
         end
     end
 end
@@ -174,6 +184,8 @@ local function DisableMirrorIcons()
     Crutch.DisableIcon("OrphicNum6")
     Crutch.DisableIcon("OrphicNum7")
     Crutch.DisableIcon("OrphicNum8")
+    Crutch.DisableIconGroup("OrphicDirections")
+    Crutch.DisableIconGroup("OrphicDirectionsVet")
 end
 
 local mirrorsEnabled = false
