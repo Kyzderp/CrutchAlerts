@@ -13,17 +13,17 @@ local function AcquireControl()
 
     control:SetAnchor(CENTER, GuiRoot, CENTER)
 
-    control:GetNamedChild("Texture"):SetSpace(SPACE_INTERFACE)
-    control:GetNamedChild("Texture"):SetTransformOffset(0, 0, 0.001)
-    control:GetNamedChild("Texture"):SetSpace(SPACE_WORLD)
+    -- control:GetNamedChild("Texture"):SetSpace(SPACE_INTERFACE)
+    -- control:GetNamedChild("Texture"):SetTransformOffset(0, 0, 0.001)
+    -- control:GetNamedChild("Texture"):SetSpace(SPACE_WORLD)
 
-    control:GetNamedChild("Composite"):SetSpace(SPACE_INTERFACE)
-    control:GetNamedChild("Composite"):SetTransformOffset(0, 0, 0.002)
-    control:GetNamedChild("Composite"):SetSpace(SPACE_WORLD)
+    -- control:GetNamedChild("Composite"):SetSpace(SPACE_INTERFACE)
+    -- control:GetNamedChild("Composite"):SetTransformOffset(0, 0, 0.002)
+    -- control:GetNamedChild("Composite"):SetSpace(SPACE_WORLD)
 
-    control:GetNamedChild("Label"):SetSpace(SPACE_INTERFACE)
-    control:GetNamedChild("Label"):SetTransformOffset(0, 0, 0.05)
-    control:GetNamedChild("Label"):SetSpace(SPACE_WORLD)
+    -- control:GetNamedChild("Label"):SetSpace(SPACE_INTERFACE)
+    -- control:GetNamedChild("Label"):SetTransformOffset(0, 0, 0.05)
+    -- control:GetNamedChild("Label"):SetSpace(SPACE_WORLD)
 
     -- To not clash with RenderSpace keys when put in Draw.activeIcons together
     local spaceKey = "Space" .. key
@@ -56,13 +56,17 @@ local function ReleaseSpaceControl(key)
     icon.control:SetHidden(true)
     icon.control:GetNamedChild("Backdrop"):SetHidden(true)
     icon.control:GetNamedChild("Backdrop"):SetAlpha(1)
+    icon.control:GetNamedChild("Backdrop"):SetScale(1)
     icon.control:GetNamedChild("Texture"):SetHidden(true)
     icon.control:GetNamedChild("Texture"):SetAlpha(1)
+    icon.control:GetNamedChild("Texture"):SetScale(1)
     icon.control:GetNamedChild("Composite"):SetHidden(true)
     icon.control:GetNamedChild("Composite"):ClearAllSurfaces()
     icon.control:GetNamedChild("Composite"):SetAlpha(1)
+    icon.control:GetNamedChild("Composite"):SetScale(1)
     icon.control:GetNamedChild("Label"):SetHidden(true)
     icon.control:GetNamedChild("Label"):SetAlpha(1)
+    icon.control:GetNamedChild("Label"):SetScale(1)
 
     local realKey = tonumber(string.sub(key, 6))
     controlPool:ReleaseObject(realKey)
@@ -172,7 +176,7 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
 
     if (options.composite) then
         local composite = control:GetNamedChild("Composite")
-        composite:SetTransformScale(options.composite.size)
+        composite:SetScale(options.composite.size)
         options.composite.init(composite)
         composite:SetHidden(false)
     end
@@ -181,7 +185,7 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         local textureControl = control:GetNamedChild("Texture")
         textureControl:SetTexture(options.texture.path)
         textureControl:SetColor(unpack(options.texture.color))
-        textureControl:SetTransformScale(options.texture.size)
+        textureControl:SetScale(options.texture.size)
         textureControl:SetHidden(false)
     end
 
