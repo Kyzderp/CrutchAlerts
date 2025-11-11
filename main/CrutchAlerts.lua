@@ -104,6 +104,9 @@ local defaultOptions = {
             size = 70,
             yOffset = 350,
             opacity = 0.8,
+
+            individualIcons = {}, -- {["@Kyzeragon"] = "CrutchAlerts/assets/poop.dds",}
+            -- /script CrutchAlerts.savedOptions.drawing.attached.individualIcons["@Kyzeragon"] = "CrutchAlerts/assets/poop.dds"
         },
         -- positioning marker icons that face the camera, placed in the world
         placedPositioning = {

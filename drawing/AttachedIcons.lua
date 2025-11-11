@@ -461,6 +461,17 @@ local function OnCrownChange(_, unitTag)
         true)
 end
 
+
+---------------------------------------------------------------------
+-- Individual icons
+local INDIVIDUAL_ICONS_NAME = "CrutchAlertsIndividualIcon"
+local INDIVIDUAL_ICONS_PRIORITY = 108
+
+local function DestroyIndividualIcons()
+    Crutch.RemoveAllAttachedIcons(INDIVIDUAL_ICONS_NAME)
+end
+
+
 ---------------------------------------------------------------------
 -- Group refresh
 ---------------------------------------------------------------------
@@ -480,6 +491,8 @@ local function RefreshGroup()
     -- Roles
     DestroyAllRoleIcons()
     CreateGroupRoleIcons()
+
+    DestroyIndividualIcons()
 
     for i = 1, MAX_GROUP_SIZE_THRESHOLD do
         -- Intentionally use index here, instead of GetGroupUnitTagByIndex,
@@ -502,6 +515,20 @@ local function RefreshGroup()
             -- Crown
             if (IsUnitGroupLeader(tag)) then
                 OnCrownChange(nil, tag)
+            end
+
+            -- Individual icon
+            local individualIcon = Crutch.savedOptions.drawing.attached.individualIcons[GetUnitDisplayName(tag)]
+            if (individualIcon) then
+                -- TODO: mention it's case sensitive
+                SetIconForUnit(unitTag,
+                    INDIVIDUAL_ICONS_NAME,
+                    INDIVIDUAL_ICONS_PRIORITY,
+                    individualIcon,
+                    nil,
+                    nil,
+                    nil,
+                    true)
             end
         end
 
