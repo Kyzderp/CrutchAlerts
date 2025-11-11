@@ -471,6 +471,21 @@ local function DestroyIndividualIcons()
     Crutch.RemoveAllAttachedIcons(INDIVIDUAL_ICONS_NAME)
 end
 
+local function MaybeSetIndividualIcon(unitTag)
+    local individualIcon = Crutch.savedOptions.drawing.attached.individualIcons[GetUnitDisplayName(unitTag)]
+    if (individualIcon) then
+        -- TODO: mention it's case sensitive
+        SetIconForUnit(unitTag,
+            INDIVIDUAL_ICONS_NAME,
+            INDIVIDUAL_ICONS_PRIORITY,
+            individualIcon,
+            nil,
+            nil,
+            nil,
+            true)
+    end
+end
+
 
 ---------------------------------------------------------------------
 -- Group refresh
@@ -518,22 +533,13 @@ local function RefreshGroup()
             end
 
             -- Individual icon
-            local individualIcon = Crutch.savedOptions.drawing.attached.individualIcons[GetUnitDisplayName(tag)]
-            if (individualIcon) then
-                -- TODO: mention it's case sensitive
-                SetIconForUnit(unitTag,
-                    INDIVIDUAL_ICONS_NAME,
-                    INDIVIDUAL_ICONS_PRIORITY,
-                    individualIcon,
-                    nil,
-                    nil,
-                    nil,
-                    true)
-            end
+            MaybeSetIndividualIcon(tag)
         end
-
     end
+
+    -- Self
     OnDeathStateChanged(nil, "player", IsUnitDead("player"))
+    MaybeSetIndividualIcon("player")
 
     -- Suppression
     EvaluateAllSuppression()

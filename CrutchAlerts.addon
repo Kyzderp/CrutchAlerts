@@ -28,6 +28,7 @@ main/CrutchAlerts.xml
 main/GlobalEvents.lua
 main/Style.lua
 main/Utils.lua
+main/Commands.lua
 
 sharing/BroadcastHandler.lua
 
