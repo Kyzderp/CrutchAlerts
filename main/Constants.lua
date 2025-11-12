@@ -31,7 +31,10 @@ C.FLAT_ORIENTATION = {-math.pi/2, 0, 0}
 ---------------------------------------------------------------------
 -- Individual icons
 ---------------------------------------------------------------------
+C.ICON_NONE = "None"
 C.CIRCLE = "Circle"
 C.DIAMOND = "Diamond"
+C.CHEVRON = "Chevron"
+C.CHEVRON_THIN = "Thin chevron"
 C.LCI = "LibCustomIcons"
 C.CUSTOM = "Custom texture"

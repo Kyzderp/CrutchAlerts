@@ -10,6 +10,19 @@ local function GetNoSubtitlesZoneIdsAndNames()
     return ids, names
 end
 
+-------------------
+-- Individual icons
+local selectedIndividual
+local individualNames = {}
+
+local function RefreshIndividualIconNames()
+    ZO_ClearTable(individualNames)
+    for name, _ in pairs(Crutch.savedOptions.drawing.attached.individualIcons) do
+        table.insert(individualNames, name)
+    end
+end
+
+------------------
 local function UnlockUI(value)
     Crutch.unlock = value
     CrutchAlertsContainer:SetMovable(value)
@@ -258,9 +271,8 @@ function Crutch:CreateSettingsMenu()
                         },
                         {
                             type = "description",
-                            name = "Current blacklist:",
                             text = function()
-                                local str = ""
+                                local str = "Current blacklist: "
                                 for id, _ in pairs(Crutch.savedOptions.general.blacklist) do
                                     str = string.format("%s%s (%d), ", str, GetAbilityName(id) or "INVALID", id)
                                 end
@@ -630,6 +642,59 @@ function Crutch:CreateSettingsMenu()
                             end,
                             width = "half",
                             disabled = function() return not Crutch.savedOptions.drawing.attached.showDead end
+                        },
+                        {
+                            type = "divider",
+                        },
+                        -- Attached Individual Icons
+                        {
+                            type = "description",
+                            text = "You can add individual icons for specific players here. They show instead of role and crown icons, while death and mechanic icons show over the individual icons. Note: these icons do not support hiding behind objects.",
+                            width = "full",
+                        },
+                        {
+                            type = "button",
+                            name = "Add player icon",
+                            tooltip = "Add a new individual player icon and edit it",
+                            func = function()
+                                Crutch.msg("TODO: adding new player")
+                                -- TODO
+                            end,
+                            width = "half",
+                        },
+                        {
+                            type = "dropdown",
+                            name = "or select player to edit",
+                            tooltip = "Choose a player to edit individual icon for",
+                            choices = {},
+                            getFunc = function()
+                                RefreshIndividualIconNames()
+                                CrutchAlerts_IndividualIconsDropdown:UpdateChoices(individualNames, individualNames)
+                            end,
+                            setFunc = function(value)
+                                Crutch.msg("TODO: Now editing " .. value)
+                                -- TODO
+                            end,
+                            width = "half",
+                            reference = "CrutchAlerts_IndividualIconsDropdown",
+                        },
+                        {
+                            type = "button",
+                            name = "Delete player icon",
+                            tooltip = "Delete this individual player icon. This cannot be undone!",
+                            func = function()
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual] = nil
+                                Crutch.Drawing.RefreshGroup()
+
+                                selectedIndividual = nil
+
+                                RefreshIndividualIconNames()
+                                CrutchAlerts_IndividualIconsDropdown:UpdateChoices(individualNames, individualNames)
+                            end,
+                            warning = "Delete this individual player icon. This cannot be undone!",
+                            isDangerous = true,
+                            width = "full",
+                            disabled = function() return selectedIndividual == nil end,
                         },
                     },
                 },

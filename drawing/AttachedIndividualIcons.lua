@@ -39,9 +39,16 @@ local function GetIconTexture(iconData)
         return "CrutchAlerts/assets/shape/circle.dds"
     elseif (iconData.type == C.DIAMOND) then
         return "CrutchAlerts/assets/shape/diamond.dds"
+    elseif (iconData.type == C.CHEVRON) then
+        return "CrutchAlerts/assets/shape/chevron.dds"
+    elseif (iconData.type == C.CHEVRON_THIN) then
+        return "CrutchAlerts/assets/shape/chevronthin.dds"
+    elseif (iconData.type == C.LCI) then
+        return nil -- TODO
     elseif (iconData.type == C.CUSTOM) then
         return iconData.custom
     end
+    return nil
 end
 
 
@@ -111,7 +118,7 @@ local function AddIndividualIcon(atName, type, custom, size, color, text, textSi
         data = {}
     end
 
-    data.type = type
+    data.type = type or C.ICON_NONE
     data.custom = custom
     data.size = size or 1
     data.color = color or C.WHITE
