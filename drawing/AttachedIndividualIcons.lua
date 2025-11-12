@@ -88,12 +88,11 @@ local function MaybeSetIndividualIcon(unitTag)
         end
 
         -- SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, persistOutsideCombat, callback, spaceOptions)
-        SetIconForUnit(unitTag,
+        Crutch.SetAttachedIconForUnit(unitTag,
             INDIVIDUAL_ICONS_NAME,
             INDIVIDUAL_ICONS_PRIORITY,
             nil,
             100,
-            nil,
             nil,
             true,
             nil,
@@ -123,7 +122,7 @@ local function AddIndividualIcon(atName, type, custom, size, color, text, textSi
     Crutch.savedOptions.drawing.attached.individualIcons[atName] = data
 end
 Crutch.AddIndividualIcon = AddIndividualIcon
--- /script CrutchAlerts.AddIndividualIcon("@Kyzeragon", CrutchAlerts.Constants.CUSTOM, esoui/art/icons/targetdummy_voriplasm_01.dds", nil, nil, "blob", 50, nil)
+-- /script CrutchAlerts.AddIndividualIcon("@Kyzeragon", CrutchAlerts.Constants.CUSTOM, "esoui/art/icons/targetdummy_voriplasm_01.dds", nil, nil, "blob", 50, nil) CrutchAlerts.Drawing.RefreshGroup()
 
 local function RemoveIndividualIcon(atName)
     Crutch.savedOptions.drawing.attached.individualIcons[atName] = nil

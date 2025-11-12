@@ -514,7 +514,7 @@ local function RefreshGroup()
 
     -- Self
     OnDeathStateChanged(nil, "player", IsUnitDead("player"))
-    MaybeSetIndividualIcon("player")
+    Draw.MaybeSetIndividualIcon("player")
 
     -- Suppression
     EvaluateAllSuppression()
