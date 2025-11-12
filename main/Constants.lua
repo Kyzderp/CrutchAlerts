@@ -1,6 +1,7 @@
 local Crutch = CrutchAlerts
 local C = Crutch.Constants
 
+
 ---------------------------------------------------------------------
 -- Colors
 ---------------------------------------------------------------------
@@ -25,3 +26,12 @@ C.DORMANT_BG = {28/255, 28/255, 28/255}
 ---------------------------------------------------------------------
 C.ZERO_ORIENTATION = C.BLACK -- used for blank orientations
 C.FLAT_ORIENTATION = {-math.pi/2, 0, 0}
+
+
+---------------------------------------------------------------------
+-- Individual icons
+---------------------------------------------------------------------
+C.CIRCLE = "Circle"
+C.DIAMOND = "Diamond"
+C.LCI = "LibCustomIcons"
+C.CUSTOM = "Custom texture"

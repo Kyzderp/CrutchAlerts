@@ -463,31 +463,6 @@ end
 
 
 ---------------------------------------------------------------------
--- Individual icons
-local INDIVIDUAL_ICONS_NAME = "CrutchAlertsIndividualIcon"
-local INDIVIDUAL_ICONS_PRIORITY = 108
-
-local function DestroyIndividualIcons()
-    Crutch.RemoveAllAttachedIcons(INDIVIDUAL_ICONS_NAME)
-end
-
-local function MaybeSetIndividualIcon(unitTag)
-    local individualIcon = Crutch.savedOptions.drawing.attached.individualIcons[GetUnitDisplayName(unitTag)]
-    if (individualIcon) then
-        -- TODO: mention it's case sensitive
-        SetIconForUnit(unitTag,
-            INDIVIDUAL_ICONS_NAME,
-            INDIVIDUAL_ICONS_PRIORITY,
-            individualIcon,
-            nil,
-            nil,
-            nil,
-            true)
-    end
-end
-
-
----------------------------------------------------------------------
 -- Group refresh
 ---------------------------------------------------------------------
 local function RefreshGroup()
@@ -507,7 +482,7 @@ local function RefreshGroup()
     DestroyAllRoleIcons()
     CreateGroupRoleIcons()
 
-    DestroyIndividualIcons()
+    Draw.DestroyIndividualIcons()
 
     for i = 1, MAX_GROUP_SIZE_THRESHOLD do
         -- Intentionally use index here, instead of GetGroupUnitTagByIndex,
@@ -533,7 +508,7 @@ local function RefreshGroup()
             end
 
             -- Individual icon
-            MaybeSetIndividualIcon(tag)
+            Draw.MaybeSetIndividualIcon(tag)
         end
     end
 
