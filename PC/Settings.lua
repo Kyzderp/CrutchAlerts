@@ -664,18 +664,22 @@ function Crutch:CreateSettingsMenu()
                             setFunc = function(name)
                                 if (not name or name == "") then return end
 
-                                -- TODO: need to clear the editbox?
-                                Crutch.AddIndividualIcon(name)
+                                if (not Crutch.savedOptions.drawing.attached.individualIcons[name]) then
+                                    Crutch.AddIndividualIcon(name)
+                                end
 
-                                -- TODO: select it in dropdown
                                 selectedIndividual = name
+
+                                CrutchAlerts_IndividualIconsAddEditbox.editbox:SetText("")
                             end,
                             isMultiline = false,
                             isExtraWide = false,
                             width = "full",
+                            reference = "CrutchAlerts_IndividualIconsAddEditbox",
                         },
                         {
                             type = "divider",
+                            width = "half",
                         },
                         {
                             type = "dropdown",
@@ -688,9 +692,6 @@ function Crutch:CreateSettingsMenu()
                                 return selectedIndividual
                             end,
                             setFunc = function(value)
-                                Crutch.msg("TODO: Now editing " .. value)
-                                -- TODO
-
                                 selectedIndividual = value
                             end,
                             width = "full",
@@ -719,8 +720,8 @@ function Crutch:CreateSettingsMenu()
                         },
                         {
                             type = "dropdown",
-                            name = "Icon type",
-                            tooltip = "The base icon to display for this player",
+                            name = "Texture type",
+                            tooltip = "The base icon texture to display for this player",
                             choices = {
                                 C.ICON_NONE,
                                 C.CIRCLE,
@@ -761,6 +762,22 @@ function Crutch:CreateSettingsMenu()
                             disabled = function() return selectedIndividual == nil or Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type ~= C.CUSTOM end,
                         },
                         {
+                            type = "colorpicker",
+                            name = "Texture color",
+                            tooltip = "Color of the icon texture",
+                            getFunc = function()
+                                if (selectedIndividual) then
+                                    return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color)
+                                end
+                            end,
+                            setFunc = function(r, g, b, a)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b, a}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function() return selectedIndividual == nil end,
+                        },
+                        {
                             type = "slider",
                             name = "Texture size",
                             tooltip = "Size of icon texture",
@@ -776,29 +793,17 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size = value / 100
                                 Crutch.Drawing.RefreshGroup()
                             end,
-                            width = "full",
+                            width = "half",
                             disabled = function() return selectedIndividual == nil end,
                         },
                         {
-                            type = "colorpicker",
-                            name = "Texture color",
-                            tooltip = "Color of the icon texture",
-                            getFunc = function()
-                                if (selectedIndividual) then
-                                    return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color)
-                                end
-                            end,
-                            setFunc = function(r, g, b, a)
-                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b, a}
-                                Crutch.Drawing.RefreshGroup()
-                            end,
-                            width = "full",
-                            disabled = function() return selectedIndividual == nil end,
+                            type = "divider",
+                            width = "half",
                         },
                         {
                             type = "editbox",
                             name = "Text",
-                            tooltip = "You can set text to appear on the icon here",
+                            tooltip = "The text that appears on the icon",
                             getFunc = function()
                                 if (selectedIndividual) then
                                     return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
@@ -809,32 +814,9 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.Drawing.RefreshGroup()
                             end,
                             isMultiline = true,
-                            isExtraWide = false,
+                            isExtraWide = true,
                             width = "full",
                             disabled = function() return selectedIndividual == nil end,
-                        },
-                        {
-                            type = "slider",
-                            name = "Text size",
-                            tooltip = "Size of the text",
-                            min = 0,
-                            max = 200,
-                            step = 5,
-                            getFunc = function()
-                                if (selectedIndividual) then
-                                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize
-                                end
-                            end,
-                            setFunc = function(value)
-                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize = value
-                                Crutch.Drawing.RefreshGroup()
-                            end,
-                            width = "full",
-                            disabled = function()
-                                if (selectedIndividual == nil) then return end
-                                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
-                                return text == nil or text == ""
-                            end,
                         },
                         {
                             type = "colorpicker",
@@ -849,13 +831,36 @@ function Crutch:CreateSettingsMenu()
                                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor = {r, g, b, a}
                                 Crutch.Drawing.RefreshGroup()
                             end,
-                            width = "full",
+                            width = "half",
                             disabled = function()
                                 if (selectedIndividual == nil) then return end
                                 local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
                                 return text == nil or text == ""
                             end,
                         },
+                        {
+                            type = "slider",
+                            name = "Text size",
+                            tooltip = "Size of the text",
+                            min = 0,
+                            max = 200,
+                            step = 1,
+                            getFunc = function()
+                                if (selectedIndividual) then
+                                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize
+                                end
+                            end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "half",
+                            disabled = function()
+                                if (selectedIndividual == nil) then return end
+                                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                                return text == nil or text == ""
+                            end,
+                        }
                         -- TODO: a preview maybe?
                     },
                 },

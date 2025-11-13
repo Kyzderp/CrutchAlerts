@@ -116,6 +116,7 @@ Draw.MaybeSetIndividualIcon = MaybeSetIndividualIcon
 -- Adding individual icons API, persisted
 ---------------------------------------------------------------------
 local function AddIndividualIcon(atName, type, custom, size, color, text, textSize, textColor)
+    Crutch.dbgSpam("Adding individual icon for " .. atName)
     local data = Crutch.savedOptions.drawing.attached.individualIcons[atName]
     if (not data) then
         data = {}
