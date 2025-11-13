@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 local function GetNoSubtitlesZoneIdsAndNames()
     local ids = {}
@@ -643,39 +644,56 @@ function Crutch:CreateSettingsMenu()
                             width = "half",
                             disabled = function() return not Crutch.savedOptions.drawing.attached.showDead end
                         },
-                        {
-                            type = "divider",
-                        },
+                    },
+                },
+                {
+                    type = "submenu",
+                    name = "Individual Player Icons",
+                    controls = {
                         -- Attached Individual Icons
                         {
                             type = "description",
-                            text = "You can add individual icons for specific players here. They show instead of role and crown icons, while death and mechanic icons show over the individual icons. Note: these icons do not support hiding behind objects.",
+                            text = "You can add individual icons for specific players here when they are in your group. They show over role and crown icons, while death and mechanic icons show over the individual icons. Note: these icons will always show on top of objects.",
                             width = "full",
                         },
                         {
-                            type = "button",
-                            name = "Add player icon",
-                            tooltip = "Add a new individual player icon and edit it",
-                            func = function()
-                                Crutch.msg("TODO: adding new player")
-                                -- TODO
+                            type = "editbox",
+                            name = "Add new player icon",
+                            tooltip = "Add a new individual player icon by typing the full account name here, e.g. @Kyzeragon",
+                            getFunc = function() return "" end,
+                            setFunc = function(name)
+                                if (not name or name == "") then return end
+
+                                -- TODO: need to clear the editbox?
+                                Crutch.AddIndividualIcon(name)
+
+                                -- TODO: select it in dropdown
+                                selectedIndividual = name
                             end,
-                            width = "half",
+                            isMultiline = false,
+                            isExtraWide = false,
+                            width = "full",
+                        },
+                        {
+                            type = "divider",
                         },
                         {
                             type = "dropdown",
-                            name = "or select player to edit",
+                            name = "Select player to edit",
                             tooltip = "Choose a player to edit individual icon for",
                             choices = {},
                             getFunc = function()
                                 RefreshIndividualIconNames()
                                 CrutchAlerts_IndividualIconsDropdown:UpdateChoices(individualNames, individualNames)
+                                return selectedIndividual
                             end,
                             setFunc = function(value)
                                 Crutch.msg("TODO: Now editing " .. value)
                                 -- TODO
+
+                                selectedIndividual = value
                             end,
-                            width = "half",
+                            width = "full",
                             reference = "CrutchAlerts_IndividualIconsDropdown",
                         },
                         {
@@ -683,7 +701,7 @@ function Crutch:CreateSettingsMenu()
                             name = "Delete player icon",
                             tooltip = "Delete this individual player icon. This cannot be undone!",
                             func = function()
-                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual] = nil
+                                Crutch.RemoveIndividualIcon(selectedIndividual)
                                 Crutch.Drawing.RefreshGroup()
 
                                 selectedIndividual = nil
@@ -696,6 +714,140 @@ function Crutch:CreateSettingsMenu()
                             width = "full",
                             disabled = function() return selectedIndividual == nil end,
                         },
+                        {
+                            type = "divider",
+                        },
+                        {
+                            type = "dropdown",
+                            name = "Icon",
+                            tooltip = "The base icon to display for this player",
+                            choices = {
+                                C.ICON_NONE,
+                                C.CIRCLE,
+                                C.DIAMOND,
+                                C.CHEVRON,
+                                C.CHEVRON_THIN,
+                                C.CUSTOM,
+                                -- C.LCI, -- TODO
+                            },
+                            getFunc = function()
+                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type
+                            end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                            disabled = function() return selectedIndividual == nil end,
+                        },
+                        {
+                            type = "editbox",
+                            name = "Custom texture path",
+                            tooltip = "If using a \"Custom texture,\" the path of the texture. You can use base game textures or even textures from other addons, but it will be blank if the addon isn't loaded! Examples: esoui/art/icons/targetdummy_voriplasm_01.dds or CrutchAlerts/assets/poop.dds",
+                            getFunc = function()
+                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom
+                            end,
+                            setFunc = function(path)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom = path
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            isMultiline = false,
+                            isExtraWide = true,
+                            width = "full",
+                            disabled = function() return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type ~= C.CUSTOM end,
+                        },
+                        {
+                            type = "slider",
+                            name = "Texture size",
+                            tooltip = "Size of icon texture",
+                            min = 0,
+                            max = 400,
+                            step = 10,
+                            getFunc = function()
+                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size * 100
+                            end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size = value / 100
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                            disabled = function() return selectedIndividual == nil end,
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "Texture color",
+                            tooltip = "Color of the icon texture. The opacity is inherited from attached icon opacity",
+                            getFunc = function()
+                                return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color)
+                            end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                            disabled = function() return selectedIndividual == nil end,
+                        },
+                        {
+                            type = "editbox",
+                            name = "Text",
+                            tooltip = "You can set specific text to appear on the icon here",
+                            getFunc = function()
+                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                            end,
+                            setFunc = function(text)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text = text
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            isMultiline = false,
+                            isExtraWide = false,
+                            width = "full",
+                            disabled = function() return selectedIndividual == nil end,
+                        },
+                        {
+                            type = "slider",
+                            name = "Text size",
+                            tooltip = "Size of the text",
+                            min = 0,
+                            max = 200,
+                            step = 5,
+                            getFunc = function()
+                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize
+                            end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                            disabled = function()
+                                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                                return text == nil or text == ""
+                            end,
+                        },
+                        {
+                            type = "colorpicker",
+                            name = "Text color",
+                            tooltip = "Color of the text",
+                            getFunc = function()
+                                return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor)
+                            end,
+                            setFunc = function(r, g, b)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textcolor = {r, g, b}
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            width = "full",
+                            disabled = function()
+                                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                                return text == nil or text == ""
+                            end,
+                        },
+                        {
+                            type = "button",
+                            name = "Save",
+                            tooltip = "This button doesn't do anything; it's just here as a placebo. Your changes were already saved when you made them!",
+                            width = "full",
+                            disabled = function() return selectedIndividual == nil end,
+                        },
+                        -- TODO: a preview maybe?
                     },
                 },
                 -- placedPositioning icons
