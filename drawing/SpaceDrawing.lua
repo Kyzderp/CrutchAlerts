@@ -169,8 +169,9 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         label:SetAlpha(1)
         label:SetColor(unpack(options.label.color))
         label:SetText(options.label.text)
-        label:SetDimensions(2000, 2000)
-        label:SetDimensions(label:GetTextWidth(), label:GetTextHeight())
+        label:SetDimensions(5000, 5000)
+        -- Stuff sometimes gets cut off without the 5? But the label is centered, so it's fine I guess
+        label:SetDimensions(label:GetTextWidth() + 5, label:GetTextHeight() + 5)
         label:SetHidden(false)
     end
 
