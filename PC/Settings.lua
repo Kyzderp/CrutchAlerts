@@ -659,7 +659,7 @@ function Crutch:CreateSettingsMenu()
                         {
                             type = "editbox",
                             name = "Add new player icon",
-                            tooltip = "Add a new individual player icon by typing the full account name here, e.g. @Kyzeragon",
+                            tooltip = "Add a new individual player icon by typing the full account name here, e.g. @Kyzeragon. If you set an icon for yourself, it will only show if you have \"Show group icon for self\" enabled under Group Member Icons settings",
                             getFunc = function() return "" end,
                             setFunc = function(name)
                                 if (not name or name == "") then return end
@@ -719,7 +719,7 @@ function Crutch:CreateSettingsMenu()
                         },
                         {
                             type = "dropdown",
-                            name = "Icon",
+                            name = "Icon type",
                             tooltip = "The base icon to display for this player",
                             choices = {
                                 C.ICON_NONE,
@@ -731,7 +731,9 @@ function Crutch:CreateSettingsMenu()
                                 C.CUSTOM,
                             },
                             getFunc = function()
-                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type
+                                if (selectedIndividual) then
+                                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type
+                                end
                             end,
                             setFunc = function(value)
                                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type = value
@@ -745,7 +747,9 @@ function Crutch:CreateSettingsMenu()
                             name = "Custom texture path",
                             tooltip = "If using a \"Custom texture,\" the path of the texture. You can use base game textures or even textures from other addons, but it will be blank if the addon isn't loaded! Examples: esoui/art/icons/targetdummy_voriplasm_01.dds or CrutchAlerts/assets/poop.dds",
                             getFunc = function()
-                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom
+                                if (selectedIndividual) then
+                                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom
+                                end
                             end,
                             setFunc = function(path)
                                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom = path
@@ -754,7 +758,7 @@ function Crutch:CreateSettingsMenu()
                             isMultiline = false,
                             isExtraWide = true,
                             width = "full",
-                            disabled = function() return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type ~= C.CUSTOM end,
+                            disabled = function() return selectedIndividual == nil or Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type ~= C.CUSTOM end,
                         },
                         {
                             type = "slider",
@@ -764,7 +768,9 @@ function Crutch:CreateSettingsMenu()
                             max = 400,
                             step = 10,
                             getFunc = function()
-                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size * 100
+                                if (selectedIndividual) then
+                                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size * 100
+                                end
                             end,
                             setFunc = function(value)
                                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size = value / 100
@@ -778,7 +784,9 @@ function Crutch:CreateSettingsMenu()
                             name = "Texture color",
                             tooltip = "Color of the icon texture. The opacity is inherited from attached icon opacity",
                             getFunc = function()
-                                return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color)
+                                if (selectedIndividual) then
+                                    return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color)
+                                end
                             end,
                             setFunc = function(r, g, b)
                                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b}
@@ -790,15 +798,17 @@ function Crutch:CreateSettingsMenu()
                         {
                             type = "editbox",
                             name = "Text",
-                            tooltip = "You can set specific text to appear on the icon here",
+                            tooltip = "You can set text to appear on the icon here",
                             getFunc = function()
-                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                                if (selectedIndividual) then
+                                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                                end
                             end,
                             setFunc = function(text)
                                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text = text
                                 Crutch.Drawing.RefreshGroup()
                             end,
-                            isMultiline = false,
+                            isMultiline = true,
                             isExtraWide = false,
                             width = "full",
                             disabled = function() return selectedIndividual == nil end,
@@ -811,7 +821,9 @@ function Crutch:CreateSettingsMenu()
                             max = 200,
                             step = 5,
                             getFunc = function()
-                                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize
+                                if (selectedIndividual) then
+                                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize
+                                end
                             end,
                             setFunc = function(value)
                                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize = value
@@ -819,6 +831,7 @@ function Crutch:CreateSettingsMenu()
                             end,
                             width = "full",
                             disabled = function()
+                                if (selectedIndividual == nil) then return end
                                 local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
                                 return text == nil or text == ""
                             end,
@@ -828,24 +841,20 @@ function Crutch:CreateSettingsMenu()
                             name = "Text color",
                             tooltip = "Color of the text",
                             getFunc = function()
-                                return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor)
+                                if (selectedIndividual) then
+                                    return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor)
+                                end
                             end,
                             setFunc = function(r, g, b)
-                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textcolor = {r, g, b}
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor = {r, g, b}
                                 Crutch.Drawing.RefreshGroup()
                             end,
                             width = "full",
                             disabled = function()
+                                if (selectedIndividual == nil) then return end
                                 local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
                                 return text == nil or text == ""
                             end,
-                        },
-                        {
-                            type = "button",
-                            name = "Save",
-                            tooltip = "This button doesn't do anything; it's just here as a placebo. Your changes were already saved when you made them!",
-                            width = "full",
-                            disabled = function() return selectedIndividual == nil end,
                         },
                         -- TODO: a preview maybe?
                     },
