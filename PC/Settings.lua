@@ -782,14 +782,14 @@ function Crutch:CreateSettingsMenu()
                         {
                             type = "colorpicker",
                             name = "Texture color",
-                            tooltip = "Color of the icon texture. The opacity is inherited from attached icon opacity",
+                            tooltip = "Color of the icon texture",
                             getFunc = function()
                                 if (selectedIndividual) then
                                     return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color)
                                 end
                             end,
-                            setFunc = function(r, g, b)
-                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b}
+                            setFunc = function(r, g, b, a)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b, a}
                                 Crutch.Drawing.RefreshGroup()
                             end,
                             width = "full",
@@ -845,8 +845,8 @@ function Crutch:CreateSettingsMenu()
                                     return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor)
                                 end
                             end,
-                            setFunc = function(r, g, b)
-                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor = {r, g, b}
+                            setFunc = function(r, g, b, a)
+                                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor = {r, g, b, a}
                                 Crutch.Drawing.RefreshGroup()
                             end,
                             width = "full",

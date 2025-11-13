@@ -124,10 +124,10 @@ local function AddIndividualIcon(atName, type, custom, size, color, text, textSi
     data.type = type or C.CIRCLE
     data.custom = custom
     data.size = size or 1
-    data.color = color or C.WHITE
+    data.color = color or {1, 1, 1, 1}
     data.text = text
     data.textSize = textSize or 50
-    data.textColor = textColor or C.WHITE
+    data.textColor = textColor or {1, 1, 1, 1}
 
     Crutch.savedOptions.drawing.attached.individualIcons[atName] = data
 end

@@ -166,7 +166,7 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
     if (options.label) then
         local label = control:GetNamedChild("Label")
         label:SetFont(Crutch.GetStyles().GetMarkerFont(options.label.size))
-        label:SetAlpha(1) -- In case it's not specified by color
+        label:SetAlpha(1)
         label:SetColor(unpack(options.label.color))
         label:SetText(options.label.text)
         label:SetDimensions(2000, 2000)
