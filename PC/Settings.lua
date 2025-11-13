@@ -727,8 +727,8 @@ function Crutch:CreateSettingsMenu()
                                 C.DIAMOND,
                                 C.CHEVRON,
                                 C.CHEVRON_THIN,
+                                C.LCI,
                                 C.CUSTOM,
-                                -- C.LCI, -- TODO
                             },
                             getFunc = function()
                                 return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type

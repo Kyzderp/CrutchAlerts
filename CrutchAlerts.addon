@@ -14,7 +14,7 @@
 
 ## PCDependsOn: LibAddonMenu-2.0>=41
 ## ConsoleDependsOn: LibHarvensAddonSettings>=20002
-## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibGroupBroadcast>=91
+## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibGroupBroadcast>=91 LibCustomIcons
 
 ## SavedVariables: CrutchAlertsSavedVariables
 

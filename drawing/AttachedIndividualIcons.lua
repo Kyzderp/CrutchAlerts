@@ -34,7 +34,7 @@ CrutchAlerts.savedOptions.drawing.attached.individualIcons = {
 ---------------------------------------------------------------------
 -- Actual texture to show
 ---------------------------------------------------------------------
-local function GetIconTexture(iconData)
+local function GetIconTexture(name, iconData)
     if (iconData.type == C.CIRCLE) then
         return "CrutchAlerts/assets/shape/circle.dds"
     elseif (iconData.type == C.DIAMOND) then
@@ -44,7 +44,10 @@ local function GetIconTexture(iconData)
     elseif (iconData.type == C.CHEVRON_THIN) then
         return "CrutchAlerts/assets/shape/chevronthin.dds"
     elseif (iconData.type == C.LCI) then
-        return nil -- TODO
+        if (LibCustomIcons) then
+            return LibCustomIcons.GetStatic(name)
+        end
+        return nil
     elseif (iconData.type == C.CUSTOM) then
         return iconData.custom
     end
@@ -77,7 +80,7 @@ local function MaybeSetIndividualIcon(unitTag)
         spaceOptionsTablePool[name] = spaceOptions
         ZO_ClearTable(spaceOptions)
 
-        local texture = GetIconTexture(iconData)
+        local texture = GetIconTexture(name, iconData)
         if (texture) then
             spaceOptions.texture = {
                 path = texture,
