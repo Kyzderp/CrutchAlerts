@@ -146,7 +146,7 @@ local function BoostInitial(composite, colorFrom, colorTo)
         composite:AddSurface(0, 1, 0, 1)
 
         -- SetInsets(*luaindex* _surfaceIndex_, *number* _left_, *number* _right_, *number* _top_, *number* _bottom_)
-        local offset = i * chevronHeight
+        local offset = i * chevronHeight * composite:GetHeight()
         composite:SetInsets(i, 0, 0, -offset, -offset)
 
         composite:SetColor(i, ZO_ColorDef.LerpRGB(from, to, (i - 1) / 3))

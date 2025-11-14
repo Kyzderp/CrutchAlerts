@@ -719,7 +719,7 @@ function Crutch:CreateSettingsMenu()
                                 {
                                     type = "dropdown",
                                     name = "Texture type",
-                                    tooltip = "The base icon texture to display for this player.\n\nDisclaimer: If you see only a square when using a LibCustomIcons or custom texture, the file may not be suited for 3D icons at the moment (weird bug with mipmaps I'm still trying to figure out while not breaking other things).",
+                                    tooltip = "The base icon texture to display for this player",
                                     choices = {
                                         C.ICON_NONE,
                                         C.CIRCLE,

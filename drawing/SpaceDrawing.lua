@@ -10,8 +10,7 @@ local function AcquireControl()
     control:SetTransformNormalizedOriginPoint(0.5, 0.5)
 
     control:SetHidden(false)
-    control:SetScale(0.01) -- TODO: this causes lowest mipmap
-    -- control:SetTransformScale(0.01)
+    control:SetTransformScale(0.01)
 
     control:SetAnchor(CENTER, GuiRoot, CENTER)
 
@@ -75,9 +74,7 @@ local function CreateSpaceTexture(texture, x, y, z, width, height, color, orient
     textureControl:SetHidden(false)
     textureControl:SetTexture(texture)
     textureControl:SetColor(unpack(color))
-
-    -- TODO: width and height?
-    control:SetTransformScale(width)
+    textureControl:SetScale(width)
 
     return control, key
 end
@@ -187,9 +184,6 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         backdrop:SetTransformRotation(0, 0, options.backdrop.roll or 0)
         backdrop:SetHidden(false)
     end
-
-    -- TODO?
-    control:SetTransformScale(1)
 
     local pitch, yaw, roll = Draw.ConvertToPitchYawRollIfNeeded(unpack(orientation))
 
