@@ -90,6 +90,25 @@ Draw.TestPulse = TestPulse
 -- /script CrutchAlerts.RemoveAttachedIconForUnit("player", "CrutchAlertsTestPulse")
 -- /script CrutchAlertsSpaceCrutchAlertsSpaceControl1Composite:SetInsets(2, 0.25, -.25, .25, -0.25)
 
+local function TestPulse2D()
+    local cycleTime = 700
+
+    local composite = WINDOW_MANAGER:CreateControl("CrutchAlertsTestPulse2D", GuiRoot, CT_TEXTURECOMPOSITE)
+    composite:SetAnchor(CENTER, GuiRoot, CENTER)
+    composite:SetDimensions(100, 100)
+
+    PulseInitial(composite, "CrutchAlerts/assets/shape/diamond.dds", 0.5, {1, 1, 1, 0.8})
+
+    EVENT_MANAGER:RegisterForUpdate("CrutchAlertsTestPulse2D", 10, function()
+        local time = GetGameTimeMilliseconds() % cycleTime
+        local t = time / cycleTime
+        PulseUpdate(composite, t)
+    end)
+end
+Draw.TestPulse2D = TestPulse2D
+-- /script CrutchAlerts.Drawing.TestPulse2D()
+-- /script EVENT_MANAGER:UnregisterForUpdate("CrutchAlertsTestPulse2D")
+
 
 ---------------------------------------------------------------------
 -- Chevron "boost" animation

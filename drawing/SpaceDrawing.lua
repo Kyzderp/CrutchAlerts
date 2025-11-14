@@ -7,23 +7,13 @@ local controlPool
 
 local function AcquireControl()
     local control, key = controlPool:AcquireObject()
+    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
 
     control:SetHidden(false)
-    control:SetScale(0.01)
+    control:SetScale(0.01) -- TODO: this causes lowest mipmap
+    -- control:SetTransformScale(0.01)
 
     control:SetAnchor(CENTER, GuiRoot, CENTER)
-
-    -- control:GetNamedChild("Texture"):SetSpace(SPACE_INTERFACE)
-    -- control:GetNamedChild("Texture"):SetTransformOffset(0, 0, 0.001)
-    -- control:GetNamedChild("Texture"):SetSpace(SPACE_WORLD)
-
-    -- control:GetNamedChild("Composite"):SetSpace(SPACE_INTERFACE)
-    -- control:GetNamedChild("Composite"):SetTransformOffset(0, 0, 0.002)
-    -- control:GetNamedChild("Composite"):SetSpace(SPACE_WORLD)
-
-    -- control:GetNamedChild("Label"):SetSpace(SPACE_INTERFACE)
-    -- control:GetNamedChild("Label"):SetTransformOffset(0, 0, 0.05)
-    -- control:GetNamedChild("Label"):SetSpace(SPACE_WORLD)
 
     -- To not clash with RenderSpace keys when put in Draw.activeIcons together
     local spaceKey = "Space" .. key
@@ -36,7 +26,6 @@ end
 ---------------------------------------------------------------------
 local function CreateSpaceControlCommon(x, y, z, orientation)
     local control, key = AcquireControl()
-    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
 
     -- Position is a bit different from RenderSpace
     local oX, oY, oZ = GuiRender3DPositionToWorldPosition(0, 0, 0)
@@ -331,6 +320,4 @@ Draw.TestMarker = TestMarker
 ---------------------------------------------------------------------
 function Draw.InitializeSpace()
     controlPool = ZO_ControlPool:New("CrutchAlertsSpaceControl", CrutchAlertsSpace)
-
-    -- TODO: fragment?
 end
