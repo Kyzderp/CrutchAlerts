@@ -119,16 +119,20 @@ local function AddIndividualIcon(atName, type, custom, size, color, text, textSi
     Crutch.dbgSpam("Adding individual icon for " .. atName)
     local data = Crutch.savedOptions.drawing.attached.individualIcons[atName]
     if (not data) then
-        data = {}
+        data = {
+            color = {1, 1, 1, 1},
+            textColor = {1, 1, 1, 1},
+        }
     end
 
     data.type = type or C.CIRCLE
     data.custom = custom
     data.size = size or 1
-    data.color = color or {1, 1, 1, 1}
+    if (color) then data.color = color end
+
     data.text = text
     data.textSize = textSize or 50
-    data.textColor = textColor or {1, 1, 1, 1}
+    if (textColor) then data.textColor = textColor end
 
     Crutch.savedOptions.drawing.attached.individualIcons[atName] = data
 end

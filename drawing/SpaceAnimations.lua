@@ -11,7 +11,7 @@ local C = Crutch.Constants
 ---------------------------------------------------------------------
 local function PulseUpdate(composite, t, color)
     -- Surface 1 expanding outwards
-    local inset = (1 - t) / 2
+    local inset = (1 - t) / 2 * composite:GetHeight()
     local surface1 = 1
     composite:SetInsets(surface1, inset, -inset, inset, -inset)
     composite:SetSurfaceAlpha(surface1, zo_clamp(zo_lerp(2, 0, t), 0, 1))
@@ -19,7 +19,7 @@ local function PulseUpdate(composite, t, color)
     -- Surface 2 expanding outwards, slightly after surface 1
     local t2 = t - 0.3
     if (t2 < 0) then t2 = t2 + 1 end
-    local inset2 = (1 - t2) / 2
+    local inset2 = (1 - t2) / 2 * composite:GetHeight()
     local surface2 = 2
     composite:SetInsets(surface2, inset2, -inset2, inset2, -inset2)
     composite:SetSurfaceAlpha(surface2, zo_clamp(zo_lerp(2, 0, t2), 0, 1))
@@ -49,7 +49,7 @@ local function PulseInitial(composite, texturePath, initialSize, color)
 
     -- Actual texture goes last
     -- SetInsets(*luaindex* _surfaceIndex_, *number* _left_, *number* _right_, *number* _top_, *number* _bottom_)
-    local inset = (1 - initialSize) / 2
+    local inset = (1 - initialSize) / 2 * composite:GetHeight()
     local surfaceOrig = composite:AddSurface(0, 1, 0, 1)
     composite:SetInsets(surfaceOrig, inset, -inset, inset, -inset)
     composite:SetColor(surfaceOrig, color[1], color[2], color[3], color[4])
@@ -93,7 +93,7 @@ Draw.TestPulse = TestPulse
 local function TestPulse2D()
     local cycleTime = 700
 
-    local composite = WINDOW_MANAGER:CreateControl("CrutchAlertsTestPulse2D", GuiRoot, CT_TEXTURECOMPOSITE)
+    local composite = WINDOW_MANAGER:CreateControl("CrutchAlertsTestPulse2D", CrutchAlertsDrawing, CT_TEXTURECOMPOSITE)
     composite:SetAnchor(CENTER, GuiRoot, CENTER)
     composite:SetDimensions(100, 100)
 

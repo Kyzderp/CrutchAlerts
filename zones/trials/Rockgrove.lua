@@ -340,9 +340,9 @@ local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
                 color = {1, 1, 1, 0.8},
             },
             composite = {
-                size = 1.4,
+                size = 1.7,
                 init = function(composite)
-                    Crutch.Drawing.Animation.PulseInitial(composite, "CrutchAlerts/assets/shape/diamond.dds", 0.4, {1, 0.5, 0, 1})
+                    Crutch.Drawing.Animation.PulseInitial(composite, "CrutchAlerts/assets/shape/diamond.dds", 0.5, {1, 0.5, 0, 1})
                     composite:SetAlpha(0.8)
                 end,
             },
