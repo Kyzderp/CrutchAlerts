@@ -493,7 +493,7 @@ local SUBTITLE_TIMES = {
         -- Arena 1 start
         ["We have new challengers! Will they survive the competition, or will their blood decorate the floor of our grand Arena?"] = {time = 20.0, displayFormat = "Portal spawns in |c%s%.1f|r"},
         -- Arena 2 start
-        ["You dare to go on? This pleases my master. Let's hope you continue to please her and she grants you the strength to survive the coming battles."] = {time = 23.8, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["You dare to go on? This pleases my master. Let's hope you continue to please her and she grants you the strength to survive the coming battles."] = {time = 24.0, displayFormat = "Portal spawns in |c%s%.1f|r"},
         -- 3
         ["Every victory elevates you in the eyes of the master, mortals. But how will you fare in the marsh? Can you handle the mud and the bugs and the creatures intent on eating you once they defeat you?"] = {time = 27.1, displayFormat = "Portal spawns in |c%s%.1f|r"},
         -- 4
@@ -511,7 +511,7 @@ local SUBTITLE_TIMES = {
         -- 8
         ["Your strength knows no bounds. Rarely have I seen a group that works so well together. The last time must have been, oh, those poor Mages Guild members I found in the Dwemer ruins years ago."] = {time = 36.0, displayFormat = "Portal spawns in |c%s%.1f|r"},
         -- 10 TODO: precise time unknown; 39 from Cas for now
-        ["And so the final challenge begins. Those who would represent me as champion now stand in this arena, deep within my realm. Only those who remain standing will receive my highest honor."] = {time = 35.5, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["And so the final challenge begins. Those who would represent me as champion now stand in this arena, deep within my realm. Only those who remain standing will receive my highest honor."] = {time = 40.0, displayFormat = "Boss spawns in |c%s%.1f|r"},
     },
 
 -----------
