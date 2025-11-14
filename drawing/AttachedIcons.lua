@@ -496,6 +496,9 @@ local function RefreshGroup()
             -- Deaths
             if (IsUnitOnline(tag)) then
                 OnDeathStateChanged(nil, tag, IsUnitDead(tag))
+
+                -- Individual icon
+                Draw.MaybeSetIndividualIcon(tag)
             else
                 -- Sometimes offline players are also dead, but it doesn't
                 -- make sense to show dead icon if they're offline
@@ -507,8 +510,6 @@ local function RefreshGroup()
                 OnCrownChange(nil, tag)
             end
 
-            -- Individual icon
-            Draw.MaybeSetIndividualIcon(tag)
         end
     end
 
