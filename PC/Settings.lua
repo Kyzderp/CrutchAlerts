@@ -719,7 +719,7 @@ function Crutch:CreateSettingsMenu()
                                 {
                                     type = "dropdown",
                                     name = "Texture type",
-                                    tooltip = "The base icon texture to display for this player",
+                                    tooltip = "The base icon texture to display for this player. If choosing LibCustomIcons, you must have LibCustomIcons enabled, or the icon will be blank (but still override role icons)",
                                     choices = {
                                         C.ICON_NONE,
                                         C.CIRCLE,
@@ -744,7 +744,7 @@ function Crutch:CreateSettingsMenu()
                                 {
                                     type = "editbox",
                                     name = "Custom texture path",
-                                    tooltip = "If using a \"Custom texture,\" the path of the texture. You can use base game textures or even textures from other addons, but it will be blank if the addon isn't loaded! Examples: esoui/art/icons/targetdummy_voriplasm_01.dds or CrutchAlerts/assets/poop.dds",
+                                    tooltip = "If using a \"Custom texture,\" the path of the texture. You can use base game textures or even textures from other addons. Examples: esoui/art/icons/targetdummy_voriplasm_01.dds or CrutchAlerts/assets/poop.dds\n\nFor base game textures, you can find them by using an addon like Circonians TextureIt, or online sources like UESP.\nFor addon textures, you can find them by browsing to the addon files and seeing where the files are, and using the same path, such as the CrutchAlerts poop path above, or OdySupportIcons/icons/lightning-bolt.dds",
                                     getFunc = function()
                                         if (selectedIndividual) then
                                             return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom
