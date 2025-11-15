@@ -210,6 +210,8 @@ local defaultOptions = {
         othersCurseLineColor = {1, 1, 0, 0.5},
     },
     sanitysedge = {
+        showChimeraIcons = true, -- TODO
+        chimeraIconsSize = 100, -- TODO
         showAnsuulIcon = true,
         ansuulIconSize = 150,
     },
