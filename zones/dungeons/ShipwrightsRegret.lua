@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Foreman Bradiggan
@@ -72,7 +73,7 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
     local unitTag = nameToTag[toStack]
 
     -- Put icon on the person we should stack with
-    Crutch.SetAttachedIconForUnit(unitTag, BOMB_UNIQUE_NAME, 500, "CrutchAlerts/assets/poop.dds")
+    Crutch.SetAttachedIconForUnit(unitTag, BOMB_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "CrutchAlerts/assets/poop.dds")
     zo_callLater(function() Crutch.RemoveAttachedIconForUnit(unitTag, BOMB_UNIQUE_NAME) end, 5000)
 
     Crutch.DisplayNotification(168314, string.format("|cAAAAAASuggested stack: |cff00ff%s|r", toStack), 5000, 0, 0, 0, 0, false)

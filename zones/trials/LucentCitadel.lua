@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Icons for Arcane Conveyance
@@ -21,7 +22,7 @@ local function AddArcaneConveyanceToPlayer(unitTag)
     local iconPath = "esoui/art/trials/vitalitydepletion.dds"
 
     Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, GetUnitDisplayName(unitTag)))
-    Crutch.SetAttachedIconForUnit(unitTag, CONVEYANCE_UNIQUE_NAME, 500, iconPath, 150, {1, 0, 1, 1})
+    Crutch.SetAttachedIconForUnit(unitTag, CONVEYANCE_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, iconPath, 150, {1, 0, 1, 1})
 
 
     if (not conveyanceDisplaying1) then

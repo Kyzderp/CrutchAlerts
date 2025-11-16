@@ -11,7 +11,7 @@ local SLUDGE_UNIQUE_NAME = "CrutchAlertsRGSludge"
 
 local function OnSludgeIcon(changeType, unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.SetAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME, 500, "CrutchAlerts/assets/poop.dds", nil, {0.6, 1, 0.6})
+        Crutch.SetAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "CrutchAlerts/assets/poop.dds", nil, {0.6, 1, 0.6})
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.RemoveAttachedIconForUnit(unitTag, SLUDGE_UNIQUE_NAME)
     end
@@ -330,7 +330,7 @@ end
 local function OnDeathTouch(_, changeType, _, _, unitTag, beginTime, endTime)
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         local duration = (endTime - beginTime) * 1000
-        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, 500, nil, 120, nil, false, function(icon)
+        Crutch.SetAttachedIconForUnit(unitTag, CURSE_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, nil, 120, nil, false, function(icon)
             DeathTouchIconUpdate(icon, unitTag, endTime)
         end,
         {

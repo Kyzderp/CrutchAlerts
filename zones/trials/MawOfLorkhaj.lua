@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- ZHAJ'HASSA
@@ -193,7 +194,6 @@ end
 -- TWINS
 ---------------------------------------------------------------------
 local ASPECT_UNIQUE_NAME = "CrutchAlertsMoLAspect"
-local ASPECT_PRIORITY = 108
 
 -- lunar duration -> shadow conversion duration -> lunar faded -> shadow duration -> conversion faded
 local currentlyDisplayingAbility = {}
@@ -215,7 +215,7 @@ local function OnAspect(_, changeType, _, _, unitTag, _, _, _, _, _, _, _, _, _,
 
         if (Crutch.savedOptions.mawoflorkhaj.showTwinsIcons) then
             Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, ASPECT_PRIORITY, iconPath, 100, iconData.color)
+            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, C.PRIORITY.ASPECT, iconPath, 100, iconData.color)
         end
 
         -- Color dead icon regardless
@@ -250,7 +250,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
 
         if (Crutch.savedOptions.mawoflorkhaj.showTwinsIcons) then
             Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, atName))
-            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, ASPECT_PRIORITY, iconPath, 100, iconData.color)
+            Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, C.PRIORITY.ASPECT, iconPath, 100, iconData.color)
         end
 
         -- Color dead icon regardless

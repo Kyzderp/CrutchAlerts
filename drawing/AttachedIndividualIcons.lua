@@ -100,7 +100,7 @@ local function MaybeSetIndividualIcon(unitTag)
         -- SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, persistOutsideCombat, callback, spaceOptions)
         Crutch.SetAttachedIconForUnit(unitTag,
             INDIVIDUAL_ICONS_NAME,
-            INDIVIDUAL_ICONS_PRIORITY,
+            C.PRIORITY.INDIVIDUAL_ICONS,
             nil,
             100,
             nil,

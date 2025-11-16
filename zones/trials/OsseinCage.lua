@@ -373,7 +373,7 @@ local function UpdateEnfeeblementIcon(atName, unitTag)
     end
 
     Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", icon, atName))
-    Crutch.SetAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME, 500, icon, 100, color)
+    Crutch.SetAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, icon, 100, color)
 end
 
 local function OnEnfeeblement(enfeeblementStruct, changeType, unitTag)
@@ -549,7 +549,7 @@ local function AddChainToPlayer(unitTag)
     local iconPath = "esoui/art/trials/vitalitydepletion.dds"
 
     Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", iconPath, GetUnitDisplayName(unitTag)))
-    Crutch.SetAttachedIconForUnit(unitTag, CHAIN_UNIQUE_NAME, 200, iconPath, 100, {1, 0, 1, 1})
+    Crutch.SetAttachedIconForUnit(unitTag, CHAIN_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, iconPath, 100, {1, 0, 1, 1})
 
 
     if (not chainsDisplaying1) then

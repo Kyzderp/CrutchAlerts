@@ -122,7 +122,7 @@ local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, 
 
         -- Add icon
         if (Crutch.savedOptions.cloudrest.showFrostIcons) then
-            Crutch.SetAttachedIconForUnit(unitTag, FROST_UNIQUE_NAME, 500, "esoui/art/icons/heraldrycrests_misc_snowflake_01.dds", nil, {0, 0.9, 1})
+            Crutch.SetAttachedIconForUnit(unitTag, FROST_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "esoui/art/icons/heraldrycrests_misc_snowflake_01.dds", nil, {0, 0.9, 1})
         end
     end
 end
@@ -147,7 +147,7 @@ local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, t
     Crutch.SetAttachedIconForUnit(
         unitTag,
         FLARE_UNIQUE_NAME,
-        500,
+        C.PRIORITY.MECHANIC_2_PRIORITY,
         nil,
         120,
         nil,

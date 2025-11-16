@@ -212,12 +212,11 @@ end
 -- high priority to suppress other icons. It would be more proper to
 -- not create any icons.
 local SUPPRESS_NAME = "CrutchAlertsSuppress"
-local SUPPRESS_PRIORITY = 10001 -- 10000 is the highest valid priority for public calling
 local suppressionFilters = {} -- {[name] = function(unitTag) return true end,}
 
 -- Suppression is auto removed upon combat end
 local function SuppressIcons(unitTag)
-    SetIconForUnit(unitTag, SUPPRESS_NAME, SUPPRESS_PRIORITY, "blank.dds")
+    SetIconForUnit(unitTag, SUPPRESS_NAME, C.PRIORITY.SUPPRESS, "blank.dds")
 end
 
 local function UnsuppressIcons(unitTag)
@@ -350,7 +349,7 @@ local function CreateGroupRoleIcons()
         if (settings and settings.show()) then
             SetIconForUnit(unitTag,
                 GROUP_ROLE_NAME,
-                GROUP_ROLE_PRIORITY,
+                C.PRIORITY.GROUP_ROLE,
                 settings.texture,
                 nil,
                 settings.color(),
@@ -374,7 +373,6 @@ end
 ---------------------------------------------------------------------
 -- Corpse icons
 local GROUP_DEAD_NAME = "CrutchAlertsGroupDead"
-local GROUP_DEAD_PRIORITY = 110
 local DEAD_Y_OFFSET = 100
 local deadColorOverrides = {} -- {[unitTag] = {0, 1, 0},}
 
@@ -408,7 +406,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
 
         SetIconForUnit(unitTag,
             GROUP_DEAD_NAME,
-            GROUP_DEAD_PRIORITY,
+            C.PRIORITY.GROUP_DEAD,
             "esoui/art/icons/mapkey/mapkey_groupboss.dds",
             nil,
             Crutch.savedOptions.drawing.attached.deadColor,
@@ -430,7 +428,6 @@ Draw.OverrideDeadColor = OverrideDeadColor
 ---------------------------------------------------------------------
 -- Crown
 local GROUP_CROWN_NAME = "CrutchAlertsGroupCrown"
-local GROUP_CROWN_PRIORITY = 105
 local currentCrown
 
 local function OnCrownChange(_, unitTag)
@@ -453,7 +450,7 @@ local function OnCrownChange(_, unitTag)
 
     SetIconForUnit(unitTag,
         GROUP_CROWN_NAME,
-        GROUP_CROWN_PRIORITY,
+        C.PRIORITY.GROUP_CROWN,
         "esoui/art/icons/mapkey/mapkey_groupleader.dds",
         nil,
         Crutch.savedOptions.drawing.attached.crownColor,

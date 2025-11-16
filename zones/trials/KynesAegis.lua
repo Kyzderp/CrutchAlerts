@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 -- TODO: chaurus totem dodge
 
@@ -33,7 +34,7 @@ local function OnPrisonBegin(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _,
     if (hitValue ~= 1500) then return end
     local unitTag = Crutch.groupIdToTag[targetUnitId]
     if (unitTag) then
-        Crutch.SetAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME, 500, "/esoui/art/icons/death_recap_oblivion.dds")
+        Crutch.SetAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "/esoui/art/icons/death_recap_oblivion.dds")
         zo_callLater(function()
             if (not prisoned[unitTag]) then
                 -- Remove the icon if not prisoned, this can happen if the bitter knight dies during the cast
@@ -48,7 +49,7 @@ local function OnPrisonEffect(_, changeType, _, _, unitTag)
     -- seems to be 1.5s for the cast, then 8s for the prison?
     if (changeType == EFFECT_RESULT_GAINED) then
         prisoned[unitTag] = true
-        Crutch.SetAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME, 500, "/esoui/art/icons/death_recap_oblivion.dds")
+        Crutch.SetAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "/esoui/art/icons/death_recap_oblivion.dds")
     elseif (changeType == EFFECT_RESULT_FADED) then
         prisoned[unitTag] = nil
         Crutch.RemoveAttachedIconForUnit(unitTag, PRISON_UNIQUE_NAME)

@@ -38,3 +38,18 @@ C.CHEVRON = "Chevron"
 C.CHEVRON_THIN = "Thin chevron"
 C.LCI = "LibCustomIcons (Hodor)"
 C.CUSTOM = "Custom texture"
+
+
+---------------------------------------------------------------------
+-- Attached icon priorities
+---------------------------------------------------------------------
+C.PRIORITY = {
+    SUPPRESS = 10001, -- 10000 is the highest valid priority for public calling
+    MECHANIC_2_PRIORITY = 510, -- Higher priority mechanic e.g. Roaring Flare over Hoarfrost
+    MECHANIC_1_PRIORITY = 500,
+    GROUP_DEAD = 110,
+    ASPECT = 108, -- MoL twins aspects need to be lower priority than dead icons, which are also colored
+    INDIVIDUAL_ICONS = 107,
+    GROUP_CROWN = 105,
+    GROUP_ROLE = 100,
+}

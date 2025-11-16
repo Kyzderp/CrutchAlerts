@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Time Breach
@@ -343,7 +344,7 @@ local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, 
         -- Show icon if icons are enabled, the group member does not have focused fire,
         -- and they are not the target of focus fire (to avoid confusion since they will see an arrow on their own stack)
         if (Crutch.savedOptions.sunspire.yolFocusedFire and not hasFocusedFire and unitTag ~= targetTag) then
-            Crutch.SetAttachedIconForUnit(unitTag, FOCUSED_FIRE_UNIQUE_NAME, 500, "CrutchAlerts/assets/shape/chevron.dds", 30, {0, 1, 1, 0.6}, false)
+            Crutch.SetAttachedIconForUnit(unitTag, FOCUSED_FIRE_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "CrutchAlerts/assets/shape/chevron.dds", 30, {0, 1, 1, 0.6}, false)
             table.insert(toClear, unitTag)
         end
     end
