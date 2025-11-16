@@ -296,23 +296,23 @@ local iconGroups = {
         icons = {
             -- Yaw: positive is CCW?
             -- Gryphon
-            {x = 172100, y = 40350, z = 238100, text = "G-1 HM", orientation = {0, math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 172100, y = 40350, z = 242160, text = "G-2 HM", orientation = {0, math.pi / 4 + math.pi, 0}}, -- TODO orientation
-            {x = 170050, y = 40350, z = 242334, text = "G-3 HM", orientation = {0, math.pi, 0}},
-            {x = 168000, y = 40350, z = 242160, text = "G-4 HM", orientation = {0, -math.pi / 4 + math.pi, 0}}, -- TODO orientation
-            {x = 168000, y = 40350, z = 238100, text = "G-5 HM", orientation = {0, -math.pi / 2 + math.pi, 0}}, -- TODO orientation
+            {x = 172091, y = 40350, z = 238068, text = "1", orientation = {0, -math.pi / 4, 0}},
+            {x = 172123, y = 40350, z = 242163, text = "2", orientation = {0, -math.pi * 3 / 4, 0}},
+            {x = 170049, y = 40350, z = 242334, text = "3", orientation = {0, math.pi, 0}},
+            {x = 168007, y = 40350, z = 242182, text = "4", orientation = {0, math.pi * 3 / 4, 0}},
+            {x = 168000, y = 40350, z = 238103, text = "5", orientation = {0, math.pi / 4, 0}},
             -- Lion -- TODO: "synthetic" coords in between gryphon and wamasu
-            {x = 182100, y = 40350, z = 238100, text = "L-1 HM", orientation = {0, math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 182100, y = 40350, z = 242160, text = "L-2 HM", orientation = {0, math.pi / 4 + math.pi, 0}}, -- TODO orientation
-            {x = 180050, y = 40350, z = 242334, text = "L-3 HM", orientation = {0, math.pi, 0}},
-            {x = 177835, y = 40350, z = 242160, text = "L-4 HM", orientation = {0, -math.pi / 4 + math.pi, 0}}, -- TODO orientation
-            {x = 177835, y = 40350, z = 238100, text = "L-5 HM", orientation = {0, -math.pi / 2 + math.pi, 0}}, -- TODO orientation
+            {x = 182029, y = 40350, z = 238066, text = "1", orientation = {0, -math.pi / 4, 0}},
+            {x = 182100, y = 40350, z = 242160, text = "2", orientation = {0, -math.pi * 3 / 4, 0}},
+            {x = 180050, y = 40350, z = 242334, text = "3", orientation = {0, math.pi, 0}},
+            {x = 177835, y = 40350, z = 242160, text = "4", orientation = {0, math.pi * 3 / 4, 0}},
+            {x = 177835, y = 40350, z = 238100, text = "5", orientation = {0, math.pi / 4, 0}},
             -- Wamasu -- TODO: "synthetic" coords based on nonHM coords
-            {x = 192112, y = 40350, z = 238100, text = "G-1 HM", orientation = {0, math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 192112, y = 40350, z = 242160, text = "G-2 HM", orientation = {0, math.pi / 4 + math.pi, 0}}, -- TODO orientation
-            {x = 189880, y = 40350, z = 242334, text = "G-3 HM", orientation = {0, math.pi, 0}},
-            {x = 187670, y = 40350, z = 242160, text = "G-4 HM", orientation = {0, -math.pi / 4 + math.pi, 0}}, -- TODO orientation
-            {x = 187670, y = 40350, z = 238100, text = "G-5 HM", orientation = {0, -math.pi / 2 + math.pi, 0}}, -- TODO orientation
+            {x = 192112, y = 40350, z = 238100, text = "1", orientation = {0, -math.pi / 4, 0}},
+            {x = 192112, y = 40350, z = 242160, text = "2", orientation = {0, -math.pi * 3 / 4, 0}},
+            {x = 189880, y = 40350, z = 242334, text = "3", orientation = {0, math.pi, 0}},
+            {x = 187670, y = 40350, z = 242160, text = "4", orientation = {0, math.pi * 3 / 4, 0}},
+            {x = 187670, y = 40350, z = 238100, text = "5", orientation = {0, math.pi / 4, 0}},
         },
     },
 
@@ -321,21 +321,21 @@ local iconGroups = {
         size = GetChimeraIconsSize,
         icons = {
             -- TODO: y is lower for testing, put it back later
-            -- Gryphon -- TODO: "synthetic" coords based on HM coords
-            {x = 172100, y = 40050, z = 240130, text = "G-1", orientation = {0, math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 170050, y = 40050, z = 242334, text = "G-3", orientation = {0, math.pi, 0}},
-            {x = 168000, y = 40050, z = 240130, text = "G-2", orientation = {0, -math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 170050, y = 40050, z = 237900, text = "G-4", orientation = {0, math.pi + math.pi, 0}}, -- TODO orientation
+            -- Gryphon
+            {x = 172289, y = 40050, z = 240133, text = "1", orientation = {0, -math.pi / 2, 0}},
+            {x = 170051, y = 40050, z = 242334, text = "2", orientation = {0, math.pi, 0}},
+            {x = 167843, y = 40050, z = 240125, text = "3", orientation = {0, math.pi / 2, 0}},
+            {x = 170065, y = 40050, z = 237908, text = "4", orientation = {0, 0, 0}},
             -- Lion -- TODO: "synthetic" coords based on gryphon and wamasu
-            {x = 182100, y = 40050, z = 240130, text = "L-1", orientation = {0, math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 180050, y = 40050, z = 242334, text = "L-3", orientation = {0, math.pi, 0}},
-            {x = 168000, y = 40050, z = 240130, text = "L-2", orientation = {0, -math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 180050, y = 40050, z = 237900, text = "L-4", orientation = {0, math.pi + math.pi, 0}}, -- TODO orientation
+            {x = 182228, y = 40050, z = 240155, text = "1", orientation = {0, -math.pi / 2, 0}},
+            {x = 180050, y = 40050, z = 242334, text = "2", orientation = {0, math.pi, 0}},
+            {x = 178000, y = 40050, z = 240130, text = "3", orientation = {0, math.pi / 2, 0}},
+            {x = 180050, y = 40050, z = 237900, text = "4", orientation = {0, 0, 0}},
             -- Wamasu
-            {x = 192112, y = 40050, z = 240130, text = "W-1", orientation = {0, math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 189880, y = 40050, z = 242334, text = "W-2", orientation = {0, math.pi, 0}},
-            {x = 187670, y = 40050, z = 240130, text = "W-3", orientation = {0, -math.pi / 2 + math.pi, 0}}, -- TODO orientation
-            {x = 189880, y = 40050, z = 237900, text = "W-4", orientation = {0, math.pi + math.pi, 0}}, -- TODO orientation
+            {x = 192112, y = 40050, z = 240132, text = "1", orientation = {0, -math.pi / 2, 0}},
+            {x = 189867, y = 40050, z = 242334, text = "2", orientation = {0, math.pi, 0}},
+            {x = 187670, y = 40050, z = 240136, text = "3", orientation = {0, math.pi / 2, 0}},
+            {x = 189892, y = 40050, z = 237901, text = "4", orientation = {0, 0, 0}},
         },
     },
 }

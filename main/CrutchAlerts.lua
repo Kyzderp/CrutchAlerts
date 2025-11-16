@@ -211,7 +211,7 @@ local defaultOptions = {
     },
     sanitysedge = {
         showChimeraIcons = true, -- TODO
-        chimeraIconsSize = 100, -- TODO
+        chimeraIconsSize = 150,
         showAnsuulIcon = true,
         ansuulIconSize = 150,
     },
