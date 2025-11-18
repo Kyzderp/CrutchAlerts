@@ -80,12 +80,18 @@ local function MaybeSetIndividualIcon(unitTag)
         spaceOptionsTablePool[name] = spaceOptions
         ZO_ClearTable(spaceOptions)
 
-        local texture = GetIconTexture(name, iconData)
+        local texture, left, right, top, bottom = GetIconTexture(name, iconData)
         if (texture) then
             spaceOptions.texture = {
                 path = texture,
                 size = iconData.size,
                 color = iconData.color,
+
+                -- Texture coords
+                left = left,
+                right = right,
+                top = top,
+                bottom = bottom,
             }
         end
 

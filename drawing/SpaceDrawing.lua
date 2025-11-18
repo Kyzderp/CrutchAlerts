@@ -171,9 +171,16 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
     if (options.texture) then
         local textureControl = control:GetNamedChild("Texture")
         textureControl:SetTexture(options.texture.path)
+
+        -- Optional
+        if (options.texture.left) then
+            textureControl:SetTextureCoords(options.texture.left, options.texture.right, options.texture.top, options.texture.bottom)
+        end
+
         textureControl:SetColor(unpack(options.texture.color))
         textureControl:SetScale(options.texture.size)
         textureControl:SetHidden(false)
+
     end
 
     if (options.backdrop) then
