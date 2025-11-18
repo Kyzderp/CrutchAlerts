@@ -831,7 +831,7 @@ function Crutch:CreateSettingsMenu()
                                     end,
                                     width = "half",
                                     disabled = function()
-                                        if (selectedIndividual == nil) then return end
+                                        if (selectedIndividual == nil) then return true end
                                         local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
                                         return text == nil or text == ""
                                     end,
@@ -854,7 +854,7 @@ function Crutch:CreateSettingsMenu()
                                     end,
                                     width = "half",
                                     disabled = function()
-                                        if (selectedIndividual == nil) then return end
+                                        if (selectedIndividual == nil) then return true end
                                         local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
                                         return text == nil or text == ""
                                     end,
