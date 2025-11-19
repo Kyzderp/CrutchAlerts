@@ -173,7 +173,7 @@ local function TestBoost()
             composite = {
                 size = 1,
                 init = function(composite)
-                    BoostInitial(composite, C.RED, {1, 1, 0})
+                    BoostInitial(composite, C.RED, C.YELLOW)
                 end,
             },
         })

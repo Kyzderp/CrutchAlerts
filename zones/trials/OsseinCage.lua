@@ -659,14 +659,14 @@ function Crutch.RegisterOsseinCage()
     InitFont()
 
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatCarrion", function()
-        carrionStacks = {}
-        titanIds = {}
+        ZO_ClearTable(carrionStacks)
+        ZO_ClearTable(titanIds)
         titanMaxHp = 0
         myrinaxFound = false
         valneerFound = false
         UnspoofTitans()
-        sparking = {}
-        blazing = {}
+        ZO_ClearTable(sparking)
+        ZO_ClearTable(blazing)
     end)
 
     -- Bosses changed, for titan spoofing and Enfeeblement markers

@@ -157,7 +157,7 @@ local function OnRoaringFlareIcon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, t
             composite = {
                 size = 1,
                 init = function(composite)
-                    Crutch.Drawing.Animation.BoostInitial(composite, C.RED, {1, 1, 0})
+                    Crutch.Drawing.Animation.BoostInitial(composite, C.RED, C.YELLOW)
                 end,
             },
         })
@@ -299,7 +299,7 @@ local function OnShadowOfTheFallenChanged(_, changeType, _, _, unitTag, _, _, st
 
     if (changeType == EFFECT_RESULT_GAINED) then
         groupShadowOfTheFallen[unitTag] = true
-        Crutch.Drawing.OverrideDeadColor(unitTag, {0.8, 0.2, 1})
+        Crutch.Drawing.OverrideDeadColor(unitTag, C.PURPLE)
     elseif (changeType == EFFECT_RESULT_FADED) then
         groupShadowOfTheFallen[unitTag] = false
         Crutch.Drawing.OverrideDeadColor(unitTag, nil)
@@ -337,7 +337,7 @@ local origOSIGetIconDataForPlayer = nil
 function Crutch.RegisterCloudrest()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Cloudrest")
 
-    Crutch.RegisterExitedGroupCombatListener("ExtiedCombatCloudrest", function()
+    Crutch.RegisterExitedGroupCombatListener("ExitedCombatCloudrest", function()
         Crutch.dbgOther("|cFF7777Resetting Cloudrest values|r")
         amuletSmashed = false
         spearsRevealed = 0
@@ -465,7 +465,7 @@ function Crutch.RegisterCloudrest()
 
             local isDead = unitTag and IsUnitDead(unitTag) or false
             if (config.dead and isDead and IsShadeUp(unitTag) and Crutch.savedOptions.cloudrest.deathIconColor) then
-                color = {0.8, 0.2, 1} -- Puuuuurpl
+                color = C.PURPLE
             end
 
             return icon, color, size, anim, offset, isMech
@@ -477,7 +477,7 @@ function Crutch.RegisterCloudrest()
 end
 
 function Crutch.UnregisterCloudrest()
-    Crutch.UnregisterExitedGroupCombatListener("ExtiedCombatCloudrest")
+    Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCloudrest")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT)

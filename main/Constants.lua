@@ -9,7 +9,9 @@ C.WHITE = {1, 1, 1}
 C.RED = {1, 0, 0}
 C.REDORANGE = {1, 0.35, 0}
 C.ORANGE = {1, 0.5, 0}
+C.YELLOW = {1, 1, 0}
 C.BLUE = {0, 0, 1}
+C.PURPLE = {0.8, 0.2, 1} -- for Z'Maja shades
 C.BLACK = {0, 0, 0}
 
 -- vAS mini spoofed BHB colors
