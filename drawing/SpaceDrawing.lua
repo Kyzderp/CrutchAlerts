@@ -149,7 +149,7 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
     orientation = orientation or C.ZERO_ORIENTATION
     local control, key = CreateSpaceControlCommon(x, y, z, orientation)
 
-    if (options.label) then
+    if (options.label and options.label.text) then
         local label = control:GetNamedChild("Label")
         label:SetFont(Crutch.GetStyles().GetMarkerFont(options.label.size))
         label:SetAlpha(1)
@@ -161,14 +161,14 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         label:SetHidden(false)
     end
 
-    if (options.composite) then
+    if (options.composite and options.composite.size) then
         local composite = control:GetNamedChild("Composite")
         composite:SetScale(options.composite.size)
         options.composite.init(composite)
         composite:SetHidden(false)
     end
 
-    if (options.texture) then
+    if (options.texture and options.texture.path) then
         local textureControl = control:GetNamedChild("Texture")
         textureControl:SetTexture(options.texture.path)
 
@@ -183,7 +183,7 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
 
     end
 
-    if (options.backdrop) then
+    if (options.backdrop and options.backdrop.centerColor) then
         local backdrop = control:GetNamedChild("Backdrop")
         backdrop:SetDimensions(options.backdrop.width or 100, options.backdrop.height or 100)
         backdrop:SetCenterColor(unpack(options.backdrop.centerColor))

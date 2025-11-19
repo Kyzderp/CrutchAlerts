@@ -657,7 +657,7 @@ function Crutch:CreateSettingsMenu()
                                 {
                                     type = "editbox",
                                     name = "Add new player icon",
-                                    tooltip = "Add a new individual player icon by typing the full account name here, e.g. @Kyzeragon. If you set an icon for yourself, it will only show if you have \"Show group icon for self\" enabled under Group Member Icons settings",
+                                    tooltip = "Add a new individual player icon by typing the full account name here, e.g. @Kyzeragon. Case sensitive! If you set an icon for yourself, it will only show if you have \"Show group icon for self\" enabled under Group Member Icons settings",
                                     getFunc = function() return "" end,
                                     setFunc = function(name)
                                         if (not name or name == "") then return end

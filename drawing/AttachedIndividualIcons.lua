@@ -75,32 +75,28 @@ local function MaybeSetIndividualIcon(unitTag)
     local name = GetUnitDisplayName(unitTag)
     local iconData = Crutch.savedOptions.drawing.attached.individualIcons[name]
     if (iconData) then
-        -- TODO: mention it's case sensitive
-        local spaceOptions = spaceOptionsTablePool[name] or {}
+        local spaceOptions = spaceOptionsTablePool[name] or {texture = {}, label = {}}
         spaceOptionsTablePool[name] = spaceOptions
-        ZO_ClearTable(spaceOptions)
+        ZO_ClearTable(spaceOptions.texture)
+        ZO_ClearTable(spaceOptions.label)
 
         local texture, left, right, top, bottom = GetIconTexture(name, iconData)
         if (texture) then
-            spaceOptions.texture = {
-                path = texture,
-                size = iconData.size,
-                color = iconData.color,
+            spaceOptions.texture.path = texture
+            spaceOptions.texture.size = iconData.size
+            spaceOptions.texture.color = iconData.color
 
-                -- Texture coords
-                left = left,
-                right = right,
-                top = top,
-                bottom = bottom,
-            }
+            -- Texture coords
+            spaceOptions.texture.left = left
+            spaceOptions.texture.right = right
+            spaceOptions.texture.top = top
+            spaceOptions.texture.bottom = bottom
         end
 
         if (iconData.text) then
-            spaceOptions.label = {
-                text = iconData.text,
-                size = iconData.textSize,
-                color = iconData.textColor,
-            }
+            spaceOptions.label.text = iconData.text
+            spaceOptions.label.size = iconData.textSize
+            spaceOptions.label.color = iconData.textColor
         end
 
         -- SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, persistOutsideCombat, callback, spaceOptions)
