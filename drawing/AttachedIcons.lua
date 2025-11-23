@@ -31,7 +31,7 @@ local function DumpUnitIcons()
     for tag, data in pairs(unitIcons) do
         d(string.format("%s (%s)\n----key: %s\n----active: %s", GetUnitDisplayName(tag) or "NO USER", tag, data.key or "NO KEY", data.active or "NO ACTIVE"))
         for uniqueName, icon in pairs(data.icons) do
-            d(string.format("----%s: %d [|t100%%:100%%:%s|t]", uniqueName, icon.priority, icon.texture))
+            d(string.format("----%s: %d [|t100%%:100%%:%s|t]", uniqueName, icon.priority or "no priority?!", icon.texture or "no texture"))
         end
     end
 end
@@ -467,6 +467,7 @@ local function RefreshGroup()
     -- Do a first pass because unit tags could have changed.
     -- This could probably be done as part of another loop, but meh.
     -- Also probably could use Crutch.playerGroupTag...
+    playerGroupTag = nil
     for i = 1, GetGroupSize() do
         local tag = GetGroupUnitTagByIndex(i)
         if (AreUnitsEqual("player", tag)) then

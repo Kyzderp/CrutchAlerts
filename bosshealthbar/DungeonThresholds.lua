@@ -437,9 +437,9 @@ local dungeonThresholds = {
 
 -- Red Petal Bastion
     [GetBossName(CRUTCH_BHB_ELIAM_MERICK)] = {
-        [80] = "Liramindrel", -- TODO
-        [50] = "Ihudir", -- TODO
-        [30] = "Both", -- TODO
+        [85] = "Liramindrel", -- prob ok
+        [60] = "Ihudir", -- prob ok
+        [30] = "Both", -- prob ok
     },
 
 -- The Dread Cellar
