@@ -21,21 +21,32 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
 
     -- When user adds individual players, they show up as single buttons that can be pressed to open "submenu"
     local individualPlayerSubmenus = {}
+    local names = {}
+
+    local function CreateNewIndividualIconSubmenuButtonTable(name)
+        return {
+            type = LibHarvensAddonSettings.ST_BUTTON,
+            label = name,
+            tooltip = "Edit individual player icon for " .. name,
+            clickHandler = function()
+                selectedIndividual = name
+                settings:RemoveAllSettings()
+                settings:AddSettings(individualIconSubSettings)
+            end,
+        }
+    end
 
     local function AddIndividualIconButtons()
-        -- TODO: alphabetize
+        -- Alphabetize
+        ZO_ClearTable(names)
         for name, _ in pairs(Crutch.savedOptions.drawing.attached.individualIcons) do
-            individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or {
-                type = LibHarvensAddonSettings.ST_BUTTON,
-                label = name,
-                tooltip = "Edit individual player icon for " .. name,
-                clickHandler = function()
-                    selectedIndividual = name
-                    settings:RemoveAllSettings()
-                    settings:AddSettings(individualIconSubSettings)
-                end,
-            }
+            table.insert(names, name)
+        end
+        table.sort(names)
 
+        -- TODO: alphabetize
+        for _, name in ipairs(names) do
+            individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or CreateNewIndividualIconSubmenuButtonTable(name)
             settings:AddSetting(individualPlayerSubmenus[name])
         end
     end
@@ -560,7 +571,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         {
             type = LibHarvensAddonSettings.ST_LABEL,
             label = "Individual Player Icons",
-            tooltip = "You can add individual icons for specific players here when they are in your group. They show over role and crown icons, while death and mechanic icons show over the individual icons"
+            tooltip = "You can add individual icons for specific players here when they are in your group. They show over role and crown icons, while death and mechanic icons show over the individual icons. I recommend reloading UI after you finish adding icons, both to save in case of crashes, and also because this icon creation has some memory impact."
         },
         {
             type = LibHarvensAddonSettings.ST_EDIT,
@@ -573,18 +584,11 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
                 if (not Crutch.savedOptions.drawing.attached.individualIcons[name]) then
                     Crutch.AddIndividualIcon(name)
 
-                    individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or {
-                        type = LibHarvensAddonSettings.ST_BUTTON,
-                        label = name,
-                        tooltip = "Edit individual player icon for " .. name,
-                        clickHandler = function()
-                            selectedIndividual = name
-                            settings:RemoveAllSettings()
-                            settings:AddSettings(individualIconSubSettings)
-                        end,
-                    }
+                    individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or CreateNewIndividualIconSubmenuButtonTable(name)
 
-                    settings:AddSetting(individualPlayerSubmenus[name])
+                    -- Insert at the top of the list so it can be used immediately; names will
+                    -- be alphabetized later when returning from the submenu
+                    settings:AddSetting(individualPlayerSubmenus[name], #mainSettings)
                 end
 
                 selectedIndividual = name
