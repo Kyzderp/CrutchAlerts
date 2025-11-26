@@ -17,7 +17,206 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         return
     end
 
-    local mainSettings = {
+    local mainSettings, individualIconSubSettings
+
+    -- When user adds individual players, they show up as single buttons that can be pressed to open "submenu"
+    local individualPlayerSubmenus = {}
+
+    local function AddIndividualIconButtons()
+        for name, _ in pairs(Crutch.savedOptions.drawing.attached.individualIcons) do
+            individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or {
+                type = LibHarvensAddonSettings.ST_BUTTON,
+                label = name,
+                tooltip = "Edit individual player icon for " .. name,
+                clickHandler = function()
+                    selectedIndividual = name
+                    settings:RemoveAllSettings()
+                    settings:AddSettings(individualIconSubSettings)
+                end,
+            }
+
+            settings:AddSetting(individualPlayerSubmenus[name])
+        end
+    end
+
+    individualIconSubSettings = {
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = function() return selectedIndividual end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_DROPDOWN,
+            label = "Texture type",
+            tooltip = "The base icon texture to display for this player",
+            getFunction = function()
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
+                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type
+                end
+            end,
+            setFunction = function(combobox, name, item)
+                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type = name
+                Crutch.Drawing.RefreshGroup()
+            end,
+            items = {
+                {
+                    name = C.ICON_NONE,
+                    data = C.ICON_NONE,
+                },
+                {
+                    name = C.CIRCLE,
+                    data = C.CIRCLE,
+                },
+                {
+                    name = C.DIAMOND,
+                    data = C.DIAMOND,
+                },
+                {
+                    name = C.CHEVRON,
+                    data = C.CHEVRON,
+                },
+                {
+                    name = C.CHEVRON_THIN,
+                    data = C.CHEVRON_THIN,
+                },
+                -- TODO: LCI when console gets it
+                {
+                    name = C.CUSTOM,
+                    data = C.CUSTOM,
+                },
+            },
+        },
+        {
+            type = LibHarvensAddonSettings.ST_EDIT,
+            label = "Custom texture path",
+            tooltip = "If using a \"Custom texture,\" the path of the texture. You can use base game textures or even textures from other addons. Examples: esoui/art/icons/targetdummy_voriplasm_01.dds or CrutchAlerts/assets/poop.dds\n\nFor base game textures, you can find them via online sources like UESP.",
+            getFunction = function()
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
+                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom
+                end
+            end,
+            setFunction = function(path)
+                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom = path
+                Crutch.Drawing.RefreshGroup()
+            end,
+            disable = function() return selectedIndividual == nil or not Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual] or Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type ~= C.CUSTOM end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_COLOR,
+            label = "Texture color",
+            tooltip = "Color of the icon texture",
+            getFunction = function()
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
+                    return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color)
+                end
+            end,
+            setFunction = function(r, g, b, a)
+                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b, a}
+                Crutch.Drawing.RefreshGroup()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Texture size",
+            tooltip = "Size of icon texture",
+            min = 0,
+            max = 400,
+            step = 10,
+            getFunction = function()
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
+                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size * 100
+                end
+            end,
+            setFunction = function(value)
+                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size = value / 100
+                Crutch.Drawing.RefreshGroup()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_EDIT,
+            label = "Text",
+            tooltip = "The text that appears on the icon",
+            getFunction = function()
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
+                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                end
+            end,
+            setFunction = function(text)
+                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text = text
+                Crutch.Drawing.RefreshGroup()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_COLOR,
+            label = "Text color",
+            tooltip = "Color of the text",
+            getFunction = function()
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
+                    return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor)
+                end
+            end,
+            setFunction = function(r, g, b, a)
+                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor = {r, g, b, a}
+                Crutch.Drawing.RefreshGroup()
+            end,
+            disable = function()
+                if (not selectedIndividual or not Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then return true end
+                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                return text == nil or text == ""
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Text size",
+            tooltip = "Size of the text",
+            min = 0,
+            max = 200,
+            step = 1,
+            getFunction = function()
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
+                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize
+                end
+            end,
+            setFunction = function(value)
+                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize = value
+                Crutch.Drawing.RefreshGroup()
+            end,
+            disable = function()
+                if (not selectedIndividual or not Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then return true end
+                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                return text == nil or text == ""
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_BUTTON,
+            label = "Back",
+            tooltip = "Go back to main settings",
+            clickHandler = function()
+                settings:RemoveAllSettings()
+                settings:AddSettings(mainSettings)
+                AddIndividualIconButtons()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_BUTTON,
+            label = "Delete player icon",
+            tooltip = "Delete this individual player icon. This cannot be undone!",
+            clickHandler = function()
+                Crutch.RemoveIndividualIcon(selectedIndividual)
+                Crutch.Drawing.RefreshGroup()
+
+                settings:RemoveAllSettings()
+                settings:AddSettings(mainSettings)
+                AddIndividualIconButtons()
+            end,
+        },
+    }
+
+
+    mainSettings = {
         ---------------------------------------------------------------------
         -- general
         {
@@ -373,195 +572,16 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
                     Crutch.AddIndividualIcon(name)
                 end
 
+                -- Just go straight to the submenu
                 selectedIndividual = name
-            end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_DROPDOWN,
-            label = "Select player to edit",
-            tooltip = "Choose a player to edit individual icon for",
-            getFunction = function()
-                return selectedIndividual
-            end,
-            setFunction = function(combobox, name, item)
-                selectedIndividual = name
-            end,
-            items = function()
-                ZO_ClearTable(individualNames)
-                for name, _ in pairs(Crutch.savedOptions.drawing.attached.individualIcons) do
-                    table.insert(individualNames, {name = name, data = name})
-                end
-                return individualNames
-            end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_BUTTON,
-            label = "Delete player icon",
-            tooltip = "Delete this individual player icon. This cannot be undone!",
-            clickHandler = function()
-                Crutch.RemoveIndividualIcon(selectedIndividual)
-                Crutch.Drawing.RefreshGroup()
-
-                selectedIndividual = nil
-            end,
-            disable = function() return selectedIndividual == nil end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
-        {
-            type = LibHarvensAddonSettings.ST_DROPDOWN,
-            label = "Texture type",
-            tooltip = "The base icon texture to display for this player",
-            getFunction = function()
-                if (selectedIndividual) then
-                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type
-                end
-            end,
-            setFunction = function(combobox, name, item)
-                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type = name
-                Crutch.Drawing.RefreshGroup()
-            end,
-            items = {
-                {
-                    name = C.ICON_NONE,
-                    data = C.ICON_NONE,
-                },
-                {
-                    name = C.CIRCLE,
-                    data = C.CIRCLE,
-                },
-                {
-                    name = C.DIAMOND,
-                    data = C.DIAMOND,
-                },
-                {
-                    name = C.CHEVRON,
-                    data = C.CHEVRON,
-                },
-                {
-                    name = C.CHEVRON_THIN,
-                    data = C.CHEVRON_THIN,
-                },
-                -- TODO: LCI when console gets it
-                {
-                    name = C.CUSTOM,
-                    data = C.CUSTOM,
-                },
-            },
-            disable = function() return selectedIndividual == nil end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_EDIT,
-            label = "Custom texture path",
-            tooltip = "If using a \"Custom texture,\" the path of the texture. You can use base game textures or even textures from other addons. Examples: esoui/art/icons/targetdummy_voriplasm_01.dds or CrutchAlerts/assets/poop.dds\n\nFor base game textures, you can find them via online sources like UESP.",
-            getFunction = function()
-                if (selectedIndividual) then
-                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom
-                end
-            end,
-            setFunction = function(name)
-                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].custom = path
-                Crutch.Drawing.RefreshGroup()
-            end,
-            disable = function() return selectedIndividual == nil or Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type ~= C.CUSTOM end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_COLOR,
-            label = "Texture color",
-            tooltip = "Color of the icon texture",
-            getFunction = function()
-                if (selectedIndividual) then
-                    return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color)
-                end
-            end,
-            setFunction = function(r, g, b, a)
-                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b, a}
-                Crutch.Drawing.RefreshGroup()
-            end,
-            disable = function() return selectedIndividual == nil end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_SLIDER,
-            label = "Texture size",
-            tooltip = "Size of icon texture",
-            min = 0,
-            max = 400,
-            step = 10,
-            getFunction = function()
-                if (selectedIndividual) then
-                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size * 100
-                end
-            end,
-            setFunction = function(value)
-                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].size = value / 100
-                Crutch.Drawing.RefreshGroup()
-            end,
-            disable = function() return selectedIndividual == nil end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
-        {
-            type = LibHarvensAddonSettings.ST_EDIT,
-            label = "Text",
-            tooltip = "The text that appears on the icon",
-            getFunction = function()
-                if (selectedIndividual) then
-                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
-                end
-            end,
-            setFunction = function(text)
-                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text = text
-                Crutch.Drawing.RefreshGroup()
-            end,
-            disable = function() return selectedIndividual == nil end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_COLOR,
-            label = "Text color",
-            tooltip = "Color of the text",
-            getFunction = function()
-                if (selectedIndividual) then
-                    return unpack(Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor)
-                end
-            end,
-            setFunction = function(r, g, b, a)
-                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textColor = {r, g, b, a}
-                Crutch.Drawing.RefreshGroup()
-            end,
-            disable = function()
-                if (selectedIndividual == nil) then return true end
-                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
-                return text == nil or text == ""
-            end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_SLIDER,
-            label = "Text size",
-            tooltip = "Size of the text",
-            min = 0,
-            max = 200,
-            step = 1,
-            getFunction = function()
-                if (selectedIndividual) then
-                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize
-                end
-            end,
-            setFunction = function(value)
-                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].textSize = value
-                Crutch.Drawing.RefreshGroup()
-            end,
-            disable = function()
-                if (selectedIndividual == nil) then return true end
-                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
-                return text == nil or text == ""
+                settings:RemoveAllSettings()
+                settings:AddSettings(individualIconSubSettings)
             end,
         },
     }
 
     settings:AddSettings(mainSettings)
+    AddIndividualIconButtons()
+    
     ---------------------------------------------------------------------
 end
