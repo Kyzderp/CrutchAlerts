@@ -23,6 +23,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
     local individualPlayerSubmenus = {}
 
     local function AddIndividualIconButtons()
+        -- TODO: alphabetize
         for name, _ in pairs(Crutch.savedOptions.drawing.attached.individualIcons) do
             individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or {
                 type = LibHarvensAddonSettings.ST_BUTTON,
@@ -208,6 +209,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
                 Crutch.RemoveIndividualIcon(selectedIndividual)
                 Crutch.Drawing.RefreshGroup()
 
+                individualPlayerSubmenus[selectedIndividual] = nil
                 settings:RemoveAllSettings()
                 settings:AddSettings(mainSettings)
                 AddIndividualIconButtons()
@@ -570,12 +572,22 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
 
                 if (not Crutch.savedOptions.drawing.attached.individualIcons[name]) then
                     Crutch.AddIndividualIcon(name)
+
+                    individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or {
+                        type = LibHarvensAddonSettings.ST_BUTTON,
+                        label = name,
+                        tooltip = "Edit individual player icon for " .. name,
+                        clickHandler = function()
+                            selectedIndividual = name
+                            settings:RemoveAllSettings()
+                            settings:AddSettings(individualIconSubSettings)
+                        end,
+                    }
+
+                    settings:AddSetting(individualPlayerSubmenus[name])
                 end
 
-                -- Just go straight to the submenu
                 selectedIndividual = name
-                settings:RemoveAllSettings()
-                settings:AddSettings(individualIconSubSettings)
             end,
         },
     }
