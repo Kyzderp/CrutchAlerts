@@ -602,7 +602,7 @@ Draw.UnregisterAttachedIcons = UnregisterAttachedIcons
 -- Add an icon for a (likely group member) unit
 -- unitTag - the unit tag, e.g. "group1". If grouped, trying to use "player" will automatically use the group unit tag instead
 -- uniqueName - unique name, such as your addon name + mechanic name
--- priority - order in which icons are displayed. Higher number takes precedence. Built-in role icons are currently 100, crown is 105, dead group member icons are 110
+-- priority - order in which icons are displayed. Higher number takes precedence. Built-in role icons are currently 100, crown is 105, dead group member icons are 110. See main/Constants.lua for priorities
 -- texture - path to the texture
 -- size - size to display at. Default 100, but set via user settings
 -- color - color of the icon, in format {r, g, b, a}. To use the user setting for alpha, leave out a, e.g. {1, 0.4, 0.8}

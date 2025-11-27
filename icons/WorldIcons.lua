@@ -259,19 +259,19 @@ local iconGroups = {
     ["OrphicDirections"] = {
         size = GetOrphicIconSize,
         icons = {
-            {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "NE", orientation = {0, math.pi, 0}}, -- TODO orientation
-            {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "SE", orientation = {0, math.pi, 0}}, -- TODO orientation
-            {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "SW", orientation = {0, math.pi, 0}}, -- TODO orientation
-            {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "NW", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "NE", orientation = {0, -math.pi / 4, 0}}, -- TODO orientation
+            {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "SE", orientation = {0, -math.pi * 3 / 4, 0}}, -- TODO orientation
+            {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "SW", orientation = {0, math.pi * 3 / 4, 0}}, -- TODO orientation
+            {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.RED, text = "NW", orientation = {0, math.pi / 4, 0}}, -- TODO orientation
         },
     },
     ["OrphicDirectionsVet"] = {
         size = GetOrphicIconSize,
         icons = {
-            {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "N", orientation = {0, math.pi, 0}}, -- TODO orientation
-            {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "E", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "N", orientation = {0, 0, 0}}, -- TODO orientation
+            {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "E", orientation = {0, -math.pi / 2, 0}}, -- TODO orientation
             {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "S", orientation = {0, math.pi, 0}}, -- TODO orientation
-            {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "W", orientation = {0, math.pi, 0}}, -- TODO orientation
+            {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/assets/shape/diamond.dds", color = C.BLUE, text = "W", orientation = {0, math.pi / 2, 0}}, -- TODO orientation
         },
     },
 
