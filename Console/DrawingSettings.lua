@@ -588,7 +588,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
 
                     -- Insert at the top of the list so it can be used immediately; names will
                     -- be alphabetized later when returning from the submenu
-                    settings:AddSetting(individualPlayerSubmenus[name], #mainSettings)
+                    settings:AddSetting(individualPlayerSubmenus[name], #mainSettings + 1)
                 end
 
                 selectedIndividual = name

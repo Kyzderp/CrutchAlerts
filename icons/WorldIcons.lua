@@ -393,7 +393,7 @@ function Crutch.EnableIconGroup(iconGroupName)
                 if (iconData.texture) then
                     options.texture = {
                         path = iconData.texture,
-                        size = size / 100, -- TODO
+                        size = size / 100,
                         color = {iconData.color[1], iconData.color[2], iconData.color[3], Crutch.savedOptions.drawing.placedPositioning.opacity},
                     }
                 end
@@ -401,7 +401,7 @@ function Crutch.EnableIconGroup(iconGroupName)
                 if (iconData.text) then
                     options.label = {
                         text = iconData.text,
-                        size = size * 0.5, -- TODO
+                        size = size * 0.5,
                         color = {1, 1, 1, Crutch.savedOptions.drawing.placedPositioning.opacity},
                     }
                 end
