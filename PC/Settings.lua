@@ -241,7 +241,7 @@ function Crutch:CreateSettingsMenu()
                     controls = {
                         {
                             type = "description",
-                            text = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above. To find IDs, you can turn on |c99FF99CrutchAlerts > Debug > Show debug on alert|r, and the ID is the first number shown on the small gray text under the alert. Alternatively, you can find IDs from online sources such as ESOLogs, player-maintained spreadsheets, or UESP.",
+                            text = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above. To find IDs, you can turn on |c99FF99CrutchAlerts > Debug > Show debug on alert|r, and the ID is the first number shown on the small gray text under the alert (ignore fake IDs starting with 888). Alternatively, you can find IDs from online sources such as ESOLogs, player-maintained spreadsheets, or UESP.",
                             width = "full",
                         },
                         {
