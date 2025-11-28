@@ -367,7 +367,7 @@ local function DestroyAllRoleIcons()
             RemoveIconForUnit(unitTag, GROUP_ROLE_NAME)
         end
     end
-    RemoveIconForUnit("player", GROUP_ROLE_NAME)
+    RemoveIconForUnit("player", GROUP_ROLE_NAME, true)
 end
 
 ---------------------------------------------------------------------
