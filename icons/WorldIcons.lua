@@ -294,25 +294,25 @@ local iconGroups = {
     ["SEChimeraHM"] = {
         size = GetChimeraIconsSize,
         icons = {
-            -- Yaw: positive is CCW?
+            -- Yaw: positive is CCW
             -- Gryphon
-            {x = 172091, y = 40350, z = 238068, text = "1", orientation = {0, -math.pi / 4, 0}},
-            {x = 172123, y = 40350, z = 242163, text = "2", orientation = {0, -math.pi * 3 / 4, 0}},
-            {x = 170049, y = 40350, z = 242334, text = "3", orientation = {0, math.pi, 0}},
-            {x = 168007, y = 40350, z = 242182, text = "4", orientation = {0, math.pi * 3 / 4, 0}},
-            {x = 168000, y = 40350, z = 238103, text = "5", orientation = {0, math.pi / 4, 0}},
-            -- Lion -- TODO: "synthetic" coords in between gryphon and wamasu
-            {x = 182029, y = 40350, z = 238066, text = "1", orientation = {0, -math.pi / 4, 0}},
-            {x = 182100, y = 40350, z = 242160, text = "2", orientation = {0, -math.pi * 3 / 4, 0}},
-            {x = 180050, y = 40350, z = 242334, text = "3", orientation = {0, math.pi, 0}},
-            {x = 177835, y = 40350, z = 242160, text = "4", orientation = {0, math.pi * 3 / 4, 0}},
-            {x = 177835, y = 40350, z = 238100, text = "5", orientation = {0, math.pi / 4, 0}},
+            {x = 172091, y = 40350, z = 238068, text = "1"},
+            {x = 172123, y = 40350, z = 242163, text = "2"},
+            {x = 170049, y = 40350, z = 242334, text = "3"},
+            {x = 168007, y = 40350, z = 242182, text = "4"},
+            {x = 168000, y = 40350, z = 238103, text = "5"},
+            -- Lion
+            {x = 182032, y = 40350, z = 238069, text = "1"},
+            {x = 182042, y = 40350, z = 242188, text = "2"},
+            {x = 179982, y = 40350, z = 242334, text = "3"},
+            {x = 177970, y = 40350, z = 242203, text = "4"},
+            {x = 177955, y = 40350, z = 238088, text = "5"},
             -- Wamasu -- TODO: "synthetic" coords based on nonHM coords
-            {x = 192112, y = 40350, z = 238100, text = "1", orientation = {0, -math.pi / 4, 0}},
-            {x = 192112, y = 40350, z = 242160, text = "2", orientation = {0, -math.pi * 3 / 4, 0}},
-            {x = 189880, y = 40350, z = 242334, text = "3", orientation = {0, math.pi, 0}},
-            {x = 187670, y = 40350, z = 242160, text = "4", orientation = {0, math.pi * 3 / 4, 0}},
-            {x = 187670, y = 40350, z = 238100, text = "5", orientation = {0, math.pi / 4, 0}},
+            {x = 192112, y = 40350, z = 238100, text = "1"},
+            {x = 192112, y = 40350, z = 242160, text = "2"},
+            {x = 189880, y = 40350, z = 242334, text = "3"},
+            {x = 187670, y = 40350, z = 242160, text = "4"},
+            {x = 187670, y = 40350, z = 238100, text = "5"},
         },
     },
 
@@ -322,20 +322,20 @@ local iconGroups = {
         icons = {
             -- TODO: y is lower for testing, put it back later
             -- Gryphon
-            {x = 172289, y = 40050, z = 240133, text = "1", orientation = {0, -math.pi / 2, 0}},
-            {x = 170051, y = 40050, z = 242334, text = "2", orientation = {0, math.pi, 0}},
-            {x = 167843, y = 40050, z = 240125, text = "3", orientation = {0, math.pi / 2, 0}},
-            {x = 170065, y = 40050, z = 237908, text = "4", orientation = {0, 0, 0}},
-            -- Lion -- TODO: "synthetic" coords based on gryphon and wamasu
-            {x = 182228, y = 40050, z = 240155, text = "1", orientation = {0, -math.pi / 2, 0}},
-            {x = 180050, y = 40050, z = 242334, text = "2", orientation = {0, math.pi, 0}},
-            {x = 178000, y = 40050, z = 240130, text = "3", orientation = {0, math.pi / 2, 0}},
-            {x = 180050, y = 40050, z = 237900, text = "4", orientation = {0, 0, 0}},
+            {x = 172289, y = 40050, z = 240133, text = "1"},
+            {x = 170051, y = 40050, z = 242334, text = "2"},
+            {x = 167843, y = 40050, z = 240125, text = "3"},
+            {x = 170065, y = 40050, z = 237908, text = "4"},
+            -- Lion
+            {x = 182228, y = 40050, z = 240155, text = "1"},
+            {x = 179982, y = 40050, z = 242334, text = "2"},
+            {x = 177792, y = 40050, z = 240115, text = "3"},
+            {x = 179984, y = 40050, z = 237903, text = "4"},
             -- Wamasu
-            {x = 192112, y = 40050, z = 240132, text = "1", orientation = {0, -math.pi / 2, 0}},
-            {x = 189867, y = 40050, z = 242334, text = "2", orientation = {0, math.pi, 0}},
-            {x = 187670, y = 40050, z = 240136, text = "3", orientation = {0, math.pi / 2, 0}},
-            {x = 189892, y = 40050, z = 237901, text = "4", orientation = {0, 0, 0}},
+            {x = 192112, y = 40050, z = 240132, text = "1"},
+            {x = 189867, y = 40050, z = 242334, text = "2"},
+            {x = 187670, y = 40050, z = 240136, text = "3"},
+            {x = 189892, y = 40050, z = 237901, text = "4"},
         },
     },
 }
