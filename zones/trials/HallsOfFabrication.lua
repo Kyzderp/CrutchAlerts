@@ -65,18 +65,7 @@ function Crutch.RegisterHallsOfFabrication()
     -- AG icons
     -- TODO: make them only show on AG
     if (Crutch.savedOptions.hallsoffabrication.showAGIcons) then
-        if (Crutch.savedOptions.experimental) then
-            Crutch.EnableIconGroup("AGExecute")
-        else
-            Crutch.EnableIcon("AGN")
-            Crutch.EnableIcon("AGNE")
-            Crutch.EnableIcon("AGE")
-            Crutch.EnableIcon("AGSE")
-            Crutch.EnableIcon("AGS")
-            Crutch.EnableIcon("AGSW")
-            Crutch.EnableIcon("AGW")
-            Crutch.EnableIcon("AGNW")
-        end
+        Crutch.EnableIconGroup("AGExecute")
     end
 end
 
@@ -92,18 +81,7 @@ function Crutch.UnregisterHallsOfFabrication()
     end
 
     -- AG icons
-    if (Crutch.savedOptions.experimental) then
-        Crutch.DisableIconGroup("AGExecute")
-    else
-        Crutch.DisableIcon("AGN")
-        Crutch.DisableIcon("AGNE")
-        Crutch.DisableIcon("AGE")
-        Crutch.DisableIcon("AGSE")
-        Crutch.DisableIcon("AGS")
-        Crutch.DisableIcon("AGSW")
-        Crutch.DisableIcon("AGW")
-        Crutch.DisableIcon("AGNW")
-    end
+    Crutch.DisableIconGroup("AGExecute")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Halls of Fabrication")
 end

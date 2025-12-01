@@ -116,33 +116,12 @@ local data = {
     ["Sphere7"] = {x = 42475, y = 49977, z = 24515, texture = "CrutchAlerts/assets/shape/diamond_red_7.dds", size = function() return 100 end},
     ["Sphere8"] = {x = 43506, y = 49977, z = 24719, texture = "CrutchAlerts/assets/shape/diamond_red_8.dds", size = function() return 100 end},
 
-    -- Assembly General
-    ["AGN"] = {x = 75001, y = 54955, z = 69658, texture = "CrutchAlerts/assets/directional/N.dds", size = GetAGIconsSize},
-    ["AGNE"] = {x = 75610, y = 54919, z = 69394, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds", size = GetAGIconsSize},
-    ["AGE"] = {x = 75380, y = 54955, z = 69982, texture = "CrutchAlerts/assets/directional/E.dds", size = GetAGIconsSize},
-    ["AGSE"] = {x = 75601, y = 54919, z = 70600, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds", size = GetAGIconsSize},
-    ["AGS"] = {x = 75006, y = 54956, z = 70319, texture = "CrutchAlerts/assets/directional/S.dds", size = GetAGIconsSize},
-    ["AGSW"] = {x = 74410, y = 54918, z = 70614, texture = "CrutchAlerts/assets/shape/diamond_red_2.dds", size = GetAGIconsSize},
-    ["AGW"] = {x = 74630, y = 54956, z = 70005, texture = "CrutchAlerts/assets/directional/W.dds", size = GetAGIconsSize},
-    ["AGNW"] = {x = 74405, y = 54919, z = 69422, texture = "CrutchAlerts/assets/shape/diamond_red_1.dds", size = GetAGIconsSize},
-    -- [22:20:28] [Kyzderp's Derps] zoneId=975 {x = 74993, y = 54954, z = 67024} bottom where AG is
-    -- [22:20:40] [Kyzderp's Derps] zoneId=975 {x = 76056, y = 55424, z = 67556} top just for Y coord
-
     -- Sanity's Edge
     ["AnsuulCenter"] = {x = 200093, y = 30199, z = 40023, texture = "CrutchAlerts/assets/poop.dds", size = GetAnsuulIconSize},
 
     ["CavotSpawn"] = {x = 99882, y = 14160, z = 114738, texture = "CrutchAlerts/assets/poop.dds", size = GetCavotIconSize},
 
-    -- Mirrors on Orphic Shattered Shard
-    ["OrphicN"] = {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/assets/directional/N.dds", size = GetOrphicIconSize},
-    ["OrphicNE"] = {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/assets/directional/NE.dds", size = GetOrphicIconSize},
-    ["OrphicE"] = {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/assets/directional/E.dds", size = GetOrphicIconSize},
-    ["OrphicSE"] = {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/assets/directional/SE.dds", size = GetOrphicIconSize},
-    ["OrphicS"] = {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/assets/directional/S.dds", size = GetOrphicIconSize},
-    ["OrphicSW"] = {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/assets/directional/SW.dds", size = GetOrphicIconSize},
-    ["OrphicW"] = {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/assets/directional/W.dds", size = GetOrphicIconSize},
-    ["OrphicNW"] = {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/assets/directional/NW.dds", size = GetOrphicIconSize},
-
+    -- Mirrors on Orphic Shattered Shard (directions in Space)
     ["OrphicNum1"] = {x = 149348, y = 22867, z = 85334, texture = "CrutchAlerts/assets/shape/diamond_red_1.dds", size = GetOrphicNumIconSize},
     ["OrphicNum2"] = {x = 151041, y = 22864, z = 86169, texture = "CrutchAlerts/assets/shape/diamond_red_2.dds", size = GetOrphicNumIconSize},
     ["OrphicNum3"] = {x = 151956, y = 22867, z = 87950, texture = "CrutchAlerts/assets/shape/diamond_red_3.dds", size = GetOrphicNumIconSize},
