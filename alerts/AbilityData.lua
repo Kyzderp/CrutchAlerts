@@ -137,6 +137,7 @@ Crutch.uninterruptible = {
     [233598] = true, -- Spark Smash (Jynorah)
     [233610] = true, -- Blazing Smash (Skorkhif)
     [157466] = true, -- Soul Remnant
+    [163153] = true, -- Coalescing Shadows (Varallion)
 }
 
 ---------------------------------------------------------------------
@@ -336,6 +337,7 @@ Crutch.others = {
         [233762] = true, -- Abduct
         [234276] = true, -- Blazing Curse (Skorkhif)
         [234000] = true, -- Sparking Curse (Jynorah)
+        [236381] = true, -- True Shot (Coldharbour Sinewshot)
     },
 
     -- Rockgrove

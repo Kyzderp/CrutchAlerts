@@ -892,7 +892,7 @@ function Crutch:CreateSettingsMenu()
                         {
                             type = "checkbox",
                             name = "Hide icons behind objects",
-                            tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings",
+                            tooltip = "Whether to use depth buffers to have icons be hidden by objects. For example, if this is ON, you won't be able to see the icon behind a tree. In order for this setting to work while ON, you must have \"SubSampling Quality\" set to \"High\" in your Video settings. Some markers, mainly ones that use text labels, will always show on top of objects regardless of this setting because of API limitations.",
                             default = Crutch.defaultOptions.drawing.placedPositioning.useDepthBuffers,
                             getFunc = function() return Crutch.savedOptions.drawing.placedPositioning.useDepthBuffers end,
                             setFunc = function(value)

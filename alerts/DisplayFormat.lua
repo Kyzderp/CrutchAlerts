@@ -99,6 +99,7 @@ Crutch.format = {
     [238800] = 800, -- Phantasmal Barrage
     [234276] = 1105, -- Blazing Curse (Skorkhif)
     [234000] = 1405, -- Sparking Curse (Jynorah)
+    [236381] = 30500, -- True Shot (Coldharbour Sinewshot)
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)
@@ -117,6 +118,7 @@ Crutch.format = {
 -- Sanity's Edge
     [183855] = 45, -- The Ritual (Ansuul maze)
     [199344] = 100, -- Sunburst (Ansuul)
+    [184802] = 30500, -- True Shot (Contramagis Archer)
 
 -- Sunspire
     [122012] = 130402.5, -- Storm Crush (Gale-Claw)
