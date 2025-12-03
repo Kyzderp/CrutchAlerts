@@ -62,8 +62,7 @@ local function OnPortalCommon(changeType, portal)
     elseif (powerMax == 46572396) then
         iconGroupString = iconGroupString .. "Vet"
     else
-        -- TODO: norm has the 3 along the back wall
-        return
+        iconGroupString = iconGroupString .. "Norm"
     end
 
     Crutch.EnableIconGroup(iconGroupString .. portal)
@@ -94,15 +93,7 @@ function Crutch.RegisterSanitysEdge()
         Crutch.EnableIcon("AnsuulCenter")
     end
 
-    -- TODO: enable depending on difficulty and room
-    if (Crutch.savedOptions.experimental) then
-        -- Crutch.EnableIconGroup("SEChimeraVetGryphon")
-        -- Crutch.EnableIconGroup("SEChimeraVetLion")
-        -- Crutch.EnableIconGroup("SEChimeraVetWamasu")
-        -- Crutch.EnableIconGroup("SEChimeraHMGryphon")
-        -- Crutch.EnableIconGroup("SEChimeraHMLion")
-        -- Crutch.EnableIconGroup("SEChimeraHMWamasu")
-
+    if (Crutch.savedOptions.sanitysedge.showChimeraIcons) then
         -- Mantle: Gryphon 183640
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, OnGryphonPortal)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
@@ -117,7 +108,6 @@ function Crutch.RegisterSanitysEdge()
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, OnWamasuPortal)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 184984)
-
     end
 end
 
