@@ -45,6 +45,57 @@ lion all
 7{x = 177792, y = 40351, z = 240115}
 8{x = 177955, y = 40350, z = 238088}
 ]]
+local function DisableChimeraIcons()
+    Crutch.DisableIconGroup("SEChimeraVetGryphon")
+    Crutch.DisableIconGroup("SEChimeraVetLion")
+    Crutch.DisableIconGroup("SEChimeraVetWamasu")
+    Crutch.DisableIconGroup("SEChimeraHMGryphon")
+    Crutch.DisableIconGroup("SEChimeraHMLion")
+    Crutch.DisableIconGroup("SEChimeraHMWamasu")
+end
+
+-- TODO: how many oracles on norm?
+-- TODO: is it always boss1? maybe better to check boss1 and boss2 for chimera only?
+-- Vet Twelvane: 17464648 Chimera: 46572396
+-- HM Twelvane: 34929296 Chimera: 93144792
+local function OnPortalCommon(changeType, portal)
+    -- Theoretically the player activated should already disable them?
+    if (changeType == EFFECT_RESULT_FADED) then
+        DisableChimeraIcons()
+        return
+    end
+
+    if (changeType ~= EFFECT_RESULT_GAINED) then
+        return
+    end
+
+    local iconGroupString = "SEChimera"
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+
+    if (powerMax == 34929296 or powerMax == 93144792) then
+        iconGroupString = iconGroupString .. "HM"
+    elseif (powerMax == 17464648 or powerMax == 46572396) then
+        iconGroupString = iconGroupString .. "Vet"
+    else
+        -- TODO: norm?
+        return
+    end
+
+    Crutch.EnableIconGroup(iconGroupString .. portal)
+end
+
+
+local function OnGryphonPortal(_, changeType)
+    OnPortalCommon(changeType, "Gryphon")
+end
+
+local function OnLionPortal(_, changeType)
+    OnPortalCommon(changeType, "Lion")
+end
+
+local function OnWamasuPortal(_, changeType)
+    OnPortalCommon(changeType, "Wamasu")
+end
 
 
 ---------------------------------------------------------------------
@@ -58,10 +109,30 @@ function Crutch.RegisterSanitysEdge()
         Crutch.EnableIcon("AnsuulCenter")
     end
 
-    -- TODO: enable depending on difficulty
+    -- TODO: enable depending on difficulty and room
     if (Crutch.savedOptions.experimental) then
-        Crutch.EnableIconGroup("SEChimeraVet")
-        Crutch.EnableIconGroup("SEChimeraHM")
+        -- Crutch.EnableIconGroup("SEChimeraVetGryphon")
+        -- Crutch.EnableIconGroup("SEChimeraVetLion")
+        -- Crutch.EnableIconGroup("SEChimeraVetWamasu")
+        -- Crutch.EnableIconGroup("SEChimeraHMGryphon")
+        -- Crutch.EnableIconGroup("SEChimeraHMLion")
+        -- Crutch.EnableIconGroup("SEChimeraHMWamasu")
+
+        -- Mantle: Gryphon 183640
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, OnGryphonPortal)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 183640)
+
+        -- Mantle: Lion 184983
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, OnLionPortal)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 184983)
+
+        -- Mantle: Wamasu 184984
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, OnWamasuPortal)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 184984)
+
     end
 end
 
@@ -70,8 +141,11 @@ function Crutch.UnregisterSanitysEdge()
     Crutch.DisableIcon("AnsuulCenter")
 
     -- Chimera oracle icons
-    Crutch.DisableIconGroup("SEChimeraVet")
-    Crutch.DisableIconGroup("SEChimeraHM")
+    DisableChimeraIcons()
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Sanity's Edge")
 end

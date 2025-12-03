@@ -270,22 +270,29 @@ local iconGroups = {
     },
 
     -- SE Chimera oracles HM
-    ["SEChimeraHM"] = {
+    ["SEChimeraHMGryphon"] = {
         size = GetChimeraIconsSize,
         icons = {
-            -- Yaw: positive is CCW
-            -- Gryphon
             {x = 172091, y = 40350, z = 238068, text = "1"},
             {x = 172123, y = 40350, z = 242163, text = "2"},
             {x = 170049, y = 40350, z = 242334, text = "3"},
             {x = 168007, y = 40350, z = 242182, text = "4"},
             {x = 168000, y = 40350, z = 238103, text = "5"},
-            -- Lion
+        },
+    },
+    ["SEChimeraHMLion"] = {
+        size = GetChimeraIconsSize,
+        icons = {
             {x = 182032, y = 40350, z = 238069, text = "1"},
             {x = 182042, y = 40350, z = 242188, text = "2"},
             {x = 179982, y = 40350, z = 242334, text = "3"},
             {x = 177970, y = 40350, z = 242203, text = "4"},
             {x = 177955, y = 40350, z = 238088, text = "5"},
+        },
+    },
+    ["SEChimeraHMWamasu"] = {
+        size = GetChimeraIconsSize,
+        icons = {
             -- Wamasu -- TODO: "synthetic" coords based on nonHM coords
             {x = 192112, y = 40350, z = 238100, text = "1"},
             {x = 192112, y = 40350, z = 242160, text = "2"},
@@ -296,7 +303,7 @@ local iconGroups = {
     },
 
     -- SE Chimera oracles vet
-    ["SEChimeraVet"] = {
+    ["SEChimeraVetGryphon"] = {
         size = GetChimeraIconsSize,
         icons = {
             -- TODO: y is lower for testing, put it back later
@@ -305,12 +312,22 @@ local iconGroups = {
             {x = 170051, y = 40050, z = 242334, text = "2"},
             {x = 167843, y = 40050, z = 240125, text = "3"},
             {x = 170065, y = 40050, z = 237908, text = "4"},
-            -- Lion
+        },
+    },
+    ["SEChimeraVetLion"] = {
+        size = GetChimeraIconsSize,
+        icons = {
+            -- TODO: y is lower for testing, put it back later
             {x = 182228, y = 40050, z = 240155, text = "1"},
             {x = 179982, y = 40050, z = 242334, text = "2"},
             {x = 177792, y = 40050, z = 240115, text = "3"},
             {x = 179984, y = 40050, z = 237903, text = "4"},
-            -- Wamasu
+        },
+    },
+    ["SEChimeraVetWamasu"] = {
+        size = GetChimeraIconsSize,
+        icons = {
+            -- TODO: y is lower for testing, put it back later
             {x = 192112, y = 40050, z = 240132, text = "1"},
             {x = 189867, y = 40050, z = 242334, text = "2"},
             {x = 187670, y = 40050, z = 240136, text = "3"},
