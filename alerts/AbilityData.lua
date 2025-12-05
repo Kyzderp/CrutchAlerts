@@ -166,6 +166,8 @@ Crutch.testing = {
 
     [233512] = true, -- Valneer Titanic Clash Leap
     [233500] = true, -- Myrinax Titanic Clash Leap
+
+    [70466] = true, -- 35% Boss Speed Buff (Cloudrest)
 }
 
 ---------------------------------------------------------------------

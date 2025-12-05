@@ -55,6 +55,22 @@ Crutch.UnspoofBoss = UnspoofBoss
 
 
 ---------------------------------------------------------------------------------------------------
+-- Threshold overrides, to be used when threshold determination is
+-- more complicated than just a name match
+---------------------------------------------------------------------------------------------------
+local thresholdOverrides = {}
+local function AddThresholdOverride(name, thresholds)
+    thresholdOverrides[name] = thresholds
+end
+Crutch.AddThresholdOverride = AddThresholdOverride
+
+local function RemoveThresholdOverride(name)
+    thresholdOverrides[name] = nil
+end
+Crutch.RemoveThresholdOverride = RemoveThresholdOverride
+
+
+---------------------------------------------------------------------------------------------------
 -- Util
 ---------------------------------------------------------------------------------------------------
 local function dbg(msg)
@@ -199,7 +215,10 @@ local function GetBossThresholds(optionalBossName)
     -- in Crutch is on vOC titans and vAS minis, none of which would be the first boss tag
     local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or GetUnitNameIfExists(GetFirstValidBossTag()))
     local data
-    if (GetZoneId(GetUnitZoneIndex("player")) == 1436) then
+    if (thresholdOverrides[bossName]) then
+        -- Overrides for things like Z'Maja that need to be determined by code
+        data = thresholdOverrides[bossName]
+    elseif (GetZoneId(GetUnitZoneIndex("player")) == 1436) then
         -- Endless Archive has different boss thresholds
         data = BHB.eaThresholds[bossName]
     else

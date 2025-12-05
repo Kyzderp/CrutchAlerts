@@ -330,6 +330,61 @@ local function OnAmplificationChanged(_, changeType, _, _, unitTag, _, _, stackC
 end
 
 ---------------------------------------------------------------------
+-- Boss health bar thresholds
+---------------------------------------------------------------------
+local knownMinis = {"Siroria", "Relequen", "Galenwe"}
+local knownHealths = {[1] = {50}, [2] = {65, 35}, [3] = {75, 50, 25}}
+local foundMiniShades = {} -- Key by mini name just in case there are dupes?
+local zmajaThresholds = {}
+
+local function OverrideBHBThresholds()
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CRBossSpeedTimeout")
+
+    local numMinis = NonContiguousCount(foundMiniShades)
+    ZO_ClearTable(zmajaThresholds)
+
+    -- For each threshold...
+    for _, threshold in ipairs(knownHealths[numMinis]) do
+        -- ... find the earliest mini in the list that's been found...
+        local mini
+        for _, name in ipairs(knownMinis) do
+            if (foundMiniShades[name]) then
+                -- ... remove it from found so the next time won't match that mini...
+                foundMiniShades[name] = nil
+                mini = name
+                break
+            end
+        end
+
+        -- ... and add it to the thresholds
+        zmajaThresholds[threshold] = mini
+    end
+
+    Crutch.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds) -- TODO
+end
+
+-- TODO: remove override when execute?
+-- TODO: remove override on boss changed
+-- TODO: clear tables too
+local function OnBossSpeed(_, _, _, _, _, _, sourceName, _, targetName)
+    d(tostring(sourceName) .. " > " .. tostring(targetName))
+
+    if (targetName == Crutch.GetCapitalizedString(CRUTCH_BHB_SHADE_OF_SIRORIA)) then
+        foundMiniShades["Siroria"] = true
+    elseif (targetName == Crutch.GetCapitalizedString(CRUTCH_BHB_SHADE_OF_SIRORIA)) then -- TODO: rele
+        foundMiniShades["Relequen"] = true
+    elseif (targetName == Crutch.GetCapitalizedString(CRUTCH_BHB_SHADE_OF_SIRORIA)) then -- TODO: galenwe
+        foundMiniShades["Galenwe"] = true
+    else
+        return
+    end
+
+    -- Since we've found a new shade, set a short timeout to wait for
+    -- other shades to be found
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CRBossSpeedTimeout", 500, OverrideBHBThresholds)
+end
+
+---------------------------------------------------------------------
 -- Register/Unregister
 local origOSIUnitErrorCheck = nil
 local origOSIGetIconDataForPlayer = nil
@@ -442,6 +497,13 @@ function Crutch.RegisterCloudrest()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 109022)
     end
 
+    -- Listen for mini shades to determine Z'Maja thresholds
+    if (Crutch.savedOptions.bossHealthBar.enabled) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CRBossSpeedBuff", EVENT_COMBAT_EVENT, OnBossSpeed)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRBossSpeedBuff", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRBossSpeedBuff", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 70466)
+    end
+
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
@@ -493,6 +555,7 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CRBossSpeedBuff", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
