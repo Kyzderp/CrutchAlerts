@@ -96,6 +96,8 @@ SafeAddString(CRUTCH_BHB_SAINT_OLMS_THE_JUST, "Святой Олмс Справ�
 SafeAddString(CRUTCH_BHB_SARYDIL, "Саридил^F")
 SafeAddString(CRUTCH_BHB_SCORION_BROODLORD, "Скорион — вожак выводка^n")
 SafeAddString(CRUTCH_BHB_SENTINEL_AKSALAZ, "Страж Аксалаз^M")
+SafeAddString(CRUTCH_BHB_SHADE_OF_GALENWE, "Тень Галенве^M")
+SafeAddString(CRUTCH_BHB_SHADE_OF_RELEQUEN, "Тень Релеквена^M")
 SafeAddString(CRUTCH_BHB_SHADE_OF_SIRORIA, "Тень Сирории^F")
 SafeAddString(CRUTCH_BHB_SHATTERED_CHAMPION, "Расколотый воин^n")
 SafeAddString(CRUTCH_BHB_SIEGE_MASTER_MALTHORAS, "Командующий осадой Малторас^M")
@@ -140,3 +142,4 @@ SafeAddString(CRUTCH_BHB_ZAAN_THE_SCALECALLER, "Заан Воспеватель�
 SafeAddString(CRUTCH_BHB_ZBAZA, "З’База^F")
 SafeAddString(CRUTCH_BHB_ZELVRAAK_THE_UNBREATHING, "Зельврак Бездыханный^Mln{1}a{2}")
 SafeAddString(CRUTCH_BHB_ZHAJHASSA_THE_FORGOTTEN, "Задж’хасса Забытый^M")
+SafeAddString(CRUTCH_BHB_ZMAJA, "З'Маджа^F")

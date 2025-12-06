@@ -332,56 +332,59 @@ end
 ---------------------------------------------------------------------
 -- Boss health bar thresholds
 ---------------------------------------------------------------------
-local knownMinis = {"Siroria", "Relequen", "Galenwe"}
 local knownHealths = {[1] = {50}, [2] = {65, 35}, [3] = {75, 50, 25}}
 local foundMiniShades = {} -- Key by mini name just in case there are dupes?
 local zmajaThresholds = {}
+local foundMinis = false
 
 local function OverrideBHBThresholds()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CRBossSpeedTimeout")
 
+    foundMinis = true
     local numMinis = NonContiguousCount(foundMiniShades)
     ZO_ClearTable(zmajaThresholds)
 
-    -- For each threshold...
+    -- Add each threshold
     for _, threshold in ipairs(knownHealths[numMinis]) do
-        -- ... find the earliest mini in the list that's been found...
-        local mini
-        for _, name in ipairs(knownMinis) do
-            if (foundMiniShades[name]) then
-                -- ... remove it from found so the next time won't match that mini...
-                foundMiniShades[name] = nil
-                mini = name
-                break
-            end
-        end
-
-        -- ... and add it to the thresholds
-        zmajaThresholds[threshold] = mini
+        zmajaThresholds[threshold] = "Mini"
     end
 
-    Crutch.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds) -- TODO
+    Crutch.dbgOther("Inferred " .. numMinis .. " minis, overriding thresholds...")
+    Crutch.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds)
+    Crutch.RedrawBHBStages()
 end
 
 -- TODO: remove override when execute?
 -- TODO: remove override on boss changed
 -- TODO: clear tables too
-local function OnBossSpeed(_, _, _, _, _, _, sourceName, _, targetName)
-    d(tostring(sourceName) .. " > " .. tostring(targetName))
+local function OnMiniBoss(_, _, _, _, _, _, _, _, _, _, _, _, _, _, sourceUnitId, targetUnitId)
+    if (foundMinis) then return end
 
-    if (targetName == Crutch.GetCapitalizedString(CRUTCH_BHB_SHADE_OF_SIRORIA)) then
-        foundMiniShades["Siroria"] = true
-    elseif (targetName == Crutch.GetCapitalizedString(CRUTCH_BHB_SHADE_OF_SIRORIA)) then -- TODO: rele
-        foundMiniShades["Relequen"] = true
-    elseif (targetName == Crutch.GetCapitalizedString(CRUTCH_BHB_SHADE_OF_SIRORIA)) then -- TODO: galenwe
-        foundMiniShades["Galenwe"] = true
-    else
-        return
-    end
+    -- We don't get the target names for this >:[
+    Crutch.dbgSpam("detected a mini, unit ID " .. targetUnitId)
+    foundMiniShades[targetUnitId] = true
 
     -- Since we've found a new shade, set a short timeout to wait for
     -- other shades to be found
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CRBossSpeedTimeout", 500, OverrideBHBThresholds)
+end
+
+---------------------------------------------------------------------
+-- Reset/cleanup
+local function ResetValuesOnWipe()
+    Crutch.dbgOther("|cFF7777Resetting Cloudrest values|r")
+    amuletSmashed = false
+    spearsRevealed = 0
+    spearsSent = 0
+    orbsDunked = 0
+    Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
+    numFrosts[HOARFROST_ID] = 0
+    numFrosts[HOARFROST_EXECUTE_ID] = 0
+
+    -- mini detection
+    foundMinis = false
+    ZO_ClearTable(foundMiniShades)
+    Crutch.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA))
 end
 
 ---------------------------------------------------------------------
@@ -392,16 +395,7 @@ local origOSIGetIconDataForPlayer = nil
 function Crutch.RegisterCloudrest()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Cloudrest")
 
-    Crutch.RegisterExitedGroupCombatListener("ExitedCombatCloudrest", function()
-        Crutch.dbgOther("|cFF7777Resetting Cloudrest values|r")
-        amuletSmashed = false
-        spearsRevealed = 0
-        spearsSent = 0
-        orbsDunked = 0
-        Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
-        numFrosts[HOARFROST_ID] = 0
-        numFrosts[HOARFROST_EXECUTE_ID] = 0
-    end)
+    Crutch.RegisterExitedGroupCombatListener("ExitedCombatCloudrest", ResetValuesOnWipe)
 
     -- Register break amulet
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT, OnAmuletSmashed)
@@ -499,9 +493,9 @@ function Crutch.RegisterCloudrest()
 
     -- Listen for mini shades to determine Z'Maja thresholds
     if (Crutch.savedOptions.bossHealthBar.enabled) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CRBossSpeedBuff", EVENT_COMBAT_EVENT, OnBossSpeed)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRBossSpeedBuff", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRBossSpeedBuff", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 70466)
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, OnMiniBoss)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 105541)
     end
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
@@ -555,7 +549,7 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CRBossSpeedBuff", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
@@ -565,11 +559,7 @@ function Crutch.UnregisterCloudrest()
 
     Crutch.Drawing.UnregisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER)
 
-    amuletSmashed = false
-    spearsRevealed = 0
-    spearsSent = 0
-    orbsDunked = 0
-    Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
+    ResetValuesOnWipe()
 
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(FROST_UNIQUE_NAME)

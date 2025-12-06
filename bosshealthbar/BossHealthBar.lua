@@ -378,6 +378,7 @@ local function RedrawStages(optionalBossName)
         end
     end
 end
+Crutch.RedrawBHBStages = RedrawStages
 
 local logNextPowerUpdate = 0 -- Used to log the next X health updates after max health change because sometimes the stages get grayed out :angy:
 local powerUpdateDebug = false -- Manual enabling of health update spam

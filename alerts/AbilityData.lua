@@ -167,7 +167,8 @@ Crutch.testing = {
     [233512] = true, -- Valneer Titanic Clash Leap
     [233500] = true, -- Myrinax Titanic Clash Leap
 
-    [70466] = true, -- 35% Boss Speed Buff (Cloudrest)
+    -- [70466] = true, -- 35% Boss Speed Buff (Cloudrest)
+    [105541] = true, -- MBs Dynamic Dspn (Cloudrest mini shades)
 }
 
 ---------------------------------------------------------------------
