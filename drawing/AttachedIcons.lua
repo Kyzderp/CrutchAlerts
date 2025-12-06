@@ -377,6 +377,9 @@ local DEAD_Y_OFFSET = 100
 local deadColorOverrides = {} -- {[unitTag] = {0, 1, 0},}
 
 local function OnDeathStateChanged(_, unitTag, isDead)
+    -- To exclude companions and possibly pets too
+    if (unitTag ~= "player" and not string.find(unitTag, "^group%d+$")) then return end
+
     if (isDead) then
         -- No deadge
         if (not Crutch.savedOptions.drawing.attached.showDead) then
