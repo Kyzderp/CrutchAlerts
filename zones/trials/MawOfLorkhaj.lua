@@ -294,7 +294,7 @@ local function RegisterTwins()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, OnConversion)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsLunarConversion", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 75460) -- Conversion (to lunar)
 
-    if (OSI) then
+    if (OSI and OSI.GetIconDataForPlayer) then
         -- Override the dead icon to be whichever color
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.GetIconDataForPlayer")
         origOSIGetIconDataForPlayer = OSI.GetIconDataForPlayer

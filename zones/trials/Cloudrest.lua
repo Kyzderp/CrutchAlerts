@@ -492,14 +492,14 @@ function Crutch.RegisterCloudrest()
     end
 
     -- Listen for mini shades to determine Z'Maja thresholds
-    if (Crutch.savedOptions.bossHealthBar.enabled) then
+    if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.experimental) then -- TODO
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, OnMiniBoss)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 105541)
     end
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
-    if (OSI) then
+    if (OSI and OSI.UnitErrorCheck and OSI.GetIconDataForPlayer) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")
         origOSIUnitErrorCheck = OSI.UnitErrorCheck
         OSI.UnitErrorCheck = function(unitTag, allowSelf)

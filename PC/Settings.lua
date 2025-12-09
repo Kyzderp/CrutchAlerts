@@ -1260,7 +1260,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.cloudrest.deathIconColor = value
                     end,
                     width = "full",
-                    disabled = function() return OSI == nil end,
+                    disabled = function() return OSI == nil or OSI.UnitErrorCheck == nil or OSI.GetIconDataForPlayer == nil end,
                 },
             })),
         },

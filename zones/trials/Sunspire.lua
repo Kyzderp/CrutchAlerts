@@ -422,7 +422,7 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 125693)
 
      -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
-    if (OSI) then
+    if (OSI and OSI.UnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
         origOSIUnitErrorCheck = OSI.UnitErrorCheck
         OSI.UnitErrorCheck = function(unitTag, allowSelf)
