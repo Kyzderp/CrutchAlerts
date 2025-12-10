@@ -1896,33 +1896,33 @@ function Crutch:CreateSettingsMenu()
             type = "submenu",
             name = "Sanity's Edge",
             controls = Crutch.GetProminentSettings(1427, {
-                {
-                    type = "checkbox",
-                    name = "Show Chimera puzzle numbers",
-                    tooltip = "In the Twelvane + Chimera fight, shows numbers on the puzzle glyphics",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.sanitysedge.showChimeraIcons end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.sanitysedge.showChimeraIcons = value
-                        Crutch.OnPlayerActivated()
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "slider",
-                    name = "Chimera icons size",
-                    min = 20,
-                    max = 300,
-                    step = 10,
-                    default = 150,
-                    width = "full",
-                    getFunc = function() return Crutch.savedOptions.sanitysedge.chimeraIconsSize end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.sanitysedge.chimeraIconsSize = value
-                        Crutch.OnPlayerActivated() -- TODO: maybe update immediately
-                    end,
-                    disabled = function() return not Crutch.savedOptions.sanitysedge.showChimeraIcons end,
-                },
+                -- {
+                --     type = "checkbox",
+                --     name = "Show Chimera puzzle numbers",
+                --     tooltip = "In the Twelvane + Chimera fight, shows numbers on the puzzle glyphics",
+                --     default = true,
+                --     getFunc = function() return Crutch.savedOptions.sanitysedge.showChimeraIcons end,
+                --     setFunc = function(value)
+                --         Crutch.savedOptions.sanitysedge.showChimeraIcons = value
+                --         Crutch.OnPlayerActivated() -- TODO: maybe update immediately
+                --     end,
+                --     width = "full",
+                -- },
+                -- {
+                --     type = "slider",
+                --     name = "Chimera icons size",
+                --     min = 20,
+                --     max = 300,
+                --     step = 10,
+                --     default = 150,
+                --     width = "full",
+                --     getFunc = function() return Crutch.savedOptions.sanitysedge.chimeraIconsSize end,
+                --     setFunc = function(value)
+                --         Crutch.savedOptions.sanitysedge.chimeraIconsSize = value
+                --         Crutch.OnPlayerActivated() -- TODO: maybe update immediately
+                --     end,
+                --     disabled = function() return not Crutch.savedOptions.sanitysedge.showChimeraIcons end,
+                -- },
                 {
                     type = "checkbox",
                     name = "Show center of Ansuul arena",

@@ -10,6 +10,7 @@ wamasu room nonHM
 
 HM: 2, 4, 5, 6, 8
 Vet: 3, 5, 7, 1
+Norm: 4, 5, 6
 
 gryphon all
 1{x = 170065, z = 237908}
@@ -30,6 +31,16 @@ lion all
 6{x = 177970, y = 40350, z = 242203}
 7{x = 177792, y = 40351, z = 240115}
 8{x = 177955, y = 40350, z = 238088}
+
+wamasu all
+1{x = 189900, y = 40350, z = 237900}
+2{x = 191961, y = 40350, z = 238086}
+3{x = 192115, y = 40350, z = 240117}
+4{x = 191969, y = 40350, z = 242178}
+5{x = 189909, y = 40350, z = 242334}
+6{x = 187824, y = 40350, z = 242171}
+7{x = 187671, y = 40350, z = 240128}
+8{x = 187852, y = 40350, z = 238106}
 ]]
 local function DisableChimeraIcons()
     Crutch.DisableIconGroup("SEChimeraVetGryphon")
@@ -93,7 +104,7 @@ function Crutch.RegisterSanitysEdge()
         Crutch.EnableIcon("AnsuulCenter")
     end
 
-    if (Crutch.savedOptions.sanitysedge.showChimeraIcons) then
+    if (Crutch.savedOptions.sanitysedge.showChimeraIcons and Crutch.savedOptions.experimental) then
         -- Mantle: Gryphon 183640
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, OnGryphonPortal)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")

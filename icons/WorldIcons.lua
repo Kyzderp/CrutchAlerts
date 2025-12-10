@@ -293,12 +293,11 @@ local iconGroups = {
     ["SEChimeraHMWamasu"] = {
         size = GetChimeraIconsSize,
         icons = {
-            -- Wamasu -- TODO: "synthetic" coords based on nonHM coords
-            {x = 192112, y = 40350, z = 238100, text = "1"},
-            {x = 192112, y = 40350, z = 242160, text = "2"},
-            {x = 189880, y = 40350, z = 242334, text = "3"},
-            {x = 187670, y = 40350, z = 242160, text = "4"},
-            {x = 187670, y = 40350, z = 238100, text = "5"},
+            {x = 191961, y = 40350, z = 238086, text = "1"},
+            {x = 191969, y = 40350, z = 242178, text = "2"},
+            {x = 189909, y = 40350, z = 242334, text = "3"},
+            {x = 187824, y = 40350, z = 242171, text = "4"},
+            {x = 187852, y = 40350, z = 238106, text = "5"},
         },
     },
 
@@ -324,10 +323,10 @@ local iconGroups = {
     ["SEChimeraVetWamasu"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 192112, y = 40350, z = 240132, text = "1"},
-            {x = 189867, y = 40350, z = 242334, text = "2"},
-            {x = 187670, y = 40350, z = 240136, text = "3"},
-            {x = 189892, y = 40350, z = 237901, text = "4"},
+            {x = 192115, y = 40350, z = 240117, text = "1"},
+            {x = 189909, y = 40350, z = 242334, text = "2"},
+            {x = 187671, y = 40350, z = 240128, text = "3"},
+            {x = 189900, y = 40350, z = 237900, text = "4"},
         },
     },
 
@@ -351,10 +350,9 @@ local iconGroups = {
     ["SEChimeraNormWamasu"] = {
         size = GetChimeraIconsSize,
         icons = {
-            -- Wamasu -- TODO: "synthetic" coords based on nonHM coords
-            {x = 192112, y = 40350, z = 242160, text = "1"},
-            {x = 189880, y = 40350, z = 242334, text = "2"},
-            {x = 187670, y = 40350, z = 242160, text = "3"},
+            {x = 191969, y = 40350, z = 242178, text = "1"},
+            {x = 189909, y = 40350, z = 242334, text = "2"},
+            {x = 187824, y = 40350, z = 242171, text = "3"},
         },
     },
 }
