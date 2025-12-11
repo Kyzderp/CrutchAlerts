@@ -169,6 +169,10 @@ Crutch.testing = {
 
     -- [70466] = true, -- 35% Boss Speed Buff (Cloudrest)
     [105541] = true, -- MBs Dynamic Dspn (Cloudrest mini shades)
+
+    [183640] = true, -- Mantle: Gryphon
+    [184983] = true, -- Mantle: Lion
+    [184984] = true, -- Mantle: Wamasu
 }
 
 ---------------------------------------------------------------------

@@ -54,13 +54,15 @@ end
 -- Vet Twelvane: 17464648 Chimera: 46572396
 -- HM Twelvane: 34929296 Chimera: 93144792
 local function OnPortalCommon(changeType, portal)
+    Crutch.dbgOther(portal .. " " .. changeType)
+
     -- Theoretically the player activated should already disable them?
-    if (changeType == EFFECT_RESULT_FADED) then
+    if (changeType == EFFECT_RESULT_FADED or changeType == ACTION_RESULT_EFFECT_FADED) then
         DisableChimeraIcons()
         return
     end
 
-    if (changeType ~= EFFECT_RESULT_GAINED) then
+    if (changeType ~= EFFECT_RESULT_GAINED and changeType ~= ACTION_RESULT_EFFECT_GAINED) then
         return
     end
 
@@ -81,15 +83,34 @@ end
 
 
 local function OnGryphonPortal(_, changeType)
+    Crutch.dbgOther("effect Gryphon")
     OnPortalCommon(changeType, "Gryphon")
 end
 
 local function OnLionPortal(_, changeType)
+    Crutch.dbgOther("effect Lion")
     OnPortalCommon(changeType, "Lion")
 end
 
 local function OnWamasuPortal(_, changeType)
+    Crutch.dbgOther("effect Wamasu")
     OnPortalCommon(changeType, "Wamasu")
+end
+
+-- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+local function OnGryphonPortalCombat(_, result, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId)
+    Crutch.dbgOther("combat Gryphon")
+    OnPortalCommon(result, "Gryphon")
+end
+
+local function OnLionPortalCombat(_, result, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId)
+    Crutch.dbgOther("combat Lion")
+    OnPortalCommon(result, "Lion")
+end
+
+local function OnWamasuPortalCombat(_, result, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId)
+    Crutch.dbgOther("combat Wamasu")
+    OnPortalCommon(result, "Wamasu")
 end
 
 
@@ -110,15 +131,27 @@ function Crutch.RegisterSanitysEdge()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 183640)
 
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_COMBAT_EVENT, OnGryphonPortalCombat)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 183640)
+
         -- Mantle: Lion 184983
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, OnLionPortal)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 184983)
 
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SELionPortal", EVENT_COMBAT_EVENT, OnLionPortalCombat)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 184983)
+
         -- Mantle: Wamasu 184984
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, OnWamasuPortal)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 184984)
+
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_COMBAT_EVENT, OnWamasuPortalCombat)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 184984)
     end
 end
 
