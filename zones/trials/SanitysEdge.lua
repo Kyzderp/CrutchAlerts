@@ -2,14 +2,8 @@ local Crutch = CrutchAlerts
 local C = Crutch.Constants
 
 --[[
-wamasu room nonHM
-[03:20:16] [Kyzderp's Derps] zoneId=1427 {x = 192112, y = 40350, z = 240132}
-[03:20:21] [Kyzderp's Derps] zoneId=1427 {x = 189867, y = 40350, z = 242334}
-[03:20:24] [Kyzderp's Derps] zoneId=1427 {x = 187670, y = 40350, z = 240136}
-[03:20:28] [Kyzderp's Derps] zoneId=1427 {x = 189892, y = 40350, z = 237901}
-
 HM: 2, 4, 5, 6, 8
-Vet: 3, 5, 7, 1
+Vet: 1, 3, 5, 7
 Norm: 4, 5, 6
 
 gryphon all
@@ -51,66 +45,35 @@ local function DisableChimeraIcons()
     Crutch.DisableIconGroup("SEChimeraHMWamasu")
 end
 
--- Vet Twelvane: 17464648 Chimera: 46572396
--- HM Twelvane: 34929296 Chimera: 93144792
-local function OnPortalCommon(changeType, portal)
-    Crutch.dbgOther(portal .. " " .. changeType)
+local mantleIds = {
+    [183640] = "Gryphon",
+    [184983] = "Lion",
+    [184984] = "Wamasu",
+}
 
-    -- Theoretically the player activated should already disable them?
-    if (changeType == EFFECT_RESULT_FADED or changeType == ACTION_RESULT_EFFECT_FADED) then
-        DisableChimeraIcons()
-        return
+-- Do this as a check rather than listening for events, because
+-- it needs to be checked after player activation (or else the
+-- icons will just get disabled after going into portal)
+local function CheckMantle()
+    for i = 1, GetNumBuffs("player") do
+        local _, _, _, _, _, _, _, _, _, _, abilityId = GetUnitBuffInfo("player", i)
+        local portal = mantleIds[abilityId]
+        if (portal) then
+            local iconGroupString = "SEChimera"
+            local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+
+            -- boss1 is Chimera
+            if (powerMax == 93144792) then
+                iconGroupString = iconGroupString .. "HM"
+            elseif (powerMax == 46572396) then
+                iconGroupString = iconGroupString .. "Vet"
+            else
+                iconGroupString = iconGroupString .. "Norm"
+            end
+
+            Crutch.EnableIconGroup(iconGroupString .. portal)
+        end
     end
-
-    if (changeType ~= EFFECT_RESULT_GAINED and changeType ~= ACTION_RESULT_EFFECT_GAINED) then
-        return
-    end
-
-    local iconGroupString = "SEChimera"
-    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-
-    -- boss1 is Chimera
-    if (powerMax == 93144792) then
-        iconGroupString = iconGroupString .. "HM"
-    elseif (powerMax == 46572396) then
-        iconGroupString = iconGroupString .. "Vet"
-    else
-        iconGroupString = iconGroupString .. "Norm"
-    end
-
-    Crutch.EnableIconGroup(iconGroupString .. portal)
-end
-
-
-local function OnGryphonPortal(_, changeType)
-    Crutch.dbgOther("effect Gryphon")
-    OnPortalCommon(changeType, "Gryphon")
-end
-
-local function OnLionPortal(_, changeType)
-    Crutch.dbgOther("effect Lion")
-    OnPortalCommon(changeType, "Lion")
-end
-
-local function OnWamasuPortal(_, changeType)
-    Crutch.dbgOther("effect Wamasu")
-    OnPortalCommon(changeType, "Wamasu")
-end
-
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
-local function OnGryphonPortalCombat(_, result, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId)
-    Crutch.dbgOther("combat Gryphon")
-    OnPortalCommon(result, "Gryphon")
-end
-
-local function OnLionPortalCombat(_, result, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId)
-    Crutch.dbgOther("combat Lion")
-    OnPortalCommon(result, "Lion")
-end
-
-local function OnWamasuPortalCombat(_, result, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId)
-    Crutch.dbgOther("combat Wamasu")
-    OnPortalCommon(result, "Wamasu")
 end
 
 
@@ -125,33 +88,8 @@ function Crutch.RegisterSanitysEdge()
         Crutch.EnableIcon("AnsuulCenter")
     end
 
-    if (Crutch.savedOptions.sanitysedge.showChimeraIcons and Crutch.savedOptions.experimental) then
-        -- Mantle: Gryphon 183640
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, OnGryphonPortal)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 183640)
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_COMBAT_EVENT, OnGryphonPortalCombat)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 183640)
-
-        -- Mantle: Lion 184983
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, OnLionPortal)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 184983)
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SELionPortal", EVENT_COMBAT_EVENT, OnLionPortalCombat)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SELionPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 184983)
-
-        -- Mantle: Wamasu 184984
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, OnWamasuPortal)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 184984)
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_COMBAT_EVENT, OnWamasuPortalCombat)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 184984)
+    if (Crutch.savedOptions.sanitysedge.showChimeraIcons) then
+        CheckMantle()
     end
 end
 

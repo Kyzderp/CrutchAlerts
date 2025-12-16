@@ -23,7 +23,7 @@ local function GetAGIconsSize()
 end
 
 local function GetChimeraIconsSize()
-    return Crutch.savedOptions.sanitysedge.chimeraIconsSize * 0.9
+    return Crutch.savedOptions.sanitysedge.chimeraIconsSize * 1.8
 end
 
 local function GetAnsuulIconSize()
@@ -273,60 +273,61 @@ local iconGroups = {
     ["SEChimeraHMGryphon"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 172091, y = 40350, z = 238068, text = "1"},
-            {x = 172123, y = 40350, z = 242163, text = "2"},
-            {x = 170049, y = 40350, z = 242334, text = "3"},
-            {x = 168007, y = 40350, z = 242182, text = "4"},
-            {x = 168000, y = 40350, z = 238103, text = "5"},
+            {x = 172091, y = 40350, z = 238068, text = "1", faceCamera = true},
+            {x = 172123, y = 40350, z = 242163, text = "2", faceCamera = true},
+            {x = 170049, y = 40350, z = 242334, text = "3", faceCamera = true},
+            {x = 168007, y = 40350, z = 242182, text = "4", faceCamera = true},
+            {x = 168000, y = 40350, z = 238103, text = "5", faceCamera = true},
         },
     },
     ["SEChimeraHMLion"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 182032, y = 40350, z = 238069, text = "1"},
-            {x = 182042, y = 40350, z = 242188, text = "2"},
-            {x = 179982, y = 40350, z = 242334, text = "3"},
-            {x = 177970, y = 40350, z = 242203, text = "4"},
-            {x = 177955, y = 40350, z = 238088, text = "5"},
+            {x = 182032, y = 40350, z = 238069, text = "1", faceCamera = true},
+            {x = 182042, y = 40350, z = 242188, text = "2", faceCamera = true},
+            {x = 179982, y = 40350, z = 242334, text = "3", faceCamera = true},
+            {x = 177970, y = 40350, z = 242203, text = "4", faceCamera = true},
+            {x = 177955, y = 40350, z = 238088, text = "5", faceCamera = true},
         },
     },
     ["SEChimeraHMWamasu"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 191961, y = 40350, z = 238086, text = "1"},
-            {x = 191969, y = 40350, z = 242178, text = "2"},
-            {x = 189909, y = 40350, z = 242334, text = "3"},
-            {x = 187824, y = 40350, z = 242171, text = "4"},
-            {x = 187852, y = 40350, z = 238106, text = "5"},
+            {x = 191961, y = 40350, z = 238086, text = "1", faceCamera = true},
+            {x = 191969, y = 40350, z = 242178, text = "2", faceCamera = true},
+            {x = 189909, y = 40350, z = 242334, text = "3", faceCamera = true},
+            {x = 187824, y = 40350, z = 242171, text = "4", faceCamera = true},
+            {x = 187852, y = 40350, z = 238106, text = "5", faceCamera = true},
         },
     },
 
     -- SE Chimera oracles vet
+    -- TODO: shift them all, 1 is entrance
     ["SEChimeraVetGryphon"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 172289, y = 40350, z = 240133, text = "1"},
-            {x = 170051, y = 40350, z = 242334, text = "2"},
-            {x = 167843, y = 40350, z = 240125, text = "3"},
-            {x = 170065, y = 40350, z = 237908, text = "4"},
+            {x = 170065, y = 40350, z = 237908, text = "1", faceCamera = true},
+            {x = 172289, y = 40350, z = 240133, text = "2", faceCamera = true},
+            {x = 170051, y = 40350, z = 242334, text = "3", faceCamera = true},
+            {x = 167843, y = 40350, z = 240125, text = "4", faceCamera = true},
         },
     },
     ["SEChimeraVetLion"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 182228, y = 40350, z = 240155, text = "1"},
-            {x = 179982, y = 40350, z = 242334, text = "2"},
-            {x = 177792, y = 40350, z = 240115, text = "3"},
-            {x = 179984, y = 40350, z = 237903, text = "4"},
+            {x = 179984, y = 40350, z = 237903, text = "1", faceCamera = true},
+            {x = 182228, y = 40350, z = 240155, text = "2", faceCamera = true},
+            {x = 179982, y = 40350, z = 242334, text = "3", faceCamera = true},
+            {x = 177792, y = 40350, z = 240115, text = "4", faceCamera = true},
         },
     },
     ["SEChimeraVetWamasu"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 192115, y = 40350, z = 240117, text = "1"},
-            {x = 189909, y = 40350, z = 242334, text = "2"},
-            {x = 187671, y = 40350, z = 240128, text = "3"},
-            {x = 189900, y = 40350, z = 237900, text = "4"},
+            {x = 189900, y = 40350, z = 237900, text = "1", faceCamera = true},
+            {x = 192115, y = 40350, z = 240117, text = "2", faceCamera = true},
+            {x = 189909, y = 40350, z = 242334, text = "3", faceCamera = true},
+            {x = 187671, y = 40350, z = 240128, text = "4", faceCamera = true},
         },
     },
 
@@ -334,25 +335,25 @@ local iconGroups = {
     ["SEChimeraNormGryphon"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 172123, y = 40350, z = 242163, text = "1"},
-            {x = 170049, y = 40350, z = 242334, text = "2"},
-            {x = 168007, y = 40350, z = 242182, text = "3"},
+            {x = 172123, y = 40350, z = 242163, text = "1", faceCamera = true},
+            {x = 170049, y = 40350, z = 242334, text = "2", faceCamera = true},
+            {x = 168007, y = 40350, z = 242182, text = "3", faceCamera = true},
         },
     },
     ["SEChimeraNormLion"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 182042, y = 40350, z = 242188, text = "1"},
-            {x = 179982, y = 40350, z = 242334, text = "2"},
-            {x = 177970, y = 40350, z = 242203, text = "3"},
+            {x = 182042, y = 40350, z = 242188, text = "1", faceCamera = true},
+            {x = 179982, y = 40350, z = 242334, text = "2", faceCamera = true},
+            {x = 177970, y = 40350, z = 242203, text = "3", faceCamera = true},
         },
     },
     ["SEChimeraNormWamasu"] = {
         size = GetChimeraIconsSize,
         icons = {
-            {x = 191969, y = 40350, z = 242178, text = "1"},
-            {x = 189909, y = 40350, z = 242334, text = "2"},
-            {x = 187824, y = 40350, z = 242171, text = "3"},
+            {x = 191969, y = 40350, z = 242178, text = "1", faceCamera = true},
+            {x = 189909, y = 40350, z = 242334, text = "2", faceCamera = true},
+            {x = 187824, y = 40350, z = 242171, text = "3", faceCamera = true},
         },
     },
 }
@@ -429,6 +430,11 @@ function Crutch.EnableIconGroup(iconGroupName)
                     -- If icon specifies an orientation, always use that
                     faceCamera = false
                     orientation = iconData.orientation
+                elseif (iconData.faceCamera) then
+                    -- Face camera
+                    faceCamera = true
+                    orientation = nil
+                    y = y + size / 2 -- set the bottom of the icon as the point
                 elseif (Crutch.savedOptions.drawing.placedPositioning.flat) then
                     -- Flat
                     faceCamera = false

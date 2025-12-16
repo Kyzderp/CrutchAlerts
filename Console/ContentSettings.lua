@@ -851,6 +851,32 @@ function Crutch.CreateConsoleContentSettingsMenu()
         label = "Sanity's Edge",
     })
 
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Chimera puzzle numbers",
+        tooltip = "In the Twelvane + Chimera fight, shows numbers on the puzzle glyphics",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.sanitysedge.showChimeraIcons end,
+        setFunction = function(value)
+            Crutch.savedOptions.sanitysedge.showChimeraIcons = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Chimera icons size",
+        min = 20,
+        max = 300,
+        step = 10,
+        default = 150,
+        getFunction = function() return Crutch.savedOptions.sanitysedge.chimeraIconsSize end,
+        setFunction = function(value)
+            Crutch.savedOptions.sanitysedge.chimeraIconsSize = value
+            Crutch.OnPlayerActivated()
+        end,
+        disable = function() return not Crutch.savedOptions.sanitysedge.showChimeraIcons end,
+    })
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
