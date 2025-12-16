@@ -238,19 +238,19 @@ local iconGroups = {
     ["OrphicDirections"] = {
         size = GetOrphicIconSize,
         icons = {
-            {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.RED, text = "NE"},
-            {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.RED, text = "SE"},
-            {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.RED, text = "SW"},
-            {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.RED, text = "NW"},
+            {x = 151041, y = 22880, z = 86169, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.RED, text = "NE", faceCamera = true},
+            {x = 151169, y = 22880, z = 89708, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.RED, text = "SE", faceCamera = true},
+            {x = 147477, y = 22880, z = 89756, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.RED, text = "SW", faceCamera = true},
+            {x = 147488, y = 22880, z = 86178, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.RED, text = "NW", faceCamera = true},
         },
     },
     ["OrphicDirectionsVet"] = {
         size = GetOrphicIconSize,
         icons = {
-            {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "N"},
-            {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "E"},
-            {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "S"},
-            {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "W"},
+            {x = 149348, y = 22880, z = 85334, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "N", faceCamera = true},
+            {x = 151956, y = 22880, z = 87950, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "E", faceCamera = true},
+            {x = 149272, y = 22880, z = 90657, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "S", faceCamera = true},
+            {x = 146628, y = 22880, z = 87851, texture = "CrutchAlerts/assets/shape/circle.dds", color = C.BLUE, text = "W", faceCamera = true},
         },
     },
 
