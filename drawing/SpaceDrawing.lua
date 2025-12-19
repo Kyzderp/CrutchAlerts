@@ -207,6 +207,7 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         Draw.SetOrientation,
         options.texture and Draw.SetColor or nil,
         options.texture and Draw.SetTexture or nil,
+        options.texture and Draw.SetTextureHidden or nil,
         options.label and SetText or nil,
         options.label and function(icon, r, g, b, a) Draw.SetColor(icon, r, g, b, a, "Label") end or nil,
         options.backdrop and SetBackdropColors or nil,

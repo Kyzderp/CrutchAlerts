@@ -82,6 +82,8 @@ end
 ---------------------------------------------------------------------
 -- Bahsei
 ---------------------------------------------------------------------
+local linesHidden = false
+
 local effectResults = {
     [EFFECT_RESULT_FADED] = "FADED",
     [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
@@ -110,6 +112,7 @@ local function OnBitterMarrowChanged(_, changeType, _, _, unitTag, _, _, stackCo
         -- If it was the player entering or exiting portal, all units need to be refreshed
         if (AreUnitsEqual("player", unitTag)) then
             Crutch.Drawing.EvaluateAllSuppression()
+            linesHidden = groupBitterMarrow[unitTag]
         else
             Crutch.Drawing.EvaluateSuppressionFor(unitTag)
         end
@@ -145,6 +148,10 @@ end
 ------------------------------------------------------------
 local CURSE_LINE_Y_OFFSET = 5
 
+local function LineCallback(icon)
+    icon:SetTextureHidden(linesHidden)
+end
+
 local function DrawConfirmedCurseLines(x, y, z, angle, color, duration)
     local key = Crutch.Drawing.CreateWorldTexture(
         "CrutchAlerts/assets/floor/curse.dds",
@@ -153,9 +160,13 @@ local function DrawConfirmedCurseLines(x, y, z, angle, color, duration)
         color,
         false,
         false,
-        {-math.pi/2, angle, 0})
-    zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, duration)
-    -- TODO: remove lines early if going into portal
+        {-math.pi/2, angle, 0},
+        LineCallback)
+
+    -- Natural expiry
+    zo_callLater(function()
+        Crutch.Drawing.RemoveWorldTexture(key)
+    end, duration)
 end
 
 local playerCurseLinesKey

@@ -46,6 +46,7 @@ local function SetColor(icon, r, g, b, a, childControlName)
     r = r or oldR
     g = g or oldG
     b = b or oldB
+    a = a or oldA
 
     control:SetColor(r, g, b, a)
 end
@@ -119,11 +120,21 @@ local function SetTexture(icon, path)
 end
 Draw.SetTexture = SetTexture
 
+-- Callback to set texture hidden
+local function SetTextureHidden(icon, hidden)
+    if (icon.isSpace) then
+        icon.control:GetNamedChild("Texture"):SetHidden(hidden)
+    else
+        icon.control:SetHidden(hidden)
+    end
+end
+Draw.SetTextureHidden = SetTextureHidden
+
 
 ---------------------------------------------------------------------
 -- Common for both Space and RenderSpace
 ---------------------------------------------------------------------
-local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextFunc, setFontColorFunc, setBackdropColorsFunc, setBackdropRollFunc, getCompositeFunc)
+local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextureHiddenFunc, setTextFunc, setFontColorFunc, setBackdropColorsFunc, setBackdropRollFunc, getCompositeFunc)
     Draw.activeIcons[key] = {
         isSpace = isSpace,
         control = control,
@@ -140,6 +151,7 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  fac
         SetOrientation = setOrientationFunc,
         SetColor = setColorFunc,
         SetTexture = setTextureFunc, -- All RenderSpace; Space textures
+        SetTextureHidden = setTextureHiddenFunc,
         SetText = setTextFunc, -- Space labels
         SetFontColor = setFontColorFunc, -- Space labels
         SetBackdropColors = setBackdropColorsFunc, -- Space backdrops
@@ -224,7 +236,8 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         SetPosition,
         SetOrientation,
         SetColor,
-        SetTexture)
+        SetTexture,
+        SetTextureHidden)
 
     return key
 end
