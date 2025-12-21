@@ -606,6 +606,19 @@ function Crutch:CreateSettingsMenu()
                             width = "half",
                         },
                         {
+                            type = "checkbox",
+                            name = "Use support icons for dead",
+                            tooltip = "When a tank or healer is dead, use the respective role icons instead of the skull icon, to make it easier to prioritize their rezzes",
+                            default = Crutch.defaultOptions.drawing.attached.useSupportIconsForDead,
+                            getFunc = function() return Crutch.savedOptions.drawing.attached.useSupportIconsForDead end,
+                            setFunc = function(value)
+                                Crutch.savedOptions.drawing.attached.useSupportIconsForDead = value
+                                Crutch.Drawing.RefreshGroup()
+                            end,
+                            disabled = function() return not Crutch.savedOptions.drawing.attached.showDead end,
+                            width = "half",
+                        },
+                        {
                             type = "colorpicker",
                             name = "Dead color",
                             tooltip = "Color of the dead player icons",

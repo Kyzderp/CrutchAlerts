@@ -93,6 +93,7 @@ local defaultOptions = {
             tankColor = {0, 0.6, 1},
 
             showDead = true,
+            useSupportIconsForDead = true,
             rezzingColor = {0.3, 0.7, 1},
             pendingColor = {1, 1, 1},
             deadColor = {1, 0, 0},

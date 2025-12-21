@@ -407,10 +407,26 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             icon:SetColor(r, g, b)
         end
 
+        local texturePath = "esoui/art/icons/mapkey/mapkey_groupboss.dds"
+
+        -- Set icon for supports to make it easier to prioritize rez
+        if (Crutch.savedOptions.drawing.attached.useSupportIconsForDead) then
+            local role = LFG_ROLE_DPS
+            if (IsSelf(unitTag)) then
+                role = GetSelectedLFGRole()
+            else
+                role = GetGroupMemberSelectedRole(unitTag)
+            end
+
+            if (role == LFG_ROLE_HEAL or role == LFG_ROLE_TANK) then
+                texturePath = ROLE_SETTINGS[role].texture
+            end
+        end
+
         SetIconForUnit(unitTag,
             GROUP_DEAD_NAME,
             C.PRIORITY.GROUP_DEAD,
-            "esoui/art/icons/mapkey/mapkey_groupboss.dds",
+            texturePath,
             nil,
             Crutch.savedOptions.drawing.attached.deadColor,
             DEAD_Y_OFFSET,
