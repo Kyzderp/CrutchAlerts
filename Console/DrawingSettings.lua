@@ -441,6 +441,18 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
             end,
         },
         {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Use support icons for dead",
+            tooltip = "When a tank or healer is dead, use the respective role icons instead of the skull icon, to make it easier to prioritize their rezzes",
+            default = Crutch.defaultOptions.drawing.attached.useSupportIconsForDead,
+            getFunction = function() return Crutch.savedOptions.drawing.attached.useSupportIconsForDead end,
+            setFunction = function(value)
+                Crutch.savedOptions.drawing.attached.useSupportIconsForDead = value
+                Crutch.Drawing.RefreshGroup()
+            end,
+            disable = function() return not Crutch.savedOptions.drawing.attached.showDead end,
+        },
+        {
             type = LibHarvensAddonSettings.ST_COLOR,
             label = "Dead color",
             tooltip = "Color of the dead player icons",
