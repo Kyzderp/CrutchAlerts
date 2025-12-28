@@ -456,6 +456,8 @@ local function Initialize()
     PrintTime("space done")
     Crutch.Drawing.InitializeAttachedIcons()
     PrintTime("attached icons done")
+    Crutch.InitializeAbilityTextureHooks()
+    PrintTime("ability texture hooks done")
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()

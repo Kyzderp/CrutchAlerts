@@ -99,7 +99,7 @@ local endlessArchiveThresholds = {
     },
 
     -- Old Snagara -- no hp gates
-    -- Prior Thierric Sarazen -- no hp gates
+    -- Prior Thierric Sarazen -- no hp gates. ground aoe Spectral Slash when he starts spinning still hurts
 
     -- Queen of the Reef
 
@@ -129,7 +129,7 @@ local endlessArchiveThresholds = {
     -- Taupezu Azzida -- no hp gates
     -- The Ascendant Lord -- no hp gates?
     -- The Endling -- no hp gates?
-    -- The Imperfect -- shield at 50%?
+    -- The Imperfect -- shield at 50%? some raptors
     -- The Lava Queen -- no hp gates, no adds
     -- The Mage -- storm atros, frost atros
     [GetBossName(CRUTCH_BHB_THE_MAGE)] = {
@@ -155,7 +155,7 @@ local endlessArchiveThresholds = {
 
     -- Valkynaz Nokvroz -- maybe no hp gates, but annoying magma scamps
     -- Varlariel -- clones seem to be on a timer, also has wisps
-    -- Varzunon -- tons of little skellies, and blastbones that makes him big
+    -- Varzunon -- tons of little skellies, and blastbones that make him big
     -- Vila Theran -- nothing interesting
     -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
     -- Vorenor Winterbourne -- no adds. bring purge for dot at 50 because snapshotted
@@ -177,7 +177,7 @@ local endlessArchiveThresholds = {
     },
     -- Ysmgar -- no real adds, but the things reaching him cause knockback or stagger wave, could be problem for weakening uptime
 
-    -- Z'Baza -- no hp gates, but lots of adds
+    -- Z'Baza -- no hp gates, but lots of adds. tentacle sweep has no telegraph
     -- Zhaj'hassa the Forgotten -- no hp gates? small senches
 }
 
