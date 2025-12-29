@@ -10,7 +10,7 @@ local freeControls = {}
 --[[
 {
     [sourceUnitId] = {
-        [abilityId] = {index = index, preventOverwrite = true},
+        [abilityId] = {index = index, preventOverwrite = true, targetUnitId = 12345},
     },
 }
 ]]
@@ -31,7 +31,7 @@ local resultStrings = {
     [ACTION_RESULT_EFFECT_GAINED_DURATION] = "duration",
 }
 
-local sourceStrings = {
+local unitTypeStrings = {
     [COMBAT_UNIT_TYPE_NONE] = "none",
     [COMBAT_UNIT_TYPE_PLAYER] = "player",
     [COMBAT_UNIT_TYPE_PLAYER_PET] = "pet",
@@ -178,7 +178,10 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         timer = 1000
         Crutch.dbgOther("|cFF0000Warning: timer is not number, setting to 1000|r")
     end
-    sourceName = zo_strformat("<<1>> <<2>>", sourceUnitId, sourceName)
+
+    local sourceIdAndName = zo_strformat("<<1>> <<2>>", sourceUnitId, sourceName)
+    local targetIdAndName = zo_strformat("<<1>> <<2>>", targetUnitId, targetName)
+
 
     local index = 0
     -- Overwrite existing cast of the same ability
@@ -195,7 +198,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
             if (abilityId ~= 114578 -- BRP Portal Spawn
                 and abilityId ~= 72057 -- MA Portal Spawn
                 ) then
-                Crutch.dbgSpam(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceName))
+                Crutch.dbgSpam(string.format("|cFF8888[CS]|r Overwriting %s from %s because it's already being displayed", GetAbilityName(abilityId), sourceIdAndName))
             end
             index = displaying[sourceUnitId][abilityId].index
         end
@@ -209,16 +212,21 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     if (not displaying[sourceUnitId]) then
         displaying[sourceUnitId] = {}
     end
-    displaying[sourceUnitId][abilityId] = {index = index, preventOverwrite = preventOverwrite}
+    displaying[sourceUnitId][abilityId] = {index = index, preventOverwrite = preventOverwrite, targetUnitId = targetUnitId}
 
     local resultString = ""
     if (result) then
         resultString = " " .. (resultStrings[result] or tostring(result))
     end
 
-    local sourceString = ""
+    local sourceTypeString = ""
     if (sourceType) then
-        sourceString = " " .. (sourceStrings[sourceType] or tostring(sourceType))
+        sourceTypeString = " " .. (unitTypeStrings[sourceType] or tostring(sourceType))
+    end
+
+    local targetTypeString = ""
+    if (targetType) then
+        targetTypeString = " " .. (unitTypeStrings[targetType] or tostring(targetType))
     end
 
     -- Keyboard vs gamepad fonts
@@ -256,7 +264,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
 
     lineControl:GetNamedChild("Id"):SetFont(smallFont)
     if (Crutch.savedOptions.debugLine) then
-        lineControl:GetNamedChild("Id"):SetText(string.format("%d (%d) [%s%s]%s", abilityId, timer, sourceName, sourceString, resultString))
+        lineControl:GetNamedChild("Id"):SetText(string.format("%d (%d) [%s%s] [%s%s]%s", abilityId, timer, sourceIdAndName, sourceTypeString, targetIdAndName, targetTypeString, resultString))
     else
         lineControl:GetNamedChild("Id"):SetText("")
     end
