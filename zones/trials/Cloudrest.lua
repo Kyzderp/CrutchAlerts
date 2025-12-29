@@ -78,7 +78,7 @@ local function OnFrostDroppable(abilityId)
     if (Crutch.savedOptions.cloudrest.showFrostAlert) then
         local num = numFrosts[abilityId]
         local label = zo_strformat("|c8ef5f5Drop <<C:1>> (<<2>>) |cFF0000now!|r", GetAbilityName(abilityId), num == 3 and "last" or num)
-        Crutch.DisplayNotification(abilityId, label, 9000 - TIME_UNTIL_DROP, 0, 0, 0, 0, false) -- This would go away on normal because there's no Overwhelming, but whatever
+        Crutch.DisplayNotification(abilityId, label, 9000 - TIME_UNTIL_DROP, 0, 0, 0, 0, 0, 0, 0, false) -- This would go away on normal because there's no Overwhelming, but whatever
     end
 
     -- Do prominent for drop frost
@@ -113,7 +113,7 @@ local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, 
             -- ... show timer until droppable...
             if (Crutch.savedOptions.cloudrest.showFrostAlert) then
                 local label = zo_strformat("|c8ef5f5Drop <<C:1>> (<<2>>) in|r", GetAbilityName(abilityId), num == 3 and "last" or num)
-                Crutch.DisplayNotification(abilityId, label, TIME_UNTIL_DROP, 0, 0, 0, 0, false)
+                Crutch.DisplayNotification(abilityId, label, TIME_UNTIL_DROP, 0, 0, 0, 0, 0, 0, 0, false)
             end
 
             -- ... and also show drop timer/prominent later
@@ -172,7 +172,7 @@ Crutch.OnRoaringFlareIcon = OnRoaringFlareIcon
 ---------------------------------------------------------------------
 
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
-local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     if (not amuletSmashed) then return end
 
     -- Actual display
@@ -185,13 +185,13 @@ local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceTyp
 
     if (abilityId == 103531) then
         local label = string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |caaaaaaLEFT|r", targetName)
-        Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, true)
+        Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result, true)
         if (Crutch.savedOptions.general.showRaidDiag) then
             Crutch.msg(zo_strformat("|cFF7700<<1>> < LEFT|r", targetName))
         end
     elseif (abilityId == 110431) then
         local label = string.format("|cff7700%s |cff0000|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |caaaaaaRIGHT|r", targetName)
-        Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, true)
+        Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result, true)
         if (Crutch.savedOptions.general.showRaidDiag) then
             Crutch.msg(zo_strformat("|cFF7700<<1>> > RIGHT|r", targetName))
         end
@@ -208,7 +208,7 @@ end
 ---------------------------------------------------------------------
 
 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
-local function OnOlorimeSpears(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+local function OnOlorimeSpears(_, result, _, _, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     if (abilityId == 104019) then
         -- Spear has appeared
         spearsRevealed = spearsRevealed + 1
@@ -217,7 +217,7 @@ local function OnOlorimeSpears(_, result, _, _, _, _, sourceName, sourceType, ta
             PlaySound(SOUNDS.CHAMPION_POINTS_COMMITTED)
         end
         local label = string.format("|cFFEA00Olorime Spear!|r (%d)", spearsRevealed)
-        Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, result, false)
+        Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result, false)
 
     elseif (abilityId == 104036) then
         -- Spear has been sent

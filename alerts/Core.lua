@@ -151,7 +151,7 @@ end
 ---------------------------------------------------------------------
 -- Outside calling
 
-function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, result, preventOverwrite)
+function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result, preventOverwrite)
     -- Check for special format
     local customTime, customColor, hideTimer, alertType, resultFilter, dingInIA, customText = Crutch.GetFormatInfo(abilityId)
     if (customText) then

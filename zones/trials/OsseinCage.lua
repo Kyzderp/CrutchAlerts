@@ -490,7 +490,7 @@ local function OnStricken(_, changeType, _, _, unitTag, beginTime, endTime)
         -- Event is not registered if NEVER, so the only other option is TANK
         if (Crutch.savedOptions.osseincage.showStricken == "ALWAYS" or GetSelectedLFGRole() == LFG_ROLE_TANK) then
             local label = zo_strformat("|ca361ff<<C:1>>: <<2>>|r", GetAbilityName(235594), atName)
-            Crutch.DisplayNotification(235594, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
+            Crutch.DisplayNotification(235594, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, 0, 0, 0, false)
         end
 
     -- Faded

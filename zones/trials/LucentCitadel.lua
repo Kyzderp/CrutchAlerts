@@ -92,7 +92,7 @@ local function OnWeakeningCharge(_, changeType, _, _, unitTag, beginTime, endTim
         -- Event is not registered if NEVER, so the only other option is TANK
         if (Crutch.savedOptions.lucentcitadel.showWeakeningCharge == "ALWAYS" or GetSelectedLFGRole() == LFG_ROLE_TANK) then
             local label = zo_strformat("|ca361ff<<C:1>>: <<2>>|r", GetAbilityName(222613), atName)
-            Crutch.DisplayNotification(222613, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
+            Crutch.DisplayNotification(222613, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, 0, 0, 0, false)
         end
 
     -- Faded

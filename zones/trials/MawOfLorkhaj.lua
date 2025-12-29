@@ -336,7 +336,7 @@ end
 -- Rakkhat
 ---------------------------------------------------------------------
 local function OnVoidShackleDamage()
-    Crutch.DisplayNotification(75507, "|c6a00ffTETHERED!|r", 1100, 0, 0, 0, 0, false)
+    Crutch.DisplayNotification(75507, "|c6a00ffTETHERED!|r", 1100, 0, 0, 0, 0, 0, 0, 0, false)
 end
 
 local function RegisterRakkhat()

@@ -76,7 +76,7 @@ local function OnSecondSoulBomb(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
     Crutch.SetAttachedIconForUnit(unitTag, BOMB_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "CrutchAlerts/assets/poop.dds")
     zo_callLater(function() Crutch.RemoveAttachedIconForUnit(unitTag, BOMB_UNIQUE_NAME) end, 5000)
 
-    Crutch.DisplayNotification(168314, string.format("|cAAAAAASuggested stack: |cff00ff%s|r", toStack), 5000, 0, 0, 0, 0, false)
+    Crutch.DisplayNotification(168314, string.format("|cAAAAAASuggested stack: |cff00ff%s|r", toStack), 5000, 0, 0, 0, 0, 0, 0, 0, false)
 end
 
 ---------------------------------------------------------------------

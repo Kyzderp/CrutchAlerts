@@ -75,7 +75,7 @@ local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
     -- Crutch.dbgOther(string.format("%f", p2Dist))
     Crutch.dbgOther(GetUnitDisplayName(leftPlayer) .. "< >" .. GetUnitDisplayName(rightPlayer))
     local label = string.format("|c00FF00%s |c00d60b|t100%%:100%%:Esoui/Art/Buttons/large_leftarrow_up.dds:inheritcolor|t |c00FF00Noxious Sludge|r |c00d60b|t100%%:100%%:Esoui/Art/Buttons/large_rightarrow_up.dds:inheritcolor|t |c00FF00%s|r", GetUnitDisplayName(leftPlayer), GetUnitDisplayName(rightPlayer))
-    Crutch.DisplayNotification(157860, label, 5000, 0, 0, 0, 0, true)
+    Crutch.DisplayNotification(157860, label, 5000, 0, 0, 0, 0, 0, 0, 0, true)
 end
 
 
@@ -392,7 +392,7 @@ local function OnBleeding(_, changeType, _, _, unitTag, beginTime, endTime)
         or atName == GetUnitDisplayName("player")
         or GetSelectedLFGRole() == LFG_ROLE_HEAL) then
         local label = zo_strformat("|cfff1ab<<C:1>>|cAAAAAA on <<2>>|r", GetAbilityName(153179), atName)
-        Crutch.DisplayNotification(153179, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
+        Crutch.DisplayNotification(153179, label, (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, 0, 0, 0, false)
     end
 end
 

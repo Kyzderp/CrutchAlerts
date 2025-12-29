@@ -215,7 +215,7 @@ local function OnEffectChanged(changeType, unitTag, beginTime, endTime, abilityI
     -- Effect gained, add a fake alert
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         local label = zo_strformat(abilityData.format, GetAbilityName(abilityId), atName)
-        Crutch.DisplayNotification(abilityId, label, abilityData.duration or (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, false)
+        Crutch.DisplayNotification(abilityId, label, abilityData.duration or (endTime - beginTime) * 1000, fakeSourceUnitId, 0, 0, 0, 0, 0, 0, false)
 
         if (abilityData.gainedCallback) then
             abilityData.gainedCallback(atName)

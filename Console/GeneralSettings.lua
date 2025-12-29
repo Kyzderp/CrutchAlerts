@@ -15,7 +15,7 @@ local function UnlockUI(value)
     Crutch.unlock = value
     CrutchAlertsContainerBackdrop:SetHidden(not value)
     if (value) then
-        Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, false)
+        Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, 0, 0, 0, false)
     end
 
     CrutchAlertsDamageableBackdrop:SetHidden(not value)

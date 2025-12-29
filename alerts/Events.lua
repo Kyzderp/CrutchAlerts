@@ -191,7 +191,7 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     if (Crutch.savedOptions.general.beginHideSelf and result == ACTION_RESULT_BEGIN and sourceType == COMBAT_UNIT_TYPE_PLAYER) then return end
 
     -- Actual display
-    Crutch.DisplayNotification(abilityId, FormatAbilityName(abilityId), hitValue, sourceUnitId, sourceName, sourceType, result)
+    Crutch.DisplayNotification(abilityId, FormatAbilityName(abilityId), hitValue, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result)
 end
 
 function Crutch.RegisterBegin()
@@ -524,7 +524,7 @@ local function OnCombatEventOthers(_, result, isError, abilityName, _, _, source
         return
     end
 
-    Crutch.DisplayNotification(abilityId, FormatAbilityName(abilityId) .. targetName, hitValue, sourceUnitId, sourceName, sourceType, result)
+    Crutch.DisplayNotification(abilityId, FormatAbilityName(abilityId) .. targetName, hitValue, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result)
 end
 
 local othersCurrentlyRegistered = {}

@@ -30,7 +30,7 @@ local function UnlockUI(value)
     CrutchAlertsContainer:SetMouseEnabled(value)
     CrutchAlertsContainerBackdrop:SetHidden(not value)
     if (value) then
-        Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, false)
+        Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, 0, 0, 0, false)
     end
 
     CrutchAlertsDamageable:SetMovable(value)
@@ -167,7 +167,7 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.general.alertScale end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.alertScale = value
-                        Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, false)
+                        Crutch.DisplayNotification(47898, "Example Alert", 5000, 0, 0, 0, 0, 0, 0, 0, false)
                     end,
                 },
                 {
