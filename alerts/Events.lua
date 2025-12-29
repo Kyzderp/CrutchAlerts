@@ -598,6 +598,14 @@ function Crutch.Test()
     -- Bahsei portal
     OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "asdf", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, nil, nil, nil, 0, 0, 153517)
     OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "asdf", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "", COMBAT_UNIT_TYPE_NONE, 1333, nil, nil, nil, 0, 0, 153518)
+
+    -- Quake (should display only 1)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "True Shot", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "Kyrozan", COMBAT_UNIT_TYPE_PLAYER, 2000, nil, nil, nil, 0, 12345, 54125)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "True Shot", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "Not Kyzer", COMBAT_UNIT_TYPE_GROUP, 2000, nil, nil, nil, 0, 67890, 54125)
+
+    -- True Shot (should display multiple)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "True Shot", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "Kyrozan", COMBAT_UNIT_TYPE_PLAYER, 2000, nil, nil, nil, 0, 12345, 184802)
+    OnCombatEventOthers(nil, ACTION_RESULT_BEGIN, false, "True Shot", nil, nil, "", COMBAT_UNIT_TYPE_NONE, "Not Kyzer", COMBAT_UNIT_TYPE_GROUP, 2000, nil, nil, nil, 0, 67890, 184802)
 end
 
 ---------------------------------------------------------------------

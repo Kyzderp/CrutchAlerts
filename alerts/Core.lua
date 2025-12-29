@@ -3,19 +3,68 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 -- Data
 
--- Currently unused controls for notifications: {[1] = {source = sourceUnitId, expireTime = 1235345, interrupted = true, abilityId = 12345}}
+-- Currently unused controls for notifications: {[1] = {source = sourceUnitId, expireTime = 1235345, interrupted = true, abilityId = 12345, target = targetUnitId}}
 local freeControls = {}
 
--- Currently displaying source to index
+---------------------------------------------------------------------
+-- Currently displaying info to index. Used to interrupt/remove existing notifications
+-- We cannot rely only on sourceUnitId, because it can be 0 for attacks targeting
+-- other players, or possibly other unknown.
 --[[
 {
     [sourceUnitId] = {
-        [abilityId] = {index = index, preventOverwrite = true, targetUnitId = 12345},
+        [abilityId] = {
+            multiTargets = false,
+            targets = { -- if multiTargets
+                [targetUnitId] = index,
+            },
+            index = 1, -- if not multiTargets
+        },
     },
 }
 ]]
 local displaying = {}
 
+local function RemoveFromDisplaying(sourceUnitId, abilityId, targetUnitId)
+    if (displaying[sourceUnitId]) then
+        if (displaying[sourceUnitId][abilityId]) then
+            if (displaying[sourceUnitId][abilityId].multiTargets) then
+                -- Only remove the specific target
+                displaying[sourceUnitId][abilityId].targets[targetUnitId] = nil
+                if (ZO_IsTableEmpty(displaying[sourceUnitId][abilityId].targets)) then
+                    displaying[sourceUnitId][abilityId] = nil
+                end
+            else
+                -- If preventOverwrite, it only displays once anyway, so no targets needed
+                displaying[sourceUnitId][abilityId] = nil
+            end
+        end
+        if (ZO_IsTableEmpty(displaying[sourceUnitId])) then
+            displaying[sourceUnitId] = nil
+        end
+    end
+end
+
+local function AddToDisplaying(sourceUnitId, abilityId, preventOverwrite, targetUnitId, index)
+    if (not displaying[sourceUnitId]) then
+        displaying[sourceUnitId] = {}
+    end
+
+    if (not displaying[sourceUnitId][abilityId]) then
+        displaying[sourceUnitId][abilityId] = {multiTargets = preventOverwrite}
+        if (displaying[sourceUnitId][abilityId].multiTargets) then
+            displaying[sourceUnitId][abilityId].targets = {}
+        end
+    end
+
+    if (displaying[sourceUnitId][abilityId].multiTargets) then
+        displaying[sourceUnitId][abilityId].targets[targetUnitId] = index
+    else
+        displaying[sourceUnitId][abilityId].index = index
+    end
+end
+
+---------------------------------------------------------------------
 -- Poll every 100ms when one is active
 local isPolling = false
 
@@ -55,16 +104,6 @@ local function GetTimerColor(timer)
     end
 end
 
-local function GetNumEntries(tab)
-    local count = 0
-    for k, v in pairs(tab) do
-        if (v) then
-            count = count + 1
-        end
-    end
-    return count
-end
-
 -- Scale is the size of the icon, default 36
 -- Default font size was 32
 local function GetScale()
@@ -83,15 +122,10 @@ local function UpdateDisplay()
             local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(i))
             local millisRemaining = (data.expireTime - currTime)
             if (millisRemaining < 0) then
-                -- Hide
+                -- Hide because timer is over
                 lineControl:SetHidden(true)
                 freeControls[i] = false
-                if (displaying[data.source]) then
-                    displaying[data.source][data.abilityId] = nil
-                    if (GetNumEntries(displaying[data.source]) == 0) then
-                        displaying[data.source] = nil
-                    end
-                end
+                RemoveFromDisplaying(data.source, data.abilityId, data.target)
             else
                 numActive = numActive + 1
                 if (not data.interrupted and lineControl:GetNamedChild("Timer") ~= "") then
@@ -187,7 +221,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     -- Overwrite existing cast of the same ability
     if (displaying[sourceUnitId] and displaying[sourceUnitId][abilityId]) then
         -- Don't overwrite for type == 2
-        if ((not preventOverwrite and alertType == 2) or displaying[sourceUnitId][abilityId].preventOverwrite) then
+        if ((not preventOverwrite and alertType == 2) or displaying[sourceUnitId][abilityId].multiTargets) then
             return
         end
 
@@ -195,6 +229,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
         if (alertType == 3) then
             index = FindOrCreateControl()
         else
+            -- Overwrite the currently displaying if it's single mode
             if (abilityId ~= 114578 -- BRP Portal Spawn
                 and abilityId ~= 72057 -- MA Portal Spawn
                 ) then
@@ -208,11 +243,8 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
 
     -- Set the time and make some strings
     local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
-    freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer, abilityId = abilityId}
-    if (not displaying[sourceUnitId]) then
-        displaying[sourceUnitId] = {}
-    end
-    displaying[sourceUnitId][abilityId] = {index = index, preventOverwrite = preventOverwrite, targetUnitId = targetUnitId}
+    freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer, abilityId = abilityId, target = targetUnitId}
+    AddToDisplaying(sourceUnitId, abilityId, preventOverwrite, targetUnitId, index)
 
     local resultString = ""
     if (result) then
@@ -292,13 +324,18 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     end
 end
 
-local function AdjustControlsOnInterrupt(unitId, abilityId, suppressStopped)
+local function AdjustControlsOnInterrupt(unitId, abilityId, targetUnitId, suppressStopped)
     if (Crutch.uninterruptible[abilityId]) then -- Some abilities show up as immediately interrupted, don't do that
         return
     end
 
     local data = displaying[unitId][abilityId]
-    local index = data.index
+    local index
+    if (targetUnitId and data.targets) then
+        index = data.targets[targetUnitId]
+    else
+        index = data.index
+    end
     local expiredTimer = "0" -- A possible string for duration remaining that was cancelled
     if (index and not freeControls[index].interrupted) then -- Don't add it again if it's already interrupted
         freeControls[index].interrupted = true
@@ -337,15 +374,15 @@ local function AdjustControlsOnInterrupt(unitId, abilityId, suppressStopped)
 end
 
 -- To be called when an enemy is interrupted
-function Crutch.Interrupted(targetUnitId)
-    if (not displaying[targetUnitId]) then
+function Crutch.Interrupted(sourceUnitId)
+    if (not displaying[sourceUnitId]) then
         return
     end
 
-    Crutch.dbgSpam("Attempting to interrupt targetUnitId " .. tostring(targetUnitId))
+    Crutch.dbgSpam("Attempting to interrupt sourceUnitId " .. tostring(sourceUnitId))
     local expiredTimer = "0"
-    for abilityId, _ in pairs(displaying[targetUnitId]) do
-        expiredTimer = AdjustControlsOnInterrupt(targetUnitId, abilityId)
+    for abilityId, _ in pairs(displaying[sourceUnitId]) do
+        expiredTimer = AdjustControlsOnInterrupt(sourceUnitId, abilityId, nil)
     end
     return expiredTimer
 end
@@ -356,7 +393,18 @@ function Crutch.InterruptAbility(abilityId, suppressStopped)
     local expiredTimer = "0"
     for unitId, unitData in pairs(displaying) do
         if (unitData[abilityId]) then
-            expiredTimer = AdjustControlsOnInterrupt(unitId, abilityId, suppressStopped)
+            expiredTimer = AdjustControlsOnInterrupt(unitId, abilityId, nil, suppressStopped)
+        end
+    end
+    return expiredTimer
+end
+
+function Crutch.InterruptAbilityOnTarget(abilityId, targetUnitId, suppressStopped)
+    -- Check through all display alerts to find matching ability IDs that have the target
+    local expiredTimer = "0"
+    for unitId, unitData in pairs(displaying) do
+        if (unitData[abilityId] and unitData[abilityId].targets and unitData[abilityId].targets[targetUnitId]) then
+            expiredTimer = AdjustControlsOnInterrupt(unitId, abilityId, targetUnitId, suppressStopped)
         end
     end
     return expiredTimer
