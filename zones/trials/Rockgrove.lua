@@ -398,6 +398,40 @@ end
 
 
 ---------------------------------------------------------------------
+-- Pre-portal ability icons
+---------------------------------------------------------------------
+local isNextPortalOne = true
+local nextPortalTimer = 20
+local function OnPortalSummoned()
+    -- 20s to start
+    -- 50s after previous finished
+    -- TODO: actually do anything here?
+end
+
+local abilitiesToWatch = {
+    [38901] = true, -- Quick Cloak
+    -- TODO: foo, barrage
+}
+
+local function OnPortalEnded()
+    isNextPortalOne = not isNextPortalOne
+
+    -- TODO: cancel display on wipe
+    -- Crutch.DisplayDamageable(50, "Portal " .. (isNextPortalOne and "1" or "2") .. " in |c%s%.1f|r")
+end
+
+local function OnEnteredCombat()
+    -- Check that it's Bahsei HM
+    local _, maxHp = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (maxHp ~= 123882576) then
+        return
+    end
+
+    -- Crutch.DisplayDamageable(20, "Portal 1 in |c%s%.1f|r")
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local origOSIUnitErrorCheck = nil
@@ -405,9 +439,13 @@ local origOSIUnitErrorCheck = nil
 function Crutch.RegisterRockgrove()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Rockgrove")
 
+    Crutch.RegisterEnteredGroupCombatListener("RockgroveEnteredCombat", OnEnteredCombat)
+
     Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function()
         numBleeds = 0
         explosions = {}
+        isNextPortalOne = true
+        nextPortalTimer = 20
     end)
 
     -- Register the Noxious Sludge
@@ -445,6 +483,17 @@ function Crutch.RegisterRockgrove()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, OnDeathTouchLines)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
+
+    -- Register for Portal summon and end
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Clockwise", EVENT_COMBAT_EVENT, OnPortalSummoned)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Clockwise", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Clockwise", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 153517)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CounterClockwise", EVENT_COMBAT_EVENT, OnPortalSummoned)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CounterClockwise", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CounterClockwise", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 153518)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PortalExplode", EVENT_COMBAT_EVENT, OnPortalEnded)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PortalExplode", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PortalExplode", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 153662)
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI and OSI.UnitErrorCheck) then
