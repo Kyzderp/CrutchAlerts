@@ -351,12 +351,18 @@ local function RedrawStages(optionalBossName)
             -- Number percentage on the left of the bar
             percentageLabel:ClearAnchors()
             percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
-            percentageLabel:SetWidth(40 * GetScale())
-            percentageLabel:SetHeight(16 * GetScale())
             percentageLabel:SetFont(GetScaledFont(14))
             percentageLabel:SetText(tostring(percentage))
+            percentageLabel:SetWidth(40 * GetScale())
+            percentageLabel:SetWidth(percentageLabel:GetTextWidth())
+            percentageLabel:SetHeight(16 * GetScale())
             percentageLabel:SetColor(0.53, 0.53, 0.53)
             percentageLabel:SetHidden(false)
+            if (Crutch.savedOptions.bossHealthBar.horizontal) then
+                percentageLabel:SetTransformRotationZ(math.pi / 2)
+            else
+                percentageLabel:SetTransformRotationZ(0)
+            end
 
             -- Mechanic text on the right of the bar
             mechanicLabel:ClearAnchors()
@@ -399,7 +405,12 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         local attachedPercent = statusBar:GetNamedChild("AttachedPercent")
         attachedPercent:SetText(percentText)
         local _, originY = attachedPercent:GetCenter()
-        local targetY = statusBar:GetTop() + (100 - roundedPercent) / 5 * 16 * GetScale() - 12 * GetScale()
+        local targetY
+        if (Crutch.savedOptions.bossHealthBar.horizontal) then
+            targetY = statusBar:GetTop() + (100 - roundedPercent) / 5 * 16 * GetScale() - 18 * GetScale()
+        else
+            targetY = statusBar:GetTop() + (100 - roundedPercent) / 5 * 16 * GetScale() - 12 * GetScale()
+        end
         attachedPercent.slide:SetDeltaOffsetX(0)
         attachedPercent.slide:SetDeltaOffsetY(targetY - originY)
         attachedPercent.slideAnimation:PlayFromStart()
@@ -509,13 +520,25 @@ local function GetOrCreateStatusBar(index)
     statusBar:GetNamedChild("Percent"):SetWidth(40 * GetScale())
     statusBar:GetNamedChild("Percent"):SetHeight(16 * GetScale())
     statusBar:GetNamedChild("Percent"):ClearAnchors()
-    statusBar:GetNamedChild("Percent"):SetAnchor(TOP, statusBar, BOTTOM, 0, 2 * GetScale())
+    if (Crutch.savedOptions.bossHealthBar.horizontal) then
+        statusBar:GetNamedChild("Percent"):SetAnchor(TOP, statusBar, BOTTOM, 0, 10 * GetScale())
+        statusBar:GetNamedChild("Percent"):SetTransformRotationZ(math.pi / 2)
+    else
+        statusBar:GetNamedChild("Percent"):SetAnchor(TOP, statusBar, BOTTOM, 0, 2 * GetScale())
+        statusBar:GetNamedChild("Percent"):SetTransformRotationZ(0)
+    end
 
     statusBar:GetNamedChild("AttachedPercent"):SetFont(GetScaledFont(15))
     statusBar:GetNamedChild("AttachedPercent"):SetWidth(40 * GetScale())
     statusBar:GetNamedChild("AttachedPercent"):SetHeight(16 * GetScale())
     statusBar:GetNamedChild("AttachedPercent"):ClearAnchors()
-    statusBar:GetNamedChild("AttachedPercent"):SetAnchor(CENTER, statusBar, TOP, 0, -12 * GetScale())
+    if (Crutch.savedOptions.bossHealthBar.horizontal) then
+        statusBar:GetNamedChild("AttachedPercent"):SetAnchor(CENTER, statusBar, TOP, 0, -18 * GetScale())
+        statusBar:GetNamedChild("AttachedPercent"):SetTransformRotationZ(math.pi / 2)
+    else
+        statusBar:GetNamedChild("AttachedPercent"):SetAnchor(CENTER, statusBar, TOP, 0, -12 * GetScale())
+        statusBar:GetNamedChild("AttachedPercent"):SetTransformRotationZ(0)
+    end
 
     statusBar:SetHidden(false)
 
@@ -614,6 +637,19 @@ local function UpdateColors()
 end
 BHB.UpdateColors = UpdateColors
 
+local function UpdateRotation(showAllForMoving)
+    if (Crutch.savedOptions.bossHealthBar.horizontal) then
+        CrutchAlertsBossHealthBarContainer:SetTransformRotationZ(-math.pi/2)
+    else
+        -- Default vertical
+        CrutchAlertsBossHealthBarContainer:SetTransformRotationZ(0)
+    end
+    if (showAllForMoving) then
+        ShowOrHideBars(showAllForMoving)
+    end
+end
+BHB.UpdateRotation = UpdateRotation
+
 
 ---------------------------------------------------------------------------------------------------
 -- Init
@@ -644,6 +680,7 @@ function BHB.Initialize()
     CrutchAlertsBossHealthBarContainer:ClearAnchors()
     CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
         Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
+    UpdateRotation()
 
     -- Display only on HUD/HUD_UI
     if (not bhbFragment) then

@@ -131,6 +131,7 @@ local defaultOptions = {
     },
     bossHealthBar = {
         enabled = true,
+        horizontal = false,
         scale = 1,
         useFloorRounding = true,
         foreground = {179/256, 18/256, 7/256, 0.73},

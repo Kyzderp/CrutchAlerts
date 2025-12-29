@@ -305,6 +305,20 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "checkbox",
+                    name = "[BETA] Use horizontal bars",
+                    tooltip = "Show the boss health bars from left to right instead of vertical. Warning: this is just a naive UI element rotation with some adjustments, so there might be things that display weirdly",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.bossHealthBar.horizontal end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.bossHealthBar.horizontal = value
+                        Crutch.BossHealthBar.UpdateRotation(true)
+                        CrutchAlertsBossHealthBarContainer:SetHidden(false)
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+                },
+                {
                     type = "slider",
                     name = "Size",
                     tooltip = "The size to display the vertical boss health bars. Note: some elements may not update size properly until a reload",
