@@ -141,6 +141,14 @@ Crutch.uninterruptible = {
 }
 
 ---------------------------------------------------------------------
+-- Allow certain abilities (cast on other players) to be interrupted when the effect fades from them
+Crutch.fadedInterrupt = {
+    -- [236381] = true, -- True Shot (Coldharbour Sinewshot)
+    [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
+    [184802] = true, -- True Shot (Contramagis Archer) -- TODO: this is the cast, not the effect. need to log
+}
+
+---------------------------------------------------------------------
 -- Needs testing
 Crutch.testing = {
     [133045] = true, -- Dragon Totem
@@ -170,9 +178,7 @@ Crutch.testing = {
     -- [70466] = true, -- 35% Boss Speed Buff (Cloudrest)
     [105541] = true, -- MBs Dynamic Dspn (Cloudrest mini shades)
 
-    [183640] = true, -- Mantle: Gryphon
-    [184983] = true, -- Mantle: Lion
-    [184984] = true, -- Mantle: Wamasu
+    [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
 }
 
 ---------------------------------------------------------------------
@@ -344,7 +350,8 @@ Crutch.others = {
         [233762] = true, -- Abduct
         [234276] = true, -- Blazing Curse (Skorkhif)
         [234000] = true, -- Sparking Curse (Jynorah)
-        [236381] = true, -- True Shot (Coldharbour Sinewshot)
+        -- [236381] = true, -- True Shot (Coldharbour Sinewshot)
+        [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
     },
 
     -- Rockgrove

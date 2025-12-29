@@ -528,9 +528,6 @@ local function OnCombatEventOthers(_, result, isError, abilityName, _, _, source
 end
 
 local othersCurrentlyRegistered = {}
--- function Dump()
---     d(othersCurrentlyRegistered)
--- end
 
 local function RegisterOthersByZone(zoneData)
     for abilityId, _ in pairs(zoneData) do
@@ -553,6 +550,23 @@ local function RegisterOthersByZone(zoneData)
     end
 end
 
+local function OnFadedInterrupt(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId, abilityId)
+    Crutch.InterruptAbilityOnTarget(abilityId, targetUnitId)
+end
+
+local function RegisterFadedInterrupt(register)
+    for abilityId, _ in pairs(Crutch.fadedInterrupt) do
+        local eventName = Crutch.name .. "OthersFaded" .. tostring(abilityId)
+        if (register) then
+            EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnFadedInterrupt)
+            EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+            EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
+        else
+            EVENT_MANAGER:UnregisterForEvent(eventName, EVENT_COMBAT_EVENT)
+        end
+    end
+end
+
 function Crutch.RegisterOthers()
     Crutch.dbgOther("Registering Others")
 
@@ -563,6 +577,7 @@ function Crutch.RegisterOthers()
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OthersGainedDuration" .. tostring(id), EVENT_COMBAT_EVENT)
     end
     ZO_ClearTable(othersCurrentlyRegistered)
+    RegisterFadedInterrupt(false)
 
     -- Do not continue if others off (can be called from settings turning off)
     if (not Crutch.savedOptions.general.showOthers) then return end
@@ -577,6 +592,9 @@ function Crutch.RegisterOthers()
 
     -- And also register global. There really shouldn't be many here
     RegisterOthersByZone(Crutch.others["*"])
+
+    -- Register combat effect faded for certain abilities
+    RegisterFadedInterrupt(true)
 end
 
 
