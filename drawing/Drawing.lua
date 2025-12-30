@@ -158,7 +158,7 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  fac
         SetBackdropRoll = setBackdropRollFunc, -- Space backdrops
         GetCompositeTexture = getCompositeFunc, -- Returns composite texture so caller can just use ZOS APIs
     }
-    Draw.MaybeStartPolling()
+    Draw.MaybeStartPolling(faceCamera)
 
     local controlDebugString = ""
     if (texture) then

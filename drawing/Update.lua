@@ -65,8 +65,14 @@ end
 -- Starting/stopping updates based on whether there are icons
 ---------------------------------------------------------------------
 local polling = false
-function Draw.MaybeStartPolling()
-    if (polling) then return end
+function Draw.MaybeStartPolling(updateImmediately)
+    if (polling) then
+        -- If it's an icon that faces camera (or maybe other reasons), update immediately to avoid icon "flashing" problem
+        if (updateImmediately) then
+            DoUpdate()
+        end
+        return
+    end
 
     -- Only start polling if there are icons
     if (not next(Draw.activeIcons)) then
