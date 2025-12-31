@@ -400,7 +400,7 @@ function Crutch.InterruptAbility(abilityId, suppressStopped)
 end
 
 function Crutch.InterruptAbilityOnTarget(abilityId, targetUnitId, suppressStopped)
-    Crutch.dbgSpam(string.format("Attempting to interrupt %s (%d) on %s (%d)", GetAbilityName(abilityId), abilityId, GetUnitDisplayname(Crutch.groupIdToTag[targetUnitId]), targetUnitId))
+    Crutch.dbgSpam(string.format("Attempting to interrupt %s (%d) on %s (%d)", GetAbilityName(abilityId), abilityId, GetUnitDisplayName(Crutch.groupIdToTag[targetUnitId]), targetUnitId))
     -- Check through all display alerts to find matching ability IDs that have the target
     local expiredTimer = "0"
     for unitId, unitData in pairs(displaying) do
