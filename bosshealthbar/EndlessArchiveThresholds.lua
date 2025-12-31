@@ -64,6 +64,12 @@ local endlessArchiveThresholds = {
     },
 
     -- Laatvulon -- RIP. frost atros during blizzard, but worse, freezing winds dot that can't be debuffed
+    -- Takeoff: 194811
+    -- I am confusion
+    -- Takeoff -> 5.129s -> Blizzard -> 6.144 -> Freezing Winds 16 ticks (arc 13)
+    -- Takeoff -> 5.219s -> Blizzard -> 7.148 -> Freezing Winds 10 ticks (arc 10)
+    -- Takeoff -> 5.264s -> Blizzard -> 8.093 -> Freezing Winds 13 ticks (arc 2?)
+    -- Ideally take 2 ticks of Freezing Winds, use elf bane magma, take 2 more full ticks after it ends. bring shield for the full ticks?
     [GetBossName(CRUTCH_BHB_LAATVULON)] = {
         [50] = "Blizzard",
     },

@@ -352,6 +352,8 @@ Crutch.others = {
         [234000] = true, -- Sparking Curse (Jynorah)
         -- [236381] = true, -- True Shot (Coldharbour Sinewshot)
         [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
+        -- [234683] = true, -- Radiance (Blazing Flame Atronach)
+        -- [234680] = true, -- Radiance (Sparking Cold-Flame Atronach)
     },
 
     -- Rockgrove
