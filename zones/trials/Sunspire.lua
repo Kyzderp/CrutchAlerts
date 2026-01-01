@@ -405,6 +405,11 @@ local origOSIUnitErrorCheck = nil
 function Crutch.RegisterSunspire()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Sunspire")
 
+    Crutch.RegisterExitedGroupCombatListener("CrutchSunspire", function()
+        -- For wipes because landing timers are long
+        Crutch.StopDamageable()
+    end)
+
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 121722)

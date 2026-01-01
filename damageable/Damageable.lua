@@ -613,6 +613,11 @@ function Crutch.DisplayDamageable(time, displayFormat)
     end
 end
 
+function Crutch.StopDamageable()
+    pollTime = GetGameTimeMilliseconds()
+    CrutchAlertsDamageableLabel:SetHidden(true)
+end
+
 ---------------------------------------------------------------------
 -- This keeps track of whether it's the first time a "single" subtitle has played in an instance
 local isInstanceFresh = true

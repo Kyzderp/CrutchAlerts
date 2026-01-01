@@ -416,8 +416,7 @@ local abilitiesToWatch = {
 local function OnPortalEnded()
     isNextPortalOne = not isNextPortalOne
 
-    -- TODO: cancel display on wipe
-    -- Crutch.DisplayDamageable(50, "Portal " .. (isNextPortalOne and "1" or "2") .. " in |c%s%.1f|r")
+    Crutch.DisplayDamageable(50, "Portal " .. (isNextPortalOne and "1" or "2") .. " in |c%s%.1f|r")
 end
 
 local function OnEnteredCombat()
@@ -427,7 +426,7 @@ local function OnEnteredCombat()
         return
     end
 
-    -- Crutch.DisplayDamageable(20, "Portal 1 in |c%s%.1f|r")
+    Crutch.DisplayDamageable(20, "Portal 1 in |c%s%.1f|r")
 end
 
 
@@ -446,6 +445,7 @@ function Crutch.RegisterRockgrove()
         explosions = {}
         isNextPortalOne = true
         nextPortalTimer = 20
+        Crutch.StopDamageable()
     end)
 
     -- Register the Noxious Sludge
