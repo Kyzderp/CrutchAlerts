@@ -23,6 +23,10 @@ local function OnCombatExitedTimeout()
         return -- Was boss
     end
 
+    if (not Crutch.savedOptions.general.showDamageable) then
+        return
+    end
+
     -- And display next round
     local timer = combatExitTime + TIME_TO_NEXT - GetGameTimeMilliseconds()
     Crutch.DisplayDamageable(timer / 1000, "Portal spawns in |c%s%.1f|r")
