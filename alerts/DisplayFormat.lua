@@ -126,6 +126,7 @@ Crutch.format = {
 -- Sunspire
     [122012] = 130402.5, -- Storm Crush (Gale-Claw)
     [120890] = 130302.5, -- Crush (Fire-Fang)
+    [120359] = 20403.1, -- Relentless Gale (Lokkestiiz)
     [121722] =      6.3, -- Focus Fire (Yolnahkriin)
     [120783] = 330000.0, -- Hail of Stone (Vigil Statue)
 

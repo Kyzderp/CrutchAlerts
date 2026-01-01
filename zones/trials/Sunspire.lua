@@ -123,8 +123,30 @@ local function MaybeEnableLokkIcons()
 end
 
 -- Show icons during flight phase
-local function OnLokkFly()
+local function OnLokkFly(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
     MaybeEnableLokkIcons()
+
+    if (Crutch.savedOptions.general.showDamageable) then
+        if (abilityId == 122820) then
+            -- 80%
+            Crutch.DisplayDamageable(40, "Beam in |c%s%.1f|r")
+            zo_callLater(function()
+                Crutch.DisplayDamageable(12.8)
+            end, 40000)
+        elseif (abilityId == 122821) then
+            -- 50%
+            Crutch.DisplayDamageable(10.2, "Beam in |c%s%.1f|r")
+            zo_callLater(function()
+                Crutch.DisplayDamageable(54.6)
+            end, 10200)
+        elseif (abilityId == 122822) then
+            -- 20%
+            Crutch.DisplayDamageable(34.2, "Beam in |c%s%.1f|r")
+            zo_callLater(function()
+                Crutch.DisplayDamageable(30)
+            end, 34200)
+        end
+    end
 end
 
 -- Hide icons after beam is over
