@@ -638,6 +638,8 @@ end
 BHB.UpdateColors = UpdateColors
 
 local function UpdateRotation(showAllForMoving)
+    -- Rotate from top left corner, because center is different depending on how many bosses
+    CrutchAlertsBossHealthBarContainer:SetTransformNormalizedOriginPoint(0, 0)
     if (Crutch.savedOptions.bossHealthBar.horizontal) then
         CrutchAlertsBossHealthBarContainer:SetTransformRotationZ(-math.pi/2)
     else
