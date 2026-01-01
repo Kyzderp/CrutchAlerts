@@ -132,18 +132,18 @@ local function OnLokkFly(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, ability
             Crutch.DisplayDamageable(40, "Beam in |c%s%.1f|r")
             zo_callLater(function()
                 Crutch.DisplayDamageable(12.8)
-            end, 40000)
+            end, 40500)
         elseif (abilityId == 122821) then
             -- 50%
             Crutch.DisplayDamageable(10.2, "Beam in |c%s%.1f|r")
             zo_callLater(function()
                 Crutch.DisplayDamageable(54.6)
-            end, 10200)
+            end, 10300)
         elseif (abilityId == 122822) then
             -- 20%
             Crutch.DisplayDamageable(34.2, "Beam in |c%s%.1f|r")
             zo_callLater(function()
-                Crutch.DisplayDamageable(30)
+                Crutch.DisplayDamageable(29.7)
             end, 34200)
         end
     end
@@ -273,6 +273,11 @@ local function DisableYolIcons()
 end
 
 local function OnYolFly75()
+    -- Landing
+    if (Crutch.savedOptions.general.showDamageable) then
+        Crutch.DisplayDamageable(22.8)
+    end
+
     if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
     if (Crutch.savedOptions.sunspire.yolLeftIcons) then
         Crutch.EnableIcon("YolLeftWing2")
@@ -290,6 +295,11 @@ local function OnYolFly75()
 end
 
 local function OnYolFly50()
+    -- Landing
+    if (Crutch.savedOptions.general.showDamageable) then
+        Crutch.DisplayDamageable(23.4)
+    end
+
     if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
     if (Crutch.savedOptions.sunspire.yolLeftIcons) then
         Crutch.EnableIcon("YolLeftWing3")
@@ -307,6 +317,11 @@ local function OnYolFly50()
 end
 
 local function OnYolFly25()
+    -- Landing
+    if (Crutch.savedOptions.general.showDamageable) then
+        Crutch.DisplayDamageable(23.5)
+    end
+
     if (not Crutch.savedOptions.sunspire.showYolIcons) then return end
     if (Crutch.savedOptions.sunspire.yolLeftIcons) then
         Crutch.EnableIcon("YolLeftWing4")

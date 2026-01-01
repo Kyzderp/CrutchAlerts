@@ -419,6 +419,7 @@ Crutch.others = {
         [118562] = true, -- Thrash
         [121422] = true, -- Sundering Gale
         [122598] = true, -- Cataclysm
+        [118884] = true, -- Fire Storm (Nahv)
     },
 
 
