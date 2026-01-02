@@ -410,13 +410,49 @@ end
 
 local abilitiesToWatch = {
     [38901] = true, -- Quick Cloak
-    -- TODO: foo, barrage
+    [22095] = true, -- Solar Barrage
+    [32853] = true, -- Flames of Oblivion
+    -- TODO: cro mage/archer, hurricane
 }
+
+-- TODO: same skill could be on both bars
+-- TODO: only change for the relevant portal
+local function SpoofIcon(abilityId)
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId)
+    Crutch.SpoofAbilityTexture(abilityId, "CrutchAlerts/assets/poop.dds")
+    Crutch.dbgOther("Changing " .. GetAbilityName(abilityId))
+end
+
+local function UnspoofAllIcons()
+    for abilityId, _ in pairs(abilitiesToWatch) do
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId)
+        Crutch.UnspoofAbilityTexture(abilityId)
+    end
+end
+
+-- Target time after portal spawns, e.g. Quick Cloak lasts 30s, margin is 4s, so icon should be changed at 26s before next portal
+local MARGIN = 4000
+local function MaybeChangeIconLater(abilityId, msUntilPortal)
+    if (not abilitiesToWatch[abilityId]) then return end
+
+    -- Time in ms until icon change
+    local delay = msUntilPortal + MARGIN - GetAbilityDuration(abilityId)
+    Crutch.dbgOther("Will change " .. GetAbilityName(abilityId) .. " icon in " .. delay .. "ms")
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId, delay, function() SpoofIcon(abilityId) end)
+end
 
 local function OnPortalEnded()
     isNextPortalOne = not isNextPortalOne
 
     Crutch.DisplayDamageable(50, "Portal " .. (isNextPortalOne and "1" or "2") .. " in |c%s%.1f|r")
+
+    -- Check if any skills are slotted
+    for i = 3, 8 do
+        MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_PRIMARY), 50000)
+        MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_BACKUP), 50000)
+    end
+
+    UnspoofAllIcons()
 end
 
 local function OnEnteredCombat()
@@ -427,6 +463,12 @@ local function OnEnteredCombat()
     end
 
     Crutch.DisplayDamageable(20, "Portal 1 in |c%s%.1f|r")
+
+    -- Check if any skills are slotted
+    for i = 3, 8 do
+        MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_PRIMARY), 20000)
+        MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_BACKUP), 20000)
+    end
 end
 
 
@@ -446,6 +488,7 @@ function Crutch.RegisterRockgrove()
         isNextPortalOne = true
         nextPortalTimer = 20
         Crutch.StopDamageable()
+        UnspoofAllIcons()
     end)
 
     -- Register the Noxious Sludge
