@@ -130,6 +130,7 @@ Crutch.format = {
     [121722] =      6.3, -- Focus Fire (Yolnahkriin)
     [120783] = 330000.0, -- Hail of Stone (Vigil Statue)
     [118884] =    100.0, -- Fire Storm (Nahv)
+    [117251] =    100.0, -- Meteor (Nahviintaas)
 
 ---------------------------------------------------------------------
 -- Dungeons

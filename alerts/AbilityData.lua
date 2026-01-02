@@ -228,6 +228,7 @@ Crutch.gainedDuration = {
 
 -- Sunspire
     [116636] = true, -- Chilling Comet (Alkosh's Fate)
+    [117251] = true, -- Meteor (Nahviintaas)
 
 -- Frostvault
     [117324] = true, -- Ice Comet (2000) Coldsnap Skysplitter might be the ones on the ledge?

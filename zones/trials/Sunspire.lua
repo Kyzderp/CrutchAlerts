@@ -397,6 +397,14 @@ end
 
 
 ---------------------------------------------------------------------
+-- Nahv damageable
+---------------------------------------------------------------------
+local function OnFireStormBegin()
+    Crutch.DisplayDamageable(22.5)
+end
+
+
+---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
 -- Register/Unregister
@@ -463,6 +471,13 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 125693)
 
+    -- Nahv landing
+    if (Crutch.savedOptions.general.showDamageable) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT, OnFireStormBegin)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 118884)
+    end
+
      -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI and OSI.UnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
@@ -504,6 +519,8 @@ function Crutch.UnregisterSunspire()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")
