@@ -446,13 +446,13 @@ local function OnPortalEnded()
 
     Crutch.DisplayDamageable(50, "Portal " .. (isNextPortalOne and "1" or "2") .. " in |c%s%.1f|r")
 
+    UnspoofAllIcons()
+
     -- Check if any skills are slotted
     for i = 3, 8 do
         MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_PRIMARY), 50000)
         MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_BACKUP), 50000)
     end
-
-    UnspoofAllIcons()
 end
 
 local function OnEnteredCombat()
