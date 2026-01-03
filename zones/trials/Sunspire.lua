@@ -399,8 +399,10 @@ end
 ---------------------------------------------------------------------
 -- Nahv damageable
 ---------------------------------------------------------------------
-local function OnFireStormBegin()
-    Crutch.DisplayDamageable(22.5)
+local function OnFireStormBegin(_, _, _, _, _, _, _, _, _, _, hitValue)
+    if (hitValue < 2000) then -- Only want the initial 1700
+        Crutch.DisplayDamageable(22.5)
+    end
 end
 
 
