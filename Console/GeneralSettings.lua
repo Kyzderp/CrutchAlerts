@@ -330,6 +330,20 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Use horizontal bars",
+        tooltip = "Show the boss health bars from left to right instead of vertical. Warning: this is just a naive UI element rotation with some adjustments, so there may be things that display weirdly",
+        default = false,
+        getFunction = function() return Crutch.savedOptions.bossHealthBar.horizontal end,
+        setFunction = function(value)
+            Crutch.savedOptions.bossHealthBar.horizontal = value
+            Crutch.BossHealthBar.UpdateRotation(true)
+            Crutch.UnlockUI(true)
+        end,
+        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SLIDER,
         label = "Boss health bar size",
         tooltip = "The size to display the vertical boss health bars. Note: some elements may not update size properly until a reload",

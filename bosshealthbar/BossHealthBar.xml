@@ -1,7 +1,7 @@
 <GuiXml>
     <Controls>
 <!-- ======================================================================================================================= -->
-        <TopLevelControl name="CrutchAlertsBossHealthBarContainer" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="false">
+        <TopLevelControl name="CrutchAlertsBossHealthBarContainer" mouseEnabled="false" movable="false" hidden="false">
             <Dimensions x="34" y="324"/>
             <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="-400" offsetY="-100"/>
             <OnMoveStop>
