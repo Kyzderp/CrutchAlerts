@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- DingIA Result   Type  HideTimer  Color  Timer
@@ -103,6 +104,7 @@ Crutch.format = {
     -- [236383] = 30500, -- True Shot (Coldharbour Sinewshot) (the effect?)
     [234683] = {info = 31103, text = "Blazing Flame Atronach"}, -- Radiance (Blazing Flame Atronach)
     [234680] = {info = 31403, text = "Sparking Cold-Flame Atronach"}, -- Radiance (Sparking Cold-Flame Atronach)
+    [C.ID.SEEKING_SURGE_DROPPED] = 31503, -- Seeking Surge called from OsseinCage.lua
 
 -- Rockgrove
     [152688] = 2.5, -- Cinder Cleave (Havocrel Annihilator)

@@ -190,7 +190,7 @@ local function OnDamage(_, result, isError, abilityName, abilityGraphic, ability
     atros[targetUnitId] = atros[targetUnitId] - hitValue
     if (atros[targetUnitId] <= 0) then
         -- TODO: only show if it's a relevant portal
-        Crutch.DisplayNotification(8880008, "|cff00ffSeeking Surge dropped! (hp tracking)|r", 5, targetUnitId, targetName, targetType, targetUnitId, targetName, targetType, result, true)
+        Crutch.DisplayNotification(C.ID.SEEKING_SURGE_DROPPED, "|cff00ffSeeking Surge dropped! (hp tracking)|r", 5, targetUnitId, targetName, targetType, targetUnitId, targetName, targetType, result, true)
         atros[targetUnitId] = nil
     end
 end
@@ -198,7 +198,7 @@ end
 local function OnDied(_, result, isError, abilityName, abilityGraphic, abilityActionSlotType, sourceName, sourceType, targetName, targetType, hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId, overflow)
     if (atros[targetUnitId]) then
         -- TODO: only show if it's a relevant portal
-        Crutch.DisplayNotification(8880008, "|cff00ffSeeking Surge dropped! (died)|r", 5, targetUnitId, targetName, targetType, targetUnitId, targetName, targetType, result, true)
+        Crutch.DisplayNotification(C.ID.SEEKING_SURGE_DROPPED, "|cff00ffSeeking Surge dropped! (died)|r", 5, targetUnitId, targetName, targetType, targetUnitId, targetName, targetType, result, true)
         atros[targetUnitId] = nil
     end
 end
