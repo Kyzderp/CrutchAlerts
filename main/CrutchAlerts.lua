@@ -210,6 +210,12 @@ local defaultOptions = {
         curseLineColor = {1, 1, 0, 0.5},
         showOthersCurseLines = false,
         othersCurseLineColor = {1, 1, 0, 0.5},
+
+        spoofAbilitiesFirstTime = true,
+        showTimeToPortal = false,
+        portalNumber = 0, -- 0 for none, 1, 2
+        abilitiesToReplace = {},
+        portalTimeMargin = 4000,
     },
     sanitysedge = {
         showChimeraIcons = true,
@@ -340,6 +346,11 @@ local function OnPlayerActivated()
 
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
+    Crutch.dbgSpam(string.format("|c00FF00zoneId: %s (%d) -> %s (%d); mapId %s (%d)|r",
+        GetZoneNameById(Crutch.zoneId), Crutch.zoneId,
+        GetZoneNameById(zoneId), zoneId,
+        GetMapNameById(GetCurrentMapId()), GetCurrentMapId()))
+
     -- Unregister previous active trial, if applicable
     if (zoneUnregisters[Crutch.zoneId]) then
         zoneUnregisters[Crutch.zoneId]()
@@ -396,6 +407,16 @@ local function Initialize()
     Crutch.AddEffectDefaults()
     PrintTime("defaults done")
     Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
+
+    if (Crutch.savedOptions.rockgrove.spoofAbilitiesFirstTime) then
+        local abilities = Crutch.savedOptions.rockgrove.abilitiesToReplace
+        abilities[38901] = true -- Quick Cloak
+        abilities[22095] = true -- Solar Barrage
+        abilities[32853] = true -- Flames of Oblivion
+        -- TODO: cro mage/archer, hurricane
+        Crutch.savedOptions.rockgrove.spoofAbilitiesFirstTime = false
+    end
+
     if (Crutch.savedOptions.prominentV2FirstTime) then
         Crutch.InitProminentV2Options()
         Crutch.savedOptions.prominentV2FirstTime = false

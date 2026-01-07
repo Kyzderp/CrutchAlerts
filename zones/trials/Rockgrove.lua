@@ -400,7 +400,7 @@ end
 ---------------------------------------------------------------------
 -- Pre-portal ability icons
 ---------------------------------------------------------------------
-local isNextPortalOne = true
+local nextPortal = 1
 local nextPortalTimer = 20
 local function OnPortalSummoned()
     -- 20s to start
@@ -408,45 +408,51 @@ local function OnPortalSummoned()
     -- TODO: actually do anything here?
 end
 
-local abilitiesToWatch = {
-    [38901] = true, -- Quick Cloak
-    [22095] = true, -- Solar Barrage
-    [32853] = true, -- Flames of Oblivion
-    -- TODO: cro mage/archer, hurricane
-}
+local spoofedAbilities = {} -- Just for cleanup. {abilityId = true}
 
--- TODO: same skill could be on both bars
 -- TODO: only change for the relevant portal
 local function SpoofIcon(abilityId)
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId)
+    spoofedAbilities[abilityId] = true
     Crutch.SpoofAbilityTexture(abilityId, "CrutchAlerts/assets/poop.dds")
     Crutch.dbgOther("Changing " .. GetAbilityName(abilityId))
 end
 
 local function UnspoofAllIcons()
-    for abilityId, _ in pairs(abilitiesToWatch) do
+    for abilityId, _ in pairs(spoofedAbilities) do
         EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId)
         Crutch.UnspoofAbilityTexture(abilityId)
     end
 end
 
 -- Target time after portal spawns, e.g. Quick Cloak lasts 30s, margin is 4s, so icon should be changed at 26s before next portal
-local MARGIN = 4000
 local function MaybeChangeIconLater(abilityId, msUntilPortal)
-    if (not abilitiesToWatch[abilityId]) then return end
+    if (not Crutch.savedOptions.rockgrove.abilitiesToReplace[abilityId]) then return end
 
     -- Time in ms until icon change
-    local delay = msUntilPortal + MARGIN - GetAbilityDuration(abilityId)
+    local delay = msUntilPortal + Crutch.savedOptions.rockgrove.portalTimeMargin - GetAbilityDuration(abilityId)
     Crutch.dbgOther("Will change " .. GetAbilityName(abilityId) .. " icon in " .. delay .. "ms")
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId, delay, function() SpoofIcon(abilityId) end)
 end
 
-local function OnPortalEnded()
-    isNextPortalOne = not isNextPortalOne
+local function IsMyPortal(nextPortal)
+    local myPortal = Crutch.savedOptions.rockgrove.portalNumber
+    if (myPortal == 0) then return false end
 
-    Crutch.DisplayDamageable(50, "Portal " .. (isNextPortalOne and "1" or "2") .. " in |c%s%.1f|r")
+    return myPortal == nextPortal
+end
+
+local function OnPortalEnded()
+    nextPortal = (nextPortal == 1) and 2 or 1
+
+    if (Crutch.savedOptions.rockgrove.showTimeToPortal) then
+        -- TODO: a panel?
+        Crutch.DisplayDamageable(50, "Portal " .. nextPortal .. " in |c%s%.1f|r")
+    end
 
     UnspoofAllIcons()
+
+    if (not IsMyPortal(nextPortal)) then return end
 
     -- Check if any skills are slotted
     for i = 3, 8 do
@@ -462,7 +468,11 @@ local function OnEnteredCombat()
         return
     end
 
-    Crutch.DisplayDamageable(20, "Portal 1 in |c%s%.1f|r")
+    if (Crutch.savedOptions.rockgrove.showTimeToPortal) then
+        Crutch.DisplayDamageable(20, "Portal 1 in |c%s%.1f|r")
+    end
+
+    if (not IsMyPortal(1)) then return end
 
     -- Check if any skills are slotted
     for i = 3, 8 do
@@ -485,7 +495,7 @@ function Crutch.RegisterRockgrove()
     Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function()
         numBleeds = 0
         explosions = {}
-        isNextPortalOne = true
+        nextPortal = 1
         nextPortalTimer = 20
         Crutch.StopDamageable()
         UnspoofAllIcons()

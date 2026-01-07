@@ -24,6 +24,20 @@ local function RefreshIndividualIconNames()
 end
 
 ------------------
+-- Rockgrove abilities to replace
+local abilityNames = {}
+local abilityIds = {}
+local function UpdateAbilitiesToReplace()
+    ZO_ClearTable(abilityNames)
+    ZO_ClearTable(abilityIds)
+    for id, _ in pairs(Crutch.savedOptions.rockgrove.abilitiesToReplace) do
+        table.insert(abilityIds, id)
+        table.insert(abilityNames, string.format("%s (%d)", GetAbilityName(id), id))
+    end
+    CrutchAlerts_AbilitiesToReplace:UpdateChoices(abilityNames, abilityIds)
+end
+
+------------------
 local function UnlockUI(value)
     Crutch.unlock = value
     CrutchAlertsContainer:SetMovable(value)
@@ -1916,6 +1930,43 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "half",
                     disabled = function() return LibGroupBroadcast == nil or not Crutch.savedOptions.rockgrove.showOthersCurseLines end
+                },
+                {
+                    type = "description",
+                    title = "|c08BD1D[BETA] Mark Dangerous Abilities|r",
+                    text = "Some AOE abilities are dangerous to have active when in Bahsei HM portals, because they may kill multiple ghosts at once. This feature can be configured to replace the ability icon when it's almost time for your portal. For example, Solar Barrage lasts for 20s, and the margin (configure below) is 4s, so Solar Barrage's icon will be changed to a poop at 16s before your portal spawns.",
+                    width = "full",
+                },
+                {
+                    type = "dropdown",
+                    name = "Portal number",
+                    tooltip = "The portal number you are assigned to",
+                    choices = {"None", "Portal 1", "Portal 2"},
+                    choicesValues = {0, 1, 2},
+                    getFunc = function()
+                        return Crutch.savedOptions.rockgrove.portalNumber
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.portalNumber = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "dropdown",
+                    name = "Remove ability",
+                    tooltip = "Select an ability from this dropdown to remove it from the list",
+                    choices = {},
+                    choicesValues = {},
+                    getFunc = function()
+                        UpdateAbilitiesToReplace()
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.abilitiesToReplace[value] = nil
+                        Crutch.msg(string.format("Removed %s(%d) from abilities to replace.", GetAbilityName(value), value))
+                        UpdateAbilitiesToReplace()
+                    end,
+                    width = "full",
+                    reference = "CrutchAlerts_AbilitiesToReplace",
                 },
             })),
         },
