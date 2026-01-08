@@ -347,9 +347,9 @@ local function OnPlayerActivated()
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
 
     Crutch.dbgSpam(string.format("|c00FF00zoneId: %s (%d) -> %s (%d); mapId %s (%d)|r",
-        GetZoneNameById(Crutch.zoneId), Crutch.zoneId,
-        GetZoneNameById(zoneId), zoneId,
-        GetMapNameById(GetCurrentMapId()), GetCurrentMapId()))
+        GetZoneNameById(Crutch.zoneId) or "??", Crutch.zoneId or 0,
+        GetZoneNameById(zoneId) or "??", zoneId or 0,
+        GetMapNameById(GetCurrentMapId()) or "??", GetCurrentMapId() or 0))
 
     -- Unregister previous active trial, if applicable
     if (zoneUnregisters[Crutch.zoneId]) then
