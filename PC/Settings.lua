@@ -1952,6 +1952,19 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "editbox",
+                    name = "Add dangerous ability",
+                    tooltip = "The ID of the ability to add to the list. Some potentially relevant ones:\nQuick Cloak (38901)\nSolar Barrage (22095)\nFlames of Oblivion (32853)",
+                    default = "",
+                    getFunc = function() return "" end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.abilitiesToReplace[value] = true
+                        Crutch.msg(string.format("Added %s(%d) to abilities to replace.", GetAbilityName(value), value))
+                        -- TODO: needs update?
+                    end,
+                    width = "full",
+                },
+                {
                     type = "dropdown",
                     name = "Remove ability",
                     tooltip = "Select an ability from this dropdown to remove it from the list",
@@ -1967,6 +1980,20 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                     reference = "CrutchAlerts_AbilitiesToReplace",
+                },
+                {
+                    type = "slider",
+                    name = "Portal time margin",
+                    tooltip = "The target number of milliseconds after portal spawns, for which you want the dangerous abilities to expire by. For example, setting it to 4000 means your Solar Barrage will be changed at 16 seconds before your portal, because the margin is 4 seconds and Solar Barrage lasts for 20 seconds",
+                    min = 0,
+                    max = 60000,
+                    step = 500,
+                    default = 4000,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.rockgrove.portalTimeMargin end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.portalTimeMargin = value
+                    end,
                 },
             })),
         },
