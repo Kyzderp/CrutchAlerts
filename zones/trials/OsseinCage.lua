@@ -162,14 +162,6 @@ end
 -- Atro Seeking Surge
 -- Idea & prototype by @M0R_Gaming
 ---------------------------------------------------------------------
--- For Reflective Scale and atro health tracking
-local damageTypes = {
-    [ACTION_RESULT_DAMAGE] = "",
-    [ACTION_RESULT_CRITICAL_DAMAGE] = "",
-    [ACTION_RESULT_DOT_TICK] = " |cAAAAAA(dot)|r",
-    [ACTION_RESULT_DOT_TICK_CRITICAL] = " |cAAAAAA(dot)|r",
-}
-
 local atros = {}
 
 -- Atro spawned, only care about the ones with Radiance, i.e. not channeler portal
@@ -181,25 +173,9 @@ local function OnRadiance(_, changeType, _, _, _, _, _, _, _, _, _, _, _, unitNa
 
         -- TODO: only show if it's a relevant portal
         Crutch.DisplayNotification(abilityId, GetAbilityName(abilityId), 3, unitId, unitName, sourceType, unitId, unitName, sourceType, changeType, true)
-    end
-end
-
-local function OnDamage(_, result, isError, abilityName, abilityGraphic, abilityActionSlotType, sourceName, sourceType, targetName, targetType, hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId, overflow)
-    if (not atros[targetUnitId]) then return end
-
-    atros[targetUnitId] = atros[targetUnitId] - hitValue
-    if (atros[targetUnitId] <= 0) then
-        -- TODO: only show if it's a relevant portal
-        Crutch.DisplayNotification(C.ID.SEEKING_SURGE_DROPPED, "|cff00ffSeeking Surge dropped! (hp tracking)|r", 5, targetUnitId, targetName, targetType, targetUnitId, targetName, targetType, result, true)
-        atros[targetUnitId] = nil
-    end
-end
-
-local function OnDied(_, result, isError, abilityName, abilityGraphic, abilityActionSlotType, sourceName, sourceType, targetName, targetType, hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId, overflow)
-    if (atros[targetUnitId]) then
-        -- TODO: only show if it's a relevant portal
-        Crutch.DisplayNotification(C.ID.SEEKING_SURGE_DROPPED, "|cff00ffSeeking Surge dropped! (died)|r", 5, targetUnitId, targetName, targetType, targetUnitId, targetName, targetType, result, true)
-        atros[targetUnitId] = nil
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.DisplayNotification(C.ID.SEEKING_SURGE_DROPPED, "|cff00ffSeeking Surge dropped!|r", 5, unitId, unitName, sourceType, unitId, unitName, sourceType, changeType, true)
+        atros[unitId] = nil
     end
 end
 
@@ -208,29 +184,25 @@ local function RegisterHardmodeAtros()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCColdFlameAtroSpawn", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 234680)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCFlameAtroSpawn", EVENT_EFFECT_CHANGED, OnRadiance)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCFlameAtroSpawn", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 234683)
-
-    for result, _ in pairs(damageTypes) do
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCAtroDamage", EVENT_COMBAT_EVENT, OnDamage)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCAtroDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, result)
-    end
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCAtroDied", EVENT_COMBAT_EVENT, OnDied)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCAtroDied", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DIED)
 end
 
 local function UnregisterHardmodeAtros()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCColdFlameAtroSpawn", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCFlameAtroSpawn", EVENT_EFFECT_CHANGED)
-    for result, _ in pairs(damageTypes) do
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCAtroDamage", EVENT_COMBAT_EVENT)
-    end
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCAtroDied", EVENT_COMBAT_EVENT)
 end
 
 
 ---------------------------------------------------------------------
 -- Titan HP
 ---------------------------------------------------------------------
+-- For Reflective Scale tracking
+local damageTypes = {
+    [ACTION_RESULT_DAMAGE] = "",
+    [ACTION_RESULT_CRITICAL_DAMAGE] = "",
+    [ACTION_RESULT_DOT_TICK] = " |cAAAAAA(dot)|r",
+    [ACTION_RESULT_DOT_TICK_CRITICAL] = " |cAAAAAA(dot)|r",
+}
+
 -- Jynorah hp to titan hp
 local TITAN_MAX_HPS = {
     [85320632] = 242176464,
