@@ -124,6 +124,7 @@ Crutch.format = {
     [183855] = 45, -- The Ritual (Ansuul maze)
     [199344] = 100, -- Sunburst (Ansuul)
     [184802] = 30500, -- True Shot (Contramagis Archer)
+    [183778] = 1103, -- Inferno (Enraged Fragment)
 
 -- Sunspire
     [122012] = 130402.5, -- Storm Crush (Gale-Claw)

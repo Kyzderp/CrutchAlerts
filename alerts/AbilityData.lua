@@ -179,6 +179,8 @@ Crutch.testing = {
     [105541] = true, -- MBs Dynamic Dspn (Cloudrest mini shades)
 
     -- [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
+
+    [183778] = true, -- Inferno (Enraged Fragment)
 }
 
 ---------------------------------------------------------------------
@@ -394,7 +396,7 @@ Crutch.others = {
         [183855] = true, -- The Ritual (Ansuul maze)
         [184802] = true, -- True Shot (Contramagis Archer)
         [199344] = true, -- Sunburst (Ansuul)
-        -- [183778] = true, -- Inferno (Enraged Fragment) TODO: see if I can receive the interrupts, otherwise it's not useful
+        [183778] = true, -- Inferno (Enraged Fragment)
     },
 
     -- Sunspire
