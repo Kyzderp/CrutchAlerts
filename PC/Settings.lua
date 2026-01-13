@@ -1934,7 +1934,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "description",
                     title = "|c08BD1D[BETA] Mark Dangerous Abilities|r",
-                    text = "Some AOE abilities are dangerous to have active when in Bahsei HM portals, because they may kill multiple ghosts at once. This feature can be configured to replace the ability icon when it's almost time for your portal. For example, Solar Barrage lasts for 20s, and the margin (configure below) is 4s, so Solar Barrage's icon will be changed to a poop at 16s before your portal spawns.",
+                    text = "Some AOE abilities are dangerous to have active when in Bahsei HM portals, because they may kill multiple ghosts at once. This feature can be configured to replace the ability icon when it's almost time for your portal. For example, Solar Barrage lasts for 20s, and the margin (configure below) is 4s, so Solar Barrage's icon will be changed to a warning icon at 16s before your portal spawns.",
                     width = "full",
                 },
                 {
