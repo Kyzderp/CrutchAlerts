@@ -55,6 +55,7 @@ Crutch.format = {
 
 -- Dreadsail Reef
     [163987] = 500, -- Coral Slam
+    [166353] = 400, -- Crashing Wave (Taleria)
 
 -- Halls of Fabrication
     [ 91019] = 430, -- Phase 1.1 (Assembly General)

@@ -291,6 +291,11 @@ Crutch.others = {
         [104047] = true, -- Shadow Piercer Exit
     },
 
+    -- Dreadsail Reef
+    [1344] = {
+        [166353] = true, -- Crashing Wave (Taleria)
+    },
+
     -- Halls of Fabrication
     [975] = {
         [90499] = true, -- Reclaim the Ruined (Adds spawn)
