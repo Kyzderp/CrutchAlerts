@@ -413,14 +413,14 @@ local spoofedAbilities = {} -- Just for cleanup. {abilityId = true}
 local function SpoofIcon(abilityId)
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId)
     spoofedAbilities[abilityId] = true
-    Crutch.SpoofAbilityTexture(abilityId, "/esoui/art/miscellaneous/eso_icon_warning.dds")
+    Crutch.SetAbilityOverlay(abilityId)
     Crutch.dbgOther("Changing " .. GetAbilityName(abilityId))
 end
 
 local function UnspoofAllIcons()
     for abilityId, _ in pairs(spoofedAbilities) do
         EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId)
-        Crutch.UnspoofAbilityTexture(abilityId)
+        Crutch.RemoveAbilityOverlay(abilityId)
     end
 end
 
@@ -433,7 +433,7 @@ local function MaybeChangeIconLater(abilityId, msUntilPortal)
     Crutch.dbgOther("Will change " .. GetAbilityName(abilityId) .. " icon in " .. delay .. "ms")
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId, delay, function() SpoofIcon(abilityId) end)
 end
-Crutch.MaybeChangeIconLater = MaybeChangeIconLater -- /script CrutchAlerts.MaybeChangeIconLater(38901, 30000) zo_callLater(function() CrutchAlerts.UnspoofAbilityTexture(38901) end, 10000)
+Crutch.MaybeChangeIconLater = MaybeChangeIconLater -- /script CrutchAlerts.MaybeChangeIconLater(38901, 30000) zo_callLater(function() CrutchAlerts.RemoveAbilityOverlay(38901) end, 10000)
 
 local function IsMyPortal(nextPortal)
     local myPortal = Crutch.savedOptions.rockgrove.portalNumber

@@ -2,6 +2,7 @@ local Crutch = CrutchAlerts
 
 
 ---------------------------------------------------------------------
+-- Add overlay of warning icon onto action bar slots
 ---------------------------------------------------------------------
 local abilitiesToOverlay = {}
 
@@ -74,18 +75,21 @@ end
 
 
 ---------------------------------------------------------------------
--- Registration for texture replacements
+-- Registration for overlays
 ---------------------------------------------------------------------
-function Crutch.SpoofAbilityTexture(abilityId, texture)
-    abilitiesToOverlay[abilityId] = true -- TODO: texture?
+function Crutch.SetAbilityOverlay(abilityId)
+    abilitiesToOverlay[abilityId] = true
     UpdateAllOverlays()
 end
 
-function Crutch.UnspoofAbilityTexture(abilityId)
+function Crutch.RemoveAbilityOverlay(abilityId)
     abilitiesToOverlay[abilityId] = nil
     UpdateAllOverlays()
 end
 
+
+---------------------------------------------------------------------
+---------------------------------------------------------------------
 function Crutch.InitializeAbilityOverlay()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AbilityOverlayHotbarsUpdated", EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, UpdateAllOverlays)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AbilityOverlaySlotUpdated", EVENT_ACTION_SLOT_UPDATED, UpdateAllOverlays) -- TODO: only change 1?
