@@ -29,7 +29,7 @@ main/GlobalEvents.lua
 main/Style.lua
 main/Utils.lua
 main/Commands.lua
-main/AbilityTextureHooks.lua
+main/AbilityOverlay.lua
 
 sharing/BroadcastHandler.lua
 
