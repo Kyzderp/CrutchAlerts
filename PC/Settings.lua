@@ -1954,19 +1954,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "editbox",
                     name = "Add dangerous ability",
-                    tooltip = function()
-                        local text = "The ID of the ability to add to the list. Your currently equipped skills:"
-                        for i = 3, 8 do
-                            local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_PRIMARY)
-                            text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId) or "")
-                        end
-                        text = text .. "\n"
-                        for i = 3, 8 do
-                            local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_BACKUP)
-                            text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId) or "")
-                        end
-                        return text
-                    end,
+                    tooltip = "The ID of the ability to add to the list.\nUse |c99FF99/crutch printskills|r to see your currently equipped skill IDs",
                     default = "",
                     getFunc = function() return "" end,
                     setFunc = function(value)

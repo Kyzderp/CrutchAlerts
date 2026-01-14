@@ -1,38 +1,38 @@
 local Crutch = CrutchAlerts
 
 local function PrintUsage()
-    CrutchAlerts.msg("Usage: /crutch <icon>")
+    CrutchAlerts.msg([[Usage:
+/crutch printskills]])
 end
 
--- SLASH_COMMANDS["/crutch"] = function(argString)
---     local args = {}
---     for word in string.gmatch(argString, "%S+") do
---         table.insert(args, word)
---     end
+SLASH_COMMANDS["/crutch"] = function(argString)
+    local args = {}
+    for word in string.gmatch(argString, "%S+") do
+        table.insert(args, word)
+    end
 
---     if (#args == 0) then
---         PrintUsage()
---         return
---     end
+    if (#args == 0) then
+        PrintUsage()
+        return
+    end
+    local cmd = string.lower(args[1])
 
---     if (args[1] == "icon") then
---         if (#args == 2) then
---             Crutch.msg("Clearing individual icon for " .. args[2])
---             Crutch.savedOptions.drawing.attached.individualIcons[args[2]] = nil
---             Crutch.Drawing.RefreshGroup()
---             return
---         end
+    --------------------
+    if (cmd == "printskills") then
+        local text = "Slotted ability IDs:"
+        for i = 3, 8 do
+            local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_PRIMARY)
+            text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId) or "")
+        end
+        text = text .. "\n--------"
+        for i = 3, 8 do
+            local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_BACKUP)
+            text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId) or "")
+        end
+        Crutch.msg(text)
 
---         if (#args ~= 3) then
---             Crutch.msg("Usage: /crutch icon <@name> <texture path>")
---             return
---         end
-
---         Crutch.msg(string.format("Setting icon for %s to |t100%%:100%%:%s|t", args[2], args[3]))
---         Crutch.savedOptions.drawing.attached.individualIcons[args[2]] = args[3]
---         Crutch.Drawing.RefreshGroup()
-
---     else
---         PrintUsage()
---     end
--- end
+    --------------------
+    else
+        PrintUsage()
+    end
+end
