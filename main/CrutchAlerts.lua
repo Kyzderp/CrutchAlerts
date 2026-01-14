@@ -413,7 +413,9 @@ local function Initialize()
         abilities[38901] = true -- Quick Cloak
         abilities[22095] = true -- Solar Barrage
         abilities[32853] = true -- Flames of Oblivion
-        -- TODO: cro mage/archer, hurricane
+        abilities[23231] = true -- Hurricane
+        abilities[118680] = true -- Skeletal Archer
+        abilities[118726] = true -- Skeletal Arcanist
         Crutch.savedOptions.rockgrove.spoofAbilitiesFirstTime = false
     end
 
