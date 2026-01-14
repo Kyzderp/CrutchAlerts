@@ -433,7 +433,6 @@ local function MaybeChangeIconLater(abilityId, msUntilPortal)
     Crutch.dbgOther("Will change " .. GetAbilityName(abilityId) .. " icon in " .. delay .. "ms")
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "BahseiIconChange" .. abilityId, delay, function() SpoofIcon(abilityId) end)
 end
-Crutch.MaybeChangeIconLater = MaybeChangeIconLater -- /script CrutchAlerts.MaybeChangeIconLater(38901, 30000) zo_callLater(function() CrutchAlerts.RemoveAbilityOverlay(38901) end, 10000)
 
 local function IsMyPortal(nextPortal)
     local myPortal = Crutch.savedOptions.rockgrove.portalNumber
@@ -475,6 +474,13 @@ local function OnEnteredCombat()
     if (not IsMyPortal(1)) then return end
 
     -- Check if any skills are slotted
+    for i = 3, 8 do
+        MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_PRIMARY), 20000)
+        MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_BACKUP), 20000)
+    end
+end
+
+function Crutch.TestChange()
     for i = 3, 8 do
         MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_PRIMARY), 20000)
         MaybeChangeIconLater(GetSlotBoundId(i, HOTBAR_CATEGORY_BACKUP), 20000)

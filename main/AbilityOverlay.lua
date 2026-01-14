@@ -14,6 +14,7 @@ local function GetSlotTrueBoundId(index, bar)
     end
     return GetAbilityIdForCraftedAbilityId(id)
 end
+Crutch.GetSlotTrueBoundId = GetSlotTrueBoundId
 
 -- The button CONTROL, not the action button
 local function GetButton(actionSlotIndex)

@@ -32,7 +32,7 @@ local function UpdateAbilitiesToReplace()
     ZO_ClearTable(abilityIds)
     for id, _ in pairs(Crutch.savedOptions.rockgrove.abilitiesToReplace) do
         table.insert(abilityIds, id)
-        table.insert(abilityNames, string.format("%s (%d)", GetAbilityName(id), id))
+        table.insert(abilityNames, string.format("%s (%d)", GetAbilityName(id) or "", id))
     end
     CrutchAlerts_AbilitiesToReplace:UpdateChoices(abilityNames, abilityIds)
 end
@@ -1934,7 +1934,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "description",
                     title = "|c08BD1D[BETA] Mark Dangerous Abilities|r",
-                    text = "Some AOE abilities are dangerous to have active when in Bahsei HM portals, because they may kill multiple ghosts at once. This feature can be configured to replace the ability icon when it's almost time for your portal. For example, Solar Barrage lasts for 20s, and the margin (configure below) is 4s, so Solar Barrage's icon will be changed to a warning icon at 16s before your portal spawns.",
+                    text = "Some AOE abilities are dangerous to have active when in Bahsei HM portals, because they may kill multiple ghosts at once. This feature can be configured to show a warning icon on the ability when it's almost time for your portal. For example, Solar Barrage lasts for 20s, and the margin (configure below) is 4s, so Solar Barrage's icon will have a warning at 16s before your portal spawns.",
                     width = "full",
                 },
                 {
@@ -1954,12 +1954,30 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "editbox",
                     name = "Add dangerous ability",
-                    tooltip = "The ID of the ability to add to the list. Some potentially relevant ones:\nQuick Cloak (38901)\nSolar Barrage (22095)\nFlames of Oblivion (32853)",
+                    tooltip = function()
+                        local text = "The ID of the ability to add to the list. Your currently equipped skills:"
+                        for i = 3, 8 do
+                            local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_PRIMARY)
+                            text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId) or "")
+                        end
+                        text = text .. "\n"
+                        for i = 3, 8 do
+                            local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_BACKUP)
+                            text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId) or "")
+                        end
+                        return text
+                    end,
                     default = "",
                     getFunc = function() return "" end,
                     setFunc = function(value)
-                        Crutch.savedOptions.rockgrove.abilitiesToReplace[value] = true
-                        Crutch.msg(string.format("Added %s(%d) to abilities to replace.", GetAbilityName(value), value))
+                        if (value == "") then return end
+                        local num = tonumber(value)
+                        if (not num) then
+                            Crutch.msg("Ability ID must be a number")
+                            return
+                        end
+                        Crutch.savedOptions.rockgrove.abilitiesToReplace[num] = true
+                        Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
                         -- TODO: needs update?
                     end,
                     width = "full",
