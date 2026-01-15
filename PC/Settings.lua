@@ -1966,7 +1966,6 @@ function Crutch:CreateSettingsMenu()
                         end
                         Crutch.savedOptions.rockgrove.abilitiesToReplace[num] = true
                         Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
-                        -- TODO: needs update?
                     end,
                     width = "full",
                 },

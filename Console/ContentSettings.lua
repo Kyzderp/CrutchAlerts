@@ -703,7 +703,6 @@ function Crutch.CreateConsoleContentSettingsMenu()
         label = "Rockgrove",
     })
 
-
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Noxious Sludge sides",
@@ -844,6 +843,96 @@ function Crutch.CreateConsoleContentSettingsMenu()
             Crutch.savedOptions.rockgrove.othersCurseLineColor = {r, g, b, a}
         end,
         disable = function() return LibGroupBroadcast == nil or not Crutch.savedOptions.rockgrove.showOthersCurseLines end
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
+        label = "[BETA] Mark Dangerous Abilities",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_DROPDOWN,
+        label = "Portal number",
+        tooltip = "Some AOE abilities are dangerous to have active when in Bahsei HM portals, because they may kill multiple ghosts at once. This feature can be configured to show a warning icon on the ability when it's almost time for your portal. For example, Solar Barrage lasts for 20s, and the margin (configure below) is 4s, so Solar Barrage's icon will have a warning at 16s before your portal spawns.",
+        getFunction = function()
+            local names = {
+                [0] = "None",
+                [1] = "Portal 1",
+                [2] = "Portal 2",
+            }
+            return names[Crutch.savedOptions.rockgrove.portalNumber]
+        end,
+        setFunction = function(combobox, name, item)
+            Crutch.savedOptions.rockgrove.portalNumber = item.data
+        end,
+        default = "None",
+        items = {
+            {
+                name = "None",
+                data = 0,
+            },
+            {
+                name = "Portal 1",
+                data = 1,
+            },
+            {
+                name = "Portal 2",
+                data = 2,
+            },
+        },
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_EDIT,
+        label = "Add dangerous ability",
+        tooltip = "The ID of the ability to add to the list.\nUse |c99FF99/crutch printskills|r to see your currently equipped skill IDs", -- TODO: does console refresh?
+        getFunction = function() return "" end,
+        setFunction = function(text)
+            if (text == "") then return end
+            local num = tonumber(text)
+            if (not num) then
+                Crutch.msg("Ability ID must be a number")
+                return
+            end
+            Crutch.savedOptions.rockgrove.abilitiesToReplace[num] = true
+            Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
+        end,
+    })
+
+    local selectedDangerousAbility = 0
+    local dangerousAbilityItems = {}
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_DROPDOWN,
+        label = "Dangerous abilities",
+        tooltip = "Select an ability from this list and use the button below to remove it from the list",
+        getFunction = function()
+            return string.format("%s (%d)", GetAbilityName(selectedDangerousAbility) or "", selectedDangerousAbility)
+        end,
+        setFunction = function(combobox, name, item)
+            selectedDangerousAbility = item.data
+        end,
+        default = "None",
+        items = function()
+            ZO_ClearTable(dangerousAbilityItems)
+            for id, _ in pairs(Crutch.savedOptions.rockgrove.abilitiesToReplace) do
+                table.insert(dangerousAbilityItems, {
+                    name = string.format("%s (%d)", GetAbilityName(id) or "", id),
+                    data = id
+                })
+            end
+            return dangerousAbilityItems
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_BUTTON,
+        label = "Remove selected ability",
+        tooltip = "Remove " .. selectedDangerousAbility .. " from the dangerous abilities list",
+        clickHandler = function()
+            Crutch.savedOptions.rockgrove.abilitiesToReplace[selectedDangerousAbility] = nil
+            local id = next(Crutch.savedOptions.rockgrove.abilitiesToReplace)
+            selectedDangerousAbility = id
+        end,
     })
 
     settings:AddSetting({
