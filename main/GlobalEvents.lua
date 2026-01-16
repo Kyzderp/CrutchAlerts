@@ -169,6 +169,7 @@ local function UpdatePolling()
     local empty = ZO_IsTableEmpty(updateListeners)
     if (not polling and not empty) then
         EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "GlobalPolling", 100, Poll)
+        Poll()
         polling = true
         Crutch.dbgOther("starting polling")
     elseif (polling and empty) then
@@ -181,11 +182,13 @@ end
 function Crutch.RegisterUpdateListener(name, listener)
     updateListeners[name] = listener
     Crutch.dbgSpam("Registered update listener " .. name)
+    UpdatePolling()
 end
 
 function Crutch.UnregisterUpdateListener(name)
     updateListeners[name] = nil
     Crutch.dbgSpam("Unregistered update listener " .. name)
+    UpdatePolling()
 end
 
 

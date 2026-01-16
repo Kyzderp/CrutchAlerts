@@ -35,6 +35,7 @@ sharing/BroadcastHandler.lua
 
 infopanel/InfoPanel.xml
 infopanel/InfoPanel.lua
+infopanel/InfoPanelUtils.lua
 
 PC/Settings.lua
 Console/GeneralSettings.lua

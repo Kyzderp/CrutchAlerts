@@ -398,8 +398,10 @@ end
 
 
 ---------------------------------------------------------------------
--- Pre-portal ability icons
+-- Pre-portal ability icons & portal timers
 ---------------------------------------------------------------------
+local PANEL_PORTAL_TIMER_INDEX = 1
+
 local nextPortal = 1
 local nextPortalTimer = 20
 local function OnPortalSummoned()
@@ -448,6 +450,8 @@ local function OnPortalEnded()
         -- TODO: a panel?
         Crutch.DisplayDamageable(50, "Portal " .. nextPortal .. " in |c%s%.1f|r")
     end
+    -- TODO: setting
+    Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal " .. nextPortal .. ": ", 50000)
 
     UnspoofAllIcons()
 
@@ -470,6 +474,8 @@ local function OnEnteredCombat()
     if (Crutch.savedOptions.rockgrove.showTimeToPortal) then
         Crutch.DisplayDamageable(20, "Portal 1 in |c%s%.1f|r")
     end
+    -- TODO: setting
+    Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal 1: ", 20000)
 
     if (not IsMyPortal(1)) then return end
 
@@ -505,6 +511,7 @@ function Crutch.RegisterRockgrove()
         nextPortalTimer = 20
         Crutch.StopDamageable()
         UnspoofAllIcons()
+        Crutch.StopCount(PANEL_PORTAL_TIMER_INDEX)
     end)
 
     -- Register the Noxious Sludge
