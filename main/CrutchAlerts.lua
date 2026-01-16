@@ -54,6 +54,10 @@ local defaultOptions = {
         x = GuiRoot:GetWidth() * 3 / 16,
         y = -GuiRoot:GetHeight() / 8,
     },
+    infoPanelDisplay = {
+        x = GuiRoot:GetWidth() / 4,
+        y = -GuiRoot:GetHeight() * 5 / 8,
+    },
     debugLine = false,
     debugChatSpam = false,
     debugOther = false,
@@ -312,6 +316,11 @@ function CrutchAlerts:SavePosition()
     y = CrutchAlertsCausticCarrion:GetTop()
     Crutch.savedOptions.carrionDisplay.x = x - oX
     Crutch.savedOptions.carrionDisplay.y = y - oY
+
+    x = CrutchAlertsInfoPanel:GetLeft()
+    y = CrutchAlertsInfoPanel:GetTop()
+    Crutch.savedOptions.infoPanelDisplay.x = x - oX
+    Crutch.savedOptions.infoPanelDisplay.y = y - oY
 end
 
 ---------------------------------------------------------------------
@@ -441,6 +450,7 @@ local function Initialize()
     CrutchAlertsCloudrest:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.spearsDisplay.x, Crutch.savedOptions.spearsDisplay.y)
     CrutchAlertsMawOfLorkhaj:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cursePadsDisplay.x, Crutch.savedOptions.cursePadsDisplay.y)
     CrutchAlertsCausticCarrion:SetAnchor(TOPLEFT, GuiRoot, CENTER, Crutch.savedOptions.carrionDisplay.x, Crutch.savedOptions.carrionDisplay.y)
+    CrutchAlertsInfoPanel:SetAnchor(TOPLEFT, GuiRoot, CENTER, Crutch.savedOptions.infoPanelDisplay.x, Crutch.savedOptions.infoPanelDisplay.y)
     PrintTime("positioning done")
     -- Register events
     if (Crutch.savedOptions.general.showBegin) then

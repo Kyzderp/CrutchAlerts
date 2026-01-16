@@ -80,6 +80,17 @@ local function UnlockUI(value)
     CrutchAlertsMawOfLorkhaj:SetMovable(value)
     CrutchAlertsMawOfLorkhaj:SetMouseEnabled(value)
     CrutchAlertsMawOfLorkhaj:SetHidden(not value)
+
+    CrutchAlertsInfoPanel:SetMovable(value)
+    CrutchAlertsInfoPanel:SetMouseEnabled(value)
+    CrutchAlertsInfoPanel:SetHidden(not value)
+    if (value) then
+        Crutch.InfoPanel.SetLine(998, "Info Panel Line 1")
+        Crutch.InfoPanel.SetLine(999, "Portal SoonTM")
+    else
+        Crutch.InfoPanel.RemoveLine(998)
+        Crutch.InfoPanel.RemoveLine(999)
+    end
 end
 Crutch.UnlockUI = UnlockUI
 
