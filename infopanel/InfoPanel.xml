@@ -1,0 +1,17 @@
+<GuiXml>
+    <Controls>
+        <TopLevelControl name="CrutchAlertsInfoPanel" clampedToScreen="false" mouseEnabled="false" movable="false" hidden="true">
+            <Dimensions x="400" y="200"/>
+            <OnMoveStop>
+                CrutchAlerts:SavePosition()
+            </OnMoveStop>
+            <Controls>
+            </Controls>
+        </TopLevelControl>
+
+
+        <Label name="CrutchAlertsInfoPanelLineTemplate" color="FFFFFF" text="Panel text" wrapMode="ELLIPSIS" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"/>
+        </Label>
+    </Controls>
+</GuiXml>

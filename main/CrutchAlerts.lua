@@ -8,6 +8,7 @@ CrutchAlerts = {
         Animation = {},
     },
     Constants = {},
+    InfoPanel = {},
 
     name = "CrutchAlerts",
     version = "2.9.0",
@@ -482,6 +483,8 @@ local function Initialize()
     PrintTime("attached icons done")
     Crutch.InitializeAbilityOverlay()
     PrintTime("ability overlays done")
+    Crutch.InitializeInfoPanel()
+    PrintTime("info panel done")
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()

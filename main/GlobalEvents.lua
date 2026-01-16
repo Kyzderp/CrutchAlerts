@@ -154,6 +154,42 @@ end
 
 
 ---------------------------------------------------------------------
+-- Polling
+---------------------------------------------------------------------
+local updateListeners = {}
+
+local function Poll()
+    for _, listener in pairs(updateListeners) do
+        listener()
+    end
+end
+
+local polling = false
+local function UpdatePolling()
+    local empty = ZO_IsTableEmpty(updateListeners)
+    if (not polling and not empty) then
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "GlobalPolling", 100, Poll)
+        polling = true
+        Crutch.dbgOther("starting polling")
+    elseif (polling and empty) then
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "GlobalPolling")
+        polling = false
+        Crutch.dbgOther("stopping polling")
+    end
+end
+
+function Crutch.RegisterUpdateListener(name, listener)
+    updateListeners[name] = listener
+    Crutch.dbgSpam("Registered update listener " .. name)
+end
+
+function Crutch.UnregisterUpdateListener(name)
+    updateListeners[name] = nil
+    Crutch.dbgSpam("Unregistered update listener " .. name)
+end
+
+
+---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
 function Crutch.InitializeGlobalEvents()
