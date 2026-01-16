@@ -11,19 +11,24 @@ settings: font size, position
 font
 vertical line side bar?
 ]]
-
 local lines = {} -- {[1] = Label}
+
+
+
+---------------------------------------------------------------------
+local size = 30
 
 
 ---------------------------------------------------------------------
 -- UI
 ---------------------------------------------------------------------
 local function CreateLabel(index)
-    local label = WINDOW_MANAGER:CreateControlFromVirtual(
+    local label = CreateControlFromVirtual(
         "$(parent)Line" .. index,
         CrutchAlertsInfoPanel,
         "CrutchAlertsInfoPanelLineTemplate",
         "")
+    label:SetFont(Crutch.GetStyles().GetInfoPanelFont(size)) -- TODO: setting
     lines[index] = label
     return label
 end
@@ -38,13 +43,21 @@ local function UpdateAnchors()
 
     local prevRelative = CrutchAlertsInfoPanel
     local prevRelativeAnchor = TOPLEFT
+    local numActiveLines = 0
+    local totalHeight = 0
     for _, index in ipairs(keys) do
         local label = lines[index]
-        label:ClearAnchors()
-        label:SetAnchor(TOPLEFT, prevRelative, prevRelativeAnchor)
-        prevRelative = label
-        prevRelativeAnchor = BOTTOMLEFT
+        if (not label:IsHidden()) then
+            label:ClearAnchors()
+            label:SetAnchor(TOPLEFT, prevRelative, prevRelativeAnchor)
+            prevRelative = label
+            prevRelativeAnchor = BOTTOMLEFT
+            numActiveLines = numActiveLines + 1
+            totalHeight = totalHeight + label:GetHeight()
+        end
     end
+
+    CrutchAlertsInfoPanel:SetHeight(totalHeight)
 end
 
 
@@ -63,10 +76,10 @@ local function SetLine(index, text)
     label:SetText(text)
 end
 IP.SetLine = SetLine
--- /script CrutchAlerts.InfoPanel.SetLine(1, "Line 1") CrutchAlerts.InfoPanel.SetLine(3, "Line 1=3")
+-- /script CrutchAlerts.InfoPanel.SetLine(1, "Line 1") CrutchAlerts.InfoPanel.SetLine(3, "Line 3") zo_callLater(function() CrutchAlerts.InfoPanel.RemoveLine(1) end, 3000)
 
 local function RemoveLine(index)
-    lines[index] = nil
+    lines[index]:SetHidden(true)
     UpdateAnchors()
 end
 IP.RemoveLine = RemoveLine
@@ -75,17 +88,9 @@ IP.RemoveLine = RemoveLine
 ---------------------------------------------------------------------
 -- Style
 ---------------------------------------------------------------------
-local KEYBOARD_STYLE = {
-    thickFont = "$(BOLD_FONT)|20|soft-shadow-thick",
-}
-
-local GAMEPAD_STYLE = {
-    thickFont = "ZoFontGamepad27",
-}
-
-local function ApplyStyle(style)
+function IP.ApplyStyle(style)
     for _, label in pairs(lines) do
-        label:SetFont(style.thickFont)
+        label:SetFont(style.GetInfoPanelFont(size))
     end
 end
 
@@ -94,5 +99,7 @@ end
 -- Init
 ---------------------------------------------------------------------
 function Crutch.InitializeInfoPanel()
-    ZO_PlatformStyle:New(ApplyStyle, KEYBOARD_STYLE, GAMEPAD_STYLE)
+    local infoPanelFragment = ZO_SimpleSceneFragment:New(CrutchAlertsInfoPanel)
+    HUD_SCENE:AddFragment(infoPanelFragment)
+    HUD_UI_SCENE:AddFragment(infoPanelFragment)
 end

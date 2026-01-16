@@ -56,7 +56,7 @@ local defaultOptions = {
     },
     infoPanelDisplay = {
         x = GuiRoot:GetWidth() / 4,
-        y = -GuiRoot:GetHeight() * 5 / 8,
+        y = -GuiRoot:GetHeight() * 3 / 8,
     },
     debugLine = false,
     debugChatSpam = false,

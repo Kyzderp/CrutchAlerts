@@ -14,6 +14,9 @@ local KEYBOARD_STYLE = {
     GetMarkerFont = function(size)
         return string.format("$(BOLD_FONT)|%d|thick-outline", math.floor(size))
     end,
+    GetInfoPanelFont = function(size)
+        return string.format("$(BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
+    end,
 }
 
 local GAMEPAD_STYLE = {
@@ -28,6 +31,9 @@ local GAMEPAD_STYLE = {
     GetMarkerFont = function(size)
         return string.format("$(GAMEPAD_BOLD_FONT)|%d|thick-outline", math.floor(size))
     end,
+    GetInfoPanelFont = function(size)
+        return string.format("$(GAMEPAD_BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
+    end,
 }
 
 
@@ -38,6 +44,7 @@ local activeStyles = GAMEPAD_STYLE
 local function ApplyStyle(style)
     activeStyles = style
     Crutch.BossHealthBar.UpdateScale(false)
+    Crutch.InfoPanel.ApplyStyle(style)
 end
 
 local function GetStyles()

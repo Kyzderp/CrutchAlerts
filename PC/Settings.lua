@@ -83,7 +83,6 @@ local function UnlockUI(value)
 
     CrutchAlertsInfoPanel:SetMovable(value)
     CrutchAlertsInfoPanel:SetMouseEnabled(value)
-    CrutchAlertsInfoPanel:SetHidden(not value)
     if (value) then
         Crutch.InfoPanel.SetLine(998, "Info Panel Line 1")
         Crutch.InfoPanel.SetLine(999, "Portal SoonTM")
