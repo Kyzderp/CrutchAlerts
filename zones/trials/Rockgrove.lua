@@ -94,6 +94,17 @@ local effectResults = {
 
 local groupBitterMarrow = {}
 
+local PANEL_PORTAL_COUNT_INDEX = 1
+local function UpdatePlayersInPortal()
+    local count = 0
+    for _, hasMarrow in pairs(groupBitterMarrow) do
+        if (hasMarrow == true) then
+            count = count + 1
+        end
+    end
+    Crutch.InfoPanel.SetLine(PANEL_PORTAL_COUNT_INDEX, count .. " in portal")
+end
+
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnBitterMarrowChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     Crutch.dbgOther(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
@@ -116,6 +127,8 @@ local function OnBitterMarrowChanged(_, changeType, _, _, unitTag, _, _, stackCo
         else
             Crutch.Drawing.EvaluateSuppressionFor(unitTag)
         end
+
+        UpdatePlayersInPortal()
     end
 end
 
@@ -400,14 +413,15 @@ end
 ---------------------------------------------------------------------
 -- Pre-portal ability icons & portal timers
 ---------------------------------------------------------------------
-local PANEL_PORTAL_TIMER_INDEX = 1
+local PANEL_PORTAL_TIMER_INDEX = 2
 
+-- 20s to start
+-- 50s after previous finished
 local nextPortal = 1
 local nextPortalTimer = 20
 local function OnPortalSummoned()
-    -- 20s to start
-    -- 50s after previous finished
-    -- TODO: actually do anything here?
+    Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
+    UpdatePlayersInPortal()
 end
 
 local spoofedAbilities = {} -- Just for cleanup. {abilityId = true}
@@ -450,7 +464,9 @@ local function OnPortalEnded()
         -- TODO: a panel?
         Crutch.DisplayDamageable(50, "Portal " .. nextPortal .. " in |c%s%.1f|r")
     end
+
     -- TODO: setting
+    Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
     Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal " .. nextPortal .. ": ", 50000)
 
     UnspoofAllIcons()
@@ -511,7 +527,8 @@ function Crutch.RegisterRockgrove()
         nextPortalTimer = 20
         Crutch.StopDamageable()
         UnspoofAllIcons()
-        Crutch.StopCount(PANEL_PORTAL_TIMER_INDEX)
+        Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
+        Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
     end)
 
     -- Register the Noxious Sludge
