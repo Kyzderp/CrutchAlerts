@@ -1,11 +1,16 @@
 <GuiXml>
     <Controls>
-        <TopLevelControl name="CrutchAlertsInfoPanel" clampedToScreen="false" mouseEnabled="false" movable="false" hidden="true">
+        <TopLevelControl name="CrutchAlertsInfoPanel" clampedToScreen="false" mouseEnabled="false" movable="false" hidden="true" resizeToFitDescendents="true">
             <Dimensions x="400" y="200"/>
             <OnMoveStop>
                 CrutchAlerts:SavePosition()
             </OnMoveStop>
             <Controls>
+                <Control name="$(parent)Side" tier="MEDIUM" hidden="true">
+                    <Dimensions x="4" y="20"/>
+                    <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="-10"/>
+                    <Controls><Backdrop name="$(parent)Backdrop" centerColor="753bdb5e" edgeColor="00000000" tier="LOW"><AnchorFill/><Edge edgeSize="1"/></Backdrop></Controls>
+                </Control>
             </Controls>
         </TopLevelControl>
 
