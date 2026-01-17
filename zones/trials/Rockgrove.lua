@@ -99,6 +99,7 @@ local effectResults = {
 local groupBitterMarrow = {}
 
 local function UpdatePlayersInPortal()
+    if (not Crutch.savedOptions.rockgrove.panel.showNumInPortal) then return end
     local count = 0
     for _, hasMarrow in pairs(groupBitterMarrow) do
         if (hasMarrow == true) then
@@ -423,9 +424,12 @@ local nextPortalTimer = 20
 local function OnPortalSummoned(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
     Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
     UpdatePlayersInPortal()
-    local display = Crutch.format[abilityId]
-    if (display) then
-        Crutch.InfoPanel.SetLine(PANEL_PORTAL_DIRECTION_INDEX, display.text)
+
+    if (Crutch.savedOptions.rockgrove.panel.showPortalDirection) then
+        local display = Crutch.format[abilityId]
+        if (display) then
+            Crutch.InfoPanel.SetLine(PANEL_PORTAL_DIRECTION_INDEX, display.text)
+        end
     end
 end
 
@@ -465,15 +469,12 @@ end
 local function OnPortalEnded()
     nextPortal = (nextPortal == 1) and 2 or 1
 
-    if (Crutch.savedOptions.rockgrove.showTimeToPortal) then
-        -- TODO: a panel?
-        Crutch.DisplayDamageable(50, "Portal " .. nextPortal .. " in |c%s%.1f|r")
-    end
-
-    -- TODO: setting
     Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
     Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_DIRECTION_INDEX)
-    Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal " .. nextPortal .. ": ", 50000)
+
+    if (Crutch.savedOptions.rockgrove.panel.showTimeToPortal) then
+        Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal " .. nextPortal .. ": ", 50000)
+    end
 
     UnspoofAllIcons()
 
@@ -493,11 +494,9 @@ local function OnEnteredCombat()
         return
     end
 
-    if (Crutch.savedOptions.rockgrove.showTimeToPortal) then
-        Crutch.DisplayDamageable(20, "Portal 1 in |c%s%.1f|r")
+    if (Crutch.savedOptions.rockgrove.panel.showTimeToPortal) then
+        Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal 1: ", 20000)
     end
-    -- TODO: setting
-    Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal 1: ", 20000)
 
     if (not IsMyPortal(1)) then return end
 
@@ -531,7 +530,6 @@ function Crutch.RegisterRockgrove()
         explosions = {}
         nextPortal = 1
         nextPortalTimer = 20
-        Crutch.StopDamageable()
         UnspoofAllIcons()
         Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
         Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)

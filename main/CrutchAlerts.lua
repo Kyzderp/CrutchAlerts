@@ -217,10 +217,15 @@ local defaultOptions = {
         othersCurseLineColor = {1, 1, 0, 0.5},
 
         spoofAbilitiesFirstTime = true,
-        showTimeToPortal = false,
         portalNumber = 0, -- 0 for none, 1, 2
         abilitiesToReplace = {},
         portalTimeMargin = 4000,
+
+        panel = {
+            showTimeToPortal = true,
+            showNumInPortal = true,
+            showPortalDirection = true,
+        },
     },
     sanitysedge = {
         showChimeraIcons = true,
