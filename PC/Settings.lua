@@ -84,11 +84,12 @@ local function UnlockUI(value)
     CrutchAlertsInfoPanel:SetMovable(value)
     CrutchAlertsInfoPanel:SetMouseEnabled(value)
     if (value) then
+        CrutchAlertsInfoPanel:SetHidden(false)
         Crutch.InfoPanel.SetLine(998, "Info Panel Line 1")
-        Crutch.InfoPanel.SetLine(999, "Portal SoonTM")
+        Crutch.InfoPanel.CountDownDuration(999, "Portal 1: ", 10000)
     else
         Crutch.InfoPanel.RemoveLine(998)
-        Crutch.InfoPanel.RemoveLine(999)
+        Crutch.InfoPanel.StopCount(999)
     end
 end
 Crutch.UnlockUI = UnlockUI
@@ -108,7 +109,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "checkbox",
             name = "Unlock UI",
-            tooltip = "Unlock the frames for moving",
+            tooltip = "Unlock the frames for moving.\nShortcuts: |c99FF99/crutch lock|r and |c99FF99/crutch unlock|r",
             default = false,
             getFunc = function() return Crutch.unlock end,
             setFunc = UnlockUI,
@@ -2013,7 +2014,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "description",
                     title = "|c08BD1DInfo Panel|r",
-                    text = "Shows timers or other info in a consolidated panel. Unlock the UI to reposition the info panel.",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
                     width = "full",
                 },
                 {

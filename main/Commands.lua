@@ -1,8 +1,17 @@
 local Crutch = CrutchAlerts
 
 local function PrintUsage()
-    CrutchAlerts.msg([[Usage:
-/crutch printskills]])
+    if (IsConsoleUI()) then
+        CrutchAlerts.msg([[Usage:
+|cAAAAAA/crutch printskills
+|cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
+    else
+        CrutchAlerts.msg([[Usage:
+|cAAAAAA/crutch printskills
+|cAAAAAA/crutch lock
+|cAAAAAA/crutch unlock
+|cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
+    end
 end
 
 SLASH_COMMANDS["/crutch"] = function(argString)
@@ -30,6 +39,18 @@ SLASH_COMMANDS["/crutch"] = function(argString)
             text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId) or "")
         end
         Crutch.msg(text)
+
+    --------------------
+    elseif (cmd == "lock" and not IsConsoleUI()) then
+        Crutch.UnlockUI(false)
+
+    --------------------
+    elseif (cmd == "unlock" and not IsConsoleUI()) then
+        Crutch.UnlockUI(true)
+
+    --------------------
+    elseif (cmd == "xoryn") then
+        Crutch.ToggleTempestIcons()
 
     --------------------
     else

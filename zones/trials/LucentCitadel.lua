@@ -247,6 +247,16 @@ local function TryEnablingTempestIcons()
     end
 end
 
+local function ToggleTempestIcons()
+    if (tempestEnabled) then
+        DisableTempestIcons()
+    else
+        EnableTempestIcons()
+    end
+    tempestEnabled = not tempestEnabled
+end
+Crutch.ToggleTempestIcons = ToggleTempestIcons
+
 
 ---------------------------------------------------------------------
 -- Register/Unregister

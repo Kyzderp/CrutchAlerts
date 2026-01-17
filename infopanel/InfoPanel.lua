@@ -53,7 +53,7 @@ local function UpdateAnchors()
             prevRelative = label
             prevRelativeAnchor = BOTTOMLEFT
             numActiveLines = numActiveLines + 1
-            totalHeight = totalHeight + label:GetHeight()
+            totalHeight = totalHeight + label:GetTextHeight()
         end
     end
 
@@ -79,8 +79,11 @@ IP.SetLine = SetLine
 -- /script CrutchAlerts.InfoPanel.SetLine(1, "Line 1") CrutchAlerts.InfoPanel.SetLine(3, "Line 3") zo_callLater(function() CrutchAlerts.InfoPanel.RemoveLine(1) end, 3000)
 
 local function RemoveLine(index)
-    lines[index]:SetHidden(true)
-    UpdateAnchors()
+    if (lines[index]) then
+        lines[index]:SetHidden(true)
+        lines[index]:SetText("")
+        UpdateAnchors()
+    end
 end
 IP.RemoveLine = RemoveLine
 

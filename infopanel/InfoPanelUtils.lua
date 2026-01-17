@@ -24,8 +24,6 @@ function IP.CountDownDuration(index, prefix, durationMs)
             IP.SetLine(index, prefix .. "|cff8c00Soon™️|r")
         end
     end)
-
-    -- TODO: removal
 end
 -- /script CrutchAlerts.InfoPanel.CountDownDuration(1, "Portal 1: ", 20000)
 
