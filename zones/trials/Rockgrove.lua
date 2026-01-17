@@ -2,6 +2,10 @@ local Crutch = CrutchAlerts
 local C = Crutch.Constants
 
 ---------------------------------------------------------------------
+local PANEL_PORTAL_DIRECTION_INDEX = 1
+local PANEL_PORTAL_COUNT_INDEX = 2
+local PANEL_PORTAL_TIMER_INDEX = 3
+
 local EXIT_LEFT_POOL = {x = 91973, y = 35751, z = 81764}  -- from QRH so that we use the same sorting
 
 ---------------------------------------------------------------------
@@ -94,7 +98,6 @@ local effectResults = {
 
 local groupBitterMarrow = {}
 
-local PANEL_PORTAL_COUNT_INDEX = 1
 local function UpdatePlayersInPortal()
     local count = 0
     for _, hasMarrow in pairs(groupBitterMarrow) do
@@ -413,15 +416,17 @@ end
 ---------------------------------------------------------------------
 -- Pre-portal ability icons & portal timers
 ---------------------------------------------------------------------
-local PANEL_PORTAL_TIMER_INDEX = 2
-
 -- 20s to start
 -- 50s after previous finished
 local nextPortal = 1
 local nextPortalTimer = 20
-local function OnPortalSummoned()
+local function OnPortalSummoned(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
     Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
     UpdatePlayersInPortal()
+    local display = Crutch.format[abilityId]
+    if (display) then
+        Crutch.InfoPanel.SetLine(PANEL_PORTAL_DIRECTION_INDEX, display.text)
+    end
 end
 
 local spoofedAbilities = {} -- Just for cleanup. {abilityId = true}
@@ -467,6 +472,7 @@ local function OnPortalEnded()
 
     -- TODO: setting
     Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
+    Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_DIRECTION_INDEX)
     Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal " .. nextPortal .. ": ", 50000)
 
     UnspoofAllIcons()
@@ -529,6 +535,7 @@ function Crutch.RegisterRockgrove()
         UnspoofAllIcons()
         Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
         Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
+        Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_DIRECTION_INDEX)
     end)
 
     -- Register the Noxious Sludge
