@@ -68,12 +68,15 @@ local function SetLine(index, text)
     local label = lines[index]
     if (not label) then
         label = CreateLabel(index)
+        label:SetText(text)
         UpdateAnchors()
     elseif (label:IsHidden()) then
+        label:SetText(text)
         label:SetHidden(false)
         UpdateAnchors()
+    else
+        label:SetText(text)
     end
-    label:SetText(text)
 end
 IP.SetLine = SetLine
 -- /script CrutchAlerts.InfoPanel.SetLine(1, "Line 1") CrutchAlerts.InfoPanel.SetLine(3, "Line 3") zo_callLater(function() CrutchAlerts.InfoPanel.RemoveLine(1) end, 3000)
