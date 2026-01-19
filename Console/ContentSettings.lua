@@ -847,7 +847,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
-        label = "[BETA] Mark Dangerous Abilities",
+        label = "Mark Dangerous Abilities",
     })
 
     settings:AddSetting({
@@ -945,6 +945,20 @@ function Crutch.CreateConsoleContentSettingsMenu()
             selectedDangerousAbility = next(Crutch.savedOptions.rockgrove.abilitiesToReplace) or 0
         end,
         disable = function() return selectedDangerousAbility == 0 end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Portal time margin",
+        tooltip = "The target number of milliseconds after portal spawns, for which you want the dangerous abilities to expire by. For example, setting it to 4000 means your Solar Barrage will be changed at 16 seconds before your portal, because the margin is 4 seconds and Solar Barrage lasts for 20 seconds",
+        min = 0,
+        max = 60000,
+        step = 500,
+        default = 4000,
+        getFunction = function() return Crutch.savedOptions.rockgrove.portalTimeMargin end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.portalTimeMargin = value
+        end,
     })
 
     settings:AddSetting({
