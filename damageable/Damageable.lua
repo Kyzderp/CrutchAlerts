@@ -399,6 +399,11 @@ local SUBTITLE_TIMES = {
         ["You'll never read this scroll!"] = 11,
     },
 
+-- March of Sacrifices
+    ["Dagrund the Bulky"] = {
+        ["Troll's blood, it has to be here somewhere! Keep an eye out."] = 18.2,
+    },
+
 -- Moongrave Fane
     ["Nisaazda"] = {
         -- Risen Ruins
