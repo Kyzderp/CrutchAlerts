@@ -41,6 +41,15 @@ local function UnlockUI(value)
     CrutchAlertsCausticCarrion:SetHidden(not value)
 
     CrutchAlertsMawOfLorkhaj:SetHidden(not value)
+
+    if (value) then
+        CrutchAlertsInfoPanel:SetHidden(false)
+        Crutch.InfoPanel.SetLine(998, "Info Panel Line 1")
+        Crutch.InfoPanel.CountDownDuration(999, "Portal 1: ", 10000)
+    else
+        Crutch.InfoPanel.RemoveLine(998)
+        Crutch.InfoPanel.StopCount(999)
+    end
 end
 Crutch.UnlockUI = UnlockUI
 
@@ -420,6 +429,49 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         setFunction = function(r, g, b, a)
             Crutch.savedOptions.bossHealthBar.background = {r, g, b, a}
             Crutch.BossHealthBar.UpdateColors()
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    ---------------------------------------------------------------------
+    -- Info Panel
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Info Panel Settings",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Info panel position X",
+        tooltip = "The horizontal position of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.infoPanelDisplay.x,
+        getFunction = function() return Crutch.savedOptions.infoPanelDisplay.x end,
+        setFunction = function(value)
+            Crutch.savedOptions.infoPanelDisplay.x = value
+            CrutchAlertsInfoPanel:ClearAnchors()
+            CrutchAlertsInfoPanel:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+                Crutch.savedOptions.infoPanelDisplay.x, Crutch.savedOptions.infoPanelDisplay.y)
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Info panel position Y",
+        tooltip = "The vertical position of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
+        min = - GuiRoot:GetHeight() / 2,
+        max = GuiRoot:GetHeight() / 2,
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.infoPanelDisplay.y,
+        getFunction = function() return Crutch.savedOptions.infoPanelDisplay.y end,
+        setFunction = function(value)
+            Crutch.savedOptions.infoPanelDisplay.y = value
+            CrutchAlertsInfoPanel:ClearAnchors()
+            CrutchAlertsInfoPanel:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+                Crutch.savedOptions.infoPanelDisplay.x, Crutch.savedOptions.infoPanelDisplay.y)
             Crutch.UnlockUI(true)
         end,
     })

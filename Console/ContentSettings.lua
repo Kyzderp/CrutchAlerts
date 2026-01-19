@@ -772,6 +772,44 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Info Panel",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show time until portal",
+        tooltip = "Shows portal number and time until Bahsei can spawn the next portal on HM",
+        default = Crutch.defaultOptions.rockgrove.panel.showTimeToPortal,
+        getFunction = function() return Crutch.savedOptions.rockgrove.panel.showTimeToPortal end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.panel.showTimeToPortal = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show portal direction",
+        tooltip = "Shows the direction of the current portal on Bahsei HM",
+        default = Crutch.defaultOptions.rockgrove.panel.showPortalDirection,
+        getFunction = function() return Crutch.savedOptions.rockgrove.panel.showPortalDirection end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.panel.showPortalDirection = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show number of players in portal",
+        tooltip = "Shows the current number of players in portal on Bahsei HM",
+        default = Crutch.defaultOptions.rockgrove.panel.showNumInPortal,
+        getFunction = function() return Crutch.savedOptions.rockgrove.panel.showNumInPortal end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.panel.showNumInPortal = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
         label = "[BETA] Curse Lines",
     })
 
@@ -886,7 +924,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_EDIT,
         label = "Add dangerous ability",
-        tooltip = "The ID of the ability to add to the list.\nUse |c99FF99/crutch printskills|r to see your currently equipped skill IDs", -- TODO: does console refresh?
+        tooltip = "The ID of the ability to add to the list.\nUse |c99FF99/crutch printskills|r to see your currently equipped skill IDs",
         getFunction = function() return "" end,
         setFunction = function(text)
             if (text == "") then return end

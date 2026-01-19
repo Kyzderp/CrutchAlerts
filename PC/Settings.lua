@@ -1868,6 +1868,45 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "description",
+                    title = "|c08BD1DInfo Panel|r",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show time until portal",
+                    tooltip = "Shows portal number and time until Bahsei can spawn the next portal on HM",
+                    default = Crutch.defaultOptions.rockgrove.panel.showTimeToPortal,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.panel.showTimeToPortal end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.panel.showTimeToPortal = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show portal direction",
+                    tooltip = "Shows the direction of the current portal on Bahsei HM",
+                    default = Crutch.defaultOptions.rockgrove.panel.showPortalDirection,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.panel.showPortalDirection end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.panel.showPortalDirection = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show number of players in portal",
+                    tooltip = "Shows the current number of players in portal on Bahsei HM",
+                    default = Crutch.defaultOptions.rockgrove.panel.showNumInPortal,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.panel.showNumInPortal end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.panel.showNumInPortal = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "description",
                     title = "|c08BD1D[BETA] Curse Lines|r",
                     text = "Shows lines for potential curse AoE trajectories after Death Touch expires. All 4 possible directions are shown, but only 2 directions will have real AoEs.",
                     width = "full",
@@ -2010,45 +2049,6 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.rockgrove.portalTimeMargin = value
                     end,
-                },
-                {
-                    type = "description",
-                    title = "|c08BD1DInfo Panel|r",
-                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show time until portal",
-                    tooltip = "Shows portal number and time until Bahsei can spawn the next portal on HM",
-                    default = Crutch.defaultOptions.rockgrove.panel.showTimeToPortal,
-                    getFunc = function() return Crutch.savedOptions.rockgrove.panel.showTimeToPortal end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.rockgrove.panel.showTimeToPortal = value
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show number of players in portal",
-                    tooltip = "Shows the current number of players in portal on Bahsei HM",
-                    default = Crutch.defaultOptions.rockgrove.panel.showNumInPortal,
-                    getFunc = function() return Crutch.savedOptions.rockgrove.panel.showNumInPortal end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.rockgrove.panel.showNumInPortal = value
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show portal direction",
-                    tooltip = "Shows the direction of the current portal on Bahsei HM",
-                    default = Crutch.defaultOptions.rockgrove.panel.showPortalDirection,
-                    getFunc = function() return Crutch.savedOptions.rockgrove.panel.showPortalDirection end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.rockgrove.panel.showPortalDirection = value
-                    end,
-                    width = "full",
                 },
             })),
         },
