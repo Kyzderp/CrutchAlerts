@@ -882,6 +882,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
     })
 
+    local selectedDangerousAbility = next(Crutch.savedOptions.rockgrove.abilitiesToReplace) or 0
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_EDIT,
         label = "Add dangerous ability",
@@ -896,29 +897,40 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end
             Crutch.savedOptions.rockgrove.abilitiesToReplace[num] = true
             Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
+
+            if (selectedDangerousAbility == 0) then
+                selectedDangerousAbility = num
+            end
         end,
     })
 
-    local selectedDangerousAbility = 0
     local dangerousAbilityItems = {}
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_DROPDOWN,
         label = "Dangerous abilities",
         tooltip = "Select an ability from this list and use the button below to remove it from the list",
         getFunction = function()
+            if (selectedDangerousAbility == 0) then
+                return "None"
+            end
             return string.format("%s (%d)", GetAbilityName(selectedDangerousAbility) or "", selectedDangerousAbility)
         end,
         setFunction = function(combobox, name, item)
             selectedDangerousAbility = item.data
         end,
-        default = "None",
+        default = next(Crutch.savedOptions.rockgrove.abilitiesToReplace),
         items = function()
             ZO_ClearTable(dangerousAbilityItems)
             for id, _ in pairs(Crutch.savedOptions.rockgrove.abilitiesToReplace) do
                 table.insert(dangerousAbilityItems, {
                     name = string.format("%s (%d)", GetAbilityName(id) or "", id),
-                    data = id
+                    data = id,
                 })
+            end
+
+            -- why empty "dropdowns" gotta be such a pita?
+            if (ZO_IsTableEmpty(dangerousAbilityItems)) then
+                table.insert(dangerousAbilityItems, {name = "None", data = 0})
             end
             return dangerousAbilityItems
         end,
@@ -927,12 +939,12 @@ function Crutch.CreateConsoleContentSettingsMenu()
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_BUTTON,
         label = "Remove selected ability",
-        tooltip = "Remove " .. selectedDangerousAbility .. " from the dangerous abilities list",
+        tooltip = function() return selectedDangerousAbility and "Remove " .. selectedDangerousAbility .. " from the dangerous abilities list" or "" end,
         clickHandler = function()
             Crutch.savedOptions.rockgrove.abilitiesToReplace[selectedDangerousAbility] = nil
-            local id = next(Crutch.savedOptions.rockgrove.abilitiesToReplace)
-            selectedDangerousAbility = id
+            selectedDangerousAbility = next(Crutch.savedOptions.rockgrove.abilitiesToReplace) or 0
         end,
+        disable = function() return selectedDangerousAbility == 0 end,
     })
 
     settings:AddSetting({
