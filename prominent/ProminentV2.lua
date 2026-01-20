@@ -3,7 +3,7 @@ local C = Crutch.Constants
 
 -- Data for prominent display of notifications
 -- Key by zoneId so we only register each one in the right zone
--- preMillis is how long before the end of the timer we should start the alert... which is currently not used in V2
+-- preMillis is how long before the end of the timer we should start the alert...
 -- millis is duration of the alert
 
 -- filters can take a special "filterFunction" that should return true if the prominent alert should be shown
@@ -446,7 +446,7 @@ local prominentData = {
             color = {0.5, 1, 1},
             slot = 1,
             playSound = true,
-            preMillis = 1000,
+            preMillis = 700,
             millis = 1000,
             settings = {
                 name = "prominentSunderingGale",
@@ -854,7 +854,14 @@ function Crutch.RegisterProminents(zoneId)
                             hitValue))
                     end
 
-                    Crutch.DisplayProminent2(abilityId, abilityData)
+                    if (abilityData.preMillis) then
+                        Crutch.dbgOther("Calling later " .. hitValue - abilityData.preMillis)
+                        zo_callLater(function()
+                            Crutch.DisplayProminent2(abilityId, abilityData)
+                        end, hitValue - abilityData.preMillis)
+                    else
+                        Crutch.DisplayProminent2(abilityId, abilityData)
+                    end
                 end
 
                 -- Register event

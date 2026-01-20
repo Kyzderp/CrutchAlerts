@@ -3,13 +3,8 @@ local IP = Crutch.InfoPanel
 
 ---------------------------------------------------------------------
 --[[
-want: add by key? or just number
-display: should it close gaps? prob yes
-each item is 1 label?
-truncate
 settings: font size, position
 font
-vertical line side bar?
 ]]
 local lines = {} -- {[1] = Label}
 
