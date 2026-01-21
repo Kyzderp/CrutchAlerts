@@ -411,6 +411,31 @@ function Crutch:CreateSettingsMenu()
                 },
             }
         },
+-- info panel
+        {
+            type = "submenu",
+            name = "Info Panel",
+            controls = {
+                {
+                    type = "slider",
+                    name = "Size",
+                    tooltip = "The size to display the info panel",
+                    min = 5,
+                    max = 120,
+                    step = 1,
+                    default = 30,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.infoPanel.size end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.infoPanel.size = value
+                        Crutch.InfoPanel.ApplyStyle()
+                        CrutchAlertsInfoPanel:SetHidden(false)
+                        Crutch.InfoPanel.CountDownHardStop(998, "Info Panel Line 1", 10000, false)
+                        Crutch.InfoPanel.CountDownHardStop(999, "Portal 1: ", 10000)
+                    end,
+                },
+            },
+        },
 -- in-world icons
         {
             type = "submenu",

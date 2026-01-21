@@ -442,6 +442,22 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Info panel size",
+        tooltip = "The size of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
+        min = 5,
+        max = 120,
+        step = 1,
+        default = Crutch.defaultOptions.infoPanel.size,
+        getFunction = function() return Crutch.savedOptions.infoPanel.size end,
+        setFunction = function(value)
+            Crutch.savedOptions.infoPanel.size = value
+            Crutch.InfoPanel.ApplyStyle()
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
         label = "Info panel position X",
         tooltip = "The horizontal position of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
         min = - GuiRoot:GetWidth() / 2,

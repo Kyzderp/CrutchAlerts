@@ -142,6 +142,9 @@ local defaultOptions = {
         foreground = {179/256, 18/256, 7/256, 0.73},
         background = {16/256, 0, 0, 0.66},
     },
+    infoPanel = {
+        size = 30,
+    },
     asylumsanctorium = {
         dingSelfCone = true,
         dingOthersCone = false,

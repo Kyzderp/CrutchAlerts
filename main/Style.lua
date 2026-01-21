@@ -14,8 +14,8 @@ local KEYBOARD_STYLE = {
     GetMarkerFont = function(size)
         return string.format("$(BOLD_FONT)|%d|thick-outline", math.floor(size))
     end,
-    GetInfoPanelFont = function(size)
-        return string.format("$(BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
+    GetInfoPanelFont = function()
+        return string.format("$(BOLD_FONT)|%d|soft-shadow-thick", Crutch.savedOptions.infoPanel.size)
     end,
 }
 
@@ -31,8 +31,8 @@ local GAMEPAD_STYLE = {
     GetMarkerFont = function(size)
         return string.format("$(GAMEPAD_BOLD_FONT)|%d|thick-outline", math.floor(size))
     end,
-    GetInfoPanelFont = function(size)
-        return string.format("$(GAMEPAD_BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
+    GetInfoPanelFont = function()
+        return string.format("$(GAMEPAD_BOLD_FONT)|%d|soft-shadow-thick", Crutch.savedOptions.infoPanel.size)
     end,
 }
 

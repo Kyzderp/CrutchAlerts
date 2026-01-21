@@ -31,3 +31,19 @@ function IP.StopCount(index)
     Crutch.UnregisterUpdateListener("Panel" .. index)
     IP.RemoveLine(index)
 end
+
+function IP.CountDownHardStop(index, prefix, durationMs, showTimer)
+    local targetTime = GetGameTimeMilliseconds() + durationMs
+    Crutch.RegisterUpdateListener("Panel" .. index, function()
+        local timer = targetTime - GetGameTimeMilliseconds()
+        if (timer > 0) then
+            local text = prefix
+            if (showTimer) then
+                text = text .. DecorateTimer(timer)
+            end
+            IP.SetLine(index, text)
+        else
+            IP.StopCount(index)
+        end
+    end)
+end

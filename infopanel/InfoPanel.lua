@@ -2,16 +2,7 @@ local Crutch = CrutchAlerts
 local IP = Crutch.InfoPanel
 
 ---------------------------------------------------------------------
---[[
-settings: font size, position
-font
-]]
 local lines = {} -- {[1] = Label}
-
-
-
----------------------------------------------------------------------
-local size = 30
 
 
 ---------------------------------------------------------------------
@@ -23,7 +14,7 @@ local function CreateLabel(index)
         CrutchAlertsInfoPanel,
         "CrutchAlertsInfoPanelLineTemplate",
         "")
-    label:SetFont(Crutch.GetStyles().GetInfoPanelFont(size)) -- TODO: setting
+    label:SetFont(Crutch.GetStyles().GetInfoPanelFont())
     lines[index] = label
     return label
 end
@@ -89,9 +80,16 @@ IP.RemoveLine = RemoveLine
 ---------------------------------------------------------------------
 -- Style
 ---------------------------------------------------------------------
+local currentStyle
 function IP.ApplyStyle(style)
+    if (not style) then
+        style = currentStyle
+    else
+        currentStyle = style
+    end
+
     for _, label in pairs(lines) do
-        label:SetFont(style.GetInfoPanelFont(size))
+        label:SetFont(style.GetInfoPanelFont())
     end
 end
 
