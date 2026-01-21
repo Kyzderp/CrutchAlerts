@@ -3,7 +3,7 @@ local IP = Crutch.InfoPanel
 
 
 ---------------------------------------------------------------------
--- Milliseconds
+-- Inherit, yellow, orange
 local function DecorateTimer(timer)
     if (timer > 5000) then
         return string.format("%.0fs", timer / 1000)
@@ -14,16 +14,49 @@ local function DecorateTimer(timer)
     end
 end
 
-function IP.CountDownDuration(index, prefix, durationMs)
+-- Yellow, orange, red
+local function DecorateTimerDamageable(timer)
+    if (timer > 5000) then
+        return string.format("|cffee00%.1fs|r", timer / 1000)
+    elseif (timer > 3000) then
+        return string.format("|cff8c00%.1fs|r", timer / 1000)
+    else
+        return string.format("|cff0000%.1fs|r", timer / 1000)
+    end
+end
+
+-- prefix: should include a space at the end to not be squished with the timer
+-- doneText: the whole text to show after timer is <= 0 (is not prefixed)
+-- doneMs: milliseconds after timer <= 0 to persist the line. nil to not auto remove
+local function CountDown(index, prefix, doneText, durationMs, doneMs, showTimer, decorateTimerFunc)
     local targetTime = GetGameTimeMilliseconds() + durationMs
+    if (not decorateTimerFunc) then
+        decorateTimerFunc = DecorateTimer
+    end
+
     Crutch.RegisterUpdateListener("Panel" .. index, function()
         local timer = targetTime - GetGameTimeMilliseconds()
         if (timer > 0) then
-            IP.SetLine(index, prefix .. DecorateTimer(timer))
+            local text = prefix
+            if (showTimer) then
+                text = text .. decorateTimerFunc(timer)
+            end
+            IP.SetLine(index, text)
+        elseif (doneMs == nil) then
+            -- If doneMs is nil, do not auto remove timer, just set the text
+            IP.SetLine(index, doneText)
+        elseif (timer < -doneMs) then
+            -- If timer is past doneMs, remove timer
+            IP.StopCount(index)
         else
-            IP.SetLine(index, prefix .. "|cff8c00Soon™️|r")
+            -- Timer is <= 0, but not ending yet
+            IP.SetLine(index, doneText)
         end
     end)
+end
+
+function IP.CountDownDuration(index, prefix, durationMs)
+    CountDown(index, prefix, prefix .. "|cff8c00Soon™️|r", durationMs, nil, true)
 end
 -- /script CrutchAlerts.InfoPanel.CountDownDuration(1, "Portal 1: ", 20000)
 
@@ -33,17 +66,16 @@ function IP.StopCount(index)
 end
 
 function IP.CountDownHardStop(index, prefix, durationMs, showTimer)
-    local targetTime = GetGameTimeMilliseconds() + durationMs
-    Crutch.RegisterUpdateListener("Panel" .. index, function()
-        local timer = targetTime - GetGameTimeMilliseconds()
-        if (timer > 0) then
-            local text = prefix
-            if (showTimer) then
-                text = text .. DecorateTimer(timer)
-            end
-            IP.SetLine(index, text)
-        else
-            IP.StopCount(index)
-        end
-    end)
+    CountDown(index, prefix, "", durationMs, 0, showTimer)
+end
+
+function IP.CountDownDamageable(durationSeconds, prefix)
+    CountDown(
+        1,
+        prefix or "Boss in ",
+        "|c0fff43Fire the nailguns!|r",
+        durationSeconds * 1000,
+        1000,
+        true,
+        DecorateTimerDamageable)
 end
