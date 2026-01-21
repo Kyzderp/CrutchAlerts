@@ -91,6 +91,7 @@ function IP.ApplyStyle(style)
     for _, label in pairs(lines) do
         label:SetFont(style.GetInfoPanelFont())
     end
+    UpdateAnchors()
 end
 
 

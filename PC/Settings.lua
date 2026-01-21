@@ -419,7 +419,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "slider",
                     name = "Size",
-                    tooltip = "The size to display the info panel",
+                    tooltip = "The size to display the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
                     min = 5,
                     max = 120,
                     step = 1,
@@ -431,7 +431,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.InfoPanel.ApplyStyle()
                         CrutchAlertsInfoPanel:SetHidden(false)
                         Crutch.InfoPanel.CountDownHardStop(998, "Info Panel Line 1", 10000, false)
-                        Crutch.InfoPanel.CountDownHardStop(999, "Portal 1: ", 10000)
+                        Crutch.InfoPanel.CountDownHardStop(999, "Portal 1: ", 10000, true)
                     end,
                 },
             },
