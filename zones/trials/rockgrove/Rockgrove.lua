@@ -280,10 +280,10 @@ function Crutch.RegisterRockgrove()
 
     Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function()
         numBleeds = 0
-        explosions = {}
+        ZO_ClearTable(explosions)
     end)
 
-    Crutch.RegisterRockgroveOax()
+    Crutch.Rockgrove.RegisterOax()
     Crutch.Rockgrove.RegisterBahseiPortal()
 
     -- Register for Kiss of Death
@@ -321,7 +321,7 @@ function Crutch.UnregisterRockgrove()
 
     Crutch.UnregisterExitedGroupCombatListener("RockgroveExitedCombat")
 
-    Crutch.UnregisterRockgroveOax()
+    Crutch.Rockgrove.UnregisterOax()
     Crutch.Rockgrove.UnregisterBahseiPortal()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT)

@@ -81,14 +81,14 @@ end
 ---------------------------------------------------------------------
 -- Register
 ---------------------------------------------------------------------
-function Crutch.RegisterRockgroveOax()
+function Crutch.Rockgrove.RegisterOax()
     -- Register the Noxious Sludge
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, OnNoxiousSludgeGained)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 157860)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 end
 
-function Crutch.UnregisterRockgroveOax()
+function Crutch.Rockgrove.UnregisterOax()
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(SLUDGE_UNIQUE_NAME)
 
