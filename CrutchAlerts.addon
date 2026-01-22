@@ -53,7 +53,7 @@ zones/trials/KynesAegis.lua
 zones/trials/LucentCitadel.lua
 zones/trials/MawOfLorkhaj.lua
 zones/trials/OsseinCage.lua
-zones/trials/Rockgrove.lua
+zones/trials/rockgrove/Rockgrove.lua
 zones/trials/SanitysEdge.lua
 zones/trials/SanctumOphidia.lua
 zones/trials/Sunspire.lua
