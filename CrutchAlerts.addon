@@ -52,7 +52,7 @@ zones/trials/HallsOfFabrication.lua
 zones/trials/KynesAegis.lua
 zones/trials/LucentCitadel.lua
 zones/trials/MawOfLorkhaj.lua
-zones/trials/OsseinCage.lua
+zones/trials/osseincage/OsseinCage.lua
 zones/trials/rockgrove/Rockgrove.lua
 zones/trials/rockgrove/Oaxiltso.lua
 zones/trials/rockgrove/BahseiPortal.lua
