@@ -219,7 +219,6 @@ function Crutch.OsseinCage.RegisterCarrion()
         HUD_SCENE:AddFragment(carrionFragment)
         HUD_UI_SCENE:AddFragment(carrionFragment)
 
-
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED, OnCausticCarrion)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 240708)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
@@ -238,8 +237,6 @@ function Crutch.OsseinCage.UnregisterCarrion()
     end
 
     Crutch.UnregisterBossChangedListener("CrutchOsseinCage")
-
-    UnregisterEnfeeblement()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionRegular", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CausticCarrionBoss2", EVENT_EFFECT_CHANGED)

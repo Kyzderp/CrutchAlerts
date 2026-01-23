@@ -1,5 +1,4 @@
 local Crutch = CrutchAlerts
-Crutch.OsseinCage = {}
 local C = Crutch.Constants
 
 
