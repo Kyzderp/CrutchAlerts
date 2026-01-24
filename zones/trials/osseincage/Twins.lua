@@ -3,6 +3,157 @@ local C = Crutch.Constants
 
 
 ---------------------------------------------------------------------
+local JYNORAH_HEALTH_HM = 85320632
+local JYNORAH_HEALTH_VET = 37257920
+local JYNORAH_HEALTH_NORMAL = 10906420
+
+local function IsHM()
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    return powerMax == JYNORAH_HEALTH_HM
+end
+
+---------------------------------------------------------------------
+-- Notifications / Info Panel
+---------------------------------------------------------------------
+local PANEL_CLASH_INDEX = 3
+local PANEL_LEAP_INDEX = 5
+
+--[[
+Myr Titanic Clash Leap AL (233500)
+Val Titanic Clash Leap AL (233512)
+
+Myr Leap DESPAWN (234738)
+
+Myr Leap Exit AL (234704)
+Myrinax Leap AL (233452)
+Myrinax Leap UPPER AL (233477)
+Val Exit Leap AL (234722)
+Valneer Leap AL (233466)
+Valnner Leap UPPER AL (233489)
+]]
+local LEAP_IDS = {
+    234704, -- Myr Leap Exit AL
+    233452, -- Myrinax Leap AL
+    233477, -- Myrinax Leap UPPER AL
+    234722, -- Val Exit Leap AL
+    233466, -- Valneer Leap AL
+    233489, -- Valnner Leap UPPER AL
+}
+
+-- Update the panel's leap timer. If preventOverwrite, the timer will not
+-- be set if it's within 3 seconds of the previous update. This is because
+-- both titans jump at different times, to not refresh the timer
+local lastLeap = 0
+local function CountDownLeap(durationMs, preventOverwrite)
+    local currTime = GetGameTimeMilliseconds()
+    if (preventOverwrite and currTime - lastLeap < 3000) then
+        lastLeap = currTime
+        return
+    end
+    lastLeap = currTime
+    Crutch.InfoPanel.CountDownDuration(PANEL_LEAP_INDEX, GetAbilityName(233453) .. ": ", durationMs)
+end
+
+local function OnClashLeap()
+    Crutch.dbgOther("clash leap")
+end
+
+local numClashes = 0
+local function OnClash()
+    Crutch.dbgOther("clash")
+    numClashes = numClashes + 1
+
+    -- Titanic Clash
+    Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, GetAbilityName(232517) .. ": ", 39800, true)
+
+    -- Titanic Leap after Clash:
+    -- HM: 55.77, 53.27, 52.5, 54.2, 56.2 why do they vary so much
+    -- vet: 63.7, 63.37 (second)
+    local timer = 63500
+    if (IsHM()) then
+        timer = 55000
+    end
+    CountDownLeap(timer, false)
+end
+
+local function OnLeap()
+    Crutch.dbgOther("leap")
+    -- HM:
+    -- 5.5, 5.58, 5.6 initial leap
+    -- 1 usually leaps ~0.7s after the other in the beginning. this applies to after clash too. otherwise, it's ~2s after the other
+    -- 1842.532 - 1758.016 = 84.5 from initial first leap to second first leap (maybe it's delayed by curse though)
+    -- 2926.121 - 2840.647 = 85.5 "
+    -- 3280.769 - 3195.939 = 84.8
+    -- 4423.714 - 4366.224 = 57.5 from clash first leap to first leap after clash
+    -- 4473.658 - 4423.714 = 49.9 post-clash 1st to 2nd leap
+    -- regular vet:
+    -- 10.55 initial leap
+    -- 4664.415 - 4599.160 = 65.3 from clash first leap to first leap after clash. may be the nonhm timer
+    -- 4762.558 - 4696.712 = 65.8 from second clash first leap to first leap after second clash
+
+    local timer = 49900 -- TODO: OCH seems to say 48, and 43 after the 2nd jump after clash?
+    CountDownLeap(timer, true)
+
+    -- TODO: is the timer since the first titan to leap, or the 2nd?
+end
+
+-- Starting combat initial leap
+local function OnCombatStart()
+    local timer = 10500
+    if (IsHM()) then
+        timer = 5500
+    end
+    CountDownLeap(timer, true)
+end
+
+-- Cleanup
+local function CleanUp()
+    Crutch.InfoPanel.RemoveLine(PANEL_LEAP_INDEX)
+    Crutch.InfoPanel.RemoveLine(PANEL_CLASH_INDEX)
+    numClashes = 0
+end
+
+local function RegisterPanelEvents()
+    Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat", OnCombatStart)
+    Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
+
+    for _, id in ipairs(LEAP_IDS) do
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, OnLeap)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, id)
+    end
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MyrClashLeap", EVENT_COMBAT_EVENT, OnClashLeap)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "MyrClashLeap", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "MyrClashLeap", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 233500)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ValClashLeap", EVENT_COMBAT_EVENT, OnClashLeap)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ValClashLeap", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ValClashLeap", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 233512)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, OnClash)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232517)
+end
+
+local function UnregisterPanelEvents()
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat")
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat")
+
+    for _, id in ipairs(LEAP_IDS) do
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT)
+    end
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MyrClashLeap", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ValClashLeap", EVENT_COMBAT_EVENT)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT)
+
+    CleanUp()
+end
+
+
+---------------------------------------------------------------------
 -- Atro Seeking Surge
 -- Idea & prototype by @M0R_Gaming
 ---------------------------------------------------------------------
@@ -49,9 +200,9 @@ local damageTypes = {
 
 -- Jynorah hp to titan hp
 local TITAN_MAX_HPS = {
-    [85320632] = 242176464,
-    [37257920] = 151360288,
-    [10906420] = 35445864,
+    [JYNORAH_HEALTH_HM] = 242176464,
+    [JYNORAH_HEALTH_VET] = 151360288,
+    [JYNORAH_HEALTH_NORMAL] = 35445864,
 }
 
 local TITAN_ATTACKS = {
@@ -188,6 +339,8 @@ local function UnregisterTwins()
         Crutch.Drawing.RemoveWorldTexture(exitKey)
         exitKey = nil
     end
+
+    UnregisterPanelEvents()
 end
 
 local function RegisterTwins()
@@ -208,6 +361,7 @@ local function RegisterTwins()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
     end
 
+    -- Positioning icons
     if (Crutch.savedOptions.osseincage.showTwinsIcons) then
         if (Crutch.savedOptions.osseincage.useAOCHIcons) then
             Crutch.EnableIconGroup("OCAOCH")
@@ -223,6 +377,9 @@ local function RegisterTwins()
         end
         exitKey = Crutch.Drawing.CreateSpaceLabel("Exit", 105100, 26400, 133400, 120, C.WHITE, false, {0, math.pi, 0})
     end
+
+    -- Info panel
+    RegisterPanelEvents()
 end
 
 
@@ -307,7 +464,7 @@ local function MaybeRegisterTwins()
         UnregisterTwins()
     end
 
-    if (powerMax == 85320632 or powerMax == 37257920) then -- TODO: for testing, remove later
+    if (powerMax == JYNORAH_HEALTH_HM) then
         RegisterHardmodeAtros()
     else
         UnregisterHardmodeAtros()
@@ -320,9 +477,9 @@ local function MaybeRegisterTwins()
         return
     elseif (enfeeblementOption == "ALWAYS") then
         RegisterEnfeeblement()
-    elseif (enfeeblementOption == "HM" and powerMax == 85320632) then
+    elseif (enfeeblementOption == "HM" and powerMax == JYNORAH_HEALTH_HM) then
         RegisterEnfeeblement()
-    elseif (enfeeblementOption == "VET" and (powerMax == 85320632 or powerMax == 37257920)) then
+    elseif (enfeeblementOption == "VET" and (powerMax == JYNORAH_HEALTH_HM or powerMax == JYNORAH_HEALTH_VET)) then
         RegisterEnfeeblement()
     else
         UnregisterEnfeeblement()
@@ -331,7 +488,7 @@ local function MaybeRegisterTwins()
     -- Reflective Scales
     for damageResult, str in pairs(damageTypes) do
         -- Only enable if on HM
-        if (powerMax == 85320632 and Crutch.savedOptions.osseincage.printHMReflectiveScales) then
+        if (powerMax == JYNORAH_HEALTH_HM and Crutch.savedOptions.osseincage.printHMReflectiveScales) then
             EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT, function(_, _, _, _, _, _, _, sourceType, _, _, _, _, _, _, _, targetUnitId, abilityId)
                 if (sourceType == COMBAT_UNIT_TYPE_PLAYER and titanIds[targetUnitId]) then
                     Crutch.msg(string.format("You hit a titan with |cFF00FF%s|r%s", GetAbilityName(abilityId), str))

@@ -181,6 +181,13 @@ Crutch.testing = {
     -- [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
 
     [183778] = true, -- Inferno (Enraged Fragment)
+
+    [234704] = true, -- Myr Leap Exit AL
+    [233452] = true, -- Myrinax Leap AL
+    [233477] = true, -- Myrinax Leap UPPER AL
+    [234722] = true, -- Val Exit Leap AL
+    [233466] = true, -- Valneer Leap AL
+    [233489] = true, -- Valnner Leap UPPER AL
 }
 
 ---------------------------------------------------------------------
@@ -362,6 +369,13 @@ Crutch.others = {
         -- [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
         -- [234683] = true, -- Radiance (Blazing Flame Atronach)
         -- [234680] = true, -- Radiance (Sparking Cold-Flame Atronach)
+
+        [234704] = true, -- Myr Leap Exit AL
+        [233452] = true, -- Myrinax Leap AL
+        [233477] = true, -- Myrinax Leap UPPER AL
+        [234722] = true, -- Val Exit Leap AL
+        [233466] = true, -- Valneer Leap AL
+        [233489] = true, -- Valnner Leap UPPER AL
     },
 
     -- Rockgrove
