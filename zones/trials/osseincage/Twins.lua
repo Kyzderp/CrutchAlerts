@@ -108,8 +108,8 @@ end
 
 -- Cleanup
 local function CleanUp()
-    Crutch.InfoPanel.RemoveLine(PANEL_LEAP_INDEX)
-    Crutch.InfoPanel.RemoveLine(PANEL_CLASH_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_LEAP_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_CLASH_INDEX)
     numClashes = 0
 end
 

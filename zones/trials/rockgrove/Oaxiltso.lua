@@ -79,6 +79,38 @@ end
 
 
 ---------------------------------------------------------------------
+-- Info Panel
+---------------------------------------------------------------------
+local PANEL_SLUDGE_INDEX = 3
+local PANEL_BLITZ_INDEX = 5
+
+local function IsOax()
+    return zo_strformat("<<1>>", GetUnitName("boss1")) == "Oaxiltso" -- TODO: use health instead
+end
+
+local function OnBlitz()
+    Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, "|cfff1ab" .. GetAbilityName(149414) .. ": ", 36000)
+end
+
+local function OnSludge()
+    Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(149190) .. ": ", 27000)
+end
+
+local function OnEnteredCombat()
+    -- TODO: initial needs testing
+    if (IsOax()) then
+        Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(149190) .. ": ", 15000)
+        Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, "|cfff1ab" .. GetAbilityName(149414) .. ": ", 17000)
+    end
+end
+
+local function CleanUp()
+    Crutch.InfoPanel.StopCount(PANEL_BLITZ_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_SLUDGE_INDEX)
+end
+
+
+---------------------------------------------------------------------
 -- Register
 ---------------------------------------------------------------------
 function Crutch.Rockgrove.RegisterOax()
@@ -86,6 +118,18 @@ function Crutch.Rockgrove.RegisterOax()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, OnNoxiousSludgeGained)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 157860)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+
+    -- For info panel
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, OnBlitz)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 149414)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, OnSludge)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 149190)
+
+    Crutch.RegisterEnteredGroupCombatListener("CrutchRockgroveOaxEnteredCombat", OnEnteredCombat)
+
+    Crutch.RegisterExitedGroupCombatListener("CrutchRockgroveOaxExitedCombat", CleanUp)
 end
 
 function Crutch.Rockgrove.UnregisterOax()
@@ -93,5 +137,12 @@ function Crutch.Rockgrove.UnregisterOax()
     Crutch.RemoveAllAttachedIcons(SLUDGE_UNIQUE_NAME)
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_COMBAT_EVENT)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterExitedGroupCombatListener("CrutchRockgroveOaxEnteredCombat")
+    Crutch.UnregisterExitedGroupCombatListener("CrutchRockgroveOaxExitedCombat")
+
+    CleanUp()
 end
 
