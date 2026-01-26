@@ -45,8 +45,8 @@ Crutch.format = {
     [ 95545] =  20206.2, -- Defiling Dye Blast (Saint Llothis)
 
 -- Cloudrest
-    [103531] = 100107, -- Roaring Flare
-    [110431] = 100107, -- Roaring Flare
+    [103531] = 100106.6, -- Roaring Flare
+    [110431] = 100106.6, -- Roaring Flare
     [105239] = 200010, -- Crushing Darkness
     [103555] =    400, -- Voltaic Current (initial of barswap)
     [104019] =  31003, -- Olorime Spears

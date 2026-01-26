@@ -85,7 +85,11 @@ local PANEL_SLUDGE_INDEX = 3
 local PANEL_BLITZ_INDEX = 5
 
 local function IsOax()
-    return zo_strformat("<<1>>", GetUnitName("boss1")) == "Oaxiltso" -- TODO: use health instead
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (powerMax == 125745480 or powerMax == 62872740 or powerMax == 19086236) then
+        return true
+    end
+    return false
 end
 
 local function OnBlitz()

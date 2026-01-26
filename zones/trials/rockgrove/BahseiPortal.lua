@@ -28,7 +28,7 @@ local function UpdatePlayersInPortal()
             count = count + 1
         end
     end
-    Crutch.InfoPanel.SetLine(PANEL_PORTAL_COUNT_INDEX, count .. " in portal")
+    Crutch.InfoPanel.SetLine(PANEL_PORTAL_COUNT_INDEX, "|c9999ff" .. count .. " in portal")
 end
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
@@ -88,7 +88,7 @@ local function OnPortalSummoned(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 
     if (Crutch.savedOptions.rockgrove.panel.showPortalDirection) then
         local display = Crutch.format[abilityId]
         if (display) then
-            Crutch.InfoPanel.SetLine(PANEL_PORTAL_DIRECTION_INDEX, display.text)
+            Crutch.InfoPanel.SetLine(PANEL_PORTAL_DIRECTION_INDEX, "|c9999ff" .. display.text)
         end
     end
 end
@@ -133,7 +133,7 @@ local function OnPortalEnded()
     Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_DIRECTION_INDEX)
 
     if (Crutch.savedOptions.rockgrove.panel.showTimeToPortal) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal " .. nextPortal .. ": ", 50000)
+        Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "|c9999ffPortal " .. nextPortal .. ": ", 50000)
     end
 
     UnspoofAllIcons()
@@ -155,7 +155,7 @@ local function OnEnteredCombat()
     end
 
     if (Crutch.savedOptions.rockgrove.panel.showTimeToPortal) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "Portal 1: ", 20000)
+        Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "|c9999ffPortal 1: ", 20000)
     end
 
     if (not IsMyPortal(1)) then return end
