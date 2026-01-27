@@ -159,10 +159,10 @@ local SUBTITLE_TIMES = {
         ["You dare face me? Baleful power lurks beneath your feet, and I will have it for my own!"] = 9.7, -- could be a tick late
         ["You wish to see my works? Very well! I will plunge you into deeper darkness!"] = 12.6,
         -- Torturers
-        ["Feed, my pets. Feed!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
-        ["Come, cattle! Time for the slaughter!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
-        ["Behold, my banquet!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
-        ["Go, children, and drink your fill!"] = {time = 30, displayFormat = "Torturers in |c%s%.1f|r"},
+        ["Feed, my pets. Feed!"] = {time = 30, displayFormat = "Torturers in "},
+        ["Come, cattle! Time for the slaughter!"] = {time = 30, displayFormat = "Torturers in "},
+        ["Behold, my banquet!"] = {time = 30, displayFormat = "Torturers in "},
+        ["Go, children, and drink your fill!"] = {time = 30, displayFormat = "Torturers in "},
     },
 -- LC
     ["Xoryn"] = {
@@ -289,7 +289,7 @@ local SUBTITLE_TIMES = {
         ["Congratulations. You've passed the first trial."] = 15.1,
     },
     ["The Beast Master"] = {
-        ["And there we have it! The winners of the Grand Melee!"] = {time = 43.4, displayFormat = "INCINERATION BEETLES!!! in |c%s%.1f|r"},
+        ["And there we have it! The winners of the Grand Melee!"] = {time = 43.4, displayFormat = "INCINERATION BEETLES!!! in "},
         ["These challengers are surprisingly fierce! But here's the real reason you've come today!"] = 25.5, -- Stinger
         ["What? Impossible? How did you win?"] = 19.7, -- Troll King
     },
@@ -316,11 +316,6 @@ local SUBTITLE_TIMES = {
     ["Sarydil"] = {
         ["Well, well. Look what washed into our yaghra trap. You can surrender, or you can become bait. Choose."] = 13,
     },
-    -- ["Varallion"] = {
-    --     ["Iliata! Swoop and destroy!"] = {time = 9.2, displayFormat = "Iliata in |c%s%.1f|r"},
-    --     ["Ofallo, descend! Kill!"] = {time = 9.2, displayFormat = "Ofallo in |c%s%.1f|r"},
-    --     ["Mafremare! To me!"] = {time = 9.2, displayFormat = "Mafremare in |c%s%.1f|r"},
-    -- },
 
 -- Cradle of Shadows
     ["Dranos Velador"] = {
@@ -496,27 +491,27 @@ local SUBTITLE_TIMES = {
 -- DSA
     ["Hiath the Battlemaster"] = {
         -- Arena 1 start
-        ["We have new challengers! Will they survive the competition, or will their blood decorate the floor of our grand Arena?"] = {time = 20.0, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["We have new challengers! Will they survive the competition, or will their blood decorate the floor of our grand Arena?"] = {time = 20.0, displayFormat = "Portal spawns in "},
         -- Arena 2 start
-        ["You dare to go on? This pleases my master. Let's hope you continue to please her and she grants you the strength to survive the coming battles."] = {time = 24.0, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["You dare to go on? This pleases my master. Let's hope you continue to please her and she grants you the strength to survive the coming battles."] = {time = 24.0, displayFormat = "Portal spawns in "},
         -- 3
-        ["Every victory elevates you in the eyes of the master, mortals. But how will you fare in the marsh? Can you handle the mud and the bugs and the creatures intent on eating you once they defeat you?"] = {time = 27.1, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["Every victory elevates you in the eyes of the master, mortals. But how will you fare in the marsh? Can you handle the mud and the bugs and the creatures intent on eating you once they defeat you?"] = {time = 27.1, displayFormat = "Portal spawns in "},
         -- 4
-        ["I'm sure you're starting to wonder what's going on in here. You'll come to understand—provided you survive!"] = {time = 25.3, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["I'm sure you're starting to wonder what's going on in here. You'll come to understand—provided you survive!"] = {time = 25.3, displayFormat = "Portal spawns in "},
         -- 5
-        ["How puzzling! What could those strange tiles be used for? I guess you better figure it out quickly—if you don't want to die, of course!"] = {time = 22.1, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["How puzzling! What could those strange tiles be used for? I guess you better figure it out quickly—if you don't want to die, of course!"] = {time = 22.1, displayFormat = "Portal spawns in "},
         -- 7
-        ["And so your journey takes you into the depths of my master's domain. Her most-beloved worshipers reside here, including her favorite champions. Those who would gladly sacrifice themselves to become something … more."] = {time = 31.2, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["And so your journey takes you into the depths of my master's domain. Her most-beloved worshipers reside here, including her favorite champions. Those who would gladly sacrifice themselves to become something … more."] = {time = 31.2, displayFormat = "Portal spawns in "},
         -- 9
-        ["You must think you're really something. Arena after arena, you emerge victorious. But you are nothing. Nothing but lowly insects waiting to be stepped on."] = {time = 32.2, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["You must think you're really something. Arena after arena, you emerge victorious. But you are nothing. Nothing but lowly insects waiting to be stepped on."] = {time = 32.2, displayFormat = "Portal spawns in "},
     },
     ["Boethiah"] = {
         -- 6
-        ["Now the real challenge begins, my honored contestants. My champion has been silenced so that I may congratulate you personally for making it this far. From this point on, you will be pushed to your limits."] = {time = 40.1, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["Now the real challenge begins, my honored contestants. My champion has been silenced so that I may congratulate you personally for making it this far. From this point on, you will be pushed to your limits."] = {time = 40.1, displayFormat = "Portal spawns in "},
         -- 8
-        ["Your strength knows no bounds. Rarely have I seen a group that works so well together. The last time must have been, oh, those poor Mages Guild members I found in the Dwemer ruins years ago."] = {time = 36.0, displayFormat = "Portal spawns in |c%s%.1f|r"},
+        ["Your strength knows no bounds. Rarely have I seen a group that works so well together. The last time must have been, oh, those poor Mages Guild members I found in the Dwemer ruins years ago."] = {time = 36.0, displayFormat = "Portal spawns in "},
         -- 10 TODO: precise time unknown; 39 from Cas for now
-        ["And so the final challenge begins. Those who would represent me as champion now stand in this arena, deep within my realm. Only those who remain standing will receive my highest honor."] = {time = 40.0, displayFormat = "Boss spawns in |c%s%.1f|r"},
+        ["And so the final challenge begins. Those who would represent me as champion now stand in this arena, deep within my realm. Only those who remain standing will receive my highest honor."] = 40.0,
     },
 
 -----------
@@ -606,21 +601,26 @@ end
 ---------------------------------------------------------------------
 -- Display the timer
 function Crutch.DisplayDamageable(time, displayFormat)
-    dmgDisplayFormat = displayFormat or "Boss in |c%s%.1f|r"
-    pollTime = GetGameTimeMilliseconds() + time * 1000
-    CrutchAlertsDamageableLabel:SetFont(Crutch.GetStyles().damageableFont)
-    CrutchAlertsDamageableLabel:SetText(string.format(dmgDisplayFormat, GetTimerColor(time * 1000), time))
-    CrutchAlertsDamageableLabel:SetHidden(false)
+    if (Crutch.savedOptions.experimental) then
+        Crutch.InfoPanel.CountDownDamageable(time, displayFormat or "Boss in ")
+    else
+        dmgDisplayFormat = displayFormat or "Boss in |c%s%.1f|r"
+        pollTime = GetGameTimeMilliseconds() + time * 1000
+        CrutchAlertsDamageableLabel:SetFont(Crutch.GetStyles().damageableFont)
+        CrutchAlertsDamageableLabel:SetText(string.format(dmgDisplayFormat, GetTimerColor(time * 1000), time))
+        CrutchAlertsDamageableLabel:SetHidden(false)
 
-    if (not isPolling) then
-        isPolling = true
-        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "PollDamageable", 100, UpdateDisplay)
+        if (not isPolling) then
+            isPolling = true
+            EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "PollDamageable", 100, UpdateDisplay)
+        end
     end
 end
 
 function Crutch.StopDamageable()
     pollTime = GetGameTimeMilliseconds()
     CrutchAlertsDamageableLabel:SetHidden(true)
+    Crutch.InfoPanel.StopDamageable()
 end
 
 ---------------------------------------------------------------------

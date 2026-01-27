@@ -1,6 +1,7 @@
 local Crutch = CrutchAlerts
 local IP = Crutch.InfoPanel
 
+local PANEL_DAMAGEABLE_INDEX = 1
 
 ---------------------------------------------------------------------
 -- Inherit, yellow, orange
@@ -69,13 +70,19 @@ function IP.CountDownHardStop(index, prefix, durationMs, showTimer)
     CountDown(index, prefix, "", durationMs, 0, showTimer)
 end
 
+---------------------------------------------------------------------
+-- Damageable consolidated
 function IP.CountDownDamageable(durationSeconds, prefix)
     CountDown(
-        1,
+        PANEL_DAMAGEABLE_INDEX,
         prefix or "Boss in ",
         "|c0fff43Fire the nailguns!|r",
         durationSeconds * 1000,
         1000,
         true,
         DecorateTimerDamageable)
+end
+
+function IP.StopDamageable()
+    IP.StopCount(PANEL_DAMAGEABLE_INDEX)
 end

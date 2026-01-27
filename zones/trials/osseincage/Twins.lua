@@ -68,8 +68,8 @@ local function OnClash()
 
     -- Titanic Leap after Clash:
     -- HM: 55.77, 53.27, 52.5, 54.2, 56.2 why do they vary so much
-    -- vet: 63.7, 63.37 (second),62.6, 62.7 (second)
-    local timer = 62600
+    -- vet: 63.7, 63.37 (second),62.6, 62.7 (second), 62.0
+    local timer = 62000
     if (IsHM()) then
         timer = 55000
     end

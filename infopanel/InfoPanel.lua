@@ -2,7 +2,7 @@ local Crutch = CrutchAlerts
 local IP = Crutch.InfoPanel
 
 ---------------------------------------------------------------------
-local lines = {} -- {[1] = Label}
+local lines = {} -- {[1] = {label = Label, active = false}
 
 
 ---------------------------------------------------------------------
@@ -15,7 +15,7 @@ local function CreateLabel(index)
         "CrutchAlertsInfoPanelLineTemplate",
         "")
     label:SetFont(Crutch.GetStyles().GetInfoPanelFont())
-    lines[index] = label
+    lines[index] = {label = label, active = true}
     return label
 end
 
@@ -32,8 +32,9 @@ local function UpdateAnchors()
     local numActiveLines = 0
     local totalHeight = 0
     for _, index in ipairs(keys) do
-        local label = lines[index]
-        if (not label:IsHidden()) then
+        local line = lines[index]
+        if (line.active) then
+            local label = line.label
             label:ClearAnchors()
             label:SetAnchor(TOPLEFT, prevRelative, prevRelativeAnchor)
             prevRelative = label
@@ -43,6 +44,7 @@ local function UpdateAnchors()
         end
     end
 
+    Crutch.dbgSpam("totalHeight " .. totalHeight)
     CrutchAlertsInfoPanel:SetHeight(totalHeight)
 end
 
@@ -51,17 +53,18 @@ end
 -- API
 ---------------------------------------------------------------------
 local function SetLine(index, text)
-    local label = lines[index]
-    if (not label) then
-        label = CreateLabel(index)
+    local line = lines[index]
+    if (not line) then
+        local label = CreateLabel(index)
         label:SetText(text)
         UpdateAnchors()
-    elseif (label:IsHidden()) then
-        label:SetText(text)
-        label:SetHidden(false)
+    elseif (not line.active) then
+        line.active = true
+        line.label:SetText(text)
+        line.label:SetHidden(false)
         UpdateAnchors()
     else
-        label:SetText(text)
+        line.label:SetText(text)
     end
 end
 IP.SetLine = SetLine
@@ -69,8 +72,9 @@ IP.SetLine = SetLine
 
 local function RemoveLine(index)
     if (lines[index]) then
-        lines[index]:SetHidden(true)
-        lines[index]:SetText("")
+        lines[index].label:SetHidden(true)
+        lines[index].label:SetText("")
+        lines[index].active = false
         UpdateAnchors()
     end
 end
