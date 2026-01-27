@@ -193,6 +193,9 @@ local defaultOptions = {
         showArcaneConveyance = true,
         showArcaneConveyanceTether = true,
     },
+    opulentordeal = {
+        showAffinityIcons = true,
+    },
     osseincage = {
         showStricken = "TANK", -- "NEVER", "TANK", "ALWAYS"
         showChains = true,
@@ -537,6 +540,7 @@ local function Initialize()
         [1427] = Crutch.UnregisterSanitysEdge,
         [1478] = Crutch.UnregisterLucentCitadel,
         [1548] = Crutch.UnregisterOsseinCage,
+        [1565] = Crutch.UnregisterOpulentOrdeal,
 
         [677 ] = Crutch.UnregisterMaelstromArena,
         [1436] = Crutch.UnregisterEndlessArchive,
@@ -562,6 +566,7 @@ local function Initialize()
         [1427] = Crutch.RegisterSanitysEdge,
         [1478] = Crutch.RegisterLucentCitadel,
         [1548] = Crutch.RegisterOsseinCage,
+        [1565] = Crutch.RegisterOpulentOrdeal,
 
         [677 ] = Crutch.RegisterMaelstromArena,
         [1436] = Crutch.RegisterEndlessArchive,

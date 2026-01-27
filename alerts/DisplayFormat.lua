@@ -88,6 +88,11 @@ Crutch.format = {
     [ 75507] = 001601.1, -- Void Shackle (Rakkhat tethers)
     [ 73250] = 000315, -- Shattered (Savage)
 
+-- Opulent Ordeal
+    [256383] = 500, -- Skittering Bomb
+    [256579] = 500, -- Sorrow Bomb
+    [256483] = 500, -- Parch Bomb
+
 -- Ossein Cage
     [237149] = 500, -- Agonizer Bombs (Overfiend Kazpian)
     [235201] = 500, -- Storm Slam (Molag Kena)

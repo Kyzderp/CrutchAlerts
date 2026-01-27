@@ -161,7 +161,22 @@ local effectData = {
         },
     },
     --------------
-    -- Ossein Cage
+    -- Opulent Ordeal
+    [1565] = {
+        settingsSubcategory = "opulentordeal",
+        -- Radiant Lamplight
+        [250846] = {
+            format = "|cffe736<<C:1>>|r",
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            settings = {
+                name = "effectRadiantLamplight",
+                title = "Show Radiant Lamplight Timer",
+                description = "Shows an \"alert\" timer for when your nightlight will go out",
+            },
+        },
+    },
     ------------
     -- Rockgrove
     [1263] = {

@@ -1687,6 +1687,24 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Opulent Ordeal",
+            controls = Crutch.GetEffectSettings(1565, {
+                {
+                    type = "checkbox",
+                    name = "Show Affinity icons",
+                    tooltip = "Shows icons above players' heads with their respective Affinity debuffs",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.opulentordeal.showAffinityIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.opulentordeal.showAffinityIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+            }),
+        },
+        {
+            type = "submenu",
             name = "Ossein Cage",
             controls = {
                 {

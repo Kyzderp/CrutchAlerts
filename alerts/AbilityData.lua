@@ -355,6 +355,13 @@ Crutch.others = {
         [74385] = true, -- Dark Barrage (start)
     },
 
+    -- Opulent Ordeal
+    [1565] = {
+        [256383] = true, -- Skittering Bomb
+        [256579] = true, -- Sorrow Bomb
+        [256483] = true, -- Parch Bomb
+    },
+
     -- Ossein Cage
     [1548] = {
         [238800] = true, -- Phantasmal Barrage
