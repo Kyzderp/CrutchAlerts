@@ -103,8 +103,12 @@ end
 local function OnEnteredCombat()
     -- TODO: initial needs testing
     if (IsOax()) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(149190) .. ": ", 15000)
-        Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, "|cfff1ab" .. GetAbilityName(149414) .. ": ", 17000)
+        if (Crutch.savedOptions.rockgrove.panel.showSludge) then
+            Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(149190) .. ": ", 15000)
+        end
+        if (Crutch.savedOptions.rockgrove.panel.showBlitz) then
+            Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, "|cfff1ab" .. GetAbilityName(149414) .. ": ", 17000)
+        end
     end
 end
 
@@ -124,12 +128,17 @@ function Crutch.Rockgrove.RegisterOax()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
     -- For info panel
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, OnBlitz)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 149414)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, OnSludge)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 149190)
+    if (Crutch.savedOptions.rockgrove.panel.showBlitz) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, OnBlitz)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 149414)
+    end
+
+    if (Crutch.savedOptions.rockgrove.panel.showSludge) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, OnSludge)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 149190)
+    end
 
     Crutch.RegisterEnteredGroupCombatListener("CrutchRockgroveOaxEnteredCombat", OnEnteredCombat)
 

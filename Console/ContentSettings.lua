@@ -777,6 +777,30 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show time until Noxious Sludge",
+        tooltip = "Shows the time until Oaxiltso may cast the next Noxious Sludge",
+        default = Crutch.defaultOptions.rockgrove.panel.showSludge,
+        getFunction = function() return Crutch.savedOptions.rockgrove.panel.showSludge end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.panel.showSludge = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show time until Savage Blitz",
+        tooltip = "Shows the time until Oaxiltso may make you flat. Hee hee.",
+        default = Crutch.defaultOptions.rockgrove.panel.showBlitz,
+        getFunction = function() return Crutch.savedOptions.rockgrove.panel.showBlitz end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.panel.showBlitz = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show time until portal",
         tooltip = "Shows portal number and time until Bahsei can spawn the next portal on HM",
         default = Crutch.defaultOptions.rockgrove.panel.showTimeToPortal,

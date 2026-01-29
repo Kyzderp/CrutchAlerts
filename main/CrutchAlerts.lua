@@ -229,6 +229,9 @@ local defaultOptions = {
         portalTimeMargin = 4000,
 
         panel = {
+            showSludge = true,
+            showBlitz = true,
+
             showTimeToPortal = true,
             showNumInPortal = true,
             showPortalDirection = true,
