@@ -75,6 +75,7 @@ local defaultOptions = {
         hitValueBelowThreshold = 75,
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
         showDamageable = true,
+        consolidateDamageableInInfoPanel = false,
         showRaidDiag = false,
         beginHideArcanist = false, -- has been changed to be its own thing, reusing the setting
         showJBeam = true,

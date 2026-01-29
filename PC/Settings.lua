@@ -208,6 +208,18 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "checkbox",
+                    name = "    Consolidate damageable to info panel",
+                    tooltip = "Shows the damageable timers in the info panel, instead of as its own UI element",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.general.consolidateDamageableInInfoPanel end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.consolidateDamageableInInfoPanel = value
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.general.showDamageable end,
+                },
+                {
                     type = "divider",
                 },
                 {

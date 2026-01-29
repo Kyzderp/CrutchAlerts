@@ -601,7 +601,7 @@ end
 ---------------------------------------------------------------------
 -- Display the timer
 function Crutch.DisplayDamageable(time, displayFormat)
-    if (Crutch.savedOptions.experimental) then
+    if (Crutch.savedOptions.general.consolidateDamageableInInfoPanel) then
         Crutch.InfoPanel.CountDownDamageable(time, displayFormat or "Boss in ")
     else
         dmgDisplayFormat = displayFormat or "Boss in |c%s%.1f|r"

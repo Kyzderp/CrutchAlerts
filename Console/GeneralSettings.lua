@@ -268,6 +268,18 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Consolidate damageable to info panel",
+        tooltip = "Shows the damageable timers in the info panel, instead of as its own UI element.",
+        default = false,
+        getFunction = function() return Crutch.savedOptions.general.consolidateDamageableInInfoPanel end,
+        setFunction = function(value)
+            Crutch.savedOptions.general.consolidateDamageableInInfoPanel = value
+        end,
+        disable = function() return not Crutch.savedOptions.general.showDamageable end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SLIDER,
         label = "Damageable timer position X",
         tooltip = "The horizontal position of the damageable timer",
