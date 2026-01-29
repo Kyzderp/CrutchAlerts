@@ -209,6 +209,11 @@ local defaultOptions = {
         twinsIconsSize = 100,
         showEnfeeblementIcons = "HM", -- "NEVER", "VET", "HM", "ALWAYS"
         printHMReflectiveScales = true,
+
+        panel = {
+            showLeap = true,
+            showClash = true,
+        },
     },
     rockgrove = {
         sludgeSides = true,
