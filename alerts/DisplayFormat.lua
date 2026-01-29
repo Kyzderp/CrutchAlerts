@@ -107,7 +107,12 @@ Crutch.format = {
     [234276] = 1105, -- Blazing Curse (Skorkhif)
     [234000] = 1405, -- Sparking Curse (Jynorah)
     [236381] = 30500, -- True Shot (Coldharbour Sinewshot)
-    -- [236383] = 30500, -- True Shot (Coldharbour Sinewshot) (the effect?)
+    [234704] = 300, -- Myr Leap Exit AL
+    [233452] = 300, -- Myrinax Leap AL
+    [233477] = 300, -- Myrinax Leap UPPER AL
+    [234722] = 300, -- Val Exit Leap AL
+    [233466] = 300, -- Valneer Leap AL
+    [233489] = 300, -- Valnner Leap UPPER AL
     [234683] = {info = 31103, text = "Blazing Flame Atronach"}, -- Radiance (Blazing Flame Atronach)
     [234680] = {info = 31403, text = "Sparking Cold-Flame Atronach"}, -- Radiance (Sparking Cold-Flame Atronach)
     [C.ID.SEEKING_SURGE_DROPPED] = 31503, -- Seeking Surge called from OsseinCage.lua

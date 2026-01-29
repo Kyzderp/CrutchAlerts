@@ -700,6 +700,33 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Info Panel",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show time until Titanic Leap",
+        tooltip = "Shows an approximate time until the titans may leap again",
+        default = Crutch.defaultOptions.osseincage.panel.showLeap,
+        getFunction = function() return Crutch.savedOptions.osseincage.panel.showLeap end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.panel.showLeap = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show timer for Titanic Clash",
+        tooltip = "Shows the time until Titanic Clash would damage any remaining players",
+        default = Crutch.defaultOptions.osseincage.panel.showClash,
+        getFunction = function() return Crutch.savedOptions.osseincage.panel.showClash end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.panel.showClash = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
         label = "Rockgrove",
     })
 

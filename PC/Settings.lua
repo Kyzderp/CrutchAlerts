@@ -1865,6 +1865,34 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "description",
+                    title = "|c08BD1DInfo Panel|r",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show time until Titanic Leap",
+                    tooltip = "Shows an approximate time until the titans may leap again",
+                    default = Crutch.defaultOptions.osseincage.panel.showLeap,
+                    getFunc = function() return Crutch.savedOptions.osseincage.panel.showLeap end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.panel.showLeap = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show timer for Titanic Clash",
+                    tooltip = "Shows the time until Titanic Clash would damage any remaining players",
+                    default = Crutch.defaultOptions.osseincage.panel.showClash,
+                    getFunc = function() return Crutch.savedOptions.osseincage.panel.showClash end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.panel.showClash = value
+                    end,
+                    width = "full",
+                },
             },
         },
         {

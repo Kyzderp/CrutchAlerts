@@ -172,22 +172,8 @@ Crutch.testing = {
     [122794] = true, -- Storm Breath 2 (50%)
     [122961] = true, -- Storm Breath (20%)
 
-    [233512] = true, -- Valneer Titanic Clash Leap
-    [233500] = true, -- Myrinax Titanic Clash Leap
-
     -- [70466] = true, -- 35% Boss Speed Buff (Cloudrest)
     [105541] = true, -- MBs Dynamic Dspn (Cloudrest mini shades)
-
-    -- [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
-
-    [183778] = true, -- Inferno (Enraged Fragment)
-
-    [234704] = true, -- Myr Leap Exit AL
-    [233452] = true, -- Myrinax Leap AL
-    [233477] = true, -- Myrinax Leap UPPER AL
-    [234722] = true, -- Val Exit Leap AL
-    [233466] = true, -- Valneer Leap AL
-    [233489] = true, -- Valnner Leap UPPER AL
 }
 
 ---------------------------------------------------------------------

@@ -51,7 +51,10 @@ local function CountDownLeap(durationMs, preventOverwrite)
         return
     end
     lastLeap = currTime
-    Crutch.InfoPanel.CountDownDuration(PANEL_LEAP_INDEX, "|cfff1ab" .. GetAbilityName(233453) .. ": ", durationMs)
+
+    if (Crutch.savedOptions.osseincage.panel.showLeap) then
+        Crutch.InfoPanel.CountDownDuration(PANEL_LEAP_INDEX, "|cfff1ab" .. GetAbilityName(233453) .. ": ", durationMs)
+    end
 end
 
 local function OnClashLeap()
@@ -64,7 +67,9 @@ local function OnClash()
     numClashes = numClashes + 1
 
     -- Titanic Clash
-    Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, "|cff6600" .. GetAbilityName(232517) .. ": ", 39800, true)
+    if (Crutch.savedOptions.osseincage.panel.showClash) then
+        Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, "|cff6600" .. GetAbilityName(232517) .. ": ", 39800, true)
+    end
 
     -- Titanic Leap after Clash:
     -- HM: 55.77, 53.27, 52.5, 54.2, 56.2 why do they vary so much
