@@ -119,9 +119,6 @@ local function CleanUp()
 end
 
 local function RegisterPanelEvents()
-    Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat", OnCombatStart)
-    Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
-
     for _, id in ipairs(LEAP_IDS) do
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, OnLeap)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
@@ -142,9 +139,6 @@ local function RegisterPanelEvents()
 end
 
 local function UnregisterPanelEvents()
-    Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat")
-    Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat")
-
     for _, id in ipairs(LEAP_IDS) do
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT)
     end
@@ -512,6 +506,9 @@ end
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.OsseinCage.RegisterTwins()
+    Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat", OnCombatStart)
+    Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
+
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatOsseinCageTwins", function()
         ZO_ClearTable(titanIds)
         titanMaxHp = 0
@@ -542,6 +539,9 @@ function Crutch.OsseinCage.RegisterTwins()
 end
 
 function Crutch.OsseinCage.UnregisterTwins()
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat")
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat")
+
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatOsseinCageTwins")
 
     Crutch.UnregisterBossChangedListener("CrutchOsseinCage")
