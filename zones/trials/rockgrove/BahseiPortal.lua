@@ -4,7 +4,8 @@ local C = Crutch.Constants
 ---------------------------------------------------------------------
 local PANEL_PORTAL_DIRECTION_INDEX = 1
 local PANEL_PORTAL_COUNT_INDEX = 2
-local PANEL_PORTAL_TIMER_INDEX = 3
+local PANEL_PORTAL_PLAYERS_INDEX = 3
+local PANEL_PORTAL_TIMER_INDEX = 5
 
 
 ---------------------------------------------------------------------
@@ -23,12 +24,15 @@ local groupBitterMarrow = {}
 local function UpdatePlayersInPortal()
     if (not Crutch.savedOptions.rockgrove.panel.showNumInPortal) then return end
     local count = 0
-    for _, hasMarrow in pairs(groupBitterMarrow) do
+    local names = ""
+    for unitTag, hasMarrow in pairs(groupBitterMarrow) do
         if (hasMarrow == true) then
             count = count + 1
+            names = string.format("%s%s(%s) ", names, GetUnitDisplayName(unitTag), unitTag)
         end
     end
     Crutch.InfoPanel.SetLine(PANEL_PORTAL_COUNT_INDEX, "|c9999ff" .. count .. " in portal")
+    Crutch.InfoPanel.SetLine(PANEL_PORTAL_PLAYERS_INDEX, "|c9999ff" .. names)
 end
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
@@ -130,6 +134,7 @@ local function OnPortalEnded()
     nextPortal = (nextPortal == 1) and 2 or 1
 
     Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
+    Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_PLAYERS_INDEX)
     Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_DIRECTION_INDEX)
 
     if (Crutch.savedOptions.rockgrove.panel.showTimeToPortal) then
@@ -180,8 +185,10 @@ function Crutch.Rockgrove.RegisterBahseiPortal()
         nextPortal = 1
         nextPortalTimer = 20
         UnspoofAllIcons()
+        ZO_ClearTable(groupBitterMarrow)
         Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
         Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
+        Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_PLAYERS_INDEX)
         Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_DIRECTION_INDEX)
     end)
 
