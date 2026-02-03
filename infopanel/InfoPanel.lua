@@ -2,20 +2,20 @@ local Crutch = CrutchAlerts
 local IP = Crutch.InfoPanel
 
 ---------------------------------------------------------------------
-local lines = {} -- {[1] = {label = Label, active = false}
+local lines = {} -- {[1] = {label = Label, active = false, scale = 1,}
 
 
 ---------------------------------------------------------------------
 -- UI
 ---------------------------------------------------------------------
-local function CreateLabel(index)
+local function CreateLabel(index, scale)
     local label = CreateControlFromVirtual(
         "$(parent)Line" .. index,
         CrutchAlertsInfoPanel,
         "CrutchAlertsInfoPanelLineTemplate",
         "")
-    label:SetFont(Crutch.GetStyles().GetInfoPanelFont())
-    lines[index] = {label = label, active = true}
+    label:SetFont(Crutch.GetStyles().GetInfoPanelFont(Crutch.savedOptions.infoPanel.size * scale))
+    lines[index] = {label = label, active = true, scale = scale}
     return label
 end
 
@@ -52,14 +52,19 @@ end
 ---------------------------------------------------------------------
 -- API
 ---------------------------------------------------------------------
-local function SetLine(index, text)
+-- scale optional as a percentage of the default size, default 1
+local function SetLine(index, text, scale)
     local line = lines[index]
+    if (not scale) then scale = 1 end
+
     if (not line) then
-        local label = CreateLabel(index)
+        local label = CreateLabel(index, scale)
         label:SetText(text)
         UpdateAnchors()
     elseif (not line.active) then
         line.active = true
+        line.scale = scale
+        line.label:SetFont(Crutch.GetStyles().GetInfoPanelFont(Crutch.savedOptions.infoPanel.size * scale))
         line.label:SetText(text)
         line.label:SetHidden(false)
         UpdateAnchors()
@@ -92,8 +97,8 @@ function IP.ApplyStyle(style)
         currentStyle = style
     end
 
-    for _, label in pairs(lines) do
-        label:SetFont(style.GetInfoPanelFont())
+    for _, line in pairs(lines) do
+        line.label:SetFont(style.GetInfoPanelFont(Crutch.savedOptions.infoPanel.size * line.scale))
     end
     UpdateAnchors()
 end
