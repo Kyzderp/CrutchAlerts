@@ -13,7 +13,58 @@ Skittering Bomb (256388)
 Sorrow Bomb (256574)
 Sorrow Bomb (256576)
 Sorrow Bomb (256579)
+
+3 second cast to summon + 4 mins for essence
+Summon Arid Varlet Essence (256413)
+Summon Knightshade Essence (256495)
+Summon Web Eater Essence (256159)
+Stunned (257929) Arid Varlet
+Stunned (257928) Web Eater
+Stunned (257930) Knightshade
+
+damage taken (just to display as text)
+Arid Varlet Essence (256447)
+Knightshade Essence (256518)
+Web Eater Essence (256088)
 ]]
+
+---------------------------------------------------------------------
+-- Panel
+---------------------------------------------------------------------
+local PANEL_ESSENCE_INDEX = 5
+
+local BOSS_ESSENCES = { -- [summonId] = {}
+    [256159] = {
+        -- Web Eater
+        stunnedId = 257928,
+        displayId = 256088,
+        color = "ff0000",
+    },
+    [256413] = {
+        -- Arid Varlet
+        stunnedId = 257929,
+        displayId = 256447,
+        color = "ff8000",
+    },
+    [256495] = {
+        -- Knightshade
+        stunnedId = 257930,
+        displayId = 256518,
+        color = "cc33ff",
+    },
+}
+
+local function OnSummonEssence(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    local data = BOSS_ESSENCES[abilityId]
+    Crutch.InfoPanel.CountDownDuration(PANEL_ESSENCE_INDEX, string.format("|c%s%s ", data.color, GetAbilityName(data.displayId)), 243000)
+end
+
+local function OnEssenceDone()
+    Crutch.InfoPanel.StopCount(PANEL_ESSENCE_INDEX)
+end
+
+---------------------------------------------------------------------
+-- Affinity icons
 ---------------------------------------------------------------------
 local AFFINITY_UNIQUE_NAME = "CrutchAlertsOOAffinity"
 
@@ -43,14 +94,20 @@ end
 
 
 ---------------------------------------------------------------------
+---------------------------------------------------------------------
+local function CleanUp()
+    Crutch.RemoveAllAttachedIcons(AFFINITY_UNIQUE_NAME)
+    Crutch.InfoPanel.StopCount(PANEL_ESSENCE_INDEX)
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function Crutch.RegisterOpulentOrdeal()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Opulent Ordeal")
 
-    Crutch.RegisterExitedGroupCombatListener("CrutchOpulentOrdealExitedCombat", function()
-        Crutch.RemoveAllAttachedIcons(AFFINITY_UNIQUE_NAME)
-    end)
+    Crutch.RegisterExitedGroupCombatListener("CrutchOpulentOrdealExitedCombat", CleanUp)
 
     if (Crutch.savedOptions.opulentordeal.showAffinityIcons) then
         for id, _ in pairs(AFFINITIES) do
@@ -59,12 +116,28 @@ function Crutch.RegisterOpulentOrdeal()
             EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, id)
         end
     end
+
+    for summonId, data in pairs(BOSS_ESSENCES) do
+        EVENT_MANAGER:RegisterForEvent("CrutchAlertsOOSummonEssence" .. summonId, EVENT_COMBAT_EVENT, OnSummonEssence)
+        EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOSummonEssence" .. summonId, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOSummonEssence" .. summonId, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, summonId)
+
+        EVENT_MANAGER:RegisterForEvent("CrutchAlertsOOBossStunned" .. data.stunnedId, EVENT_COMBAT_EVENT, OnEssenceDone)
+        EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOBossStunned" .. data.stunnedId, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, data.stunnedId)
+    end
 end
 
 function Crutch.UnregisterOpulentOrdeal()
     for id, _ in pairs(AFFINITIES) do
         EVENT_MANAGER:UnregisterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED)
     end
+
+    for summonId, data in pairs(BOSS_ESSENCES) do
+        EVENT_MANAGER:UnregisterForEvent("CrutchAlertsOOSummonEssence" .. summonId, EVENT_COMBAT_EVENT)
+        EVENT_MANAGER:UnregisterForEvent("CrutchAlertsOOBossStunned" .. data.stunnedId, EVENT_COMBAT_EVENT)
+    end
+
+    -- CleanUp() -- TODO
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Opulent Ordeal")
 end
