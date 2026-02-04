@@ -383,14 +383,14 @@ local function OnPlayerActivated()
 
     -- Unregister previous active trial, if applicable
     if (zoneUnregisters[Crutch.zoneId]) then
-        zoneUnregisters[Crutch.zoneId]()
+        zoneUnregisters[Crutch.zoneId](zoneId == Crutch.zoneId)
     end
     Crutch.UnregisterProminents(Crutch.zoneId)
     Crutch.UnregisterEffects(Crutch.zoneId)
 
     -- Register current active trial, if applicable
     if (zoneRegisters[zoneId]) then
-        zoneRegisters[zoneId]()
+        zoneRegisters[zoneId](zoneId == Crutch.zoneId)
     end
     Crutch.RegisterProminents(zoneId)
     Crutch.RegisterEffects(zoneId)

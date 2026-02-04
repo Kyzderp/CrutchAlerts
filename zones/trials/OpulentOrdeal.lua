@@ -127,7 +127,7 @@ function Crutch.RegisterOpulentOrdeal()
     end
 end
 
-function Crutch.UnregisterOpulentOrdeal()
+function Crutch.UnregisterOpulentOrdeal(isSameZone)
     for id, _ in pairs(AFFINITIES) do
         EVENT_MANAGER:UnregisterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED)
     end
@@ -137,7 +137,11 @@ function Crutch.UnregisterOpulentOrdeal()
         EVENT_MANAGER:UnregisterForEvent("CrutchAlertsOOBossStunned" .. data.stunnedId, EVENT_COMBAT_EVENT)
     end
 
-    -- CleanUp() -- TODO
+    -- Getting ported out of the side areas triggers player activated
+    -- We don't actually want to clean up in that case
+    if (not isSameZone) then
+        CleanUp()
+    end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Opulent Ordeal")
 end
