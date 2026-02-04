@@ -6,7 +6,9 @@ local PANEL_DAMAGEABLE_INDEX = 1
 ---------------------------------------------------------------------
 -- Inherit, yellow, orange
 local function DecorateTimer(timer)
-    if (timer > 5000) then
+    if (timer > 60000) then
+        return FormatTimeSeconds(timer / 1000, TIME_FORMAT_STYLE_COLONS)
+    elseif (timer > 5000) then
         return string.format("%.0fs", timer / 1000)
     elseif (timer > 3000) then
         return string.format("|cffee00%.1fs|r", timer / 1000)
