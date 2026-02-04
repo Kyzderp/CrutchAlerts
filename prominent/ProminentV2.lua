@@ -360,6 +360,71 @@ local prominentData = {
         },
     },
 
+    --------------
+    -- Ossein Cage
+    [1548] = {
+        settingsSubcategory = "osseincage",
+        -- Spectral Revenge (Osteon Spectral Revenant)
+        [236569] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "GHOST",
+            color = {1, 0, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            preMillis = 700,
+            settings = {
+                name = "prominentSpectralRevenge",
+                title = "Alert Spectral Revenge",
+                description = "Shows a prominent alert when an Osteon Spectral Revenant swipes at you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Dominator's Chains
+        [232773] = {
+            event = EVENT_EFFECT_CHANGED,
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            text = "CHAIN",
+            color = {1, 0, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentDominatorsChains",
+                title = "Alert Dominator's Chains",
+                description = "Shows a prominent alert when you are about to be tethered to another player",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Dominator's Chains
+        [232775] = {
+            event = EVENT_EFFECT_CHANGED,
+            filters = {
+                [REGISTER_FILTER_UNIT_TAG] = "player",
+            },
+            text = "CHAIN",
+            color = {1, 0, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentDominatorsChains",
+                title = "Alert Dominator's Chains",
+                description = "Shows a prominent alert when you are about to be tethered to another player",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+    },
+
     ------------
     -- Rockgrove
     [1263] = {

@@ -1718,7 +1718,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "submenu",
             name = "Ossein Cage",
-            controls = {
+            controls = Crutch.GetProminentSettings(1548, {
                 {
                     type = "checkbox",
                     name = "Show group-wide Caustic Carrion",
@@ -1893,7 +1893,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-            },
+            }),
         },
         {
             type = "submenu",

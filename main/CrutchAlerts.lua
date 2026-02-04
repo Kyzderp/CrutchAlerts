@@ -25,7 +25,7 @@ Crutch.registered = {
     interrupts = false,
 }
 
--- currently: space icon groups
+-- currently: zmaja thresholds
 -- /script CrutchAlerts.savedOptions.experimental = true
 
 -- Defaults
