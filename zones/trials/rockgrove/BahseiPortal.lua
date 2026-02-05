@@ -1,11 +1,6 @@
 local Crutch = CrutchAlerts
+local RG = Crutch.Rockgrove
 local C = Crutch.Constants
-
----------------------------------------------------------------------
-local PANEL_PORTAL_DIRECTION_INDEX = 1
-local PANEL_PORTAL_COUNT_INDEX = 2
-local PANEL_PORTAL_PLAYERS_INDEX = 3
-local PANEL_PORTAL_TIMER_INDEX = 5
 
 
 ---------------------------------------------------------------------
@@ -31,8 +26,8 @@ local function UpdatePlayersInPortal()
             names = string.format("%s%s(%s) ", names, GetUnitDisplayName(unitTag), unitTag)
         end
     end
-    Crutch.InfoPanel.SetLine(PANEL_PORTAL_COUNT_INDEX, "|c9999ff" .. count .. " in portal")
-    Crutch.InfoPanel.SetLine(PANEL_PORTAL_PLAYERS_INDEX, "|c9999ff" .. names, 0.3)
+    Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_COUNT_INDEX, "|c9999ff" .. count .. " in portal")
+    Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_PLAYERS_INDEX, "|c9999ff" .. names, 0.3)
 end
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
@@ -53,7 +48,7 @@ local function OnBitterMarrowChanged(_, changeType, _, _, unitTag, _, _, stackCo
         -- If it was the player entering or exiting portal, all units need to be refreshed
         if (AreUnitsEqual("player", unitTag)) then
             Crutch.Drawing.EvaluateAllSuppression()
-            Crutch.Rockgrove.linesHidden = groupBitterMarrow[unitTag]
+            RG.linesHidden = groupBitterMarrow[unitTag]
         else
             Crutch.Drawing.EvaluateSuppressionFor(unitTag)
         end
@@ -86,13 +81,13 @@ end
 local nextPortal = 1
 local nextPortalTimer = 20
 local function OnPortalSummoned(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
-    Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
+    Crutch.InfoPanel.StopCount(RG.PANEL_PORTAL_TIMER_INDEX)
     UpdatePlayersInPortal()
 
     if (Crutch.savedOptions.rockgrove.panel.showPortalDirection) then
         local display = Crutch.format[abilityId]
         if (display) then
-            Crutch.InfoPanel.SetLine(PANEL_PORTAL_DIRECTION_INDEX, "|c9999ff" .. display.text)
+            Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_DIRECTION_INDEX, "|c9999ff" .. display.text)
         end
     end
 end
@@ -133,12 +128,12 @@ end
 local function OnPortalEnded()
     nextPortal = (nextPortal == 1) and 2 or 1
 
-    Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
-    Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_PLAYERS_INDEX)
-    Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_DIRECTION_INDEX)
+    Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_COUNT_INDEX)
+    Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_PLAYERS_INDEX)
+    Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_DIRECTION_INDEX)
 
     if (Crutch.savedOptions.rockgrove.panel.showTimeToPortal) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "|c9999ffPortal " .. nextPortal .. ": ", 50000)
+        Crutch.InfoPanel.CountDownDuration(RG.PANEL_PORTAL_TIMER_INDEX, "|c9999ffPortal " .. nextPortal .. ": ", 50000)
     end
 
     UnspoofAllIcons()
@@ -160,7 +155,7 @@ local function OnEnteredCombat()
     end
 
     if (Crutch.savedOptions.rockgrove.panel.showTimeToPortal) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_TIMER_INDEX, "|c9999ffPortal 1: ", 20000)
+        Crutch.InfoPanel.CountDownDuration(RG.PANEL_PORTAL_TIMER_INDEX, "|c9999ffPortal 1: ", 20000)
     end
 
     if (not IsMyPortal(1)) then return end
@@ -178,7 +173,7 @@ end
 ---------------------------------------------------------------------
 local origOSIUnitErrorCheck = nil
 
-function Crutch.Rockgrove.RegisterBahseiPortal()
+function RG.RegisterBahseiPortal()
     Crutch.RegisterEnteredGroupCombatListener("RockgroveBahseiPortalEnteredCombat", OnEnteredCombat)
 
     Crutch.RegisterExitedGroupCombatListener("RockgroveBahseiPortalExitedCombat", function()
@@ -186,10 +181,10 @@ function Crutch.Rockgrove.RegisterBahseiPortal()
         nextPortalTimer = 20
         UnspoofAllIcons()
         ZO_ClearTable(groupBitterMarrow)
-        Crutch.InfoPanel.StopCount(PANEL_PORTAL_TIMER_INDEX)
-        Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_COUNT_INDEX)
-        Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_PLAYERS_INDEX)
-        Crutch.InfoPanel.RemoveLine(PANEL_PORTAL_DIRECTION_INDEX)
+        Crutch.InfoPanel.StopCount(RG.PANEL_PORTAL_TIMER_INDEX)
+        Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_COUNT_INDEX)
+        Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_PLAYERS_INDEX)
+        Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_DIRECTION_INDEX)
     end)
 
     -- Register for Bahsei portal effect gained/faded
@@ -230,7 +225,7 @@ function Crutch.Rockgrove.RegisterBahseiPortal()
     Crutch.Drawing.RegisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER, BahseiPortalFilter)
 end
 
-function Crutch.Rockgrove.UnregisterBahseiPortal()
+function RG.UnregisterBahseiPortal()
     ZO_ClearTable(groupBitterMarrow)
     Crutch.UnregisterEnteredGroupCombatListener("RockgroveBahseiPortalEnteredCombat", OnEnteredCombat)
 

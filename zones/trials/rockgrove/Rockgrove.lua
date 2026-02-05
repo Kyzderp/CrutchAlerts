@@ -1,6 +1,10 @@
 local Crutch = CrutchAlerts
 Crutch.Rockgrove = {
-    linesHidden = false
+    linesHidden = false,
+    PANEL_PORTAL_DIRECTION_INDEX = 5,
+    PANEL_PORTAL_COUNT_INDEX = 6,
+    PANEL_PORTAL_PLAYERS_INDEX = 7,
+    PANEL_PORTAL_TIMER_INDEX = 8,
 }
 local C = Crutch.Constants
 
