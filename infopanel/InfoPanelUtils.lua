@@ -17,9 +17,11 @@ local function DecorateTimer(timer)
     end
 end
 
--- Yellow, orange, red
+-- Inherit, yellow, orange, red
 local function DecorateTimerDamageable(timer)
-    if (timer > 5000) then
+    if (timer > 60000) then
+        return FormatTimeSeconds(timer / 1000, TIME_FORMAT_STYLE_COLONS)
+    elseif (timer > 5000) then
         return string.format("|cffee00%.1fs|r", timer / 1000)
     elseif (timer > 3000) then
         return string.format("|cff8c00%.1fs|r", timer / 1000)

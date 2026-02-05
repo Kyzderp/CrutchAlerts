@@ -511,7 +511,7 @@ local prominentData = {
             color = {0.5, 1, 1},
             slot = 1,
             playSound = true,
-            preMillis = 700,
+            preMillis = 500,
             millis = 1000,
             settings = {
                 name = "prominentSunderingGale",
@@ -861,9 +861,11 @@ function Crutch.GetProminentSettings(zoneId, controls)
     })
 
     local zoneData = prominentData[zoneId]
+    local added = {} -- Some have multiple IDs, only add the setting once
     for abilityId, abilityData in pairs(zoneData) do
-        if (type(abilityId) == "number") then
+        if (type(abilityId) == "number" and not added[abilityData.settings.name]) then
             table.insert(controls, GetProminentSetting(zoneData.settingsSubcategory, abilityData.settings))
+            added[abilityData.settings.name] = true
         end
     end
     return controls
