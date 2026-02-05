@@ -5,7 +5,10 @@ Crutch.Rockgrove = {
     PANEL_PORTAL_COUNT_INDEX = 6,
     PANEL_PORTAL_PLAYERS_INDEX = 7,
     PANEL_PORTAL_TIMER_INDEX = 8,
+    PANEL_CURSED_GROUND_INDEX = 10,
+    PANEL_SCYTHE_INDEX = 11,
 }
+local RG = Crutch.Rockgrove
 local C = Crutch.Constants
 
 ---------------------------------------------------------------------
@@ -26,7 +29,7 @@ end
 local CURSE_LINE_Y_OFFSET = 5
 
 local function LineCallback(icon)
-    icon:SetTextureHidden(Crutch.Rockgrove.linesHidden)
+    icon:SetTextureHidden(RG.linesHidden)
 end
 
 local function DrawConfirmedCurseLines(x, y, z, angle, color, duration)
@@ -275,6 +278,33 @@ end
 
 
 ---------------------------------------------------------------------
+-- Info Panel
+---------------------------------------------------------------------
+local function OnCursedGround()
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 28000)
+end
+
+local function OnScythe()
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 15000)
+end
+
+-- TODO: get initial values
+local function OnEnteredCombat()
+    -- Check that it's Bahsei
+    local _, maxHp = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (maxHp ~= 123882576 -- HM
+        and maxHp ~= 65201356 -- Vet
+        and maxHp ~= 21812840 -- Norm
+        ) then
+        return
+    end
+
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 0)
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 0)
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local origOSIUnitErrorCheck = nil
@@ -287,8 +317,8 @@ function Crutch.RegisterRockgrove()
         ZO_ClearTable(explosions)
     end)
 
-    Crutch.Rockgrove.RegisterOax()
-    Crutch.Rockgrove.RegisterBahseiPortal()
+    RG.RegisterOax()
+    RG.RegisterBahseiPortal()
 
     -- Register for Kiss of Death
     if (Crutch.savedOptions.general.showRaidDiag) then
@@ -314,6 +344,20 @@ function Crutch.RegisterRockgrove()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, OnDeathTouchLines)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
+
+    -- Cursed Ground timer
+    if (Crutch.savedOptions.rockgrove.panel.showCursedGround) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CursedGround", EVENT_COMBAT_EVENT, OnCursedGround)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CursedGround", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CursedGround", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 152475)
+    end
+
+    -- Sickle Strike timer
+    if (Crutch.savedOptions.rockgrove.panel.showScythe) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Scythe", EVENT_COMBAT_EVENT, OnScythe)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Scythe", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Scythe", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 150067)
+    end
 end
 
 function Crutch.UnregisterRockgrove()
@@ -325,13 +369,15 @@ function Crutch.UnregisterRockgrove()
 
     Crutch.UnregisterExitedGroupCombatListener("RockgroveExitedCombat")
 
-    Crutch.Rockgrove.UnregisterOax()
-    Crutch.Rockgrove.UnregisterBahseiPortal()
+    RG.UnregisterOax()
+    RG.UnregisterBahseiPortal()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CursedGround", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Scythe", EVENT_COMBAT_EVENT)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Rockgrove")
 end

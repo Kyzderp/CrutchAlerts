@@ -240,6 +240,8 @@ local defaultOptions = {
             showTimeToPortal = true,
             showNumInPortal = true,
             showPortalDirection = true,
+            showCursedGround = true,
+            showScythe = true,
         },
     },
     sanitysedge = {
