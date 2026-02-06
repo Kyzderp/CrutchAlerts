@@ -1,5 +1,6 @@
 local Crutch = CrutchAlerts
 local C = Crutch.Constants
+local OC = Crutch.OsseinCage
 
 
 ---------------------------------------------------------------------
@@ -10,6 +11,11 @@ local JYNORAH_HEALTH_NORMAL = 10906420
 local function IsHM()
     local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     return powerMax == JYNORAH_HEALTH_HM
+end
+
+local function IsBaseVet()
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    return powerMax == JYNORAH_HEALTH_VET
 end
 
 ---------------------------------------------------------------------
@@ -104,6 +110,8 @@ end
 
 -- Starting combat initial leap
 local function OnCombatStart()
+    if (not OC.IsJynorah()) then return end
+
     local timer = 10500
     if (IsHM()) then
         timer = 5500
@@ -454,16 +462,20 @@ end
 ---------------------------------------------------------------------
 -- Twins entry
 ---------------------------------------------------------------------
-local function MaybeRegisterTwins()
-    -- Check if it's Jynorah
+local function IsJynorah()
     local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-    if (TITAN_MAX_HPS[powerMax]) then
+    return TITAN_MAX_HPS[powerMax] ~= nil
+end
+OC.IsJynorah = IsJynorah
+
+local function MaybeRegisterTwins()
+    if (IsJynorah()) then
         RegisterTwins()
     else
         UnregisterTwins()
     end
 
-    if (powerMax == JYNORAH_HEALTH_HM) then
+    if (IsHM()) then
         RegisterHardmodeAtros()
     else
         UnregisterHardmodeAtros()
@@ -476,9 +488,9 @@ local function MaybeRegisterTwins()
         return
     elseif (enfeeblementOption == "ALWAYS") then
         RegisterEnfeeblement()
-    elseif (enfeeblementOption == "HM" and powerMax == JYNORAH_HEALTH_HM) then
+    elseif (enfeeblementOption == "HM" and IsHM()) then
         RegisterEnfeeblement()
-    elseif (enfeeblementOption == "VET" and (powerMax == JYNORAH_HEALTH_HM or powerMax == JYNORAH_HEALTH_VET)) then
+    elseif (enfeeblementOption == "VET" and (IsHM() or IsBaseVet())) then
         RegisterEnfeeblement()
     else
         UnregisterEnfeeblement()
@@ -487,7 +499,7 @@ local function MaybeRegisterTwins()
     -- Reflective Scales
     for damageResult, str in pairs(damageTypes) do
         -- Only enable if on HM
-        if (powerMax == JYNORAH_HEALTH_HM and Crutch.savedOptions.osseincage.printHMReflectiveScales) then
+        if (IsHM() and Crutch.savedOptions.osseincage.printHMReflectiveScales) then
             EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT, function(_, _, _, _, _, _, _, sourceType, _, _, _, _, _, _, _, targetUnitId, abilityId)
                 if (sourceType == COMBAT_UNIT_TYPE_PLAYER and titanIds[targetUnitId]) then
                     Crutch.msg(string.format("You hit a titan with |cFF00FF%s|r%s", GetAbilityName(abilityId), str))
@@ -505,7 +517,7 @@ end
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
-function Crutch.OsseinCage.RegisterTwins()
+function OC.RegisterTwins()
     Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat", OnCombatStart)
     Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
 
@@ -538,7 +550,7 @@ function Crutch.OsseinCage.RegisterTwins()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 end
 
-function Crutch.OsseinCage.UnregisterTwins()
+function OC.UnregisterTwins()
     Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat")
     Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat")
 
