@@ -305,6 +305,16 @@ end
 
 
 ---------------------------------------------------------------------
+---------------------------------------------------------------------
+local function CleanUp()
+    Crutch.InfoPanel.StopCount(RG.PANEL_CURSED_GROUND_INDEX)
+    Crutch.InfoPanel.StopCount(RG.PANEL_SCYTHE_INDEX)
+    numBleeds = 0
+    ZO_ClearTable(explosions)
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local origOSIUnitErrorCheck = nil
@@ -312,10 +322,7 @@ local origOSIUnitErrorCheck = nil
 function Crutch.RegisterRockgrove()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Rockgrove")
 
-    Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", function()
-        numBleeds = 0
-        ZO_ClearTable(explosions)
-    end)
+    Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", CleanUp)
 
     RG.RegisterOax()
     RG.RegisterBahseiPortal()
@@ -368,6 +375,8 @@ function Crutch.UnregisterRockgrove()
     end
 
     Crutch.UnregisterExitedGroupCombatListener("RockgroveExitedCombat")
+
+    CleanUp()
 
     RG.UnregisterOax()
     RG.UnregisterBahseiPortal()

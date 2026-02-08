@@ -101,13 +101,14 @@ local function OnSludge()
 end
 
 local function OnEnteredCombat()
-    -- TODO: initial needs testing
     if (IsOax()) then
         if (Crutch.savedOptions.rockgrove.panel.showSludge) then
-            Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(149190) .. ": ", 15000)
+            -- normal testing: 21.9, 21.7, 22.4
+            Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(149190) .. ": ", 20000)
         end
         if (Crutch.savedOptions.rockgrove.panel.showBlitz) then
-            Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, "|cfff1ab" .. GetAbilityName(149414) .. ": ", 17000)
+            -- normal testing: 16.0, 15.6, 15.5, 16.1
+            Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, "|cfff1ab" .. GetAbilityName(149414) .. ": ", 15000)
         end
     end
 end

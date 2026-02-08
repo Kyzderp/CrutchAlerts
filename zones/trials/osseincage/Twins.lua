@@ -64,12 +64,10 @@ local function CountDownLeap(durationMs, preventOverwrite)
 end
 
 local function OnClashLeap()
-    Crutch.dbgOther("clash leap")
 end
 
 local numClashes = 0
 local function OnClash()
-    Crutch.dbgOther("clash")
     numClashes = numClashes + 1
 
     -- Titanic Clash
@@ -88,7 +86,6 @@ local function OnClash()
 end
 
 local function OnLeap()
-    Crutch.dbgOther("leap")
     -- HM:
     -- 5.5, 5.58, 5.6 initial leap
     -- 1 usually leaps ~0.7s after the other in the beginning. this applies to after clash too. otherwise, it's ~2s after the other
@@ -110,7 +107,10 @@ end
 
 -- Starting combat initial leap
 local function OnCombatStart()
-    if (not OC.IsJynorah()) then return end
+    if (not OC.IsJynorah()) then
+        Crutch.dbgOther("not jynorah")
+        return
+    end
 
     local timer = 10500
     if (IsHM()) then
@@ -519,7 +519,7 @@ end
 ---------------------------------------------------------------------
 function OC.RegisterTwins()
     Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat", OnCombatStart)
-    Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
+    Crutch.RegisterExitedGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
 
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatOsseinCageTwins", function()
         ZO_ClearTable(titanIds)
@@ -552,7 +552,7 @@ end
 
 function OC.UnregisterTwins()
     Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat")
-    Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahExitedCombat")
+    Crutch.UnregisterExitedGroupCombatListener("CrutchOsseinCageJynorahExitedCombat")
 
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatOsseinCageTwins")
 

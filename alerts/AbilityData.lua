@@ -174,6 +174,8 @@ Crutch.testing = {
 
     -- [70466] = true, -- 35% Boss Speed Buff (Cloudrest)
     [105541] = true, -- MBs Dynamic Dspn (Cloudrest mini shades)
+
+    [149190] = true, -- Noxious Sludge (Oax)
 }
 
 ---------------------------------------------------------------------

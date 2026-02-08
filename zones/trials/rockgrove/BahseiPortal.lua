@@ -27,7 +27,7 @@ local function UpdatePlayersInPortal()
         end
     end
     Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_COUNT_INDEX, "|c9999ff" .. count .. " in portal")
-    Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_PLAYERS_INDEX, "|c9999ff" .. names, 0.3)
+    Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_PLAYERS_INDEX, "|c9999ff" .. names, 0.4)
 end
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
