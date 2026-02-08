@@ -5,8 +5,8 @@ Crutch.Rockgrove = {
     PANEL_PORTAL_COUNT_INDEX = 6,
     PANEL_PORTAL_PLAYERS_INDEX = 7,
     PANEL_PORTAL_TIMER_INDEX = 8,
-    PANEL_CURSED_GROUND_INDEX = 10,
-    PANEL_SCYTHE_INDEX = 11,
+    PANEL_SCYTHE_INDEX = 10,
+    PANEL_CURSED_GROUND_INDEX = 11,
 }
 local RG = Crutch.Rockgrove
 local C = Crutch.Constants
@@ -281,7 +281,8 @@ end
 -- Info Panel
 ---------------------------------------------------------------------
 local function OnCursedGround()
-    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 28000)
+    -- 27.2
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 27200)
 end
 
 local function OnScythe()
@@ -299,8 +300,9 @@ local function OnEnteredCombat()
         return
     end
 
-    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 0)
-    Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 0)
+    -- Vet testing: 14.1, 22.9 (had salvo), 17.6 (salvo)
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 14000)
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 15000)
 end
 
 
@@ -322,6 +324,7 @@ local origOSIUnitErrorCheck = nil
 function Crutch.RegisterRockgrove()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Rockgrove")
 
+    Crutch.RegisterEnteredGroupCombatListener("RockgroveEnteredCombat", OnEnteredCombat)
     Crutch.RegisterExitedGroupCombatListener("RockgroveExitedCombat", CleanUp)
 
     RG.RegisterOax()
@@ -374,6 +377,7 @@ function Crutch.UnregisterRockgrove()
         playerCurseLinesKey = nil
     end
 
+    Crutch.UnregisterEnteredGroupCombatListener("RockgroveEnteredCombat")
     Crutch.UnregisterExitedGroupCombatListener("RockgroveExitedCombat")
 
     CleanUp()
