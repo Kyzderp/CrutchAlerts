@@ -261,6 +261,30 @@ local function UnregisterStormBreath()
 end
 
 ---------------------------------------------------------------------
+-- Yol Panel
+---------------------------------------------------------------------
+local PANEL_FOCUS_FIRE_INDEX = 5
+
+local YOL_HEALTH_NORM = 22721708
+local YOL_HEALTH_VET = 116430960
+local YOL_HEALTH_HM = 145538704
+
+local function CountDownFocusFire(durationMs)
+    if (Crutch.savedOptions.sunspire.panel.showFocusFire) then
+        Crutch.InfoPanel.CountDownDuration(PANEL_FOCUS_FIRE_INDEX, "|cff6600" .. GetAbilityName(121722) .. ": ", durationMs)
+    end
+end
+
+local function OnEnteredCombatYol()
+    local _, maxPower = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (maxPower == YOL_HEALTH_HM or maxPower == YOL_HEALTH_VET or maxPower == YOL_HEALTH_NORM) then
+        -- Flare panel on combat start: 7.18, 6.9 (but seems like group combat started earlier)
+        CountDownFocusFire(6900)
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Yolnahkriin Icons
 ---------------------------------------------------------------------
 local function DisableYolIcons()
@@ -350,6 +374,9 @@ local function OnYolFly()
     else
         Crutch.dbgOther("|cFF0000??????????????????????|r")
     end
+
+    -- Flare panel since takeoff: 29.3, 29.7, 29.8, 28.9, 29.8, 33.98
+    CountDownFocusFire(28900)
 end
 
 
@@ -361,7 +388,10 @@ local FOCUSED_FIRE_UNIQUE_NAME = "CrutchAlertsSSFocusedFire"
 -- Check each group member to see who has the Focused Fire DEBUFF
 local function OnFocusFireGained(_, result, _, _, _, _, sourceName, sourceType, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     local targetTag = Crutch.groupIdToTag[targetUnitId]
-    Crutch.dbgOther(zo_strformat("<<1>> is targeted"))
+    Crutch.dbgOther(zo_strformat("<<1>> is targeted", GetUnitDisplayName(targetTag)))
+
+    -- Flare panel since previous: 32.36, 32.98, 32.1, 32.8
+    CountDownFocusFire(32100)
 
     local toClear = {}
     for groupIndex = 1, GetGroupSize() do
@@ -407,6 +437,17 @@ end
 
 
 ---------------------------------------------------------------------
+-- Cleanup
+---------------------------------------------------------------------
+local function CleanUp()
+    -- For wipes because landing timers are long
+    Crutch.StopDamageable()
+
+    Crutch.InfoPanel.StopCount(PANEL_FOCUS_FIRE_INDEX)
+end
+
+
+---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
 -- Register/Unregister
@@ -415,10 +456,7 @@ local origOSIUnitErrorCheck = nil
 function Crutch.RegisterSunspire()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Sunspire")
 
-    Crutch.RegisterExitedGroupCombatListener("CrutchSunspire", function()
-        -- For wipes because landing timers are long
-        Crutch.StopDamageable()
-    end)
+    Crutch.RegisterExitedGroupCombatListener("CrutchSunspire", CleanUp)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
@@ -433,7 +471,7 @@ function Crutch.RegisterSunspire()
 
     if (Crutch.savedOptions.sunspire.showLokkIcons) then
         Crutch.RegisterBossChangedListener("CrutchSunspire", OnBossesChanged)
-        Crutch.RegisterEnteredGroupCombatListener("CrutchSunspire", DisableLokkIcons)
+        Crutch.RegisterEnteredGroupCombatListener("CrutchSunspireEnteredCombatLokk", DisableLokkIcons)
 
         -- Register for Lokk difficulty change
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SunspireHealthUpdate", EVENT_POWER_UPDATE, OnPowerUpdate)
@@ -473,6 +511,10 @@ function Crutch.RegisterSunspire()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 125693)
 
+    if (Crutch.savedOptions.sunspire.panel.showFocusFire) then
+        Crutch.RegisterEnteredGroupCombatListener("CrutchSunspireEnteredCombatYol", OnEnteredCombatYol)
+    end
+
     -- Nahv landing
     if (Crutch.savedOptions.general.showDamageable) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT, OnFireStormBegin)
@@ -508,7 +550,7 @@ function Crutch.UnregisterSunspire()
 
     -- Lokk
     Crutch.UnregisterBossChangedListener("CrutchSunspire")
-    Crutch.UnregisterEnteredGroupCombatListener("CrutchSunspire")
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchSunspireEnteredCombatLokk")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SunspireHealthUpdate", EVENT_POWER_UPDATE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT)
@@ -517,11 +559,14 @@ function Crutch.UnregisterSunspire()
 
     UnregisterStormBreath()
 
+    -- Yol
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchSunspireEnteredCombatYol")
 
+    -- Nahv
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
@@ -531,6 +576,7 @@ function Crutch.UnregisterSunspire()
 
     Crutch.Drawing.UnregisterSuppressionFilter(PORTAL_SUPPRESSION_FILTER)
 
+    CleanUp()
     DisableLokkIcons()
     DisableYolIcons()
 

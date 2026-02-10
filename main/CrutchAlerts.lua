@@ -259,6 +259,10 @@ local defaultOptions = {
         yolLeftIcons = false,
         yolIconsSize = 150,
         yolFocusedFire = true,
+
+        panel = {
+            showFocusFire = true,
+        },
     },
     mawoflorkhaj = {
         showPads = true,
