@@ -2321,6 +2321,24 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "description",
+                    title = "|c08BD1DInfo Panel|r",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show time until Focus Fire",
+                    tooltip = "Shows the time until Yolnahkriin may cast Focus Fire AKA Flare",
+                    default = Crutch.defaultOptions.sunspire.panel.showFocusFire,
+                    getFunc = function() return Crutch.savedOptions.sunspire.panel.showFocusFire end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.panel.showFocusFire = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
 

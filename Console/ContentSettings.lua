@@ -1211,6 +1211,23 @@ function Crutch.CreateConsoleContentSettingsMenu()
         end,
     })
 
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Info Panel",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show time until Focus Fire",
+        tooltip = "Shows the time until Yolnahkriin may cast Focus Fire AKA Flare",
+        default = Crutch.defaultOptions.sunspire.panel.showFocusFire,
+        getFunction = function() return Crutch.savedOptions.sunspire.panel.showFocusFire end,
+        setFunction = function(value)
+            Crutch.savedOptions.sunspire.panel.showFocusFire = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
     ---------------------------------------------------------------------
     -- arenas
     settings:AddSetting({
