@@ -23,7 +23,7 @@ local function UpdatePlayersInPortal()
     for unitTag, hasMarrow in pairs(groupBitterMarrow) do
         if (hasMarrow == true) then
             count = count + 1
-            names = string.format("%s%s(%s) ", names, GetUnitDisplayName(unitTag), unitTag)
+            names = string.format("%s%s ", names, GetUnitDisplayName(unitTag))
         end
     end
     Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_COUNT_INDEX, "|c9999ff" .. count .. " in portal")
