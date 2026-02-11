@@ -65,7 +65,7 @@ zones/trials/Sunspire.lua
 
 zones/trials/Cloudrest.xml
 zones/trials/MawOfLorkhaj.xml
-zones/trials/OsseinCage.xml
+zones/trials/osseincage/OsseinCage.xml
 
 zones/arenas/DragonstarArena.lua
 zones/arenas/EndlessArchive.lua
