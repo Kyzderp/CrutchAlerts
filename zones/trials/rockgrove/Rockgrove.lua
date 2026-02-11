@@ -300,9 +300,13 @@ local function OnEnteredCombat()
         return
     end
 
-    -- Vet testing: 14.1, 22.9 (had salvo), 17.6 (salvo)
-    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 14000)
-    Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 15000)
+    if (Crutch.savedOptions.rockgrove.panel.showCursedGround) then
+        -- Vet testing: 14.1, 22.9 (had salvo), 17.6 (salvo)
+        Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 14000)
+    end
+    if (Crutch.savedOptions.rockgrove.panel.showScythe) then
+        Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 15000)
+    end
 end
 
 

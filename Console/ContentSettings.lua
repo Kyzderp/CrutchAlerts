@@ -860,6 +860,30 @@ function Crutch.CreateConsoleContentSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show time until Sickle Strike",
+        tooltip = "Shows the time until Bahsei may cast scythe",
+        default = Crutch.defaultOptions.rockgrove.panel.showScythe,
+        getFunction = function() return Crutch.savedOptions.rockgrove.panel.showScythe end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.panel.showScythe = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show time until Cursed Ground",
+        tooltip = "Shows the time until Bahsei may cast Cursed Ground",
+        default = Crutch.defaultOptions.rockgrove.panel.showCursedGround,
+        getFunction = function() return Crutch.savedOptions.rockgrove.panel.showCursedGround end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.panel.showCursedGround = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "[BETA] Curse Lines",
     })

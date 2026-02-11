@@ -2013,6 +2013,30 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "checkbox",
+                    name = "Show time until Sickle Strike",
+                    tooltip = "Shows the time until Bahsei may cast scythe",
+                    default = Crutch.defaultOptions.rockgrove.panel.showScythe,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.panel.showScythe end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.panel.showScythe = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show time until Cursed Ground",
+                    tooltip = "Shows the time until Bahsei may cast Cursed Ground",
+                    default = Crutch.defaultOptions.rockgrove.panel.showCursedGround,
+                    getFunc = function() return Crutch.savedOptions.rockgrove.panel.showCursedGround end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.panel.showCursedGround = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
                     type = "description",
                     title = "|c08BD1D[BETA] Curse Lines|r",
                     text = "Shows lines for potential curse AoE trajectories after Death Touch expires. All 4 possible directions are shown, but only 2 directions will have real AoEs.",
