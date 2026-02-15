@@ -76,11 +76,11 @@ local function OnClash()
     end
 
     -- Titanic Leap after Clash:
-    -- HM: 55.77, 53.27, 52.5, 54.2, 56.2 why do they vary so much
+    -- HM: 55.77, 53.27, 52.5, 54.2, 56.2 why do they vary so much, 52.8
     -- vet: 63.7, 63.37 (second),62.6, 62.7 (second), 62.0
     local timer = 62000
     if (IsHM()) then
-        timer = 55000
+        timer = 52500
     end
     CountDownLeap(timer, false)
 end
@@ -99,7 +99,8 @@ local function OnLeap()
     -- 4664.415 - 4599.160 = 65.3 from clash first leap to first leap after clash. may be the nonhm timer
     -- 4762.558 - 4696.712 = 65.8 from second clash first leap to first leap after second clash
 
-    local timer = 49900 -- TODO: OCH seems to say 48, and 43 after the 2nd jump after clash?
+    -- more HM 75~35%: 48.4, 46.1, 47.4
+    local timer = 46100 -- TODO: OCH seems to say 48, and 43 after the 2nd jump after 2nd clash?
     CountDownLeap(timer, true)
 
     -- TODO: is the timer since the first titan to leap, or the 2nd?
@@ -108,7 +109,6 @@ end
 -- Starting combat initial leap
 local function OnCombatStart()
     if (not OC.IsJynorah()) then
-        Crutch.dbgOther("not jynorah")
         return
     end
 
@@ -333,7 +333,6 @@ local exitKey
 
 -- Event listening for all damage on enemies, registered only when Jynorah is active
 local function UnregisterTwins()
-    Crutch.dbgOther("Unregistering twins")
     UnspoofTitans()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT)
@@ -352,7 +351,6 @@ end
 
 local function RegisterTwins()
     UnregisterTwins()
-    Crutch.dbgOther("Registering twins")
 
     -- Titans BHB
     if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.osseincage.showTitansHp) then
