@@ -94,6 +94,7 @@ Crutch.format = {
     [256483] = 500, -- Parch Bomb
 
 -- Ossein Cage
+    [236751] = 1505, -- Life Drain (Tormented Soul Devourer)
     [237149] = 500, -- Agonizer Bombs (Overfiend Kazpian)
     [235201] = 500, -- Storm Slam (Molag Kena)
     [232773] = 500, -- Dominator's Chains (initial cast, 4100)

@@ -141,7 +141,7 @@ Crutch.uninterruptible = {
 }
 
 ---------------------------------------------------------------------
--- Allow certain abilities (cast on other players) to be interrupted when the effect fades from them
+-- Allow certain abilities (cast on other players) to be interrupted when the effect fades from them (this doesn't work :skull:)
 Crutch.fadedInterrupt = {
     [236381] = true, -- True Shot (Coldharbour Sinewshot)
     -- [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)

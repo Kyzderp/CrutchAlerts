@@ -160,7 +160,7 @@ local effectData = {
             },
         },
     },
-    --------------
+    -----------------
     -- Opulent Ordeal
     [1565] = {
         settingsSubcategory = "opulentordeal",
