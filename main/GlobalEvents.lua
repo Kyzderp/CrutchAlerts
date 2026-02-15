@@ -182,6 +182,7 @@ end
 function Crutch.RegisterUpdateListener(name, listener)
     updateListeners[name] = listener
     Crutch.dbgSpam("Registered update listener " .. name)
+    listener()
     UpdatePolling()
 end
 
