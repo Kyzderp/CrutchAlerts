@@ -80,6 +80,8 @@ local defaultOptions = {
         beginHideArcanist = false, -- has been changed to be its own thing, reusing the setting
         showJBeam = true,
 
+        showGeneralAlerts = true, -- extra manual toggle for people who don't like to see general alerts in overland etc
+
         -- Custom IDs
         blacklist = {}, -- {[1234] = true,}
     },
@@ -469,6 +471,8 @@ local function Initialize()
         Crutch:CreateSettingsMenu()
     end
     PrintTime("settings done")
+
+    ZO_CreateStringId("SI_BINDING_NAME_CRUTCH_TOGGLE_GENERAL", "Toggle General Alerts")
 
     -- Position
     CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)

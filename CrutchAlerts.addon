@@ -30,6 +30,7 @@ main/Style.lua
 main/Utils.lua
 main/Commands.lua
 main/AbilityOverlay.lua
+main/Bindings.xml
 
 sharing/BroadcastHandler.lua
 

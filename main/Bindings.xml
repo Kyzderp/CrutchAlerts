@@ -1,0 +1,9 @@
+<Bindings>
+    <Layer name="SI_KEYBINDINGS_CATEGORY_GENERAL">
+        <Category name="CrutchAlerts">
+            <Action name="CRUTCH_TOGGLE_GENERAL">
+                <Down>CrutchAlerts.ToggleGeneralAlerts()</Down>
+            </Action>
+        </Category>
+    </Layer>
+</Bindings>

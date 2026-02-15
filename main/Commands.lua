@@ -1,5 +1,15 @@
 local Crutch = CrutchAlerts
 
+
+---------------------------------------------------------------------
+local function ToggleGeneralAlerts()
+    Crutch.savedOptions.general.showGeneralAlerts = not Crutch.savedOptions.general.showGeneralAlerts
+    Crutch.msg("General alerts (begin, gained, others) are now turned " .. (Crutch.savedOptions.general.showGeneralAlerts and "|c00FF00ON" or "|cFF0000OFF"))
+end
+Crutch.ToggleGeneralAlerts = ToggleGeneralAlerts
+
+
+---------------------------------------------------------------------
 local function PrintUsage()
     if (IsConsoleUI()) then
         CrutchAlerts.msg([[Usage:
@@ -10,6 +20,7 @@ local function PrintUsage()
 |cAAAAAA/crutch printskills
 |cAAAAAA/crutch lock
 |cAAAAAA/crutch unlock
+|cAAAAAA/crutch toggle general
 |cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
     end
 end
@@ -51,6 +62,17 @@ SLASH_COMMANDS["/crutch"] = function(argString)
     --------------------
     elseif (cmd == "xoryn") then
         Crutch.ToggleTempestIcons()
+
+    --------------------
+    elseif (cmd == "toggle") then
+        if (#args ~= 2) then
+            PrintUsage()
+            return
+        end
+
+        if (args[2] == "general") then
+            Crutch.ToggleGeneralAlerts()
+        end
 
     --------------------
     else
