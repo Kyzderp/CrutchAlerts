@@ -68,19 +68,44 @@ end
 
 local numClashes = 0
 local function OnClash()
-    numClashes = numClashes + 1
+    -- numClashes = numClashes + 1
 
     -- Titanic Clash
-    if (Crutch.savedOptions.osseincage.panel.showClash) then
-        Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, "|cff6600" .. GetAbilityName(232517) .. ": ", 39800, true)
-    end
+    -- Time until Clash death from leap: HM: 40.2, 43.0, 42.0
+    -- Time until Clash death from whatever OCH uses: HM: 36.48, 37.899, 37.9
+    -- if (Crutch.savedOptions.osseincage.panel.showClash) then
+    --     Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, "|cff6600" .. GetAbilityName(232517) .. ": ", 39800, true)
+    -- end
 
     -- Titanic Leap after Clash:
     -- HM: 55.77, 53.27, 52.5, 54.2, 56.2 why do they vary so much, 52.8
     -- vet: 63.7, 63.37 (second),62.6, 62.7 (second), 62.0
-    local timer = 62000
+    -- local timer = 62000
+    -- if (IsHM()) then
+    --     timer = 52500
+    -- end
+    -- CountDownLeap(timer, false)
+end
+
+-- 36.906, 38.246, 36.941, 36.819, 38.268, 38.263, 36.899
+-- 36.6, 36.56, 37.9, 36.9, 36.58, 37.84, 36.9, 36.5
+local function OnClashWhateverThisIs()
+    Crutch.dbgOther("whatever this is")
+    numClashes = numClashes + 1
+
+    if (Crutch.savedOptions.osseincage.panel.showClash) then
+        Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, "|cff6600" .. GetAbilityName(232517) .. ": ", 36500, true)
+    end
+end
+
+-- Titanic Leap after Clash:
+-- HM: 12.55, 12.58, 12.63, 12.56, 12.6, 12.65
+-- vet: 21.60, 21.58
+local function OnClashWhateverThisIsFaded()
+    Crutch.dbgOther("whatever this is FADED")
+    local timer = 21500
     if (IsHM()) then
-        timer = 52500
+        timer = 12500
     end
     CountDownLeap(timer, false)
 end
@@ -144,6 +169,14 @@ local function RegisterPanelEvents()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, OnClash)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232517)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClashWhatever", EVENT_COMBAT_EVENT, OnClashWhateverThisIs)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashWhatever", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashWhatever", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232375)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClashWhateverFaded", EVENT_COMBAT_EVENT, OnClashWhateverThisIsFaded)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashWhateverFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashWhateverFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232375)
 end
 
 local function UnregisterPanelEvents()
