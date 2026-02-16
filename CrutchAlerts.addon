@@ -8,9 +8,9 @@
 ## Description: Combat alerts, boss health bars with mechanic thresholds, time until boss spawn, and more!
 ## Author: Kyzeragon
 ## Contributors: @M0R_Gaming and @Ooki42 for Bahsei curse lines
-## Version: 2.10.0
-## AddOnVersion: 21000
-## APIVersion: 101048
+## Version: 2.11.0
+## AddOnVersion: 21100
+## APIVersion: 101048 101049
 
 ## PCDependsOn: LibAddonMenu-2.0>=41
 ## ConsoleDependsOn: LibHarvensAddonSettings>=20002

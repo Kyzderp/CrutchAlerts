@@ -700,7 +700,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Info Panel",
+        label = "Ossein Cage - Info Panel",
     })
 
     settings:AddSetting({
@@ -799,7 +799,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Info Panel",
+        label = "Rockgrove - Info Panel",
     })
 
     settings:AddSetting({
@@ -885,7 +885,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
-        label = "[BETA] Curse Lines",
+        label = "Rockgrove - [BETA] Curse Lines",
     })
 
     settings:AddSetting({
@@ -960,7 +960,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Mark Dangerous Abilities",
+        label = "Rockgrove - Mark Dangerous Abilities",
     })
 
     settings:AddSetting({
@@ -1237,7 +1237,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Info Panel",
+        label = "Sunspire - Info Panel",
     })
 
     settings:AddSetting({
