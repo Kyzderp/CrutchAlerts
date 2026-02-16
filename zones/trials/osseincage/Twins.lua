@@ -63,34 +63,11 @@ local function CountDownLeap(durationMs, preventOverwrite)
     end
 end
 
-local function OnClashLeap()
-end
-
 local numClashes = 0
-local function OnClash()
-    -- numClashes = numClashes + 1
-
-    -- Titanic Clash
-    -- Time until Clash death from leap: HM: 40.2, 43.0, 42.0
-    -- Time until Clash death from whatever OCH uses: HM: 36.48, 37.899, 37.9
-    -- if (Crutch.savedOptions.osseincage.panel.showClash) then
-    --     Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, "|cff6600" .. GetAbilityName(232517) .. ": ", 39800, true)
-    -- end
-
-    -- Titanic Leap after Clash:
-    -- HM: 55.77, 53.27, 52.5, 54.2, 56.2 why do they vary so much, 52.8
-    -- vet: 63.7, 63.37 (second),62.6, 62.7 (second), 62.0
-    -- local timer = 62000
-    -- if (IsHM()) then
-    --     timer = 52500
-    -- end
-    -- CountDownLeap(timer, false)
-end
-
 -- 36.906, 38.246, 36.941, 36.819, 38.268, 38.263, 36.899
 -- 36.6, 36.56, 37.9, 36.9, 36.58, 37.84, 36.9, 36.5
-local function OnClashWhateverThisIs()
-    Crutch.dbgOther("whatever this is")
+local function OnClashBegin()
+    Crutch.dbgOther("clash begin")
     numClashes = numClashes + 1
 
     if (Crutch.savedOptions.osseincage.panel.showClash) then
@@ -101,8 +78,8 @@ end
 -- Titanic Leap after Clash:
 -- HM: 12.55, 12.58, 12.63, 12.56, 12.6, 12.65
 -- vet: 21.60, 21.58
-local function OnClashWhateverThisIsFaded()
-    Crutch.dbgOther("whatever this is FADED")
+local function OnClashFaded()
+    Crutch.dbgOther("clash FADED")
     local timer = 21500
     if (IsHM()) then
         timer = 12500
@@ -142,6 +119,8 @@ local function OnCombatStart()
         timer = 5500
     end
     CountDownLeap(timer, true)
+
+    -- TODO: first leap after initial before first portal 1:25.44, 1:24.8
 end
 
 -- Cleanup
@@ -158,25 +137,13 @@ local function RegisterPanelEvents()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, id)
     end
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MyrClashLeap", EVENT_COMBAT_EVENT, OnClashLeap)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "MyrClashLeap", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "MyrClashLeap", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 233500)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClashBegin", EVENT_COMBAT_EVENT, OnClashBegin)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232375)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ValClashLeap", EVENT_COMBAT_EVENT, OnClashLeap)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ValClashLeap", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ValClashLeap", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 233512)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, OnClash)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232517)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClashWhatever", EVENT_COMBAT_EVENT, OnClashWhateverThisIs)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashWhatever", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashWhatever", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232375)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClashWhateverFaded", EVENT_COMBAT_EVENT, OnClashWhateverThisIsFaded)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashWhateverFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashWhateverFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232375)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClashFaded", EVENT_COMBAT_EVENT, OnClashFaded)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232375)
 end
 
 local function UnregisterPanelEvents()
@@ -184,10 +151,10 @@ local function UnregisterPanelEvents()
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT)
     end
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MyrClashLeap", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ValClashLeap", EVENT_COMBAT_EVENT)
-
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TitanicClashBegin", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TitanicClashFaded", EVENT_COMBAT_EVENT)
 
     CleanUp()
 end
