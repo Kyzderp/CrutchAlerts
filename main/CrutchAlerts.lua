@@ -410,7 +410,11 @@ local function OnPlayerActivated()
     if (not Crutch.savedOptions.general.showGeneralAlerts) then
         if (IsPlayerInRaid() or
             (IsUnitInDungeon("player") and GetCurrentZoneDungeonDifficulty() ~= DUNGEON_DIFFICULTY_NONE)) then
-            Crutch.msg("Warning: general alerts are currently |cFF0000OFF|r|cAAAAAA. You can toggle them using the keybind or |c00FFFF/crutch toggle general")
+            if (IsConsoleUI()) then
+                Crutch.msg("Warning: general alerts are currently |cFF0000OFF|r|cAAAAAA. You can toggle them using |c00FFFF/crutch toggle general")
+            else
+                Crutch.msg("Warning: general alerts are currently |cFF0000OFF|r|cAAAAAA. You can toggle them using the keybind or |c00FFFF/crutch toggle general")
+            end
         end
     end
 end
