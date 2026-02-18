@@ -604,7 +604,8 @@ function Crutch.DisplayDamageable(time, displayFormat)
     if (Crutch.savedOptions.general.consolidateDamageableInInfoPanel) then
         Crutch.InfoPanel.CountDownDamageable(time, displayFormat or "Boss in ")
     else
-        dmgDisplayFormat = displayFormat or "Boss in |c%s%.1f|r"
+        dmgDisplayFormat = displayFormat or "Boss in "
+        dmgDisplayFormat = dmgDisplayFormat .. "|c%s%.1f|r"
         pollTime = GetGameTimeMilliseconds() + time * 1000
         CrutchAlertsDamageableLabel:SetFont(Crutch.GetStyles().damageableFont)
         CrutchAlertsDamageableLabel:SetText(string.format(dmgDisplayFormat, GetTimerColor(time * 1000), time))

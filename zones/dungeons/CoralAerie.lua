@@ -15,7 +15,7 @@ local gryphonCheckerIds = {
 }
 
 local function OnGryphon(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
-    Crutch.DisplayDamageable(9.2, gryphonCheckerIds[abilityId] .. " in |c%s%.1f|r")
+    Crutch.DisplayDamageable(9.2, gryphonCheckerIds[abilityId] .. " in ")
 end
 
 ---------------------------------------------------------------------

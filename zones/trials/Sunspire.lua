@@ -129,19 +129,19 @@ local function OnLokkFly(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, ability
     if (Crutch.savedOptions.general.showDamageable) then
         if (abilityId == 122820) then
             -- 80%
-            Crutch.DisplayDamageable(40, "Beam in |c%s%.1f|r")
+            Crutch.DisplayDamageable(40, "Beam in ")
             zo_callLater(function()
                 Crutch.DisplayDamageable(12.8)
             end, 40500)
         elseif (abilityId == 122821) then
             -- 50%
-            Crutch.DisplayDamageable(10.2, "Beam in |c%s%.1f|r")
+            Crutch.DisplayDamageable(10.2, "Beam in ")
             zo_callLater(function()
                 Crutch.DisplayDamageable(54.6)
             end, 10300)
         elseif (abilityId == 122822) then
             -- 20%
-            Crutch.DisplayDamageable(34.2, "Beam in |c%s%.1f|r")
+            Crutch.DisplayDamageable(34.2, "Beam in ")
             zo_callLater(function()
                 Crutch.DisplayDamageable(29.7)
             end, 34200)

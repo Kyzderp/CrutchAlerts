@@ -29,7 +29,7 @@ local function OnCombatExitedTimeout()
 
     -- And display next round
     local timer = combatExitTime + TIME_TO_NEXT - GetGameTimeMilliseconds()
-    Crutch.DisplayDamageable(timer / 1000, "Portal spawns in |c%s%.1f|r")
+    Crutch.DisplayDamageable(timer / 1000, "Portal spawns in ")
 end
 
 -- Sometimes combat exit happens during the round (maybe adds are
