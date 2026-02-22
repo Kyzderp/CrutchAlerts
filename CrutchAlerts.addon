@@ -48,7 +48,7 @@ Console/DrawingSettings.lua
 lang/default.lua
 lang/$(language).lua
 
-zones/trials/Asylumsanctorium.lua
+zones/trials/asylumsanctorium/AsylumSanctorium.lua
 zones/trials/Cloudrest.lua
 zones/trials/DreadsailReef.lua
 zones/trials/HallsOfFabrication.lua
