@@ -49,6 +49,8 @@ lang/default.lua
 lang/$(language).lua
 
 zones/trials/asylumsanctorium/AsylumSanctorium.lua
+zones/trials/asylumsanctorium/MiniHealthBars.lua
+zones/trials/asylumsanctorium/MiniPanel.lua
 zones/trials/Cloudrest.lua
 zones/trials/DreadsailReef.lua
 zones/trials/HallsOfFabrication.lua
