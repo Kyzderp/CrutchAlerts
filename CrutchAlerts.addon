@@ -38,6 +38,8 @@ infopanel/InfoPanel.xml
 infopanel/InfoPanel.lua
 infopanel/InfoPanelUtils.lua
 
+cc/CrowdControl.lua
+
 PC/Settings.lua
 Console/GeneralSettings.lua
 Console/ContentSettings.lua

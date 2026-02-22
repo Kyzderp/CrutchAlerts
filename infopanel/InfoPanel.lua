@@ -44,7 +44,6 @@ local function UpdateAnchors()
         end
     end
 
-    Crutch.dbgSpam("totalHeight " .. totalHeight)
     CrutchAlertsInfoPanel:SetHeight(totalHeight)
 end
 

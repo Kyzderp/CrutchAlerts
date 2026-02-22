@@ -436,6 +436,11 @@ local SUBTITLE_TIMES = {
         ["Does the heathen priest believe he can stand in the way of our divine purpose?"] = 21.8, -- Untested
     },
 
+-- Scalecaller Peak
+    ["Plague Concocter Mortieu"] = {
+        ["So busy, so busy, and now I must entertain these guests?"] = 6.2,
+    },
+
 -- Scrivener’s Hall
     ["Riftmaster Naqri"] = {
         -- Riftmaster Naqri - 1st boss
