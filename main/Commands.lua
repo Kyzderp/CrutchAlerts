@@ -23,6 +23,11 @@ local function PrintUsage()
 |cAAAAAA/crutch toggle general
 |cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
     end
+
+    if (Crutch.savedOptions.experimental) then
+        CrutchAlerts.msg([[EXPERIMENTAL:
+|cAAAAAA/crutch healthdebug]])
+    end
 end
 
 SLASH_COMMANDS["/crutch"] = function(argString)
@@ -73,6 +78,10 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         if (args[2] == "general") then
             Crutch.ToggleGeneralAlerts()
         end
+
+    --------------------
+    elseif (cmd == "healthdebug") then
+        Crutch.ToggleHealthDebug()
 
     --------------------
     else

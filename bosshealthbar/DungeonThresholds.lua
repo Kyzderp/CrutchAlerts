@@ -526,12 +526,12 @@ local dungeonThresholds = {
     },
 
 -- Bal Sunnar
-    -- %s from alcast guide aren't quite right: 65, 45, 20
+    -- %s below tested on normal
     -- normal: Kovan Giryon (boss1) value: 2946975 max: 2946975 effectiveMax: 2946975
     [GetBossName(CRUTCH_BHB_KOVAN_GIRYON)] = {
-        [70] = "Nix-Ox", -- TODO
-        [45] = "Iron Atronach", -- TODO
-        [20] = "Execute", -- TODO
+        [70] = "Nix-Ox",
+        [45] = "Iron Atronach",
+        [20] = "Execute",
     },
     [GetBossName(CRUTCH_BHB_ROKSA_THE_WARPED)] = {
         [70] = "Devour Light",
