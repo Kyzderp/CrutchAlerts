@@ -33,7 +33,7 @@ end
 -- prefix: should include a space at the end to not be squished with the timer
 -- doneText: the whole text to show after timer is <= 0 (is not prefixed)
 -- doneMs: milliseconds after timer <= 0 to persist the line. nil to not auto remove
-local function CountDown(index, prefix, doneText, durationMs, doneMs, showTimer, decorateTimerFunc)
+local function CountDown(index, prefix, doneText, durationMs, doneMs, scale, showTimer, decorateTimerFunc)
     local targetTime = GetGameTimeMilliseconds() + durationMs
     if (not decorateTimerFunc) then
         decorateTimerFunc = DecorateTimer
@@ -46,22 +46,22 @@ local function CountDown(index, prefix, doneText, durationMs, doneMs, showTimer,
             if (showTimer) then
                 text = text .. decorateTimerFunc(timer)
             end
-            IP.SetLine(index, text)
+            IP.SetLine(index, text, scale)
         elseif (doneMs == nil) then
             -- If doneMs is nil, do not auto remove timer, just set the text
-            IP.SetLine(index, doneText)
+            IP.SetLine(index, doneText, scale)
         elseif (timer < -doneMs) then
             -- If timer is past doneMs, remove timer
             IP.StopCount(index)
         else
             -- Timer is <= 0, but not ending yet
-            IP.SetLine(index, doneText)
+            IP.SetLine(index, doneText, scale)
         end
     end)
 end
 
-function IP.CountDownDuration(index, prefix, durationMs)
-    CountDown(index, prefix, prefix .. "|cff8c00Soon™️|r", durationMs, nil, true)
+function IP.CountDownDuration(index, prefix, durationMs, scale)
+    CountDown(index, prefix, prefix .. "|cff8c00Soon™️|r", durationMs, nil, scale, true)
 end
 -- /script CrutchAlerts.InfoPanel.CountDownDuration(1, "Portal 1: ", 20000)
 
@@ -71,7 +71,7 @@ function IP.StopCount(index)
 end
 
 function IP.CountDownHardStop(index, prefix, durationMs, showTimer)
-    CountDown(index, prefix, "", durationMs, 0, showTimer)
+    CountDown(index, prefix, "", durationMs, 0, nil, showTimer)
 end
 
 ---------------------------------------------------------------------
@@ -83,6 +83,7 @@ function IP.CountDownDamageable(durationSeconds, prefix)
         "|c0fff43Fire the nailguns!|r",
         durationSeconds * 1000,
         1000,
+        nil,
         true,
         DecorateTimerDamageable)
 end
