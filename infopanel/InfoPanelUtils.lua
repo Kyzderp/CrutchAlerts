@@ -91,3 +91,21 @@ end
 function IP.StopDamageable()
     IP.StopCount(PANEL_DAMAGEABLE_INDEX)
 end
+
+---------------------------------------------------------------------
+-- Counting up in 0:00
+local function DecorateElapsed(ms)
+    return FormatTimeSeconds(ms / 1000, TIME_FORMAT_STYLE_COLONS)
+end
+
+function IP.CountUp(index, prefix, scale, decorateElapsedFunc)
+    local startTime = GetGameTimeMilliseconds()
+    if (not decorateElapsedFunc) then
+        decorateElapsedFunc = DecorateElapsed
+    end
+
+    Crutch.RegisterUpdateListener("Panel" .. index, function()
+        local elapsed = GetGameTimeMilliseconds() - startTime
+        IP.SetLine(index, prefix .. decorateElapsedFunc(elapsed), scale)
+    end)
+end
