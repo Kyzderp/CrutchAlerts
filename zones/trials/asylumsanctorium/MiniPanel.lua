@@ -3,6 +3,9 @@ local AS = Crutch.AsylumSanctorium
 local C = Crutch.Constants
 
 local FELMS_NAME = zo_strformat("<<C:1>>", GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD))
+local BOLTS_NAME = "   |c3a9dd6" .. GetAbilityName(95687) .. ": " -- Oppressive Bolts (actual ability is Soul Stained Corruption)
+local CONE_NAME = "   |c64c200" .. GetAbilityName(95545) .. ": " -- Defiling Dye Blast
+local TELEPORT_NAME = "   |cd63a3a" .. GetAbilityName(99138) .. ": "
 
 local PANEL_LLOTHIS_HEADER_INDEX = 5
 local PANEL_LLOTHIS_BOLTS_INDEX = 6
@@ -15,6 +18,9 @@ local PANEL_FELMS_TELEPORT_INDEX = 11
 local SUBITEM_SCALE = 1
 local HEADER_SCALE = 0.7
 
+---------------------------------------------------------------------
+-- Info Panel UI
+---------------------------------------------------------------------
 local function DecorateElapsedTimer(ms)
     local colons = FormatTimeSeconds(ms / 1000, TIME_FORMAT_STYLE_COLONS)
     if (ms >= 180000) then
@@ -28,7 +34,7 @@ local function DecorateElapsedTimer(ms)
     end
 end
 
--------
+------- Llothis
 local llothisDormant = false
 local llothisDisplaying = false
 local function StartLlothisHeader()
@@ -40,18 +46,15 @@ local function CountDownToLlothis()
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCCSaint Llothis the Pious: ", 45000, HEADER_SCALE)
 end
 
-local BOLTS_PREFIX = "   |c3a9dd6" .. GetAbilityName(95687) .. ": " -- Oppressive Bolts (actual ability is Soul Stained Corruption)
 local function SetBolts(msUntil)
-    -- TODO: proper name
-    Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_BOLTS_INDEX, BOLTS_PREFIX, msUntil, SUBITEM_SCALE)
+    Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_BOLTS_INDEX, BOLTS_NAME, msUntil, SUBITEM_SCALE)
 end
 
 local function SetCone(msUntil)
-    -- TODO: proper name
-    Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_CONE_INDEX, "   |c64c200Defiling Blast: ", msUntil, SUBITEM_SCALE)
+    Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_CONE_INDEX, CONE_NAME, msUntil, SUBITEM_SCALE)
 end
 
--------
+------- Felms
 local felmsDormant = false
 local function StartFelmsHeader()
     if (llothisDisplaying) then
@@ -63,10 +66,8 @@ local function CountDownToFelms()
     Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_HEADER_INDEX, "|cCCCCCC" .. FELMS_NAME .. ": ", 45000, HEADER_SCALE)
 end
 
-local TELEPORT_PREFIX = "   |cd63a3a" .. GetAbilityName(99138) .. ": "
 local function SetTeleport(msUntil)
-    -- TODO: proper name
-    Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_TELEPORT_INDEX, TELEPORT_PREFIX, msUntil, SUBITEM_SCALE)
+    Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_TELEPORT_INDEX, TELEPORT_NAME, msUntil, SUBITEM_SCALE)
 end
 
 function AS.Test()
@@ -86,7 +87,7 @@ end
 local function OnBoltsBegin()
     Crutch.dbgOther("bolts begin")
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_BOLTS_INDEX)
-    Crutch.InfoPanel.SetLine(PANEL_LLOTHIS_BOLTS_INDEX, BOLTS_PREFIX .. "|cFF0000INTERRUPT!", SUBITEM_SCALE)
+    Crutch.InfoPanel.SetLine(PANEL_LLOTHIS_BOLTS_INDEX, BOLTS_NAME .. "|cFF0000INTERRUPT!", SUBITEM_SCALE)
 end
 
 local function OnBoltsFaded()
