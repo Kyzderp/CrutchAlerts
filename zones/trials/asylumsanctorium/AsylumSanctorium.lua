@@ -43,7 +43,6 @@ local MINI_HPS = {
     [89263744] = 9314480, -- Vet
 }
 
--- Could put these all in a more generic struct
 local FELMS_NAME = GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD)
 
 --[[
@@ -66,6 +65,7 @@ local function OnMiniDetectionCombat(_, _, _, _, _, _, sourceName, _, targetName
     Crutch.dbgOther(string.format("detected Felms %d from %s %d - %s %d - %s (%d)", AS.felmsId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
     
     AS.OnFelmsDetectedBHB()
+    AS.OnFelmsDetectedPanel()
 end
 
 -- Speedboost for detecting Llothis
@@ -76,14 +76,17 @@ local function OnSpeedboost(_, _, _, _, _, _, sourceName, _, targetName, _, _, _
     Crutch.dbgOther(string.format("detected Llothis %d from %s %d - %s %d - %s (%d)", AS.llothisId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
     
     AS.OnLlothisDetectedBHB()
+    AS.OnLlothisDetectedPanel()
 end
 
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnDormant(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unitId)
     if (unitId == AS.llothisId) then
         AS.OnLlothisDormantBHB(changeType)
+        AS.OnLlothisDormantPanel(changeType)
     elseif (unitId == AS.felmsId) then
         AS.OnFelmsDormantBHB(changeType)
+        AS.OnFelmsDormantPanel(changeType)
     end
 end
 
@@ -100,6 +103,7 @@ local function RegisterMiniDetection()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASMiniDormant", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 99990)
 
     AS.RegisterMinisBHB()
+    AS.RegisterMiniPanel()
 end
 
 local function UnregisterMiniDetection()
@@ -112,6 +116,7 @@ local function UnregisterMiniDetection()
     AS.felmsId = nil
 
     AS.UnregisterMinisBHB()
+    AS.UnregisterMiniPanel()
 end
 
 local function MaybeRegisterMiniDetection()
