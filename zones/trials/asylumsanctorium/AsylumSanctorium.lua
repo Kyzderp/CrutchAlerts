@@ -68,6 +68,8 @@ local function OnMiniDetectionCombat(_, _, _, _, _, _, sourceName, _, targetName
     AS.OnFelmsDetectedPanel()
 end
 
+-- TODO: detection by effect
+
 -- Speedboost for detecting Llothis
 local function OnSpeedboost(_, _, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId, abilityId)
     AS.llothisId = targetUnitId

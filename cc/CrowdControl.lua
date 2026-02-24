@@ -114,9 +114,9 @@ local CC_OPTIONS = {
 
 -- "volume" is just the number of times to play it at the same time lol
 local TYPE_OPTIONS = {
-    [HARD] = {color = "FF0000", sound = SOUNDS.DEATH_RECAP_KILLING_BLOW_SHOWN, volume = 2},
-    [IMMOB] = {color = "FF5500"},
-    [SOFT] = {color = "FFAA00"},
+    [HARD] = {color = "FF0000", showVisual = true, sound = SOUNDS.DEATH_RECAP_KILLING_BLOW_SHOWN, volume = 2},
+    [IMMOB] = {color = "FF5500", showVisual = false},
+    [SOFT] = {color = "FFAA00", showVisual = false},
 }
 
 --* EVENT_COMBAT_EVENT (*[ActionResult|#ActionResult]* _result_, *bool* _isError_, *string* _abilityName_, *integer* _abilityGraphic_, *[ActionSlotType|#ActionSlotType]* _abilityActionSlotType_, *string* _sourceName_, *[CombatUnitType|#CombatUnitType]* _sourceType_, *string* _targetName_, *[CombatUnitType|#CombatUnitType]* _targetType_, *integer* _hitValue_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *[DamageType|#DamageType]* _damageType_, *bool* _log_, *integer* _sourceUnitId_, *integer* _targetUnitId_, *integer* _abilityId_, *integer* _overflow_)
@@ -141,11 +141,17 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
     end
 
     -- If source type is player, it's usually player trying to cast stuff while stunned
-    -- It could be self stuns like entering portals but that doesn't need sound
+    -- It could be self stuns like entering portals but that doesn't need alerts
+    if (sourceType == COMBAT_UNIT_TYPE_PLAYER) then return end
+
     if (typeOptions.sound and sourceType ~= COMBAT_UNIT_TYPE_PLAYER) then
         for i = 1, typeOptions.volume do
             PlaySound(typeOptions.sound)
         end
+    end
+
+    if (typeOptions.showVisual) then
+        Crutch.OnHardCCed(abilityId)
     end
 end
 
