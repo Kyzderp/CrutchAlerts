@@ -396,14 +396,30 @@ local sparking = {}
 local blazing = {}
 local ENFEEBLEMENT_UNIQUE_NAME = "CrutchAlertsOCEnfeeblement"
 
+-- If player is double cursed, show how long they are double cursed for
+local function DoubleCurseIconCallback(icon, unitTag)
+    local doubleCursedDuration = math.min(sparking[unitTag], blazing[unitTag]) - GetGameTimeMilliseconds()
+    icon:SetText(string.format("%.1f", doubleCursedDuration / 1000))
+end
+
 local function UpdateEnfeeblementIcon(atName, unitTag)
     Crutch.RemoveAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME)
 
-    local icon, color
+    local icon, color, callback, spaceOptions
     if (sparking[atName] and blazing[atName]) then
         -- Purplish
         icon = "/esoui/art/ava/ava_rankicon64_grandoverlord.dds"
         color = {183/255, 38/255, 1}
+        callback = function(icon)
+            DoubleCurseIconCallback(icon, unitTag)
+        end
+        spaceOptions = {
+            label = {
+                text = "!",
+                size = 50,
+                color = {183/255, 38/255, 1},
+            }
+        }
     elseif (sparking[atName]) then
         -- Blue, matching OSI
         icon = "/esoui/art/ava/ava_rankicon64_tribune.dds"
@@ -419,14 +435,16 @@ local function UpdateEnfeeblementIcon(atName, unitTag)
     end
 
     Crutch.dbgSpam(string.format("Setting |t100%%:100%%:%s|t for %s", icon, atName))
-    Crutch.SetAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, icon, 100, color)
+    Crutch.SetAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, icon, 100, color, false, callback, spaceOptions)
 end
 
-local function OnEnfeeblement(enfeeblementStruct, changeType, unitTag)
+local function OnEnfeeblement(enfeeblementStruct, changeType, unitTag, durationMs)
     local atName = GetUnitDisplayName(unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
-        enfeeblementStruct[atName] = true
+        enfeeblementStruct[atName] = GetGameTimeMilliseconds() + durationMs
         UpdateEnfeeblementIcon(atName, unitTag)
+    elseif (changeType == EFFECT_RESULT_UPDATED) then
+        enfeeblementStruct[atName] = GetGameTimeMilliseconds() + durationMs
     elseif (changeType == EFFECT_RESULT_FADED) then
         enfeeblementStruct[atName] = nil
         UpdateEnfeeblementIcon(atName, unitTag)
@@ -443,14 +461,14 @@ local function RegisterEnfeeblement()
     UnregisterEnfeeblement()
 
     Crutch.dbgSpam("Registering Enfeeblement")
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag)
-        OnEnfeeblement(sparking, changeType, unitTag)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag, beginTime, endTime)
+        OnEnfeeblement(sparking, changeType, unitTag, (endTime - beginTime) * 1000)
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 233644)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag)
-        OnEnfeeblement(blazing, changeType, unitTag)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag, beginTime, endTime)
+        OnEnfeeblement(blazing, changeType, unitTag, (endTime - beginTime) * 1000)
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 233692)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
