@@ -607,9 +607,9 @@ end
 -- Display the timer
 function Crutch.DisplayDamageable(time, displayFormat)
     if (Crutch.savedOptions.general.consolidateDamageableInInfoPanel) then
-        Crutch.InfoPanel.CountDownDamageable(time, displayFormat or "Boss in ")
+        Crutch.InfoPanel.CountDownDamageable(time, displayFormat or GetString(CRUTCH_BOSS_IN))
     else
-        dmgDisplayFormat = displayFormat or "Boss in "
+        dmgDisplayFormat = displayFormat or GetString(CRUTCH_BOSS_IN)
         dmgDisplayFormat = dmgDisplayFormat .. "|c%s%.1f|r"
         pollTime = GetGameTimeMilliseconds() + time * 1000
         CrutchAlertsDamageableLabel:SetFont(Crutch.GetStyles().damageableFont)

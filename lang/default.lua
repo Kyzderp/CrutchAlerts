@@ -1,4 +1,5 @@
 -- /script SetCVar("language.2", "en")
+ZO_CreateStringId("CRUTCH_BOSS_IN", "Boss in ")
 ZO_CreateStringId("CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE", "Aghaedh of the Solstice")
 ZO_CreateStringId("CRUTCH_BHB_ANALA_TUWHA", "Anal'a Tu'wha")
 ZO_CreateStringId("CRUTCH_BHB_ANSUUL_THE_TORMENTOR", "Ansuul the Tormentor")

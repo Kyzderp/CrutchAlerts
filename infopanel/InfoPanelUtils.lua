@@ -79,7 +79,7 @@ end
 function IP.CountDownDamageable(durationSeconds, prefix)
     CountDown(
         PANEL_DAMAGEABLE_INDEX,
-        prefix or "Boss in ",
+        prefix or GetString(CRUTCH_BOSS_IN),
         "|c0fff43Fire the nailguns!|r",
         durationSeconds * 1000,
         1000,

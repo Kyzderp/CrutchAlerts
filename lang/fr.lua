@@ -1,4 +1,5 @@
 -- /script SetCVar("language.2", "fr")
+SafeAddString(CRUTCH_BOSS_IN, "Boss dans ")
 SafeAddString(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE, "Aghaedh du Solstice^F")
 SafeAddString(CRUTCH_BHB_ANALA_TUWHA, "Anal'a Tu'wha^m")
 SafeAddString(CRUTCH_BHB_ANSUUL_THE_TORMENTOR, "Ansuul la Tormentrice^F")
