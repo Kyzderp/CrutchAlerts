@@ -90,7 +90,7 @@ local function OnFrostDroppable(abilityId)
     end
 
     if (doProminent) then
-        Crutch.DisplayProminent(888007)
+        Crutch.DisplayProminent(C.ID.DROP_FROST)
     end
 end
 

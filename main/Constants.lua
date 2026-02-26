@@ -61,5 +61,10 @@ C.PRIORITY = {
 -- Fake IDs
 ---------------------------------------------------------------------
 C.ID = {
+    DAMAGE_TAKEN = 888002, -- nDSA, nMA afk
+    COLOR_SWAP = 888003, -- MoL twins
+    STATIC = 888004, -- DSR Reef
+    POISON = 888006, -- DSR Reef
+    DROP_FROST = 888007, -- CR Hoarfrost
     SEEKING_SURGE_DROPPED = 888008,
 }

@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Data
@@ -48,7 +49,7 @@ function Crutch.InitializeDamageTaken()
                 PlaySound(data.sound)
             end
             if (data.prominent) then
-                Crutch.DisplayProminent(888002)
+                Crutch.DisplayProminent(C.ID.DAMAGE_TAKEN)
             end
         end)
         EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, data.isDot and ACTION_RESULT_DOT_TICK or ACTION_RESULT_DAMAGE)

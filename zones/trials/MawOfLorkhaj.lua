@@ -264,7 +264,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
             showProminent = Crutch.savedOptions.mawoflorkhaj.prominentColorSwap
         end
         if (atName == GetUnitDisplayName("player") and showProminent) then
-            Crutch.DisplayProminent(888003)
+            Crutch.DisplayProminent(C.ID.COLOR_SWAP)
         end
     elseif (result == ACTION_RESULT_EFFECT_FADED) then
         -- The conversion faded, but we should only remove the icon if it's the currently displayed one

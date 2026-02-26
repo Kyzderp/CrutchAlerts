@@ -11,11 +11,11 @@ local postMillis = 200
 -- Data for prominent display of notifications
 Crutch.prominent = {
 -- Custom "IDs"
-    [888002] = {text = "BAD", color = C.RED, slot = 2, playSound = false, millis = 1000}, -- Called from damageTaken.lua
-    [888003] = {text = "COLOR SWAP", color = C.RED, slot = 1, playSound = true, millis = 1000}, -- vMol color swap
-    [888004] = {text = "STATIC", color = {0.5, 1, 1}, slot = 1, playSound = true, millis = 1000}, -- vDSR static stacks
-    [888006] = {text = "POISON", color = {0.5, 1, 0.5}, slot = 2, playSound = true, millis = 1000}, -- vDSR poison stacks
-    [888007] = {text = "DROP FROST", color = {0, 0.7, 1}, slot = 2, playSound = true, millis = 1000}, -- vCR drop hoarfrost
+    [C.ID.DAMAGE_TAKEN] = {text = "BAD", color = C.RED, slot = 2, playSound = false, millis = 1000}, -- Called from damageTaken.lua
+    [C.ID.COLOR_SWAP] = {text = "COLOR SWAP", color = C.RED, slot = 1, playSound = true, millis = 1000}, -- vMol color swap
+    [C.ID.STATIC] = {text = "STATIC", color = {0.5, 1, 1}, slot = 1, playSound = true, millis = 1000}, -- vDSR static stacks
+    [C.ID.POISON] = {text = "POISON", color = {0.5, 1, 0.5}, slot = 2, playSound = true, millis = 1000}, -- vDSR poison stacks
+    [C.ID.DROP_FROST] = {text = "DROP FROST", color = {0, 0.7, 1}, slot = 2, playSound = true, millis = 1000}, -- vCR drop hoarfrost
 }
 
 Crutch.prominentDisplaying = {} -- {[12459] = 1,}

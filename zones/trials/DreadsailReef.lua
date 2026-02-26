@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Twins
@@ -29,7 +30,7 @@ local function OnLightningStacksChanged(_, changeType, _, _, _, _, _, stackCount
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         -- # of stacks that are dangerous probably depends on the role
         if (stackCount >= Crutch.savedOptions.dreadsailreef.staticThreshold) then
-            Crutch.DisplayProminent(888004)
+            Crutch.DisplayProminent(C.ID.STATIC)
         end
     end
 end
@@ -39,7 +40,7 @@ local function OnPoisonStacksChanged(_, changeType, _, _, _, _, _, stackCount, _
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         -- # of stacks that are dangerous probably depends on the role
         if (stackCount >= Crutch.savedOptions.dreadsailreef.volatileThreshold) then
-            Crutch.DisplayProminent(888006)
+            Crutch.DisplayProminent(C.ID.POISON)
         end
     end
 end
