@@ -270,6 +270,8 @@ end
 function Crutch.RegisterLucentCitadel()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Lucent Citadel")
 
+    Crutch.RegisterExitedGroupCombatListener("CrutchLucentCitadelExitedCombat", RemoveArcaneConveyance)
+
     local showCavot = Crutch.savedOptions.lucentcitadel.showCavotIcon
     local showOrphic = Crutch.savedOptions.lucentcitadel.showOrphicIcons
     local showTempest = Crutch.savedOptions.lucentcitadel.showTempestIcons
@@ -337,6 +339,7 @@ end
 
 function Crutch.UnregisterLucentCitadel()
     Crutch.UnregisterBossChangedListener("CrutchLucentCitadel")
+    Crutch.UnregisterExitedGroupCombatListener("CrutchLucentCitadelExitedCombat")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED)
@@ -352,6 +355,8 @@ function Crutch.UnregisterLucentCitadel()
     tempestEnabled = false
 
     tethered = {}
+
+    RemoveArcaneConveyance()
 
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(CONVEYANCE_UNIQUE_NAME)
