@@ -2,6 +2,12 @@ local Crutch = CrutchAlerts
 
 
 ---------------------------------------------------------------------
+local function HideJets()
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "HideJets")
+    CrutchAlertsCCJetRight:SetHidden(true)
+    CrutchAlertsCCJetLeft:SetHidden(true)
+end
+
 local DURATION = 6000
 local function OnHardCCed(abilityId)
     local binds = {}
@@ -36,6 +42,7 @@ local function OnHardCCed(abilityId)
     CrutchAlertsCCJetLeft.slide:SetDeltaOffsetX(-GuiRoot:GetWidth() - 800)
     CrutchAlertsCCJetLeft.slideAnimation:PlayFromStart()
 
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "HideJets", DURATION, HideJets)
 end
 Crutch.OnHardCCed = OnHardCCed
 -- /script CrutchAlerts.OnHardCCed()
