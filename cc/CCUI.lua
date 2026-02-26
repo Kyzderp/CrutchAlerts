@@ -9,7 +9,7 @@ local function HideJets()
 end
 
 local DURATION = 6000
-local function OnHardCCed(abilityId)
+local function LeaveOnAJetPlane(abilityId)
     local binds = {}
     local layerIndex, categoryIndex, actionIndex = GetActionIndicesFromName("SPECIAL_MOVE_INTERRUPT")
     local foundFirstBind = false
@@ -43,6 +43,12 @@ local function OnHardCCed(abilityId)
     CrutchAlertsCCJetLeft.slideAnimation:PlayFromStart()
 
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "HideJets", DURATION, HideJets)
+end
+
+local function OnHardCCed()
+    if (Crutch.savedOptions.experimental) then
+        LeaveOnAJetPlane()
+    end
 end
 Crutch.OnHardCCed = OnHardCCed
 -- /script CrutchAlerts.OnHardCCed()
