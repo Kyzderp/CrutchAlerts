@@ -397,9 +397,11 @@ local blazing = {}
 local ENFEEBLEMENT_UNIQUE_NAME = "CrutchAlertsOCEnfeeblement"
 
 -- If player is double cursed, show how long they are double cursed for
-local function DoubleCurseIconCallback(icon, unitTag)
-    local doubleCursedDuration = math.min(sparking[unitTag], blazing[unitTag]) - GetGameTimeMilliseconds()
-    icon:SetText(string.format("%.1f", doubleCursedDuration / 1000))
+local function DoubleCurseIconCallback(icon, atName)
+    if (sparking[atName] and blazing[atName]) then
+        local doubleCursedDuration = math.min(sparking[atName], blazing[atName]) - GetGameTimeMilliseconds()
+        icon:SetText(math.ceil(doubleCursedDuration / 1000))
+    end
 end
 
 local function UpdateEnfeeblementIcon(atName, unitTag)
@@ -411,14 +413,19 @@ local function UpdateEnfeeblementIcon(atName, unitTag)
         icon = "/esoui/art/ava/ava_rankicon64_grandoverlord.dds"
         color = {183/255, 38/255, 1}
         callback = function(icon)
-            DoubleCurseIconCallback(icon, unitTag)
+            DoubleCurseIconCallback(icon, atName)
         end
         spaceOptions = {
             label = {
                 text = "!",
-                size = 50,
+                size = 30,
                 color = {183/255, 38/255, 1},
-            }
+            },
+            texture = {
+                path = "/esoui/art/ava/ava_rankicon64_grandoverlord.dds",
+                size = 0.8,
+                color = {183/255, 38/255, 1},
+            },
         }
     elseif (sparking[atName]) then
         -- Blue, matching OSI
