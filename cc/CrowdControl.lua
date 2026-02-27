@@ -128,7 +128,12 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
     local typeOptions = TYPE_OPTIONS[options.type]
 
     if (options.display) then
-        local textColor = (sourceType == COMBAT_UNIT_TYPE_PLAYER) and "|c888888" or ""
+        local textColor = ""
+        if (sourceType == COMBAT_UNIT_TYPE_PLAYER) then
+            textColor = "|c888888"
+        elseif (sourceType == COMBAT_UNIT_TYPE_GROUP) then
+            textColor = "|cFF00FF"
+        end
         Crutch.dbgOther(string.format("cc |c%s%s|r %s%s (%d) %d from %s (%s)",
             typeOptions.color,
             options.display,
@@ -142,9 +147,11 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
 
     -- If source type is player, it's usually player trying to cast stuff while stunned
     -- It could be self stuns like entering portals but that doesn't need alerts
-    if (sourceType == COMBAT_UNIT_TYPE_PLAYER) then return end
+    -- Sometimes they come from GROUP too, like radiating regen and meridia's favor, for some reason
+    -- So just stick to strictly enemy NONE for now
+    if (sourceType ~= COMBAT_UNIT_TYPE_NONE) then return end
 
-    if (typeOptions.sound and sourceType ~= COMBAT_UNIT_TYPE_PLAYER) then
+    if (typeOptions.sound) then
         for i = 1, typeOptions.volume do
             PlaySound(typeOptions.sound)
         end

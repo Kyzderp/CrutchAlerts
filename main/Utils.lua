@@ -79,9 +79,9 @@ end
 ---------------------------------------------------------------------
 local bitmasks = {
     [LFG_ROLE_TANK] = 4,
-    [LFG_ROLE_HEALER] = 2,
+    [LFG_ROLE_HEAL] = 2,
     [LFG_ROLE_DPS] = 1,
-    [LFG_ROLE_NONE] = 0, -- TODO: complain
+    -- TODO: complain if no role
 }
 
 -- Whether the specified role's bit is set in the setting
@@ -90,5 +90,5 @@ local function IsRoleSet(setting, role)
 end
 
 local function WithRoles(tank, healer, dps)
-    return (tank and bitmasks[LFG_ROLE_TANK] or 0) + (healer and bitmasks[LFG_ROLE_HEALER] or 0) + (dps and bitmasks[LFG_ROLE_DPS] or 0)
+    return (tank and bitmasks[LFG_ROLE_TANK] or 0) + (healer and bitmasks[LFG_ROLE_HEAL] or 0) + (dps and bitmasks[LFG_ROLE_DPS] or 0)
 end
