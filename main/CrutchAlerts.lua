@@ -152,6 +152,21 @@ local defaultOptions = {
         dingSelfCone = true,
         dingOthersCone = false,
         showMinisHp = true,
+
+        panel = {
+            showLlothisHeader = 7,
+            showLlothisBolts = 7,
+            showLlothisCone = 7,
+            showLlothisTeleport = 7,
+            showFelmsHeader = 7,
+            showFelmsTeleport = 7,
+            -- showLlothisHeader = 7, -- all
+            -- showLlothisBolts = 5, -- tank & dps
+            -- showLlothisCone = 1, -- dps
+            -- showLlothisTeleport = 0, -- none
+            -- showFelmsHeader = 7, -- all
+            -- showFelmsTeleport = 6, -- tank & healer
+        },
     },
     cloudrest = {
         showSpears = true,

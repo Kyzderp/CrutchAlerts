@@ -71,3 +71,24 @@ function Crutch.ConvertHSLToRGB(h, s, l)
         return HueToRGB(p, q, h + 1 / 3), HueToRGB(p, q, h), HueToRGB(p, q, h - 1 / 3)
     end
 end
+
+
+---------------------------------------------------------------------
+-- Roles stored in 3 bits
+-- Tank, Healer, DPS
+---------------------------------------------------------------------
+local bitmasks = {
+    [LFG_ROLE_TANK] = 4,
+    [LFG_ROLE_HEALER] = 2,
+    [LFG_ROLE_DPS] = 1,
+    [LFG_ROLE_NONE] = 0, -- TODO: complain
+}
+
+-- Whether the specified role's bit is set in the setting
+local function IsRoleSet(setting, role)
+    return BitAnd(setting, bitmasks[role]) ~= 0
+end
+
+local function WithRoles(tank, healer, dps)
+    return (tank and bitmasks[LFG_ROLE_TANK] or 0) + (healer and bitmasks[LFG_ROLE_HEALER] or 0) + (dps and bitmasks[LFG_ROLE_DPS] or 0)
+end
