@@ -169,6 +169,19 @@ end
 
 
 ---------------------------------------------------------------------
+local function CleanUp()
+    nextPortal = 1
+    nextPortalTimer = 20
+    UnspoofAllIcons()
+    ZO_ClearTable(groupBitterMarrow)
+    Crutch.InfoPanel.StopCount(RG.PANEL_PORTAL_TIMER_INDEX)
+    Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_COUNT_INDEX)
+    Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_PLAYERS_INDEX)
+    Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_DIRECTION_INDEX)
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local origOSIUnitErrorCheck = nil
@@ -176,16 +189,7 @@ local origOSIUnitErrorCheck = nil
 function RG.RegisterBahseiPortal()
     Crutch.RegisterEnteredGroupCombatListener("RockgroveBahseiPortalEnteredCombat", OnEnteredCombat)
 
-    Crutch.RegisterExitedGroupCombatListener("RockgroveBahseiPortalExitedCombat", function()
-        nextPortal = 1
-        nextPortalTimer = 20
-        UnspoofAllIcons()
-        ZO_ClearTable(groupBitterMarrow)
-        Crutch.InfoPanel.StopCount(RG.PANEL_PORTAL_TIMER_INDEX)
-        Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_COUNT_INDEX)
-        Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_PLAYERS_INDEX)
-        Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_DIRECTION_INDEX)
-    end)
+    Crutch.RegisterExitedGroupCombatListener("RockgroveBahseiPortalExitedCombat", CleanUp)
 
     -- Register for Bahsei portal effect gained/faded
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED, OnBitterMarrowChanged)
@@ -226,10 +230,10 @@ function RG.RegisterBahseiPortal()
 end
 
 function RG.UnregisterBahseiPortal()
-    ZO_ClearTable(groupBitterMarrow)
     Crutch.UnregisterEnteredGroupCombatListener("RockgroveBahseiPortalEnteredCombat", OnEnteredCombat)
 
     Crutch.UnregisterExitedGroupCombatListener("RockgroveBahseiPortalExitedCombat")
+    CleanUp()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Clockwise", EVENT_COMBAT_EVENT)
