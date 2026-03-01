@@ -171,11 +171,9 @@ local function UpdatePolling()
         EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "GlobalPolling", 100, Poll)
         Poll()
         polling = true
-        Crutch.dbgOther("starting polling")
     elseif (polling and empty) then
         EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "GlobalPolling")
         polling = false
-        Crutch.dbgOther("stopping polling")
     end
 end
 

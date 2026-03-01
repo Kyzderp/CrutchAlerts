@@ -162,10 +162,22 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
     end
 end
 
+local function OnStunnedChanged(_, playerStunned)
+    if (playerStunned) then
+        Crutch.dbgOther("player stunned")
+        Crutch.OnStunned()
+    else
+        Crutch.dbgOther("player no longer stunned")
+        Crutch.OnNotStunned()
+    end
+end
+
 function Crutch.InitializeCC()
     -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CC", EVENT_EFFECT_CHANGED, OnEffectChanged)
     -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CC", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG, "player")
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CC", EVENT_COMBAT_EVENT, OnCombatEvent)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CC", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CCStunnedChanged", EVENT_PLAYER_STUNNED_STATE_CHANGED, OnStunnedChanged)
 end
