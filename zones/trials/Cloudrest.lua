@@ -333,7 +333,7 @@ end
 -- Boss health bar thresholds
 ---------------------------------------------------------------------
 local knownHealths = {[1] = {50}, [2] = {65, 35}, [3] = {75, 50, 25}}
-local foundMiniShades = {} -- Key by mini name just in case there are dupes?
+local foundMiniShades = {} -- Key by unit id just in case there are dupes?
 local zmajaThresholds = {}
 local foundMinis = false
 
@@ -354,9 +354,6 @@ local function OverrideBHBThresholds()
     Crutch.RedrawBHBStages()
 end
 
--- TODO: remove override when execute?
--- TODO: remove override on boss changed
--- TODO: clear tables too
 local function OnMiniBoss(_, _, _, _, _, _, _, _, _, _, _, _, _, _, sourceUnitId, targetUnitId)
     if (foundMinis) then return end
 
@@ -492,7 +489,7 @@ function Crutch.RegisterCloudrest()
     end
 
     -- Listen for mini shades to determine Z'Maja thresholds
-    if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.experimental) then -- TODO
+    if (Crutch.savedOptions.bossHealthBar.enabled) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, OnMiniBoss)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 105541)
