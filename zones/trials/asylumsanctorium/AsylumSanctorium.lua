@@ -51,6 +51,14 @@ local FELMS_NAME = GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD)
 58246 -- Speedboost - seems to only be for llothis
 ]]
 -- Felms name detection
+local function OnFelmsDetected()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetectionEffect", EVENT_EFFECT_CHANGED)
+
+    AS.OnFelmsDetectedBHB()
+    AS.OnFelmsDetectedPanel()
+end
+
 local function OnMiniDetectionCombat(_, _, _, _, _, _, sourceName, _, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     if (sourceName == FELMS_NAME and sourceUnitId ~= 0) then
         AS.felmsId = sourceUnitId
@@ -61,14 +69,21 @@ local function OnMiniDetectionCombat(_, _, _, _, _, _, sourceName, _, targetName
         return
     end
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT)
     Crutch.dbgOther(string.format("detected Felms %d from %s %d - %s %d - %s (%d)", AS.felmsId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
     
-    AS.OnFelmsDetectedBHB()
-    AS.OnFelmsDetectedPanel()
+    OnFelmsDetected()
 end
 
--- TODO: detection by effect
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnMiniDetectionEffect(_, _, _, _, _, _, _, _, _, _, _, _, _, unitName, unitId, abilityId)
+    if (unitName == FELMS_NAME and unitId ~= 0) then
+        AS.felmsId = unitId
+
+        Crutch.dbgOther(string.format("detected Felms using effect %d from %s %d - %s (%d)", AS.felmsId, unitName, unitId, GetAbilityName(abilityId), abilityId))
+
+        OnFelmsDetected()
+    end
+end
 
 -- Speedboost for detecting Llothis
 local function OnSpeedboost(_, _, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId, abilityId)
@@ -99,6 +114,7 @@ local function RegisterMiniDetection()
 
     -- Events for detecting Felms
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT, OnMiniDetectionCombat)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASFelmsDetectionEffect", EVENT_EFFECT_CHANGED, OnMiniDetectionEffect)
 
     -- Dormant for resetting hp
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASMiniDormant", EVENT_EFFECT_CHANGED, OnDormant)
@@ -111,6 +127,7 @@ end
 local function UnregisterMiniDetection()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetectionEffect", EVENT_EFFECT_CHANGED)
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASMiniDormant", EVENT_EFFECT_CHANGED)
 
