@@ -38,6 +38,14 @@ local TYPE_OPTIONS = {
     [SOFT] = {color = "FFAA00", showVisual = false},
 }
 
+-- Some abilities shouldn't be shown or shouldn't play sound,
+-- because they're spammy or can't break free anyway
+local SUPPRESS = 1
+local SILENT = 2
+local CC_ABILITY_DATA = {
+    [166794] = SUPPRESS, -- Current (DSR)
+}
+
 
 ---------------------------------------------------------------------
 -- CC begin
@@ -74,13 +82,17 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
             UNIT_TYPES[sourceType] or "???"))
     end
 
+    -- Manual blacklist
+    local abilityData = CC_ABILITY_DATA[abilityId]
+    if (abilityData == SUPPRESS) then return end
+
     -- If source type is player, it's usually player trying to cast stuff while stunned
     -- It could be self stuns like entering portals but that doesn't need alerts
     -- Sometimes they come from GROUP too, like radiating regen and meridia's favor, for some reason
     -- So just stick to strictly enemy NONE for now
     if (sourceType ~= COMBAT_UNIT_TYPE_NONE) then return end
 
-    if (typeOptions.sound) then
+    if (typeOptions.sound and abilityData ~= SILENT) then
         for i = 1, typeOptions.volume do
             PlaySound(typeOptions.sound)
         end
@@ -92,8 +104,6 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
             result = result,
             time = GetGameTimeMilliseconds(),
         }
-
-        -- Crutch.OnHardCCed(abilityId)
     end
 end
 
