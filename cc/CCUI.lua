@@ -2,60 +2,79 @@ local Crutch = CrutchAlerts
 
 
 ---------------------------------------------------------------------
-local jetsDisplaying = false
+---------------------------------------------------------------------
+local CC_DISPLAY = {
+    [ACTION_RESULT_DISORIENTED] = "Disoriented",
+    [ACTION_RESULT_LEVITATED] = "Levitated",
+    [ACTION_RESULT_CHARMED] = "Charmed",
+    [ACTION_RESULT_FEARED] = "Feared",
+    [ACTION_RESULT_STUNNED] = "Stunned",
+}
+
+
+---------------------------------------------------------------------
+-- Jets
+---------------------------------------------------------------------
+local jetsDisplaying = 0 -- 0: not displaying, 1: horizontal, 2: diagonal
 local function HideJets()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "HideJets")
-    jetsDisplaying = false
+    jetsDisplaying = 0
     CrutchAlertsCCJetRight:SetHidden(true)
     CrutchAlertsCCJetLeft:SetHidden(true)
 end
 
-local DURATION = 6000
-local function LeaveOnAJetPlane(abilityId)
-    local binds = {}
-    local layerIndex, categoryIndex, actionIndex = GetActionIndicesFromName("SPECIAL_MOVE_INTERRUPT")
-    local foundFirstBind = false
-    for i = 1, 4 do
-        local keyCode, mod1, mod2, mod3, mod4 = GetActionBindingInfo(layerIndex, categoryIndex, actionIndex, i)
-        if (keyCode and keyCode ~= KEY_INVALID) then
-            local keybindString = ZO_Keybindings_GetBindingStringFromKeys(keyCode, mod1, mod2, mod3, mod4, nil, KEYBIND_TEXTURE_OPTIONS_EMBED_MARKUP)
-            table.insert(binds, keybindString)
-            if (foundFirstBind) then break end -- Only show first 2 found binds
-            foundFirstBind = true
-        end
+local FLIGHT_DURATION = 6000
+local function LeaveOnAJetPlane(abilityId, result, duration, sourceName)
+    if (jetsDisplaying ~= 1) then -- If already in horizontal, don't restart it (but do extend the hide)
+        -- local binds = {}
+        -- local layerIndex, categoryIndex, actionIndex = GetActionIndicesFromName("SPECIAL_MOVE_INTERRUPT")
+        -- local foundFirstBind = false
+        -- for i = 1, 4 do
+        --     local keyCode, mod1, mod2, mod3, mod4 = GetActionBindingInfo(layerIndex, categoryIndex, actionIndex, i)
+        --     if (keyCode and keyCode ~= KEY_INVALID) then
+        --         local keybindString = ZO_Keybindings_GetBindingStringFromKeys(keyCode, mod1, mod2, mod3, mod4, nil, KEYBIND_TEXTURE_OPTIONS_EMBED_MARKUP)
+        --         table.insert(binds, keybindString)
+        --         if (foundFirstBind) then break end -- Only show first 2 found binds
+        --         foundFirstBind = true
+        --     end
+        -- end
+        -- local text = table.concat(binds, "   ")
+
+        local text = string.format("You're %s by %s!", string.upper(CC_DISPLAY[result]), GetAbilityName(abilityId))
+
+        local yOffset = GuiRoot:GetHeight() / 3
+
+        CrutchAlertsCCJetRight:ClearAnchors()
+        CrutchAlertsCCJetRight:SetTransformRotationZ(0)
+        CrutchAlertsCCJetRight:SetAnchor(RIGHT, CrutchAlertsCC, LEFT, -100, -yOffset)
+        CrutchAlertsCCJetRightLabel:SetText(text)
+        CrutchAlertsCCJetRight:SetHidden(false)
+        CrutchAlertsCCJetRight.slide:SetDuration(FLIGHT_DURATION)
+        CrutchAlertsCCJetRight.slide:SetDeltaOffsetX(GuiRoot:GetWidth() + 800)
+        CrutchAlertsCCJetRight.slide:SetDeltaOffsetY(0)
+        CrutchAlertsCCJetRight.slideAnimation:PlayFromStart()
+
+        CrutchAlertsCCJetLeft:ClearAnchors()
+        CrutchAlertsCCJetLeft:SetTransformRotationZ(0)
+        CrutchAlertsCCJetLeft:SetAnchor(LEFT, CrutchAlertsCC, RIGHT, 100, yOffset)
+        CrutchAlertsCCJetLeftLabel:SetText(text)
+        CrutchAlertsCCJetLeft:SetHidden(false)
+        CrutchAlertsCCJetLeft.slide:SetDuration(FLIGHT_DURATION)
+        CrutchAlertsCCJetLeft.slide:SetDeltaOffsetX(-GuiRoot:GetWidth() - 800)
+        CrutchAlertsCCJetLeft.slide:SetDeltaOffsetY(0)
+        CrutchAlertsCCJetLeft.slideAnimation:PlayFromStart()
+
+        jetsDisplaying = 1
     end
-    local text = table.concat(binds, "   ")
 
-    local yOffset = GuiRoot:GetHeight() / 3
-
-    CrutchAlertsCCJetRight:ClearAnchors()
-    CrutchAlertsCCJetRight:SetTransformRotationZ(0)
-    CrutchAlertsCCJetRight:SetAnchor(RIGHT, CrutchAlertsCC, LEFT, -100, -yOffset)
-    CrutchAlertsCCJetRightLabel:SetText(text)
-    CrutchAlertsCCJetRight:SetHidden(false)
-    CrutchAlertsCCJetRight.slide:SetDuration(DURATION)
-    CrutchAlertsCCJetRight.slide:SetDeltaOffsetX(GuiRoot:GetWidth() + 800)
-    CrutchAlertsCCJetRight.slide:SetDeltaOffsetY(0)
-    CrutchAlertsCCJetRight.slideAnimation:PlayFromStart()
-
-    CrutchAlertsCCJetLeft:ClearAnchors()
-    CrutchAlertsCCJetLeft:SetTransformRotationZ(0)
-    CrutchAlertsCCJetLeft:SetAnchor(LEFT, CrutchAlertsCC, RIGHT, 100, yOffset)
-    CrutchAlertsCCJetLeftLabel:SetText(text)
-    CrutchAlertsCCJetLeft:SetHidden(false)
-    CrutchAlertsCCJetLeft.slide:SetDuration(DURATION)
-    CrutchAlertsCCJetLeft.slide:SetDeltaOffsetX(-GuiRoot:GetWidth() - 800)
-    CrutchAlertsCCJetLeft.slide:SetDeltaOffsetY(0)
-    CrutchAlertsCCJetLeft.slideAnimation:PlayFromStart()
-
-    jetsDisplaying = true
-
-    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "HideJets", DURATION, HideJets)
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "HideJets", FLIGHT_DURATION, HideJets)
 end
 
 local YEET_DURATION = 1000
 local function Jettison()
-    if (not jetsDisplaying) then return end
+    if (jetsDisplaying ~= 1) then return end
+
+    jetsDisplaying = 2
 
     CrutchAlertsCCJetRight:SetTransformRotationZ(math.rad(30))
     CrutchAlertsCCJetRight.slide:SetDuration(YEET_DURATION)
@@ -73,11 +92,21 @@ local function Jettison()
 end
 
 ---------------------------------------------------------------------
+-- Common
 ---------------------------------------------------------------------
-local function OnHardCCed()
+local function OnHardCCed(abilityId, result, duration, sourceName)
+    -- TODO: setting
+    Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAby |c00FFFF<<2>>|r|cAAAAAA's |c00FFFF<<3>> |cAAAAAA(<<4>>) for <<5>>ms",
+        CC_DISPLAY[result],
+        sourceName,
+        GetAbilityName(abilityId),
+        abilityId,
+        duration))
+
     if (Crutch.savedOptions.experimental) then
-        LeaveOnAJetPlane()
+        LeaveOnAJetPlane(abilityId, result, duration, sourceName)
     end
+
 end
 Crutch.OnHardCCed = OnHardCCed
 -- /script CrutchAlerts.OnHardCCed()

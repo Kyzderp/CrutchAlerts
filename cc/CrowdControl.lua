@@ -1,88 +1,6 @@
 local Crutch = CrutchAlerts
 
 
----------------------------------------------------------------------
-local CHANGE_TYPES = {
-    [EFFECT_RESULT_FADED] = "FADED",
-    [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
-    [EFFECT_RESULT_GAINED] = "GAINED",
-    [EFFECT_RESULT_TRANSFER] = "TRANSFER",
-    [EFFECT_RESULT_UPDATED] = "UPDATED",
-}
-
-local STATUS_EFFECT_TYPES = {
-    [STATUS_EFFECT_TYPE_BLEED] = "BLEED",
-    [STATUS_EFFECT_TYPE_BLIND] = "BLIND",
-    [STATUS_EFFECT_TYPE_CHARM] = "CHARM",
-    [STATUS_EFFECT_TYPE_DAZED] = "DAZED",
-    [STATUS_EFFECT_TYPE_DISEASE] = "DISEASE",
-    [STATUS_EFFECT_TYPE_ENVIRONMENT] = "ENVIRONMENT",
-    [STATUS_EFFECT_TYPE_FEAR] = "FEAR",
-    [STATUS_EFFECT_TYPE_LEVITATE] = "LEVITATE",
-    [STATUS_EFFECT_TYPE_MAGIC] = "MAGIC",
-    [STATUS_EFFECT_TYPE_MESMERIZE] = "MESMERIZE",
-    [STATUS_EFFECT_TYPE_NEARSIGHT] = "NEARSIGHT",
-    [STATUS_EFFECT_TYPE_NONE] = "NONE",
-    [STATUS_EFFECT_TYPE_PACIFY] = "PACIFY",
-    [STATUS_EFFECT_TYPE_POISON] = "POISON",
-    [STATUS_EFFECT_TYPE_PUNCTURE] = "PUNCTURE",
-    [STATUS_EFFECT_TYPE_ROOT] = "ROOT",
-    [STATUS_EFFECT_TYPE_SILENCE] = "SILENCE",
-    [STATUS_EFFECT_TYPE_SNARE] = "SNARE",
-    [STATUS_EFFECT_TYPE_STUN] = "STUN",
-    [STATUS_EFFECT_TYPE_TRAUMA] = "TRAUMA",
-    [STATUS_EFFECT_TYPE_WEAKNESS] = "WEAKNESS",
-    [STATUS_EFFECT_TYPE_WOUND] = "WOUND",
-}
-
-local CCTYPES = {
-    [STATUS_EFFECT_TYPE_CHARM] = "CHARM",
-    [STATUS_EFFECT_TYPE_DAZED] = "DAZED",
-    [STATUS_EFFECT_TYPE_ENVIRONMENT] = "ENVIRONMENT",
-    [STATUS_EFFECT_TYPE_FEAR] = "FEAR",
-    [STATUS_EFFECT_TYPE_LEVITATE] = "LEVITATE",
-    [STATUS_EFFECT_TYPE_MAGIC] = "MAGIC",
-    [STATUS_EFFECT_TYPE_MESMERIZE] = "MESMERIZE",
-    [STATUS_EFFECT_TYPE_NEARSIGHT] = "NEARSIGHT",
-    [STATUS_EFFECT_TYPE_PACIFY] = "PACIFY",
-    [STATUS_EFFECT_TYPE_PUNCTURE] = "PUNCTURE",
-    [STATUS_EFFECT_TYPE_ROOT] = "ROOT",
-    [STATUS_EFFECT_TYPE_SILENCE] = "SILENCE",
-    [STATUS_EFFECT_TYPE_SNARE] = "SNARE",
-    [STATUS_EFFECT_TYPE_STUN] = "STUN",
-    [STATUS_EFFECT_TYPE_WEAKNESS] = "WEAKNESS",
-    [STATUS_EFFECT_TYPE_WOUND] = "WOUND",
-}
-
----------------------------------------------------------------------
--- EVENT_EFFECT_CHANGED (*[EffectResult|#EffectResult]* _changeType_, *integer* _effectSlot_, *string* _effectName_, *string* _unitTag_, *number* _beginTime_, *number* _endTime_, *integer* _stackCount_, *string* _iconName_, *string* _deprecatedBuffType_, *[BuffEffectType|#BuffEffectType]* _effectType_, *[AbilityType|#AbilityType]* _abilityType_, *[StatusEffectType|#StatusEffectType]* _statusEffectType_, *string* _unitName_, *integer* _unitId_, *integer* _abilityId_, *[CombatUnitType|#CombatUnitType]* _sourceType_)
-local function OnEffectChanged(_, changeType, _, _, _, beginTime, endTime, stackCount, _, _, _, _, statusEffectType, _, _, abilityId)
-    local changeTypeString = CHANGE_TYPES[changeType]
-    Crutch.dbgOther(string.format("effect %s |cff0000%s|r %f %d - %s (%d)", changeTypeString, statusEffectType and STATUS_EFFECT_TYPES[statusEffectType] or "???", endTime - beginTime, stackCount, GetAbilityName(abilityId), abilityId))
-    if (changeType ~= EFFECT_RESULT_GAINED and changeType ~= EFFECT_RESULT_UPDATED) then return end -- TODO: remove also when faded
-
-    local ccType = CCTYPES[statusEffectType]
-    if (not ccType) then return end
-
-    Crutch.dbgOther(string.format("cc %s |cff0000%s|r %f %d - %s (%d)", changeTypeString, ccType or "???", endTime - beginTime, stackCount, GetAbilityName(abilityId), abilityId))
-end
-
-local CC_RESULTS = {
-    [ACTION_RESULT_CHARMED] = "CHARMED",
-    [ACTION_RESULT_DISORIENTED] = "DISORIENTED",
-    [ACTION_RESULT_INTERRUPT] = "INTERRUPT",
-    [ACTION_RESULT_LEVITATED] = "LEVITATED",
-    [ACTION_RESULT_SILENCED] = "SILENCED",
-
-    -- verified
-    [ACTION_RESULT_FEARED] = "FEARED",
-    [ACTION_RESULT_KNOCKBACK] = "KNOCKBACK", -- TODO: probably not necessary. stampede is a knockback lol
-    [ACTION_RESULT_ROOTED] = "ROOTED",
-    -- [ACTION_RESULT_SNARED] = "SNARED",
-    [ACTION_RESULT_STAGGERED] = "STAGGERED",
-    [ACTION_RESULT_STUNNED] = "STUNNED",
-}
-
 local UNIT_TYPES = {
     [COMBAT_UNIT_TYPE_GROUP] = "GROUP",
     [COMBAT_UNIT_TYPE_NONE] = "NONE",
@@ -98,18 +16,19 @@ local IMMOB = "immobilize"
 local SOFT = "soft"
 
 local CC_OPTIONS = {
-    [ACTION_RESULT_CHARMED] = {display = "CHARMED", type = HARD},
     [ACTION_RESULT_DISORIENTED] = {display = "DISORIENTED", type = HARD},
     [ACTION_RESULT_LEVITATED] = {display = "LEVITATED", type = HARD},
     [ACTION_RESULT_SILENCED] = {display = "SILENCED", type = SOFT},
 
     -- verified
+    [ACTION_RESULT_CHARMED] = {display = "CHARMED", type = HARD},
     [ACTION_RESULT_FEARED] = {display = "FEARED", type = HARD},
+    [ACTION_RESULT_STUNNED] = {display = "STUNNED", type = HARD},
+
     [ACTION_RESULT_KNOCKBACK] = {display = "KNOCKBACK", type = SOFT},
     [ACTION_RESULT_ROOTED] = {display = "ROOTED", type = IMMOB},
     [ACTION_RESULT_SNARED] = {display = "SNARED", type = SOFT},
     [ACTION_RESULT_STAGGERED] = {display = "STAGGERED", type = SOFT},
-    [ACTION_RESULT_STUNNED] = {display = "STUNNED", type = HARD},
 }
 
 -- "volume" is just the number of times to play it at the same time lol
@@ -119,12 +38,22 @@ local TYPE_OPTIONS = {
     [SOFT] = {color = "FFAA00", showVisual = false},
 }
 
---* EVENT_COMBAT_EVENT (*[ActionResult|#ActionResult]* _result_, *bool* _isError_, *string* _abilityName_, *integer* _abilityGraphic_, *[ActionSlotType|#ActionSlotType]* _abilityActionSlotType_, *string* _sourceName_, *[CombatUnitType|#CombatUnitType]* _sourceType_, *string* _targetName_, *[CombatUnitType|#CombatUnitType]* _targetType_, *integer* _hitValue_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *[DamageType|#DamageType]* _damageType_, *bool* _log_, *integer* _sourceUnitId_, *integer* _targetUnitId_, *integer* _abilityId_, *integer* _overflow_)
-local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
-    local ccResult = CC_RESULTS[result]
-    if (not ccResult) then return end
 
+---------------------------------------------------------------------
+-- CC begin
+---------------------------------------------------------------------
+-- When the player is cced, we also want to know the duration of the
+-- cc, but this isn't provided in the ACTION_RESULT_STUNNED event. So
+-- we'll keep track of the last ability that stunned/feared/etc., and
+-- when the duration is received (should be immediately after), only
+-- then display the visual.
+local recentCCs = {} -- {[abilityId] = {result = ACTION_RESULT_STUNNED, time = 12355436}}
+
+-- Tracking for initial stunned/feared/etc. result
+local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     local options = CC_OPTIONS[result]
+    if (not options) then return end
+
     local typeOptions = TYPE_OPTIONS[options.type]
 
     if (options.display) then
@@ -158,10 +87,34 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
     end
 
     if (typeOptions.showVisual) then
-        Crutch.OnHardCCed(abilityId)
+        -- Only care about getting the duration if we will show the visual
+        recentCCs[abilityId] = {
+            result = result,
+            time = GetGameTimeMilliseconds(),
+        }
+
+        -- Crutch.OnHardCCed(abilityId)
     end
 end
 
+-- Tracking for cc duration
+local function OnEffectGainedDuration(_, _, _, _, _, _, sourceName, _, _, _, hitValue, _, _, _, sourceUnitId, _, abilityId)
+    local cc = recentCCs[abilityId]
+    if (not cc) then return end
+
+    -- Not sure if this can happen
+    if (GetGameTimeMilliseconds() - cc.time > 100) then
+        recentCCs[abilityId] = nil
+        Crutch.dbgOther("|cFF0000CC effect duration received " .. (GetGameTimeMilliseconds() - cc.time) .. "ms after initial?!")
+        return
+    end
+
+    Crutch.OnHardCCed(abilityId, cc.result, hitValue, sourceName)
+end
+
+---------------------------------------------------------------------
+-- CC removal
+---------------------------------------------------------------------
 local function OnStunnedChanged(_, playerStunned)
     if (playerStunned) then
         Crutch.dbgOther("player stunned")
@@ -171,13 +124,22 @@ local function OnStunnedChanged(_, playerStunned)
         Crutch.OnNotStunned()
     end
 end
+-- TODO: enemy died seems to unstun? aspect of terror
 
+
+---------------------------------------------------------------------
+-- Init
+---------------------------------------------------------------------
 function Crutch.InitializeCC()
     -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CC", EVENT_EFFECT_CHANGED, OnEffectChanged)
     -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CC", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG, "player")
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CC", EVENT_COMBAT_EVENT, OnCombatEvent)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CC", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CCDuration", EVENT_COMBAT_EVENT, OnEffectGainedDuration)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CCDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CCDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CCStunnedChanged", EVENT_PLAYER_STUNNED_STATE_CHANGED, OnStunnedChanged)
 end
