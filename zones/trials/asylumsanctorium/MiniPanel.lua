@@ -5,12 +5,13 @@ local C = Crutch.Constants
 local FELMS_NAME = zo_strformat("<<C:1>>", GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD))
 local BOLTS_NAME = "   |c3a9dd6" .. GetAbilityName(95687) .. ": " -- Oppressive Bolts (actual ability is Soul Stained Corruption)
 local CONE_NAME = "   |c64c200" .. GetAbilityName(95545) .. ": " -- Defiling Dye Blast
+local FART_NAME = "   |c8100c2" .. GetAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
 local TELEPORT_NAME = "   |cd63a3a" .. GetAbilityName(99138) .. ": "
 
 local PANEL_LLOTHIS_HEADER_INDEX = 5
 local PANEL_LLOTHIS_BOLTS_INDEX = 6
 local PANEL_LLOTHIS_CONE_INDEX = 7
--- TODO: llothis port?
+local PANEL_LLOTHIS_FART_INDEX = 8
 local PANEL_DUMMY_INDEX = 9
 local PANEL_FELMS_HEADER_INDEX = 10
 local PANEL_FELMS_TELEPORT_INDEX = 11
@@ -54,6 +55,10 @@ local function SetCone(msUntil)
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_CONE_INDEX, CONE_NAME, msUntil, SUBITEM_SCALE)
 end
 
+local function SetFart(msUntil)
+    Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_FART_INDEX, FART_NAME, msUntil, SUBITEM_SCALE)
+end
+
 ------- Felms
 local felmsDormant = false
 local function StartFelmsHeader()
@@ -74,6 +79,7 @@ function AS.Test()
     StartLlothisHeader()
     SetBolts(12000)
     SetCone(20000)
+    SetFart(1000)
     StartFelmsHeader()
     SetTeleport(25000)
 end
@@ -106,6 +112,12 @@ local function OnInterrupted(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, target
     end
 end
 
+local function OnFart()
+    if (not llothisDormant) then
+        SetFart(25000) -- TODO
+    end
+end
+
 -- TODO: is it before or after finishing?
 local function OnCone()
     Crutch.dbgOther("cone begin")
@@ -127,6 +139,7 @@ function AS.OnLlothisDetectedPanel()
     StartLlothisHeader()
     SetBolts(12000) -- TODO
     SetCone(11000) -- TODO
+    SetFart(1000) -- TODO
 end
 
 -- Minis remain dormant for 45s
@@ -163,8 +176,6 @@ end
 -- Overall init
 ---------------------------------------------------------------------
 function AS.RegisterMiniPanel()
-    -- TODO: initial timers
-
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelBoltsBegin", EVENT_COMBAT_EVENT, OnBoltsBegin)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelBoltsBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelBoltsBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 95585)
@@ -180,22 +191,27 @@ function AS.RegisterMiniPanel()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 95545)
 
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT, OnFart)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 99819)
+
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, OnFelmsJump)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 99138)
 end
 
 function AS.UnregisterMiniPanel()
-    -- TODO: all unregisters
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelBoltsBegin", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelBoltsFaded", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelInterrupted", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT)
 
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_HEADER_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_BOLTS_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_CONE_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_FART_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_DUMMY_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_FELMS_HEADER_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_FELMS_TELEPORT_INDEX)

@@ -13,7 +13,7 @@
         <TopLevelControl name="CrutchAlertsCC" mouseEnabled="false" movable="false">
             <AnchorFill/>
             <Controls>
-                <Control name="CrutchAlertsCCJetRight" hidden="true">
+                <Control name="$(parent)JetRight" hidden="true">
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-400" offsetY="-400"/>
                     <Dimensions x="300" y="60"/>
                     <Controls>
@@ -43,7 +43,7 @@
                     </OnInitialized>
                 </Control>
 
-                <Control name="CrutchAlertsCCJetLeft" hidden="true">
+                <Control name="$(parent)JetLeft" hidden="true">
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetY="100"/>
                     <Dimensions x="300" y="60"/>
                     <Controls>
