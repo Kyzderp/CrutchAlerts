@@ -129,7 +129,9 @@ local function GetShieldBar(unitTag)
 end
 
 local function OnVisualAdded(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId)
-    Crutch.dbgOther(zo_strformat("ADDED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>>, sequenceId: <<8>>", unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId))
+    if (unitAttributeVisual ~= ATTRIBUTE_VISUAL_POWER_SHIELDING and unitAttributeVisual ~= ATTRIBUTE_VISUAL_UNWAVERING_POWER) then return end
+
+    Crutch.dbgOther(zo_strformat("ADDED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>>, sequenceId: <<8>>", unitTag, VISUALS[unitAttributeVisual], STAT_TYPES[statType], ATTRIBUTES[attributeType], POWER_TYPES[powerType], value, maxValue, sequenceId))
 
     if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
         local shieldBar = GetShieldBar(unitTag)
@@ -138,12 +140,14 @@ local function OnVisualAdded(_, unitTag, unitAttributeVisual, statType, attribut
         end
 
         shieldBar:SetHidden(false)
-        ZO_StatusBar_SmoothTransition(shieldBar, value, valueMax)
+        ZO_StatusBar_SmoothTransition(shieldBar, value, maxValue)
     end
 end
 
 local function OnVisualRemoved(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId)
-    Crutch.dbgOther(zo_strformat("REMOVED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>>, sequenceId: <<8>>", unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId))
+    if (unitAttributeVisual ~= ATTRIBUTE_VISUAL_POWER_SHIELDING and unitAttributeVisual ~= ATTRIBUTE_VISUAL_UNWAVERING_POWER) then return end
+
+    Crutch.dbgOther(zo_strformat("REMOVED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>>, sequenceId: <<8>>", unitTag, VISUALS[unitAttributeVisual], STAT_TYPES[statType], ATTRIBUTES[attributeType], POWER_TYPES[powerType], value, maxValue, sequenceId))
 
     if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
         local shieldBar = GetShieldBar(unitTag)
@@ -156,7 +160,9 @@ local function OnVisualRemoved(_, unitTag, unitAttributeVisual, statType, attrib
 end
 
 local function OnVisualUpdated(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, oldValue, newValue, oldMaxValue, newMaxValue, sequenceId)
-    Crutch.dbgOther(zo_strformat("UPDATED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>> -> <<8>> / <<9>>, sequenceId: <<10>>", unitTag, unitAttributeVisual, statType, attributeType, powerType, oldValue, newValue, oldMaxValue, newMaxValue, sequenceId))
+    if (unitAttributeVisual ~= ATTRIBUTE_VISUAL_POWER_SHIELDING and unitAttributeVisual ~= ATTRIBUTE_VISUAL_UNWAVERING_POWER) then return end
+
+    Crutch.dbgOther(zo_strformat("UPDATED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>> -> <<8>> / <<9>>, sequenceId: <<10>>", unitTag, VISUALS[unitAttributeVisual], STAT_TYPES[statType], ATTRIBUTES[attributeType], POWER_TYPES[powerType], oldValue, newValue, oldMaxValue, newMaxValue, sequenceId))
 
     if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
         local shieldBar = GetShieldBar(unitTag)

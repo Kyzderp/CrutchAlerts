@@ -5,7 +5,7 @@ local C = Crutch.Constants
 local FELMS_NAME = zo_strformat("<<C:1>>", GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD))
 local BOLTS_NAME = "   |c3a9dd6" .. GetAbilityName(95687) .. ": " -- Oppressive Bolts (actual ability is Soul Stained Corruption)
 local CONE_NAME = "   |c64c200" .. GetAbilityName(95545) .. ": " -- Defiling Dye Blast
-local FART_NAME = "   |c8100c2" .. GetAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
+local FART_NAME = "   |c9447ff" .. GetAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
 local TELEPORT_NAME = "   |cd63a3a" .. GetAbilityName(99138) .. ": "
 
 local PANEL_LLOTHIS_HEADER_INDEX = 5
