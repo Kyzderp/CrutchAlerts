@@ -120,12 +120,28 @@ h5. UnitAttributeVisual
 * EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED (*string* _unitTag_, *[UnitAttributeVisual|#UnitAttributeVisual]* _unitAttributeVisual_, *[DerivedStats|#DerivedStats]* _statType_, *[Attributes|#Attributes]* _attributeType_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *number* _oldValue_, *number* _newValue_, *number* _oldMaxValue_, *number* _newMaxValue_, *integer* _sequenceId_)
 ]]
 
-local function GetShieldBar(unitTag)
+local BARS = {
+    [ATTRIBUTE_VISUAL_POWER_SHIELDING] = "Shield",
+    [ATTRIBUTE_VISUAL_UNWAVERING_POWER] = "Invuln",
+}
+
+local function GetSubBar(unitTag, unitAttributeVisual)
     local index = tonumber(unitTag:sub(5, 5))
     local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
     if (statusBar) then
-        return statusBar:GetNamedChild("Shield")
+        return statusBar:GetNamedChild(BARS[unitAttributeVisual])
     end
+end
+
+local function UpdateBar(unitTag, unitAttributeVisual, hide, value, maxValue)
+    local subBar = GetSubBar(unitTag, barName)
+    if (not subBar) then
+        Crutch.dbgOther(barName .. " bar doesn't exist for " .. unitTag .. "?!")
+        return
+    end
+
+    subBar:SetHidden(hide)
+    ZO_StatusBar_SmoothTransition(subBar, value, maxValue)
 end
 
 local function OnVisualAdded(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId)
@@ -133,15 +149,7 @@ local function OnVisualAdded(_, unitTag, unitAttributeVisual, statType, attribut
 
     Crutch.dbgOther(zo_strformat("ADDED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>>, sequenceId: <<8>>", unitTag, VISUALS[unitAttributeVisual], STAT_TYPES[statType], ATTRIBUTES[attributeType], POWER_TYPES[powerType], value, maxValue, sequenceId))
 
-    if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
-        local shieldBar = GetShieldBar(unitTag)
-        if (not shieldBar) then
-            Crutch.dbgOther("Shield bar doesn't exist for " .. unitTag .. "?!")
-        end
-
-        shieldBar:SetHidden(false)
-        ZO_StatusBar_SmoothTransition(shieldBar, value, maxValue)
-    end
+    UpdateBar(unitTag, unitAttributeVisual, false, value, maxValue)
 end
 
 local function OnVisualRemoved(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId)
@@ -149,14 +157,7 @@ local function OnVisualRemoved(_, unitTag, unitAttributeVisual, statType, attrib
 
     Crutch.dbgOther(zo_strformat("REMOVED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>>, sequenceId: <<8>>", unitTag, VISUALS[unitAttributeVisual], STAT_TYPES[statType], ATTRIBUTES[attributeType], POWER_TYPES[powerType], value, maxValue, sequenceId))
 
-    if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
-        local shieldBar = GetShieldBar(unitTag)
-        if (not shieldBar) then
-            Crutch.dbgOther("Shield bar doesn't exist for " .. unitTag .. "?!")
-        end
-
-        shieldBar:SetHidden(true)
-    end
+    UpdateBar(unitTag, unitAttributeVisual, true, value, maxValue)
 end
 
 local function OnVisualUpdated(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, oldValue, newValue, oldMaxValue, newMaxValue, sequenceId)
@@ -164,15 +165,7 @@ local function OnVisualUpdated(_, unitTag, unitAttributeVisual, statType, attrib
 
     Crutch.dbgOther(zo_strformat("UPDATED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>> -> <<8>> / <<9>>, sequenceId: <<10>>", unitTag, VISUALS[unitAttributeVisual], STAT_TYPES[statType], ATTRIBUTES[attributeType], POWER_TYPES[powerType], oldValue, newValue, oldMaxValue, newMaxValue, sequenceId))
 
-    if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
-        local shieldBar = GetShieldBar(unitTag)
-        if (not shieldBar) then
-            Crutch.dbgOther("Shield bar doesn't exist for " .. unitTag .. "?!")
-        end
-
-        shieldBar:SetHidden(false)
-        ZO_StatusBar_SmoothTransition(shieldBar, newValue, newMaxValue)
-    end
+    UpdateBar(unitTag, unitAttributeVisual, false, newValue, newMaxValue)
 end
 
 function BHB.RegisterVisualizers()
