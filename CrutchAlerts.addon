@@ -86,6 +86,7 @@ zones/dungeons/ShipwrightsRegret.lua
 
 bosshealthbar/BossHealthBar.lua
 bosshealthbar/BossHealthBar.xml
+bosshealthbar/AttributeVisualizers.lua
 bosshealthbar/TrialThresholds.lua
 bosshealthbar/DungeonThresholds.lua
 bosshealthbar/ArenaThresholds.lua

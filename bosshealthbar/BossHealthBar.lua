@@ -693,12 +693,14 @@ function BHB.Initialize()
         HUD_SCENE:AddFragment(bhbFragment)
         HUD_UI_SCENE:AddFragment(bhbFragment)
         RegisterEvents()
+        BHB.RegisterVisualizers()
         OnBossesChanged()
         ShowOrHideBars()
     else
         HUD_SCENE:RemoveFragment(bhbFragment)
         HUD_UI_SCENE:RemoveFragment(bhbFragment)
         UnregisterEvents()
+        BHB.UnregisterVisualizers()
     end
     CrutchAlertsBossHealthBarContainer:SetHidden(not Crutch.savedOptions.bossHealthBar.enabled)
 

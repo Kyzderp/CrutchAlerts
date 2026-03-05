@@ -34,6 +34,10 @@
                     <Anchor point="BOTTOMRIGHT" offsetX="2" offsetY="2"/>
                     <Edge edgeSize="2"/>
                 </Backdrop>
+                <StatusBar name="$(parent)Shield" orientation="VERTICAL" color="220020AA" hidden="true" value="0.3">
+                    <Limits min="0" max="1"/>
+                    <AnchorFill/>
+                </StatusBar>
                 <Label name="$(parent)BossName" color="CCCCCC" text="Exarchanic Yaseyla" verticalAlignment="CENTER" horizontalAlignment="LEFT" hidden="false">
                     <Dimensions x="200" y="20"/>
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="BOTTOM" offsetY="-104"/>
