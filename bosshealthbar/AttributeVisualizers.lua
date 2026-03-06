@@ -157,7 +157,7 @@ local function OnVisualRemoved(_, unitTag, unitAttributeVisual, statType, attrib
 
     Crutch.dbgOther(zo_strformat("REMOVED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>>, sequenceId: <<8>>", unitTag, VISUALS[unitAttributeVisual], STAT_TYPES[statType], ATTRIBUTES[attributeType], POWER_TYPES[powerType], value, maxValue, sequenceId))
 
-    UpdateBar(unitTag, unitAttributeVisual, true, value, maxValue)
+    UpdateBar(unitTag, unitAttributeVisual, false, 0, maxValue)
 end
 
 local function OnVisualUpdated(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, oldValue, newValue, oldMaxValue, newMaxValue, sequenceId)
@@ -166,6 +166,20 @@ local function OnVisualUpdated(_, unitTag, unitAttributeVisual, statType, attrib
     Crutch.dbgOther(zo_strformat("UPDATED <<1>> - visual: <<2>>, statType: <<3>>, attributeType: <<4>>, powerType: <<5>>, value/max: <<6>> / <<7>> -> <<8>> / <<9>>, sequenceId: <<10>>", unitTag, VISUALS[unitAttributeVisual], STAT_TYPES[statType], ATTRIBUTES[attributeType], POWER_TYPES[powerType], oldValue, newValue, oldMaxValue, newMaxValue, sequenceId))
 
     UpdateBar(unitTag, unitAttributeVisual, false, newValue, newMaxValue)
+end
+
+---------------------------------------------------------------------
+-- BHB calling
+---------------------------------------------------------------------
+-- To be called when showing "new" bar, because the shield may already exist, etc.
+function BHB.UpdateAttributeVisuals(unitTag)
+    Crutch.dbgOther("forcing attribute visuals update for " .. unitTag)
+
+    local invulnValue, invulnMax = GetUnitAttributeVisualizerEffectInfo(unitTag, ATTRIBUTE_VISUAL_UNWAVERING_POWER, STAT_MITIGATION, ATTRIBUTE_HEALTH, COMBAT_MECHANIC_FLAGS_HEALTH)
+    UpdateBar(unitTag, ATTRIBUTE_VISUAL_UNWAVERING_POWER, invulnMax == nil, invulnValue or 0, invulnMax or 1)
+
+    local shieldValue, shieldMax = GetUnitAttributeVisualizerEffectInfo(unitTag, ATTRIBUTE_VISUAL_POWER_SHIELDING, STAT_MITIGATION, ATTRIBUTE_HEALTH, COMBAT_MECHANIC_FLAGS_HEALTH)
+    UpdateBar(unitTag, ATTRIBUTE_VISUAL_POWER_SHIELDING, shieldMax == nil, shieldValue or 0, shieldMax or 1)
 end
 
 function BHB.RegisterVisualizers()

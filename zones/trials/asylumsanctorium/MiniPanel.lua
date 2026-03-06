@@ -148,6 +148,7 @@ function AS.OnLlothisDormantPanel(changeType)
         CountDownToLlothis()
         SetBolts(45000)
         SetCone(46000) -- TODO
+        SetFart(46000) -- TODO
         llothisDormant = true
     elseif (changeType == EFFECT_RESULT_FADED) then
         StartLlothisHeader()

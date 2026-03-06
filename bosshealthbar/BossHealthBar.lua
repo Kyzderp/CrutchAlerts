@@ -566,8 +566,12 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
             -- Also need to manually update the boss health to initialize
             local powerValue, powerMax, powerEffectiveMax = GetUnitHealths(unitTag)
             if (showAllForMoving) then
+                -- Example for moving
                 powerValue = math.random()
                 powerMax = 1
+            else
+                -- Real tags
+                BHB.UpdateAttributeVisuals(unitTag)
             end
             dbg(string.format("%s (%s) value: %d max: %d effectiveMax: %d", name, unitTag, powerValue, powerMax, powerEffectiveMax))
             OnPowerUpdate(nil, unitTag, nil, nil, powerValue, powerMax, powerEffectiveMax)

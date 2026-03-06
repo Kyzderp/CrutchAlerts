@@ -38,7 +38,7 @@
                     <Limits min="0" max="1"/>
                     <AnchorFill/>
                 </StatusBar>
-                <StatusBar name="$(parent)Invuln" orientation="VERTICAL" color="77e0c200" hidden="true" value="1" layer="1" level="3">
+                <StatusBar name="$(parent)Invuln" orientation="VERTICAL" color="77f5e898" hidden="true" value="0" layer="1" level="3">
                     <Limits min="0" max="1"/>
                     <AnchorFill/>
                 </StatusBar>
