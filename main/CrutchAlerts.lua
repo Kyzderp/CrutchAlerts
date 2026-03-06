@@ -148,6 +148,12 @@ local defaultOptions = {
     infoPanel = {
         size = 30,
     },
+    cc = {
+        hardSound = SOUNDS.DEATH_RECAP_KILLING_BLOW_SHOWN,
+        hardVolume = 2,
+
+        showVisual = true,
+    },
     asylumsanctorium = {
         dingSelfCone = true,
         dingOthersCone = false,

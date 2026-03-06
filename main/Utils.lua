@@ -92,3 +92,27 @@ end
 local function WithRoles(tank, healer, dps)
     return (tank and bitmasks[LFG_ROLE_TANK] or 0) + (healer and bitmasks[LFG_ROLE_HEAL] or 0) + (dps and bitmasks[LFG_ROLE_DPS] or 0)
 end
+
+-- Converts a value like 6 to {LFG_ROLE_TANK, LFG_ROLE_HEAL}
+local function RoleValueToTable(setting)
+    local tab = {}
+    for role, _ in pairs(bitmasks) do
+        if (IsRoleSet(setting, role)) then
+            table.insert(tab, role)
+        end
+    end
+    return tab
+end
+Crutch.RoleValueToTable = RoleValueToTable
+
+-- Converts a table like {LFG_ROLE_TANK, LFG_ROLE_HEAL} to 6
+local function RoleTableToValue(tab)
+    local tank, healer, dps
+    for _, role in ipairs(tab) do -- Surely there's a nicer way, but lazy atm
+        if (role == LFG_ROLE_TANK) then tank = true end
+        if (role == LFG_ROLE_HEAL) then healer = true end
+        if (role == LFG_ROLE_DPS) then dps = true end
+    end
+    return WithRoles(tank, healer, dps)
+end
+Crutch.RoleTableToValue = RoleTableToValue
