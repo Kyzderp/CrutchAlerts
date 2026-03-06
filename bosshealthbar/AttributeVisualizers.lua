@@ -134,9 +134,9 @@ local function GetSubBar(unitTag, unitAttributeVisual)
 end
 
 local function UpdateBar(unitTag, unitAttributeVisual, hide, value, maxValue)
-    local subBar = GetSubBar(unitTag, barName)
+    local subBar = GetSubBar(unitTag, unitAttributeVisual)
     if (not subBar) then
-        Crutch.dbgOther(barName .. " bar doesn't exist for " .. unitTag .. "?!")
+        Crutch.dbgOther(BARS[unitAttributeVisual] .. " bar doesn't exist for " .. unitTag .. "?!")
         return
     end
 
