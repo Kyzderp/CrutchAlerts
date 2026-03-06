@@ -125,16 +125,16 @@ local BARS = {
     [ATTRIBUTE_VISUAL_UNWAVERING_POWER] = "Invuln",
 }
 
-local function GetSubBar(unitTag, unitAttributeVisual)
+local function GetSubBar(unitTag, barName)
     local index = tonumber(unitTag:sub(5, 5))
     local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
     if (statusBar) then
-        return statusBar:GetNamedChild(BARS[unitAttributeVisual])
+        return statusBar:GetNamedChild(barName)
     end
 end
 
 local function UpdateBar(unitTag, unitAttributeVisual, hide, value, maxValue)
-    local subBar = GetSubBar(unitTag, unitAttributeVisual)
+    local subBar = GetSubBar(unitTag, BARS[unitAttributeVisual])
     if (not subBar) then
         Crutch.dbgOther(BARS[unitAttributeVisual] .. " bar doesn't exist for " .. unitTag .. "?!")
         return
@@ -142,6 +142,12 @@ local function UpdateBar(unitTag, unitAttributeVisual, hide, value, maxValue)
 
     subBar:SetHidden(hide)
     ZO_StatusBar_SmoothTransition(subBar, value, maxValue)
+
+    if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
+        local shieldTextureBar = GetSubBar(unitTag, "ShieldTexture")
+        shieldTextureBar:SetHidden(hide)
+        ZO_StatusBar_SmoothTransition(shieldTextureBar, value, maxValue)
+    end
 end
 
 local function OnVisualAdded(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId)
