@@ -66,9 +66,9 @@ local function UnlockUI(value)
 
     CrutchAlertsBossHealthBarContainer:SetMovable(value)
     CrutchAlertsBossHealthBarContainer:SetMouseEnabled(value)
-    CrutchAlertsBossHealthBarContainer:SetHidden(not value)
     if (value and Crutch.savedOptions.bossHealthBar.enabled) then
         Crutch.BossHealthBar.ShowOrHideBars(true, false)
+        CrutchAlertsBossHealthBarContainer:SetHidden(false)
     else
         Crutch.BossHealthBar.ShowOrHideBars()
     end
@@ -338,6 +338,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.BossHealthBar.Initialize()
                         Crutch.BossHealthBar.UpdateScale()
                         CrutchAlertsBossHealthBarContainer:SetHidden(not value)
+                        Crutch.BossHealthBar.ShowOrHideBars()
                     end,
                     width = "full",
                 },

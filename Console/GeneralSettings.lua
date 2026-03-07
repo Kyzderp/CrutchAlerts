@@ -31,9 +31,9 @@ local function UnlockUI(value)
         Crutch.UpdateSpearsDisplay(0, 0, 0)
     end
 
-    CrutchAlertsBossHealthBarContainer:SetHidden(not value)
     if (value and Crutch.savedOptions.bossHealthBar.enabled) then
         Crutch.BossHealthBar.ShowOrHideBars(true, false)
+        CrutchAlertsBossHealthBarContainer:SetHidden(false)
     else
         Crutch.BossHealthBar.ShowOrHideBars()
     end
