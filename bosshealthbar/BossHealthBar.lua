@@ -561,18 +561,34 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
         if (name and name ~= "") then
             highestTag = i
             local statusBar = GetOrCreateStatusBar(i)
-            statusBar:GetNamedChild("BossName"):SetText(name)
 
             -- Also need to manually update the boss health to initialize
             local powerValue, powerMax, powerEffectiveMax = GetUnitHealths(unitTag)
             if (showAllForMoving) then
                 -- Example for moving
-                powerValue = math.random()
                 powerMax = 1
+
+                -- Show shield and invuln on 1 each only
+                if (i == 4) then
+                    name = "Shielded Boss 4"
+                    powerValue = 0.4
+                    BHB.UpdateBar(unitTag, ATTRIBUTE_VISUAL_POWER_SHIELDING, false, 0.7, 1)
+                    BHB.UpdateBar(unitTag, ATTRIBUTE_VISUAL_UNWAVERING_POWER, true, 0, 1)
+                elseif (i == 5) then
+                    name = "Invulnerable Boss 5"
+                    powerValue = 0.6
+                    BHB.UpdateBar(unitTag, ATTRIBUTE_VISUAL_POWER_SHIELDING, true, 0, 1)
+                    BHB.UpdateBar(unitTag, ATTRIBUTE_VISUAL_UNWAVERING_POWER, false, 1, 1)
+                else
+                    powerValue = math.random()
+                    BHB.UpdateBar(unitTag, ATTRIBUTE_VISUAL_POWER_SHIELDING, true, 0, 1)
+                    BHB.UpdateBar(unitTag, ATTRIBUTE_VISUAL_UNWAVERING_POWER, true, 0, 1)
+                end
             else
                 -- Real tags
                 BHB.UpdateAttributeVisuals(unitTag)
             end
+            statusBar:GetNamedChild("BossName"):SetText(name)
             dbg(string.format("%s (%s) value: %d max: %d effectiveMax: %d", name, unitTag, powerValue, powerMax, powerEffectiveMax))
             OnPowerUpdate(nil, unitTag, nil, nil, powerValue, powerMax, powerEffectiveMax)
         else

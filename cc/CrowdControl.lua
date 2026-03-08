@@ -1,5 +1,14 @@
 local Crutch = CrutchAlerts
 
+local MECHANIC_FLAGS = {
+    [COMBAT_MECHANIC_FLAGS_DAEDRIC] = "DAEDRIC",
+    [COMBAT_MECHANIC_FLAGS_HEALTH] = "HEALTH",
+    [COMBAT_MECHANIC_FLAGS_MAGICKA] = "MAGICKA",
+    [COMBAT_MECHANIC_FLAGS_MOUNT_STAMINA] = "MOUNT_STAMINA",
+    [COMBAT_MECHANIC_FLAGS_STAMINA] = "STAMINA",
+    [COMBAT_MECHANIC_FLAGS_ULTIMATE] = "ULTIMATE",
+    [COMBAT_MECHANIC_FLAGS_WEREWOLF] = "WEREWOLF",
+}
 
 local UNIT_TYPES = {
     [COMBAT_UNIT_TYPE_GROUP] = "GROUP",
@@ -58,7 +67,8 @@ local CC_ABILITY_DATA = {
 local recentCCs = {} -- {[abilityId] = {result = ACTION_RESULT_STUNNED, time = 12355436}}
 
 -- Tracking for initial stunned/feared/etc. result
-local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+-- EVENT_COMBAT_EVENT (*[ActionResult|#ActionResult]* _result_, *bool* _isError_, *string* _abilityName_, *integer* _abilityGraphic_, *[ActionSlotType|#ActionSlotType]* _abilityActionSlotType_, *string* _sourceName_, *[CombatUnitType|#CombatUnitType]* _sourceType_, *string* _targetName_, *[CombatUnitType|#CombatUnitType]* _targetType_, *integer* _hitValue_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *[DamageType|#DamageType]* _damageType_, *bool* _log_, *integer* _sourceUnitId_, *integer* _targetUnitId_, *integer* _abilityId_, *integer* _overflow_)
+local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _, hitValue, powerType, _, _, sourceUnitId, targetUnitId, abilityId)
     local options = CC_OPTIONS[result]
     if (not options) then return end
 
@@ -71,7 +81,7 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
         elseif (sourceType == COMBAT_UNIT_TYPE_GROUP) then
             textColor = "|cFF00FF"
         end
-        Crutch.dbgOther(string.format("cc |c%s%s|r %s%s (%d) %d from %s (%s)",
+        Crutch.dbgOther(string.format("cc |c%s%s|r %s%s (%d) %d from %s (%s) - %s",
             typeOptions.color,
             options.display,
             textColor,
@@ -79,7 +89,8 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
             abilityId,
             hitValue,
             sourceName,
-            UNIT_TYPES[sourceType] or "???"))
+            UNIT_TYPES[sourceType] or "???",
+            MECHANIC_FLAGS[powerType] or "???"))
     end
 
     -- Manual blacklist
@@ -112,7 +123,7 @@ local function OnEffectGainedDuration(_, _, _, _, _, _, sourceName, _, _, _, hit
     local cc = recentCCs[abilityId]
     if (not cc) then return end
 
-    -- Not sure if this can happen
+    -- This *seems* to only happen if it's a "fake" stun
     if (GetGameTimeMilliseconds() - cc.time > 100) then
         recentCCs[abilityId] = nil
         Crutch.dbgOther("|cFF0000CC effect duration received " .. (GetGameTimeMilliseconds() - cc.time) .. "ms after initial?!")

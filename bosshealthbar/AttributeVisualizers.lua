@@ -143,12 +143,13 @@ local function UpdateBar(unitTag, unitAttributeVisual, hide, value, maxValue)
     subBar:SetHidden(hide)
     ZO_StatusBar_SmoothTransition(subBar, value, maxValue)
 
-    if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
-        local shieldTextureBar = GetSubBar(unitTag, "ShieldTexture")
-        shieldTextureBar:SetHidden(hide)
-        ZO_StatusBar_SmoothTransition(shieldTextureBar, value, maxValue)
-    end
+    -- if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
+    --     local shieldTextureBar = GetSubBar(unitTag, "ShieldTexture")
+    --     shieldTextureBar:SetHidden(hide)
+    --     ZO_StatusBar_SmoothTransition(shieldTextureBar, value, maxValue)
+    -- end
 end
+BHB.UpdateBar = UpdateBar
 
 local function OnVisualAdded(_, unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId)
     if (unitAttributeVisual ~= ATTRIBUTE_VISUAL_POWER_SHIELDING and unitAttributeVisual ~= ATTRIBUTE_VISUAL_UNWAVERING_POWER) then return end

@@ -34,16 +34,16 @@
                     <Anchor point="BOTTOMRIGHT" offsetX="2" offsetY="2"/>
                     <Edge edgeSize="2"/>
                 </Backdrop>
-                <StatusBar name="$(parent)Shield" orientation="VERTICAL" color="440094c9" hidden="true" value="0.8" layer="1" level="3">
+                <StatusBar name="$(parent)Shield" orientation="VERTICAL" color="44297DC6" hidden="true" value="0.8" layer="1" level="3">
                     <Limits min="0" max="1"/>
                     <AnchorFill/>
                 </StatusBar>
-                <StatusBar name="$(parent)ShieldTexture" orientation="VERTICAL" color="55034b82" hidden="false" value="0.8" layer="1" level="4" textureFile="/art/fx/texture/gradient_04.dds">
-                    <TextureCoords left="0" right="0.1" top="0" bottom="1" />
+                <!-- <StatusBar name="$(parent)ShieldTexture" orientation="VERTICAL" color="20FFFFFF" hidden="false" value="0.8" layer="1" level="4" textureFile="/art/fx/texture/gradient_04.dds">
+                    <TextureCoords left="0" right="0.1"/>
                     <Limits min="0" max="1"/>
                     <AnchorFill/>
-                </StatusBar>
-                <StatusBar name="$(parent)Invuln" orientation="VERTICAL" color="77f5e898" hidden="false" value="0" layer="1" level="5">
+                </StatusBar> -->
+                <StatusBar name="$(parent)Invuln" orientation="VERTICAL" color="60F2D379" hidden="false" value="0" layer="1" level="5">
                     <Limits min="0" max="1"/>
                     <AnchorFill/>
                 </StatusBar>
