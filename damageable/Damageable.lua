@@ -297,7 +297,7 @@ local SUBTITLE_TIMES = {
 -- Castle Thorn
     ["Lady Thorn"] = {
         -- Blood Twilight
-        ["Well done, Talfyg. You brought me a daughter of Verandis, as requested. She will complement our lord's army well."] = 19.2,
+        ["Well done, Talfyg. You brought me a daughter of Verandis, as requested. She will complement our lord's army well."] = 23.1,
     },
     ["Fürstin Dorn"] = {
         -- Blood Twilight

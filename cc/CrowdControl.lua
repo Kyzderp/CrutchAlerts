@@ -25,15 +25,15 @@ local IMMOB = "immobilize"
 local SOFT = "soft"
 
 local CC_OPTIONS = {
-    [ACTION_RESULT_DISORIENTED] = {display = "DISORIENTED", type = HARD},
-    [ACTION_RESULT_LEVITATED] = {display = "LEVITATED", type = HARD},
-    [ACTION_RESULT_SILENCED] = {display = "SILENCED", type = SOFT},
+    [ACTION_RESULT_DISORIENTED] = {display = "DISORIENTED", type = HARD}, -- mostly removed, but cyro guards still have
+    [ACTION_RESULT_LEVITATED] = {display = "LEVITATED", type = HARD}, -- TODO: test on rilis?
 
     -- verified
     [ACTION_RESULT_CHARMED] = {display = "CHARMED", type = HARD},
     [ACTION_RESULT_FEARED] = {display = "FEARED", type = HARD},
     [ACTION_RESULT_STUNNED] = {display = "STUNNED", type = HARD},
 
+    [ACTION_RESULT_SILENCED] = {display = "SILENCED", type = SOFT},
     [ACTION_RESULT_KNOCKBACK] = {display = "KNOCKBACK", type = SOFT},
     [ACTION_RESULT_ROOTED] = {display = "ROOTED", type = IMMOB},
     [ACTION_RESULT_SNARED] = {display = "SNARED", type = SOFT},
@@ -103,6 +103,7 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
     -- So just stick to strictly enemy NONE for now
     if (sourceType ~= COMBAT_UNIT_TYPE_NONE) then return end
 
+    -- TODO: maybe don't play sound until the effect gained is confirmed?
     if (typeOptions.sound and abilityData ~= SILENT) then
         for i = 1, typeOptions.volume do
             PlaySound(typeOptions.sound)

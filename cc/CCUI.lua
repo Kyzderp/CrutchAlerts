@@ -40,7 +40,7 @@ local function LeaveOnAJetPlane(abilityId, result, duration, sourceName)
         -- end
         -- local text = table.concat(binds, "   ")
 
-        local text = string.format("You're %s by %s!", string.upper(CC_DISPLAY[result]), GetAbilityName(abilityId))
+        local text = string.format("%s by %s!", string.upper(CC_DISPLAY[result]), GetAbilityName(abilityId))
 
         local yOffset = GuiRoot:GetHeight() / 3
 
@@ -90,6 +90,17 @@ local function Jettison()
 
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "HideJets", YEET_DURATION, HideJets)
 end
+
+
+---------------------------------------------------------------------
+-- UI for Normies
+---------------------------------------------------------------------
+--[[
+progress and number for stun duration
+icon and name of ability
+stun type?
+]]
+
 
 ---------------------------------------------------------------------
 -- Common
