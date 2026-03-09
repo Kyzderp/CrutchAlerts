@@ -40,7 +40,7 @@ local function LeaveOnAJetPlane(abilityId, result, duration, sourceName)
         -- end
         -- local text = table.concat(binds, "   ")
 
-        local text = string.format("%s by %s!", string.upper(CC_DISPLAY[result]), GetAbilityName(abilityId))
+        local text = zo_strformat("<<1>> by <<2>>!", string.upper(CC_DISPLAY[result]), GetAbilityName(abilityId))
 
         local yOffset = GuiRoot:GetHeight() / 3
 
@@ -100,6 +100,22 @@ progress and number for stun duration
 icon and name of ability
 stun type?
 ]]
+local function HideCCProgress()
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "HideCC")
+    CrutchAlertsCCUILeft:SetHidden(true)
+end
+
+local function ShowCCProgress(abilityId, result, duration, sourceName)
+    CrutchAlertsCCUILeftType:SetText(string.upper(CC_DISPLAY[result]))
+    CrutchAlertsCCUILeftAbility:SetText(zo_strformat("<<1>>", GetAbilityName(abilityId)))
+    CrutchAlertsCCUILeftIcon:SetTexture(GetAbilityIcon(abilityId))
+    CrutchAlertsCCUILeft:SetHidden(false)
+    CrutchAlertsCCUILeftRadial:StartCooldown(duration, duration, CD_TYPE_RADIAL, CD_TIME_TYPE_TIME_UNTIL, false)
+
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "HideCC", duration, HideCCProgress)
+end
+Crutch.ShowCCProgress = ShowCCProgress
+-- /script CrutchAlerts.ShowCCProgress(85214, ACTION_RESULT_STUNNED, 6000, "Blah")
 
 
 ---------------------------------------------------------------------
@@ -118,6 +134,7 @@ local function OnHardCCed(abilityId, result, duration, sourceName)
         LeaveOnAJetPlane(abilityId, result, duration, sourceName)
     end
 
+    ShowCCProgress(abilityId, result, duration, sourceName)
 end
 Crutch.OnHardCCed = OnHardCCed
 -- /script CrutchAlerts.OnHardCCed()
@@ -130,6 +147,8 @@ local function OnNotStunned()
     if (Crutch.savedOptions.experimental) then
         Jettison()
     end
+
+    HideCCProgress()
 end
 Crutch.OnNotStunned = OnNotStunned
 -- /script CrutchAlerts.OnNotStunned()
