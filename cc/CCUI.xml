@@ -76,17 +76,64 @@
 
                 <Control name="$(parent)UILeft" hidden="true">
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetX="-900"/>
-                    <Dimensions x="300" y="60"/>
+                    <Dimensions x="64" y="64"/>
                     <Controls>
-                        <Cooldown name="$(parent)Radial" radialCooldownClockwise="true" tier="LOW" fillColor="ff0000">
+                        <Backdrop name="$(parent)Backdrop" centerColor="FF000000" edgeColor="FF000000" tier="LOW" level="1">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="78" y="78" />
+                            <Edge edgeSize="0"/>
+                        </Backdrop>
+                        <Cooldown name="$(parent)Radial" radialCooldownClockwise="true" tier="LOW" fillColor="ff0000" level="2">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="74" y="74" />
                         </Cooldown>
-                        <Texture name="$(parent)Icon" tier="MEDIUM">
+                        <Backdrop name="$(parent)InnerBackdrop" centerColor="FF111111" edgeColor="FF111111" tier="MEDIUM" level="1">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="64" y="64" />
+                            <Edge edgeSize="0"/>
+                        </Backdrop>
+                        <Texture name="$(parent)Icon" tier="MEDIUM" level="2">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="64" y="64" />
                         </Texture>
-                        <Label name="$(parent)Number" color="ff0000" text="4" font="$(BOLD_FONT)|32|outline" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="MEDIUM">
+                        <Label name="$(parent)Number" color="ff0000" text="4" font="$(BOLD_FONT)|32|outline" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="MEDIUM" level="3">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="64" y="64" />
+                        </Label>
+                        <Label name="$(parent)Type" color="ff0000" text="STUNNED" font="$(BOLD_FONT)|24|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+                            <Dimensions x="1000"/>
+                            <Anchor point="BOTTOM" relativeTo="$(parent)Radial" relativePoint="TOP"/>
+                        </Label>
+                        <Label name="$(parent)Ability" color="ff0000" text="Crush" font="$(BOLD_FONT)|24|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+                            <Dimensions x="1000"/>
+                            <Anchor point="TOP" relativeTo="$(parent)Radial" relativePoint="BOTTOM"/>
+                        </Label>
+                    </Controls>
+                </Control>
+
+                <Control name="$(parent)UIRight" hidden="true">
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetX="900"/>
+                    <Dimensions x="64" y="64"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="FF000000" edgeColor="FF000000" tier="LOW" level="1">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="78" y="78" />
+                            <Edge edgeSize="0"/>
+                        </Backdrop>
+                        <Cooldown name="$(parent)Radial" radialCooldownClockwise="true" tier="LOW" fillColor="ff0000" level="2">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="74" y="74" />
+                        </Cooldown>
+                        <Backdrop name="$(parent)InnerBackdrop" centerColor="FF111111" edgeColor="FF111111" tier="MEDIUM" level="1">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="64" y="64" />
+                            <Edge edgeSize="0"/>
+                        </Backdrop>
+                        <Texture name="$(parent)Icon" tier="MEDIUM" level="2">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="64" y="64" />
+                        </Texture>
+                        <Label name="$(parent)Number" color="ff0000" text="4" font="$(BOLD_FONT)|32|outline" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="MEDIUM" level="3">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="64" y="64" />
                         </Label>

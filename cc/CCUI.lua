@@ -103,19 +103,37 @@ stun type?
 local function HideCCProgress()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "HideCC")
     CrutchAlertsCCUILeft:SetHidden(true)
+    CrutchAlertsCCUIRight:SetHidden(true)
+    Crutch.UnregisterUpdateListener("CCDuration")
 end
 
-local function ShowCCProgress(abilityId, result, duration, sourceName)
-    CrutchAlertsCCUILeftType:SetText(string.upper(CC_DISPLAY[result]))
-    CrutchAlertsCCUILeftAbility:SetText(zo_strformat("<<1>>", GetAbilityName(abilityId)))
-    CrutchAlertsCCUILeftIcon:SetTexture(GetAbilityIcon(abilityId))
-    CrutchAlertsCCUILeft:SetHidden(false)
-    CrutchAlertsCCUILeftRadial:StartCooldown(duration, duration, CD_TYPE_RADIAL, CD_TIME_TYPE_TIME_UNTIL, false)
+local function ShowCCProgress(control, abilityId, result, duration, sourceName)
+    control:GetNamedChild("Type"):SetText(string.upper(CC_DISPLAY[result]))
+    control:GetNamedChild("Ability"):SetText(zo_strformat("<<1>>", GetAbilityName(abilityId)))
+    control:GetNamedChild("Icon"):SetTexture(GetAbilityIcon(abilityId))
+    control:SetHidden(false)
+    control:GetNamedChild("Radial"):StartCooldown(duration, duration, CD_TYPE_RADIAL, CD_TIME_TYPE_TIME_UNTIL, false)
+end
+
+local function ShowCCProgressAll(abilityId, result, duration, sourceName)
+    ShowCCProgress(CrutchAlertsCCUILeft, abilityId, result, duration, sourceName)
+    ShowCCProgress(CrutchAlertsCCUIRight, abilityId, result, duration, sourceName)
+
+    local targetTime = GetGameTimeMilliseconds() + duration
+    Crutch.RegisterUpdateListener("CCDuration", function()
+        local remaining = targetTime - GetGameTimeMilliseconds()
+        if (remaining < 0) then remaining = 0 end
+        local timeString = string.format("%.1f", remaining / 1000)
+        CrutchAlertsCCUILeftNumber:SetText(timeString)
+        CrutchAlertsCCUIRightNumber:SetText(timeString)
+    end)
 
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "HideCC", duration, HideCCProgress)
 end
-Crutch.ShowCCProgress = ShowCCProgress
--- /script CrutchAlerts.ShowCCProgress(85214, ACTION_RESULT_STUNNED, 6000, "Blah")
+Crutch.ShowCCProgressAll = ShowCCProgressAll
+-- /script CrutchAlerts.ShowCCProgressAll(85214, ACTION_RESULT_STUNNED, 6000, "Kimbrudhil the Songbird")
+-- /script CrutchAlerts.ShowCCProgressAll(121444, ACTION_RESULT_STUNNED, 30000, "Eternal Servant")
+-- /script CrutchAlerts.ShowCCProgressAll(122013, ACTION_RESULT_STUNNED, 1800, "Jone's Gale-Claw")
 
 
 ---------------------------------------------------------------------
@@ -134,7 +152,7 @@ local function OnHardCCed(abilityId, result, duration, sourceName)
         LeaveOnAJetPlane(abilityId, result, duration, sourceName)
     end
 
-    ShowCCProgress(abilityId, result, duration, sourceName)
+    ShowCCProgressAll(abilityId, result, duration, sourceName)
 end
 Crutch.OnHardCCed = OnHardCCed
 -- /script CrutchAlerts.OnHardCCed()
