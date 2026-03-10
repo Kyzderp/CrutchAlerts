@@ -151,10 +151,16 @@ local defaultOptions = {
         size = 30,
     },
     cc = {
-        hardSound = SOUNDS.DEATH_RECAP_KILLING_BLOW_SHOWN,
+        -- hardSound = SOUNDS.DEATH_RECAP_KILLING_BLOW_SHOWN,
+        playSound = true,
         hardVolume = 2,
-
-        showVisual = true,
+        showChat = true,
+        showVisual = true, -- Minimal
+        visualPositionX = -GuiRoot:GetWidth() * 5 / 8,
+        visualPositionY = 0,
+        showObnoxious = true,
+        obnoxiousPositionX = GuiRoot:GetWidth() / 2,
+        obnoxiousPositionY = 0,
     },
     asylumsanctorium = {
         dingSelfCone = true,

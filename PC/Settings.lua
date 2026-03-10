@@ -1098,6 +1098,77 @@ function Crutch:CreateSettingsMenu()
                 },
             },
         },
+-- CC
+        {
+            type = "submenu",
+            name = "Crowd Control",
+            controls = {
+                {
+                    type = "description",
+                    text = "UI, sound, and chat options for hard crowd control (CC) on yourself. This includes CC types that you can typically break free of, such as stuns, fears, and charms.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show info in chat",
+                    tooltip = "Show information about the CC type, source, ability, and duration in your chat when it happens",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cc.showChat end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cc.showChat = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Play sound",
+                    tooltip = "Plays the DeathRecap_KillingBlowShown sound when you get CC'ed",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cc.playSound end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cc.playSound = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "slider",
+                    name = "Sound volume",
+                    tooltip = "The volume of the sound (AKA the number of times to play the sound at the same time)",
+                    min = 1,
+                    max = 10,
+                    step = 1,
+                    default = 2,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.cc.hardVolume end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cc.hardVolume = value
+                    end,
+                    disabled = function() return not Crutch.savedOptions.cc.playSound end,
+                },
+                {
+                    type = "checkbox",
+                    name = "Show icon UI",
+                    tooltip = "Shows a radial progress icon with the stun type, ability, and timer",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cc.showVisual end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cc.showVisual = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show obnoxious UI",
+                    tooltip = "Shows a radial progress icon with the stun type, ability, and timer. Like the icon UI, but with more ANNOYANCE!",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cc.showObnoxious end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cc.showObnoxious = value
+                    end,
+                    width = "full",
+                },
+            },
+        },
 -- misc
         {
             type = "submenu",
