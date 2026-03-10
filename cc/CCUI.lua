@@ -103,6 +103,7 @@ stun type?
 local function HideCCProgress()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "HideCC")
     CrutchAlertsCCUILeft:SetHidden(true)
+    CrutchAlertsCCUIMid:SetHidden(true)
     CrutchAlertsCCUIRight:SetHidden(true)
     Crutch.UnregisterUpdateListener("CCDuration")
 end
@@ -111,12 +112,18 @@ local function ShowCCProgress(control, abilityId, result, duration, sourceName)
     control:GetNamedChild("Type"):SetText(string.upper(CC_DISPLAY[result]))
     control:GetNamedChild("Ability"):SetText(zo_strformat("<<1>>", GetAbilityName(abilityId)))
     control:GetNamedChild("Icon"):SetTexture(GetAbilityIcon(abilityId))
+    local source = control:GetNamedChild("Source")
+    if (source) then
+        source:SetText(zo_strformat("<<1>>", sourceName))
+    end
+
     control:SetHidden(false)
     control:GetNamedChild("Radial"):StartCooldown(duration, duration, CD_TYPE_RADIAL, CD_TIME_TYPE_TIME_UNTIL, false)
 end
 
 local function ShowCCProgressAll(abilityId, result, duration, sourceName)
     ShowCCProgress(CrutchAlertsCCUILeft, abilityId, result, duration, sourceName)
+    ShowCCProgress(CrutchAlertsCCUIMid, abilityId, result, duration, sourceName)
     ShowCCProgress(CrutchAlertsCCUIRight, abilityId, result, duration, sourceName)
 
     local targetTime = GetGameTimeMilliseconds() + duration
@@ -125,6 +132,7 @@ local function ShowCCProgressAll(abilityId, result, duration, sourceName)
         if (remaining < 0) then remaining = 0 end
         local timeString = string.format("%.1f", remaining / 1000)
         CrutchAlertsCCUILeftNumber:SetText(timeString)
+        CrutchAlertsCCUIMidNumber:SetText(timeString)
         CrutchAlertsCCUIRightNumber:SetText(timeString)
     end)
 

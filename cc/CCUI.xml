@@ -83,7 +83,7 @@
                             <Dimensions x="78" y="78" />
                             <Edge edgeSize="0"/>
                         </Backdrop>
-                        <Cooldown name="$(parent)Radial" radialCooldownClockwise="true" tier="LOW" fillColor="ff0000" level="2">
+                        <Cooldown name="$(parent)Radial" radialCooldownClockwise="true" tier="LOW" fillColor="ff6600" level="2">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="74" y="74" />
                         </Cooldown>
@@ -96,17 +96,59 @@
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="64" y="64" />
                         </Texture>
-                        <Label name="$(parent)Number" color="ff0000" text="4" font="$(BOLD_FONT)|32|outline" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="MEDIUM" level="3">
+                        <Label name="$(parent)Number" color="ff6600" text="4" font="$(BOLD_FONT)|32|outline" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="MEDIUM" level="3">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="64" y="64" />
                         </Label>
-                        <Label name="$(parent)Type" color="ff0000" text="STUNNED" font="$(BOLD_FONT)|24|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+                        <Label name="$(parent)Type" color="ff6600" text="STUNNED" font="$(BOLD_FONT)|24|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="CENTER">
                             <Dimensions x="1000"/>
                             <Anchor point="BOTTOM" relativeTo="$(parent)Radial" relativePoint="TOP"/>
                         </Label>
-                        <Label name="$(parent)Ability" color="ff0000" text="Crush" font="$(BOLD_FONT)|24|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+                        <Label name="$(parent)Ability" color="ff6600" text="Crush" font="$(BOLD_FONT)|24|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="CENTER">
                             <Dimensions x="1000"/>
                             <Anchor point="TOP" relativeTo="$(parent)Radial" relativePoint="BOTTOM"/>
+                        </Label>
+                    </Controls>
+                </Control>
+
+                <Control name="$(parent)UIMid" hidden="true">
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetX="0"/>
+                    <Dimensions x="64" y="64"/>
+                    <Dimensions x="64" y="64"/>
+                    <Controls>
+                        <Backdrop name="$(parent)Backdrop" centerColor="FF000000" edgeColor="FF000000" tier="LOW" level="1">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="78" y="78" />
+                            <Edge edgeSize="0"/>
+                        </Backdrop>
+                        <Cooldown name="$(parent)Radial" radialCooldownClockwise="true" tier="LOW" fillColor="ff6600" level="2">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="74" y="74" />
+                        </Cooldown>
+                        <Backdrop name="$(parent)InnerBackdrop" centerColor="FF111111" edgeColor="FF111111" tier="MEDIUM" level="1">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="64" y="64" />
+                            <Edge edgeSize="0"/>
+                        </Backdrop>
+                        <Texture name="$(parent)Icon" tier="MEDIUM" level="2">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="64" y="64" />
+                        </Texture>
+                        <Label name="$(parent)Number" color="ff6600" text="4" font="$(BOLD_FONT)|32|outline" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="MEDIUM" level="3">
+                            <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                            <Dimensions x="64" y="64" />
+                        </Label>
+                        <Label name="$(parent)Type" color="ff6600" text="STUNNED" font="$(BOLD_FONT)|72|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="RIGHT">
+                            <Dimensions x="1000"/>
+                            <Anchor point="RIGHT" relativeTo="$(parent)Radial" relativePoint="LEFT" offsetX="-20"/>
+                        </Label>
+                        <Label name="$(parent)Ability" color="ff6600" text="Crush" font="$(BOLD_FONT)|32|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="LEFT">
+                            <Dimensions x="1000"/>
+                            <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Radial" relativePoint="RIGHT" offsetX="12"/>
+                        </Label>
+                        <Label name="$(parent)Source" color="ff6600" text="Eternal Servant" font="$(BOLD_FONT)|32|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="LEFT">
+                            <Dimensions x="1000"/>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Radial" relativePoint="RIGHT" offsetX="12"/>
                         </Label>
                     </Controls>
                 </Control>
@@ -120,7 +162,7 @@
                             <Dimensions x="78" y="78" />
                             <Edge edgeSize="0"/>
                         </Backdrop>
-                        <Cooldown name="$(parent)Radial" radialCooldownClockwise="true" tier="LOW" fillColor="ff0000" level="2">
+                        <Cooldown name="$(parent)Radial" radialCooldownClockwise="true" tier="LOW" fillColor="ff6600" level="2">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="74" y="74" />
                         </Cooldown>
@@ -133,17 +175,21 @@
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="64" y="64" />
                         </Texture>
-                        <Label name="$(parent)Number" color="ff0000" text="4" font="$(BOLD_FONT)|32|outline" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="MEDIUM" level="3">
+                        <Label name="$(parent)Number" color="ff6600" text="4" font="$(BOLD_FONT)|32|outline" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="MEDIUM" level="3">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="64" y="64" />
                         </Label>
-                        <Label name="$(parent)Type" color="ff0000" text="STUNNED" font="$(BOLD_FONT)|24|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+                        <Label name="$(parent)Type" color="ff6600" text="STUNNED" font="$(BOLD_FONT)|42|soft-shadow-thick" verticalAlignment="TOP" horizontalAlignment="LEFT">
                             <Dimensions x="1000"/>
-                            <Anchor point="BOTTOM" relativeTo="$(parent)Radial" relativePoint="TOP"/>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Backdrop" relativePoint="TOPRIGHT" offsetX="10" offsetY="-8"/>
                         </Label>
-                        <Label name="$(parent)Ability" color="ff0000" text="Crush" font="$(BOLD_FONT)|24|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+                        <Label name="$(parent)Source" color="ff6600" text="Eternal Servant" font="$(BOLD_FONT)|16|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="LEFT">
                             <Dimensions x="1000"/>
-                            <Anchor point="TOP" relativeTo="$(parent)Radial" relativePoint="BOTTOM"/>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Type" relativePoint="BOTTOMLEFT" offsetY="-8"/>
+                        </Label>
+                        <Label name="$(parent)Ability" color="ff6600" text="Crush" font="$(BOLD_FONT)|16|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="LEFT">
+                            <Dimensions x="1000"/>
+                            <Anchor point="TOPLEFT" relativeTo="$(parent)Source" relativePoint="BOTTOMLEFT"/>
                         </Label>
                     </Controls>
                 </Control>
