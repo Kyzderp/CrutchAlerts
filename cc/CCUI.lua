@@ -102,9 +102,8 @@ stun type?
 ]]
 local function HideCCProgress()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "HideCC")
-    CrutchAlertsCCUILeft:SetHidden(true)
-    CrutchAlertsCCUIMid:SetHidden(true)
-    CrutchAlertsCCUIRight:SetHidden(true)
+    CrutchAlertsCCUIMin:SetHidden(true)
+    CrutchAlertsCCUIObnoxious:SetHidden(true)
     Crutch.UnregisterUpdateListener("CCDuration")
 end
 
@@ -122,18 +121,16 @@ local function ShowCCProgress(control, abilityId, result, duration, sourceName)
 end
 
 local function ShowCCProgressAll(abilityId, result, duration, sourceName)
-    ShowCCProgress(CrutchAlertsCCUILeft, abilityId, result, duration, sourceName)
-    ShowCCProgress(CrutchAlertsCCUIMid, abilityId, result, duration, sourceName)
-    ShowCCProgress(CrutchAlertsCCUIRight, abilityId, result, duration, sourceName)
+    ShowCCProgress(CrutchAlertsCCUIMin, abilityId, result, duration, sourceName)
+    ShowCCProgress(CrutchAlertsCCUIObnoxious, abilityId, result, duration, sourceName)
 
     local targetTime = GetGameTimeMilliseconds() + duration
     Crutch.RegisterUpdateListener("CCDuration", function()
         local remaining = targetTime - GetGameTimeMilliseconds()
         if (remaining < 0) then remaining = 0 end
         local timeString = string.format("%.1f", remaining / 1000)
-        CrutchAlertsCCUILeftNumber:SetText(timeString)
-        CrutchAlertsCCUIMidNumber:SetText(timeString)
-        CrutchAlertsCCUIRightNumber:SetText(timeString)
+        CrutchAlertsCCUIMinNumber:SetText(timeString)
+        CrutchAlertsCCUIObnoxiousNumber:SetText(timeString)
     end)
 
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "HideCC", duration, HideCCProgress)
