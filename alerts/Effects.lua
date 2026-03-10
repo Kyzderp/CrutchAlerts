@@ -35,7 +35,7 @@ local effectData = {
         },
         -- Corrosive Armor
         [17878] = {
-            format = "|c64c200<<C:1>>|r",
+            format = "|cff6600<<C:1>>|r",
             filters = {
                 [REGISTER_FILTER_UNIT_TAG] = "player",
             },

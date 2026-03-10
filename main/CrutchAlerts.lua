@@ -77,8 +77,10 @@ local defaultOptions = {
         showDamageable = true,
         consolidateDamageableInInfoPanel = false,
         showRaidDiag = false,
+
         beginHideArcanist = false, -- has been changed to be its own thing, reusing the setting
         showJBeam = true,
+        showEngulfing = true,
 
         showGeneralAlerts = true, -- extra manual toggle for people who don't like to see general alerts in overland etc
 

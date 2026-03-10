@@ -143,6 +143,20 @@ function Crutch.RegisterFatecarver()
             EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, abilityId)
         end
     end
+
+    -- bad breath
+    if (Crutch.savedOptions.general.showEngulfing) then
+        Crutch.dbgOther("Registering Engulfing Dragonfire")
+        local eventName = Crutch.name .. "Engulfing"
+
+        EVENT_MANAGER:RegisterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, OnFatecarver)
+        EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- self only
+        EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 20930)
+        EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+
+        EVENT_MANAGER:RegisterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, OnBeamFaded)
+        EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 20930)
+    end
 end
 
 -- For use from settings when toggling
@@ -152,8 +166,12 @@ function Crutch.UnregisterFatecarver()
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FC" .. tostring(abilityId) .. "Begin", EVENT_COMBAT_EVENT)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FC" .. tostring(abilityId) .. "Faded", EVENT_COMBAT_EVENT)
     end
+
     for abilityId, _ in pairs(jbeamIds) do
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JB" .. tostring(abilityId) .. "Begin", EVENT_COMBAT_EVENT)
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JB" .. tostring(abilityId) .. "Faded", EVENT_EFFECT_CHANGED)
     end
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EngulfingBegin", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EngulfingFaded", EVENT_EFFECT_CHANGED)
 end

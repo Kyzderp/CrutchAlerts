@@ -33,6 +33,9 @@ Crutch.format = {
     [63044] = 900, -- Radiant Glory
     [63046] = 900, -- Radiant Oppression
 
+-- DK
+    [20930] = 100, -- Engulfing Dragonfire
+
 ---------------------------------------------------------------------
 -- Trials
 

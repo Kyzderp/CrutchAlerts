@@ -249,6 +249,19 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show dragonknight Engulfing Dragonfire",
+                    tooltip = "Show an \"alert\" timer for your Engulfing Dragonfire channeled cast",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.showEngulfing end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showEngulfing = value
+                        Crutch.UnregisterFatecarver()
+                        Crutch.RegisterFatecarver()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show templar Radiant Destruction",
                     tooltip = "Show \"alert\" timers for Radiant Destruction and morphs",
                     default = true,
