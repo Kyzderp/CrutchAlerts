@@ -40,9 +40,8 @@ local CC_OPTIONS = {
     [ACTION_RESULT_STAGGERED] = {display = "STAGGERED", type = SOFT},
 }
 
--- "volume" is just the number of times to play it at the same time lol
 local TYPE_OPTIONS = {
-    [HARD] = {color = "FF0000", showVisual = true, sound = SOUNDS.DEATH_RECAP_KILLING_BLOW_SHOWN, volume = 2},
+    [HARD] = {color = "FF0000", showVisual = true, sound = SOUNDS.DEATH_RECAP_KILLING_BLOW_SHOWN},
     [IMMOB] = {color = "FF5500", showVisual = false},
     [SOFT] = {color = "FFAA00", showVisual = false},
 }
@@ -103,15 +102,8 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
     -- So just stick to strictly enemy NONE for now
     if (sourceType ~= COMBAT_UNIT_TYPE_NONE) then return end
 
-    -- TODO: maybe don't play sound until the effect gained is confirmed?
-    if (typeOptions.sound and abilityData ~= SILENT) then
-        for i = 1, typeOptions.volume do
-            PlaySound(typeOptions.sound)
-        end
-    end
-
-    if (typeOptions.showVisual) then
-        -- Only care about getting the duration if we will show the visual
+    if (options.type == HARD) then
+        -- Only care about getting the duration for hard ccs
         recentCCs[abilityId] = {
             result = result,
             time = GetGameTimeMilliseconds(),
@@ -125,13 +117,23 @@ local function OnEffectGainedDuration(_, _, _, _, _, _, sourceName, _, _, _, hit
     if (not cc) then return end
 
     -- This *seems* to only happen if it's a "fake" stun
+    -- TODO: Olms' Thundering Tailslap seems to send the gained first... maybe just ignore it then?
     if (GetGameTimeMilliseconds() - cc.time > 100) then
         recentCCs[abilityId] = nil
         Crutch.dbgOther("|cFF0000CC effect duration received " .. (GetGameTimeMilliseconds() - cc.time) .. "ms after initial?!")
         return
     end
 
+    -- Only show UI and play sound after the effect gained is confirmed
     Crutch.OnHardCCed(abilityId, cc.result, hitValue, sourceName)
+
+    local typeOptions = TYPE_OPTIONS[HARD]
+    local abilityData = CC_ABILITY_DATA[abilityId]
+    if (typeOptions.sound and abilityData ~= SILENT and Crutch.savedOptions.cc.playSound) then
+        for i = 1, Crutch.savedOptions.cc.hardVolume do
+            PlaySound(typeOptions.sound)
+        end
+    end
 end
 
 ---------------------------------------------------------------------

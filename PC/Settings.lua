@@ -1105,7 +1105,7 @@ function Crutch:CreateSettingsMenu()
             controls = {
                 {
                     type = "description",
-                    text = "UI, sound, and chat options for hard crowd control (CC) on yourself. This includes CC types that you can typically break free of, such as stuns, fears, and charms.",
+                    text = "UI, sound, and chat options for hard crowd control (CC) on yourself. This includes CC types that you can typically break free of, such as stuns, fears, and charms.\nInspired by Miat's CC Tracker.",
                     width = "full",
                 },
                 {
@@ -1159,7 +1159,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Show obnoxious UI",
-                    tooltip = "Shows a radial progress icon with the stun type, ability, and timer. Like the icon UI, but with more ANNOYANCE!",
+                    tooltip = "Shows a radial progress icon with the stun type, ability, and timer. Like the icon UI, but bigger!",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.cc.showObnoxious end,
                     setFunc = function(value)

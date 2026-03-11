@@ -26,20 +26,6 @@ end
 local FLIGHT_DURATION = 6000
 local function LeaveOnAJetPlane(abilityId, result, duration, sourceName)
     if (jetsDisplaying ~= 1) then -- If already in horizontal, don't restart it (but do extend the hide)
-        -- local binds = {}
-        -- local layerIndex, categoryIndex, actionIndex = GetActionIndicesFromName("SPECIAL_MOVE_INTERRUPT")
-        -- local foundFirstBind = false
-        -- for i = 1, 4 do
-        --     local keyCode, mod1, mod2, mod3, mod4 = GetActionBindingInfo(layerIndex, categoryIndex, actionIndex, i)
-        --     if (keyCode and keyCode ~= KEY_INVALID) then
-        --         local keybindString = ZO_Keybindings_GetBindingStringFromKeys(keyCode, mod1, mod2, mod3, mod4, nil, KEYBIND_TEXTURE_OPTIONS_EMBED_MARKUP)
-        --         table.insert(binds, keybindString)
-        --         if (foundFirstBind) then break end -- Only show first 2 found binds
-        --         foundFirstBind = true
-        --     end
-        -- end
-        -- local text = table.concat(binds, "   ")
-
         local text = zo_strformat("<<1>> by <<2>>!", string.upper(CC_DISPLAY[result]), GetAbilityName(abilityId))
 
         local yOffset = GuiRoot:GetHeight() / 3
@@ -121,8 +107,17 @@ local function ShowCCProgress(control, abilityId, result, duration, sourceName)
 end
 
 local function ShowCCProgressAll(abilityId, result, duration, sourceName)
-    ShowCCProgress(CrutchAlertsCCUIMin, abilityId, result, duration, sourceName)
-    ShowCCProgress(CrutchAlertsCCUIObnoxious, abilityId, result, duration, sourceName)
+    local enabled = false
+    if (Crutch.savedOptions.cc.showVisual) then
+        enabled = true
+        ShowCCProgress(CrutchAlertsCCUIMin, abilityId, result, duration, sourceName)
+    end
+    if (Crutch.savedOptions.cc.showObnoxious) then
+        enabled = true
+        ShowCCProgress(CrutchAlertsCCUIObnoxious, abilityId, result, duration, sourceName)
+    end
+
+    if (not enabled) then return end
 
     local targetTime = GetGameTimeMilliseconds() + duration
     Crutch.RegisterUpdateListener("CCDuration", function()
@@ -145,13 +140,14 @@ Crutch.ShowCCProgressAll = ShowCCProgressAll
 -- Common
 ---------------------------------------------------------------------
 local function OnHardCCed(abilityId, result, duration, sourceName)
-    -- TODO: setting
-    Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAby |c00FFFF<<2>>|r|cAAAAAA's |c00FFFF<<3>> |cAAAAAA(<<4>>) for <<5>>ms",
-        CC_DISPLAY[result],
-        sourceName,
-        GetAbilityName(abilityId),
-        abilityId,
-        duration))
+    if (Crutch.savedOptions.cc.showChat) then
+        Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAby |c00FFFF<<2>>|r|cAAAAAA's |c00FFFF<<3>> |cAAAAAA(<<4>>) for <<5>>ms",
+            CC_DISPLAY[result],
+            sourceName,
+            GetAbilityName(abilityId),
+            abilityId,
+            duration))
+    end
 
     if (Crutch.savedOptions.experimental) then
         LeaveOnAJetPlane(abilityId, result, duration, sourceName)
