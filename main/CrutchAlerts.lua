@@ -156,10 +156,10 @@ local defaultOptions = {
         hardVolume = 2,
         showChat = true,
         showVisual = true, -- Minimal
-        visualPositionX = -GuiRoot:GetWidth() * 5 / 8,
+        visualPositionX = -GuiRoot:GetWidth() * 3 / 8 - 64,
         visualPositionY = 0,
         showObnoxious = true,
-        obnoxiousPositionX = GuiRoot:GetWidth() / 2,
+        obnoxiousPositionX = GuiRoot:GetWidth() * 3 / 8,
         obnoxiousPositionY = 0,
     },
     asylumsanctorium = {
@@ -348,7 +348,7 @@ local crutchLFCPFilter = nil
 function CrutchAlerts:SavePosition()
     local x, y = CrutchAlertsContainer:GetCenter()
     local oX, oY = GuiRoot:GetCenter()
-    -- x is the offset from the center
+    -- x is the offset from the center for this one because idk
     Crutch.savedOptions.display.x = x - oX
     Crutch.savedOptions.display.y = y
 
@@ -378,6 +378,13 @@ function CrutchAlerts:SavePosition()
     y = CrutchAlertsInfoPanel:GetTop()
     Crutch.savedOptions.infoPanelDisplay.x = x - oX
     Crutch.savedOptions.infoPanelDisplay.y = y - oY
+
+    x, y = CrutchAlertsCCUIMin:GetCenter()
+    Crutch.savedOptions.cc.visualPositionX = x - oX
+    Crutch.savedOptions.cc.visualPositionY = y - oY
+    x, y = CrutchAlertsCCUIObnoxious:GetCenter()
+    Crutch.savedOptions.cc.obnoxiousPositionX = x - oX
+    Crutch.savedOptions.cc.obnoxiousPositionY = y - oY
 end
 
 ---------------------------------------------------------------------

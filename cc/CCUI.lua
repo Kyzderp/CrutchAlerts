@@ -171,3 +171,15 @@ local function OnNotStunned()
 end
 Crutch.OnNotStunned = OnNotStunned
 -- /script CrutchAlerts.OnNotStunned()
+
+
+---------------------------------------------------------------------
+-- Init
+---------------------------------------------------------------------
+function Crutch.InitializeCCUI()
+    CrutchAlertsCCUIMin:ClearAnchors()
+    CrutchAlertsCCUIMin:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.visualPositionX, Crutch.savedOptions.cc.visualPositionY)
+
+    CrutchAlertsCCUIObnoxious:ClearAnchors()
+    CrutchAlertsCCUIObnoxious:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.obnoxiousPositionX, Crutch.savedOptions.cc.obnoxiousPositionY)
+end

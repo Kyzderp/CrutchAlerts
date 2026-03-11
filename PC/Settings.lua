@@ -91,6 +91,11 @@ local function UnlockUI(value)
         Crutch.InfoPanel.RemoveLine(998)
         Crutch.InfoPanel.StopCount(999)
     end
+
+    CrutchAlertsCCUIMin:SetMouseEnabled(value)
+    CrutchAlertsCCUIMin:SetHidden(not value)
+    CrutchAlertsCCUIObnoxious:SetMouseEnabled(value)
+    CrutchAlertsCCUIObnoxious:SetHidden(not value)
 end
 Crutch.UnlockUI = UnlockUI
 

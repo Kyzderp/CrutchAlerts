@@ -166,4 +166,6 @@ function Crutch.InitializeCC()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CCDuration", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CCStunnedChanged", EVENT_PLAYER_STUNNED_STATE_CHANGED, OnStunnedChanged)
+
+    Crutch.InitializeCCUI()
 end
