@@ -92,10 +92,12 @@ local function UnlockUI(value)
         Crutch.InfoPanel.StopCount(999)
     end
 
-    CrutchAlertsCCUIMin:SetMouseEnabled(value)
-    CrutchAlertsCCUIMin:SetHidden(not value)
-    CrutchAlertsCCUIObnoxious:SetMouseEnabled(value)
-    CrutchAlertsCCUIObnoxious:SetHidden(not value)
+    local showMin = value and Crutch.savedOptions.cc.showVisual
+    CrutchAlertsCCUIMin:SetMouseEnabled(showMin)
+    CrutchAlertsCCUIMin:SetHidden(not showMin)
+    local showObnoxious = value and Crutch.savedOptions.cc.showObnoxious
+    CrutchAlertsCCUIObnoxious:SetMouseEnabled(showObnoxious)
+    CrutchAlertsCCUIObnoxious:SetHidden(not showObnoxious)
 end
 Crutch.UnlockUI = UnlockUI
 
@@ -1115,12 +1117,23 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show info in chat",
-                    tooltip = "Show information about the CC type, source, ability, and duration in your chat when it happens",
+                    name = "Show icon UI",
+                    tooltip = "Shows a radial progress icon with the stun type, ability, and timer",
                     default = true,
-                    getFunc = function() return Crutch.savedOptions.cc.showChat end,
+                    getFunc = function() return Crutch.savedOptions.cc.showVisual end,
                     setFunc = function(value)
-                        Crutch.savedOptions.cc.showChat = value
+                        Crutch.savedOptions.cc.showVisual = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show obnoxious UI",
+                    tooltip = "Shows a radial progress icon with the stun type, ability, and timer. Like the icon UI, but bigger!",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cc.showObnoxious end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cc.showObnoxious = value
                     end,
                     width = "full",
                 },
@@ -1142,7 +1155,7 @@ function Crutch:CreateSettingsMenu()
                     min = 1,
                     max = 10,
                     step = 1,
-                    default = 2,
+                    default = Crutch.defaultOptions.cc.hardVolume,
                     width = "full",
                     getFunc = function() return Crutch.savedOptions.cc.hardVolume end,
                     setFunc = function(value)
@@ -1152,23 +1165,12 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show icon UI",
-                    tooltip = "Shows a radial progress icon with the stun type, ability, and timer",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.cc.showVisual end,
+                    name = "Show info in chat",
+                    tooltip = "Show information about the CC type, source, ability, and duration in your chat when it happens",
+                    default = Crutch.defaultOptions.cc.showChat,
+                    getFunc = function() return Crutch.savedOptions.cc.showChat end,
                     setFunc = function(value)
-                        Crutch.savedOptions.cc.showVisual = value
-                    end,
-                    width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "Show obnoxious UI",
-                    tooltip = "Shows a radial progress icon with the stun type, ability, and timer. Like the icon UI, but bigger!",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.cc.showObnoxious end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.cc.showObnoxious = value
+                        Crutch.savedOptions.cc.showChat = value
                     end,
                     width = "full",
                 },

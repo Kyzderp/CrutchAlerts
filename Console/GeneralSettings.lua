@@ -518,6 +518,142 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
     })
 
     ---------------------------------------------------------------------
+    -- CC
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Crowd Control Settings",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show icon UI",
+        tooltip = "Shows a radial progress icon with the stun type, ability, and timer, for hard crowd control (CC) on yourself. This includes CC types that you can typically break free of, such as stuns, fears, and charms.\nInspired by Miat's CC Tracker.",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cc.showVisual end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.showVisual = value
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Icon UI position X",
+        tooltip = "The horizontal position of the CC icon",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.cc.visualPositionX,
+        getFunction = function() return Crutch.savedOptions.cc.visualPositionX end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.visualPositionX = value
+            CrutchAlertsCCUIMin:ClearAnchors()
+            CrutchAlertsCCUIMin:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.visualPositionX, Crutch.savedOptions.cc.visualPositionY)
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Icon UI position Y",
+        tooltip = "The vertical position of the CC icon",
+        min = - GuiRoot:GetHeight() / 2,
+        max = GuiRoot:GetHeight() / 2,
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.cc.visualPositionY,
+        getFunction = function() return Crutch.savedOptions.cc.visualPositionY end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.visualPositionY = value
+            CrutchAlertsCCUIMin:ClearAnchors()
+            CrutchAlertsCCUIMin:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.visualPositionX, Crutch.savedOptions.cc.visualPositionY)
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show obnoxious UI",
+        tooltip = "Shows a radial progress icon with the stun type, ability, and timer, for hard crowd control (CC) on yourself. Like the icon UI, but bigger!",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cc.showObnoxious end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.showObnoxious = value
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Obnoxious UI position X",
+        tooltip = "The horizontal position of the obnoxious CC icon",
+        min = - GuiRoot:GetWidth() / 2,
+        max = GuiRoot:GetWidth() / 2,
+        step = GuiRoot:GetWidth() / 64,
+        default = Crutch.defaultOptions.cc.obnoxiousPositionX,
+        getFunction = function() return Crutch.savedOptions.cc.obnoxiousPositionX end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.obnoxiousPositionX = value
+            CrutchAlertsCCUIObnoxious:ClearAnchors()
+            CrutchAlertsCCUIObnoxious:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.obnoxiousPositionX, Crutch.savedOptions.cc.obnoxiousPositionY)
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Obnoxious UI position Y",
+        tooltip = "The vertical position of the obnoxious CC icon",
+        min = - GuiRoot:GetHeight() / 2,
+        max = GuiRoot:GetHeight() / 2,
+        step = GuiRoot:GetHeight() / 64,
+        default = Crutch.defaultOptions.cc.obnoxiousPositionY,
+        getFunction = function() return Crutch.savedOptions.cc.obnoxiousPositionY end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.obnoxiousPositionY = value
+            CrutchAlertsCCUIObnoxious:ClearAnchors()
+            CrutchAlertsCCUIObnoxious:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.obnoxiousPositionX, Crutch.savedOptions.cc.obnoxiousPositionY)
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Play sound when CC'ed",
+        tooltip = "Plays the DeathRecap_KillingBlowShown sound when you get CC'ed",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cc.playSound end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.playSound = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Sound volume",
+        tooltip = "The volume of the sound (AKA the number of times to play the sound at the same time)",
+        min = 1,
+        max = 10,
+        step = 1,
+        default = Crutch.defaultOptions.cc.hardVolume,
+        getFunction = function() return Crutch.savedOptions.cc.hardVolume end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.alertScale = hardVolume
+        end,
+        disable = function() return not Crutch.savedOptions.cc.playSound end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show info in chat",
+        tooltip = "Show information about the CC type, source, ability, and duration in your chat when it happensd",
+        default = Crutch.defaultOptions.cc.showChat,
+        getFunction = function() return Crutch.savedOptions.cc.showChat end,
+        setFunction = function(value)
+            Crutch.savedOptions.cc.showChat = value
+        end,
+    })
+
+    ---------------------------------------------------------------------
     -- blacklist IDs
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
