@@ -156,10 +156,10 @@ local defaultOptions = {
         hardVolume = 2,
         showChat = true,
         showVisual = true, -- Minimal
-        visualPositionX = -GuiRoot:GetWidth() * 3 / 8 - 64,
+        visualPositionX = -GuiRoot:GetWidth() * 7 / 16,
         visualPositionY = 0,
         showObnoxious = true,
-        obnoxiousPositionX = GuiRoot:GetWidth() * 3 / 8,
+        obnoxiousPositionX = GuiRoot:GetWidth() * 5 / 16,
         obnoxiousPositionY = 0,
     },
     asylumsanctorium = {

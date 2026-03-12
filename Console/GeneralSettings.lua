@@ -50,6 +50,14 @@ local function UnlockUI(value)
         Crutch.InfoPanel.RemoveLine(998)
         Crutch.InfoPanel.StopCount(999)
     end
+
+    local showMin = value and Crutch.savedOptions.cc.showVisual
+    CrutchAlertsCCUIMin:SetHidden(not showMin)
+    local showObnoxious = value and Crutch.savedOptions.cc.showObnoxious
+    CrutchAlertsCCUIObnoxious:SetHidden(not showObnoxious)
+    if (showMin or showObnoxious) then
+        Crutch.ShowCCProgressAll(85214, ACTION_RESULT_STUNNED, 10000, "Kimbrudhil the Songbird")
+    end
 end
 Crutch.UnlockUI = UnlockUI
 

@@ -92,7 +92,7 @@
                             <Dimensions x="64" y="64" />
                             <Edge edgeSize="0"/>
                         </Backdrop>
-                        <Texture name="$(parent)Icon" tier="MEDIUM" level="2">
+                        <Texture name="$(parent)Icon" tier="MEDIUM" level="2" textureFile="/esoui/art/icons/ability_debuff_stun.dds">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="64" y="64" />
                         </Texture>
@@ -132,7 +132,7 @@
                             <Dimensions x="64" y="64" />
                             <Edge edgeSize="0"/>
                         </Backdrop>
-                        <Texture name="$(parent)Icon" tier="MEDIUM" level="2">
+                        <Texture name="$(parent)Icon" tier="MEDIUM" level="2" textureFile="/esoui/art/icons/ability_debuff_stun.dds">
                             <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
                             <Dimensions x="64" y="64" />
                         </Texture>
@@ -144,10 +144,6 @@
                             <Dimensions x="1000"/>
                             <Anchor point="TOPLEFT" relativeTo="$(parent)Backdrop" relativePoint="TOPRIGHT" offsetX="10" offsetY="-8"/>
                         </Label>
-                        <!-- <Label name="$(parent)Source" color="ff4400" text="Eternal Servant" font="$(BOLD_FONT)|16|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="LEFT">
-                            <Dimensions x="1000"/>
-                            <Anchor point="TOPLEFT" relativeTo="$(parent)Type" relativePoint="BOTTOMLEFT" offsetY="-8"/>
-                        </Label> -->
                         <Label name="$(parent)Ability" color="ff4400" text="Crush" font="$(BOLD_FONT)|16|soft-shadow-thick" verticalAlignment="CENTER" horizontalAlignment="LEFT">
                             <Dimensions x="1000"/>
                             <Anchor point="TOPLEFT" relativeTo="$(parent)Type" relativePoint="BOTTOMLEFT" offsetY="-10"/>

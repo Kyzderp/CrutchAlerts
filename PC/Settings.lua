@@ -98,6 +98,9 @@ local function UnlockUI(value)
     local showObnoxious = value and Crutch.savedOptions.cc.showObnoxious
     CrutchAlertsCCUIObnoxious:SetMouseEnabled(showObnoxious)
     CrutchAlertsCCUIObnoxious:SetHidden(not showObnoxious)
+    if (showMin or showObnoxious) then
+        Crutch.ShowCCProgressAll(85214, ACTION_RESULT_STUNNED, 10000, "Kimbrudhil the Songbird")
+    end
 end
 Crutch.UnlockUI = UnlockUI
 
@@ -358,7 +361,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.BossHealthBar.Initialize()
                         Crutch.BossHealthBar.UpdateScale()
                         CrutchAlertsBossHealthBarContainer:SetHidden(not value)
-                        Crutch.BossHealthBar.ShowOrHideBars()
+                        Crutch.BossHealthBar.ShowOrHideBars(true)
                     end,
                     width = "full",
                 },
@@ -1123,6 +1126,9 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.cc.showVisual end,
                     setFunc = function(value)
                         Crutch.savedOptions.cc.showVisual = value
+                        if (value) then
+                            Crutch.ShowCCProgressAll(85214, ACTION_RESULT_STUNNED, 10000, "Kimbrudhil the Songbird")
+                        end
                     end,
                     width = "full",
                 },
@@ -1134,6 +1140,9 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.cc.showObnoxious end,
                     setFunc = function(value)
                         Crutch.savedOptions.cc.showObnoxious = value
+                        if (value) then
+                            Crutch.ShowCCProgressAll(85214, ACTION_RESULT_STUNNED, 10000, "Kimbrudhil the Songbird")
+                        end
                     end,
                     width = "full",
                 },
