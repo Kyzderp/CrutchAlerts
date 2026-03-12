@@ -1352,22 +1352,22 @@ function Crutch:CreateSettingsMenu()
                     text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
                     width = "full",
                 },
-                {
-                    type = "dropdown",
-                    multiSelect = true,
-                    name = "Show Llothis name and enrage / respawn",
-                    tooltip = "Shows a header line for time until Llothis enrages or when he will respawn",
-                    default = {LFG_ROLE_TANK, LFG_ROLE_HEAL, LFG_ROLE_DPS},
-                    choices = {"Tank", "Healer", "DPS"},
-                    choicesValues = {LFG_ROLE_TANK, LFG_ROLE_HEAL, LFG_ROLE_DPS},
-                    getFunc = function()
-                        return Crutch.RoleValueToTable(Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader)
-                    end,
-                    setFunc = function(tab)
-                        Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader = Crutch.RoleTableToValue(tab)
-                    end,
-                    width = "full",
-                },
+                -- {
+                --     type = "dropdown",
+                --     multiSelect = true,
+                --     name = "Show Llothis name and enrage / respawn",
+                --     tooltip = "Shows a header line for time until Llothis enrages or when he will respawn",
+                --     default = {LFG_ROLE_TANK, LFG_ROLE_HEAL, LFG_ROLE_DPS},
+                --     choices = {"Tank", "Healer", "DPS"},
+                --     choicesValues = {LFG_ROLE_TANK, LFG_ROLE_HEAL, LFG_ROLE_DPS},
+                --     getFunc = function()
+                --         return Crutch.RoleValueToTable(Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader)
+                --     end,
+                --     setFunc = function(tab)
+                --         Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader = Crutch.RoleTableToValue(tab)
+                --     end,
+                --     width = "full",
+                -- },
             }
         },
         {
