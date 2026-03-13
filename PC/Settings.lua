@@ -1361,22 +1361,96 @@ function Crutch:CreateSettingsMenu()
                     text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
                     width = "full",
                 },
-                -- {
-                --     type = "dropdown",
-                --     multiSelect = true,
-                --     name = "Show Llothis name and enrage / respawn",
-                --     tooltip = "Shows a header line for time until Llothis enrages or when he will respawn",
-                --     default = {LFG_ROLE_TANK, LFG_ROLE_HEAL, LFG_ROLE_DPS},
-                --     choices = {"Tank", "Healer", "DPS"},
-                --     choicesValues = {LFG_ROLE_TANK, LFG_ROLE_HEAL, LFG_ROLE_DPS},
-                --     getFunc = function()
-                --         return Crutch.RoleValueToTable(Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader)
-                --     end,
-                --     setFunc = function(tab)
-                --         Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader = Crutch.RoleTableToValue(tab)
-                --     end,
-                --     width = "full",
-                -- },
+                {
+                    type = "dropdown",
+                    multiSelect = true,
+                    name = "Show Llothis name and enrage / respawn",
+                    tooltip = "Shows a header line for time until Llothis enrages or when he will respawn",
+                    choices = {"Tank", "Healer", "DPS"},
+                    default = {"Tank", "Healer", "DPS"},
+                    getFunc = function()
+                        return Crutch.ConvertRoleValueToStrings(Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader)
+                    end,
+                    setFunc = function(tab)
+                        Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader = Crutch.ConvertRoleStringsToValue(tab)
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "dropdown",
+                    multiSelect = true,
+                    name = "Show Llothis bolts timer",
+                    tooltip = "Shows a line for time until Llothis can cast Soul Stained Corruption (the damage it does is Oppressive Bolts)",
+                    choices = {"Tank", "Healer", "DPS"},
+                    default = {"Tank", "Healer", "DPS"},
+                    getFunc = function()
+                        return Crutch.ConvertRoleValueToStrings(Crutch.savedOptions.asylumsanctorium.panel.showLlothisBolts)
+                    end,
+                    setFunc = function(tab)
+                        Crutch.savedOptions.asylumsanctorium.panel.showLlothisBolts = Crutch.ConvertRoleStringsToValue(tab)
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "dropdown",
+                    multiSelect = true,
+                    name = "Show Llothis cone timer",
+                    tooltip = "Shows a line for time until Llothis can cast Defiling Dye Blast",
+                    choices = {"Tank", "Healer", "DPS"},
+                    default = {"Tank", "Healer", "DPS"},
+                    getFunc = function()
+                        return Crutch.ConvertRoleValueToStrings(Crutch.savedOptions.asylumsanctorium.panel.showLlothisCone)
+                    end,
+                    setFunc = function(tab)
+                        Crutch.savedOptions.asylumsanctorium.panel.showLlothisCone = Crutch.ConvertRoleStringsToValue(tab)
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "dropdown",
+                    multiSelect = true,
+                    name = "Show Llothis teleport timer",
+                    tooltip = "Shows a line for time until Llothis can cast Pernicious Transmission, which is his teleport and fart puddle (Noxious Gas)",
+                    choices = {"Tank", "Healer", "DPS"},
+                    default = {"Tank", "Healer", "DPS"},
+                    getFunc = function()
+                        return Crutch.ConvertRoleValueToStrings(Crutch.savedOptions.asylumsanctorium.panel.showLlothisTeleport)
+                    end,
+                    setFunc = function(tab)
+                        Crutch.savedOptions.asylumsanctorium.panel.showLlothisTeleport = Crutch.ConvertRoleStringsToValue(tab)
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "dropdown",
+                    multiSelect = true,
+                    name = "Show Felms name and enrage / respawn",
+                    tooltip = "Shows a header line for time until Felms enrages or when he will respawn",
+                    choices = {"Tank", "Healer", "DPS"},
+                    default = {"Tank", "Healer", "DPS"},
+                    getFunc = function()
+                        return Crutch.ConvertRoleValueToStrings(Crutch.savedOptions.asylumsanctorium.panel.showFelmsHeader)
+                    end,
+                    setFunc = function(tab)
+                        Crutch.savedOptions.asylumsanctorium.panel.showFelmsHeader = Crutch.ConvertRoleStringsToValue(tab)
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "dropdown",
+                    multiSelect = true,
+                    name = "Show Felms teleport timer",
+                    tooltip = "Shows a line for time until Felms can cast Teleport Strike",
+                    choices = {"Tank", "Healer", "DPS"},
+                    default = {"Tank", "Healer", "DPS"},
+                    getFunc = function()
+                        return Crutch.ConvertRoleValueToStrings(Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport)
+                    end,
+                    setFunc = function(tab)
+                        Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport = Crutch.ConvertRoleStringsToValue(tab)
+                    end,
+                    width = "full",
+                },
             }
         },
         {

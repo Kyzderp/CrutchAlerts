@@ -116,3 +116,44 @@ local function RoleTableToValue(tab)
     return WithRoles(tank, healer, dps)
 end
 Crutch.RoleTableToValue = RoleTableToValue
+
+
+---------------------------------------------------------------------
+-- Role conversion for LAM, since multiSelect is currently broken
+-- with choicesValues
+---------------------------------------------------------------------
+local ROLE_STRING_TO_CONSTANT = {
+    Tank = LFG_ROLE_TANK,
+    Healer = LFG_ROLE_HEAL,
+    DPS = LFG_ROLE_DPS,
+}
+
+local ROLE_CONSTANT_TO_STRING = {
+    [LFG_ROLE_TANK] = "Tank",
+    [LFG_ROLE_HEAL] = "Healer",
+    [LFG_ROLE_DPS] = "DPS",
+}
+
+-- choices = {"Tank", "Healer", "DPS"}
+-- values = choices
+-- returns 7
+local function ConvertRoleStringsToValue(values)
+    local result = {}
+    for _, roleString in ipairs(values) do
+        table.insert(result, ROLE_STRING_TO_CONSTANT[roleString])
+    end
+    return RoleTableToValue(result)
+end
+Crutch.ConvertRoleStringsToValue = ConvertRoleStringsToValue
+
+-- setting = 7
+-- returns {"Tank", "Healer", "DPS"}
+local function ConvertRoleValueToStrings(setting)
+    local tab = RoleValueToTable(setting)
+    -- Should be fine to just change in place
+    for i, role in ipairs(tab) do
+        tab[i] = ROLE_CONSTANT_TO_STRING[role]
+    end
+    return tab
+end
+Crutch.ConvertRoleValueToStrings = ConvertRoleValueToStrings
