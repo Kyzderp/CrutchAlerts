@@ -157,3 +157,19 @@ local function ConvertRoleValueToStrings(setting)
     return tab
 end
 Crutch.ConvertRoleValueToStrings = ConvertRoleValueToStrings
+
+-- Console settings
+local ROLE_SETTING_TO_STRING = {
+    [0] = "Off",
+    [1] = "DPS",
+    [2] = "Healer",
+    [3] = "Healer + DPS",
+    [4] = "Tank",
+    [5] = "Tank + DPS",
+    [6] = "Tank + Healer",
+    [7] = "All roles",
+}
+local function ConvertRoleValueToConsoleString(setting)
+    return ROLE_SETTING_TO_STRING[setting]
+end
+Crutch.ConvertRoleValueToConsoleString = ConvertRoleValueToConsoleString

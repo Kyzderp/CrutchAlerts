@@ -1361,6 +1361,7 @@ function Crutch:CreateSettingsMenu()
                     text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
                     width = "full",
                 },
+                -- TODO: maybe do these programmatically
                 {
                     type = "dropdown",
                     multiSelect = true,

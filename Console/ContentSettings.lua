@@ -65,6 +65,69 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Asylum Sanctorium - Info Panel",
+    })
+
+    local AS_MINI_PANEL_SETTINGS = {
+        {
+            name = "Show Llothis name and enrage / respawn",
+            tooltip = "Shows a header line for time until Llothis enrages or when he will respawn",
+            setting = "showLlothisHeader",
+        },
+        {
+            name = "Show Llothis bolts timer",
+            tooltip = "Shows a line for time until Llothis can cast Soul Stained Corruption (the damage it does is Oppressive Bolts)",
+            setting = "showLlothisBolts",
+        },
+        {
+            name = "Show Llothis cone timer",
+            tooltip = "Shows a line for time until Llothis can cast Defiling Dye Blast",
+            setting = "showLlothisCone",
+        },
+        {
+            name = "Show Llothis teleport timer",
+            tooltip = "Shows a line for time until Llothis can cast Pernicious Transmission, which is his teleport and fart puddle (Noxious Gas)",
+            setting = "showLlothisTeleport",
+        },
+        {
+            name = "Show Felms name and enrage / respawn",
+            tooltip = "Shows a header line for time until Felms enrages or when he will respawn",
+            setting = "showFelmsHeader",
+        },
+        {
+            name = "Show Felms teleport timer",
+            tooltip = "Shows a line for time until Felms can cast Teleport Strike",
+            setting = "showFelmsTeleport",
+        },
+    }
+
+    for _, data in ipairs(AS_MINI_PANEL_SETTINGS) do
+        settings:AddSetting({
+            type = LibHarvensAddonSettings.ST_DROPDOWN,
+            label = data.name,
+            tooltip = data.tooltip,
+            getFunction = function()
+                return Crutch.ConvertRoleValueToConsoleString(Crutch.savedOptions.asylumsanctorium.panel[data.setting])
+            end,
+            setFunction = function(combobox, name, item)
+                Crutch.savedOptions.asylumsanctorium.panel[data.setting] = item.data
+            end,
+            default = "All roles",
+            items = {
+                {name = "Off", data = 0},
+                {name = "DPS", data = 1},
+                {name = "Healer", data = 2},
+                {name = "Healer + DPS", data = 3},
+                {name = "Tank", data = 4},
+                {name = "Tank + DPS", data = 5},
+                {name = "Tank + Healer", data = 6},
+                {name = "All roles", data = 7},
+            },
+        })
+    end
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
         label = "Cloudrest",
     })
 
