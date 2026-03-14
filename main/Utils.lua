@@ -3,14 +3,39 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 -- Message to user
 ---------------------------------------------------------------------
-Crutch.messages = {}
+local queuedMessages = {}
 function Crutch.msg(msg)
     if (not msg) then return end
     msg = "|c3bdb5e[CrutchAlerts]|caaaaaa " .. tostring(msg) .. "|r"
     if (CHAT_ROUTER) then
         CHAT_ROUTER:AddSystemMessage(msg)
     else
-        Crutch.messages[#Crutch.messages + 1] = msg
+        table.insert(queuedMessages, msg)
+    end
+end
+
+function Crutch.Warn(msg)
+    if (not msg) then return end
+    local chatWarning = "|c3bdb5e[CrutchAlerts] |cFF0000W" ..
+                        "|cFF7F00A" ..
+                        "|cFFFF00R" ..
+                        "|c00FF00N" ..
+                        "|c0000FFI" ..
+                        "|c2E2B5FN" ..
+                        "|c8B00FFG" ..
+                        "|cFF00FF: " .. msg .. "|r"
+    if (CHAT_ROUTER) then
+        CHAT_ROUTER:AddSystemMessage(chatWarning)
+    else
+        table.insert(queuedMessages, chatWarning)
+    end
+end
+
+function Crutch.ShowQueuedMessages()
+    if (CHAT_ROUTER) then
+        for _, msg in ipairs(queuedMessages) do
+            CHAT_ROUTER:AddSystemMessage(msg)
+        end
     end
 end
 
@@ -83,6 +108,11 @@ local BITMASKS = {
     [LFG_ROLE_DPS] = 1,
     -- TODO: complain if no role
 }
+
+local function IsValidRole(role)
+    return BITMASKS[role] ~= nil
+end
+Crutch.IsValidRole = IsValidRole
 
 -- Whether the specified role's bit is set in the setting
 local function IsRoleSet(setting, role)

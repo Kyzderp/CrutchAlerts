@@ -453,6 +453,11 @@ local function OnPlayerActivated()
             end
         end
     end
+
+    -- Warning if role didn't get set
+    if (not Crutch.IsValidRole(GetSelectedLFGRole())) then
+        Crutch.Warn("You have no LFG role selected (a rare ZOS bug). Some icons or settings may not apply properly; try toggling your role in the group menu.")
+    end
 end
 Crutch.OnPlayerActivated = OnPlayerActivated
 
@@ -481,6 +486,8 @@ local function OnPlayerActivatedFirstTime()
     for _, msg in ipairs(queuedMessages) do
         Crutch.dbgOther(msg)
     end
+
+    Crutch.ShowQueuedMessages() -- From msg and Warn
 end
 
 ---------------------------------------------------------------------

@@ -44,18 +44,22 @@ local function StartLlothisHeader()
     Crutch.InfoPanel.CountUp(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCC" .. LLOTHIS_NAME .. ": ", HEADER_SCALE, DecorateElapsedTimer)
 end
 local function CountDownToLlothis()
+    llothisDisplaying = true
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCC" .. LLOTHIS_NAME .. ": ", 45000, HEADER_SCALE)
 end
 
 local function SetBolts(msUntil)
+    llothisDisplaying = true
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_BOLTS_INDEX, BOLTS_NAME, msUntil, SUBITEM_SCALE)
 end
 
 local function SetCone(msUntil)
+    llothisDisplaying = true
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_CONE_INDEX, CONE_NAME, msUntil, SUBITEM_SCALE)
 end
 
 local function SetFart(msUntil)
+    llothisDisplaying = true
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_FART_INDEX, FART_NAME, msUntil, SUBITEM_SCALE)
 end
 
