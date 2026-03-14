@@ -7,7 +7,6 @@ local LLOTHIS_NAME = zo_strformat("<<C:1>>", GetString(CRUTCH_BHB_SAINT_LLOTHIS_
 local BOLTS_NAME = "   |c3a9dd6" .. GetAbilityName(95687) .. ": " -- Oppressive Bolts (actual ability is Soul Stained Corruption)
 local CONE_NAME = "   |c64c200" .. GetAbilityName(95545) .. ": " -- Defiling Dye Blast
 local FART_NAME = "   |c9447ff" .. GetAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
-local TELEPORT_NAME = "   |cd63a3a" .. GetAbilityName(99138) .. ": "
 
 local PANEL_LLOTHIS_HEADER_INDEX = 5
 local PANEL_LLOTHIS_BOLTS_INDEX = 6
@@ -91,10 +90,72 @@ local function CountDownToFelms()
     Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_HEADER_INDEX, "|cCCCCCC" .. FELMS_NAME .. ": ", 45000, HEADER_SCALE)
 end
 
-local function SetTeleport(msUntil)
+
+
+
+---------------------------------------------------------------------
+-- Felms Teleport Strike
+-- Needs special handling because we want to display # of jumps and
+-- their targets, instead of a false timer upon 1st and 2nd jumps
+
+-- jump > 2.9s > jump > 2.9s > jump > 20.6s > repeat
+-- 21.4
+---------------------------------------------------------------------
+local TELEPORT_NAME = "   |cd63a3a" .. GetAbilityName(99138)
+local lastFelmsJump = 0
+local felmsJumpNumber = 0
+
+local function SetTeleportCountdown(msUntil)
     if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport)) then return end
-    Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_TELEPORT_INDEX, TELEPORT_NAME, msUntil, SUBITEM_SCALE)
+    Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_TELEPORT_INDEX, TELEPORT_NAME .. ": ", msUntil, SUBITEM_SCALE)
 end
+
+local function SetTeleport(targetName)
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport)) then return end
+    Crutch.InfoPanel.StopCount(PANEL_FELMS_TELEPORT_INDEX)
+    Crutch.InfoPanel.SetLine(
+        PANEL_FELMS_TELEPORT_INDEX,
+        string.format("%s (%d): |cAAAAAA%s|r", TELEPORT_NAME, felmsJumpNumber, targetName or "?"),
+        SUBITEM_SCALE)
+end
+
+-- After 3 seconds, start counting down to the next jump. This is so
+-- it doesn't overwrite the currently displaying jump target name
+local function CountdownTeleportLater(targetTime)
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport)) then return end
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "FelmsJumpCountdown", 3000, function()
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "FelmsJumpCountdown")
+        Crutch.InfoPanel.CountDownToTargetTime(PANEL_FELMS_TELEPORT_INDEX, TELEPORT_NAME .. ": ", targetTime, SUBITEM_SCALE)
+    end)
+end
+
+local function OnFelmsJump(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    Crutch.dbgOther("felms jump")
+    if (not felmsDormant) then
+        -- SetTeleport(20500) -- TODO
+
+        local now = GetGameTimeMilliseconds()
+        if (now - lastFelmsJump < 15000) then
+            -- Consider this a consecutive jump
+            felmsJumpNumber = felmsJumpNumber + 1
+        else
+            -- Consider this a new set of jumps
+            felmsJumpNumber = 1
+        end
+
+        if (targetUnitId and targetUnitId ~= 0) then
+            local tag = Crutch.groupIdToTag[targetUnitId]
+            SetTeleport(GetUnitDisplayName(tag))
+            CountdownTeleportLater(now + 20500)
+        else
+            SetTeleportCountdown(20500)
+        end
+
+        lastFelmsJump = now
+    end
+end
+-- AS.OnFelmsJump = OnFelmsJump
+-- /script CrutchAlerts.AsylumSanctorium.OnFelmsJump(nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 12345)
 
 function AS.Test()
     StartLlothisHeader()
@@ -102,7 +163,7 @@ function AS.Test()
     SetCone(20000)
     SetFart(1000)
     StartFelmsHeader()
-    SetTeleport(25000)
+    SetTeleportCountdown(25000)
 end
 -- /script CrutchAlerts.AsylumSanctorium.Test()
 
@@ -147,13 +208,6 @@ local function OnCone(_, _, _, _, _, _, _, _, targetName, _, hitValue)
     SetCone(21000) -- TODO
 end
 
-local function OnFelmsJump()
-    Crutch.dbgOther("felms jump")
-    -- TODO: only after 3rd or something
-    if (not felmsDormant) then
-        SetTeleport(20500) -- TODO
-    end
-end
 
 ---------------------------------------------------------------------
 -- "Events" called from AsylumSanctorium.lua
@@ -181,7 +235,7 @@ end
 
 function AS.OnFelmsDetectedPanel()
     StartFelmsHeader()
-    SetTeleport(11000) -- TODO
+    SetTeleport(10700) -- TODO
 end
 
 function AS.OnFelmsDormantPanel(changeType)

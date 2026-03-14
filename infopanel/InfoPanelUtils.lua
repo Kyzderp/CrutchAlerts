@@ -33,8 +33,7 @@ end
 -- prefix: should include a space at the end to not be squished with the timer
 -- doneText: the whole text to show after timer is <= 0 (is not prefixed)
 -- doneMs: milliseconds after timer <= 0 to persist the line. nil to not auto remove
-local function CountDown(index, prefix, doneText, durationMs, doneMs, scale, showTimer, decorateTimerFunc)
-    local targetTime = GetGameTimeMilliseconds() + durationMs
+local function CountDownTarget(index, prefix, doneText, targetTime, doneMs, scale, showTimer, decorateTimerFunc)
     if (not decorateTimerFunc) then
         decorateTimerFunc = DecorateTimer
     end
@@ -58,6 +57,15 @@ local function CountDown(index, prefix, doneText, durationMs, doneMs, scale, sho
             IP.SetLine(index, doneText, scale)
         end
     end)
+end
+
+local function CountDown(index, prefix, doneText, durationMs, doneMs, scale, showTimer, decorateTimerFunc)
+    local targetTime = GetGameTimeMilliseconds() + durationMs
+    CountDownTarget(index, prefix, doneText, targetTime, doneMs, scale, showTimer, decorateTimerFunc)
+end
+
+function IP.CountDownToTargetTime(index, prefix, targetTime, scale)
+    CountDownTarget(index, prefix, prefix .. "|cff8c00Soon™️|r", targetTime, nil, scale, true)
 end
 
 function IP.CountDownDuration(index, prefix, durationMs, scale)
