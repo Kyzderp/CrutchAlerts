@@ -106,7 +106,6 @@ local BITMASKS = {
     [LFG_ROLE_TANK] = 4,
     [LFG_ROLE_HEAL] = 2,
     [LFG_ROLE_DPS] = 1,
-    -- TODO: complain if no role
 }
 
 local function IsValidRole(role)
@@ -115,9 +114,15 @@ end
 Crutch.IsValidRole = IsValidRole
 
 -- Whether the specified role's bit is set in the setting
+-- Returns true or false, or nil if the role is not valid
 local function IsRoleSet(setting, role)
+    if (not IsValidRole(role)) then
+        return nil
+    end
+
     return BitAnd(setting, BITMASKS[role]) ~= 0
 end
+Crutch.IsRoleSet = IsRoleSet
 
 local function WithRoles(tank, healer, dps)
     return (tank and BITMASKS[LFG_ROLE_TANK] or 0) + (healer and BITMASKS[LFG_ROLE_HEAL] or 0) + (dps and BITMASKS[LFG_ROLE_DPS] or 0)

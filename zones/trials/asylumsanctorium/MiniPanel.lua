@@ -21,6 +21,15 @@ local SUBITEM_SCALE = 1
 local HEADER_SCALE = 0.7
 
 ---------------------------------------------------------------------
+-- Role-specific settings
+---------------------------------------------------------------------
+local function IsSettingEnabled(setting)
+    local isRoleSet = Crutch.IsRoleSet(setting, GetSelectedLFGRole())
+    if (isRoleSet == nil) then return true end -- Just show everything if the role is not valid
+    return isRoleSet
+end
+
+---------------------------------------------------------------------
 -- Info Panel UI
 ---------------------------------------------------------------------
 local function DecorateElapsedTimer(ms)
@@ -40,25 +49,30 @@ end
 local llothisDormant = false
 local llothisDisplaying = false
 local function StartLlothisHeader()
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader)) then return end
     llothisDisplaying = true
     Crutch.InfoPanel.CountUp(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCC" .. LLOTHIS_NAME .. ": ", HEADER_SCALE, DecorateElapsedTimer)
 end
 local function CountDownToLlothis()
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader)) then return end
     llothisDisplaying = true
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCC" .. LLOTHIS_NAME .. ": ", 45000, HEADER_SCALE)
 end
 
 local function SetBolts(msUntil)
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showLlothisBolts)) then return end
     llothisDisplaying = true
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_BOLTS_INDEX, BOLTS_NAME, msUntil, SUBITEM_SCALE)
 end
 
 local function SetCone(msUntil)
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showLlothisCone)) then return end
     llothisDisplaying = true
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_CONE_INDEX, CONE_NAME, msUntil, SUBITEM_SCALE)
 end
 
 local function SetFart(msUntil)
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showLlothisTeleport)) then return end
     llothisDisplaying = true
     Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_FART_INDEX, FART_NAME, msUntil, SUBITEM_SCALE)
 end
@@ -66,16 +80,19 @@ end
 ------- Felms
 local felmsDormant = false
 local function StartFelmsHeader()
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsHeader)) then return end
     if (llothisDisplaying) then
         Crutch.InfoPanel.SetLine(PANEL_DUMMY_INDEX, " ", 0.3) -- Fake spacing
     end
     Crutch.InfoPanel.CountUp(PANEL_FELMS_HEADER_INDEX, "|cCCCCCC" .. FELMS_NAME .. ": ", HEADER_SCALE, DecorateElapsedTimer)
 end
 local function CountDownToFelms()
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsHeader)) then return end
     Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_HEADER_INDEX, "|cCCCCCC" .. FELMS_NAME .. ": ", 45000, HEADER_SCALE)
 end
 
 local function SetTeleport(msUntil)
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport)) then return end
     Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_TELEPORT_INDEX, TELEPORT_NAME, msUntil, SUBITEM_SCALE)
 end
 
@@ -95,6 +112,7 @@ end
 ---------------------------------------------------------------------
 -- Llothis begins casting for 1s, channels for 6s, sending out 6(?) bolts. Next occurrence seems to be after finish, not start?
 local function OnBoltsBegin()
+    if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showLlothisBolts)) then return end
     Crutch.dbgOther("bolts begin")
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_BOLTS_INDEX)
     Crutch.InfoPanel.SetLine(PANEL_LLOTHIS_BOLTS_INDEX, BOLTS_NAME .. "|cFF0000INTERRUPT!", SUBITEM_SCALE)
@@ -123,7 +141,8 @@ local function OnFart()
 end
 
 -- TODO: is it before or after finishing?
-local function OnCone()
+local function OnCone(_, _, _, _, _, _, _, _, targetName, _, hitValue)
+    if (hitValue ~= 2000) then return end
     Crutch.dbgOther("cone begin")
     SetCone(21000) -- TODO
 end
@@ -143,7 +162,7 @@ function AS.OnLlothisDetectedPanel()
     StartLlothisHeader()
     SetBolts(12000) -- TODO
     SetCone(11000) -- TODO
-    SetFart(1000) -- TODO
+    SetFart(0) -- TODO
 end
 
 -- Minis remain dormant for 45s
@@ -193,7 +212,7 @@ function AS.RegisterMiniPanel()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelInterrupted", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_INTERRUPT)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, OnCone)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 95545)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT, OnFart)
