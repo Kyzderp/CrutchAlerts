@@ -3,6 +3,7 @@ local AS = Crutch.AsylumSanctorium
 local C = Crutch.Constants
 
 local FELMS_NAME = zo_strformat("<<C:1>>", GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD))
+local LLOTHIS_NAME = zo_strformat("<<C:1>>", GetString(CRUTCH_BHB_SAINT_LLOTHIS_THE_PIOUS))
 local BOLTS_NAME = "   |c3a9dd6" .. GetAbilityName(95687) .. ": " -- Oppressive Bolts (actual ability is Soul Stained Corruption)
 local CONE_NAME = "   |c64c200" .. GetAbilityName(95545) .. ": " -- Defiling Dye Blast
 local FART_NAME = "   |c9447ff" .. GetAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
@@ -39,12 +40,11 @@ end
 local llothisDormant = false
 local llothisDisplaying = false
 local function StartLlothisHeader()
-    -- TODO: proper name
     llothisDisplaying = true
-    Crutch.InfoPanel.CountUp(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCCSaint Llothis the Pious: ", HEADER_SCALE, DecorateElapsedTimer)
+    Crutch.InfoPanel.CountUp(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCC" .. LLOTHIS_NAME .. ": ", HEADER_SCALE, DecorateElapsedTimer)
 end
 local function CountDownToLlothis()
-    Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCCSaint Llothis the Pious: ", 45000, HEADER_SCALE)
+    Crutch.InfoPanel.CountDownDuration(PANEL_LLOTHIS_HEADER_INDEX, "|cCCCCCC" .. LLOTHIS_NAME .. ": ", 45000, HEADER_SCALE)
 end
 
 local function SetBolts(msUntil)

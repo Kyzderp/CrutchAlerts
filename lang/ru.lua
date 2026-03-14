@@ -92,6 +92,7 @@ SafeAddString(CRUTCH_BHB_RIFTMASTER_NAQRI, "Мастер разломов Нак
 SafeAddString(CRUTCH_BHB_RISEN_RUINS, "Восставшие руины^N")
 SafeAddString(CRUTCH_BHB_ROKSA_THE_WARPED, "Рокса Искалеченный^N")
 SafeAddString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD, "Святой Фелмс Отважный^M")
+SafeAddString(CRUTCH_BHB_SAINT_LLOTHIS_THE_PIOUS, "Святой Ллотис Благочестивый^M")
 SafeAddString(CRUTCH_BHB_SAINT_OLMS_THE_JUST, "Святой Олмс Справедливый^M")
 SafeAddString(CRUTCH_BHB_SARYDIL, "Саридил^F")
 SafeAddString(CRUTCH_BHB_SCORION_BROODLORD, "Скорион — вожак выводка^n")
