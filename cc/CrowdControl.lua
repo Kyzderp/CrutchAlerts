@@ -50,8 +50,10 @@ local TYPE_OPTIONS = {
 -- because they're spammy or can't break free anyway
 local SUPPRESS = 1
 local SILENT = 2
+local EFFECT_ONLY = 3
 local CC_ABILITY_DATA = {
     [166794] = SUPPRESS, -- Current (DSR)
+    [95456] = EFFECT_ONLY, -- Thundering Tailslap
 }
 
 
@@ -114,18 +116,23 @@ end
 -- Tracking for cc duration
 local function OnEffectGainedDuration(_, _, _, _, _, _, sourceName, _, _, _, hitValue, _, _, _, sourceUnitId, _, abilityId)
     local cc = recentCCs[abilityId]
-    if (not cc) then return end
-
-    -- This *seems* to only happen if it's a "fake" stun
-    -- TODO: Olms' Thundering Tailslap seems to send the gained first... maybe just ignore it then?
-    if (GetGameTimeMilliseconds() - cc.time > 100) then
-        recentCCs[abilityId] = nil
-        Crutch.dbgOther("|cFF0000CC effect duration received " .. (GetGameTimeMilliseconds() - cc.time) .. "ms after initial?!")
+    local ccResult
+    if (CC_ABILITY_DATA[abilityId] == EFFECT_ONLY) then
+        ccResult = ACTION_RESULT_STUNNED -- TODO: only olms tail so far, which is stunned
+    elseif (not cc) then
         return
+    else
+        -- This *seems* to only happen if it's a "fake" stun, so there's no associated stun event
+        if (GetGameTimeMilliseconds() - cc.time > 100) then
+            recentCCs[abilityId] = nil
+            Crutch.dbgOther("|cFF0000CC effect duration received " .. (GetGameTimeMilliseconds() - cc.time) .. "ms after initial?!")
+            return
+        end
+        ccResult = cc.result
     end
 
-    -- Only show UI and play sound after the effect gained is confirmed
-    Crutch.OnHardCCed(abilityId, cc.result, hitValue, sourceName)
+    -- Only show UI and play sound after the effect gained is confirmed (unless it was EFFECT_ONLY)
+    Crutch.OnHardCCed(abilityId, ccResult, hitValue, sourceName)
 
     local typeOptions = TYPE_OPTIONS[HARD]
     local abilityData = CC_ABILITY_DATA[abilityId]
