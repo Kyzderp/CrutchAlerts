@@ -123,7 +123,7 @@ end
 -- it doesn't overwrite the currently displaying jump target name
 local function CountdownTeleportLater(targetTime)
     if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport)) then return end
-    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "FelmsJumpCountdown", 3000, function()
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "FelmsJumpCountdown", 3500, function()
         EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "FelmsJumpCountdown")
         Crutch.InfoPanel.CountDownToTargetTime(PANEL_FELMS_TELEPORT_INDEX, TELEPORT_NAME .. ": ", targetTime, SUBITEM_SCALE)
     end)
@@ -215,7 +215,7 @@ end
 function AS.OnLlothisDetectedPanel()
     StartLlothisHeader()
     SetBolts(12000) -- TODO
-    SetCone(11000) -- TODO
+    SetCone(10400) -- TODO
     SetFart(0) -- TODO
 end
 
@@ -224,8 +224,8 @@ function AS.OnLlothisDormantPanel(changeType)
     if (changeType == EFFECT_RESULT_GAINED) then
         CountDownToLlothis()
         SetBolts(45000)
-        SetCone(46000) -- TODO
-        SetFart(46000) -- TODO
+        SetCone(45000)
+        SetFart(45000)
         llothisDormant = true
     elseif (changeType == EFFECT_RESULT_FADED) then
         StartLlothisHeader()
@@ -235,13 +235,13 @@ end
 
 function AS.OnFelmsDetectedPanel()
     StartFelmsHeader()
-    SetTeleport(10700) -- TODO
+    SetTeleportCountdown(10700) -- TODO
 end
 
 function AS.OnFelmsDormantPanel(changeType)
     if (changeType == EFFECT_RESULT_GAINED) then
         CountDownToFelms()
-        SetTeleport(45000)
+        SetTeleportCountdown(45000)
         felmsDormant = true
     elseif (changeType == EFFECT_RESULT_FADED) then
         StartFelmsHeader()
