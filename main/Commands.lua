@@ -25,7 +25,8 @@ local function PrintUsage()
     end
 
     if (Crutch.savedOptions.experimental) then
-        CrutchAlerts.msg([[EXPERIMENTAL:
+        CrutchAlerts.msg([[EXPERIMENTAL / HIDDEN:
+|cAAAAAA/crutch jet
 |cAAAAAA/crutch healthdebug]])
     end
 end
@@ -78,6 +79,11 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         if (args[2] == "general") then
             Crutch.ToggleGeneralAlerts()
         end
+
+    --------------------
+    elseif (cmd == "jet") then
+        Crutch.savedOptions.cc.jet = not Crutch.savedOptions.cc.jet
+        Crutch.msg("Jets now " .. (Crutch.savedOptions.cc.jet and "ON" or "OFF"))
 
     --------------------
     elseif (cmd == "healthdebug") then

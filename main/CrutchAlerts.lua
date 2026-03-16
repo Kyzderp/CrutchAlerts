@@ -25,7 +25,7 @@ Crutch.registered = {
     interrupts = false,
 }
 
--- currently: zmaja thresholds
+-- currently: none
 -- /script CrutchAlerts.savedOptions.experimental = true
 
 -- Defaults
@@ -151,6 +151,7 @@ local defaultOptions = {
         size = 30,
     },
     cc = {
+        jet = false,
         -- hardSound = SOUNDS.DEATH_RECAP_KILLING_BLOW_SHOWN,
         playSound = true,
         hardVolume = 2,

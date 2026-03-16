@@ -149,7 +149,7 @@ local function OnHardCCed(abilityId, result, duration, sourceName)
             duration))
     end
 
-    if (Crutch.savedOptions.experimental) then
+    if (Crutch.savedOptions.cc.jet) then
         LeaveOnAJetPlane(abilityId, result, duration, sourceName)
     end
 
@@ -163,7 +163,7 @@ end
 Crutch.OnStunned = OnStunned
 
 local function OnNotStunned()
-    if (Crutch.savedOptions.experimental) then
+    if (Crutch.savedOptions.cc.jet) then
         Jettison()
     end
 
