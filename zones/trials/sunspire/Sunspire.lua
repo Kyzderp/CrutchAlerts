@@ -1,4 +1,6 @@
 local Crutch = CrutchAlerts
+Crutch.Sunspire = {}
+local SS = Crutch.Sunspire
 local C = Crutch.Constants
 
 ---------------------------------------------------------------------
@@ -27,14 +29,21 @@ local function OnTimeBreachChanged(_, changeType, _, _, unitTag, _, _, stackCoun
         changed = true
     end
 
+    if (not changed) then return end
+
     -- Update suppression
-    if (changed) then
-        -- If it was the player entering or exiting portal, all units need to be refreshed
-        if (AreUnitsEqual("player", unitTag)) then
-            Crutch.Drawing.EvaluateAllSuppression()
+    -- If it was the player entering or exiting portal, all units need to be refreshed
+    if (AreUnitsEqual("player", unitTag)) then
+        Crutch.Drawing.EvaluateAllSuppression()
+
+        -- Also start/stop nahv portal stuff if it's the player
+        if (changeType == EFFECT_RESULT_GAINED) then
+            SS.ShowNahvPortal()
         else
-            Crutch.Drawing.EvaluateSuppressionFor(unitTag)
+            SS.StopNahvPortal()
         end
+    else
+        Crutch.Drawing.EvaluateSuppressionFor(unitTag)
     end
 end
 
@@ -522,6 +531,9 @@ function Crutch.RegisterSunspire()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 118884)
     end
 
+    -- Eternal Servant anticipation
+    SS.RegisterNahvPortal()
+
      -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI and OSI.UnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Overriding OSI.UnitErrorCheck")
@@ -568,6 +580,8 @@ function Crutch.UnregisterSunspire()
 
     -- Nahv
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT)
+
+    SS.UnregisterNahvPortal()
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")

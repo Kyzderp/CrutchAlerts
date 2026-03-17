@@ -8,13 +8,14 @@ local lines = {} -- {[1] = {label = Label, active = false, scale = 1,}
 ---------------------------------------------------------------------
 -- UI
 ---------------------------------------------------------------------
-local function CreateLabel(index, scale)
+local function CreateLabel(index, scale, alpha)
     local label = CreateControlFromVirtual(
         "$(parent)Line" .. index,
         CrutchAlertsInfoPanel,
         "CrutchAlertsInfoPanelLineTemplate",
         "")
     label:SetFont(Crutch.GetStyles().GetInfoPanelFont(Crutch.savedOptions.infoPanel.size * scale))
+    label:SetAlpha(alpha)
     lines[index] = {label = label, active = true, scale = scale}
     return label
 end
@@ -52,22 +53,25 @@ end
 -- API
 ---------------------------------------------------------------------
 -- scale optional as a percentage of the default size, default 1
-local function SetLine(index, text, scale)
+local function SetLine(index, text, scale, alpha)
     local line = lines[index]
     if (not scale) then scale = 1 end
+    if (not alpha) then alpha = 1 end
 
     if (not line) then
-        local label = CreateLabel(index, scale)
+        local label = CreateLabel(index, scale, alpha)
         label:SetText(text)
         UpdateAnchors()
     elseif (not line.active) then
         line.active = true
         line.scale = scale
         line.label:SetFont(Crutch.GetStyles().GetInfoPanelFont(Crutch.savedOptions.infoPanel.size * scale))
+        line.label:SetAlpha(alpha)
         line.label:SetText(text)
         line.label:SetHidden(false)
         UpdateAnchors()
     else
+        line.label:SetAlpha(alpha)
         line.label:SetText(text)
     end
 end

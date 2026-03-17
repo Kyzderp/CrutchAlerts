@@ -69,6 +69,7 @@ zones/trials/rockgrove/BahseiPortal.lua
 zones/trials/SanitysEdge.lua
 zones/trials/SanctumOphidia.lua
 zones/trials/sunspire/Sunspire.lua
+zones/trials/sunspire/NahvPortal.lua
 
 zones/trials/Cloudrest.xml
 zones/trials/MawOfLorkhaj.xml
