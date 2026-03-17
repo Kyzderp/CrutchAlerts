@@ -117,6 +117,7 @@ end
 -- Init
 ---------------------------------------------------------------------
 function SS.ShowNahvPortal()
+    if (not Crutch.savedOptions.sunspire.panel.showPortalNext) then return end
     UpdateDisplay()
 end
 
@@ -129,6 +130,8 @@ end
 
 -- Registering can't only be done after entering portal, because player may not be the first in
 function SS.RegisterNahvPortal()
+    if (not Crutch.savedOptions.sunspire.panel.showPortalNext) then return end
+
     nextIndex = 1
     for id, _ in pairs(SERVANT_IDS) do
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SSServant" .. id, EVENT_COMBAT_EVENT, OnServantBegin)

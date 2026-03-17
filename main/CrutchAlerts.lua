@@ -294,6 +294,7 @@ local defaultOptions = {
 
         panel = {
             showFocusFire = true,
+            showPortalNext = true,
         },
     },
     mawoflorkhaj = {

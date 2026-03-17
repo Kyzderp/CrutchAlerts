@@ -1315,6 +1315,18 @@ function Crutch.CreateConsoleContentSettingsMenu()
         end,
     })
 
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show next Eternal Servant mechanic",
+        tooltip = "Shows the upcoming Eternal Servant mechanics in Nahviintaas portal. Note: if you enter portal much later than the first person, the first few mechanics shown may be incorrect as it catches up",
+        default = Crutch.defaultOptions.sunspire.panel.showPortalNext,
+        getFunction = function() return Crutch.savedOptions.sunspire.panel.showPortalNext end,
+        setFunction = function(value)
+            Crutch.savedOptions.sunspire.panel.showPortalNext = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
     ---------------------------------------------------------------------
     -- arenas
     settings:AddSetting({

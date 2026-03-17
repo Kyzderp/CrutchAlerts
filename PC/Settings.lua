@@ -2561,6 +2561,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show next Eternal Servant mechanic",
+                    tooltip = "Shows the upcoming Eternal Servant mechanics in Nahviintaas portal. Note: if you enter portal much later than the first person, the first few mechanics shown may be incorrect as it catches up",
+                    default = Crutch.defaultOptions.sunspire.panel.showPortalNext,
+                    getFunc = function() return Crutch.savedOptions.sunspire.panel.showPortalNext end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sunspire.panel.showPortalNext = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
 
