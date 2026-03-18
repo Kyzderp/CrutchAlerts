@@ -89,37 +89,6 @@ local POWER_TYPES = {
     [COMBAT_MECHANIC_FLAGS_WEREWOLF] = "WEREWOLF",
 }
 
---[[
-h5. UnitAttributeVisual
-* ATTRIBUTE_VISUAL_AUTOMATIC
-* ATTRIBUTE_VISUAL_DECREASED_MAX_POWER
-* ATTRIBUTE_VISUAL_DECREASED_REGEN_POWER
-* ATTRIBUTE_VISUAL_DECREASED_STAT
-* ATTRIBUTE_VISUAL_FORCE_INCREASED_POWER_STAT_VISUAL
-* ATTRIBUTE_VISUAL_INCREASED_MAX_POWER
-* ATTRIBUTE_VISUAL_INCREASED_REGEN_POWER
-* ATTRIBUTE_VISUAL_INCREASED_STAT
-* ATTRIBUTE_VISUAL_NONE
-* ATTRIBUTE_VISUAL_NO_HEALING
-* ATTRIBUTE_VISUAL_POSSESSION
-* ATTRIBUTE_VISUAL_POWER_SHIELDING
-* ATTRIBUTE_VISUAL_TRAUMA
-* ATTRIBUTE_VISUAL_UNWAVERING_POWER
-
-
-* GetAllUnitAttributeVisualizerEffectInfo(*string* _unitTag_)
-** _Uses variable returns..._
-** _Returns:_ *[UnitAttributeVisual|#UnitAttributeVisual]* _unitAttributeVisual_, *[DerivedStats|#DerivedStats]* _statType_, *[Attributes|#Attributes]* _attributeType_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *number* _value_, *number* _maxValue_
-
-* GetUnitAttributeVisualizerEffectInfo(*string* _unitTag_, *[UnitAttributeVisual|#UnitAttributeVisual]* _unitAttributeVisual_, *[DerivedStats|#DerivedStats]* _statType_, *[Attributes|#Attributes]* _attributeType_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_)
-** _Returns:_ *number:nilable* _value_, *number:nilable* _maxValue_, *integer:nilable* _sequenceId_
-
-
-* EVENT_UNIT_ATTRIBUTE_VISUAL_ADDED (*string* _unitTag_, *[UnitAttributeVisual|#UnitAttributeVisual]* _unitAttributeVisual_, *[DerivedStats|#DerivedStats]* _statType_, *[Attributes|#Attributes]* _attributeType_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *number* _value_, *number* _maxValue_, *integer* _sequenceId_)
-* EVENT_UNIT_ATTRIBUTE_VISUAL_REMOVED (*string* _unitTag_, *[UnitAttributeVisual|#UnitAttributeVisual]* _unitAttributeVisual_, *[DerivedStats|#DerivedStats]* _statType_, *[Attributes|#Attributes]* _attributeType_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *number* _value_, *number* _maxValue_, *integer* _sequenceId_)
-* EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED (*string* _unitTag_, *[UnitAttributeVisual|#UnitAttributeVisual]* _unitAttributeVisual_, *[DerivedStats|#DerivedStats]* _statType_, *[Attributes|#Attributes]* _attributeType_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *number* _oldValue_, *number* _newValue_, *number* _oldMaxValue_, *number* _newMaxValue_, *integer* _sequenceId_)
-]]
-
 local BARS = {
     [ATTRIBUTE_VISUAL_POWER_SHIELDING] = "Shield",
     [ATTRIBUTE_VISUAL_UNWAVERING_POWER] = "Invuln",
@@ -142,12 +111,6 @@ local function UpdateBar(unitTag, unitAttributeVisual, hide, value, maxValue)
 
     subBar:SetHidden(hide)
     ZO_StatusBar_SmoothTransition(subBar, value, maxValue)
-
-    -- if (unitAttributeVisual == ATTRIBUTE_VISUAL_POWER_SHIELDING) then
-    --     local shieldTextureBar = GetSubBar(unitTag, "ShieldTexture")
-    --     shieldTextureBar:SetHidden(hide)
-    --     ZO_StatusBar_SmoothTransition(shieldTextureBar, value, maxValue)
-    -- end
 end
 BHB.UpdateBar = UpdateBar
 

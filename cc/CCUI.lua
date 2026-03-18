@@ -81,11 +81,6 @@ end
 ---------------------------------------------------------------------
 -- UI for Normies
 ---------------------------------------------------------------------
---[[
-progress and number for stun duration
-icon and name of ability
-stun type?
-]]
 local function HideCCProgress()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "HideCC")
     CrutchAlertsCCUIMin:SetHidden(true)
@@ -170,7 +165,6 @@ local function OnNotStunned()
     HideCCProgress()
 end
 Crutch.OnNotStunned = OnNotStunned
--- /script CrutchAlerts.OnNotStunned()
 
 
 ---------------------------------------------------------------------
