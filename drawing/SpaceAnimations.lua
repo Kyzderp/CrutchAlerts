@@ -186,7 +186,7 @@ Draw.TestBoost = TestBoost
 ---------------------------------------------------------------------
 -- Jet
 ---------------------------------------------------------------------
-local hangar
+local hangar -- TODO: offset active jets
 local function CircleJet(text, radius, cycleTime)
     if (not hangar) then
         hangar = ZO_ControlPool:New("CrutchAlertsSpaceJet", CrutchAlertsSpace)
@@ -199,6 +199,38 @@ local function CircleJet(text, radius, cycleTime)
     control:SetAnchor(CENTER, GuiRoot, CENTER)
 
     local _, x, y, z = GetUnitRawWorldPosition("player")
-    radius = radius or 10
-    cycleTime = cycleTime or 10000
+    text = text or "YOUR AD HERE"
+    radius = radius or 28
+    cycleTime = cycleTime or 60000
+
+    local label = control:GetNamedChild("Label")
+    label:SetText(text)
+    control:SetWidth(2000)
+    control:SetWidth(math.max(label:GetTextWidth() + 40, 300))
+
+    local function JetFunc(icon)
+        local _, x, y, z = GetUnitRawWorldPosition("player")
+        local time = (GetGameTimeMilliseconds() + cycleTime) % cycleTime / cycleTime
+
+        local angle = time * 2 * -math.pi
+        local jetX = x + radius * 100 * math.cos(angle)
+        local jetZ = z + radius * 100 * math.sin(angle)
+        icon:SetPosition(jetX, y + 800, jetZ)
+
+        icon:SetOrientation(0, -angle - math.pi / 2, 0)
+    end
+
+    Draw.CreateControlCommon(
+        true, -- isSpace
+        control,
+        key,
+        "CrutchAlerts/assets/jetplane.dds", -- texture
+        x, y, z,
+        false, -- faceCamera
+        pitch, yaw, roll,
+        JetFunc,
+        Draw.SetPosition,
+        Draw.SetOrientation)
 end
+Draw.CircleJet = CircleJet
+-- /script CrutchAlerts.Drawing.CircleJet("hi")

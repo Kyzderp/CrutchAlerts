@@ -79,7 +79,7 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
         local typeColor = typeOptions.color
         local textColor = ""
         if (sourceType == COMBAT_UNIT_TYPE_PLAYER) then
-            typeColor = "|c888888"
+            typeColor = "888888"
             textColor = "|c888888"
         elseif (sourceType == COMBAT_UNIT_TYPE_GROUP) then
             textColor = "|cFF00FF"
