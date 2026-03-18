@@ -76,14 +76,16 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
     local typeOptions = TYPE_OPTIONS[options.type]
 
     if (options.display) then
+        local typeColor = typeOptions.color
         local textColor = ""
         if (sourceType == COMBAT_UNIT_TYPE_PLAYER) then
+            typeColor = "|c888888"
             textColor = "|c888888"
         elseif (sourceType == COMBAT_UNIT_TYPE_GROUP) then
             textColor = "|cFF00FF"
         end
         Crutch.dbgOther(string.format("cc |c%s%s|r %s%s (%d) %d from %s (%s) - %s",
-            typeOptions.color,
+            typeColor,
             options.display,
             textColor,
             GetAbilityName(abilityId),
@@ -148,10 +150,10 @@ end
 ---------------------------------------------------------------------
 local function OnStunnedChanged(_, playerStunned)
     if (playerStunned) then
-        Crutch.dbgOther("player stunned")
+        Crutch.dbgSpam("player stunned")
         Crutch.OnStunned()
     else
-        Crutch.dbgOther("player no longer stunned")
+        Crutch.dbgSpam("player no longer stunned")
         Crutch.OnNotStunned()
     end
 end

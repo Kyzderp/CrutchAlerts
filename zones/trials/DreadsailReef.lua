@@ -55,7 +55,7 @@ local tankTag = "player"
 local function OnArcingCleave(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     local unitTag = Crutch.groupIdToTag[targetUnitId]
     if (unitTag ~= tankTag) then
-        Crutch.dbgOther(zo_strformat("tank changed to |cFFFF00<<1>>", GetUnitDisplayName(unitTag)))
+        Crutch.dbgSpam(zo_strformat("tank changed to |cFFFF00<<1>>", GetUnitDisplayName(unitTag)))
         tankTag = unitTag
     end
 end

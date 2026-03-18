@@ -63,14 +63,14 @@ end
 -- and then fire GAINED when it becomes available again
 local function FindPad(padUnitId, findNew, skipRetry)
     if (padIdToIndex[padUnitId]) then
-        Crutch.dbgOther(string.format("existing pad %d -> %d", padUnitId, padIdToIndex[padUnitId]))
+        Crutch.dbgSpam(string.format("existing pad %d -> %d", padUnitId, padIdToIndex[padUnitId]))
         return padIdToIndex[padUnitId]
     end
 
     -- Do not look for new pad if it's the buff coming up, which shouldn't be possible unless
     -- we had just wiped and new unit IDs were assigned, or if
     if (not findNew) then
-        Crutch.dbgOther(string.format("|cFF0000No existing pad for %d, and not finding new|r", padUnitId))
+        Crutch.dbgSpam(string.format("|cFF0000No existing pad for %d, and not finding new|r", padUnitId))
         return
     end
 
@@ -100,7 +100,7 @@ local function FindPad(padUnitId, findNew, skipRetry)
     if (lowestDistance < 360000) then
         padIdToIndex[padUnitId] = lowestDistanceIndex
         padIndexToId[lowestDistanceIndex] = padUnitId
-        Crutch.dbgOther(string.format("newly found pad %d -> %d used by %s", padUnitId, padIdToIndex[padUnitId], GetUnitDisplayName(lowestDistanceTag)))
+        Crutch.dbgSpam(string.format("newly found pad %d -> %d used by %s", padUnitId, padIdToIndex[padUnitId], GetUnitDisplayName(lowestDistanceTag)))
         return lowestDistanceIndex
     end
 
@@ -155,7 +155,7 @@ local function RegisterZhajhassa()
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MoLCombatState", EVENT_PLAYER_COMBAT_STATE, function(_, inCombat)
         if (not inCombat) then
-            Crutch.dbgOther("resetting because combat state")
+            Crutch.dbgSpam("resetting because combat state")
             padIdToIndex = {}
             padIndexToId = {}
         end

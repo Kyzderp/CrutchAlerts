@@ -686,17 +686,17 @@ local function HandleChat(_, channelType, fromName, text, isCustomerService, fro
         if (time.singleZoneId and time.singleZoneId == GetZoneId(GetUnitZoneIndex("player"))) then
             -- ... only display if it's the first time one of these lines has been found in this instance
             if (not isInstanceFresh) then
-                Crutch.dbgOther("|c88FF88Skipping damageable because this is not a fresh instance.|r")
+                Crutch.dbgSpam("|c88FF88Skipping damageable because this is not a fresh instance.|r")
                 return
             end
             isInstanceFresh = false
-            Crutch.dbgOther("|c88FF88Single-time line found, will only display this time.|r")
+            Crutch.dbgSpam("|c88FF88Single-time line found, will only display this time.|r")
         end
 
         -- Special display format, for when it is not a boss
         displayFormat = time.displayFormat -- can be nil
         if (displayFormat) then
-            Crutch.dbgOther("|c88FF88Displayformat|r: " .. displayFormat)
+            Crutch.dbgSpam("|c88FF88Displayformat|r: " .. displayFormat)
         end
 
         time = time.time

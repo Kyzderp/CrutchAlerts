@@ -380,8 +380,6 @@ local function OnYolFly()
         OnYolFly50()
     elseif (percent < 0.8) then
         OnYolFly75()
-    else
-        Crutch.dbgOther("|cFF0000??????????????????????|r")
     end
 
     -- Flare panel since takeoff: 29.3, 29.7, 29.8, 28.9, 29.8, 33.98

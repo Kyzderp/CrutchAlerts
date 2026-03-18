@@ -369,7 +369,7 @@ end
 ---------------------------------------------------------------------
 -- Reset/cleanup
 local function ResetValuesOnWipe()
-    Crutch.dbgOther("|cFF7777Resetting Cloudrest values|r")
+    Crutch.dbgSpam("|cFF7777Resetting Cloudrest values|r")
     amuletSmashed = false
     spearsRevealed = 0
     spearsSent = 0

@@ -139,10 +139,8 @@ end
 
 function AS.OnLlothisDormantBHB(changeType)
     if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.dbgOther("Llothis now dormant")
         RegenWhileDormant("2")
     elseif (changeType == EFFECT_RESULT_FADED) then
-        Crutch.dbgOther("Llothis no longer dormant")
         StopRegenning("2")
         llothisHp = miniMaxHp
         Crutch.UpdateSpoofedBossHealth("boss2", llothisHp, miniMaxHp)
@@ -155,10 +153,8 @@ end
 
 function AS.OnFelmsDormantBHB(changeType)
     if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.dbgOther("Felms now dormant")
         RegenWhileDormant("3")
     elseif (changeType == EFFECT_RESULT_FADED) then
-        Crutch.dbgOther("Felms no longer dormant")
         StopRegenning("3")
         felmsHp = miniMaxHp
         Crutch.UpdateSpoofedBossHealth("boss3", felmsHp, miniMaxHp)

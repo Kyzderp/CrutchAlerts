@@ -69,7 +69,7 @@ local function OnMiniDetectionCombat(_, _, _, _, _, _, sourceName, _, targetName
         return
     end
 
-    Crutch.dbgOther(string.format("detected Felms %d from %s %d - %s %d - %s (%d)", AS.felmsId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
+    Crutch.dbgSpam(string.format("detected Felms %d from %s %d - %s %d - %s (%d)", AS.felmsId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
     
     OnFelmsDetected()
 end
@@ -79,7 +79,7 @@ local function OnMiniDetectionEffect(_, changeType, _, _, _, _, _, _, _, _, _, _
     if (unitName == FELMS_NAME and unitId ~= 0 and changeType == EFFECT_RESULT_GAINED) then
         AS.felmsId = unitId
 
-        Crutch.dbgOther(string.format("detected Felms using effect %d from %s %d - %s (%d)", AS.felmsId, unitName, unitId, GetAbilityName(abilityId), abilityId))
+        Crutch.dbgSpam(string.format("detected Felms using effect %d from %s %d - %s (%d)", AS.felmsId, unitName, unitId, GetAbilityName(abilityId), abilityId))
 
         OnFelmsDetected()
     end
@@ -90,7 +90,7 @@ local function OnSpeedboost(_, _, _, _, _, _, sourceName, _, targetName, _, _, _
     AS.llothisId = targetUnitId
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT)
-    Crutch.dbgOther(string.format("detected Llothis %d from %s %d - %s %d - %s (%d)", AS.llothisId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
+    Crutch.dbgSpam(string.format("detected Llothis %d from %s %d - %s %d - %s (%d)", AS.llothisId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
     
     AS.OnLlothisDetectedBHB()
     AS.OnLlothisDetectedPanel()

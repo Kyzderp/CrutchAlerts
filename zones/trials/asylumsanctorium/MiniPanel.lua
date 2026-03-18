@@ -130,7 +130,6 @@ local function CountdownTeleportLater(targetTime)
 end
 
 local function OnFelmsJump(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
-    Crutch.dbgOther("felms jump")
     if (not felmsDormant) then
         -- SetTeleport(20500) -- TODO
 
@@ -174,13 +173,13 @@ end
 -- Llothis begins casting for 1s, channels for 6s, sending out 6(?) bolts. Next occurrence seems to be after finish, not start?
 local function OnBoltsBegin()
     if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showLlothisBolts)) then return end
-    Crutch.dbgOther("bolts begin")
+    Crutch.dbgSpam("bolts begin")
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_BOLTS_INDEX)
     Crutch.InfoPanel.SetLine(PANEL_LLOTHIS_BOLTS_INDEX, BOLTS_NAME .. "|cFF0000INTERRUPT!", SUBITEM_SCALE)
 end
 
 local function OnBoltsFaded()
-    Crutch.dbgOther("bolts end")
+    Crutch.dbgSpam("bolts end")
     if (not llothisDormant) then
         SetBolts(12000)
     end
@@ -189,7 +188,7 @@ end
 local function OnInterrupted(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     if (AS.llothisId ~= targetUnitId) then return end
 
-    Crutch.dbgOther("bolts interrupted")
+    Crutch.dbgSpam("bolts interrupted")
     if (not llothisDormant) then
         SetBolts(12000)
     end
@@ -204,7 +203,7 @@ end
 -- TODO: is it before or after finishing?
 local function OnCone(_, _, _, _, _, _, _, _, targetName, _, hitValue)
     if (hitValue ~= 2000) then return end
-    Crutch.dbgOther("cone begin")
+    Crutch.dbgSpam("cone begin")
     SetCone(21000) -- TODO
 end
 
