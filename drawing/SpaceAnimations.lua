@@ -181,3 +181,24 @@ end
 Draw.TestBoost = TestBoost
 -- /script CrutchAlerts.Drawing.TestBoost()
 -- /script CrutchAlerts.RemoveAttachedIconForUnit("player", "CrutchAlertsTestBoost")
+
+
+---------------------------------------------------------------------
+-- Jet
+---------------------------------------------------------------------
+local hangar
+local function CircleJet(text, radius, cycleTime)
+    if (not hangar) then
+        hangar = ZO_ControlPool:New("CrutchAlertsSpaceJet", CrutchAlertsSpace)
+    end
+
+    local control, key = hangar:AcquireObject()
+    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
+    control:SetHidden(false)
+    control:SetTransformScale(0.01)
+    control:SetAnchor(CENTER, GuiRoot, CENTER)
+
+    local _, x, y, z = GetUnitRawWorldPosition("player")
+    radius = radius or 10
+    cycleTime = cycleTime or 10000
+end
