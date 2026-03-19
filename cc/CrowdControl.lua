@@ -48,12 +48,21 @@ local TYPE_OPTIONS = {
 
 -- Some abilities shouldn't be shown or shouldn't play sound,
 -- because they're spammy or can't break free anyway
-local SUPPRESS = 1
-local SILENT = 2
-local EFFECT_ONLY = 3
+local SUPPRESS = 1 -- Don't display, but still dbg
+local SILENT = 2 -- Don't play sound
+local EFFECT_ONLY = 3 -- Only use the EFFECT_GAINED_DURATION, no need for initial STUNNED
+local IGNORE = 4 -- Completely ignore, no dbg
 local CC_ABILITY_DATA = {
     [166794] = SUPPRESS, -- Current (DSR)
-    [95456] = EFFECT_ONLY, -- Thundering Tailslap
+    [95456] = EFFECT_ONLY, -- Thundering Tailslap (AS)
+    [218509] = IGNORE, -- Arcane Encumberance (LC, snare on knot)
+
+-- IA
+    [194570] = SUPPRESS, -- Enter the Infinite (portal entry from index)
+    [194571] = SUPPRESS, -- Enter the Infinite (portal between arcs)
+    [202803] = SUPPRESS, -- Enter the Infinite (getting pulled by other player between arcs)
+    [203101] = SUPPRESS, -- Vision Select
+    [203125] = SUPPRESS, -- Verse Select
 }
 
 
@@ -72,6 +81,10 @@ local recentCCs = {} -- {[abilityId] = {result = ACTION_RESULT_STUNNED, time = 1
 local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _, hitValue, powerType, _, _, sourceUnitId, targetUnitId, abilityId)
     local options = CC_OPTIONS[result]
     if (not options) then return end
+
+    -- Manual blacklist
+    local abilityData = CC_ABILITY_DATA[abilityId]
+    if (abilityData == IGNORE) then return end
 
     local typeOptions = TYPE_OPTIONS[options.type]
 
@@ -96,8 +109,6 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
             MECHANIC_FLAGS[powerType] or "???"))
     end
 
-    -- Manual blacklist
-    local abilityData = CC_ABILITY_DATA[abilityId]
     if (abilityData == SUPPRESS) then return end
 
     -- If source type is player, it's usually player trying to cast stuff while stunned
