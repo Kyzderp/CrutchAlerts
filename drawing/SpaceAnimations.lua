@@ -186,10 +186,39 @@ Draw.TestBoost = TestBoost
 ---------------------------------------------------------------------
 -- Jet
 ---------------------------------------------------------------------
-local hangar -- TODO: offset active jets
-local function CircleJet(text, radius, cycleTime)
+local hangar
+local numJets = 0
+local circlingJets = {} -- {[key] = 1}
+local function FindAvailableJetSlot()
+    local i = 1
+    while true do
+        local taken = false
+        for _, slot in pairs(circlingJets) do
+            if (i == slot) then
+                taken = true
+                i = i + 1
+                break
+            end
+        end
+        if (not taken) then return i end
+    end
+end
+
+local function RemoveJet(key)
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. key)
+    hangar:ReleaseObject(key)
+    circlingJets[key] = nil
+    numJets = numJets - 1
+end
+
+-- nil duration = self cleanup
+-- returns key
+local function CircleJet(text, duration, radius, cycleTime)
     if (not hangar) then
         hangar = ZO_ControlPool:New("CrutchAlertsSpaceJet", CrutchAlertsSpace)
+        hangar:SetResetFunction(function(control)
+            control:SetHidden(true)
+        end)
     end
 
     local control, key = hangar:AcquireObject()
@@ -207,12 +236,18 @@ local function CircleJet(text, radius, cycleTime)
     label:SetText(text)
     control:SetWidth(2000)
     control:SetWidth(math.max(label:GetTextWidth() + 40, 300))
+    control:SetHeight(2000)
+    control:SetHeight(math.max(label:GetTextHeight() + 40, 60))
+
+    circlingJets[key] = FindAvailableJetSlot()
+    numJets = numJets + 1
 
     local function JetFunc(icon)
         local _, x, y, z = GetUnitRawWorldPosition("player")
         local time = (GetGameTimeMilliseconds() + cycleTime) % cycleTime / cycleTime
 
-        local angle = time * 2 * -math.pi
+        local offset = circlingJets[key] / numJets * math.pi * 2
+        local angle = time * 2 * -math.pi + offset
         local jetX = x + radius * 100 * math.cos(angle)
         local jetZ = z + radius * 100 * math.sin(angle)
         icon:SetPosition(jetX, y + 800, jetZ)
@@ -231,6 +266,14 @@ local function CircleJet(text, radius, cycleTime)
         JetFunc,
         Draw.SetPosition,
         Draw.SetOrientation)
+
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. key)
+    if (duration) then
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CircleJet" .. key, duration, function() RemoveJet(key) end)
+    end
+
+    return key
 end
 Draw.CircleJet = CircleJet
 -- /script CrutchAlerts.Drawing.CircleJet("hi")
+-- /script CrutchAlerts.Drawing.CircleJet(nil, 5000, nil, nil)

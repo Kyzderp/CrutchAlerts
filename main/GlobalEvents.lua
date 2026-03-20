@@ -192,16 +192,62 @@ end
 
 
 ---------------------------------------------------------------------
+-- Trial completion
+---------------------------------------------------------------------
+-- Keep track of vitality because for some reason, the completion
+-- event doesn't provide that...
+local maxVitality = 0
+local vitality = 0
+
+-- EVENT_RAID_TRIAL_STARTED (number eventCode, string trialName, boolean weekly)
+local function OnTrialStarted()
+    vitality = GetRaidReviveCountersRemaining()
+    maxVitality = GetCurrentRaidStartingReviveCounters()
+end
+
+-- EVENT_RAID_REVIVE_COUNTER_UPDATE (number eventCode, number currentCounter, number countDelta)
+local function OnVitalityChanged(_, currentCounter, countDelta)
+    vitality = currentCounter
+    maxVitality = GetCurrentRaidStartingReviveCounters()
+end
+
+-- EVENT_RAID_TRIAL_COMPLETE (number eventCode, string trialName, number score, number totalTime)
+local function OnTrialComplete(_, trialName, score, totalTime)
+    local result = string.format("%d - |t100%%:100%%:esoui/art/trials/vitalitydepletion.dds|t %d/%d - %s",
+        score,
+        vitality,
+        maxVitality,
+        FormatTimeSeconds(totalTime / 1000, TIME_FORMAT_STYLE_COLONS))
+    Crutch.dbgOther(result)
+    Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
+    vitality = 0
+    maxVitality = 0
+end
+
+---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
 function Crutch.InitializeGlobalEvents()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalCombat", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalBossesChanged", EVENT_BOSSES_CHANGED, OnBossesChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalPlayerActivated", EVENT_PLAYER_ACTIVATED, OnBossesChanged)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialComplete", EVENT_RAID_TRIAL_COMPLETE, OnTrialComplete)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialStart", EVENT_RAID_TRIAL_STARTED, OnTrialStarted)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialVitalityChange", EVENT_RAID_REVIVE_COUNTER_UPDATE, OnVitalityChanged)
+    -- In case of reload during trial
+    local raidId = GetCurrentParticipatingRaidId()
+    if (raidId ~= nil and raidId ~= 0) then
+        OnTrialStarted()
+    end
 end
 
 function Crutch.UninitializeGlobalEvents()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalCombat", EVENT_PLAYER_COMBAT_STATE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalBossesChanged", EVENT_BOSSES_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalPlayerActivated", EVENT_PLAYER_ACTIVATED)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TrialComplete", EVENT_RAID_TRIAL_COMPLETE)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TrialStart", EVENT_RAID_TRIAL_STARTED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TrialVitalityChange", EVENT_RAID_REVIVE_COUNTER_UPDATE)
 end
