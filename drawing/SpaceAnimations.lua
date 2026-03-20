@@ -206,6 +206,8 @@ end
 
 local function RemoveJet(key)
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. key)
+    Draw.activeIcons[key] = nil
+    Draw.MaybeStopPolling()
     hangar:ReleaseObject(key)
     circlingJets[key] = nil
     numJets = numJets - 1
@@ -234,10 +236,9 @@ local function CircleJet(text, duration, radius, cycleTime)
 
     local label = control:GetNamedChild("Label")
     label:SetText(text)
-    control:SetWidth(2000)
-    control:SetWidth(math.max(label:GetTextWidth() + 40, 300))
-    control:SetHeight(2000)
-    control:SetHeight(math.max(label:GetTextHeight() + 40, 60))
+    control:SetDimensions(2000, 2000)
+    control:SetWidth(math.max(label:GetTextWidth() + 50, 300))
+    control:SetHeight(math.max(label:GetTextHeight() + 30, 60))
 
     circlingJets[key] = FindAvailableJetSlot()
     numJets = numJets + 1
