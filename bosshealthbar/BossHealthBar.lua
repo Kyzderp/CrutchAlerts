@@ -333,6 +333,44 @@ local DEFAULT_STAGES = {
     [25] = "",
 }
 
+local function DrawStage(percentage, mechanic, bossTag)
+    local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
+
+    -- Number percentage on the left of the bar
+    percentageLabel:ClearAnchors()
+    percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
+    percentageLabel:SetFont(GetScaledFont(14))
+    percentageLabel:SetText(tostring(percentage))
+    percentageLabel:SetWidth(40 * GetScale())
+    percentageLabel:SetWidth(percentageLabel:GetTextWidth())
+    percentageLabel:SetHeight(16 * GetScale())
+    percentageLabel:SetColor(0.53, 0.53, 0.53)
+    percentageLabel:SetHidden(false)
+    if (Crutch.savedOptions.bossHealthBar.horizontal) then
+        percentageLabel:SetTransformRotationZ(math.pi / 2)
+    else
+        percentageLabel:SetTransformRotationZ(0)
+    end
+
+    -- Mechanic text on the right of the bar
+    mechanicLabel:ClearAnchors()
+    mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
+    mechanicLabel:SetWidth(600 * GetScale())
+    mechanicLabel:SetHeight(16 * GetScale())
+    mechanicLabel:SetFont(GetScaledFont(14))
+    mechanicLabel:SetText(mechanic)
+    mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
+    mechanicLabel:SetHidden(false)
+
+    -- Line marking the percentage through the bar
+    lineControl:ClearAnchors()
+    lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
+    lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
+    lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
+    lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
+    lineControl:SetHidden(false)
+end
+
 -- Draw number on the left, line through the bars, and text on the right for each boss stage threshold
 -- optionalBossName: If specified, uses the threshold data for that name instead of auto-detect first boss
 local function RedrawStages(optionalBossName)
@@ -343,44 +381,25 @@ local function RedrawStages(optionalBossName)
         data = DEFAULT_STAGES
     end
 
+    -- For encounters that have different stages for each boss
+    local isMulti = false
+    for i = 1, BOSS_RANK_ITERATION_END do
+        local unitTag = "boss" .. tostring(i)
+        if (data[unitTag]) then
+            isMulti = true
+            for percentage, mechanic in pairs(data[unitTag]) do
+                if (type(percentage) == "number") then
+                    DrawStage(percentage, mechanic, unitTag)
+                end
+            end
+        end
+    end
+    if (isMulti) then return end
+
     -- Create the controls and set the properties
     for percentage, mechanic in pairs(data) do
         if (type(percentage) == "number") then -- Obv can't do stages for "vetHealth" etc.
-            local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
-
-            -- Number percentage on the left of the bar
-            percentageLabel:ClearAnchors()
-            percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
-            percentageLabel:SetFont(GetScaledFont(14))
-            percentageLabel:SetText(tostring(percentage))
-            percentageLabel:SetWidth(40 * GetScale())
-            percentageLabel:SetWidth(percentageLabel:GetTextWidth())
-            percentageLabel:SetHeight(16 * GetScale())
-            percentageLabel:SetColor(0.53, 0.53, 0.53)
-            percentageLabel:SetHidden(false)
-            if (Crutch.savedOptions.bossHealthBar.horizontal) then
-                percentageLabel:SetTransformRotationZ(math.pi / 2)
-            else
-                percentageLabel:SetTransformRotationZ(0)
-            end
-
-            -- Mechanic text on the right of the bar
-            mechanicLabel:ClearAnchors()
-            mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
-            mechanicLabel:SetWidth(600 * GetScale())
-            mechanicLabel:SetHeight(16 * GetScale())
-            mechanicLabel:SetFont(GetScaledFont(14))
-            mechanicLabel:SetText(mechanic)
-            mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
-            mechanicLabel:SetHidden(false)
-
-            -- Line marking the percentage through the bar
-            lineControl:ClearAnchors()
-            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
-            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
-            lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
-            lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
-            lineControl:SetHidden(false)
+            DrawStage(percentage, mechanic, bossTag)
         end
     end
 end
@@ -724,8 +743,6 @@ function BHB.Initialize()
     end
     CrutchAlertsBossHealthBarContainer:SetHidden(not Crutch.savedOptions.bossHealthBar.enabled)
 
-    -- TODO: shields
-    -- TODO: invuln indicator
     -- TODO: skull when dead?
     -- TODO: remove attached % when dead?
     -- TODO: larger scale 0 <- I have no idea what I meant when I wrote this
