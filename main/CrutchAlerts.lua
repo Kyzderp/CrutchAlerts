@@ -11,7 +11,7 @@ CrutchAlerts = {
     InfoPanel = {},
 
     name = "CrutchAlerts",
-    version = "2.13.0",
+    version = "2.14.0-beta1",
 
     unlock = false,
 }
@@ -83,6 +83,8 @@ local defaultOptions = {
         showEngulfing = true,
 
         showGeneralAlerts = true, -- extra manual toggle for people who don't like to see general alerts in overland etc
+
+        showSpeshul = true,
 
         -- Custom IDs
         blacklist = {}, -- {[1234] = true,}

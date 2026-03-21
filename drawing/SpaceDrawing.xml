@@ -39,7 +39,7 @@
             <Controls>
                 <Texture name="$(parent)Rope" textureFile="/esoui/art/charactercreate/gamepad/selectortriangle.dds" tier="LOW" level="0">
                     <Dimensions x="60" y="200"/>
-                    <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-25"/>
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-67"/>
                     <OnInitialized>
                         self:SetTransformRotationZ(math.rad(90))
                     </OnInitialized>
@@ -54,8 +54,8 @@
                 </Label>
                 <Texture name="$(parent)Jet" textureFile="CrutchAlerts/assets/jetplane.dds"  tier="LOW" level="2">
                     <Dimensions x="72" y="72"/>
-                    <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-90"/>
-                    <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-160"/>
+                    <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-100"/>
+                    <Anchor point="RIGHT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="-170"/>
                 </Texture>
             </Controls>
         </Control>

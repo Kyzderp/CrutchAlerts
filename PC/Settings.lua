@@ -1243,6 +1243,17 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                     disabled = function() return not Crutch.savedOptions.showSubtitles end,
                 },
+                {
+                    type = "checkbox",
+                    name = "Enable \"fun\" stuff",
+                    tooltip = "This is where I'd put my Easter eggs... if I had any!",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.showSpeshul end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showSpeshul = value
+                    end,
+                    width = "full",
+                },
             }
         },
 -- debug

@@ -669,6 +669,17 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Enable \"fun\" stuff",
+        tooltip = "This is where I'd put my Easter eggs... if I had any!",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.general.showSpeshul end,
+        setFunction = function(value)
+            Crutch.savedOptions.general.showSpeshul = value
+        end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_EDIT,
         label = "Blacklist IDs, separated by commas",
         tooltip = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above. To find IDs, you can turn on \"Show debug on alert\" below, and the ID is the first number shown on the small gray text under the alert (ignore fake IDs starting with 888). Alternatively, you can find IDs from online sources such as ESOLogs, player-maintained spreadsheets, or UESP.\n\nIDs added to this blacklist will no longer be shown in \"begin casts,\" \"gained casts,\" and \"casts on others.\" For example, to suppress Bahsei HM portal direction alerts, add 153517,153518",

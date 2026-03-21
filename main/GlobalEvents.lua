@@ -213,18 +213,24 @@ end
 
 -- EVENT_RAID_TRIAL_COMPLETE (number eventCode, string trialName, number score, number totalTime)
 local function OnTrialComplete(_, trialName, score, totalTime)
-    local result = string.format("%d - |t100%%:100%%:esoui/art/trials/vitalitydepletion.dds|t %d/%d - %s",
-        score,
-        vitality,
-        maxVitality,
-        FormatTimeSeconds(totalTime / 1000, TIME_FORMAT_STYLE_COLONS))
-    Crutch.dbgOther(result)
-    Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
-    Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
-    Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
+    if (Crutch.savedOptions.general.showSpeshul) then
+        if (Crutch.savedOptions.experimental or Crutch.GetSpeshulDate() == 401) then
+            local result = string.format("%d - |t100%%:100%%:esoui/art/trials/vitalitydepletion.dds|t %d/%d - %s",
+                score,
+                vitality,
+                maxVitality,
+                FormatTimeSeconds(totalTime / 1000, TIME_FORMAT_STYLE_COLONS))
+            Crutch.dbgOther(result)
+            Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
+            Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
+            Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
+        end
+    end
     vitality = 0
     maxVitality = 0
 end
+Crutch.OnTrialComplete = OnTrialComplete
+-- /script CrutchAlerts.OnTrialComplete(nil, nil, 12345, 934000)
 
 ---------------------------------------------------------------------
 -- Init
@@ -234,15 +240,13 @@ function Crutch.InitializeGlobalEvents()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalBossesChanged", EVENT_BOSSES_CHANGED, OnBossesChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalPlayerActivated", EVENT_PLAYER_ACTIVATED, OnBossesChanged)
 
-    if (Crutch.savedOptions.experimental) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialComplete", EVENT_RAID_TRIAL_COMPLETE, OnTrialComplete)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialStart", EVENT_RAID_TRIAL_STARTED, OnTrialStarted)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialVitalityChange", EVENT_RAID_REVIVE_COUNTER_UPDATE, OnVitalityChanged)
-        -- In case of reload during trial
-        local raidId = GetCurrentParticipatingRaidId()
-        if (raidId ~= nil and raidId ~= 0) then
-            OnTrialStarted()
-        end
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialComplete", EVENT_RAID_TRIAL_COMPLETE, OnTrialComplete)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialStart", EVENT_RAID_TRIAL_STARTED, OnTrialStarted)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialVitalityChange", EVENT_RAID_REVIVE_COUNTER_UPDATE, OnVitalityChanged)
+    -- In case of reload during trial
+    local raidId = GetCurrentParticipatingRaidId()
+    if (raidId ~= nil and raidId ~= 0) then
+        OnTrialStarted()
     end
 end
 

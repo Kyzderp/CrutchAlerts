@@ -208,3 +208,12 @@ local function ConvertRoleValueToConsoleString(setting)
     return ROLE_SETTING_TO_STRING[setting]
 end
 Crutch.ConvertRoleValueToConsoleString = ConvertRoleValueToConsoleString
+
+
+---------------------------------------------------------------------
+-- "Fun"
+---------------------------------------------------------------------
+local function GetSpeshulDate()
+    return GetDate() % 10000 -- 401
+end
+Crutch.GetSpeshulDate = GetSpeshulDate

@@ -238,7 +238,9 @@ local function CircleJet(text, duration, radius, cycleTime)
     label:SetText(text)
     control:SetDimensions(2000, 2000)
     control:SetWidth(math.max(label:GetTextWidth() + 50, 300))
-    control:SetHeight(math.max(label:GetTextHeight() + 30, 60))
+    local height = math.max(label:GetTextHeight() + 30, 60)
+    control:SetHeight(height)
+    control:GetNamedChild("Rope"):SetWidth(height - 28)
 
     circlingJets[key] = FindAvailableJetSlot()
     numJets = numJets + 1
