@@ -104,7 +104,9 @@ local function OnServantBegin(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _
 
     nextIndex = nextIndex + 1
 
-    UpdateDisplay()
+    if (Crutch.IsInNahvPortal()) then -- Could happen if portal wipe
+        UpdateDisplay()
+    end
 end
 
 function SS.Test(abilityId)
