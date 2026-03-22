@@ -105,13 +105,17 @@ local TELEPORT_NAME = "   |cd63a3a" .. GetAbilityName(99138)
 local lastFelmsJump = 0
 local felmsJumpNumber = 0
 
+-- Sets teleport to count down immediately
 local function SetTeleportCountdown(msUntil)
     if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport)) then return end
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "FelmsJumpCountdown")
     Crutch.InfoPanel.CountDownDuration(PANEL_FELMS_TELEPORT_INDEX, TELEPORT_NAME .. ": ", msUntil, SUBITEM_SCALE)
 end
 
+-- Sets teleport to a static name
 local function SetTeleport(targetName)
     if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsTeleport)) then return end
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "FelmsJumpCountdown")
     Crutch.InfoPanel.StopCount(PANEL_FELMS_TELEPORT_INDEX)
     Crutch.InfoPanel.SetLine(
         PANEL_FELMS_TELEPORT_INDEX,
@@ -131,8 +135,6 @@ end
 
 local function OnFelmsJump(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     if (not felmsDormant) then
-        -- SetTeleport(20500) -- TODO
-
         local now = GetGameTimeMilliseconds()
         if (now - lastFelmsJump < 15000) then
             -- Consider this a consecutive jump
