@@ -364,8 +364,26 @@ local function DrawStage(percentage, mechanic, bossTag)
 
     -- Line marking the percentage through the bar
     lineControl:ClearAnchors()
-    lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
-    lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
+
+    if (not bossTag) then
+        lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
+        lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
+    else
+        local index = string.gsub(bossTag, "boss", "")
+        index = tonumber(index)
+        local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
+        if (index == 1) then
+            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
+        else
+            lineControl:SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
+        end
+        if (index == 2) then -- TODO: not good for more than 2 bosses
+            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
+        else
+            lineControl:SetAnchor(BOTTOMRIGHT, statusBar, TOPRIGHT, 2 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
+        end
+    end
+
     lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
     lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
     lineControl:SetHidden(false)

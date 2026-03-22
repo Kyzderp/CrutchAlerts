@@ -801,7 +801,6 @@ local dungeonThresholds = {
         boss1 = {
             [70] = "Bar-Sakka",
             [30] = "Bar-Sakka",
-            [5] = "Bar-Sakka",
         },
         boss2 = {
             [55] = "Talen-Lah",
