@@ -11,7 +11,7 @@ CrutchAlerts = {
     InfoPanel = {},
 
     name = "CrutchAlerts",
-    version = "2.14.0-beta1",
+    version = "2.14.0",
 
     unlock = false,
 }

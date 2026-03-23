@@ -295,6 +295,8 @@ function AS.UnregisterMiniPanel()
     Crutch.InfoPanel.StopCount(PANEL_FELMS_HEADER_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_FELMS_TELEPORT_INDEX)
 
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "FelmsJumpCountdown")
+
     llothisDisplaying = false
     llothisDormant = false
     felmsDormant = false
