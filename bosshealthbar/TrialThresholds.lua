@@ -164,6 +164,16 @@ local trialThresholds = {
             [80] = "Atronach",
             [70] = "2nd Teleports",
             [65] = "1st Teleports",
+            boss1 = { -- TODO: detect which one is first and second
+                [90] = "Atronach",
+                [80] = "Atronach",
+                [65] = "1st Teleports",
+            },
+            boss2 = { -- TODO: detect which one is first and second
+                [90] = "Atronach",
+                [80] = "Atronach",
+                [70] = "2nd Teleports",
+            },
         },
         ["Hardmode"] = {
             [90] = "Same-color Atro",

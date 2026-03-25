@@ -86,6 +86,7 @@ zones/dungeons/CoralAerie.lua
 zones/dungeons/ShipwrightsRegret.lua
 
 bosshealthbar/BossHealthBar.lua
+bosshealthbar/BossHealthBarAPI.lua
 bosshealthbar/BossHealthBar.xml
 bosshealthbar/AttributeVisualizers.lua
 bosshealthbar/TrialThresholds.lua
