@@ -350,8 +350,7 @@ local function OverrideBHBThresholds()
     end
 
     Crutch.dbgOther("Inferred " .. numMinis .. " minis, overriding thresholds...")
-    Crutch.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds)
-    Crutch.RedrawBHBStages()
+    Crutch.BossHealthBar.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds)
 end
 
 local function OnMiniBoss(_, _, _, _, _, _, _, _, _, _, _, _, _, _, sourceUnitId, targetUnitId)
@@ -381,7 +380,7 @@ local function ResetValuesOnWipe()
     -- mini detection
     foundMinis = false
     ZO_ClearTable(foundMiniShades)
-    Crutch.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA))
+    Crutch.BossHealthBar.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA))
 end
 
 ---------------------------------------------------------------------

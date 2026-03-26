@@ -61,13 +61,21 @@ Crutch.UnspoofBoss = UnspoofBoss
 local thresholdOverrides = {}
 local function AddThresholdOverride(name, thresholds)
     thresholdOverrides[name] = thresholds
+    for _, listener in pairs(BHB.thresholdsChangeListeners) do
+        listener(name, true)
+    end
 end
-Crutch.AddThresholdOverride = AddThresholdOverride
+BHB.AddThresholdOverride = AddThresholdOverride
 
 local function RemoveThresholdOverride(name)
-    thresholdOverrides[name] = nil
+    if (thresholdOverrides[name]) then
+        thresholdOverrides[name] = nil
+        for _, listener in pairs(BHB.thresholdsChangeListeners) do
+            listener(name, false)
+        end
+    end
 end
-Crutch.RemoveThresholdOverride = RemoveThresholdOverride
+BHB.RemoveThresholdOverride = RemoveThresholdOverride
 
 local function GetThresholdOverride(name)
     return thresholdOverrides[name]
@@ -374,7 +382,10 @@ local function RedrawStages(optionalBossName)
         end
     end
 end
-Crutch.RedrawBHBStages = RedrawStages
+
+local function OnThresholdsChanged(name, isAdded)
+    RedrawStages()
+end
 
 local logNextPowerUpdate = 0 -- Used to log the next X health updates after max health change because sometimes the stages get grayed out :angy:
 local powerUpdateDebug = false -- Manual enabling of health update spam
@@ -670,6 +681,7 @@ local bhbFragment = nil
 
 local function RegisterEvents()
     Crutch.RegisterBossChangedListener("CrutchBHBBossChange", OnBossesChanged)
+    BHB.RegisterThresholdsChangeListener("CrutchBHBThresholdsChange", OnThresholdsChanged)
 
     EVENT_MANAGER:RegisterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, OnPowerUpdate)
     EVENT_MANAGER:AddFilterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
@@ -681,6 +693,7 @@ local function UnregisterEvents()
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistering Boss Health Bar events")
 
     Crutch.UnregisterBossChangedListener("CrutchBHBBossChange")
+    BHB.UnregisterThresholdsChangeListener("CrutchBHBThresholdsChange")
 
     EVENT_MANAGER:UnregisterForEvent("CrutchAlertsBossHealthBarPowerUpdate", EVENT_POWER_UPDATE)
 end

@@ -62,3 +62,24 @@ local function GetBossThresholds(optionalBossName)
     return data
 end
 BHB.GetBossThresholds = GetBossThresholds
+
+
+---------------------------------------------------------------------
+-- Register for threshold changes here. It could be called even after
+-- the health bar should no longer be shown. Maybe.
+---------------------------------------------------------------------
+local thresholdsChangeListeners = {}
+BHB.thresholdsChangeListeners = thresholdsChangeListeners
+
+-- Register for thresholds changing
+-- @param name - a unique string
+-- @param listener - a function that will be called when thresholds change, with params (name: string, isAdded: bool)
+local function RegisterThresholdsChangeListener(name, listener)
+    thresholdsChangeListeners[name] = listener
+end
+BHB.RegisterThresholdsChangeListener = RegisterThresholdsChangeListener
+
+local function UnregisterThresholdsChangeListener(name)
+    thresholdsChangeListeners[name] = nil
+end
+BHB.UnregisterThresholdsChangeListener = UnregisterThresholdsChangeListener
