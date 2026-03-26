@@ -251,6 +251,9 @@ local trialThresholds = {
         [25] = "Adds",
         [15] = "Color Change",
     },
+    ["Defense Prism"] = { -- TODO: localization
+        [30] = "",
+    },
 
 -- Ossein Cage
     [GetBossName(CRUTCH_BHB_OVERFIEND_KAZPIAN)] = {
