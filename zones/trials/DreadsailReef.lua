@@ -20,6 +20,74 @@ local function OnPiercingHailstone(_, changeType, _, _, unitTag, _, _, stackCoun
     end
 end
 
+local twinsThresholds = {
+    normHealth = 10906420,
+    vetHealth = 27943440,
+    hmHealth = 55886880,
+    ["Normal"] = {
+        [90] = "Atronach",
+        [80] = "Atronach",
+        [70] = "2nd Teleports",
+        [65] = "1st Teleports",
+        boss1 = {},
+        boss2 = {},
+    },
+    ["Veteran"] = {
+        [90] = "Atronach",
+        [80] = "Atronach",
+        [70] = "2nd Teleports",
+        [65] = "1st Teleports",
+        boss1 = {},
+        boss2 = {},
+    },
+    ["Hardmode"] = {
+        [90] = "Same-color Atro",
+        [85] = "Off-color Atro",
+        [80] = "Same-color Atro",
+        [75] = "Off-color Atro",
+        [70] = "2nd Teleports",
+        [65] = "1st Teleports",
+        boss1 = {},
+        boss2 = {},
+    }
+}
+
+-- When a boss' health drops below max, we know it's the twin that's active
+local function OnBossHealthDrop(_, unitTag, _, _, powerValue, powerMax, powerEffectiveMax)
+    if (powerValue >= powerMax) then return end
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRTwinsHealth", EVENT_POWER_UPDATE)
+    Crutch.dbgOther(unitTag .. " damaged")
+
+    local DIFFICULTIES = {"Normal", "Veteran", "Hardmode"}
+    for _, difficulty in ipairs(DIFFICULTIES) do
+        for i = 1, 2 do
+            local boss = "boss" .. i
+            local tab = twinsThresholds[difficulty][boss]
+            ZO_ClearTable(tab)
+
+            if (difficulty == "Normal" or difficulty == "Veteran") then
+                tab[90] = "Atronach"
+                tab[80] = "Atronach"
+            else
+                tab[90] = "Same-color Atro"
+                tab[85] = "Off-color Atro"
+                tab[80] = "Same-color Atro"
+                tab[75] = "Off-color Atro"
+            end
+
+            -- The boss that was damaged first will have the 65% teleport
+            if (boss == unitTag) then
+                tab[65] = "2nd Teleports"
+            else
+                tab[70] = "1st Teleports"
+            end
+        end
+    end
+
+    Crutch.BossHealthBar.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_LYLANAR), twinsThresholds)
+end
+
 
 ---------------------------------------------------------------------
 -- Reef Guardian
@@ -166,6 +234,16 @@ local function GetUnitNameIfExists(unitTag)
     end
 end
 
+-- Twins health
+local function OnBossesChanged()
+    if (zo_strformat("<<1>>", GetString(CRUTCH_BHB_LYLANAR)) == zo_strformat("<<1>>", GetUnitNameIfExists("boss1") or "")) then
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRTwinsHealth", EVENT_POWER_UPDATE, OnBossHealthDrop)
+    else
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRTwinsHealth", EVENT_POWER_UPDATE)
+        Crutch.BossHealthBar.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_LYLANAR))
+    end
+end
+
 function Crutch.RegisterDreadsailReef()
     -- Chat output for who picks up domes
     if (Crutch.savedOptions.general.showRaidDiag) then
@@ -176,6 +254,9 @@ function Crutch.RegisterDreadsailReef()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 166178)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     end
+
+    -- Twins detection for which boss first
+    Crutch.RegisterBossChangedListener("CrutchDSRBossChanged", OnBossesChanged)
 
     -- Lightning Stacks
     local showStatic
@@ -221,6 +302,10 @@ function Crutch.UnregisterDreadsailReef()
     -- Domes
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, OnDestructiveEmber)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, OnPiercingHailstone)
+
+    -- Twins detection
+    Crutch.UnregisterBossChangedListener("CrutchDSRBossChanged")
+    Crutch.BossHealthBar.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_LYLANAR))
 
     -- Lightning Stacks
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED)

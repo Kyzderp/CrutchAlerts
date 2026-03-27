@@ -360,7 +360,8 @@ local function RedrawStages(optionalBossName)
         data = DEFAULT_STAGES
     end
 
-    -- For encounters that have different stages for each boss
+    -- For encounters that have different stages for each boss, care only about the individual stages
+    -- TODO: or are there encounters where we do care about both kinds?
     local isMulti = false
     for i = 1, BOSS_RANK_ITERATION_END do
         local unitTag = "boss" .. tostring(i)
