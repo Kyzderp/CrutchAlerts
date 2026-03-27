@@ -132,7 +132,8 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Stages
 ---------------------------------------------------------------------------------------------------
-local mechanicControls = {} -- { [1] = { state = ACTIVE, percentNumber = 70, percentage = control, mechanic = control, line = control, }, }
+-- individual: the tag if using multi boss1 boss2 etc to draw line on only that boss, nil otherwise
+local mechanicControls = {} -- { [1] = { state = ACTIVE, percentNumber = 70, percentage = control, mechanic = control, line = control, individual = "boss1"}, }
 local INACTIVE = 0
 local ACTIVE = 1
 local IMMINENT = 2
@@ -191,10 +192,12 @@ local function GetUnusedControlsIndex()
 end
 
 -- Returns the individual controls for a stage
-local function CreateStageControl(percentage)
+-- bossTag is usually nil, unless doing individual thresholds
+local function CreateStageControl(percentage, bossTag)
     local controls = mechanicControls[GetUnusedControlsIndex()]
     controls.state = ACTIVE
     controls.percentNumber = percentage
+    controls.individual = bossTag
     return controls.percentage, controls.mechanic, controls.line
 end
 
@@ -262,17 +265,23 @@ local function UpdateStagesWithBossHealth()
 
     for _, controls in ipairs(mechanicControls) do
         if (controls.state ~= INACTIVE) then
+            -- Normally use highest health, but if it's individual threshold, use that boss
+            local healthToCheck = highestHealth
+            if (controls.individual) then
+                healthToCheck = GetBossHealth(tonumber(string.gsub(controls.individual, "boss", "")))
+            end
+
             if (controls.state == PASSED) then
                 -- Don't redo the ones that have already passed, because if boss heals up,
                 -- this would still leave them grayed out, which is good
-            elseif (highestHealth < controls.percentNumber - 1) then
+            elseif (healthToCheck < controls.percentNumber - 1) then
                 -- If the highest health is already more than 1% lower than mechanic, gray out mechanic
                 controls.state = PASSED
                 controls.percentage:SetColor(0.53, 0.53, 0.53, 0.5)
                 controls.mechanic:SetColor(0.53, 0.53, 0.53, 0.5)
                 controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.1)
                 controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.1)
-            elseif (highestHealth >= controls.percentNumber - 1 and highestHealth <= controls.percentNumber + 5) then
+            elseif (healthToCheck >= controls.percentNumber - 1 and healthToCheck <= controls.percentNumber + 5) then
                 -- If the highest health is within 5% above the mechanic or 1% just after, highlight it
                 -- e.g. 75, 74, 73, 72, 71, 70, 69 % would display as yellow
                 controls.state = IMMINENT
@@ -295,7 +304,7 @@ local DEFAULT_STAGES = {
 }
 
 local function DrawStage(percentage, mechanic, bossTag)
-    local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage)
+    local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage, bossTag)
 
     -- Number percentage on the left of the bar
     percentageLabel:ClearAnchors()
