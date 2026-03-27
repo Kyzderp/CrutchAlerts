@@ -63,6 +63,7 @@ local function CountDownLeap(durationMs, preventOverwrite)
     end
 end
 
+local firstLeap = true -- Used to do initial leap timer
 local numClashes = 0
 -- 36.906, 38.246, 36.941, 36.819, 38.268, 38.263, 36.899
 -- 36.6, 36.56, 37.9, 36.9, 36.58, 37.84, 36.9, 36.5
@@ -103,6 +104,12 @@ local function OnLeap()
 
     -- more HM 75~35%: 48.4, 46.1, 47.4
     local timer = 46100 -- TODO: OCH seems to say 48, and 43 after the 2nd jump after 2nd clash?
+
+    if (firstLeap) then -- First one of the pull is "delayed" by curse or something like that. 1:25.44, 1:24.8, 1:26.18, 1:24.26
+        firstLeap = false
+        timer = 84000
+    end
+
     CountDownLeap(timer, true)
 
     -- TODO: is the timer since the first titan to leap, or the 2nd?
@@ -119,8 +126,6 @@ local function OnCombatStart()
         timer = 5500
     end
     CountDownLeap(timer, true)
-
-    -- TODO: first leap after initial before first portal 1:25.44, 1:24.8
 end
 
 -- Cleanup
@@ -128,6 +133,7 @@ local function CleanUp()
     Crutch.InfoPanel.StopCount(PANEL_LEAP_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_CLASH_INDEX)
     numClashes = 0
+    firstLeap = true
 end
 
 local function RegisterPanelEvents()
