@@ -315,6 +315,7 @@ local function UpdateStagesWithBossHealth()
         )
     highestHealth = RoundHealth(highestHealth * 100)
 
+    -- First pass: just update the state; this is needed to determine multi threshold logic later
     for _, controls in ipairs(mechanicControls) do
         if (controls.state ~= INACTIVE) then
             -- Normally use highest health, but if it's individual threshold, use that boss
@@ -324,28 +325,35 @@ local function UpdateStagesWithBossHealth()
                 healthToCheck = RoundHealth(GetBossHealthFraction(tonumber(bossIndex)) * 100)
             end
 
-            if (controls.state == PASSED) then
-                -- Don't redo the ones that have already passed, because if boss heals up,
-                -- this would still leave them grayed out, which is good
-            elseif (healthToCheck < controls.percentNumber - 1) then
+            if (controls.state ~= PASSED and healthToCheck < controls.percentNumber - 1) then
                 -- If the highest health is already more than 1% lower than mechanic, gray out mechanic
                 controls.state = PASSED
-                controls.percentage:SetColor(0.53, 0.53, 0.53, 0.5)
-                controls.mechanic:SetColor(0.53, 0.53, 0.53, 0.5)
-                controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.1)
-                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.1)
-            elseif (healthToCheck >= controls.percentNumber - 1 and healthToCheck <= controls.percentNumber + 5) then
+            elseif (controls.state ~= IMMINENT
+                and healthToCheck >= controls.percentNumber - 1
+                and healthToCheck <= controls.percentNumber + 5) then
                 -- If the highest health is within 5% above the mechanic or 1% just after, highlight it
                 -- e.g. 75, 74, 73, 72, 71, 70, 69 % would display as yellow
                 controls.state = IMMINENT
-                controls.percentage:SetColor(1, 1, 0, 0.5)
-                controls.mechanic:SetColor(1, 1, 0, 0.5)
-                controls.line:GetNamedChild("Backdrop"):SetCenterColor(1, 1, 0, 0.67)
-                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(1, 1, 0, 0.67)
-            else
-                -- Don't "clean" the ones that are still below the health, because if boss heals up,
-                -- this would still leave them grayed out, which is good
             end
+            -- Don't redo the ones that have already passed, because if boss heals up,
+            -- this would still leave them grayed out, which is good
+            -- Don't "clean" the ones that are still below the health, because if boss heals up,
+            -- this would still leave them grayed out, which is good
+        end
+    end
+
+    -- Second pass: update displays
+    for _, controls in ipairs(mechanicControls) do
+        if (controls.state == PASSED) then
+            controls.percentage:SetColor(0.53, 0.53, 0.53, 0.5)
+            controls.mechanic:SetColor(0.53, 0.53, 0.53, 0.5)
+            controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.1)
+            controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.1)
+        elseif (controls.state == IMMINENT) then
+            controls.percentage:SetColor(1, 1, 0, 0.5)
+            controls.mechanic:SetColor(1, 1, 0, 0.5)
+            controls.line:GetNamedChild("Backdrop"):SetCenterColor(1, 1, 0, 0.67)
+            controls.line:GetNamedChild("Backdrop"):SetEdgeColor(1, 1, 0, 0.67)
         end
     end
 end
