@@ -134,6 +134,7 @@ end
 ---------------------------------------------------------------------------------------------------
 -- individual: the tag if using multi boss1 boss2 etc to draw line on only that boss, nil otherwise
 local mechanicControls = {} -- { [1] = { state = ACTIVE, percentNumber = 70, percentage = control, mechanic = control, line = control, individual = "boss1"}, }
+local multiMechanics = {} -- {[percentNumber] = {mechanicControlsIndex, mechanicControlsIndex}}
 local INACTIVE = 0
 local ACTIVE = 1
 local IMMINENT = 2
@@ -228,7 +229,7 @@ BHB.GetFirstValidBossTag = GetFirstValidBossTag
 ---------------------------------------------------------------------------------------------------
 local bossHealths = {} -- { [1] = {current = 7231, max = 329131,}, }
 
-local function GetBossHealth(id)
+local function GetBossHealthFraction(id)
     -- Do not include spoofed bosses in stage highlighting
     local tag = "boss" .. tostring(id)
     if (spoofedBosses[tag]) then
@@ -240,6 +241,10 @@ local function GetBossHealth(id)
     end
 
     return bossHealths[id].current / bossHealths[id].max
+end
+
+-- For
+local function GetMultiMechanicHighlightInfo(percentageNumber, bossTag)
 end
 
 -- Make stages that have already passed less obvious, and maybe highlight imminent stages
@@ -254,12 +259,12 @@ end
 local function UpdateStagesWithBossHealth()
     -- Use the maximum health
     local highestHealth = math.max(
-        GetBossHealth(1),
-        GetBossHealth(2),
-        GetBossHealth(3),
-        GetBossHealth(4),
-        GetBossHealth(5),
-        GetBossHealth(6)
+        GetBossHealthFraction(1),
+        GetBossHealthFraction(2),
+        GetBossHealthFraction(3),
+        GetBossHealthFraction(4),
+        GetBossHealthFraction(5),
+        GetBossHealthFraction(6)
         )
     highestHealth = RoundHealth(highestHealth * 100)
 
@@ -268,7 +273,8 @@ local function UpdateStagesWithBossHealth()
             -- Normally use highest health, but if it's individual threshold, use that boss
             local healthToCheck = highestHealth
             if (controls.individual) then
-                healthToCheck = GetBossHealth(tonumber(string.gsub(controls.individual, "boss", "")))
+                local bossIndex = string.gsub(controls.individual, "boss", "")
+                healthToCheck = RoundHealth(GetBossHealthFraction(tonumber(bossIndex)) * 100)
             end
 
             if (controls.state == PASSED) then
@@ -335,22 +341,26 @@ local function DrawStage(percentage, mechanic, bossTag)
     -- Line marking the percentage through the bar
     lineControl:ClearAnchors()
 
+    local topLeftYOffset = (100 - percentage) / 5 * 16 * GetScale() + 1
+    local bottomRightYOffset = (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale()
     if (not bossTag) then
-        lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
-        lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
+        lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), topLeftYOffset)
+        lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), bottomRightYOffset)
     else
         local index = string.gsub(bossTag, "boss", "")
         index = tonumber(index)
+
+        -- Status bar is 4 pixels shorter than the container for... reasons. So account for the 2px margins with the y offsets
         local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
         if (index == 1) then
-            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
+            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), topLeftYOffset)
         else
-            lineControl:SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 1)
+            lineControl:SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), topLeftYOffset - 2)
         end
         if (index == 2) then -- TODO: not good for more than 2 bosses
-            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
+            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), bottomRightYOffset)
         else
-            lineControl:SetAnchor(BOTTOMRIGHT, statusBar, TOPRIGHT, 2 * GetScale(), (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale())
+            lineControl:SetAnchor(BOTTOMRIGHT, statusBar, TOPRIGHT, 2 * GetScale(), bottomRightYOffset - 2)
         end
     end
 

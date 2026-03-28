@@ -13,7 +13,6 @@ end
 ---------------------------------------------------------------------
 local arenaThresholds = {
 -- Blackrose Prison
-    -- TODO: localization
     [GetBossName(CRUTCH_BHB_TAMESTHEBEAST)] = {
         [60] = "Mini", -- TODO: 2nd arena: haj/wamasu; 4th arena: wamasu/haj
         [40] = "Mini",

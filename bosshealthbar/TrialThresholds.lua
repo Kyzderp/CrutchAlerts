@@ -79,12 +79,7 @@ local trialThresholds = {
     [GetBossName(CRUTCH_BHB_SHADE_OF_SIRORIA)] = {
         [60] = "Siroria starts jumping",
     },
-    -- I'd add the mini spawns for Z'Maja, but I haven't found a way to detect difficulty easily.
-    -- +0, +1, +2, +3 all have the same HP for Z'Maja. Maybe there's a missing buff somewhere?
-    -- Otherwise, I'd have to change the mechanic stages once mechs like flare, barswap, frost
-    -- start showing up, which would be... a lotta work
-    -- On vet, it could be possible to check the score to see how many side bosses were killed
-    -- ... but also a lotta work
+    -- Z'Maja thresholds are detected programmatically, see Cloudrest.lua
 
 -- Sunspire
     [GetBossName(CRUTCH_BHB_LOKKESTIIZ)] = {
@@ -150,6 +145,7 @@ local trialThresholds = {
 
 -- Dreadsail Reef
     [GetBossName(CRUTCH_BHB_LYLANAR)] = {
+        -- Twins thresholds are updated programmatically after first boss is damaged, see DreadsailReef.lua
         normHealth = 10906420,
         vetHealth = 27943440,
         hmHealth = 55886880,
@@ -164,16 +160,6 @@ local trialThresholds = {
             [80] = "Atronach",
             [70] = "2nd Teleports",
             [65] = "1st Teleports",
-            boss1 = { -- TODO: detect which one is first and second
-                [90] = "Atronach",
-                [80] = "Atronach",
-                [65] = "1st Teleports",
-            },
-            boss2 = { -- TODO: detect which one is first and second
-                [90] = "Atronach",
-                [80] = "Atronach",
-                [70] = "2nd Teleports",
-            },
         },
         ["Hardmode"] = {
             [90] = "Same-color Atro",
@@ -256,6 +242,10 @@ local trialThresholds = {
     },
 
 -- Ossein Cage
+    ["Jynorah"] = { -- TODO: localization
+        [75] = "",
+        [35] = "",
+    },
     [GetBossName(CRUTCH_BHB_OVERFIEND_KAZPIAN)] = {
         [85] = "Portal", -- TODO "You think you're worthy? You know nothing of power."
         [55] = "Portal", -- TODO "Still here? Let's see how much suffering you generate!"

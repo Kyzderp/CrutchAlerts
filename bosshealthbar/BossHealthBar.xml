@@ -38,11 +38,6 @@
                     <Limits min="0" max="1"/>
                     <AnchorFill/>
                 </StatusBar>
-                <!-- <StatusBar name="$(parent)ShieldTexture" orientation="VERTICAL" color="20FFFFFF" hidden="false" value="0.8" layer="1" level="4" textureFile="/art/fx/texture/gradient_04.dds">
-                    <TextureCoords left="0" right="0.1"/>
-                    <Limits min="0" max="1"/>
-                    <AnchorFill/>
-                </StatusBar> -->
                 <StatusBar name="$(parent)Invuln" orientation="VERTICAL" color="60F2D379" hidden="false" value="0" layer="1" level="5">
                     <Limits min="0" max="1"/>
                     <AnchorFill/>
