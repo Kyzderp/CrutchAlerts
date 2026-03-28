@@ -78,9 +78,9 @@ local function OnBossHealthDrop(_, unitTag, _, _, powerValue, powerMax, powerEff
 
             -- The boss that was damaged first will have the 65% teleport
             if (boss == unitTag) then
-                tab[65] = "2nd Teleports"
+                tab[65] = "1st Teleports"
             else
-                tab[70] = "1st Teleports"
+                tab[70] = "2nd Teleports"
             end
         end
     end
@@ -238,6 +238,8 @@ end
 local function OnBossesChanged()
     if (zo_strformat("<<1>>", GetString(CRUTCH_BHB_LYLANAR)) == zo_strformat("<<1>>", GetUnitNameIfExists("boss1") or "")) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRTwinsHealth", EVENT_POWER_UPDATE, OnBossHealthDrop)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
     else
         EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRTwinsHealth", EVENT_POWER_UPDATE)
         Crutch.BossHealthBar.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_LYLANAR))
@@ -257,6 +259,7 @@ function Crutch.RegisterDreadsailReef()
 
     -- Twins detection for which boss first
     Crutch.RegisterBossChangedListener("CrutchDSRBossChanged", OnBossesChanged)
+    OnBossesChanged()
 
     -- Lightning Stacks
     local showStatic

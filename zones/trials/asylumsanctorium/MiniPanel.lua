@@ -9,12 +9,12 @@ local CONE_NAME = "   |c64c200" .. GetAbilityName(95545) .. ": " -- Defiling Dye
 local FART_NAME = "   |c9447ff" .. GetAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
 
 local PANEL_LLOTHIS_HEADER_INDEX = 5
-local PANEL_LLOTHIS_BOLTS_INDEX = 6
-local PANEL_LLOTHIS_CONE_INDEX = 7
-local PANEL_LLOTHIS_FART_INDEX = 8
-local PANEL_DUMMY_INDEX = 9
-local PANEL_FELMS_HEADER_INDEX = 10
-local PANEL_FELMS_TELEPORT_INDEX = 11
+local PANEL_LLOTHIS_BOLTS_INDEX = 7
+local PANEL_LLOTHIS_CONE_INDEX = 8
+local PANEL_LLOTHIS_FART_INDEX = 9
+local PANEL_DUMMY_INDEX = 10
+local PANEL_FELMS_HEADER_INDEX = 11
+local PANEL_FELMS_TELEPORT_INDEX = 13
 
 local SUBITEM_SCALE = 1
 local HEADER_SCALE = 0.7
