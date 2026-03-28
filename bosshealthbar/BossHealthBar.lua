@@ -303,6 +303,12 @@ end
 -- when one boss passes?
 -- TODO: add another type that deactivates after boss heals, e.g. vUG Hakgrym goes invuln and heals
 -- at 6%, leaving the stage yellow
+--[[
+local INACTIVE = 0
+local ACTIVE = 1
+local IMMINENT = 2
+local PASSED = 3
+]]
 local function UpdateStagesWithBossHealth()
     -- Use the maximum health
     local highestHealth = math.max(
@@ -328,12 +334,14 @@ local function UpdateStagesWithBossHealth()
             if (controls.state ~= PASSED and healthToCheck < controls.percentNumber - 1) then
                 -- If the highest health is already more than 1% lower than mechanic, gray out mechanic
                 controls.state = PASSED
+                Crutch.dbgOther(string.format("%s now %d", controls.individual or "single", controls.state))
             elseif (controls.state ~= IMMINENT
                 and healthToCheck >= controls.percentNumber - 1
                 and healthToCheck <= controls.percentNumber + 5) then
                 -- If the highest health is within 5% above the mechanic or 1% just after, highlight it
                 -- e.g. 75, 74, 73, 72, 71, 70, 69 % would display as yellow
                 controls.state = IMMINENT
+                Crutch.dbgOther(string.format("%s now %d", controls.individual or "single", controls.state))
             end
             -- Don't redo the ones that have already passed, because if boss heals up,
             -- this would still leave them grayed out, which is good
@@ -343,17 +351,42 @@ local function UpdateStagesWithBossHealth()
     end
 
     -- Second pass: update displays
-    for _, controls in ipairs(mechanicControls) do
-        if (controls.state == PASSED) then
-            controls.percentage:SetColor(0.53, 0.53, 0.53, 0.5)
-            controls.mechanic:SetColor(0.53, 0.53, 0.53, 0.5)
-            controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.1)
-            controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.1)
-        elseif (controls.state == IMMINENT) then
-            controls.percentage:SetColor(1, 1, 0, 0.5)
-            controls.mechanic:SetColor(1, 1, 0, 0.5)
-            controls.line:GetNamedChild("Backdrop"):SetCenterColor(1, 1, 0, 0.67)
-            controls.line:GetNamedChild("Backdrop"):SetEdgeColor(1, 1, 0, 0.67)
+    for index, controls in ipairs(mechanicControls) do
+        if (controls.state ~= INACTIVE) then
+            local labelsState = controls.state
+            local showLabels = true
+
+            -- If it's individual/multi (I need to name these consistently...)
+            -- need more handling to not overlap multiple labels
+            if (controls.individual) then
+                local state, activeIndex = GetMultiMechanicHighlightInfo(controls.percentNumber, controls.individual)
+                labelsState = state
+                showLabels = activeIndex == index
+            end
+
+            -- Line highlights according to the control, ignoring multi mechanic
+            if (controls.state == PASSED) then
+                controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.1)
+                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.1)
+            elseif (controls.state == IMMINENT) then
+                controls.line:GetNamedChild("Backdrop"):SetCenterColor(1, 1, 0, 0.67)
+                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(1, 1, 0, 0.67)
+            end -- Shouldn't ever need ACTIVE here because lines will never go naturally back to ACTIVE?
+
+            -- Labels may be shown differently from the line
+            if (labelsState == PASSED) then
+                controls.percentage:SetColor(0.53, 0.53, 0.53, 0.5)
+                controls.mechanic:SetColor(0.53, 0.53, 0.53, 0.5)
+            elseif (labelsState == IMMINENT) then
+                controls.percentage:SetColor(1, 1, 0, 0.67)
+                controls.mechanic:SetColor(1, 1, 0, 0.67)
+            elseif (controls.state == ACTIVE) then
+                controls.percentage:SetColor(0.53, 0.53, 0.53, 1)
+                controls.mechanic:SetColor(0.53, 0.53, 0.53, 1)
+            end
+
+            controls.percentage:SetHidden(not showLabels)
+            controls.mechanic:SetHidden(not showLabels)
         end
     end
 end
@@ -375,7 +408,7 @@ local function DrawStage(percentage, mechanic, bossTag)
     percentageLabel:SetWidth(40 * GetScale())
     percentageLabel:SetWidth(percentageLabel:GetTextWidth())
     percentageLabel:SetHeight(16 * GetScale())
-    percentageLabel:SetColor(0.53, 0.53, 0.53)
+    percentageLabel:SetColor(0.53, 0.53, 0.53, 1)
     percentageLabel:SetHidden(false)
     if (Crutch.savedOptions.bossHealthBar.horizontal) then
         percentageLabel:SetTransformRotationZ(math.pi / 2)
