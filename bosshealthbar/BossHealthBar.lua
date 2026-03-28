@@ -243,8 +243,10 @@ local function GetBossHealthFraction(id)
     return bossHealths[id].current / bossHealths[id].max
 end
 
--- For
+-- For multi-mechanics that are the same percent number, we keep track of all the mechanic controls
+-- and should only display 1 number and 1 mechanic name label
 local function GetMultiMechanicHighlightInfo(percentageNumber, bossTag)
+    -- TODO
 end
 
 -- Make stages that have already passed less obvious, and maybe highlight imminent stages
