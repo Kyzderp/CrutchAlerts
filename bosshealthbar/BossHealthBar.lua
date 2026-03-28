@@ -334,14 +334,14 @@ local function UpdateStagesWithBossHealth()
             if (controls.state ~= PASSED and healthToCheck < controls.percentNumber - 1) then
                 -- If the highest health is already more than 1% lower than mechanic, gray out mechanic
                 controls.state = PASSED
-                Crutch.dbgOther(string.format("%s now %d", controls.individual or "single", controls.state))
+                -- Crutch.dbgOther(string.format("%s now %d", controls.individual or "single", controls.state))
             elseif (controls.state ~= IMMINENT
                 and healthToCheck >= controls.percentNumber - 1
                 and healthToCheck <= controls.percentNumber + 5) then
                 -- If the highest health is within 5% above the mechanic or 1% just after, highlight it
                 -- e.g. 75, 74, 73, 72, 71, 70, 69 % would display as yellow
                 controls.state = IMMINENT
-                Crutch.dbgOther(string.format("%s now %d", controls.individual or "single", controls.state))
+                -- Crutch.dbgOther(string.format("%s now %d", controls.individual or "single", controls.state))
             end
             -- Don't redo the ones that have already passed, because if boss heals up,
             -- this would still leave them grayed out, which is good
@@ -400,9 +400,15 @@ local DEFAULT_STAGES = {
 local function DrawStage(percentage, mechanic, bossTag)
     local percentageLabel, mechanicLabel, lineControl = CreateStageControl(percentage, bossTag)
 
+    -- Since mechanics almost always trigger when floor rounding is that percentage, add 0.99 here
+    -- to raise the mechanic line enough so that the status bar lines up with the mechanic line
+    -- when the floored percent number would say that threshold
+    local barHeight = 320 * GetScale()
+    local stageYOffset = zo_clamp(100 - percentage - 0.99, 0, 100) / 100 * barHeight
+
     -- Number percentage on the left of the bar
     percentageLabel:ClearAnchors()
-    percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
+    percentageLabel:SetAnchor(RIGHT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -5 * GetScale(), stageYOffset)
     percentageLabel:SetFont(GetScaledFont(14))
     percentageLabel:SetText(tostring(percentage))
     percentageLabel:SetWidth(40 * GetScale())
@@ -418,7 +424,7 @@ local function DrawStage(percentage, mechanic, bossTag)
 
     -- Mechanic text on the right of the bar
     mechanicLabel:ClearAnchors()
-    mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6 * GetScale(), (100 - percentage) / 5 * 16 * GetScale())
+    mechanicLabel:SetAnchor(LEFT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 6 * GetScale(), stageYOffset)
     mechanicLabel:SetWidth(600 * GetScale())
     mechanicLabel:SetHeight(16 * GetScale())
     mechanicLabel:SetFont(GetScaledFont(14))
@@ -429,8 +435,8 @@ local function DrawStage(percentage, mechanic, bossTag)
     -- Line marking the percentage through the bar
     lineControl:ClearAnchors()
 
-    local topLeftYOffset = (100 - percentage) / 5 * 16 * GetScale() + 1
-    local bottomRightYOffset = (100 - percentage) / 5 * 16 * GetScale() + 2 * GetScale()
+    local topLeftYOffset = stageYOffset
+    local bottomRightYOffset = topLeftYOffset + 1 + math.max(GetScale(), 1) -- Don't want the line to be too thin on small scale
     if (not bossTag) then
         lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), topLeftYOffset)
         lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), bottomRightYOffset)
@@ -443,12 +449,13 @@ local function DrawStage(percentage, mechanic, bossTag)
         if (index == 1) then
             lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), topLeftYOffset)
         else
-            lineControl:SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), topLeftYOffset - 2)
+            lineControl:SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), topLeftYOffset)
         end
+
         if (index == 2) then -- TODO: not good for more than 2 bosses
             lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), bottomRightYOffset)
         else
-            lineControl:SetAnchor(BOTTOMRIGHT, statusBar, TOPRIGHT, 2 * GetScale(), bottomRightYOffset - 2)
+            lineControl:SetAnchor(BOTTOMRIGHT, statusBar, TOPRIGHT, 2 * GetScale(), bottomRightYOffset)
         end
     end
 
@@ -613,7 +620,7 @@ local function GetOrCreateStatusBar(index)
     statusBar:SetWidth(30 * GetScale())
     statusBar:SetHeight(320 * GetScale())
     statusBar:ClearAnchors()
-    statusBar:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, (index - 1) * 36 * GetScale() + 2 * GetScale(), 2 * GetScale())
+    statusBar:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, (index - 1) * 36 * GetScale() + 2 * GetScale())
 
     statusBar:GetNamedChild("Backdrop"):ClearAnchors()
     statusBar:GetNamedChild("Backdrop"):SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), -2 * GetScale())
@@ -752,7 +759,7 @@ BHB.OnBossesChanged = OnBossesChanged
 local function UpdateScale(showAllForMoving)
     if (showAllForMoving == nil) then showAllForMoving = true end
 
-    CrutchAlertsBossHealthBarContainer:SetHeight(324 * GetScale())
+    CrutchAlertsBossHealthBarContainer:SetHeight(320 * GetScale())
     OnBossesChanged()
     ShowOrHideBars(showAllForMoving)
 end
