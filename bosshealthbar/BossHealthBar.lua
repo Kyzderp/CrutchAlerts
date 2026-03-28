@@ -195,10 +195,18 @@ end
 -- Returns the individual controls for a stage
 -- bossTag is usually nil, unless doing individual thresholds
 local function CreateStageControl(percentage, bossTag)
-    local controls = mechanicControls[GetUnusedControlsIndex()]
+    local controlIndex = GetUnusedControlsIndex()
+    local controls = mechanicControls[controlIndex]
     controls.state = ACTIVE
     controls.percentNumber = percentage
     controls.individual = bossTag
+
+    if (bossTag) then
+        if (not multiMechanics[percentage]) then
+            multiMechanics[percentage] = {}
+        end
+        table.insert(multiMechanics[percentage], controlIndex)
+    end
     return controls.percentage, controls.mechanic, controls.line
 end
 
@@ -209,6 +217,7 @@ local function HideAllStages()
         controls.mechanic:SetHidden(true)
         controls.line:SetHidden(true)
     end
+    ZO_ClearTable(multiMechanics)
 end
 
 -- It is possible for boss1 to die and have its health bar disappear
@@ -243,10 +252,46 @@ local function GetBossHealthFraction(id)
     return bossHealths[id].current / bossHealths[id].max
 end
 
+----------
 -- For multi-mechanics that are the same percent number, we keep track of all the mechanic controls
--- and should only display 1 number and 1 mechanic name label
+-- and should only display 1 number and 1 mechanic name label.
+-- @return state, mechanicControlIndexToShow - latter can be nil
+--[[
+local mechanicControls = {} -- { [1] = { state = ACTIVE, percentNumber = 70, percentage = control, mechanic = control, line = control, individual = "boss1"}, }
+local multiMechanics = {} -- {[percentNumber] = {mechanicControlsIndex, mechanicControlsIndex}}
+]]
 local function GetMultiMechanicHighlightInfo(percentageNumber, bossTag)
-    -- TODO
+    local multiMechanic = multiMechanics[percentageNumber]
+
+    -- Go through all the associated mechanicControls...
+    local allPassed = true
+    local imminentIndex = nil
+    local activeIndex = nil
+    for _, mechanicControlsIndex in ipairs(multiMechanic) do
+        local mechanicControl = mechanicControls[mechanicControlsIndex]
+        if (mechanicControl.state == IMMINENT) then
+            allPassed = false
+            imminentIndex = mechanicControlsIndex
+        end
+        if (mechanicControl.state == ACTIVE) then
+            allPassed = false
+            activeIndex = mechanicControlsIndex
+        end
+    end
+
+    if (allPassed) then
+        -- If all of them are PASSED, the labels should also be shown as passed. Leave the last shown name.
+        return PASSED, nil
+    elseif (imminentIndex) then
+        -- If at least one is IMMINENT, the labels should be shown as imminent. Show the imminent name.
+        return IMMINENT, imminentIndex
+    elseif (activeIndex) then
+        -- If any are ACTIVE, the labels should be shown as active. Show any active name. Can vary depending on previously available mechanicControls slots.
+        return ACTIVE, activeIndex
+    end
+
+    Crutch.dbgOther("|cFF0000multi mechanic highlight?? " .. percentageNumber .. " " .. bossTag)
+    return ACTIVE, nil
 end
 
 -- Make stages that have already passed less obvious, and maybe highlight imminent stages
