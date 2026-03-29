@@ -435,30 +435,32 @@ local function DrawStage(percentage, mechanic, bossTag)
     -- Line marking the percentage through the bar
     lineControl:ClearAnchors()
 
-    local topLeftYOffset = stageYOffset
-    local bottomRightYOffset = topLeftYOffset + 1 + math.max(GetScale(), 1) -- Don't want the line to be too thin on small scale
     if (not bossTag) then
-        lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), topLeftYOffset)
-        lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), bottomRightYOffset)
+        lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), stageYOffset)
+        lineControl:SetAnchor(TOPRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), stageYOffset)
     else
         local index = string.gsub(bossTag, "boss", "")
         index = tonumber(index)
 
-        -- Status bar is 4 pixels shorter than the container for... reasons. So account for the 2px margins with the y offsets
         local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
         if (index == 1) then
-            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), topLeftYOffset)
+            lineControl:SetAnchor(TOPLEFT, CrutchAlertsBossHealthBarContainer, TOPLEFT, -4 * GetScale(), stageYOffset)
         else
-            lineControl:SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), topLeftYOffset)
+            lineControl:SetAnchor(TOPLEFT, statusBar, TOPLEFT, -2 * GetScale(), stageYOffset)
         end
 
         if (index == 2) then -- TODO: not good for more than 2 bosses
-            lineControl:SetAnchor(BOTTOMRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), bottomRightYOffset)
+            lineControl:SetAnchor(TOPRIGHT, CrutchAlertsBossHealthBarContainer, TOPRIGHT, 4 * GetScale(), stageYOffset)
         else
-            lineControl:SetAnchor(BOTTOMRIGHT, statusBar, TOPRIGHT, 2 * GetScale(), bottomRightYOffset)
+            lineControl:SetAnchor(TOPRIGHT, statusBar, TOPRIGHT, 2 * GetScale(), stageYOffset)
         end
     end
 
+    -- Some funky line thickness stuff, because at too small of a UI scale, the line could become
+    -- invisible. Setting constraints doesn't quite work, because the lines can appear different
+    -- thicknesses and it looks ugly. So calculate based on UI and BHB scale, and set it in px.
+    local lineThiccness = math.max(1, math.ceil(GetUIGlobalScale() * GetScale()))
+    lineControl:SetHeight(lineThiccness .. "px")
     lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
     lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
     lineControl:SetHidden(false)
