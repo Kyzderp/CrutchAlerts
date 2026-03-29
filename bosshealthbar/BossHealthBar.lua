@@ -157,7 +157,6 @@ local function GetUnusedControlsIndex()
 
     index = #mechanicControls + 1
 
-    -- If there are no free controls, we need to create them
     dbg("creating new controls for index " .. tostring(index))
 
     -- Number percentage on the left of the bar
@@ -181,7 +180,6 @@ local function GetUnusedControlsIndex()
         "CrutchAlertsBossHealthBarLineTemplate", -- template
         "") -- suffix
 
-    -- Don't forget to put the new controls in the struct
     mechanicControls[index] = {
         state = ACTIVE,
         percentage = percentageLabel,
@@ -294,21 +292,9 @@ local function GetMultiMechanicHighlightInfo(percentageNumber, bossTag)
     return ACTIVE, nil
 end
 
--- Make stages that have already passed less obvious, and maybe highlight imminent stages
--- Currently this doesn't really work well for encounters with multiple bosses, because I check
--- both boss' health and take the maximum, and gray out things that haven't passed that. This means
--- for things like Ly+Turli, the ticks don't get grayed out until both are < 70/65. Not yet sure of
--- a good way to represent this in the data
--- TODO: maybe add an optional "type" to the mechanic? if it's set to "single" or whatever, gray it
--- when one boss passes?
+-- Make stages that have already passed less obvious, and highlight imminent stages
 -- TODO: add another type that deactivates after boss heals, e.g. vUG Hakgrym goes invuln and heals
 -- at 6%, leaving the stage yellow
---[[
-local INACTIVE = 0
-local ACTIVE = 1
-local IMMINENT = 2
-local PASSED = 3
-]]
 local function UpdateStagesWithBossHealth()
     -- Use the maximum health
     local highestHealth = math.max(
@@ -334,19 +320,18 @@ local function UpdateStagesWithBossHealth()
             if (controls.state ~= PASSED and healthToCheck < controls.percentNumber - 1) then
                 -- If the highest health is already more than 1% lower than mechanic, gray out mechanic
                 controls.state = PASSED
-                -- Crutch.dbgOther(string.format("%s now %d", controls.individual or "single", controls.state))
+                Crutch.dbgOther(string.format("%s now %d", controls.individual or "highest", controls.state))
             elseif (controls.state ~= IMMINENT
                 and healthToCheck >= controls.percentNumber - 1
                 and healthToCheck <= controls.percentNumber + 5) then
                 -- If the highest health is within 5% above the mechanic or 1% just after, highlight it
                 -- e.g. 75, 74, 73, 72, 71, 70, 69 % would display as yellow
                 controls.state = IMMINENT
-                -- Crutch.dbgOther(string.format("%s now %d", controls.individual or "single", controls.state))
+                Crutch.dbgOther(string.format("%s now %d", controls.individual or "highest", controls.state))
             end
-            -- Don't redo the ones that have already passed, because if boss heals up,
-            -- this would still leave them grayed out, which is good
-            -- Don't "clean" the ones that are still below the health, because if boss heals up,
-            -- this would still leave them grayed out, which is good
+            -- Don't redo the ones that have already passed,
+            -- don't "clean" the ones that are still below the health,
+            -- because if boss heals up, this would still leave them grayed out, which is good
         end
     end
 
@@ -501,7 +486,9 @@ local function RedrawStages(optionalBossName)
 end
 
 local function OnThresholdsChanged(name, isAdded)
-    RedrawStages()
+    if (GetFirstValidBossTag() ~= "") then
+        RedrawStages()
+    end
 end
 
 local logNextPowerUpdate = 0 -- Used to log the next X health updates after max health change because sometimes the stages get grayed out :angy:
