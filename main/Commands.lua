@@ -27,6 +27,7 @@ local function PrintUsage()
     if (Crutch.savedOptions.experimental) then
         CrutchAlerts.msg([[EXPERIMENTAL / HIDDEN:
 |cAAAAAA/crutch jet
+|cAAAAAA/crutch dump
 |cAAAAAA/crutch healthdebug]])
     end
 end
@@ -88,6 +89,10 @@ SLASH_COMMANDS["/crutch"] = function(argString)
     --------------------
     elseif (cmd == "healthdebug") then
         Crutch.ToggleHealthDebug()
+
+    --------------------
+    elseif (cmd == "dump") then
+        Crutch.Drawing.DumpUnitIcons()
 
     --------------------
     else
