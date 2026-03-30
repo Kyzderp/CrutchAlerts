@@ -135,10 +135,19 @@ end
 -- individual: the tag if using multi boss1 boss2 etc to draw line on only that boss, nil otherwise
 local mechanicControls = {} -- { [1] = { state = ACTIVE, percentNumber = 70, percentage = control, mechanic = control, line = control, individual = "boss1"}, }
 local multiMechanics = {} -- {[percentNumber] = {mechanicControlsIndex, mechanicControlsIndex}}
-local INACTIVE = 0
-local ACTIVE = 1
-local IMMINENT = 2
-local PASSED = 3
+local INACTIVE = "INACTIVE"
+local ACTIVE = "ACTIVE"
+local IMMINENT = "IMMINENT"
+local PASSED = "PASSED"
+
+local function DumpMechanicControls()
+    d(mechanicControls)
+    d("--------------")
+    for i, mech in ipairs(mechanicControls) do
+        d(string.format("[%d] %s - %d - %s", i, mech.state, mech.percentNumber, mech.individual or "all"))
+    end
+end
+BHB.DumpMechanicControls = DumpMechanicControls -- /script CrutchAlerts.BossHealthBar.DumpMechanicControls()
 
 -- My elementary control pool. Gets index for percentage, mechanic, and line controls, or creates new ones if none available
 local function GetUnusedControlsIndex()
@@ -320,14 +329,14 @@ local function UpdateStagesWithBossHealth()
             if (controls.state ~= PASSED and healthToCheck < controls.percentNumber - 1) then
                 -- If the highest health is already more than 1% lower than mechanic, gray out mechanic
                 controls.state = PASSED
-                Crutch.dbgOther(string.format("%s now %d", controls.individual or "highest", controls.state))
+                Crutch.dbgOther(string.format("%s now %s", controls.individual or "highest", controls.state))
             elseif (controls.state ~= IMMINENT
                 and healthToCheck >= controls.percentNumber - 1
                 and healthToCheck <= controls.percentNumber + 5) then
                 -- If the highest health is within 5% above the mechanic or 1% just after, highlight it
                 -- e.g. 75, 74, 73, 72, 71, 70, 69 % would display as yellow
                 controls.state = IMMINENT
-                Crutch.dbgOther(string.format("%s now %d", controls.individual or "highest", controls.state))
+                Crutch.dbgOther(string.format("%s now %s", controls.individual or "highest", controls.state))
             end
             -- Don't redo the ones that have already passed,
             -- don't "clean" the ones that are still below the health,
