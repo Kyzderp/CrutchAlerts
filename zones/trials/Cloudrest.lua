@@ -67,13 +67,18 @@ local FROST_UNIQUE_NAME = "CrutchAlertsCRHoarfrost"
 local TIME_UNTIL_DROP = 5800
 local HOARFROST_ID = 103695
 local HOARFROST_EXECUTE_ID = 110516
+local HOARFROST_CAST_ID = 105151
+local HOARFROST_CAST_EXECUTE_ID = 110466
 
 local numFrosts = {
     [HOARFROST_ID] = 0,
     [HOARFROST_EXECUTE_ID] = 0,
 }
 
+local frostDropCallLaterId -- It can disappear when taking portal jump pad?
 local function OnFrostDroppable(abilityId)
+    frostDropCallLaterId = nil
+
     -- Show regular timer
     if (Crutch.savedOptions.cloudrest.showFrostAlert) then
         local num = numFrosts[abilityId]
@@ -94,11 +99,14 @@ local function OnFrostDroppable(abilityId)
     end
 end
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, _, _, _, _, _, _, unitId, abilityId)
     if (changeType == EFFECT_RESULT_FADED) then
         Crutch.InterruptAbility(abilityId, true)
         Crutch.RemoveAttachedIconForUnit(unitTag, FROST_UNIQUE_NAME)
+
+        if (AreUnitsEqual(unitTag, "player") and frostDropCallLaterId) then
+            zo_removeCallLater(frostDropCallLaterId)
+        end
     elseif (changeType == EFFECT_RESULT_GAINED) then
         -- Track the number of that particular frost
         local num = numFrosts[abilityId] + 1
@@ -117,13 +125,26 @@ local function OnHoarfrost(_, changeType, _, _, unitTag, beginTime, endTime, _, 
             end
 
             -- ... and also show drop timer/prominent later
-            zo_callLater(function() OnFrostDroppable(abilityId) end, TIME_UNTIL_DROP)
+            frostDropCallLaterId = zo_callLater(function() OnFrostDroppable(abilityId) end, TIME_UNTIL_DROP)
         end
 
         -- Add icon
         if (Crutch.savedOptions.cloudrest.showFrostIcons) then
             Crutch.SetAttachedIconForUnit(unitTag, FROST_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "esoui/art/icons/heraldrycrests_misc_snowflake_01.dds", nil, {0, 0.9, 1})
         end
+    end
+end
+
+-- Hoarfrost can get kinda weird if it gets taken into portal? So reset the numbers on new cast to be safe
+local HOARFROST_CAST_TO_ID = {
+    [HOARFROST_CAST_ID] = HOARFROST_ID,
+    [HOARFROST_CAST_EXECUTE_ID] = HOARFROST_EXECUTE_ID,
+}
+local function OnHoarfrostCast(_, result, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    if (result == ACTION_RESULT_EFFECT_GAINED) then
+        local frostId = HOARFROST_CAST_TO_ID[abilityId]
+        numFrosts[frostId] = 0
+        Crutch.dbgOther("resetting frost " .. frostId)
     end
 end
 
@@ -428,10 +449,14 @@ function Crutch.RegisterCloudrest()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, OnHoarfrost)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, HOARFROST_ID)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT, OnHoarfrostCast)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, HOARFROST_CAST_ID)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, OnHoarfrost)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, HOARFROST_EXECUTE_ID)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT, OnHoarfrostCast)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, HOARFROST_CAST_EXECUTE_ID)
 
     -- Register Olorime Spears - spear appearing
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, OnOlorimeSpears)
@@ -536,6 +561,10 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT)
