@@ -7,6 +7,10 @@ local SUBTITLE_CHANNELS = {
     [CHAT_CHANNEL_MONSTER_SAY] = true,
 }
 
+local function GetStr(id)
+    return Crutch.GetCapitalizedString(id)
+end
+
 -- TODO: migrate these to lang files
 -- /script d(GetZoneId(GetUnitZoneIndex("player")))
 local SUBTITLE_TIMES = {
@@ -25,11 +29,9 @@ local SUBTITLE_TIMES = {
         ["I can wait. After all, your deaths are inevitable."] = {time = 7.5, singleZoneId = 1051},
     },
 -- DSR
-    ["Turlassil"] = {
+    [GetStr(CRUTCH_DMG_TURLASSIL)] = {
         -- Lylanar and Turlassil
         ["Fresh challengers more like."] = 16.6,
-
-        ["Eher neue Herausforderer."] = 16.6,
 
         -- First
         ["Don't get up, Ly. This will just be a moment."] = 6.4,
@@ -38,6 +40,20 @@ local SUBTITLE_TIMES = {
         ["You looked a little too eager to kill our hounds for my taste."] = 6.4,
         ["You pass. Barely"] = 6.4,
 
+        -- Second to come down
+        ["I don't want to finish them off before you get a crack at them, Ly."] = 7.5,
+        ["Not your finest hour, Ly. Let me show you how it's done."] = 7.5,
+
+        -- Double: Ly second
+        ["If you're done sulking, Ly, some assistance would be welcome."] = 8,
+
+        -- Double: Turli second
+        ["It would seem my bad luck has rubbed off on you, Ly."] = 8,
+
+        -- Lylanar and Turlassil
+        ["Eher neue Herausforderer."] = 16.6,
+
+        -- First
         ["Steht nicht auf, Ly. Das wird nur einen Augenblick dauern."] = 6.4,
         ["Ich übernehme die erste Runde, Ly."] = 6.4,
         ["Das war nur ein Vorgeschmack auf das, was kommt."] = 6.4,
@@ -45,23 +61,35 @@ local SUBTITLE_TIMES = {
         ["Das reicht. Gerade so."] = 6.4,
 
         -- Second to come down
-        ["I don't want to finish them off before you get a crack at them, Ly."] = 7.5,
-        ["Not your finest hour, Ly. Let me show you how it's done."] = 7.5,
-
         ["Ich will sie nicht besiegen, bevor Ihr ihnen nicht auch ein paar verpasst habt, Ly."] = 7.5,
         ["Nicht Eure beste Leistung, Ly. Lasst es mich vormachen."] = 7.5,
 
         -- Double: Ly second
-        ["If you're done sulking, Ly, some assistance would be welcome."] = 8,
-
         ["Wenn Ihr mit dem Schmollen fertig seid, Ly, wäre etwas Hilfe willkommen."] = 8,
 
         -- Double: Turli second
-        ["It would seem my bad luck has rubbed off on you, Ly."] = 8,
-
         ["Anscheinend hat mein Pech auf Euch abgefärbt, Ly."] = 8,
+
+        -- Turlassil ru
+        ["Скорее, новые претенденты."] = 16.6,
+
+        ["Не вставай, Ли. Скоро все закончится."] = 6.4,
+        ["Ли, первый раунд мой."] = 6.4,
+        ["Это лишь малая часть того, что тебя ждет."] = 6.4,
+        ["Мне не нравится, что ты так хочешь убить наших псов."] = 6.4,
+        ["Ты проходишь в следующий раунд. С огромным трудом."] = 6.4,
+
+        -- Second to come down
+        ["Ли, я бы их уже прикончил, но ты же тогда совсем не поучаствуешь в бою."] = 7.5,
+        ["Не лучший твой бой, Ли. Посмотри, как надо."] = 7.5,
+
+        -- Double: Ly second
+        ["Ли, если тебе надоело дуться — можешь помочь."] = 8,
+
+        -- Double: Turli second
+        ["Кажется, мое невезение заразило и тебя, Ли."] = 8,
     },
-    ["Lylanar"] = {
+    [GetStr(CRUTCH_BHB_LYLANAR)] = {
         -- First
         ["Had your warm up then?"] = 6.4,
         ["I'll call first round."] = 6.4,
@@ -89,6 +117,20 @@ local SUBTITLE_TIMES = {
 
         -- Double: Turli second
         ["Come on, Turli, let's secure the victory."] = 8,
+
+        -- Lylanar ru
+        ["У вас было время размяться?"] = 6.4,
+        ["Первый раунд — мой."] = 6.4,
+        ["Вам удалось пройти дальше, чем рабам."] = 6.4,
+        ["Вот теперь начнется настоящий бой."] = 6.4,
+        ["Турли, смотри и учись!"] = 6.4,
+
+        -- Second to come down
+        ["Как-то слабовато, Турли. Давай я покажу им настоящую мощь."] = 7.5,
+        ["Обидно будет, если все удовольствие достанется мне. Турли, может, присоединишься?"] = 7.5,
+
+        -- Double: Ly second
+        ["Кажется, у тебя получается не лучше моего, Турли."] = 8,
     },
     ["Fleet Queen Taleria"] = {
         -- Taleria
@@ -178,7 +220,7 @@ local SUBTITLE_TIMES = {
     },
     ["Kulan-Dro"] = {
         -- Rakkhat
-        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals ... even if it means peeling the ears from your scalps and shouting Namiira's will into whatever's left of your broken skulls!"] = 26.4,
+        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals ... even if it means peeling the ears from your scalps and shouting Namiira's will into whatever's left of your broken skulls!"] = 26.4, -- TODO: probably fix the ...
         ["Have you not heard me? Have I not made your choice plain? You will listen, mortals"] = 26.4,
     },
     ["Kulan-dro"] = {

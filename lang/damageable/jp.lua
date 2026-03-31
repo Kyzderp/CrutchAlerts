@@ -1,0 +1,2 @@
+-- (doesn't work, needs special client I think)
+-- /script SetCVar("language.2", "jp")

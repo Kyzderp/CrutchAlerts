@@ -1,0 +1,1 @@
+-- /script SetCVar("language.2", "ru")

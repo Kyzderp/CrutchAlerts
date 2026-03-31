@@ -49,6 +49,8 @@ Console/DrawingSettings.lua
 
 lang/default.lua
 lang/$(language).lua
+lang/damageable/default.lua
+lang/damageable/$(language).lua
 
 zones/trials/asylumsanctorium/AsylumSanctorium.lua
 zones/trials/asylumsanctorium/MiniHealthBars.lua
