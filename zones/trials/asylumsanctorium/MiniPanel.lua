@@ -9,11 +9,13 @@ local CONE_NAME = "   |c64c200" .. GetAbilityName(95545) .. ": " -- Defiling Dye
 local FART_NAME = "   |c9447ff" .. GetAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
 
 local PANEL_LLOTHIS_HEADER_INDEX = 5
+local PANEL_LLOTHIS_ENRAGE_INDEX = 6
 local PANEL_LLOTHIS_BOLTS_INDEX = 7
 local PANEL_LLOTHIS_CONE_INDEX = 8
 local PANEL_LLOTHIS_FART_INDEX = 9
 local PANEL_DUMMY_INDEX = 10
 local PANEL_FELMS_HEADER_INDEX = 11
+local PANEL_FELMS_ENRAGE_INDEX = 12
 local PANEL_FELMS_TELEPORT_INDEX = 13
 
 local SUBITEM_SCALE = 1
@@ -211,6 +213,29 @@ end
 
 
 ---------------------------------------------------------------------
+---------------------------------------------------------------------
+-- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
+local function OnEnraged(_, changeType, _, _, _, _, _, stackCount, _, _, _, _, _, _, unitId, abilityId)
+    local panelIndex
+    if (unitId == AS.llothisId) then
+        if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showLlothisHeader)) then return end
+        panelIndex = PANEL_LLOTHIS_ENRAGE_INDEX
+    elseif (unitId == AS.felmsId) then
+        if (not IsSettingEnabled(Crutch.savedOptions.asylumsanctorium.panel.showFelmsHeader)) then return end
+        panelIndex = PANEL_FELMS_ENRAGE_INDEX
+    else
+        return
+    end
+
+    if (changeType == EFFECT_RESULT_FADED) then
+        Crutch.InfoPanel.RemoveLine(panelIndex)
+    else
+        Crutch.InfoPanel.SetLine(panelIndex, zo_strformat("    |cFF0000<<C:1>>! x<<2>>|r", GetAbilityName(abilityId), stackCount), HEADER_SCALE)
+    end
+end
+
+
+---------------------------------------------------------------------
 -- "Events" called from AsylumSanctorium.lua
 ---------------------------------------------------------------------
 function AS.OnLlothisDetectedPanel()
@@ -277,6 +302,9 @@ function AS.RegisterMiniPanel()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, OnFelmsJump)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 99138)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelEnrage", EVENT_EFFECT_CHANGED, OnEnraged)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelEnrage", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 101354)
 end
 
 function AS.UnregisterMiniPanel()
@@ -286,13 +314,16 @@ function AS.UnregisterMiniPanel()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelEnrage", EVENT_EFFECT_CHANGED)
 
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_HEADER_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_ENRAGE_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_BOLTS_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_CONE_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_FART_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_DUMMY_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_FELMS_HEADER_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_FELMS_ENRAGE_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_FELMS_TELEPORT_INDEX)
 
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "FelmsJumpCountdown")
