@@ -270,6 +270,13 @@ local multiMechanics = {} -- {[percentNumber] = {mechanicControlsIndex, mechanic
 local function GetMultiMechanicHighlightInfo(percentageNumber, bossTag)
     local multiMechanic = multiMechanics[percentageNumber]
 
+    -- If it's an individual mech without multiple of the same number, just treat it normally
+    if (#multiMechanic == 1) then
+        local mechanicControlsIndex = multiMechanic[1]
+        local mechanicControl = mechanicControls[mechanicControlsIndex]
+        return mechanicControl.state, mechanicControlsIndex
+    end
+
     -- Go through all the associated mechanicControls...
     local allPassed = true
     local imminentIndex = nil

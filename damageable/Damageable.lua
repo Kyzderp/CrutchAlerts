@@ -378,6 +378,10 @@ local SUBTITLE_TIMES = {
         -- Stormborn Revenant
         ["So simple, is it? Arise, and fight on, champion!"] = 5.7,
     },
+    ["Sister Bani"] = {
+        -- Vearogh the Shambler
+        ["Disgusting intruders! I won't have it. I will not have it!"] = 9.2,
+    },
 
 -- Lair of Maarselok
     ["Selene"] = {
