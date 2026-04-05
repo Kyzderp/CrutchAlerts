@@ -221,9 +221,9 @@ local function OnTrialComplete(_, trialName, score, totalTime)
                 maxVitality,
                 FormatTimeSeconds(totalTime / 1000, TIME_FORMAT_STYLE_COLONS))
             Crutch.dbgOther(result)
-            Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
-            Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
-            Crutch.Drawing.CircleJet("Congrations you Done it\n" .. result, 60000)
+            Crutch.Drawing.CircleJet("Congration you Done it\n" .. result, 60000)
+            Crutch.Drawing.CircleJet("Congration you Done it\n" .. result, 60000)
+            Crutch.Drawing.CircleJet("Congration you Done it\n" .. result, 60000)
         end
     end
     vitality = 0

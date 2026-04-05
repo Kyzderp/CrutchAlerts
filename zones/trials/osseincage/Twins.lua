@@ -71,6 +71,8 @@ local function OnClashBegin()
     Crutch.dbgOther("clash begin")
     numClashes = numClashes + 1
 
+    Crutch.InfoPanel.StopCount(PANEL_LEAP_INDEX)
+
     if (Crutch.savedOptions.osseincage.panel.showClash) then
         Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, "|cff6600" .. GetAbilityName(232517) .. ": ", 36500, true)
     end

@@ -230,7 +230,7 @@ local function OnEnraged(_, changeType, _, _, _, _, _, stackCount, _, _, _, _, _
     if (changeType == EFFECT_RESULT_FADED) then
         Crutch.InfoPanel.RemoveLine(panelIndex)
     else
-        Crutch.InfoPanel.SetLine(panelIndex, zo_strformat("    |cFF0000<<C:1>>! x<<2>>|r", GetAbilityName(abilityId), stackCount), HEADER_SCALE)
+        Crutch.InfoPanel.SetLine(panelIndex, "    " .. zo_strformat("|cFF0000<<C:1>>! x<<2>>|r", string.upper(GetAbilityName(abilityId)), stackCount), HEADER_SCALE) -- TODO: did these spaces get eaten up by zo_strformat or something?
     end
 end
 
