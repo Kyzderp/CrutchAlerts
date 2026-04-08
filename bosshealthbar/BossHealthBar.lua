@@ -555,8 +555,8 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
 
             if (powerMax > prevMax) then
                 -- The boss' max health increased, meaning turning on HM
-                Crutch.dbgSpam(string.format("|cFF0000[BHB] boss %d MAX INCREASE|r %d -> %d",
-                    index, prevMax, powerMax))
+                Crutch.dbgSpam(string.format("|cFF0000[BHB] boss %d MAX INCREASE|r %d / %d -> %d",
+                    index, powerValue, prevMax, powerMax))
                 logNextPowerUpdate = 5
                 
                 -- Do not update stages, and wait for the next event (heal) to change the stages instead
@@ -565,8 +565,8 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                 return
             elseif (powerMax < prevMax) then
                 -- The boss' max health decreased, meaning turning off HM
-                Crutch.dbgSpam(string.format("|c00FFFF[BHB] boss %d MAX DECREASE|r %d -> %d",
-                    index, prevMax, powerMax))
+                Crutch.dbgSpam(string.format("|c00FFFF[BHB] boss %d MAX DECREASE|r %d / %d -> %d",
+                    index, powerValue, prevMax, powerMax))
                 logNextPowerUpdate = 5
 
                 -- Do not update stages, and wait for the next event (heal) to change the stages instead

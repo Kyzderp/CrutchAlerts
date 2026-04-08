@@ -52,8 +52,11 @@ local twinsThresholds = {
     }
 }
 
+-- Unsure if Turli bar only shows up when nearing arena? or when he starts talking?
 -- When a boss' health drops below max, we know it's the twin that's active
 local function OnBossHealthDrop(_, unitTag, _, _, powerValue, powerMax, powerEffectiveMax)
+    if (not IsUnitInCombat("player")) then return end -- Boss health can change due to turning on HM
+
     if (powerValue >= powerMax) then return end
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRTwinsHealth", EVENT_POWER_UPDATE)
