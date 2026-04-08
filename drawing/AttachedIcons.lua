@@ -34,6 +34,7 @@ local function DumpUnitIcons()
             d(string.format("----%s: %d [|t100%%:100%%:%s|t]", uniqueName, icon.priority or "no priority?!", icon.texture or "no texture"))
         end
     end
+    d("playerGroupTag: " .. Crutch.playerGroupTag)
 end
 Draw.DumpUnitIcons = DumpUnitIcons
 -- /script CrutchAlerts.Drawing.DumpUnitIcons()

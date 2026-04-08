@@ -59,13 +59,6 @@ end
 local icons = {}
 
 local data = {
-    ["Falgravn2ndFloor1"] = {x = 24668, y = 14569, z = 9631, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds", size = GetFalgravnIconsSize},
-    ["Falgravn2ndFloor2"] = {x = 24654, y = 14569, z = 10398, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds", size = GetFalgravnIconsSize},
-    ["Falgravn2ndFloor3"] = {x = 25441, y = 14569, z = 10370, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds", size = GetFalgravnIconsSize},
-    ["Falgravn2ndFloor4"] = {x = 25468, y = 14569, z = 9620, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds", size = GetFalgravnIconsSize},
-    ["Falgravn2ndFloorH1"] = {x = 24268, y = 14569, z = 10000, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds", size = GetFalgravnIconsSize},
-    ["Falgravn2ndFloorH2"] = {x = 25838, y = 14569, z = 10000, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds", size = GetFalgravnIconsSize},
-
     -- Traditional Lokkestiiz
     ["LokkBeam1"] = {x = 115110, y = 56100, z = 107060, texture = "CrutchAlerts/assets/shape/diamond_red_1.dds", size = GetLokkIconsSize},
     ["LokkBeam2"] = {x = 114320, y = 56100, z = 107060, texture = "CrutchAlerts/assets/shape/diamond_red_2.dds", size = GetLokkIconsSize},
@@ -154,6 +147,18 @@ local data = {
 
 -- New more organized data
 local iconGroups = {
+    -- KA Falgravn
+    ["Falgravn2ndFloor"] = {
+        size = GetFalgravnIconsSize,
+        icons = {
+            {x = 24668, y = 14569, z = 9631, texture = "CrutchAlerts/assets/shape/diamond_blue_1.dds"}, -- 1
+            {x = 24654, y = 14569, z = 10398, texture = "CrutchAlerts/assets/shape/diamond_blue_2.dds"}, -- 2
+            {x = 25441, y = 14569, z = 10370, texture = "CrutchAlerts/assets/shape/diamond_blue_3.dds"}, -- 3
+            {x = 25468, y = 14569, z = 9620, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- 4
+            {x = 24268, y = 14569, z = 10000, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- H1
+            {x = 25838, y = 14569, z = 10000, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- H2
+        },
+    },
     -- Jynorah + Skorkhif, matching Asquart's OCH
     ["OCAOCH"] = {
         size = GetOCIconsSize,

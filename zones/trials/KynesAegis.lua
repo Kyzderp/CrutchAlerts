@@ -64,23 +64,13 @@ local falgravnEnabled = false
 local function EnableFalgravnIcons()
     if (Crutch.savedOptions.kynesaegis.showFalgravnIcons) then
         falgravnEnabled = true
-        Crutch.EnableIcon("Falgravn2ndFloor1")
-        Crutch.EnableIcon("Falgravn2ndFloor2")
-        Crutch.EnableIcon("Falgravn2ndFloor3")
-        Crutch.EnableIcon("Falgravn2ndFloor4")
-        Crutch.EnableIcon("Falgravn2ndFloorH1")
-        Crutch.EnableIcon("Falgravn2ndFloorH2")
+        Crutch.EnableIconGroup("Falgravn2ndFloor")
     end
 end
 
 local function DisableFalgravnIcons()
     falgravnEnabled = false
-    Crutch.DisableIcon("Falgravn2ndFloor1")
-    Crutch.DisableIcon("Falgravn2ndFloor2")
-    Crutch.DisableIcon("Falgravn2ndFloor3")
-    Crutch.DisableIcon("Falgravn2ndFloor4")
-    Crutch.DisableIcon("Falgravn2ndFloorH1")
-    Crutch.DisableIcon("Falgravn2ndFloorH2")
+    Crutch.DisableIconGroup("Falgravn2ndFloor")
 end
 
 -- Enable Falgravn icons if the boss is present
