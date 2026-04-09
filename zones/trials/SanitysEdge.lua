@@ -1,41 +1,6 @@
 local Crutch = CrutchAlerts
 local C = Crutch.Constants
 
---[[
-HM: 2, 4, 5, 6, 8
-Vet: 1, 3, 5, 7
-Norm: 4, 5, 6
-
-gryphon all
-1{x = 170065, z = 237908}
-2{x = 172102, z = 238078}
-3{x = 172289, z = 240133}
-4{x = 172116, z = 242169}
-5{x = 170051, z = 242334}
-6{x = 168007, z = 242182}
-7{x = 167843, z = 240125}
-8{x = 168020, z = 238086}
-
-lion all
-1{x = 179984, y = 40350, z = 237903}
-2{x = 182032, y = 40350, z = 238069}
-3{x = 182228, y = 40350, z = 240155}
-4{x = 182042, y = 40350, z = 242188}
-5{x = 179982, y = 40350, z = 242334}
-6{x = 177970, y = 40350, z = 242203}
-7{x = 177792, y = 40351, z = 240115}
-8{x = 177955, y = 40350, z = 238088}
-
-wamasu all
-1{x = 189900, y = 40350, z = 237900}
-2{x = 191961, y = 40350, z = 238086}
-3{x = 192115, y = 40350, z = 240117}
-4{x = 191969, y = 40350, z = 242178}
-5{x = 189909, y = 40350, z = 242334}
-6{x = 187824, y = 40350, z = 242171}
-7{x = 187671, y = 40350, z = 240128}
-8{x = 187852, y = 40350, z = 238106}
-]]
 local function DisableChimeraIcons()
     Crutch.DisableIconGroup("SEChimeraVetGryphon")
     Crutch.DisableIconGroup("SEChimeraVetLion")
@@ -78,10 +43,74 @@ end
 
 
 ---------------------------------------------------------------------
+-- Arctic Shred
+---------------------------------------------------------------------
+-- Chimera casts it twice per "cycle," once after Chain Lightning,
+-- and again after 1~2 more (Maul + Lightning Bolt (optional))
+local PANEL_ARCTIC_INDEX = 5
+local ARCTIC_PREFIX = zo_strformat("|c8ef5f5<<C:1>>: ", GetAbilityName(184275))
+local numArctic = 0
+
+local function OnArcticShred()
+    numArctic = numArctic + 1
+
+    if (numArctic == 1) then
+        -- There will be a Maul and maybe Lightning Bolt before next, so just set timer?
+        -- 8.1, 7.9, 5.5, 7.8, 8.5, 5.5, 7.9
+        Crutch.InfoPanel.CountDownDuration(PANEL_ARCTIC_INDEX, ARCTIC_PREFIX, 5500)
+    elseif (numArctic == 2) then
+        -- Wait for next Chain Lightning (or maybe Inferno?)
+        Crutch.InfoPanel.StopCount(PANEL_ARCTIC_INDEX)
+        Crutch.InfoPanel.SetLine(PANEL_ARCTIC_INDEX, ARCTIC_PREFIX .. zo_strformat("|cFFFF00after next <<C:1>>", GetAbilityName(183858)))
+    end
+end
+
+-- 6.3, 7.4, 6.3, 6.3, 6.3
+local function OnChainLightning()
+    numArctic = 0
+    Crutch.InfoPanel.CountDownDuration(PANEL_ARCTIC_INDEX, ARCTIC_PREFIX, 6300)
+end
+
+local function OnActivated()
+    numArctic = 0
+    local current, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+
+    if (not IsUnitDead("boss1")) then return end -- Twelvane must be dead
+
+    -- Must be Twelvane
+    if (powerMax ~= 34929296 -- HM
+        and powerMax ~= 17464648 -- vet
+        and powerMax ~= 5112387) then -- norm
+        return
+    end
+
+    -- It is possible for the Chimera to cast it before Chain Lightning,
+    -- so just start with SoonTM; the first one doesn't really matter anyway
+    Crutch.InfoPanel.CountDownDuration(PANEL_ARCTIC_INDEX, ARCTIC_PREFIX, 0)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEArcticShred", EVENT_COMBAT_EVENT, OnArcticShred)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEArcticShred", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEArcticShred", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 184275)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEChainLightning", EVENT_COMBAT_EVENT, OnChainLightning)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEChainLightning", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEChainLightning", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 183858)
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
+local function CleanUp()
+    numArctic = 0
+end
+
 function Crutch.RegisterSanitysEdge()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Sanity's Edge")
+
+    Crutch.RegisterExitedGroupCombatListener("CrutchSanitysEdgeChimeraExitedCombat", CleanUp)
+
+    OnActivated() -- For returning from Chimera portal
 
     -- Ansuul icon
     if (Crutch.savedOptions.sanitysedge.showAnsuulIcon) then
@@ -94,11 +123,17 @@ function Crutch.RegisterSanitysEdge()
 end
 
 function Crutch.UnregisterSanitysEdge()
+    Crutch.UnregisterExitedGroupCombatListener("CrutchSanitysEdgeChimeraExitedCombat")
+
     -- Ansuul icon
     Crutch.DisableIcon("AnsuulCenter")
 
     -- Chimera oracle icons
     DisableChimeraIcons()
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEArcticShred", EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEChainLightning", EVENT_COMBAT_EVENT)
+    CleanUp()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED)
