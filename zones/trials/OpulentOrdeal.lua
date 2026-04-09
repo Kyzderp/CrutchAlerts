@@ -110,11 +110,29 @@ function Crutch.RegisterOpulentOrdeal()
     Crutch.RegisterExitedGroupCombatListener("CrutchOpulentOrdealExitedCombat", CleanUp)
 
     if (Crutch.savedOptions.opulentordeal.showAffinityIcons) then
+        local idsToCallbacks = {}
         for id, _ in pairs(AFFINITIES) do
             EVENT_MANAGER:RegisterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED, OnAffinity)
             EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
             EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, id)
+
+            -- Since we can have player activations during the trial, we also need to
+            -- check buffs every time, in case any were missed while in loadscreen (probably).
+            -- Only act on positive, because the unique name is shared.
+            idsToCallbacks[id] = function(unitTag, hasBuff)
+                if (hasBuff) then
+                    OnAffinity(nil, EFFECT_RESULT_GAINED, nil, nil, unitTag, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, id)
+                end
+            end
         end
+
+        Crutch.CheckGroupBuffs(idsToCallbacks, function(unitTag, hasAnyBuffs)
+            -- Remove icon entirely if no buffs. Cannot do this as part of the individual
+            -- callback because they share the same unique name.
+            if (not hasAnyBuffs) then
+                OnAffinity(nil, EFFECT_RESULT_FADED, nil, nil, unitTag)
+            end
+        end)
     end
 
     for summonId, data in pairs(BOSS_ESSENCES) do
