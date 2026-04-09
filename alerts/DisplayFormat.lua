@@ -218,6 +218,10 @@ Crutch.format = {
 -- Blackrose Prison
     [111283] = 2, -- Tremors (Imperial Cleaver)
 
+-- Dragonstar Arena
+    [52773] = 400, -- Ice Comet (Mavus Talnarith)
+    [54841] = 400, -- Ice Charge (Dwarven Ice Centurion)
+
 -- Endless Archive
     [195448] = 501.1, -- Wing Burst (Ash Titan) for some reason game sends 3000, but it hits much before then
 

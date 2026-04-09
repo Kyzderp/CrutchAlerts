@@ -615,6 +615,25 @@ local prominentData = {
                 default = true,
             },
         },
+        -- Ice Comet (Mavus Talnarith)
+        [52773] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- TODO
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "ICE COMET",
+            color = {0.5, 1, 1},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentIceComet",
+                title = "Alert Ice Comet",
+                description = "Shows a prominent alert when Mavus Talnarith casts Ice Comet",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
     },
 
     -------------------
