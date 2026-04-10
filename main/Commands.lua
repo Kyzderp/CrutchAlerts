@@ -27,6 +27,7 @@ local function PrintUsage()
     if (Crutch.savedOptions.experimental) then
         CrutchAlerts.msg([[EXPERIMENTAL / HIDDEN:
 |cAAAAAA/crutch jet
+|cAAAAAA/crutch meme
 |cAAAAAA/crutch dump
 |cAAAAAA/crutch dumpbhb
 |cAAAAAA/crutch healthdebug]])
@@ -80,7 +81,10 @@ SLASH_COMMANDS["/crutch"] = function(argString)
 
         if (args[2] == "general") then
             Crutch.ToggleGeneralAlerts()
+        else
+            PrintUsage()
         end
+        return
 
     --------------------
     elseif (cmd == "jet") then
@@ -98,6 +102,27 @@ SLASH_COMMANDS["/crutch"] = function(argString)
     --------------------
     elseif (cmd == "dumpbhb") then
         Crutch.BossHealthBar.DumpMechanicControls()
+
+    --------------------
+    elseif (cmd == "meme") then
+        if (#args ~= 2) then
+            Crutch.msg([[Usage:
+|cAAAAAA/crutch meme scorejets]])
+            return
+        end
+
+        if (args[2] == "scorejets") then
+            local prev = Crutch.savedOptions.meme.scorejets or false
+            Crutch.savedOptions.meme.scorejets = not prev
+            Crutch.msg("Score Jets now " .. (Crutch.savedOptions.meme.scorejets and "ON" or "OFF"))
+        elseif (args[2] == "alertnames") then
+            local prev = Crutch.savedOptions.meme.alertnames or false
+            Crutch.savedOptions.meme.alertnames = not prev
+            Crutch.msg("Alert Names now " .. (Crutch.savedOptions.meme.alertnames and "ON" or "OFF"))
+        else
+            Crutch.msg("These are not the memes you're looking for.")
+        end
+        return
 
     --------------------
     else

@@ -165,6 +165,7 @@ local defaultOptions = {
         obnoxiousPositionX = GuiRoot:GetWidth() * 5 / 16,
         obnoxiousPositionY = 0,
     },
+    memes = {},
     asylumsanctorium = {
         dingSelfCone = true,
         dingOthersCone = false,

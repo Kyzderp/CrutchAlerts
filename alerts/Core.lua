@@ -191,6 +191,9 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     if (customText) then
         textLabel = customText
     end
+    if (Crutch.savedOptions.experimental) then
+        textLabel = Crutch.DecorateNotificationText(textLabel)
+    end
 
     -- Result filter
     if (resultFilter == 1 and result ~= ACTION_RESULT_BEGIN) then

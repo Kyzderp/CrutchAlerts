@@ -218,6 +218,22 @@ local function GetSpeshulDate()
 end
 Crutch.GetSpeshulDate = GetSpeshulDate
 
+-- Why are you looking here?
+local IMPORTANT_TABLE = {
+    ["Pragmatic Fatecarver"] = {"Pragmatic Fartcarver", "Pragfatic Nordcarver", "Pragnordic Fatcarver"},
+    ["Exhausting Fatecarver"] = {"Exhausting Fartcarver", "Exhausted Fatecarver", "Exaggerating Fatecarver"},
+    ["Fatecarver"] = {"Fartcarver", "Fatcarver"},
+}
+function Crutch.DecorateNotificationText(textLabel)
+    local yes = math.random()
+    if (yes < 0.6) then return textLabel end
+
+    local importants = IMPORTANT_TABLE[textLabel]
+    if (not importants) then return textLabel end
+
+    return importants[math.random(#importants)] or "???"
+end
+
 
 ---------------------------------------------------------------------
 -- Buff check
