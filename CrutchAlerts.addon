@@ -25,6 +25,7 @@
 main/CrutchAlerts.lua
 main/Constants.lua
 main/CrutchAlerts.xml
+main/EventUtils.lua
 main/GlobalEvents.lua
 main/Style.lua
 main/Utils.lua

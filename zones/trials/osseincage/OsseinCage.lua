@@ -145,28 +145,15 @@ function Crutch.RegisterOsseinCage()
 
     -- Stricken (tank swap)
     if (Crutch.savedOptions.osseincage.showStricken ~= "NEVER") then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED, OnStricken)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 235594)
+        Crutch.RegisterEffectChanged("Stricken", OnStricken, 235594, "group")
     end
 
     -- Icons/line for Dominator's Chains
     if (Crutch.savedOptions.osseincage.showChains) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ChainsInitial1", EVENT_EFFECT_CHANGED, OnChainsInitial)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ChainsInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 232773)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ChainsInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ChainsInitial2", EVENT_EFFECT_CHANGED, OnChainsInitial)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ChainsInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 232775)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ChainsInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ChainsTether1", EVENT_EFFECT_CHANGED, OnChainsTether)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ChainsTether1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 232779)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ChainsTether1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ChainsTether2", EVENT_EFFECT_CHANGED, OnChainsTether)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ChainsTether2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 232780)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ChainsTether2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        Crutch.RegisterEffectChanged("ChainsInitial1", OnChainsInitial, 232773, "group")
+        Crutch.RegisterEffectChanged("ChainsInitial2", OnChainsInitial, 232775, "group")
+        Crutch.RegisterEffectChanged("ChainsTether1", OnChainsTether, 232779, "group")
+        Crutch.RegisterEffectChanged("ChainsTether2", OnChainsTether, 232780, "group")
     end
 end
 
@@ -174,11 +161,11 @@ function Crutch.UnregisterOsseinCage()
     Crutch.OsseinCage.UnregisterCarrion()
     Crutch.OsseinCage.UnregisterTwins()
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Stricken", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsInitial1", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsInitial2", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsTether1", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ChainsTether2", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterEffectChanged("Stricken")
+    Crutch.UnregisterEffectChanged("ChainsInitial1")
+    Crutch.UnregisterEffectChanged("ChainsInitial2")
+    Crutch.UnregisterEffectChanged("ChainsTether1")
+    Crutch.UnregisterEffectChanged("ChainsTether2")
 
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(ENFEEBLEMENT_UNIQUE_NAME)
