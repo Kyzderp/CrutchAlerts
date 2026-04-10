@@ -219,8 +219,8 @@ function Crutch.OsseinCage.RegisterCarrion()
         HUD_SCENE:AddFragment(carrionFragment)
         HUD_UI_SCENE:AddFragment(carrionFragment)
 
-        Crutch.RegisterEffectChanged("CausticCarrionRegular", OnCausticCarrion, 240708, "group")
-        Crutch.RegisterEffectChanged("CausticCarrionBoss2", OnCausticCarrion, 241089, "group")
+        Crutch.RegisterForEffectChanged("CausticCarrionRegular", OnCausticCarrion, 240708, "group")
+        Crutch.RegisterForEffectChanged("CausticCarrionBoss2", OnCausticCarrion, 241089, "group")
     end
 end
 
@@ -233,6 +233,6 @@ function Crutch.OsseinCage.UnregisterCarrion()
 
     Crutch.UnregisterBossChangedListener("CrutchOsseinCage")
 
-    Crutch.UnregisterEffectChanged("CausticCarrionRegular")
-    Crutch.UnregisterEffectChanged("CausticCarrionBoss2")
+    Crutch.UnregisterForEffectChanged("CausticCarrionRegular")
+    Crutch.UnregisterForEffectChanged("CausticCarrionBoss2")
 end

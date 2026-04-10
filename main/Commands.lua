@@ -112,13 +112,13 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         end
 
         if (args[2] == "scorejets") then
-            local prev = Crutch.savedOptions.meme.scorejets or false
-            Crutch.savedOptions.meme.scorejets = not prev
-            Crutch.msg("Score Jets now " .. (Crutch.savedOptions.meme.scorejets and "ON" or "OFF"))
+            local prev = Crutch.savedOptions.memes.scoreJets or false
+            Crutch.savedOptions.memes.scoreJets = not prev
+            Crutch.msg("Score Jets now " .. (Crutch.savedOptions.memes.scoreJets and "ON" or "OFF"))
         elseif (args[2] == "alertnames") then
-            local prev = Crutch.savedOptions.meme.alertnames or false
-            Crutch.savedOptions.meme.alertnames = not prev
-            Crutch.msg("Alert Names now " .. (Crutch.savedOptions.meme.alertnames and "ON" or "OFF"))
+            local prev = Crutch.savedOptions.memes.alertNames or false
+            Crutch.savedOptions.memes.alertNames = not prev
+            Crutch.msg("Alert Names now " .. (Crutch.savedOptions.memes.alertNames and "ON" or "OFF"))
         else
             Crutch.msg("These are not the memes you're looking for.")
         end

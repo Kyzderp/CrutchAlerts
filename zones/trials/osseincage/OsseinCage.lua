@@ -145,15 +145,15 @@ function Crutch.RegisterOsseinCage()
 
     -- Stricken (tank swap)
     if (Crutch.savedOptions.osseincage.showStricken ~= "NEVER") then
-        Crutch.RegisterEffectChanged("Stricken", OnStricken, 235594, "group")
+        Crutch.RegisterForEffectChanged("Stricken", OnStricken, 235594, "group")
     end
 
     -- Icons/line for Dominator's Chains
     if (Crutch.savedOptions.osseincage.showChains) then
-        Crutch.RegisterEffectChanged("ChainsInitial1", OnChainsInitial, 232773, "group")
-        Crutch.RegisterEffectChanged("ChainsInitial2", OnChainsInitial, 232775, "group")
-        Crutch.RegisterEffectChanged("ChainsTether1", OnChainsTether, 232779, "group")
-        Crutch.RegisterEffectChanged("ChainsTether2", OnChainsTether, 232780, "group")
+        Crutch.RegisterForEffectChanged("ChainsInitial1", OnChainsInitial, 232773, "group")
+        Crutch.RegisterForEffectChanged("ChainsInitial2", OnChainsInitial, 232775, "group")
+        Crutch.RegisterForEffectChanged("ChainsTether1", OnChainsTether, 232779, "group")
+        Crutch.RegisterForEffectChanged("ChainsTether2", OnChainsTether, 232780, "group")
     end
 end
 
@@ -161,11 +161,11 @@ function Crutch.UnregisterOsseinCage()
     Crutch.OsseinCage.UnregisterCarrion()
     Crutch.OsseinCage.UnregisterTwins()
 
-    Crutch.UnregisterEffectChanged("Stricken")
-    Crutch.UnregisterEffectChanged("ChainsInitial1")
-    Crutch.UnregisterEffectChanged("ChainsInitial2")
-    Crutch.UnregisterEffectChanged("ChainsTether1")
-    Crutch.UnregisterEffectChanged("ChainsTether2")
+    Crutch.UnregisterForEffectChanged("Stricken")
+    Crutch.UnregisterForEffectChanged("ChainsInitial1")
+    Crutch.UnregisterForEffectChanged("ChainsInitial2")
+    Crutch.UnregisterForEffectChanged("ChainsTether1")
+    Crutch.UnregisterForEffectChanged("ChainsTether2")
 
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(ENFEEBLEMENT_UNIQUE_NAME)

@@ -214,7 +214,7 @@ end
 -- EVENT_RAID_TRIAL_COMPLETE (number eventCode, string trialName, number score, number totalTime)
 local function OnTrialComplete(_, trialName, score, totalTime)
     if (Crutch.savedOptions.general.showSpeshul) then
-        if (Crutch.savedOptions.meme.scorejets or Crutch.GetSpeshulDate() == 401) then
+        if (Crutch.savedOptions.memes.scoreJets or Crutch.GetSpeshulDate() == 401) then
             local result = string.format("%d - |t100%%:100%%:esoui/art/trials/vitalitydepletion.dds|t %d/%d - %s",
                 score,
                 vitality,
