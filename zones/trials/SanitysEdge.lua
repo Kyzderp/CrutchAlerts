@@ -74,13 +74,18 @@ end
 local function OnActivated()
     numArctic = 0
     local current, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    local current2, powerMax2 = GetUnitPower("boss2", COMBAT_MECHANIC_FLAGS_HEALTH)
 
-    if (not IsUnitDead("boss1")) then return end -- Twelvane must be dead
+    if (not current2 or not powerMax2 or current2 / powerMax2 > 0.1) then
+        Crutch.dbgOther("boss2 not dead")
+        return
+    end -- Twelvane must be dead
 
-    -- Must be Twelvane
-    if (powerMax ~= 34929296 -- HM
-        and powerMax ~= 17464648 -- vet
-        and powerMax ~= 5112387) then -- norm
+    -- Must be Chimera
+    if (powerMax ~= 93144792 -- HM
+        and powerMax ~= 46572396 -- vet
+        and powerMax ~= 16359630) then -- norm
+        Crutch.dbgOther("not chimera")
         return
     end
 

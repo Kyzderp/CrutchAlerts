@@ -549,8 +549,8 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
             local prevMax = bossHealths[index].max
 
             if (logNextPowerUpdate > 0) then
-                Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d changed %d -> %d [logNextPowerUpdate %d]",
-                    index, prevValue, powerValue, logNextPowerUpdate))
+                Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d changed (%d -> %d) / (%d -> %d) {%d} [logNextPowerUpdate %d]",
+                    index, prevValue, powerValue, prevMax, powerMax, powerEffectiveMax, logNextPowerUpdate))
                 logNextPowerUpdate = logNextPowerUpdate - 1
             elseif (powerUpdateDebug and powerValue ~= prevValue) then
                 Crutch.dbgSpam(string.format("|c64e1fa[BHB]|r %s (boss%d) %.1fk || |c64e1fa%s|r / |c64e1fa%s|r (|c64e1fa%.3f|r)",
