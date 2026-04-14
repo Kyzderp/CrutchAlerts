@@ -24,26 +24,36 @@ local SERVANT_SEQUENCE = {
     NEGATE,
     CONE,
     CONE,
-    PINS,
+    {id = PINS, name = zo_strformat("<<C:1>> (0)", GetAbilityName(PINS))},
     METEOR,
     KITE,
     NEGATE,
     CONE,
     CONE,
-    PINS,
+    {id = PINS, name = zo_strformat("<<C:1>> (1)", GetAbilityName(PINS))},
     METEOR,
     KITE,
     NEGATE,
     CONE,
     CONE,
-    PINS,
+    {id = PINS, name = zo_strformat("<<C:1>> (2)", GetAbilityName(PINS))},
     METEOR,
     KITE,
     NEGATE,
     CONE,
     CONE,
-    PINS,
+    {id = PINS, name = zo_strformat("<<C:1>> |cFF0000(3!!!)", GetAbilityName(PINS))},
 }
+local function GetServantAbilityInfo(index)
+    local info = SERVANT_SEQUENCE[index]
+    if (not info) then return end
+
+    if (type(info) == "table") then
+        return info.id, info.name
+    end
+
+    return info, GetAbilityName(info)
+end
 
 
 ---------------------------------------------------------------------
@@ -55,23 +65,23 @@ local nextIndex = 1
 local function UpdateDisplay()
     Crutch.InfoPanel.SetLine(SERVANT_INDEX_OFFSET, "|cCCCCCCUp next:|r", 0.7)
 
-    local first = SERVANT_SEQUENCE[nextIndex]
-    if (first) then
-        Crutch.InfoPanel.SetLine(SERVANT_INDEX_OFFSET + 1, zo_strformat("|c<<1>><<C:2>>|r", SERVANT_IDS[first], GetAbilityName(first)))
+    local id, name = GetServantAbilityInfo(nextIndex)
+    if (id) then
+        Crutch.InfoPanel.SetLine(SERVANT_INDEX_OFFSET + 1, zo_strformat("|c<<1>><<2>>|r", SERVANT_IDS[id], name))
     else
         Crutch.InfoPanel.RemoveLine(SERVANT_INDEX_OFFSET + 1)
     end
 
-    local second = SERVANT_SEQUENCE[nextIndex + 1]
-    if (second) then
-        Crutch.InfoPanel.SetLine(SERVANT_INDEX_OFFSET + 2, zo_strformat("|c<<1>><<C:2>>|r", SERVANT_IDS[second], GetAbilityName(second)), nil, 0.6)
+    id, name = GetServantAbilityInfo(nextIndex + 1)
+    if (id) then
+        Crutch.InfoPanel.SetLine(SERVANT_INDEX_OFFSET + 2, zo_strformat("|c<<1>><<C:2>>|r", SERVANT_IDS[id], name), nil, 0.6)
     else
         Crutch.InfoPanel.RemoveLine(SERVANT_INDEX_OFFSET + 2)
     end
 
-    local third = SERVANT_SEQUENCE[nextIndex + 2]
-    if (third) then
-        Crutch.InfoPanel.SetLine(SERVANT_INDEX_OFFSET + 3, zo_strformat("|c<<1>><<C:2>>|r", SERVANT_IDS[third], GetAbilityName(third)), nil, 0.3)
+    id, name = GetServantAbilityInfo(nextIndex + 2)
+    if (id) then
+        Crutch.InfoPanel.SetLine(SERVANT_INDEX_OFFSET + 3, zo_strformat("|c<<1>><<C:2>>|r", SERVANT_IDS[id], name), nil, 0.3)
     else
         Crutch.InfoPanel.RemoveLine(SERVANT_INDEX_OFFSET + 3)
     end
@@ -81,13 +91,15 @@ end
 local function OnServantBegin(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, _, abilityId)
     if (abilityId == PINS and hitValue ~= 2000) then return end
 
-    if (abilityId ~= SERVANT_SEQUENCE[nextIndex]) then
-        Crutch.dbgOther("|cFF0000happened out of sequence? " .. GetAbilityName(abilityId) .. " current " .. nextIndex .. " is " .. GetAbilityName(SERVANT_SEQUENCE[nextIndex]))
+    local id, name = GetServantAbilityInfo(nextIndex)
+    if (abilityId ~= id) then
+        Crutch.dbgOther("|cFF0000happened out of sequence? " .. GetAbilityName(abilityId) .. " current " .. nextIndex .. " is " .. name)
 
         -- Maybe skip ahead to the next one?
         local newIndex
         for i = nextIndex, #SERVANT_SEQUENCE do
-            if (SERVANT_SEQUENCE[i] == abilityId) then
+            local skipId, _ = GetServantAbilityInfo(i)
+            if (skipId == abilityId) then
                 newIndex = i
                 break
             end
