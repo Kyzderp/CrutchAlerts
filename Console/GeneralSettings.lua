@@ -466,6 +466,45 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         end,
     })
 
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_COLOR,
+        label = "Active threshold color",
+        tooltip = "The color of the line and mechanic name when the current boss health is not near the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+        default = Crutch.defaultOptions.bossHealthBar.activeColor,
+        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.activeColor) end,
+        setFunction = function(r, g, b, a)
+            Crutch.savedOptions.bossHealthBar.activeColor = {r, g, b, a}
+            Crutch.BossHealthBar.UpdateColors()
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_COLOR,
+        label = "Imminent threshold color",
+        tooltip = "The color of the line and mechanic name when the current boss health is near the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+        default = Crutch.defaultOptions.bossHealthBar.imminentColor,
+        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.imminentColor) end,
+        setFunction = function(r, g, b, a)
+            Crutch.savedOptions.bossHealthBar.imminentColor = {r, g, b, a}
+            Crutch.BossHealthBar.UpdateColors()
+            Crutch.UnlockUI(true)
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_COLOR,
+        label = "Passed threshold color",
+        tooltip = "The color of the line and mechanic name when the current boss health has passed the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+        default = Crutch.defaultOptions.bossHealthBar.passedColor,
+        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.passedColor) end,
+        setFunction = function(r, g, b, a)
+            Crutch.savedOptions.bossHealthBar.passedColor = {r, g, b, a}
+            Crutch.BossHealthBar.UpdateColors()
+            Crutch.UnlockUI(true)
+        end,
+    })
+
     ---------------------------------------------------------------------
     -- Info Panel
     settings:AddSetting({
