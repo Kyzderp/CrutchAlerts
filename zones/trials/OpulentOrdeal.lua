@@ -122,6 +122,7 @@ function Crutch.RegisterOpulentOrdeal()
             idsToCallbacks[id] = function(unitTag, hasBuff)
                 if (hasBuff) then
                     OnAffinity(nil, EFFECT_RESULT_GAINED, nil, nil, unitTag, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, id)
+                    Crutch.dbgSpam(GetUnitDisplayName(unitTag) .. " has " .. GetAbilityName(id))
                 end
             end
         end
@@ -131,6 +132,7 @@ function Crutch.RegisterOpulentOrdeal()
             -- callback because they share the same unique name.
             if (not hasAnyBuffs) then
                 OnAffinity(nil, EFFECT_RESULT_FADED, nil, nil, unitTag)
+                Crutch.dbgSpam(GetUnitDisplayName(unitTag) .. " does not have any affinities")
             end
         end)
     end

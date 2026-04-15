@@ -423,6 +423,45 @@ function Crutch:CreateSettingsMenu()
                     width = "half",
                 },
                 {
+                    type = "colorpicker",
+                    name = "Active threshold color",
+                    tooltip = "The color of the line and mechanic name when the current boss health is not near the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+                    default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.bossHealthBar.activeColor)),
+                    getFunc = function() return unpack(Crutch.savedOptions.bossHealthBar.activeColor) end,
+                    setFunc = function(r, g, b, a)
+                        Crutch.savedOptions.bossHealthBar.activeColor = {r, g, b, a}
+                        Crutch.BossHealthBar.UpdateColors()
+                        CrutchAlertsBossHealthBarContainer:SetHidden(false)
+                    end,
+                    width = "half",
+                },
+                {
+                    type = "colorpicker",
+                    name = "Imminent threshold color",
+                    tooltip = "The color of the line and mechanic name when the current boss health is near the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+                    default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.bossHealthBar.imminentColor)),
+                    getFunc = function() return unpack(Crutch.savedOptions.bossHealthBar.imminentColor) end,
+                    setFunc = function(r, g, b, a)
+                        Crutch.savedOptions.bossHealthBar.imminentColor = {r, g, b, a}
+                        Crutch.BossHealthBar.UpdateColors()
+                        CrutchAlertsBossHealthBarContainer:SetHidden(false)
+                    end,
+                    width = "half",
+                },
+                {
+                    type = "colorpicker",
+                    name = "Passed threshold color",
+                    tooltip = "The color of the line and mechanic name when the current boss health has passed the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+                    default = ZO_ColorDef:New(unpack(Crutch.defaultOptions.bossHealthBar.passedColor)),
+                    getFunc = function() return unpack(Crutch.savedOptions.bossHealthBar.passedColor) end,
+                    setFunc = function(r, g, b, a)
+                        Crutch.savedOptions.bossHealthBar.passedColor = {r, g, b, a}
+                        Crutch.BossHealthBar.UpdateColors()
+                        CrutchAlertsBossHealthBarContainer:SetHidden(false)
+                    end,
+                    width = "half",
+                },
+                {
                     type = "checkbox",
                     name = "Use \"floor\" rounding",
                     tooltip = "Whether to use the \"floor\" or \"half round up\" rounding method to display boss health %.\n\nTurning this ON means the displayed health will be more accurate relative to the mechanic % labels.\n\nTurning this OFF means the displayed health will match the rest of the UI, including the default target attribute bars.\n\nFor more info on why this matters, see the WHY? below.",

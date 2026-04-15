@@ -259,6 +259,10 @@ local function GetBossHealthFraction(id)
     return bossHealths[id].current / bossHealths[id].max
 end
 
+local function SetThresholdColor(control, settingsColor)
+    control:SetColor(unpack(settingsColor))
+end
+
 ----------
 -- For multi-mechanics that are the same percent number, we keep track of all the mechanic controls
 -- and should only display 1 number and 1 mechanic name label.
@@ -366,24 +370,25 @@ local function UpdateStagesWithBossHealth()
             end
 
             -- Line highlights according to the control, ignoring multi mechanic
+            local backdrop = controls.line:GetNamedChild("Backdrop")
             if (controls.state == PASSED) then
-                controls.line:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.1)
-                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.1)
+                backdrop:SetCenterColor(unpack(Crutch.savedOptions.bossHealthBar.passedColor))
+                backdrop:SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.passedColor))
             elseif (controls.state == IMMINENT) then
-                controls.line:GetNamedChild("Backdrop"):SetCenterColor(1, 1, 0, 0.67)
-                controls.line:GetNamedChild("Backdrop"):SetEdgeColor(1, 1, 0, 0.67)
+                backdrop:SetCenterColor(unpack(Crutch.savedOptions.bossHealthBar.imminentColor))
+                backdrop:SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.imminentColor))
             end -- Shouldn't ever need ACTIVE here because lines will never go naturally back to ACTIVE?
 
             -- Labels may be shown differently from the line
             if (labelsState == PASSED) then
-                controls.percentage:SetColor(0.53, 0.53, 0.53, 0.5)
-                controls.mechanic:SetColor(0.53, 0.53, 0.53, 0.5)
+                SetThresholdColor(controls.percentage, Crutch.savedOptions.bossHealthBar.passedColor)
+                SetThresholdColor(controls.mechanic, Crutch.savedOptions.bossHealthBar.passedColor)
             elseif (labelsState == IMMINENT) then
-                controls.percentage:SetColor(1, 1, 0, 0.67)
-                controls.mechanic:SetColor(1, 1, 0, 0.67)
+                SetThresholdColor(controls.percentage, Crutch.savedOptions.bossHealthBar.imminentColor)
+                SetThresholdColor(controls.mechanic, Crutch.savedOptions.bossHealthBar.imminentColor)
             elseif (controls.state == ACTIVE) then
-                controls.percentage:SetColor(0.53, 0.53, 0.53, 1)
-                controls.mechanic:SetColor(0.53, 0.53, 0.53, 1)
+                SetThresholdColor(controls.percentage, Crutch.savedOptions.bossHealthBar.activeColor)
+                SetThresholdColor(controls.mechanic, Crutch.savedOptions.bossHealthBar.activeColor)
             end
 
             controls.percentage:SetHidden(not showLabels)
@@ -415,7 +420,7 @@ local function DrawStage(percentage, mechanic, bossTag)
     percentageLabel:SetWidth(40 * GetScale())
     percentageLabel:SetWidth(percentageLabel:GetTextWidth())
     percentageLabel:SetHeight(16 * GetScale())
-    percentageLabel:SetColor(0.53, 0.53, 0.53, 1)
+    percentageLabel:SetColor(unpack(Crutch.savedOptions.bossHealthBar.activeColor))
     percentageLabel:SetHidden(false)
     if (Crutch.savedOptions.bossHealthBar.horizontal) then
         percentageLabel:SetTransformRotationZ(math.pi / 2)
@@ -430,7 +435,7 @@ local function DrawStage(percentage, mechanic, bossTag)
     mechanicLabel:SetHeight(16 * GetScale())
     mechanicLabel:SetFont(GetScaledFont(14))
     mechanicLabel:SetText(mechanic)
-    mechanicLabel:SetColor(0.53, 0.53, 0.53, 1)
+    mechanicLabel:SetColor(unpack(Crutch.savedOptions.bossHealthBar.activeColor))
     mechanicLabel:SetHidden(false)
 
     -- Line marking the percentage through the bar
@@ -462,8 +467,8 @@ local function DrawStage(percentage, mechanic, bossTag)
     -- thicknesses and it looks ugly. So calculate based on UI and BHB scale, and set it in px.
     local lineThiccness = math.max(1, math.ceil(GetUIGlobalScale() * GetScale()))
     lineControl:SetHeight(lineThiccness .. "px")
-    lineControl:GetNamedChild("Backdrop"):SetCenterColor(0.53, 0.53, 0.53, 0.67)
-    lineControl:GetNamedChild("Backdrop"):SetEdgeColor(0.53, 0.53, 0.53, 0.67)
+    lineControl:GetNamedChild("Backdrop"):SetCenterColor(unpack(Crutch.savedOptions.bossHealthBar.activeColor))
+    lineControl:GetNamedChild("Backdrop"):SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.activeColor))
     lineControl:SetHidden(false)
 end
 
