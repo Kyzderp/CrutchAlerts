@@ -387,17 +387,15 @@ local dungeonThresholds = {
 
 -- Stone Garden
     [GetBossName(CRUTCH_BHB_ARKASIS_THE_MAD_ALCHEMIST)] = {
-        [90] = "Add", -- TODO
-        [80] = "Add", -- TODO
-        [70] = "Add", -- TODO
-        [60] = "Behemoth Phase", -- TODO
-        [50] = "Add", -- TODO
-        [40] = "Add", -- TODO
-        [30] = "Add", -- TODO
-        [20] = "Behemoth Phase", -- TODO
-        -- [30] = "Add", -- TODO he heals to 40% so this overlaps
-        -- [20] = "Add", -- TODO he heals to 40% so this overlaps
-        [10] = "Add", -- TODO
+        [90] = "Add",
+        [80] = "Add",
+        [70] = "Add",
+        [60] = "Behemoth Phase",
+        [50] = "Add",
+        [40] = "Add",
+        [30] = "Add", -- TODO he heals to 40% so this overlaps
+        [20] = "Behemoth Phase", -- TODO he heals to 40% so this overlaps
+        [10] = "Add",
     },
 
 -- Castle Thorn
@@ -444,14 +442,14 @@ local dungeonThresholds = {
 
 -- The Dread Cellar
     [GetBossName(CRUTCH_BHB_SCORION_BROODLORD)] = {
-        [80] = "Adds", -- TODO
-        [60] = "Adds", -- TODO
-        [40] = "Adds", -- TODO
-        [20] = "Adds", -- TODO
+        [80] = "Adds",
+        [60] = "Adds",
+        [40] = "Adds",
+        [20] = "Adds",
     },
     [GetBossName(CRUTCH_BHB_MAGMA_INCARNATE)] = {
-        [65] = "Portal", -- TODO
-        [35] = "Portal", -- TODO
+        [65] = "Portal",
+        [35] = "Portal",
     },
 
 -- Coral Aerie

@@ -237,12 +237,12 @@ local trialThresholds = {
         [25] = "Adds",
         [15] = "Color Change",
     },
-    ["Defense Prism"] = { -- TODO: localization
-        [30] = "",
+    [GetBossName(CRUTCH_BHB_DEFENSE_PRISM)] = {
+        [30] = "", -- just for HM coordinating
     },
 
 -- Ossein Cage
-    ["Jynorah"] = { -- TODO: localization
+    [GetBossName(CRUTCH_BHB_JYNORAH)] = {
         [75] = "",
         [35] = "",
     },
