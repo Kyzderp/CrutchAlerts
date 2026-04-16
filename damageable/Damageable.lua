@@ -11,6 +11,10 @@ local function GetStr(id)
     return Crutch.GetCapitalizedString(id)
 end
 
+local function GetSubtitleStr(id)
+    return GetString(id)
+end
+
 -- TODO: migrate these to lang files
 -- /script d(GetZoneId(GetUnitZoneIndex("player")))
 local SUBTITLE_TIMES = {
@@ -31,114 +35,46 @@ local SUBTITLE_TIMES = {
 -- DSR
     [GetStr(CRUTCH_DMG_TURLASSIL)] = {
         -- Lylanar and Turlassil
-        ["Fresh challengers more like."] = 16.6,
+        [GetSubtitleStr(CRUTCH_DMG_FRESH_CHALLENGERS_MORE_LIKE) = 16.6,
 
         -- First
-        ["Don't get up, Ly. This will just be a moment."] = 6.4,
-        ["I'll take the first round, Ly."] = 6.4,
-        ["That was just a taste of what's to come."] = 6.4,
-        ["You looked a little too eager to kill our hounds for my taste."] = 6.4,
-        ["You pass. Barely"] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_DONT_GET_UP_LY_THIS_WILL_JUST_BE_A)] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_ILL_TAKE_THE_FIRST_ROUND_LY)] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_THAT_WAS_JUST_A_TASTE_OF_WHATS_TO_COME)] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_YOU_LOOKED_A_LITTLE_TOO_EAGER_TO_KILL)] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_YOU_PASS_BARELY)] = 6.4,
 
         -- Second to come down
-        ["I don't want to finish them off before you get a crack at them, Ly."] = 7.5,
-        ["Not your finest hour, Ly. Let me show you how it's done."] = 7.5,
+        [GetSubtitleStr(CRUTCH_DMG_I_DONT_WANT_TO_FINISH_THEM_OFF_BEFORE)] = 7.5,
+        [GetSubtitleStr(CRUTCH_DMG_NOT_YOUR_FINEST_HOUR_LY_LET_ME_SHOW)] = 7.5,
 
         -- Double: Ly second
-        ["If you're done sulking, Ly, some assistance would be welcome."] = 8,
+        [GetSubtitleStr(CRUTCH_DMG_IF_YOURE_DONE_SULKING_LY_SOME)] = 8,
 
         -- Double: Turli second
-        ["It would seem my bad luck has rubbed off on you, Ly."] = 8,
-
-        -- Lylanar and Turlassil
-        ["Eher neue Herausforderer."] = 16.6,
-
-        -- First
-        ["Steht nicht auf, Ly. Das wird nur einen Augenblick dauern."] = 6.4,
-        ["Ich übernehme die erste Runde, Ly."] = 6.4,
-        ["Das war nur ein Vorgeschmack auf das, was kommt."] = 6.4,
-        ["Für meinen Geschmack wirktet Ihr ein bisschen zu versessen darauf, unsere Hunde zu töten."] = 6.4,
-        ["Das reicht. Gerade so."] = 6.4,
-
-        -- Second to come down
-        ["Ich will sie nicht besiegen, bevor Ihr ihnen nicht auch ein paar verpasst habt, Ly."] = 7.5,
-        ["Nicht Eure beste Leistung, Ly. Lasst es mich vormachen."] = 7.5,
-
-        -- Double: Ly second
-        ["Wenn Ihr mit dem Schmollen fertig seid, Ly, wäre etwas Hilfe willkommen."] = 8,
-
-        -- Double: Turli second
-        ["Anscheinend hat mein Pech auf Euch abgefärbt, Ly."] = 8,
-
-        -- Turlassil ru
-        ["Скорее, новые претенденты."] = 16.6,
-
-        ["Не вставай, Ли. Скоро все закончится."] = 6.4,
-        ["Ли, первый раунд мой."] = 6.4,
-        ["Это лишь малая часть того, что тебя ждет."] = 6.4,
-        ["Мне не нравится, что ты так хочешь убить наших псов."] = 6.4,
-        ["Ты проходишь в следующий раунд. С огромным трудом."] = 6.4,
-
-        -- Second to come down
-        ["Ли, я бы их уже прикончил, но ты же тогда совсем не поучаствуешь в бою."] = 7.5,
-        ["Не лучший твой бой, Ли. Посмотри, как надо."] = 7.5,
-
-        -- Double: Ly second
-        ["Ли, если тебе надоело дуться — можешь помочь."] = 8,
-
-        -- Double: Turli second
-        ["Кажется, мое невезение заразило и тебя, Ли."] = 8,
+        [GetSubtitleStr(CRUTCH_DMG_IT_WOULD_SEEM_MY_BAD_LUCK_HAS_RUBBED_OFF)] = 8,
     },
     [GetStr(CRUTCH_BHB_LYLANAR)] = {
         -- First
-        ["Had your warm up then?"] = 6.4,
-        ["I'll call first round."] = 6.4,
-        ["Made it farther than the thralls do."] = 6.4,
-        ["Now the real fight begins."] = 6.4,
-        ["Watch me, Turli. This is how it's done!"] = 6.4,
-
-        ["Seid Ihr jetzt aufgewärmt?"] = 6.4,
-        ["Ich nehme die erste Runde."] = 6.4,
-        ["Das war weiter, als es die Sklaven schaffen."] = 6.4,
-        ["Jetzt beginnt der richtige Kampf."] = 6.4,
-        ["Seht gut her, Turli. So wird's gemacht!"] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_HAD_YOUR_WARM_UP_THEN)] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_ILL_CALL_FIRST_ROUND)] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_MADE_IT_FARTHER_THAN_THE_THRALLS_DO)] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_NOW_THE_REAL_FIGHT_BEGINS)] = 6.4,
+        [GetSubtitleStr(CRUTCH_DMG_WATCH_ME_TURLI_THIS_IS_HOW_ITS_DONE)] = 6.4,
 
         -- Second to come down
-        ["I don't wish to hog all the excitement. Turli, why don't you get in on the action?"] = 7.5,
-        ["That was a limp performance, Turli. I'll show them what true power is."] = 7.5,
-
-        ["Ich will den ganzen Spaß nicht für mich allein. Turli, warum steigt Ihr nicht ein?"] = 7.5,
-        ["Das war eine schwache Darbietung, Turli. Ich werde ihnen zeigen, was wahre Macht ist."] = 7.5,
+        [GetSubtitleStr(CRUTCH_DMG_I_DONT_WISH_TO_HOG_ALL_THE_EXCITEMENT)] = 7.5,
+        [GetSubtitleStr(CRUTCH_DMG_THAT_WAS_A_LIMP_PERFORMANCE_TURLI_ILL)] = 7.5,
 
         -- Double: Ly second
-        ["You don't look to be fairing any better than I did, Turli."] = 8, -- [sic]
-
-        ["Es sieht nicht so aus, als ob es Euch besser ergeht als mir, Turli."] = 8,
+        [GetSubtitleStr(CRUTCH_DMG_YOU_DONT_LOOK_TO_BE_FAIRING_ANY_BETTER)] = 8, -- [sic]
 
         -- Double: Turli second
-        ["Come on, Turli, let's secure the victory."] = 8,
-
-        -- Lylanar ru
-        ["У вас было время размяться?"] = 6.4,
-        ["Первый раунд — мой."] = 6.4,
-        ["Вам удалось пройти дальше, чем рабам."] = 6.4,
-        ["Вот теперь начнется настоящий бой."] = 6.4,
-        ["Турли, смотри и учись!"] = 6.4,
-
-        -- Second to come down
-        ["Как-то слабовато, Турли. Давай я покажу им настоящую мощь."] = 7.5,
-        ["Обидно будет, если все удовольствие достанется мне. Турли, может, присоединишься?"] = 7.5,
-
-        -- Double: Ly second
-        ["Кажется, у тебя получается не лучше моего, Турли."] = 8,
+        [GetSubtitleStr(CRUTCH_DMG_COME_ON_TURLI_LETS_SECURE_THE)] = 8,
     },
     [GetStr(CRUTCH_BHB_TIDEBORN_TALERIA)] = {
         -- Taleria
-        ["Barging into a lady's private chambers. You are bold."] = 23.5,
-        -- Taleria de
-        ["Ihr stürmt einfach in die Privatgemächer einer Dame. Dreist."] = 23.5,
-        -- Taleria ru
-        ["Вламываться в личные покои дамы? Какая наглость!"] = 23.5,
+        [GetSubtitleStr(CRUTCH_DMG_BARGING_INTO_A_LADYS_PRIVATE_CHAMBERS)] = 23.5,
     },
 
 -- HoF
