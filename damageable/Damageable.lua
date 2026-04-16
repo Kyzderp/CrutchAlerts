@@ -7,7 +7,7 @@ local SUBTITLE_CHANNELS = {
     [CHAT_CHANNEL_MONSTER_SAY] = true,
 }
 
-local function GetStr(id)
+local function GetNameStr(id)
     return Crutch.GetCapitalizedString(id)
 end
 
@@ -19,21 +19,21 @@ end
 -- /script d(GetZoneId(GetUnitZoneIndex("player")))
 local SUBTITLE_TIMES = {
 -- CR
-    ["Z'Maja"] = {
-        ["I won't be beaten! I'll smash this amulet if that's what it takes."] = 14.4,
+    [GetNameStr(CRUTCH_BHB_ZMAJA)] = {
+        [GetSubtitleStr(CRUTCH_DMG_I_WONT_BE_BEATEN_ILL_SMASH_THIS)] = 14.4,
 
         -- These are unfortunately also idle voice lines, so to work around this, only display them once ("singleZoneId") in an instance
-        ["You challenge the power of the Sea Sload? It shall be your last mistake."] = {time = 7.5, singleZoneId = 1051},
-        ["You dare fight against darkness itself? Foolish."] = {time = 7.5, singleZoneId = 1051},
-        ["Darkness shall reign across Summerset!"] = {time = 7.5, singleZoneId = 1051},
-        ["Cloudrest has already fallen. And so too shall you."] = {time = 7.5, singleZoneId = 1051},
-        ["Soon, my shadows shall spread to all of Summerset!"] = {time = 7.5, singleZoneId = 1051},
-        ["The shadows answer to me now."] = {time = 7.5, singleZoneId = 1051},
-        ["Do you truly think you can stand against my shadows?"] = {time = 7.5, singleZoneId = 1051},
-        ["I can wait. After all, your deaths are inevitable."] = {time = 7.5, singleZoneId = 1051},
+        [GetSubtitleStr(CRUTCH_DMG_YOU_CHALLENGE_THE_POWER_OF_THE_SEA)] = {time = 7.5, singleZoneId = 1051},
+        [GetSubtitleStr(CRUTCH_DMG_YOU_DARE_FIGHT_AGAINST_DARKNESS_ITSELF)] = {time = 7.5, singleZoneId = 1051},
+        [GetSubtitleStr(CRUTCH_DMG_DARKNESS_SHALL_REIGN_ACROSS_SUMMERSET)] = {time = 7.5, singleZoneId = 1051},
+        [GetSubtitleStr(CRUTCH_DMG_CLOUDREST_HAS_ALREADY_FALLEN_AND_SO_TOO)] = {time = 7.5, singleZoneId = 1051},
+        [GetSubtitleStr(CRUTCH_DMG_SOON_MY_SHADOWS_SHALL_SPREAD_TO_ALL_OF)] = {time = 7.5, singleZoneId = 1051},
+        [GetSubtitleStr(CRUTCH_DMG_THE_SHADOWS_ANSWER_TO_ME_NOW)] = {time = 7.5, singleZoneId = 1051},
+        [GetSubtitleStr(CRUTCH_DMG_DO_YOU_TRULY_THINK_YOU_CAN_STAND_AGAINST)] = {time = 7.5, singleZoneId = 1051},
+        [GetSubtitleStr(CRUTCH_DMG_I_CAN_WAIT_AFTER_ALL_YOUR_DEATHS_ARE)] = {time = 7.5, singleZoneId = 1051},
     },
 -- DSR
-    [GetStr(CRUTCH_DMG_TURLASSIL)] = {
+    [GetNameStr(CRUTCH_DMG_TURLASSIL)] = {
         -- Lylanar and Turlassil
         [GetSubtitleStr(CRUTCH_DMG_FRESH_CHALLENGERS_MORE_LIKE) = 16.6,
 
@@ -54,7 +54,7 @@ local SUBTITLE_TIMES = {
         -- Double: Turli second
         [GetSubtitleStr(CRUTCH_DMG_IT_WOULD_SEEM_MY_BAD_LUCK_HAS_RUBBED_OFF)] = 8,
     },
-    [GetStr(CRUTCH_BHB_LYLANAR)] = {
+    [GetNameStr(CRUTCH_BHB_LYLANAR)] = {
         -- First
         [GetSubtitleStr(CRUTCH_DMG_HAD_YOUR_WARM_UP_THEN)] = 6.4,
         [GetSubtitleStr(CRUTCH_DMG_ILL_CALL_FIRST_ROUND)] = 6.4,
@@ -72,7 +72,7 @@ local SUBTITLE_TIMES = {
         -- Double: Turli second
         [GetSubtitleStr(CRUTCH_DMG_COME_ON_TURLI_LETS_SECURE_THE)] = 8,
     },
-    [GetStr(CRUTCH_BHB_TIDEBORN_TALERIA)] = {
+    [GetNameStr(CRUTCH_BHB_TIDEBORN_TALERIA)] = {
         -- Taleria
         [GetSubtitleStr(CRUTCH_DMG_BARGING_INTO_A_LADYS_PRIVATE_CHAMBERS)] = 23.5,
     },
