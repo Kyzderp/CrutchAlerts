@@ -190,15 +190,13 @@ local function OnRadiance(_, changeType, _, _, _, _, _, _, _, _, _, _, _, unitNa
 end
 
 local function RegisterHardmodeAtros()
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCColdFlameAtroSpawn", EVENT_EFFECT_CHANGED, OnRadiance)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCColdFlameAtroSpawn", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 234680)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCFlameAtroSpawn", EVENT_EFFECT_CHANGED, OnRadiance)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCFlameAtroSpawn", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 234683)
+    Crutch.RegisterForEffectChanged("OCColdFlameAtroSpawn", OnRadiance, 234680)
+    Crutch.RegisterForEffectChanged("OCFlameAtroSpawn", OnRadiance, 234683)
 end
 
 local function UnregisterHardmodeAtros()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCColdFlameAtroSpawn", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCFlameAtroSpawn", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("OCColdFlameAtroSpawn")
+    Crutch.UnregisterForEffectChanged("OCFlameAtroSpawn")
 end
 
 
@@ -468,25 +466,21 @@ end
 
 local function UnregisterEnfeeblement()
     Crutch.dbgSpam("Unregistering Enfeeblement")
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("SparkingEnfeeblement")
+    Crutch.UnregisterForEffectChanged("BlazingEnfeeblement")
 end
 
 local function RegisterEnfeeblement()
     UnregisterEnfeeblement()
 
     Crutch.dbgSpam("Registering Enfeeblement")
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag, beginTime, endTime)
+    Crutch.RegisterForEffectChanged("SparkingEnfeeblement", function(_, changeType, _, _, unitTag, beginTime, endTime)
         OnEnfeeblement(sparking, changeType, unitTag, (endTime - beginTime) * 1000)
-    end)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 233644)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SparkingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    end, 233644, "group")
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, function(_, changeType, _, _, unitTag, beginTime, endTime)
+    Crutch.RegisterForEffectChanged("BlazingEnfeeblement", function(_, changeType, _, _, unitTag, beginTime, endTime)
         OnEnfeeblement(blazing, changeType, unitTag, (endTime - beginTime) * 1000)
-    end)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 233692)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BlazingEnfeeblement", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    end, 233692, "group")
 end
 
 

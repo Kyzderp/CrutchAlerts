@@ -627,9 +627,9 @@ local dungeonThresholds = {
             [30] = "Spiders",
         },
         ["Hardmode"] = {
-            [90] = "Spiders", -- Actual Ability name is "Iron Charge (ID: 224446)"
+            [90] = "Spiders",
             [70] = "Spiders",
-            [50] = "Spiders + Simulacra on timer", -- I think simulacrums are only on hm. HM Health = 12601566
+            [50] = "Spiders + Simulacra on timer",
             [30] = "Spiders",
         },
     },

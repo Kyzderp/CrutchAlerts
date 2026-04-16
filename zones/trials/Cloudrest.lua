@@ -446,15 +446,11 @@ function Crutch.RegisterCloudrest()
     end
 
     -- Register Hoarfrost for icons/alerts
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, OnHoarfrost)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, HOARFROST_ID)
+    Crutch.RegisterForEffectChanged("CloudrestHoarfrost1", OnHoarfrost, HOARFROST_ID, "group")
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT, OnHoarfrostCast)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, HOARFROST_CAST_ID)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, OnHoarfrost)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, HOARFROST_EXECUTE_ID)
+    Crutch.RegisterForEffectChanged("CloudrestHoarfrost2", OnHoarfrost, HOARFROST_EXECUTE_ID, "group")
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT, OnHoarfrostCast)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, HOARFROST_CAST_EXECUTE_ID)
 
@@ -475,21 +471,12 @@ function Crutch.RegisterCloudrest()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 104047) -- hitvalue 500
 
     -- Register for Shadow World effect gained/faded
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, OnShadowWorldChanged)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 108045)
+    Crutch.RegisterForEffectChanged("ShadowWorldEffect", OnShadowWorldChanged, 108045, "group")
     -- And another ID for when you get knocked into portal by cone, because it's different... for some reason...
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowWorldEffectCone", EVENT_EFFECT_CHANGED, OnShadowWorldChanged)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffectCone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffectCone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowWorldEffectCone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 104620)
+    Crutch.RegisterForEffectChanged("ShadowWorldEffectCone", OnShadowWorldChanged, 104620, "group")
 
     -- Register for Shadow of the Fallen effect gained/faded
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, OnShadowOfTheFallenChanged)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 102271)
+    Crutch.RegisterForEffectChanged("ShadowFallenEffect", OnShadowOfTheFallenChanged, 102271, "group")
 
     -- Register summoning portal
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, function()
@@ -507,9 +494,7 @@ function Crutch.RegisterCloudrest()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103714)
 
         -- Register voltaic
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED, OnAmplificationChanged)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 109022)
+        Crutch.RegisterForEffectChanged("AmplificationDiag", OnAmplificationChanged, 109022, "group")
     end
 
     -- Listen for mini shades to determine Z'Maja thresholds
@@ -561,19 +546,19 @@ function Crutch.UnregisterCloudrest()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrost1", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("CloudrestHoarfrost1")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrost2", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("CloudrestHoarfrost2")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowWorldEffect", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowWorldEffectCone", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowFallenEffect", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("ShadowWorldEffect")
+    Crutch.UnregisterForEffectChanged("ShadowWorldEffectCone")
+    Crutch.UnregisterForEffectChanged("ShadowFallenEffect")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AmplificationDiag", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("AmplificationDiag")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT)
 
     if (OSI and origOSIUnitErrorCheck) then
