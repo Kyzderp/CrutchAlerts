@@ -1198,6 +1198,23 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Sanity's Edge - Info Panel",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Chimera Arctic Shred timer",
+        tooltip = "In the Twelvane + Chimera fight, shows approximate time until Arctic Shred in the info panel",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.sanitysedge.showArcticShred end,
+        setFunction = function(value)
+            Crutch.savedOptions.sanitysedge.showArcticShred = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
         label = "Sunspire",
     })
 

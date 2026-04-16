@@ -115,7 +115,9 @@ function Crutch.RegisterSanitysEdge()
 
     Crutch.RegisterExitedGroupCombatListener("CrutchSanitysEdgeChimeraExitedCombat", CleanUp)
 
-    OnActivated() -- For returning from Chimera portal
+    if (Crutch.savedOptions.sanitysedge.showArcticShred) then
+        OnActivated() -- For returning from Chimera portal
+    end
 
     -- Ansuul icon
     if (Crutch.savedOptions.sanitysedge.showAnsuulIcon) then

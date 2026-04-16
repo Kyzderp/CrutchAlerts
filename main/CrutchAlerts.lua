@@ -285,6 +285,7 @@ local defaultOptions = {
     sanitysedge = {
         showChimeraIcons = true,
         chimeraIconsSize = 150,
+        showArcticShred = true,
         showAnsuulIcon = true,
         ansuulIconSize = 150,
     },

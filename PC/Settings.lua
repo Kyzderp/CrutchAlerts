@@ -2489,6 +2489,24 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
                 },
+                {
+                    type = "description",
+                    title = "|c08BD1DInfo Panel|r",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Chimera Arctic Shred timer",
+                    tooltip = "In the Twelvane + Chimera fight, shows approximate time until Arctic Shred in the info panel",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.showArcticShred end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.showArcticShred = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
         {
