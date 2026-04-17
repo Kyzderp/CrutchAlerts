@@ -415,60 +415,35 @@ function Crutch.RegisterCloudrest()
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatCloudrest", ResetValuesOnWipe)
 
     -- Register break amulet
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT, OnAmuletSmashed)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 106023) -- Breaking the amulet (takes 4 seconds)
+    Crutch.RegisterForCombatEvent("CloudrestBreakAmulet", OnAmuletSmashed, ACTION_RESULT_EFFECT_GAINED, 106023) -- Breaking the amulet (takes 4 seconds)
 
     -- Register Flare icons
     if (Crutch.savedOptions.cloudrest.showFlareIcon) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT, OnRoaringFlareIcon)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103531) -- Flare 1 throughout the fight
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT, OnRoaringFlareIcon)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 110431) -- Flare 2 in execute
+        Crutch.RegisterForCombatEvent("CloudrestFlareIcon1", OnRoaringFlareIcon, ACTION_RESULT_BEGIN, 103531, COMBAT_UNIT_TYPE_NONE) -- Flare 1 throughout the fight
+        Crutch.RegisterForCombatEvent("CloudrestFlareIcon2", OnRoaringFlareIcon, ACTION_RESULT_BEGIN, 110431, COMBAT_UNIT_TYPE_NONE) -- Flare 2 in execute
     end
 
     -- Register Flare sides
     if (Crutch.savedOptions.cloudrest.showFlaresSides) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT, OnRoaringFlareGained)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103531) -- Flare 1 throughout the fight
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, OnRoaringFlareGained)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE) -- from enemy
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 110431) -- Flare 2 in execute
+        Crutch.RegisterForCombatEvent("CloudrestFlare1", OnRoaringFlareGained, ACTION_RESULT_BEGIN, 103531, COMBAT_UNIT_TYPE_NONE) -- Flare 1 throughout the fight
+        Crutch.RegisterForCombatEvent("CloudrestFlare2", OnRoaringFlareGained, ACTION_RESULT_BEGIN, 110431, COMBAT_UNIT_TYPE_NONE) -- Flare 2 in execute
     end
 
     -- Register Hoarfrost for icons/alerts
     Crutch.RegisterForEffectChanged("CloudrestHoarfrost1", OnHoarfrost, HOARFROST_ID, "group")
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT, OnHoarfrostCast)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, HOARFROST_CAST_ID)
+    Crutch.RegisterForCombatEvent("CloudrestHoarfrostCast1", OnHoarfrostCast, nil, HOARFROST_CAST_ID)
 
     Crutch.RegisterForEffectChanged("CloudrestHoarfrost2", OnHoarfrost, HOARFROST_EXECUTE_ID, "group")
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT, OnHoarfrostCast)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, HOARFROST_CAST_EXECUTE_ID)
+    Crutch.RegisterForCombatEvent("CloudrestHoarfrostCast2", OnHoarfrostCast, nil, HOARFROST_CAST_EXECUTE_ID)
 
     -- Register Olorime Spears - spear appearing
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, OnOlorimeSpears)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 104019) -- Olorime Spears, hitvalue 1
+    Crutch.RegisterForCombatEvent("OlorimeSpears", OnOlorimeSpears, ACTION_RESULT_EFFECT_GAINED, 104019, COMBAT_UNIT_TYPE_NONE) -- Olorime Spears, hitvalue 1
 
     -- Register Welkynar's Light, 1250ms duration on person who sent spear
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT, OnOlorimeSpears)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 104036) -- hitvalue 1250
+    Crutch.RegisterForCombatEvent("WelkynarsLight", OnOlorimeSpears, ACTION_RESULT_EFFECT_GAINED_DURATION, 104036) -- hitvalue 1250
 
     -- Register Shadow Piercer Exit, 500 duration on person who dunked orb
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT, OnOlorimeSpears)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 104047) -- hitvalue 500
+    Crutch.RegisterForCombatEvent("ShadowPiercerExit", OnOlorimeSpears, ACTION_RESULT_EFFECT_GAINED_DURATION, 104047) -- hitvalue 500
 
     -- Register for Shadow World effect gained/faded
     Crutch.RegisterForEffectChanged("ShadowWorldEffect", OnShadowWorldChanged, 108045, "group")
@@ -479,19 +454,16 @@ function Crutch.RegisterCloudrest()
     Crutch.RegisterForEffectChanged("ShadowFallenEffect", OnShadowOfTheFallenChanged, 102271, "group")
 
     -- Register summoning portal
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, function()
+    Crutch.RegisterForCombatEvent("ShadowRealmCast", function()
         spearsRevealed = 0
         spearsSent = 0
         orbsDunked = 0
         Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
-    end)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103946)
+    end, nil, 103946)
 
     if (Crutch.savedOptions.general.showRaidDiag) then
         -- Register someone dropping hoarfrost
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, OnShedHoarfrost)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 103714)
+        Crutch.RegisterForCombatEvent("ShedHoarfrost", OnShedHoarfrost, ACTION_RESULT_EFFECT_GAINED_DURATION, 103714)
 
         -- Register voltaic
         Crutch.RegisterForEffectChanged("AmplificationDiag", OnAmplificationChanged, 109022, "group")
@@ -499,9 +471,7 @@ function Crutch.RegisterCloudrest()
 
     -- Listen for mini shades to determine Z'Maja thresholds
     if (Crutch.savedOptions.bossHealthBar.enabled) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, OnMiniBoss)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 105541)
+        Crutch.RegisterForCombatEvent("CRMiniBossDetect", OnMiniBoss, ACTION_RESULT_EFFECT_GAINED_DURATION, 105541)
     end
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
@@ -541,25 +511,25 @@ end
 function Crutch.UnregisterCloudrest()
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCloudrest")
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestBreakAmulet", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlareIcon1", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlareIcon2", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare1", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestFlare2", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("CloudrestBreakAmulet")
+    Crutch.UnregisterForCombatEvent("CloudrestFlareIcon1")
+    Crutch.UnregisterForCombatEvent("CloudrestFlareIcon2")
+    Crutch.UnregisterForCombatEvent("CloudrestFlare1")
+    Crutch.UnregisterForCombatEvent("CloudrestFlare2")
     Crutch.UnregisterForEffectChanged("CloudrestHoarfrost1")
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrostCast1", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("CloudrestHoarfrostCast1")
     Crutch.UnregisterForEffectChanged("CloudrestHoarfrost2")
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CloudrestHoarfrostCast2", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OlorimeSpears", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WelkynarsLight", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowPiercerExit", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("CloudrestHoarfrostCast2")
+    Crutch.UnregisterForCombatEvent("OlorimeSpears")
+    Crutch.UnregisterForCombatEvent("WelkynarsLight")
+    Crutch.UnregisterForCombatEvent("ShadowPiercerExit")
     Crutch.UnregisterForEffectChanged("ShadowWorldEffect")
     Crutch.UnregisterForEffectChanged("ShadowWorldEffectCone")
     Crutch.UnregisterForEffectChanged("ShadowFallenEffect")
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShadowRealmCast", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ShedHoarfrost", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("ShadowRealmCast")
+    Crutch.UnregisterForCombatEvent("ShedHoarfrost")
     Crutch.UnregisterForEffectChanged("AmplificationDiag")
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CRMiniBossDetect", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("CRMiniBossDetect")
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck and OSI.GetIconDataForPlayer")

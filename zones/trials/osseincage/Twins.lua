@@ -140,29 +140,21 @@ end
 
 local function RegisterPanelEvents()
     for _, id in ipairs(LEAP_IDS) do
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, OnLeap)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, id)
+        Crutch.RegisterForCombatEvent("Leap" .. id, OnLeap, ACTION_RESULT_BEGIN, id)
     end
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClashBegin", EVENT_COMBAT_EVENT, OnClashBegin)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232375)
+    Crutch.RegisterForCombatEvent("TitanicClashBegin", OnClashBegin, ACTION_RESULT_BEGIN, 232375)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TitanicClashFaded", EVENT_COMBAT_EVENT, OnClashFaded)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TitanicClashFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 232375)
+    Crutch.RegisterForCombatEvent("TitanicClashFaded", OnClashFaded, ACTION_RESULT_EFFECT_FADED, 232375)
 end
 
 local function UnregisterPanelEvents()
     for _, id in ipairs(LEAP_IDS) do
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Leap" .. id, EVENT_COMBAT_EVENT)
+        Crutch.UnregisterForCombatEvent("Leap" .. id)
     end
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TitanicClash", EVENT_COMBAT_EVENT)
-
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TitanicClashBegin", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TitanicClashFaded", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("TitanicClashBegin")
+    Crutch.UnregisterForCombatEvent("TitanicClashFaded")
 
     CleanUp()
 end
@@ -340,8 +332,8 @@ local exitKey
 -- Event listening for all damage on enemies, registered only when Jynorah is active
 local function UnregisterTwins()
     UnspoofTitans()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("OCTitanDamage")
+    Crutch.UnregisterForCombatEvent("OCTitanDotTick")
 
     Crutch.DisableIconGroup("OCAOCH")
     Crutch.DisableIconGroup("OCAlt")
@@ -362,14 +354,10 @@ local function RegisterTwins()
     if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.osseincage.showTitansHp) then
         -- Player damage ticks for only 1 each, so imo it's negligible enough to
         -- not do that extra processing. So it should be fine to ignore crits
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, OnTitanDamage)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DAMAGE) 
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDamage", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+        Crutch.RegisterForCombatEvent("OCTitanDamage", OnTitanDamage, ACTION_RESULT_DAMAGE, nil, nil,  COMBAT_UNIT_TYPE_NONE)
 
         -- The atro surges count as dots though
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, OnTitanDamage)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_DOT_TICK)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanDotTick", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+        Crutch.RegisterForCombatEvent("OCTitanDotTick", OnTitanDamage, ACTION_RESULT_DOT_TICK, nil, nil,  COMBAT_UNIT_TYPE_NONE)
     end
 
     -- Positioning icons
@@ -525,15 +513,13 @@ local function MaybeRegisterTwins()
     for damageResult, str in pairs(damageTypes) do
         -- Only enable if on HM
         if (IsHM() and Crutch.savedOptions.osseincage.printHMReflectiveScales) then
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT, function(_, _, _, _, _, _, _, sourceType, _, _, _, _, _, _, _, targetUnitId, abilityId)
+            Crutch.RegisterForCombatEvent("OCTitanReflect" .. tostring(damageResult), function(_, _, _, _, _, _, _, sourceType, _, _, _, _, _, _, _, targetUnitId, abilityId)
                 if (sourceType == COMBAT_UNIT_TYPE_PLAYER and titanIds[targetUnitId]) then
                     Crutch.msg(string.format("You hit a titan with |cFF00FF%s|r%s", GetAbilityName(abilityId), str))
                 end
-            end)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, damageResult) 
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+            end, damageResult, nil, nil, COMBAT_UNIT_TYPE_NONE)
         else
-            EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT)
+            Crutch.UnregisterForCombatEvent("OCTitanReflect" .. tostring(damageResult))
         end
     end
 end
@@ -588,6 +574,6 @@ function OC.UnregisterTwins()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE)
 
     for damageResult, _ in pairs(damageTypes) do
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTitanReflect" .. tostring(damageResult), EVENT_COMBAT_EVENT)
+        Crutch.UnregisterForCombatEvent("OCTitanReflect" .. tostring(damageResult))
     end
 end
