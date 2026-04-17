@@ -182,11 +182,6 @@ local function UnregisterZhajhassa()
     Crutch.UnregisterBossChangedListener("CrutchMawOfLorkhaj")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JonesBlessing", EVENT_EFFECT_CHANGED)
-
-    -- Crutch.DisableIcon("ZhajM1")
-    -- Crutch.DisableIcon("ZhajM2")
-    -- Crutch.DisableIcon("ZhajM3")
-    -- Crutch.DisableIcon("ZhajM4")
 end
 
 

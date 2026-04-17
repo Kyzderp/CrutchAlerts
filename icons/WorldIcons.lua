@@ -136,13 +136,6 @@ local data = {
     ["Tempest6"] = {x = 138421, y = 34975, z = 167097, texture = "CrutchAlerts/assets/shape/diamond_red_6.dds", size = GetTempestIconsSize},
     ["Tempest7"] = {x = 139177, y = 34975, z = 166847, texture = "CrutchAlerts/assets/shape/diamond_red_7.dds", size = GetTempestIconsSize},
     ["Tempest8"] = {x = 139909, y = 34975, z = 166519, texture = "CrutchAlerts/assets/shape/diamond_red_8.dds", size = GetTempestIconsSize},
-
-    -- Zhaj'hassa
-    -- except these are terrible... WIP
-    ["ZhajM1"] = {x = 103036, y = 45930, z = 128336, texture = "CrutchAlerts/assets/shape/diamond_red_1.dds", size = GetZhajIconsSize},
-    ["ZhajM2"] = {x = 103134, y = 45919, z = 127905, texture = "CrutchAlerts/assets/shape/diamond_red_2.dds", size = GetZhajIconsSize},
-    ["ZhajM3"] = {x = 102853, y = 45947, z = 127674, texture = "CrutchAlerts/assets/shape/diamond_red_3.dds", size = GetZhajIconsSize},
-    ["ZhajM4"] = {x = 102563, y = 45948, z = 127971, texture = "CrutchAlerts/assets/shape/diamond_red_4.dds", size = GetZhajIconsSize},
 }
 
 -- New more organized data
@@ -157,6 +150,8 @@ local iconGroups = {
             {x = 25468, y = 14569, z = 9620, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- 4
             {x = 24268, y = 14569, z = 10000, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- H1
             {x = 25838, y = 14569, z = 10000, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- H2
+            {x = 25009, y = 14569, z = 9524, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- MT?
+            {x = 25046, y = 14569, z = 9217, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- OT?
         },
     },
     -- Jynorah + Skorkhif, matching Asquart's OCH
