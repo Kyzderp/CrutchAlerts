@@ -19,7 +19,7 @@
         </Label>
         <Control name="CrutchAlertsBossHealthBarLineTemplate" virtual="true">
             <Controls>
-                <Backdrop name="$(parent)Backdrop" centerColor="AA888888" edgeColor="AA888888" layer="1" level="1">
+                <Backdrop name="$(parent)Backdrop" centerColor="AA888888" edgeColor="00000000" layer="1" level="1">
                     <AnchorFill/>
                     <Edge edgeSize="1"/>
                 </Backdrop>

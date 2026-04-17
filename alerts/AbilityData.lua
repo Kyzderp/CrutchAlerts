@@ -178,6 +178,8 @@ Crutch.testing = {
     [105541] = true, -- MBs Dynamic Dspn (Cloudrest mini shades)
 
     [95585] = true, -- Soul Stained Corruption
+
+    [121411] = true, -- Negate Field
 }
 
 ---------------------------------------------------------------------

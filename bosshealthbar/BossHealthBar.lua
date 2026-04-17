@@ -317,14 +317,13 @@ end
 -- at 6%, leaving the stage yellow
 local function UpdateStagesWithBossHealth()
     -- Use the maximum health
-    local highestHealth = math.max(
-        GetBossHealthFraction(1),
-        GetBossHealthFraction(2),
-        GetBossHealthFraction(3),
-        GetBossHealthFraction(4),
-        GetBossHealthFraction(5),
-        GetBossHealthFraction(6)
-        )
+    local highestHealth = 0
+    for i = 1, BOSS_RANK_ITERATION_END do
+        local hp = GetBossHealthFraction(i)
+        if (hp > highestHealth) then
+            highestHealth = hp
+        end
+    end
     highestHealth = RoundHealth(highestHealth * 100)
 
     -- First pass: just update the state; this is needed to determine multi threshold logic later
@@ -373,10 +372,10 @@ local function UpdateStagesWithBossHealth()
             local backdrop = controls.line:GetNamedChild("Backdrop")
             if (controls.state == PASSED) then
                 backdrop:SetCenterColor(unpack(Crutch.savedOptions.bossHealthBar.passedColor))
-                backdrop:SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.passedColor))
+                -- backdrop:SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.passedColor))
             elseif (controls.state == IMMINENT) then
                 backdrop:SetCenterColor(unpack(Crutch.savedOptions.bossHealthBar.imminentColor))
-                backdrop:SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.imminentColor))
+                -- backdrop:SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.imminentColor))
             end -- Shouldn't ever need ACTIVE here because lines will never go naturally back to ACTIVE?
 
             -- Labels may be shown differently from the line
@@ -468,7 +467,7 @@ local function DrawStage(percentage, mechanic, bossTag)
     local lineThiccness = math.max(1, math.ceil(GetUIGlobalScale() * GetScale()))
     lineControl:SetHeight(lineThiccness .. "px")
     lineControl:GetNamedChild("Backdrop"):SetCenterColor(unpack(Crutch.savedOptions.bossHealthBar.activeColor))
-    lineControl:GetNamedChild("Backdrop"):SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.activeColor))
+    -- lineControl:GetNamedChild("Backdrop"):SetEdgeColor(unpack(Crutch.savedOptions.bossHealthBar.activeColor))
     lineControl:SetHidden(false)
 end
 
@@ -558,6 +557,12 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                     ZO_CommaDelimitDecimalNumber(powerValue), ZO_CommaDelimitDecimalNumber(powerMax), powerValue * 100 / powerMax))
             end
 
+            -- Also fixes the persistent highlighting bug when reticle is over the boss when it respawns
+            if (powerValue == prevValue and powerMax == prevMax) then
+                -- Crutch.dbgSpam("no actual change??")
+                return
+            end
+
             if (powerMax > prevMax) then
                 -- The boss' max health increased, meaning turning on HM
                 Crutch.dbgSpam(string.format("|cFF0000[BHB] boss %d MAX INCREASE|r %d / %d -> %d",
@@ -584,12 +589,6 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                 -- The boss healed :O This debug doesn't seem that useful, many bosses seem to "heal" very small amounts... not sure why
                 -- Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d healed %d -> %d",
                 --     index, prevValue, powerValue))
-            end
-
-            if (powerValue == prevValue and powerMax == prevMax) then
-                Crutch.dbgSpam("no actual change??")
-                -- RedrawStages()
-                return
             end
         end
 
