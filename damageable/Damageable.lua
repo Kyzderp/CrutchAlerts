@@ -35,7 +35,7 @@ local SUBTITLE_TIMES = {
 -- DSR
     [GetNameStr(CRUTCH_DMG_TURLASSIL)] = {
         -- Lylanar and Turlassil
-        [GetSubtitleStr(CRUTCH_DMG_FRESH_CHALLENGERS_MORE_LIKE) = 16.6,
+        [GetSubtitleStr(CRUTCH_DMG_FRESH_CHALLENGERS_MORE_LIKE)] = 16.6,
 
         -- First
         [GetSubtitleStr(CRUTCH_DMG_DONT_GET_UP_LY_THIS_WILL_JUST_BE_A)] = 6.4,
