@@ -585,6 +585,12 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
                 -- Crutch.dbgSpam(string.format("|cFFFF00[BHB]|r boss %d healed %d -> %d",
                 --     index, prevValue, powerValue))
             end
+
+            if (powerValue == prevValue and powerMax == prevMax) then
+                Crutch.dbgSpam("no actual change??")
+                -- RedrawStages()
+                return
+            end
         end
 
         bossHealths[index] = {current = powerValue, max = powerMax}
