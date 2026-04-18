@@ -316,24 +316,14 @@ function Crutch.RegisterLucentCitadel()
 
     -- Icons/line for Arcane Conveyance
     if (Crutch.savedOptions.lucentcitadel.showArcaneConveyance) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223028)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, OnArcaneConveyanceInitial)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223029)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, OnArcaneConveyanceTether)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 223060)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        Crutch.RegisterForEffectChanged("ArcaneConveyanceInitial1",  OnArcaneConveyanceInitial, 223028, "group")
+        Crutch.RegisterForEffectChanged("ArcaneConveyanceInitial2",  OnArcaneConveyanceInitial, 223029, "group")
+        Crutch.RegisterForEffectChanged("ArcaneConveyanceTether",  OnArcaneConveyanceTether, 223060, "group")
     end
 
     -- Weakening Charge
     if (Crutch.savedOptions.lucentcitadel.showWeakeningCharge ~= "NEVER") then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED, OnWeakeningCharge)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 222613)
+        Crutch.RegisterForEffectChanged("WeakeningCharge",  OnWeakeningCharge, 222613, "group")
     end
 end
 
@@ -341,10 +331,10 @@ function Crutch.UnregisterLucentCitadel()
     Crutch.UnregisterBossChangedListener("CrutchLucentCitadel")
     Crutch.UnregisterExitedGroupCombatListener("CrutchLucentCitadelExitedCombat")
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceInitial1", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceInitial2", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcaneConveyanceTether", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "WeakeningCharge", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("ArcaneConveyanceInitial1")
+    Crutch.UnregisterForEffectChanged("ArcaneConveyanceInitial2")
+    Crutch.UnregisterForEffectChanged("ArcaneConveyanceTether")
+    Crutch.UnregisterForEffectChanged("WeakeningCharge")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCTrialStarted", EVENT_RAID_TRIAL_STARTED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "LCScoreUpdate", EVENT_RAID_TRIAL_SCORE_UPDATE)
 

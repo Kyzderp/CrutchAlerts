@@ -93,13 +93,8 @@ local function OnActivated()
     -- so just start with SoonTM; the first one doesn't really matter anyway
     Crutch.InfoPanel.CountDownDuration(PANEL_ARCTIC_INDEX, ARCTIC_PREFIX, 0)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEArcticShred", EVENT_COMBAT_EVENT, OnArcticShred)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEArcticShred", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEArcticShred", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 184275)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SEChainLightning", EVENT_COMBAT_EVENT, OnChainLightning)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEChainLightning", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SEChainLightning", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 183858)
+    Crutch.RegisterForCombatEvent("SEArcticShred", OnArcticShred, ACTION_RESULT_BEGIN, 184275)
+    Crutch.RegisterForCombatEvent("SEChainLightning", OnChainLightning, ACTION_RESULT_BEGIN, 183858)
 end
 
 
@@ -138,13 +133,9 @@ function Crutch.UnregisterSanitysEdge()
     -- Chimera oracle icons
     DisableChimeraIcons()
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEArcticShred", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEChainLightning", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("SEArcticShred")
+    Crutch.UnregisterForCombatEvent("SEChainLightning")
     CleanUp()
-
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEGryphonPortal", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SELionPortal", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SEWamasuPortal", EVENT_EFFECT_CHANGED)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Sanity's Edge")
 end

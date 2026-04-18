@@ -1,4 +1,3 @@
--- (doesn't work, needs special client I think)
 -- /script SetCVar("language.2", "jp")
 SafeAddString(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE, "極点のアガエド^F")
 SafeAddString(CRUTCH_BHB_ANALA_TUWHA, "アナラ・ツワ^M")
