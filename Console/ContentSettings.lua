@@ -191,6 +191,18 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Voltaic Current timer",
+        tooltip = "Plays sounds and shows the time until you will receive Voltaic Overload, so you should swap to your less important bar during this time",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cloudrest.showVoltaicAlert end,
+        setFunction = function(value)
+            Crutch.savedOptions.cloudrest.showVoltaicAlert = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Hoarfrost timer",
         tooltip = "Shows a timer for when you can drop Hoarfrost, and a timer after that for when Overwhelming Hoarfrost would kill you (on veteran)",
         default = true,

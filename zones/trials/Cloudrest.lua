@@ -148,6 +148,16 @@ local function OnHoarfrostCast(_, result, _, _, _, _, _, _, _, _, _, _, _, _, _,
     end
 end
 
+
+---------------------------------------------------------------------
+-- Voltaic initial
+---------------------------------------------------------------------
+local function OnVoltaicInitialDuration(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, _, abilityId)
+    Crutch.DisplayNotification(abilityId, zo_strformat("<<C:1>>", GetAbilityName(abilityId)), hitValue, 0, 0, 0, 0, 0, 0, 0, false)
+    Crutch.PlayMultiSound(SOUNDS.DUEL_BOUNDARY_WARNING, 3, 3, 1000)
+end
+
+
 ---------------------------------------------------------------------
 -- Flare icons
 ---------------------------------------------------------------------
@@ -436,6 +446,11 @@ function Crutch.RegisterCloudrest()
     Crutch.RegisterForEffectChanged("CloudrestHoarfrost2", OnHoarfrost, HOARFROST_EXECUTE_ID, "group")
     Crutch.RegisterForCombatEvent("CloudrestHoarfrostCast2", OnHoarfrostCast, nil, HOARFROST_CAST_EXECUTE_ID)
 
+    -- Register initial cast of voltaic to show how much time you have to swap to less important bar
+    if (Crutch.savedOptions.cloudrest.showVoltaicAlert) then
+        Crutch.RegisterForCombatEvent("VoltaicCurrentDuration", OnVoltaicInitialDuration, ACTION_RESULT_EFFECT_GAINED_DURATION, 103555, nil, COMBAT_UNIT_TYPE_PLAYER)
+    end
+
     -- Register Olorime Spears - spear appearing
     Crutch.RegisterForCombatEvent("OlorimeSpears", OnOlorimeSpears, ACTION_RESULT_EFFECT_GAINED, 104019, COMBAT_UNIT_TYPE_NONE) -- Olorime Spears, hitvalue 1
 
@@ -520,6 +535,7 @@ function Crutch.UnregisterCloudrest()
     Crutch.UnregisterForCombatEvent("CloudrestHoarfrostCast1")
     Crutch.UnregisterForEffectChanged("CloudrestHoarfrost2")
     Crutch.UnregisterForCombatEvent("CloudrestHoarfrostCast2")
+    Crutch.UnregisterForCombatEvent("VoltaicCurrentDuration")
     Crutch.UnregisterForCombatEvent("OlorimeSpears")
     Crutch.UnregisterForCombatEvent("WelkynarsLight")
     Crutch.UnregisterForCombatEvent("ShadowPiercerExit")

@@ -1532,6 +1532,18 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show Voltaic Current timer",
+                    tooltip = "Plays sounds and shows the time until you will receive Voltaic Overload, so you should swap to your less important bar during this time",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.showVoltaicAlert end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.showVoltaicAlert = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show Hoarfrost timer",
                     tooltip = "Shows a timer for when you can drop Hoarfrost, and a timer after that for when Overwhelming Hoarfrost would kill you (on veteran)",
                     default = true,
@@ -1590,7 +1602,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Color Ody death icon",
-                    tooltip = "Colors the OdySupportIcons death icon purple if a player's shade is still up",
+                    tooltip = "Colors the OdySupportIcons death icon purple if a player's shade is still up. This is only a hook for OdySupportIcons; the built-in Crutch death icons are already colored purple when the shade is active",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.cloudrest.deathIconColor end,
                     setFunc = function(value)

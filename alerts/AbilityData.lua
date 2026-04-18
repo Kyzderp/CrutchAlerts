@@ -206,7 +206,7 @@ Crutch.noSpamZone = {
 -- Normally we don't listen for ACTION_RESULT_GAINED_DURATION, but timers can be useful in some cases
 Crutch.gainedDuration = {
 -- Cloudrest
-    [103555] = true, -- Voltaic Current (initial of barswap)
+    -- [103555] = true, -- Voltaic Current (initial of barswap)
 
 -- Kyne's Aegis
     [140941] = true, -- Instability

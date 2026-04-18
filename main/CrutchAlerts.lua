@@ -198,6 +198,7 @@ local defaultOptions = {
         dropFrostProminent = true,
         showFrostAlert = true,
         showFrostIcons = false,
+        showVoltaicAlert = true,
     },
     dreadsailreef = {
         alertStaticStacks = true,
