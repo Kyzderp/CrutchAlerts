@@ -171,7 +171,7 @@ local function Uncleave()
     cleaveEnabled = false
     Crutch.RemoveLine(1)
     Crutch.RemoveLine(2)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ArcingCleaveTarget", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("ArcingCleaveTarget")
 end
 
 local function ShowArcingCleave(overrideX, overrideY, overrideZ, overrideRadius, overrideAngle)
@@ -189,8 +189,7 @@ local function ShowArcingCleave(overrideX, overrideY, overrideZ, overrideRadius,
 
 
     -- Detect aggro
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ArcingCleaveTarget", EVENT_COMBAT_EVENT, OnArcingCleave)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ArcingCleaveTarget", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 163901)
+    Crutch.RegisterForCombatEvent("ArcingCleaveTarget", OnArcingCleave, nil, 163901)
 
     -- Draw lines
     Crutch.SetLineColor(1, 1, 0, 0.8, 0, false, 1)
@@ -252,12 +251,8 @@ end
 function Crutch.RegisterDreadsailReef()
     -- Chat output for who picks up domes
     if (Crutch.savedOptions.general.showRaidDiag) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, OnDestructiveEmber)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 166209)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, OnPiercingHailstone)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 166178)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+        Crutch.RegisterForEffectChanged("DSRDestructiveEmber", OnDestructiveEmber, 166209, "group")
+        Crutch.RegisterForEffectChanged("DSRPiercingHailstone", OnPiercingHailstone, 166178, "group")
     end
 
     -- Twins detection for which boss first
@@ -273,12 +268,8 @@ function Crutch.RegisterDreadsailReef()
     end
 
     if (showStatic) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED, OnLightningStacksChanged)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 163575)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRStaticOther", EVENT_EFFECT_CHANGED, OnLightningStacksChanged)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRStaticOther", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 169688)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRStaticOther", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
+        Crutch.RegisterForEffectChanged("DSRStaticBoss", OnLightningStacksChanged, 163575, "player")
+        Crutch.RegisterForEffectChanged("DSRStaticOther", OnLightningStacksChanged, 169688, "player")
     end
 
     -- Volatile Stacks
@@ -290,12 +281,8 @@ function Crutch.RegisterDreadsailReef()
     end
 
     if (showVolatile) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRVolatileBoss", EVENT_EFFECT_CHANGED, OnPoisonStacksChanged)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRVolatileBoss", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 174835)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRVolatileBoss", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRVolatileOther", EVENT_EFFECT_CHANGED, OnPoisonStacksChanged)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRVolatileOther", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 174932)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRVolatileOther", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "player")
+        Crutch.RegisterForEffectChanged("DSRVolatileBoss", OnPoisonStacksChanged, 174835, "player")
+        Crutch.RegisterForEffectChanged("DSRVolatileOther", OnPoisonStacksChanged, 174932, "player")
     end
 
     -- Taleria cleave
@@ -306,20 +293,20 @@ end
 
 function Crutch.UnregisterDreadsailReef()
     -- Domes
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRDestructiveEmber", EVENT_EFFECT_CHANGED, OnDestructiveEmber)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRPiercingHailstone", EVENT_EFFECT_CHANGED, OnPiercingHailstone)
+    Crutch.UnregisterForEffectChanged("DSRDestructiveEmber")
+    Crutch.UnregisterForEffectChanged("DSRPiercingHailstone")
 
     -- Twins detection
     Crutch.UnregisterBossChangedListener("CrutchDSRBossChanged")
     Crutch.BossHealthBar.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_LYLANAR))
 
     -- Lightning Stacks
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRStaticBoss", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRStaticOther", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("DSRStaticBoss")
+    Crutch.UnregisterForEffectChanged("DSRStaticOther")
 
     -- Volatile Stacks
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRVolatileBoss", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRVolatileOther", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("DSRVolatileBoss")
+    Crutch.UnregisterForEffectChanged("DSRVolatileOther")
 
     -- Taleria cleave
     Crutch.UnregisterBossChangedListener("CrutchDreadsailReef")
