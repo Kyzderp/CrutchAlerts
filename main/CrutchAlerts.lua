@@ -150,7 +150,7 @@ local defaultOptions = {
         background = {16/256, 0, 0, 0.66},
         activeColor = {0.53, 0.53, 0.53, 0.9},
         imminentColor = {1, 1, 0, 0.67},
-        passedColor = {0.53, 0.53, 0.53, 0.3},
+        passedColor = {0.53, 0.53, 0.53, 0.4},
     },
     infoPanel = {
         size = 30,

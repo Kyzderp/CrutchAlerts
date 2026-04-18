@@ -571,10 +571,14 @@ local dungeonThresholds = {
         },
     },
     [GetBossName(CRUTCH_BHB_VALINNA)] = {
-        -- TODO: after the 2nd room, Lamikhai's death removes her unit, so only Valinna is left, triggering
-        -- a bosses changed event. It resets the threshold highlighting because the stages are redrawn
         [50] = "Lamikhai leaves",
         [55] = "Valinna leaves",
+        boss1 = {
+            [55] = "Valinna leaves",
+        },
+        boss2 = {
+            [50] = "Lamikhai leaves",
+        },
     },
 
 -- Oathsworn Pit
