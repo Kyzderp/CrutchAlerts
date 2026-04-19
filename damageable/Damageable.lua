@@ -104,9 +104,9 @@ local SUBTITLE_TIMES = {
         ["Go, children, and drink your fill!"] = {time = 30, displayFormat = "Torturers in "},
     },
 -- LC
-    ["Xoryn"] = {
+    [GetNameStr(CRUTCH_DMG_XORYN)] = {
         -- Count Ryelaz & Zilyesset
-        ["Like them!"] = 17.6,
+        [GetSubtitleStr(CRUTCH_DMG_LIKE_THEM)] = 17.6,
     },
 -- MoL
     ["Mirarro"] = {
