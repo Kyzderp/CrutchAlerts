@@ -103,6 +103,7 @@ end
 ---------------------------------------------------------------------
 local function CleanUp()
     numArctic = 0
+    Crutch.InfoPanel.StopCount(PANEL_ARCTIC_INDEX)
 end
 
 function Crutch.RegisterSanitysEdge()
