@@ -723,6 +723,7 @@ local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
             dbg(string.format("%s (%s) value: %d max: %d effectiveMax: %d", name, unitTag, powerValue, powerMax, powerEffectiveMax))
             OnPowerUpdate(nil, unitTag, nil, nil, powerValue, powerMax, powerEffectiveMax)
         else
+            bossHealths[i] = nil -- Clean lingering after unlock
             local statusBar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(i))
             if (statusBar) then
                 statusBar:SetHidden(true)
