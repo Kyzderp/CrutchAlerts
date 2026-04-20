@@ -450,6 +450,8 @@ local function CleanUp()
     -- For wipes because landing timers are long
     Crutch.StopDamageable()
 
+    SS.StopNahvPortal()
+
     Crutch.InfoPanel.StopCount(PANEL_FOCUS_FIRE_INDEX)
 end
 
