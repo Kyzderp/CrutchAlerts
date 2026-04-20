@@ -23,6 +23,7 @@ ZO_CreateStringId("CRUTCH_DMG_SOON_MY_SHADOWS_SHALL_SPREAD_TO_ALL_OF", "Soon, my
 ZO_CreateStringId("CRUTCH_DMG_THAT_WAS_A_LIMP_PERFORMANCE_TURLI_ILL", "That was a limp performance, Turli. I'll show them what true power is.")
 ZO_CreateStringId("CRUTCH_DMG_THAT_WAS_JUST_A_TASTE_OF_WHATS_TO_COME", "That was just a taste of what's to come.")
 ZO_CreateStringId("CRUTCH_DMG_THE_SHADOWS_ANSWER_TO_ME_NOW", "The shadows answer to me now.")
+ZO_CreateStringId("CRUTCH_DMG_TO_RESTORE_THE_NATURAL_ORDER_TO_RECLAIM", "To restore the natural order. To reclaim all that was and will be. To correct the mortal mistake.")
 ZO_CreateStringId("CRUTCH_DMG_TURLASSIL", "Turlassil^M")
 ZO_CreateStringId("CRUTCH_DMG_WATCH_ME_TURLI_THIS_IS_HOW_ITS_DONE", "Watch me, Turli. This is how it's done!")
 ZO_CreateStringId("CRUTCH_DMG_XORYN", "Xoryn^M")

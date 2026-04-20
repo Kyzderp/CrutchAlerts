@@ -177,10 +177,9 @@ local SUBTITLE_TIMES = {
     },
 
 -- SS
-    ["Nahviintaas"] = {
+    [GetNameStr(CRUTCH_BHB_NAHVIINTAAS)] = {
         -- Nahviintaas
-        ["To restore the natural order. To reclaim all that was and will be. To correct the mortal mistake."] = 22.2,
-        ["Um die natürliche Ordnung wiederherzustellen. Das, was war und sein wird. Um sterbliche Fehler zu berichtigen."] = 22.2,
+        [GetSubtitleStr(CRUTCH_DMG_TO_RESTORE_THE_NATURAL_ORDER_TO_RECLAIM)] = 22.2,
     },
 
 -- VH

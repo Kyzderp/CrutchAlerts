@@ -23,6 +23,7 @@ SafeAddString(CRUTCH_DMG_SOON_MY_SHADOWS_SHALL_SPREAD_TO_ALL_OF, "¡Pronto, mis 
 SafeAddString(CRUTCH_DMG_THAT_WAS_A_LIMP_PERFORMANCE_TURLI_ILL, "Podrías haberlo hecho mejor, Turli. Les voy a demostrar lo que es el poder de verdad.")
 SafeAddString(CRUTCH_DMG_THAT_WAS_JUST_A_TASTE_OF_WHATS_TO_COME, "Eso solo ha sido una demostración de lo que os espera.")
 SafeAddString(CRUTCH_DMG_THE_SHADOWS_ANSWER_TO_ME_NOW, "Las sombras ahora me obedecen a mí.")
+SafeAddString(CRUTCH_DMG_TO_RESTORE_THE_NATURAL_ORDER_TO_RECLAIM, "Para restaurar el orden natural. Para reclamar lo que ha sido y lo que será. Para corregir el error mortal.")
 SafeAddString(CRUTCH_DMG_TURLASSIL, "Turlassil^M")
 SafeAddString(CRUTCH_DMG_WATCH_ME_TURLI_THIS_IS_HOW_ITS_DONE, "Observa, Turli. Te enseñaré cómo se hace.")
 SafeAddString(CRUTCH_DMG_XORYN, "Xoryn^M")

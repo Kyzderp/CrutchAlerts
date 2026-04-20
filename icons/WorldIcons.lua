@@ -150,8 +150,8 @@ local iconGroups = {
             {x = 25468, y = 14569, z = 9620, texture = "CrutchAlerts/assets/shape/diamond_blue_4.dds"}, -- 4
             {x = 24268, y = 14569, z = 10000, texture = "CrutchAlerts/assets/shape/diamond_orange_1.dds"}, -- H1
             {x = 25838, y = 14569, z = 10000, texture = "CrutchAlerts/assets/shape/diamond_orange_2.dds"}, -- H2
-            {x = 25009, y = 14569, z = 9524, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- MT?
-            {x = 25046, y = 14569, z = 9217, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- OT?
+            -- {x = 25009, y = 14569, z = 9524, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- MT?
+            -- {x = 25046, y = 14569, z = 9217, texture = "CrutchAlerts/assets/shape/diamond_red.dds"}, -- OT?
         },
     },
     -- Jynorah + Skorkhif, matching Asquart's OCH
