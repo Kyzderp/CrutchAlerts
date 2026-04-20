@@ -152,6 +152,9 @@ Crutch.format = {
     [120783] = 330000.0, -- Hail of Stone (Vigil Statue)
     [118884] =    100.0, -- Fire Storm (Nahv)
     [117251] =    100.0, -- Meteor (Nahviintaas)
+    [121436] = 500, -- Translation Apocalypse (Servant)
+    [121422] = 300, -- Sundering Gale (Servant)
+    [121411] = 600, -- Negate Field (Servant)
 
 ---------------------------------------------------------------------
 -- Dungeons
