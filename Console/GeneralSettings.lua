@@ -249,6 +249,19 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show werewolf Claw Fury",
+        tooltip = "Show an \"alert\" timer for your Claw Fury channeled cast",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.general.showClawFury end,
+        setFunction = function(value)
+            Crutch.savedOptions.general.showClawFury = value
+            Crutch.UnregisterFatecarver()
+            Crutch.RegisterFatecarver()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Fencer's Parry",
         tooltip = "Show an \"alert\" timer for the duration of Fencer's Parry from scribing, along with when it is removed",
         default = true,

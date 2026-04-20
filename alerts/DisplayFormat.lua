@@ -36,6 +36,9 @@ Crutch.format = {
 -- DK
     [20930] = 100, -- Engulfing Dragonfire
 
+-- Werewolf
+    [58864] = 300, -- Claw Fury
+
 ---------------------------------------------------------------------
 -- Trials
 

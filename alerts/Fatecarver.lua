@@ -157,6 +157,14 @@ function Crutch.RegisterFatecarver()
         EVENT_MANAGER:RegisterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, OnBeamFaded)
         EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 20930)
     end
+
+    -- werewolf
+    if (Crutch.savedOptions.general.showClawFury) then
+        Crutch.dbgOther("Registering Claw Fury")
+
+        Crutch.RegisterForCombatEvent("ClawFuryBegin", OnFatecarver, ACTION_RESULT_BEGIN, 58864, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForEffectChanged("ClawFuryFaded", OnBeamFaded, 58864)
+    end
 end
 
 -- For use from settings when toggling
@@ -174,4 +182,7 @@ function Crutch.UnregisterFatecarver()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EngulfingBegin", EVENT_COMBAT_EVENT)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EngulfingFaded", EVENT_EFFECT_CHANGED)
+
+    Crutch.UnregisterForCombatEvent("ClawFuryBegin")
+    Crutch.UnregisterForEffectChanged("ClawFuryFaded")
 end

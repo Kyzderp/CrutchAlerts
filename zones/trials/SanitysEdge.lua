@@ -61,7 +61,7 @@ local function OnArcticShred()
     elseif (numArctic == 2) then
         -- Wait for next Chain Lightning (or maybe Inferno?)
         Crutch.InfoPanel.StopCount(PANEL_ARCTIC_INDEX)
-        Crutch.InfoPanel.SetLine(PANEL_ARCTIC_INDEX, ARCTIC_PREFIX .. zo_strformat("|cFFFF00after next <<C:1>>", GetAbilityName(183858)))
+        Crutch.InfoPanel.SetLine(PANEL_ARCTIC_INDEX, ARCTIC_PREFIX .. zo_strformat("|cFFFF00after <<C:1>>", GetAbilityName(183858)))
     end
 end
 
