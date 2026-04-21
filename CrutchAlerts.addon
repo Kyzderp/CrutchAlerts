@@ -56,7 +56,7 @@ lang/damageable/$(language).lua
 zones/trials/asylumsanctorium/AsylumSanctorium.lua
 zones/trials/asylumsanctorium/MiniHealthBars.lua
 zones/trials/asylumsanctorium/MiniPanel.lua
-zones/trials/Cloudrest.lua
+zones/trials/cloudrest/Cloudrest.lua
 zones/trials/DreadsailReef.lua
 zones/trials/HallsOfFabrication.lua
 zones/trials/KynesAegis.lua
@@ -74,7 +74,7 @@ zones/trials/SanctumOphidia.lua
 zones/trials/sunspire/Sunspire.lua
 zones/trials/sunspire/NahvPortal.lua
 
-zones/trials/Cloudrest.xml
+zones/trials/cloudrest/Cloudrest.xml
 zones/trials/MawOfLorkhaj.xml
 zones/trials/osseincage/OsseinCage.xml
 
