@@ -53,7 +53,7 @@ local SILENT = 2 -- Don't play sound
 local EFFECT_ONLY = 3 -- Only use the EFFECT_GAINED_DURATION, no need for initial STUNNED
 local IGNORE = 4 -- Completely ignore, no dbg
 local CC_ABILITY_DATA = {
-    [166794] = SUPPRESS, -- Current (DSR)
+    [166794] = IGNORE, -- Current (DSR)
     [95456] = EFFECT_ONLY, -- Thundering Tailslap (AS)
     [218509] = IGNORE, -- Arcane Encumberance (LC, snare on knot)
 

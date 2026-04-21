@@ -114,13 +114,14 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         end
 
         local radius = tonumber(args[2])
-        if (radius) then
-            Crutch.msg("Drawing circle with radius " .. args[2])
+        if (radius and radius > 0) then
+            Crutch.msg("Drawing circle with radius " .. args[2] .. ". Turn it off with /crutch circle")
             Crutch.Drawing.TestPoop(radius)
             return
         end
 
-        Crutch.msg(args[2] .. " is not a number!")
+        Crutch.msg(args[2] .. " must be a number greater than 0")
+        return
 
     --------------------
     elseif (cmd == "meme") then
