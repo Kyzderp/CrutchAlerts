@@ -14,10 +14,12 @@ local function PrintUsage()
     if (IsConsoleUI()) then
         CrutchAlerts.msg([[Usage:
 |cAAAAAA/crutch printskills
+|cAAAAAA/crutch circle [radius]
 |cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
     else
         CrutchAlerts.msg([[Usage:
 |cAAAAAA/crutch printskills
+|cAAAAAA/crutch circle [radius]
 |cAAAAAA/crutch lock
 |cAAAAAA/crutch unlock
 |cAAAAAA/crutch toggle general
@@ -102,6 +104,23 @@ SLASH_COMMANDS["/crutch"] = function(argString)
     --------------------
     elseif (cmd == "dumpbhb") then
         Crutch.BossHealthBar.DumpMechanicControls()
+
+    --------------------
+    elseif (cmd == "circle") then
+        if (#args ~= 2) then
+            Crutch.msg("Clearing circle and poops")
+            Crutch.Drawing.ClearPoop()
+            return
+        end
+
+        local radius = tonumber(args[2])
+        if (radius) then
+            Crutch.msg("Drawing circle with radius " .. args[2])
+            Crutch.Drawing.TestPoop(radius)
+            return
+        end
+
+        Crutch.msg(args[2] .. " is not a number!")
 
     --------------------
     elseif (cmd == "meme") then

@@ -46,7 +46,7 @@ local function SetColor(icon, r, g, b, a, childControlName)
     r = r or oldR
     g = g or oldG
     b = b or oldB
-    a = a or oldA
+    -- TODO: for some reason oldA seems to keep getting smaller? is it affected by other alpha?
 
     control:SetColor(r, g, b, a)
 end
@@ -281,13 +281,22 @@ Draw.TestCircle = TestCircle
 
 -- Example usage of some PlacedTextures APIs
 local keys = {}
+
+local function ClearPoop()
+    for _, key in ipairs(keys) do
+        RemoveWorldTexture(key)
+    end
+    ZO_ClearTable(keys)
+end
+Draw.ClearPoop = ClearPoop
+
 local function TestPoop(radius)
     -- Calling function should keep track of keys that are returned,
     -- so that the textures can be removed later
     for _, key in ipairs(keys) do
         RemoveWorldTexture(key)
     end
-    keys = {}
+    ZO_ClearTable(keys)
 
     local _, x, y, z = GetUnitRawWorldPosition("player")
     radius = radius or 3

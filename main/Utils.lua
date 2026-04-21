@@ -88,7 +88,7 @@ end
 
 -- ZOS has RGB to HSL but not backwards :sadge:
 function Crutch.ConvertHSLToRGB(h, s, l)
-    if (saturation == 0) then
+    if (s == 0) then
         return l, l, l
     else
         local q = (l < 0.5) and (l * (1 + s)) or (l + s - l * s)
