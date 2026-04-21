@@ -619,13 +619,13 @@ local prominentData = {
         [52773] = {
             event = EVENT_COMBAT_EVENT,
             filters = { -- TODO
-                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED_DURATION,
             },
             text = "ICE COMET",
             color = {0.5, 1, 1},
-            slot = 1,
+            slot = 2, -- Winter's Reach could be in slot 1
             playSound = true,
-            millis = 1000,
+            millis = 1750,
             settings = {
                 name = "prominentIceComet",
                 title = "Alert Ice Comet",

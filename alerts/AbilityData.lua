@@ -181,6 +181,8 @@ Crutch.testing = {
     [95585] = true, -- Soul Stained Corruption
 
     [121411] = true, -- Negate Field
+
+    [52773] = true, -- Ice Comet (Mavus)
 }
 
 ---------------------------------------------------------------------

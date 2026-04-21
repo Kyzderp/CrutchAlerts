@@ -35,8 +35,8 @@ local arenaThresholds = {
         [30] = "Adds", -- TODO
     },
     [GetBossName(CRUTCH_BHB_ANALA_TUWHA)] = {
-        [78] = "Adds", -- TODO
-        [40] = "Adds", -- TODO
+        [80] = "Adds",
+        [40] = "Adds",
     },
     [GetBossName(CRUTCH_BHB_PISHNA_LONGSHOT)] = {
         [70] = "Adds", -- TODO
