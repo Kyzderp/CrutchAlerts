@@ -1,4 +1,6 @@
 local Crutch = CrutchAlerts
+Crutch.Cloudrest = {}
+local CR = Crutch.Cloudrest
 local C = Crutch.Constants
 
 ---------------------------------------------------------------------
@@ -422,6 +424,8 @@ local origOSIGetIconDataForPlayer = nil
 function Crutch.RegisterCloudrest()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Cloudrest")
 
+    CR.RegisterGrapes()
+
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatCloudrest", ResetValuesOnWipe)
 
     -- Register break amulet
@@ -524,6 +528,8 @@ function Crutch.RegisterCloudrest()
 end
 
 function Crutch.UnregisterCloudrest()
+    CR.UnregisterGrapes()
+
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCloudrest")
 
     Crutch.UnregisterForCombatEvent("CloudrestBreakAmulet")
