@@ -1,6 +1,6 @@
 local Crutch = CrutchAlerts
 
-local fatecarverIds = {
+local arcanistIds = {
     [185805] = true, -- Fatecarver (cost mag)
     [193331] = true, -- Fatecarver (cost stam)
     [183122] = true, -- Exhausting Fatecarver (cost mag)
@@ -48,11 +48,11 @@ local effectResults = {
     [EFFECT_RESULT_UPDATED] = "UPDATED",
 }
 
-local function OnFatecarver(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
+local function OnChannel(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
 
     if (hitValue <= 75) then return end
 
-    -- Remove the timer if fatecarver gets interrupted
+    -- Remove the timer if channel gets interrupted
     if (result == ACTION_RESULT_EFFECT_FADED) then
         Crutch.dbgSpam("channel faded (combat)")
         Crutch.Interrupted(targetUnitId, true)
@@ -94,7 +94,7 @@ local function OnFatecarver(_, result, isError, abilityName, _, _, sourceName, s
     end
 end
 
-local function OnBeamFaded(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId, sourceType)
+local function OnChannelFaded(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId, sourceType)
     if (changeType ~= EFFECT_RESULT_FADED) then return end
     if (sourceType ~= COMBAT_UNIT_TYPE_PLAYER) then return end
 
@@ -106,16 +106,16 @@ end
 
 ---------------------------------------------------------------------
 -- Init
-function Crutch.RegisterFatecarver()
+function Crutch.RegisterChannels()
     -- Eventually I should explore only registering these if Fatecarver is even slotted
     -- Also healy beam though
     if (not Crutch.savedOptions.general.beginHideArcanist) then
         Crutch.dbgOther("Registering Fatecarver/Remedy Cascade")
-        for abilityId, _ in pairs(fatecarverIds) do
+        for abilityId, _ in pairs(arcanistIds) do
             local eventName = "FC" .. tostring(abilityId)
 
-            Crutch.RegisterForCombatEvent(eventName .. "Begin", OnFatecarver, ACTION_RESULT_BEGIN, abilityId, nil, COMBAT_UNIT_TYPE_PLAYER)
-            Crutch.RegisterForCombatEvent(eventName .. "Faded", OnFatecarver, ACTION_RESULT_EFFECT_FADED, abilityId, nil, COMBAT_UNIT_TYPE_PLAYER)
+            Crutch.RegisterForCombatEvent(eventName .. "Begin", OnChannel, ACTION_RESULT_BEGIN, abilityId, nil, COMBAT_UNIT_TYPE_PLAYER)
+            Crutch.RegisterForCombatEvent(eventName .. "Faded", OnChannel, ACTION_RESULT_EFFECT_FADED, abilityId, nil, COMBAT_UNIT_TYPE_PLAYER)
         end
     end
 
@@ -125,8 +125,8 @@ function Crutch.RegisterFatecarver()
         for abilityId, _ in pairs(jbeamIds) do
             local eventName = "JB" .. tostring(abilityId)
 
-            Crutch.RegisterForCombatEvent(eventName .. "Begin", OnFatecarver, ACTION_RESULT_BEGIN, abilityId, COMBAT_UNIT_TYPE_PLAYER)
-            Crutch.RegisterForEffectChanged(eventName .. "Faded", OnBeamFaded, abilityId)
+            Crutch.RegisterForCombatEvent(eventName .. "Begin", OnChannel, ACTION_RESULT_BEGIN, abilityId, COMBAT_UNIT_TYPE_PLAYER)
+            Crutch.RegisterForEffectChanged(eventName .. "Faded", OnChannelFaded, abilityId)
         end
     end
 
@@ -135,23 +135,23 @@ function Crutch.RegisterFatecarver()
         Crutch.dbgOther("Registering Engulfing Dragonfire")
         local eventName = Crutch.name .. "Engulfing"
 
-        Crutch.RegisterForCombatEvent("EngulfingBegin", OnFatecarver, ACTION_RESULT_BEGIN, 20930, COMBAT_UNIT_TYPE_PLAYER)
-        Crutch.RegisterForEffectChanged("EngulfingFaded", OnBeamFaded, 20930)
+        Crutch.RegisterForCombatEvent("EngulfingBegin", OnChannel, ACTION_RESULT_BEGIN, 20930, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForEffectChanged("EngulfingFaded", OnChannelFaded, 20930)
     end
 
     -- werewolf
     if (Crutch.savedOptions.general.showClawFury) then
         Crutch.dbgOther("Registering Claw Fury")
 
-        Crutch.RegisterForCombatEvent("ClawFuryBegin", OnFatecarver, ACTION_RESULT_BEGIN, 58864, COMBAT_UNIT_TYPE_PLAYER)
-        Crutch.RegisterForEffectChanged("ClawFuryFaded", OnBeamFaded, 58864)
+        Crutch.RegisterForCombatEvent("ClawFuryBegin", OnChannel, ACTION_RESULT_BEGIN, 58864, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForEffectChanged("ClawFuryFaded", OnChannelFaded, 58864)
     end
 end
 
 -- For use from settings when toggling
-function Crutch.UnregisterFatecarver()
-    Crutch.dbgOther("Unregistering Fatecarver/Remedy Cascade")
-    for abilityId, _ in pairs(fatecarverIds) do
+function Crutch.UnregisterChannels()
+    Crutch.dbgOther("Unregistering channeled attacks")
+    for abilityId, _ in pairs(arcanistIds) do
         Crutch.UnregisterForCombatEvent("FC" .. tostring(abilityId) .. "Begin")
         Crutch.UnregisterForCombatEvent("FC" .. tostring(abilityId) .. "Faded")
     end

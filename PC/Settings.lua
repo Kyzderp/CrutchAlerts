@@ -240,8 +240,8 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return not Crutch.savedOptions.general.beginHideArcanist end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.beginHideArcanist = not value
-                        Crutch.UnregisterFatecarver()
-                        Crutch.RegisterFatecarver()
+                        Crutch.UnregisterChannels()
+                        Crutch.RegisterChannels()
                     end,
                     width = "full",
                 },
@@ -265,8 +265,8 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.general.showEngulfing end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.showEngulfing = value
-                        Crutch.UnregisterFatecarver()
-                        Crutch.RegisterFatecarver()
+                        Crutch.UnregisterChannels()
+                        Crutch.RegisterChannels()
                     end,
                     width = "full",
                 },
@@ -278,8 +278,8 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.general.showJBeam end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.showJBeam = value
-                        Crutch.UnregisterFatecarver()
-                        Crutch.RegisterFatecarver()
+                        Crutch.UnregisterChannels()
+                        Crutch.RegisterChannels()
                     end,
                     width = "full",
                 },
@@ -291,8 +291,8 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.general.showClawFury end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.showClawFury = value
-                        Crutch.UnregisterFatecarver()
-                        Crutch.RegisterFatecarver()
+                        Crutch.UnregisterChannels()
+                        Crutch.RegisterChannels()
                     end,
                     width = "full",
                 },

@@ -204,8 +204,8 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         getFunction = function() return not Crutch.savedOptions.general.beginHideArcanist end,
         setFunction = function(value)
             Crutch.savedOptions.general.beginHideArcanist = not value
-            Crutch.UnregisterFatecarver()
-            Crutch.RegisterFatecarver()
+            Crutch.UnregisterChannels()
+            Crutch.RegisterChannels()
         end,
     })
 
@@ -229,8 +229,8 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         getFunction = function() return Crutch.savedOptions.general.showEngulfing end,
         setFunction = function(value)
             Crutch.savedOptions.general.showEngulfing = value
-            Crutch.UnregisterFatecarver()
-            Crutch.RegisterFatecarver()
+            Crutch.UnregisterChannels()
+            Crutch.RegisterChannels()
         end,
     })
 
@@ -242,8 +242,8 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         getFunction = function() return Crutch.savedOptions.general.showJBeam end,
         setFunction = function(value)
             Crutch.savedOptions.general.showJBeam = value
-            Crutch.UnregisterFatecarver()
-            Crutch.RegisterFatecarver()
+            Crutch.UnregisterChannels()
+            Crutch.RegisterChannels()
         end,
     })
 
@@ -255,8 +255,8 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         getFunction = function() return Crutch.savedOptions.general.showClawFury end,
         setFunction = function(value)
             Crutch.savedOptions.general.showClawFury = value
-            Crutch.UnregisterFatecarver()
-            Crutch.RegisterFatecarver()
+            Crutch.UnregisterChannels()
+            Crutch.RegisterChannels()
         end,
     })
 
