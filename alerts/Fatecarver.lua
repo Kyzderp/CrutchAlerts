@@ -54,7 +54,7 @@ local function OnFatecarver(_, result, isError, abilityName, _, _, sourceName, s
 
     -- Remove the timer if fatecarver gets interrupted
     if (result == ACTION_RESULT_EFFECT_FADED) then
-        Crutch.dbgSpam("fatecarver faded")
+        Crutch.dbgSpam("channel faded (combat)")
         Crutch.Interrupted(targetUnitId, true)
         return
     end
@@ -94,14 +94,12 @@ local function OnFatecarver(_, result, isError, abilityName, _, _, sourceName, s
     end
 end
 
---* EVENT_EFFECT_CHANGED (*[EffectResult|#EffectResult]* _changeType_, *integer* _effectSlot_, *string* _effectName_, *string* _unitTag_, *number* _beginTime_, *number* _endTime_, *integer* _stackCount_, *string* _iconName_, *string* _deprecatedBuffType_, *[BuffEffectType|#BuffEffectType]* _effectType_, *[AbilityType|#AbilityType]* _abilityType_, *[StatusEffectType|#StatusEffectType]* _statusEffectType_, *string* _unitName_, *integer* _unitId_, *integer* _abilityId_, *[CombatUnitType|#CombatUnitType]* _sourceType_)
-
 local function OnBeamFaded(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId, sourceType)
     if (changeType ~= EFFECT_RESULT_FADED) then return end
     if (sourceType ~= COMBAT_UNIT_TYPE_PLAYER) then return end
 
     -- Remove the timer if beam gets interrupted
-    Crutch.dbgSpam("beam faded")
+    Crutch.dbgSpam("channel faded (effect)")
     Crutch.InterruptAbility(abilityId)
 end
 
@@ -114,17 +112,10 @@ function Crutch.RegisterFatecarver()
     if (not Crutch.savedOptions.general.beginHideArcanist) then
         Crutch.dbgOther("Registering Fatecarver/Remedy Cascade")
         for abilityId, _ in pairs(fatecarverIds) do
-            local eventName = Crutch.name .. "FC" .. tostring(abilityId)
+            local eventName = "FC" .. tostring(abilityId)
 
-            EVENT_MANAGER:RegisterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, OnFatecarver)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-
-            EVENT_MANAGER:RegisterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, OnFatecarver)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- interrupted self only
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
+            Crutch.RegisterForCombatEvent(eventName .. "Begin", OnFatecarver, ACTION_RESULT_BEGIN, abilityId, nil, COMBAT_UNIT_TYPE_PLAYER)
+            Crutch.RegisterForCombatEvent(eventName .. "Faded", OnFatecarver, ACTION_RESULT_EFFECT_FADED, abilityId, nil, COMBAT_UNIT_TYPE_PLAYER)
         end
     end
 
@@ -132,15 +123,10 @@ function Crutch.RegisterFatecarver()
     if (Crutch.savedOptions.general.showJBeam) then
         Crutch.dbgOther("Registering Radiant Destruction")
         for abilityId, _ in pairs(jbeamIds) do
-            local eventName = Crutch.name .. "JB" .. tostring(abilityId)
+            local eventName = "JB" .. tostring(abilityId)
 
-            EVENT_MANAGER:RegisterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, OnFatecarver)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- self only
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-
-            EVENT_MANAGER:RegisterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, OnBeamFaded)
-            EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, abilityId)
+            Crutch.RegisterForCombatEvent(eventName .. "Begin", OnFatecarver, ACTION_RESULT_BEGIN, abilityId, COMBAT_UNIT_TYPE_PLAYER)
+            Crutch.RegisterForEffectChanged(eventName .. "Faded", OnBeamFaded, abilityId)
         end
     end
 
@@ -149,13 +135,8 @@ function Crutch.RegisterFatecarver()
         Crutch.dbgOther("Registering Engulfing Dragonfire")
         local eventName = Crutch.name .. "Engulfing"
 
-        EVENT_MANAGER:RegisterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, OnFatecarver)
-        EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- self only
-        EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 20930)
-        EVENT_MANAGER:AddFilterForEvent(eventName .. "Begin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-
-        EVENT_MANAGER:RegisterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, OnBeamFaded)
-        EVENT_MANAGER:AddFilterForEvent(eventName .. "Faded", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 20930)
+        Crutch.RegisterForCombatEvent("EngulfingBegin", OnFatecarver, ACTION_RESULT_BEGIN, 20930, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForEffectChanged("EngulfingFaded", OnBeamFaded, 20930)
     end
 
     -- werewolf
@@ -171,17 +152,17 @@ end
 function Crutch.UnregisterFatecarver()
     Crutch.dbgOther("Unregistering Fatecarver/Remedy Cascade")
     for abilityId, _ in pairs(fatecarverIds) do
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FC" .. tostring(abilityId) .. "Begin", EVENT_COMBAT_EVENT)
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FC" .. tostring(abilityId) .. "Faded", EVENT_COMBAT_EVENT)
+        Crutch.UnregisterForCombatEvent("FC" .. tostring(abilityId) .. "Begin")
+        Crutch.UnregisterForCombatEvent("FC" .. tostring(abilityId) .. "Faded")
     end
 
     for abilityId, _ in pairs(jbeamIds) do
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JB" .. tostring(abilityId) .. "Begin", EVENT_COMBAT_EVENT)
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "JB" .. tostring(abilityId) .. "Faded", EVENT_EFFECT_CHANGED)
+        Crutch.UnregisterForCombatEvent("JB" .. tostring(abilityId) .. "Begin")
+        Crutch.UnregisterForEffectChanged("JB" .. tostring(abilityId) .. "Faded")
     end
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EngulfingBegin", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "EngulfingFaded", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForCombatEvent("EngulfingBegin")
+    Crutch.UnregisterForEffectChanged("EngulfingFaded")
 
     Crutch.UnregisterForCombatEvent("ClawFuryBegin")
     Crutch.UnregisterForEffectChanged("ClawFuryFaded")
