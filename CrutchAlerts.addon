@@ -104,7 +104,7 @@ alerts/Core.lua
 alerts/DisplayFormat.lua
 alerts/Effects.lua
 alerts/Events.lua
-alerts/Fatecarver.lua
+alerts/Channels.lua
 
 icons/DrawLine.lua
 icons/WorldIcons.lua

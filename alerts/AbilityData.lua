@@ -58,8 +58,8 @@ Crutch.blacklist = {
     [186200] = true, -- Curative Surge (cost mag)
     [198537] = true, -- Curative Surge (cost stam)
 
-    [20930] = true, -- Engulfing Dragonfire - handled in Fatecarver.lua
-    [58864] = true, -- Claw Fury - handled in Fatecarver.lua
+    [20930] = true, -- Engulfing Dragonfire - handled in Channels.lua
+    [58864] = true, -- Claw Fury - handled in Channels.lua
 
 -- Other player-sourced
     [107579] = true, -- Mend Wounds
