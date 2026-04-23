@@ -192,21 +192,12 @@ function RG.RegisterBahseiPortal()
     Crutch.RegisterExitedGroupCombatListener("RockgroveBahseiPortalExitedCombat", CleanUp)
 
     -- Register for Bahsei portal effect gained/faded
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED, OnBitterMarrowChanged)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 153423)
+    Crutch.RegisterForEffectChanged("BitterMarrowEffect", OnBitterMarrowChanged, 153423, "group")
 
     -- Register for Portal summon and end
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Clockwise", EVENT_COMBAT_EVENT, OnPortalSummoned)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Clockwise", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Clockwise", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 153517)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CounterClockwise", EVENT_COMBAT_EVENT, OnPortalSummoned)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CounterClockwise", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CounterClockwise", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 153518)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PortalExplode", EVENT_COMBAT_EVENT, OnPortalEnded)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PortalExplode", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PortalExplode", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 153662)
+    Crutch.RegisterForCombatEvent("Clockwise", OnPortalSummoned, ACTION_RESULT_EFFECT_GAINED, 153517)
+    Crutch.RegisterForCombatEvent("CounterClockwise", OnPortalSummoned, ACTION_RESULT_EFFECT_GAINED, 153518)
+    Crutch.RegisterForCombatEvent("PortalExplode", OnPortalEnded, ACTION_RESULT_EFFECT_GAINED, 153662)
 
     -- Override OdySupportIcons to also check whether the group member is in the same portal vs not portal
     if (OSI and OSI.UnitErrorCheck) then
@@ -235,10 +226,10 @@ function RG.UnregisterBahseiPortal()
     Crutch.UnregisterExitedGroupCombatListener("RockgroveBahseiPortalExitedCombat")
     CleanUp()
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BitterMarrowEffect", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Clockwise", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CounterClockwise", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PortalExplode", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForEffectChanged("BitterMarrowEffect")
+    Crutch.UnregisterForCombatEvent("Clockwise")
+    Crutch.UnregisterForCombatEvent("CounterClockwise")
+    Crutch.UnregisterForCombatEvent("PortalExplode")
 
     if (OSI and origOSIUnitErrorCheck) then
         Crutch.dbgOther("|c88FFFF[CT]|r Restoring OSI.UnitErrorCheck")

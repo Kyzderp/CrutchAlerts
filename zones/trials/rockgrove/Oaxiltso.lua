@@ -121,21 +121,15 @@ end
 ---------------------------------------------------------------------
 function Crutch.Rockgrove.RegisterOax()
     -- Register the Noxious Sludge
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, OnNoxiousSludgeGained)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 157860)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludge", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
+    Crutch.RegisterForEffectChanged("NoxiousSludge", OnNoxiousSludgeGained, 157860, "group")
 
     -- For info panel
     if (Crutch.savedOptions.rockgrove.panel.showBlitz) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, OnBlitz)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 149414)
+        Crutch.RegisterForCombatEvent("Blitz", OnBlitz, ACTION_RESULT_BEGIN, 149414)
     end
 
     if (Crutch.savedOptions.rockgrove.panel.showSludge) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, OnSludge)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 149190)
+        Crutch.RegisterForCombatEvent("NoxiousSludgeBegin", OnSludge, ACTION_RESULT_BEGIN, 149190)
     end
 
     Crutch.RegisterEnteredGroupCombatListener("CrutchRockgroveOaxEnteredCombat", OnEnteredCombat)
@@ -147,10 +141,9 @@ function Crutch.Rockgrove.UnregisterOax()
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(SLUDGE_UNIQUE_NAME)
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "NoxiousSludge", EVENT_COMBAT_EVENT)
-
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Blitz", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "NoxiousSludgeBegin", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("NoxiousSludge")
+    Crutch.UnregisterForCombatEvent("Blitz")
+    Crutch.UnregisterForCombatEvent("NoxiousSludgeBegin")
     Crutch.UnregisterExitedGroupCombatListener("CrutchRockgroveOaxEnteredCombat")
     Crutch.UnregisterExitedGroupCombatListener("CrutchRockgroveOaxExitedCombat")
 

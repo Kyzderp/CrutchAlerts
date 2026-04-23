@@ -172,9 +172,7 @@ local function OnDeathTouchLines(_, changeType, _, _, unitTag)
 end
 
 local function TestCurseLines()
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLinesTest", EVENT_EFFECT_CHANGED, OnDeathTouchLines)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLinesTest", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLinesTest", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 61509)
+    Crutch.RegisterForEffectChanged("DeathTouchLinesTest", OnDeathTouchLines, 61509, "group")
 end
 Crutch.TestCurseLines = TestCurseLines
 -- /script CrutchAlerts.TestCurseLines()
@@ -336,41 +334,30 @@ function Crutch.RegisterRockgrove()
 
     -- Register for Kiss of Death
     if (Crutch.savedOptions.general.showRaidDiag) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT, OnKissOfDeath)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 152654)
+        Crutch.RegisterForCombatEvent("KissOfDeath", OnKissOfDeath, nil, 152654)
     end
 
     -- Register for Bleeding
     if (Crutch.savedOptions.rockgrove.showBleeding ~= "NEVER") then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED, OnBleeding)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 153179)
+        Crutch.RegisterForEffectChanged("Bleeding", OnBleeding, 153179, "group")
     end
 
     -- Register for Death Touch
     if (Crutch.savedOptions.rockgrove.showCurseIcons) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, OnDeathTouch)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
+        Crutch.RegisterForEffectChanged("DeathTouch", OnDeathTouch, 150078, "group")
     end
 
     -- Register for Death Touch lines
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, OnDeathTouchLines)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 150078)
+    Crutch.RegisterForEffectChanged("DeathTouchLines", OnDeathTouchLines, 150078, "group")
 
     -- Cursed Ground timer
     if (Crutch.savedOptions.rockgrove.panel.showCursedGround) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CursedGround", EVENT_COMBAT_EVENT, OnCursedGround)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CursedGround", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CursedGround", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 152475)
+        Crutch.RegisterForCombatEvent("CursedGround", OnCursedGround, ACTION_RESULT_BEGIN, 152475)
     end
 
     -- Sickle Strike timer
     if (Crutch.savedOptions.rockgrove.panel.showScythe) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Scythe", EVENT_COMBAT_EVENT, OnScythe)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Scythe", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Scythe", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 150067)
+        Crutch.RegisterForCombatEvent("Scythe", OnScythe, ACTION_RESULT_BEGIN, 150067)
     end
 end
 
@@ -389,12 +376,12 @@ function Crutch.UnregisterRockgrove()
     RG.UnregisterOax()
     RG.UnregisterBahseiPortal()
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "KissOfDeath", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Bleeding", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DeathTouch", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DeathTouchLines", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "CursedGround", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Scythe", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("KissOfDeath")
+    Crutch.UnregisterForEffectChanged("Bleeding")
+    Crutch.UnregisterForEffectChanged("DeathTouch")
+    Crutch.UnregisterForEffectChanged("DeathTouchLines")
+    Crutch.UnregisterForCombatEvent("CursedGround")
+    Crutch.UnregisterForCombatEvent("Scythe")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Rockgrove")
 end
