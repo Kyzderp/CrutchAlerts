@@ -5,6 +5,7 @@ ZO_CreateStringId("CRUTCH_DMG_COME_ON_TURLI_LETS_SECURE_THE", "Come on, Turli, l
 ZO_CreateStringId("CRUTCH_DMG_DARKNESS_SHALL_REIGN_ACROSS_SUMMERSET", "Darkness shall reign across Summerset!")
 ZO_CreateStringId("CRUTCH_DMG_DO_YOU_TRULY_THINK_YOU_CAN_STAND_AGAINST", "Do you truly think you can stand against my shadows?")
 ZO_CreateStringId("CRUTCH_DMG_DONT_GET_UP_LY_THIS_WILL_JUST_BE_A", "Don't get up, Ly. This will just be a moment.")
+ZO_CreateStringId("CRUTCH_DMG_FLEET_QUEEN_TALERIA", "Fleet Queen Taleria^F")
 ZO_CreateStringId("CRUTCH_DMG_FRESH_CHALLENGERS_MORE_LIKE", "Fresh challengers more like.")
 ZO_CreateStringId("CRUTCH_DMG_HAD_YOUR_WARM_UP_THEN", "Had your warm up then?")
 ZO_CreateStringId("CRUTCH_DMG_I_CAN_WAIT_AFTER_ALL_YOUR_DEATHS_ARE", "I can wait. After all, your deaths are inevitable.")

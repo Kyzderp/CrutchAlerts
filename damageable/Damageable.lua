@@ -72,7 +72,7 @@ local SUBTITLE_TIMES = {
         -- Double: Turli second
         [GetSubtitleStr(CRUTCH_DMG_COME_ON_TURLI_LETS_SECURE_THE)] = 8,
     },
-    [GetNameStr(CRUTCH_BHB_TIDEBORN_TALERIA)] = {
+    [GetNameStr(CRUTCH_DMG_FLEET_QUEEN_TALERIA)] = { -- this is NOT the same as CRUTCH_BHB_TIDEBORN_TALERIA!!!
         -- Taleria
         [GetSubtitleStr(CRUTCH_DMG_BARGING_INTO_A_LADYS_PRIVATE_CHAMBERS)] = 23.5,
     },

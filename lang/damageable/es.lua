@@ -5,6 +5,7 @@ SafeAddString(CRUTCH_DMG_COME_ON_TURLI_LETS_SECURE_THE, "Venga, Turli, vamos a a
 SafeAddString(CRUTCH_DMG_DARKNESS_SHALL_REIGN_ACROSS_SUMMERSET, "¡La oscuridad reinará sobre Estivalia al completo!")
 SafeAddString(CRUTCH_DMG_DO_YOU_TRULY_THINK_YOU_CAN_STAND_AGAINST, "¿De verdad creéis que podéis superar a mis sombras?")
 SafeAddString(CRUTCH_DMG_DONT_GET_UP_LY_THIS_WILL_JUST_BE_A, "No te levantes, Ly. Solo será un momento.")
+SafeAddString(CRUTCH_DMG_FLEET_QUEEN_TALERIA, "Reina de la Flota Taleria^fd")
 SafeAddString(CRUTCH_DMG_FRESH_CHALLENGERS_MORE_LIKE, "Más contrincantes, parece.")
 SafeAddString(CRUTCH_DMG_HAD_YOUR_WARM_UP_THEN, "¿Ya habéis calentado?")
 SafeAddString(CRUTCH_DMG_I_CAN_WAIT_AFTER_ALL_YOUR_DEATHS_ARE, "Puedo esperar. Después de todo, vuestra muerte es inevitable.")

@@ -5,6 +5,7 @@ SafeAddString(CRUTCH_DMG_COME_ON_TURLI_LETS_SECURE_THE, "Давай, Турли,
 SafeAddString(CRUTCH_DMG_DARKNESS_SHALL_REIGN_ACROSS_SUMMERSET, "Тьма накроет Саммерсет!")
 SafeAddString(CRUTCH_DMG_DO_YOU_TRULY_THINK_YOU_CAN_STAND_AGAINST, "Вы и правда думаете, что сможете выстоять против моих теней?")
 SafeAddString(CRUTCH_DMG_DONT_GET_UP_LY_THIS_WILL_JUST_BE_A, "Не вставай, Ли. Скоро все закончится.")
+SafeAddString(CRUTCH_DMG_FLEET_QUEEN_TALERIA, "Повелительница флота Талерия^F")
 SafeAddString(CRUTCH_DMG_FRESH_CHALLENGERS_MORE_LIKE, "Скорее, новые претенденты.")
 SafeAddString(CRUTCH_DMG_HAD_YOUR_WARM_UP_THEN, "У вас было время размяться?")
 SafeAddString(CRUTCH_DMG_I_CAN_WAIT_AFTER_ALL_YOUR_DEATHS_ARE, "Я могу подождать. Вы ведь все равно умрете.")
