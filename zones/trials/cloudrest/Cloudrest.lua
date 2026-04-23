@@ -424,7 +424,9 @@ local origOSIGetIconDataForPlayer = nil
 function Crutch.RegisterCloudrest()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Cloudrest")
 
-    CR.RegisterGrapes()
+    if (Crutch.savedOptions.experimental) then
+        CR.RegisterGrapes()
+    end
 
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatCloudrest", ResetValuesOnWipe)
 
@@ -528,7 +530,9 @@ function Crutch.RegisterCloudrest()
 end
 
 function Crutch.UnregisterCloudrest()
-    CR.UnregisterGrapes()
+    if (Crutch.savedOptions.experimental) then
+        CR.UnregisterGrapes()
+    end
 
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCloudrest")
 

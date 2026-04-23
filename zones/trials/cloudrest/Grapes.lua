@@ -5,7 +5,7 @@ local PANEL_GRAPE_TIMER_INDEX = 5
 local PANEL_GRAPE_DISPLAY_INDEX = 6
 
 -- TODO: better names?
-local GRAPE_PREFIX = zo_strformat("|c9447ff<<C:1>>: ", GetAbilityName(105373))
+local GRAPE_PREFIX = zo_strformat("|c9447ff<<C:1>>: ", GetAbilityName(105375))
 local GRAPE_SUMMON_PREFIX = zo_strformat("|c9447ff<<C:1>>: ", GetAbilityName(105291))
 
 
@@ -64,7 +64,7 @@ local function OnGrapesSummoned()
     numDead = 0
 
     Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_PREFIX, 22000) -- TODO
-    nextGrapeTarget = GetGameTimeMilliseconds + 33000 -- TODO
+    nextGrapeTarget = GetGameTimeMilliseconds() + 33000 -- TODO
 end
 
 local function OnGrapeDied(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
@@ -113,6 +113,7 @@ local function CleanUp()
     numActive = 0
     numFaceplanted = 0
     numDead = 0
+    Crutch.InfoPanel.StopCount(PANEL_GRAPE_TIMER_INDEX)
     UpdateDisplay()
 end
 

@@ -57,6 +57,7 @@ zones/trials/asylumsanctorium/AsylumSanctorium.lua
 zones/trials/asylumsanctorium/MiniHealthBars.lua
 zones/trials/asylumsanctorium/MiniPanel.lua
 zones/trials/cloudrest/Cloudrest.lua
+zones/trials/cloudrest/Grapes.lua
 zones/trials/DreadsailReef.lua
 zones/trials/HallsOfFabrication.lua
 zones/trials/KynesAegis.lua
