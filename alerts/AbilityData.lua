@@ -1,13 +1,9 @@
 local Crutch = CrutchAlerts
 
--- Also see format.lua for formatting, damageable.lua for boss timer data, and prominent.lua for prominent alerts data
-
 -- true = ignore
 -- false = needs testing
 ---------------------------------------------------------------------
 -- Blacklist
--- TODO: separate into self-sourced and enemy blacklists
--- TODO: wtf is this??? [17:00:09] Interrupted (0): Off-Balance Exploit(44364) on (15536) HitValue 0 Type NONE Result STUNNED
 Crutch.blacklist = {
 -- Self-sourced
     [ 37059] = true, -- Mount Up
@@ -164,8 +160,6 @@ Crutch.testing = {
 
     [97022] = true, -- Wraith Speed
 
-    [152525] = true, -- Fire Behemoth?
-
     [155184] = true, -- Catastrophe (Magma Incarnate)
 
     [140606] = true, -- Meteor
@@ -174,11 +168,6 @@ Crutch.testing = {
     [119596] = true, -- Storm Breath (80%)
     [122794] = true, -- Storm Breath 2 (50%)
     [122961] = true, -- Storm Breath (20%)
-
-    -- [70466] = true, -- 35% Boss Speed Buff (Cloudrest)
-    [105541] = true, -- MBs Dynamic Dspn (Cloudrest mini shades)
-
-    [95585] = true, -- Soul Stained Corruption
 
     [121411] = true, -- Negate Field
 
@@ -208,9 +197,6 @@ Crutch.noSpamZone = {
 ---------------------------------------------------------------------
 -- Normally we don't listen for ACTION_RESULT_GAINED_DURATION, but timers can be useful in some cases
 Crutch.gainedDuration = {
--- Cloudrest
-    -- [103555] = true, -- Voltaic Current (initial of barswap)
-
 -- Kyne's Aegis
     [140941] = true, -- Instability
     [140944] = true, -- Instability HM
