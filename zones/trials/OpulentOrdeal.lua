@@ -112,9 +112,7 @@ function Crutch.RegisterOpulentOrdeal()
     if (Crutch.savedOptions.opulentordeal.showAffinityIcons) then
         local idsToCallbacks = {}
         for id, _ in pairs(AFFINITIES) do
-            EVENT_MANAGER:RegisterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED, OnAffinity)
-            EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-            EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, id)
+            Crutch.RegisterForEffectChanged("OOAffinity" .. id, OnAffinity, id, "group")
 
             -- Since we can have player activations during the trial, we also need to
             -- check buffs every time, in case any were missed while in loadscreen (probably).
@@ -138,23 +136,19 @@ function Crutch.RegisterOpulentOrdeal()
     end
 
     for summonId, data in pairs(BOSS_ESSENCES) do
-        EVENT_MANAGER:RegisterForEvent("CrutchAlertsOOSummonEssence" .. summonId, EVENT_COMBAT_EVENT, OnSummonEssence)
-        EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOSummonEssence" .. summonId, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOSummonEssence" .. summonId, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, summonId)
-
-        EVENT_MANAGER:RegisterForEvent("CrutchAlertsOOBossStunned" .. data.stunnedId, EVENT_COMBAT_EVENT, OnEssenceDone)
-        EVENT_MANAGER:AddFilterForEvent("CrutchAlertsOOBossStunned" .. data.stunnedId, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, data.stunnedId)
+        Crutch.RegisterForCombatEvent("OOSummonEssence" .. summonId, OnSummonEssence, ACTION_RESULT_BEGIN, summonId)
+        Crutch.RegisterForCombatEvent("OOBossStunned" .. data.stunnedId, OnEssenceDone, nil, data.stunnedId)
     end
 end
 
 function Crutch.UnregisterOpulentOrdeal(isSameZone)
     for id, _ in pairs(AFFINITIES) do
-        EVENT_MANAGER:UnregisterForEvent("CrutchAlertsOOAffinity" .. id, EVENT_EFFECT_CHANGED)
+        Crutch.UnregisterForEffectChanged("OOAffinity" .. id)
     end
 
     for summonId, data in pairs(BOSS_ESSENCES) do
-        EVENT_MANAGER:UnregisterForEvent("CrutchAlertsOOSummonEssence" .. summonId, EVENT_COMBAT_EVENT)
-        EVENT_MANAGER:UnregisterForEvent("CrutchAlertsOOBossStunned" .. data.stunnedId, EVENT_COMBAT_EVENT)
+        Crutch.UnregisterForCombatEvent("OOSummonEssence" .. summonId)
+        Crutch.UnregisterForCombatEvent("OOBossStunned" .. data.stunnedId)
     end
 
     -- Getting ported out of the side areas triggers player activated
