@@ -24,13 +24,6 @@ local function DrawSlamLine()
         return x1, y1, z1, CENTER_X, CENTER_Y, CENTER_Z
     end)
 end
-Crutch.DrawSlamLine = DrawSlamLine
--- /script CrutchAlerts.DrawSlamLine()
-
--- function Crutch.TestSlamCircle(radius)
---     Crutch.Drawing.CreateGroundCircle(CENTER_X, CENTER_Y, CENTER_Z, radius or 3)
--- end
--- /script CrutchAlerts.TestSlamCircle()
 
 local function OnRupture()
     if (key) then
@@ -52,19 +45,16 @@ function Crutch.RegisterBlackGemFoundry()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Black Gem Foundry")
 
     if (Crutch.savedOptions.blackGemFoundry.showRuptureLine) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BGFRuptureHide", EVENT_COMBAT_EVENT, OnRuptureHide)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BGFRuptureHide", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 240244)
-
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BGFRupture", EVENT_COMBAT_EVENT, OnRupture)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BGFRupture", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 240240)
+        Crutch.RegisterForCombatEvent("BGFRuptureHide", OnRuptureHide, nil, 240244)
+        Crutch.RegisterForCombatEvent("BGFRupture", OnRupture, nil, 240240)
 
         Crutch.RegisterExitedGroupCombatListener("BGFRupture", OnRupture)
     end
 end
 
 function Crutch.UnregisterBlackGemFoundry()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BGFRuptureHide", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BGFRupture", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("BGFRuptureHide")
+    Crutch.UnregisterForCombatEvent("BGFRupture")
 
     Crutch.UnregisterExitedGroupCombatListener("BGFRupture")
 
