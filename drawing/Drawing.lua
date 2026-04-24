@@ -354,33 +354,6 @@ local function TestPoop(radius)
 end
 Draw.TestPoop = TestPoop
 --[[
+Used by /crutch circle 5
 /script CrutchAlerts.Drawing.TestPoop()
-]]
-
-local function TestOrientation()
-    local _, x, y, z = GetUnitRawWorldPosition("player")
-    -- local forward = {0, -1, 0}
-    -- local right = {-1, 0, .4}
-    -- local up = {.4, 0, 1}
-
-    Set3DRenderSpaceToCurrentCamera("CrutchAlertsDrawingCamera")
-    local fX, fY, fZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceForward()
-    local rX, rY, rZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceRight()
-    local uX, uY, uZ = CrutchAlertsDrawingCamera:Get3DRenderSpaceUp()
-
-    local forward = {fX, fY, fZ}
-    local right = {rX, rY, rZ}
-    local up = {uX, uY, uZ}
-
-    CrutchAlerts.Drawing.CreateWorldTexture("CrutchAlerts/assets/shape/diamond_orange_4.dds", x, y, z, 1, 1, {0, 1, 0, 0.5}, false, false, {forward, right, up})
-
-    zo_callLater(function()
-        _, x, y, z = GetUnitRawWorldPosition("player")
-        local pitch, yaw, roll = CrutchAlerts.Drawing.ConvertToPitchYawRollIfNeeded(forward, right, up)
-        CrutchAlerts.Drawing.CreateWorldTexture("CrutchAlerts/assets/shape/diamond_orange_4.dds", x, y, z, 1, 1, {0, 0, 1, 0.5}, false, false, {pitch, yaw, roll})
-    end, 1000)
-end
-Draw.TestOrientation = TestOrientation
---[[
-/script CrutchAlerts.Drawing.TestOrientation()
 ]]
