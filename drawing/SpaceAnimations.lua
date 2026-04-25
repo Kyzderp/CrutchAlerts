@@ -280,3 +280,46 @@ end
 Draw.CircleJet = CircleJet
 -- /script CrutchAlerts.Drawing.CircleJet("hi")
 -- /script CrutchAlerts.Drawing.CircleJet(nil, 5000, nil, nil)
+
+
+---------------------------------------------------------------------
+-- Hmmm
+---------------------------------------------------------------------
+local function AttachControl(control, unitTag, key)
+    control:SetSpace(SPACE_WORLD)
+    control:SetTransformNormalizedOriginPoint(0.5, 0.5)
+    control:SetTransformScale(0.01)
+    control:SetAnchor(CENTER, GuiRoot, CENTER)
+
+    local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+
+    local function AttachedFunc(icon)
+        local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+        icon:SetPosition(x, y + 450, z)
+    end
+
+    Draw.CreateControlCommon(
+        true, -- isSpace
+        control,
+        key,
+        "CrutchAlerts/assets/poop.dds", -- texture not used
+        x, y, z,
+        true, -- faceCamera
+        0, 0, 0,
+        AttachedFunc,
+        Draw.SetPosition,
+        Draw.SetOrientation)
+end
+Draw.AttachControl = AttachControl
+-- /script CrutchAlerts.Drawing.AttachControl(JoGroup.frame["group2"], "group2", "TestKey")
+
+local function UnattachControl(control, key)
+    control:SetTransformOffset(0, 0, 0)
+    control:SetTransformRotation(0, 0, 0)
+    control:SetTransformScale(1)
+    control:SetSpace(SPACE_INTERFACE)
+    Draw.activeIcons[key] = nil
+    Draw.MaybeStopPolling()
+end
+Draw.UnattachControl = UnattachControl
+-- /script CrutchAlerts.Drawing.UnattachControl(JoGroup.frame["group2"], "TestKey")
