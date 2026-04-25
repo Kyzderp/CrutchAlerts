@@ -19,20 +19,20 @@ local numDead = 0
 local grapes = {} -- {[unitId] = true}
 
 local function GetGrapeString(color)
-    return string.format("|c%s|t100%%:100%%:esoui/art/icons/targetdummy_voriplasm_01.dds:inheritcolor|t|r", color)
+    return string.format("|c%s|t100%%:100%%:/esoui/art/buttons/gamepad/ps5/nav_ps5_circle.dds:inheritcolor|t|r", color)
 end
 
 local function UpdateDisplay()
     local text = ""
 
     for i = 1, numDead do
-        text = text .. GetGrapeString("00FF00")
+        text = text .. GetGrapeString("555555")
     end
     for i = 1, numFaceplanted do
-        text = text .. GetGrapeString("FFAA00")
+        text = text .. GetGrapeString("945E00")
     end
     for i = 1, numActive do
-        text = text .. GetGrapeString("FF0000")
+        text = text .. GetGrapeString("9447ff")
     end
 
     if (text == "") then
@@ -58,6 +58,16 @@ local function ClearGrapesLater()
     Crutch.InfoPanel.CountDownToTargetTime(PANEL_GRAPE_TIMER_INDEX, GRAPE_SUMMON_PREFIX, nextGrapeTarget)
     EVENT_MANAGER:RegisterForUpdate("CrutchClearGrapes", 5000, ClearGrapes)
 end
+
+local function TestGrapes(active, faceplanted, dead)
+    numActive = active
+    numFaceplanted = faceplanted
+    numDead = dead
+    UpdateDisplay()
+    Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_PREFIX, 22000)
+end
+CR.TestGrapes = TestGrapes
+-- /script CrutchAlerts.Cloudrest.TestGrapes(1, 1, 1)
 
 
 ---------------------------------------------------------------------
