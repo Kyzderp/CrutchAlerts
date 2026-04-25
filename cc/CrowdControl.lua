@@ -98,7 +98,7 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
         elseif (sourceType == COMBAT_UNIT_TYPE_GROUP) then
             textColor = "|cFF00FF"
         end
-        Crutch.dbgOther(string.format("cc |c%s%s|r %s%s (%d) %d from %s (%s) - %s",
+        Crutch.dbgSpam(string.format("cc |c%s%s|r %s%s (%d) %d from %s (%s) - %s",
             typeColor,
             options.display,
             textColor,
