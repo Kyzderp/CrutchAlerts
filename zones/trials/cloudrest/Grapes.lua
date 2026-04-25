@@ -25,21 +25,26 @@ end
 local function UpdateDisplay()
     local text = ""
 
-    for i = 1, numActive do
-        text = text .. GetGrapeString("FF0000")
+    for i = 1, numDead do
+        text = text .. GetGrapeString("00FF00")
     end
     for i = 1, numFaceplanted do
         text = text .. GetGrapeString("FFAA00")
     end
-    for i = 1, numDead do
-        text = text .. GetGrapeString("00FF00")
+    for i = 1, numActive do
+        text = text .. GetGrapeString("FF0000")
     end
 
-    Crutch.InfoPanel.SetLine(PANEL_GRAPE_DISPLAY_INDEX, text)
+    if (text == "") then
+        Crutch.InfoPanel.StopCount(PANEL_GRAPE_DISPLAY_INDEX)
+    else
+        Crutch.InfoPanel.SetLine(PANEL_GRAPE_DISPLAY_INDEX, text)
+    end
 end
 
 local function ClearGrapes()
     EVENT_MANAGER:UnregisterForUpdate("CrutchClearGrapes")
+    Crutch.dbgOther("clearing grapes now")
     numActive = 0
     numFaceplanted = 0
     numDead = 0
@@ -48,8 +53,9 @@ end
 
 local nextGrapeTarget = 0
 local function ClearGrapesLater()
+    Crutch.dbgOther("clearing grapes later (panel now)")
     Crutch.InfoPanel.StopCount(PANEL_GRAPE_TIMER_INDEX)
-    Crutch.InfoPanel.CountDownToTargetTIme(PANEL_GRAPE_TIMER_INDEX, GRAPE_PREFIX, nextGrapeTarget)
+    Crutch.InfoPanel.CountDownToTargetTime(PANEL_GRAPE_TIMER_INDEX, GRAPE_SUMMON_PREFIX, nextGrapeTarget)
     EVENT_MANAGER:RegisterForUpdate("CrutchClearGrapes", 5000, ClearGrapes)
 end
 
@@ -62,6 +68,7 @@ local function OnGrapesSummoned()
     numActive = 3
     numFaceplanted = 0
     numDead = 0
+    UpdateDisplay()
 
     Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_PREFIX, 22000) -- TODO
     nextGrapeTarget = GetGameTimeMilliseconds() + 33000 -- TODO
@@ -77,6 +84,10 @@ local function OnGrapeDied(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUn
     numDead = numDead + 1
 
     UpdateDisplay()
+
+    if (numActive == 0) then
+        ClearGrapesLater()
+    end
 end
 
 local function OnFaceplanted(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
@@ -114,6 +125,7 @@ local function CleanUp()
     numFaceplanted = 0
     numDead = 0
     Crutch.InfoPanel.StopCount(PANEL_GRAPE_TIMER_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_GRAPE_DISPLAY_INDEX)
     UpdateDisplay()
 end
 

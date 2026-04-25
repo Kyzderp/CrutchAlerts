@@ -93,7 +93,7 @@ local effectData = {
         settingsSubcategory = "cloudrest",
         -- Voltaic Overload
         [87346] = {
-            format = "|cFFFF00<<C:1>>|r",
+            format = "|cFF00FF<<C:1>>|r",
             filters = {
                 [REGISTER_FILTER_UNIT_TAG] = "player",
             },
