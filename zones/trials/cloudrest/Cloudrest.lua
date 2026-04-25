@@ -9,6 +9,30 @@ local spearsRevealed = 0
 local spearsSent = 0
 local orbsDunked = 0
 
+
+---------------------------------------------------------------------
+-- Portal panel
+---------------------------------------------------------------------
+local PANEL_PORTAL_INDEX = 3
+local nextPortal = 1
+local portalActive = false
+
+-- TODO: don't show it on side bosses? or adjust timer
+local function OnPortalSummoned()
+    Crutch.InfoPanel.StopCount(PANEL_PORTAL_INDEX)
+    Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_INDEX, "|c88FFFFCurrent Portal (" .. nextPortal .. "): ", 75000) -- TODO
+    portalActive = true
+end
+
+local function OnPortalDone(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    if (not portalActive) then return end
+    if (nextPortal == 1) then nextPortal = 2 else nextPortal = 1 end
+    Crutch.dbgOther("portal done via " .. abilityId)
+    Crutch.InfoPanel.StopCount(PANEL_PORTAL_INDEX)
+    Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_INDEX, "|c88FFFFNext Portal (" .. nextPortal .. "): ", 45800) -- 47.5, 45.8
+end
+
+
 ---------------------------------------------------------------------
 -- Portal
 ---------------------------------------------------------------------
@@ -22,7 +46,6 @@ local effectResults = {
 
 local groupShadowWorld = {}
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnShadowWorldChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     Crutch.dbgOther(string.format("|c8C00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
 
@@ -203,8 +226,6 @@ Crutch.OnRoaringFlareIcon = OnRoaringFlareIcon
 ---------------------------------------------------------------------
 -- EXECUTE FLARES
 ---------------------------------------------------------------------
-
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnRoaringFlareGained(_, result, _, _, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     if (not amuletSmashed) then return end
 
@@ -233,14 +254,13 @@ end
 
 local function OnAmuletSmashed()
     amuletSmashed = true
+    Crutch.InfoPanel.StopCount(PANEL_PORTAL_INDEX)
 end
 
 
 ---------------------------------------------------------------------
 -- SPEARS
 ---------------------------------------------------------------------
-
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnOlorimeSpears(_, result, _, _, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     if (abilityId == 104019) then
         -- Spear has appeared
@@ -326,7 +346,6 @@ Crutch.UpdateSpearsDisplay = UpdateSpearsDisplay
 ---------------------------------------------------------------------
 local groupShadowOfTheFallen = {}
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnShadowOfTheFallenChanged(_, changeType, _, _, unitTag, _, _, stackCount, _, _, _, _, _, _, _, abilityId)
     Crutch.dbgOther(string.format("|cFF00FF%s(%s): %d %s|r", GetUnitDisplayName(unitTag), unitTag, stackCount, effectResults[changeType]))
 
@@ -346,7 +365,6 @@ end
 ---------------------------------------------------------------------
 -- Diagnostics
 ---------------------------------------------------------------------
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnShedHoarfrost(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     local unitTag = Crutch.groupIdToTag[targetUnitId]
     Crutch.msg(zo_strformat("shed hoarfrost |cFF00FF<<1>>", GetUnitDisplayName(unitTag)))
@@ -357,8 +375,6 @@ local function OnAmplificationChanged(_, changeType, _, _, unitTag, _, _, stackC
         Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAgained Amplification", GetUnitDisplayName(unitTag)))
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAlost Amplification at x<<2>>", GetUnitDisplayName(unitTag), stackCount))
-    -- elseif (changeType == EFFECT_RESULT_UPDATED) then
-    --     Crutch.msg(zo_strformat("|c00FFFF<<1>> |cAAAAAAupdated Amplification x<<2>>", GetUnitDisplayName(unitTag), stackCount))
     end
 end
 
@@ -410,6 +426,10 @@ local function ResetValuesOnWipe()
     numFrosts[HOARFROST_ID] = 0
     numFrosts[HOARFROST_EXECUTE_ID] = 0
 
+    nextPortal = 1
+    portalActive = false
+    Crutch.InfoPanel.StopCount(PANEL_PORTAL_INDEX)
+
     -- mini detection
     foundMinis = false
     ZO_ClearTable(foundMiniShades)
@@ -418,6 +438,12 @@ end
 
 ---------------------------------------------------------------------
 -- Register/Unregister
+local PORTAL_DONE_IDS = {
+    104057, -- Remove Shadow Realm
+    104792, -- PC Win Shadow Realm
+    105218, -- PC Exit SRealm
+}
+
 local origOSIUnitErrorCheck = nil
 local origOSIGetIconDataForPlayer = nil
 
@@ -480,7 +506,13 @@ function Crutch.RegisterCloudrest()
         spearsSent = 0
         orbsDunked = 0
         Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
+        OnPortalSummoned()
     end, nil, 103946)
+
+    -- Register portal finishing
+    for _, id in ipairs(PORTAL_DONE_IDS) do
+        Crutch.RegisterForCombatEvent("CRPortalDone" .. id, OnPortalDone, nil, id)
+    end
 
     if (Crutch.savedOptions.general.showRaidDiag) then
         -- Register someone dropping hoarfrost
@@ -532,6 +564,10 @@ end
 function Crutch.UnregisterCloudrest()
     if (Crutch.savedOptions.experimental) then
         CR.UnregisterGrapes()
+    end
+
+    for _, id in ipairs(PORTAL_DONE_IDS) do
+        Crutch.UnregisterForCombatEvent("CRPortalDone" .. id)
     end
 
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCloudrest")
