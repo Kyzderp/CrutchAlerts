@@ -18,6 +18,85 @@ local function IsBaseVet()
     return powerMax == JYNORAH_HEALTH_VET
 end
 
+
+---------------------------------------------------------------------
+-- Check health for next portal
+---------------------------------------------------------------------
+local DANGEROUS_ABILITIES = {
+    [38901] = true, -- Quick Cloak
+    [22095] = true, -- Solar Barrage
+    [32853] = true, -- Flames of Oblivion
+    [23231] = true, -- Hurricane
+    [61505] = true, -- Echoing Vigor (testing)
+}
+
+local spoofedAbilities = {}
+local function SpoofIconIfDangerous(abilityId)
+    if (not DANGEROUS_ABILITIES[abilityId]) then return end
+
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "TwinsIconChange" .. abilityId)
+    spoofedAbilities[abilityId] = true
+    Crutch.SetAbilityOverlay(abilityId)
+    Crutch.dbgOther("Changing " .. GetAbilityName(abilityId))
+end
+
+local function UnspoofAllIcons()
+    for abilityId, _ in pairs(spoofedAbilities) do
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "TwinsIconChange" .. abilityId)
+        Crutch.RemoveAbilityOverlay(abilityId)
+    end
+end
+
+local function SpoofAllIcons()
+    -- Check if any skills are slotted
+    for i = 3, 8 do
+        SpoofIconIfDangerous(GetSlotBoundId(i, HOTBAR_CATEGORY_PRIMARY))
+        SpoofIconIfDangerous(GetSlotBoundId(i, HOTBAR_CATEGORY_BACKUP))
+    end
+end
+
+local bossHealths = {}
+local TARGET_PERCENT = 5
+local prevTotalValue
+local function OnTwinsHealth(_, unitTag, _, _, powerValue, powerMax)
+    if (not bossHealths[unitTag]) then
+        bossHealths[unitTag] = {}
+    end
+    bossHealths[unitTag].value = powerValue
+    bossHealths[unitTag].max = powerMax
+
+    -- Get total health: portals at 75% 35%
+    local totalValue = 0
+    local totalMax = 0
+    for _, data in pairs(bossHealths) do
+        totalValue = totalValue + data.value
+        totalMax = totalMax + data.max
+    end
+
+    -- Start at max
+    if (not prevTotalValue) then prevTotalValue = totalMax end
+
+    -- Check if it's newly in range
+    local portalTarget = totalMax * (0.76 + TARGET_PERCENT / 100)
+    if (prevTotalValue >= portalTarget and portalTarget > totalValue) then
+        Crutch.dbgOther("Reached target for portal 1")
+        SpoofAllIcons()
+        prevTotalValue = totalValue
+        return
+    end
+
+    portalTarget = totalMax * (0.36 + TARGET_PERCENT / 100)
+    if (prevTotalValue >= portalTarget and portalTarget > totalValue) then
+        Crutch.dbgOther("Reached target for portal 2")
+        SpoofAllIcons()
+        prevTotalValue = totalValue
+        return
+    end
+
+    prevTotalValue = totalValue
+end
+
+
 ---------------------------------------------------------------------
 -- Notifications / Info Panel
 ---------------------------------------------------------------------
@@ -83,6 +162,9 @@ end
 -- vet: 21.60, 21.58
 local function OnClashFaded()
     Crutch.dbgOther("clash FADED")
+
+    UnspoofAllIcons()
+
     local timer = 21500
     if (IsHM()) then
         timer = 12500
@@ -136,6 +218,8 @@ local function CleanUp()
     Crutch.InfoPanel.StopCount(PANEL_CLASH_INDEX)
     numClashes = 0
     firstLeap = true
+    ZO_ClearTable(bossHealths)
+    UnspoofAllIcons()
 end
 
 local function RegisterPanelEvents()
@@ -308,28 +392,13 @@ local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, so
     local targetTitan = titanIds[targetUnitId]
     if (not targetTitan) then return end
 
-    -- Crutch.dbgSpam(string.format("%s(%d) hit by %s(%d) for %d",
-    --     targetTitan.name,
-    --     targetUnitId,
-    --     GetAbilityName(abilityId),
-    --     abilityId,
-    --     hitValue))
-
     targetTitan.hp = targetTitan.hp - hitValue
-
-    -- Crutch.dbgSpam(string.format("%s(%d) HP %d / %d (%.2f)",
-    --     targetTitan.name,
-    --     targetUnitId,
-    --     targetTitan.hp,
-    --     titanMaxHp,
-    --     targetTitan.hp * 100 / titanMaxHp))
 
     Crutch.UpdateSpoofedBossHealth(TITANS[targetTitan.name].tag, targetTitan.hp, titanMaxHp)
 end
 
 local exitKey
 
--- Event listening for all damage on enemies, registered only when Jynorah is active
 local function UnregisterTwins()
     UnspoofTitans()
     Crutch.UnregisterForCombatEvent("OCTitanDamage")
@@ -351,6 +420,7 @@ local function RegisterTwins()
     UnregisterTwins()
 
     -- Titans BHB
+    -- Event listening for all damage on enemies, registered only when Jynorah is active
     if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.osseincage.showTitansHp) then
         -- Player damage ticks for only 1 each, so imo it's negligible enough to
         -- not do that extra processing. So it should be fine to ignore crits
@@ -559,6 +629,14 @@ function OC.RegisterTwins()
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss1")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
+
+    -- Check health for upcoming portal
+    if (IsHM()) then
+        Crutch.dbgOther("registering twins health")
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, OnTwinsHealth)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
+    end
 end
 
 function OC.UnregisterTwins()
@@ -572,6 +650,7 @@ function OC.UnregisterTwins()
     UnregisterEnfeeblement()
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE)
 
     for damageResult, _ in pairs(damageTypes) do
         Crutch.UnregisterForCombatEvent("OCTitanReflect" .. tostring(damageResult))
