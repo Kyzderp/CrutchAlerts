@@ -30,6 +30,7 @@ local function OnPortalDone(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abil
     Crutch.dbgOther("portal done via " .. abilityId)
     Crutch.InfoPanel.StopCount(PANEL_PORTAL_INDEX)
     Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_INDEX, "|c88FFFFNext Portal (" .. nextPortal .. "): ", 45800) -- 47.5, 45.8
+    portalActive = false
 end
 
 

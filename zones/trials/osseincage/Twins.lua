@@ -27,7 +27,7 @@ local DANGEROUS_ABILITIES = {
     [22095] = true, -- Solar Barrage
     [32853] = true, -- Flames of Oblivion
     [23231] = true, -- Hurricane
-    [61505] = true, -- Echoing Vigor (testing)
+    -- [61505] = true, -- Echoing Vigor (testing)
 }
 
 local spoofedAbilities = {}

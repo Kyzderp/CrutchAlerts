@@ -18,21 +18,17 @@ local numDead = 0
 
 local grapes = {} -- {[unitId] = true}
 
-local function GetGrapeString(color)
-    return string.format("|c%s|t100%%:100%%:/esoui/art/buttons/gamepad/ps5/nav_ps5_circle.dds:inheritcolor|t|r", color)
-end
-
 local function UpdateDisplay()
     local text = ""
 
     for i = 1, numDead do
-        text = text .. GetGrapeString("555555")
+        text = text .. "|c888888|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_circle.dds:inheritcolor|t|r"
     end
     for i = 1, numFaceplanted do
-        text = text .. GetGrapeString("945E00")
+        text = text .. "|c945E00|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_triangle.dds:inheritcolor|t|r"
     end
     for i = 1, numActive do
-        text = text .. GetGrapeString("9447ff")
+        text = text .. "|cFF00FF|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_circle.dds:inheritcolor|t|r"
     end
 
     if (text == "") then
