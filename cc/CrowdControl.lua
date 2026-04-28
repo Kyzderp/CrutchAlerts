@@ -63,6 +63,8 @@ local CC_ABILITY_DATA = {
     [202803] = SUPPRESS, -- Enter the Infinite (getting pulled by other player between arcs)
     [203101] = SUPPRESS, -- Vision Select
     [203125] = SUPPRESS, -- Verse Select
+    [211431] = SUPPRESS, -- Side Content Transporter (self)
+    [211433] = SUPPRESS, -- Side Content Selector (pulled by other)
 }
 
 
