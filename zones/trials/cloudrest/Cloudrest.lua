@@ -507,12 +507,14 @@ function Crutch.RegisterCloudrest()
         spearsSent = 0
         orbsDunked = 0
         Crutch.UpdateSpearsDisplay(spearsRevealed, spearsSent, orbsDunked)
-        OnPortalSummoned()
     end, nil, 103946)
 
     -- Register portal finishing
-    for _, id in ipairs(PORTAL_DONE_IDS) do
-        Crutch.RegisterForCombatEvent("CRPortalDone" .. id, OnPortalDone, nil, id)
+    if (Crutch.savedOptions.cloudrest.infoPanel.showPortal) then
+        Crutch.RegisterForCombatEvent("CRPortalCast", OnPortalSummoned, nil, 103946)
+        for _, id in ipairs(PORTAL_DONE_IDS) do
+            Crutch.RegisterForCombatEvent("CRPortalDone" .. id, OnPortalDone, nil, id)
+        end
     end
 
     if (Crutch.savedOptions.general.showRaidDiag) then
@@ -567,6 +569,7 @@ function Crutch.UnregisterCloudrest()
         CR.UnregisterGrapes()
     end
 
+    Crutch.UnregisterForCombatEvent("CRPortalCast")
     for _, id in ipairs(PORTAL_DONE_IDS) do
         Crutch.UnregisterForCombatEvent("CRPortalDone" .. id)
     end

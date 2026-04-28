@@ -200,6 +200,11 @@ local defaultOptions = {
         showFrostAlert = true,
         showFrostIcons = false,
         showVoltaicAlert = true,
+
+        infoPanel = {
+            showPortal = true,
+            showGrapes = true,
+        },
     },
     dreadsailreef = {
         alertStaticStacks = true,

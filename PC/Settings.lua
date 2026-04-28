@@ -1624,6 +1624,36 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                     disabled = function() return OSI == nil or OSI.UnitErrorCheck == nil or OSI.GetIconDataForPlayer == nil end,
                 },
+                {
+                    type = "description",
+                    title = "|c08BD1DInfo Panel|r",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show portal timer",
+                    tooltip = "Shows in the info panel a countdown until the next portal, and a timer for portal wipe",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.infoPanel.showPortal end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.infoPanel.showPortal = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Malicious Sphere tracker",
+                    tooltip = "Shows in the info panel a countdown until the next Malicious Spheres (orbs, grapes, whatever) will be summoned, a timer for when they will charge, and a visual for how many have been killed or collided",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.cloudrest.infoPanel.showGrapes end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cloudrest.infoPanel.showGrapes = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             })),
         },
         {

@@ -249,6 +249,35 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Cloudrest - Info Panel",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show portal timer",
+        tooltip = "Shows in the info panel a countdown until the next portal, and a timer for portal wipe",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cloudrest.infoPanel.showPortal end,
+        setFunction = function(value)
+            Crutch.savedOptions.cloudrest.infoPanel.showPortal = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Malicious Sphere tracker",
+        tooltip = "Shows in the info panel a countdown until the next Malicious Spheres (orbs, grapes, whatever) will be summoned, a timer for when they will charge, and a visual for how many have been killed or collided",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cloudrest.infoPanel.showGrapes end,
+        setFunction = function(value)
+            Crutch.savedOptions.cloudrest.infoPanel.showGrapes = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
         label = "Dreadsail Reef",
     })
 
