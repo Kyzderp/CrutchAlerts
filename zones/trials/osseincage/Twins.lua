@@ -56,7 +56,6 @@ local function SpoofAllIcons()
 end
 
 local bossHealths = {}
-local TARGET_PERCENT = 5
 local prevTotalValue
 local function OnTwinsHealth(_, unitTag, _, _, powerValue, powerMax)
     if (not bossHealths[unitTag]) then
@@ -76,8 +75,10 @@ local function OnTwinsHealth(_, unitTag, _, _, powerValue, powerMax)
     -- Start at max
     if (not prevTotalValue) then prevTotalValue = totalMax end
 
+    local targetPercent = Crutch.savedOptions.osseincage.portalPercentMargin
+
     -- Check if it's newly in range
-    local portalTarget = totalMax * (0.76 + TARGET_PERCENT / 100)
+    local portalTarget = totalMax * (0.76 + targetPercent / 100)
     if (prevTotalValue >= portalTarget and portalTarget > totalValue) then
         Crutch.dbgOther("Reached target for portal 1")
         SpoofAllIcons()
@@ -85,7 +86,7 @@ local function OnTwinsHealth(_, unitTag, _, _, powerValue, powerMax)
         return
     end
 
-    portalTarget = totalMax * (0.36 + TARGET_PERCENT / 100)
+    portalTarget = totalMax * (0.36 + targetPercent / 100)
     if (prevTotalValue >= portalTarget and portalTarget > totalValue) then
         Crutch.dbgOther("Reached target for portal 2")
         SpoofAllIcons()
@@ -631,7 +632,7 @@ function OC.RegisterTwins()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 
     -- Check health for upcoming portal
-    if (IsHM()) then
+    if (IsHM() and Crutch.savedOptions.osseincage.enableAbilityOverlay) then
         Crutch.dbgOther("registering twins health")
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, OnTwinsHealth)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")

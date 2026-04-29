@@ -38,6 +38,20 @@ local function UpdateAbilitiesToReplace()
 end
 
 ------------------
+-- Ossein Cage abilities to replace
+local ocAbilityNames = {}
+local ocAbilityIds = {}
+local function UpdateOCAbilitiesToReplace()
+    ZO_ClearTable(ocAbilityNames)
+    ZO_ClearTable(ocAbilityIds)
+    for id, _ in pairs(Crutch.savedOptions.osseincage.abilitiesToReplace) do
+        table.insert(ocAbilityIds, id)
+        table.insert(ocAbilityNames, string.format("%s (%d)", GetAbilityName(id) or "", id))
+    end
+    CrutchAlerts_OCAbilitiesToReplace:UpdateChoices(ocAbilityNames, ocAbilityIds)
+end
+
+------------------
 local function UnlockUI(value)
     Crutch.unlock = value
     CrutchAlertsContainer:SetMovable(value)
@@ -2195,6 +2209,73 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.osseincage.panel.showClash = value
                     end,
                     width = "full",
+                },
+                {
+                    type = "description",
+                    title = "|c08BD1DMark Dangerous Abilities|r",
+                    text = "Some AOE abilities are dangerous to have active when in Jynorah HM titan portals, because you may accidentally cleave the titan and cause Reflective Scales. This feature can be configured to show a warning icon on the ability when it's almost time for portal.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Enable portal ability overlay",
+                    tooltip = "Enables overlays on dangerous abilities before and during portals on hardmode",
+                    default = Crutch.defaultOptions.osseincage.enableAbilityOverlay,
+                    getFunc = function() return Crutch.savedOptions.osseincage.enableAbilityOverlay end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.enableAbilityOverlay = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "editbox",
+                    name = "Add dangerous ability",
+                    tooltip = "The ID of the ability to add to the list.\nUse |c99FF99/crutch printskills|r to see your currently equipped skill IDs",
+                    default = "",
+                    getFunc = function() return "" end,
+                    setFunc = function(value)
+                        if (value == "") then return end
+                        local num = tonumber(value)
+                        if (not num) then
+                            Crutch.msg("Ability ID must be a number")
+                            return
+                        end
+                        Crutch.savedOptions.osseincage.abilitiesToReplace[num] = true
+                        Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "dropdown",
+                    name = "Remove ability",
+                    tooltip = "Select an ability from this dropdown to remove it from the list",
+                    choices = {},
+                    choicesValues = {},
+                    getFunc = function()
+                        UpdateOCAbilitiesToReplace()
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.abilitiesToReplace[value] = nil
+                        Crutch.msg(string.format("Removed %s(%d) from abilities to replace.", GetAbilityName(value), value))
+                        UpdateOCAbilitiesToReplace()
+                    end,
+                    width = "full",
+                    reference = "CrutchAlerts_OCAbilitiesToReplace",
+                },
+                {
+                    type = "slider",
+                    name = "Portal percent margin",
+                    tooltip = "The target health percent above the portal threshold for which the dangerous abilities start showing overlay icons. For example, setting it to 5 means that from Jynorah+Skorkhif combined health at 80% until Titanic Clash finishes, the overlays would show on your abilities",
+                    min = 0,
+                    max = 20,
+                    step = 1,
+                    default = 5,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.osseincage.portalPercentMargin end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.portalPercentMargin = value
+                    end,
                 },
             }),
         },

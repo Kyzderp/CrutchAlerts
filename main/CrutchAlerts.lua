@@ -255,6 +255,11 @@ local defaultOptions = {
         showEnfeeblementIcons = "HM", -- "NEVER", "VET", "HM", "ALWAYS"
         printHMReflectiveScales = true,
 
+        abilityOverlayFirstTime = true,
+        enableAbilityOverlay = false,
+        abilitiesToReplace = {},
+        portalPercentMargin = 5,
+
         panel = {
             showLeap = true,
             showClash = true,
@@ -517,6 +522,7 @@ local function Initialize()
     PrintTime("defaults done")
     Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
 
+    -- First time population of Bahsei portal abilities
     if (Crutch.savedOptions.rockgrove.spoofAbilitiesFirstTime) then
         local abilities = Crutch.savedOptions.rockgrove.abilitiesToReplace
         abilities[38901] = true -- Quick Cloak
@@ -526,6 +532,17 @@ local function Initialize()
         abilities[118680] = true -- Skeletal Archer
         abilities[118726] = true -- Skeletal Arcanist
         Crutch.savedOptions.rockgrove.spoofAbilitiesFirstTime = false
+    end
+
+    -- First time population of Jynorah titan portal abilities
+    if (Crutch.savedOptions.osseincage.abilityOverlayFirstTime) then
+        local abilities = Crutch.savedOptions.osseincage.abilitiesToReplace
+        abilities[38901] = true -- Quick Cloak
+        abilities[22095] = true -- Solar Barrage
+        abilities[32853] = true -- Flames of Oblivion
+        abilities[23231] = true -- Hurricane
+        -- TODO: wall, stampede, ?
+        Crutch.savedOptions.osseincage.abilityOverlayFirstTime = false
     end
 
     if (Crutch.savedOptions.prominentV2FirstTime) then
