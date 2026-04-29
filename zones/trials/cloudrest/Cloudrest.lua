@@ -27,9 +27,16 @@ end
 local function OnPortalDone(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
     if (not portalActive) then return end
     if (nextPortal == 1) then nextPortal = 2 else nextPortal = 1 end
-    Crutch.dbgOther("portal done via " .. abilityId)
+    Crutch.dbgOther(string.format("portal done via %s (%d)", GetAbilityName(abilityId), abilityId))
     Crutch.InfoPanel.StopCount(PANEL_PORTAL_INDEX)
     Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_INDEX, "|c88FFFFNext Portal (" .. nextPortal .. "): ", 45800) -- 47.5, 45.8
+    portalActive = false
+end
+
+-- 51.0, 54.9, 52.4, 52.3, 51.3, 51.3, 50.3, 50.3, 51.5, 51.4, 50.3, 50.3, 63.4, 41.8, 36.6, 36.6 (these last ones were +2?)
+local function OnPortalInitial()
+    Crutch.InfoPanel.StopCount(PANEL_PORTAL_INDEX)
+    Crutch.InfoPanel.CountDownDuration(PANEL_PORTAL_INDEX, "|c88FFFFNext Portal (" .. nextPortal .. "): ", 36600)
     portalActive = false
 end
 
@@ -442,7 +449,7 @@ end
 local PORTAL_DONE_IDS = {
     104057, -- Remove Shadow Realm
     104792, -- PC Win Shadow Realm
-    105218, -- PC Exit SRealm
+    -- 105218, -- PC Exit SRealm (should use only for side bosses?)
 }
 
 local origOSIUnitErrorCheck = nil
@@ -515,6 +522,7 @@ function Crutch.RegisterCloudrest()
         for _, id in ipairs(PORTAL_DONE_IDS) do
             Crutch.RegisterForCombatEvent("CRPortalDone" .. id, OnPortalDone, nil, id)
         end
+        Crutch.RegisterForCombatEvent("CRPortalInitial", OnPortalInitial, nil, 105890)
     end
 
     if (Crutch.savedOptions.general.showRaidDiag) then
@@ -573,6 +581,7 @@ function Crutch.UnregisterCloudrest()
     for _, id in ipairs(PORTAL_DONE_IDS) do
         Crutch.UnregisterForCombatEvent("CRPortalDone" .. id)
     end
+    Crutch.UnregisterForCombatEvent("CRPortalInitial")
 
     Crutch.UnregisterExitedGroupCombatListener("ExitedCombatCloudrest")
 
