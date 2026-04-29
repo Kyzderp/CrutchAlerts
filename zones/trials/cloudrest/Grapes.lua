@@ -119,8 +119,12 @@ local function OnGrapeActivated(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
 end
 
 local function OnGrapeCharged()
-    -- TODO: need to handle the last ones? or do they trigger faceplanted?
     ClearGrapesLater()
+end
+
+-- Initial timer when pulling, 42.1, 18.7, 30.8, 18.8, 21.3, 26.8, 24.4, 23.7, 20.0, 18.4, 25.7
+local function OnInitial()
+    Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_PREFIX, 18400) -- TODO
 end
 
 
@@ -145,6 +149,7 @@ function CR.RegisterGrapes()
     Crutch.RegisterForCombatEvent("GrapesFaceplanted", OnFaceplanted, ACTION_RESULT_EFFECT_GAINED, 105363)
     Crutch.RegisterForCombatEvent("GrapesActive", OnGrapeActivated, ACTION_RESULT_EFFECT_GAINED, 105339)
     Crutch.RegisterForCombatEvent("GrapesCharge", OnGrapeCharged, nil, 105373)
+    Crutch.RegisterForCombatEvent("GrapesZmajaStart", OnInitial, nil, 105890)
 end
 
 function CR.UnregisterGrapes()
@@ -155,6 +160,7 @@ function CR.UnregisterGrapes()
     Crutch.UnregisterForCombatEvent("GrapesFaceplanted")
     Crutch.UnregisterForCombatEvent("GrapesActive")
     Crutch.UnregisterForCombatEvent("GrapesCharge")
+    Crutch.UnregisterForCombatEvent("GrapesZmajaStart")
 
     CleanUp()
 end
