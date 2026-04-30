@@ -247,6 +247,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         end,
     })
 
+    --[[
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Cloudrest - Info Panel",
@@ -275,6 +276,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
             Crutch.OnPlayerActivated()
         end,
     })
+    ]]
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,

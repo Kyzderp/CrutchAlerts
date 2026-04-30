@@ -624,7 +624,7 @@ function OC.RegisterTwins()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 
     -- Check health for upcoming portal
-    if (IsHM() and Crutch.savedOptions.osseincage.enableAbilityOverlay) then
+    if (IsHM() and Crutch.savedOptions.experimental and Crutch.savedOptions.osseincage.enableAbilityOverlay) then
         Crutch.dbgOther("registering twins health")
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, OnTwinsHealth)
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")

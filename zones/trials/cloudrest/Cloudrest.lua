@@ -458,9 +458,7 @@ local origOSIGetIconDataForPlayer = nil
 function Crutch.RegisterCloudrest()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Cloudrest")
 
-    if (Crutch.savedOptions.experimental) then
-        CR.RegisterGrapes()
-    end
+    CR.RegisterGrapes()
 
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatCloudrest", ResetValuesOnWipe)
 
@@ -517,7 +515,7 @@ function Crutch.RegisterCloudrest()
     end, nil, 103946)
 
     -- Register portal finishing
-    if (Crutch.savedOptions.cloudrest.infoPanel.showPortal) then
+    if (Crutch.savedOptions.experimental and Crutch.savedOptions.cloudrest.infoPanel.showPortal) then
         Crutch.RegisterForCombatEvent("CRPortalCast", OnPortalSummoned, nil, 103946)
         for _, id in ipairs(PORTAL_DONE_IDS) do
             Crutch.RegisterForCombatEvent("CRPortalDone" .. id, OnPortalDone, nil, id)
@@ -573,9 +571,7 @@ function Crutch.RegisterCloudrest()
 end
 
 function Crutch.UnregisterCloudrest()
-    if (Crutch.savedOptions.experimental) then
-        CR.UnregisterGrapes()
-    end
+    CR.UnregisterGrapes()
 
     Crutch.UnregisterForCombatEvent("CRPortalCast")
     for _, id in ipairs(PORTAL_DONE_IDS) do

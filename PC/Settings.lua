@@ -1638,6 +1638,7 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                     disabled = function() return OSI == nil or OSI.UnitErrorCheck == nil or OSI.GetIconDataForPlayer == nil end,
                 },
+                --[[
                 {
                     type = "description",
                     title = "|c08BD1DInfo Panel|r",
@@ -1668,6 +1669,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                ]]
             })),
         },
         {
@@ -2210,6 +2212,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                --[[
                 {
                     type = "description",
                     title = "|c08BD1DMark Dangerous Abilities|r",
@@ -2277,6 +2280,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.osseincage.portalPercentMargin = value
                     end,
                 },
+                ]]
             }),
         },
         {

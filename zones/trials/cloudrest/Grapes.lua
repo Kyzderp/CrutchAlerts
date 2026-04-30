@@ -140,6 +140,7 @@ local function CleanUp()
 end
 
 function CR.RegisterGrapes()
+    if (not Crutch.savedOptions.experimental) then return end
     if (not Crutch.savedOptions.cloudrest.infoPanel.showGrapes) then return end
 
     Crutch.RegisterExitedGroupCombatListener("CRGrapesExitedCombat", CleanUp)
