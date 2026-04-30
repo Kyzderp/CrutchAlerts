@@ -541,7 +541,11 @@ local function Initialize()
         abilities[22095] = true -- Solar Barrage
         abilities[32853] = true -- Flames of Oblivion
         abilities[23231] = true -- Hurricane
-        -- TODO: wall, stampede, ?
+        abilities[39011] = true -- Elemental Blockade
+        abilities[39012] = true -- Blockade of Fire
+        abilities[39018] = true -- Blockade of Storms
+        abilities[39028] = true -- Blockade of Frost
+        abilities[38788] = true -- Stampede
         Crutch.savedOptions.osseincage.abilityOverlayFirstTime = false
     end
 

@@ -22,17 +22,9 @@ end
 ---------------------------------------------------------------------
 -- Check health for next portal
 ---------------------------------------------------------------------
-local DANGEROUS_ABILITIES = {
-    [38901] = true, -- Quick Cloak
-    [22095] = true, -- Solar Barrage
-    [32853] = true, -- Flames of Oblivion
-    [23231] = true, -- Hurricane
-    -- [61505] = true, -- Echoing Vigor (testing)
-}
-
 local spoofedAbilities = {}
 local function SpoofIconIfDangerous(abilityId)
-    if (not DANGEROUS_ABILITIES[abilityId]) then return end
+    if (not Crutch.savedOptions.osseincage.abilitiesToReplace[abilityId]) then return end
 
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "TwinsIconChange" .. abilityId)
     spoofedAbilities[abilityId] = true
