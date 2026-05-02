@@ -218,6 +218,18 @@ Crutch.format = {
     [182334] = 105.3, -- Rain of Fire (Valinna)
     [182393] = 14.5, -- Immolation Trap (Valinna)
 
+-- Night Market: Gossamer Crypt
+    [254918] = 500, -- Webdrop (Ensnaring Spider)
+
+-- Night Market: Mournful Catacomb
+
+-- Night Market: Timeless Wallow
+    [250487] = 500, -- Immutable Strike (nocturnals)
+    [250667] = 400, -- Impaling Shards (Bone Wyrm)
+    [250668] = 200, -- Revolting Scarab (Bone Wyrm)
+    [252712] = 300, -- Taking Aim (Skeletal Archer)
+    [252715] = 300, -- Uppercut (Skeletal Ravager)
+
 ---------------------------------------------------------------------
 -- Arenas
 

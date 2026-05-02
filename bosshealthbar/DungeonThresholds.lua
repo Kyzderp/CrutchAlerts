@@ -257,10 +257,10 @@ local dungeonThresholds = {
         [20] = "Hunt", -- TODO
     },
     [GetBossName(CRUTCH_BHB_BALORGH)] = {
-        [80] = "Hunt", -- TODO
-        [60] = "Hunt", -- TODO
-        [40] = "Hunt", -- TODO
-        [20] = "Hunt", -- TODO
+        [80] = "Hunt",
+        [60] = "Hunt",
+        [40] = "Hunt",
+        [20] = "Hunt",
     },
 
 -- Frostvault
@@ -808,6 +808,34 @@ local dungeonThresholds = {
             [55] = "Talen-Lah",
             [5] = "Talen-Lah",
         },
+    },
+
+-- Night Market: Gossamer Crypt
+    [GetBossName(CRUTCH_BHB_GILDED_ALZIRIIX)] = {
+        [75] = "Spooder",
+        [50] = "Spooder",
+        [25] = "Spooder",
+    },
+
+-- Night Market: Timeless Wallow
+    [GetBossName(CRUTCH_BHB_GILDED_BKYFXI)] = {
+        [84] = "Wyrm",
+        [69] = "Wyrm",
+        [54] = "Wyrm", -- TODO: probably right
+    },
+
+-- Night Market: Mournful Catacomb
+    [GetBossName(CRUTCH_BHB_GILDED_FATELINES_KNELL)] = {
+        [66] = "Ritual",
+        [33] = "Ritual",
+    },
+
+-- Night Market
+    [GetBossName(CRUTCH_BHB_ARGENT_EXARCH_MOLONACH)] = {
+        [80] = "Hunt",
+        [60] = "Hunt",
+        [40] = "Hunt",
+        [20] = "Hunt",
     },
 }
 

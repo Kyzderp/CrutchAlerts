@@ -137,6 +137,7 @@ Crutch.uninterruptible = {
     [233610] = true, -- Blazing Smash (Skorkhif)
     [157466] = true, -- Soul Remnant
     [163153] = true, -- Coalescing Shadows (Varallion)
+    [250667] = true, -- Impaling Shards (Bone Wyrm (Timeless Wallow))
 }
 
 ---------------------------------------------------------------------
@@ -625,6 +626,16 @@ Crutch.others = {
     -- Wayrest Sewers I
     [146] = {
         [5699] = true, -- Shadowstep (Allene Pellingare)
+    },
+
+    -- Night Market: Gossamer Crypt
+    [1562] = {
+        [254918] = true, -- Webdrop (Ensnaring Spider)
+    },
+
+    -- Night Market: Timeless Wallow
+    [1565] = {
+        [250667] = true, -- Impaling Shards (Bone Wyrm)
     },
 
 
