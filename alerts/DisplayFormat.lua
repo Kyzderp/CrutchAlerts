@@ -225,7 +225,7 @@ Crutch.format = {
 
 -- Night Market: Timeless Wallow
     [250487] = 500, -- Immutable Strike (nocturnals)
-    [250667] = 400, -- Impaling Shards (Bone Wyrm)
+    [250667] = 100400, -- Impaling Shards (Bone Wyrm)
     [250668] = 200, -- Revolting Scarab (Bone Wyrm)
     [252712] = 300, -- Taking Aim (Skeletal Archer)
     [252715] = 300, -- Uppercut (Skeletal Ravager)

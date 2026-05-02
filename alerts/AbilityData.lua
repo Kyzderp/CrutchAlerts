@@ -634,7 +634,7 @@ Crutch.others = {
     },
 
     -- Night Market: Timeless Wallow
-    [1565] = {
+    [1564] = {
         [250667] = true, -- Impaling Shards (Bone Wyrm)
     },
 
