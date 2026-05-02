@@ -821,7 +821,8 @@ local dungeonThresholds = {
     [GetBossName(CRUTCH_BHB_GILDED_BKYFXI)] = {
         [84] = "Wyrm",
         [69] = "Wyrm",
-        [54] = "Wyrm", -- TODO: probably right
+        [54] = "Wyrm",
+        [44] = "Dark Transformation", -- TODO: 45 or 44?
     },
 
 -- Night Market: Mournful Catacomb
