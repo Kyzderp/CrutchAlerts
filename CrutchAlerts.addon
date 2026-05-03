@@ -8,8 +8,8 @@
 ## Description: Combat alerts, boss health bars with mechanic thresholds, time until boss spawn, and more!
 ## Author: Kyzeragon
 ## Contributors: @M0R_Gaming and @Ooki42 for Bahsei curse lines
-## Version: 2.15.1
-## AddOnVersion: 21501
+## Version: 2.16.0
+## AddOnVersion: 21600
 ## APIVersion: 101049 101050
 
 ## PCDependsOn: LibAddonMenu-2.0>=41
@@ -18,8 +18,8 @@
 
 ## SavedVariables: CrutchAlertsSavedVariables
 
-; Special thanks to Smaxx, oumu, Keldorem, nikepiko, and more for
-; language translations and other data!
+; Obsolete, but special thanks to Smaxx, oumu, Keldorem, nikepiko,
+; and more for language translations and other data!
 ; and of course Lamierina7 for creating OdySupportIcons :D
 
 main/CrutchAlerts.lua

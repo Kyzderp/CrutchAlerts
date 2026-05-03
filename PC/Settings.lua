@@ -2454,6 +2454,21 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return not Crutch.savedOptions.rockgrove.showCursePreview end
                 },
                 {
+                    type = "slider",
+                    name = "Preview line duration",
+                    tooltip = "How long before Death Touch expiration to show the preview lines, in milliseconds. Death Touch lasts for 9 seconds, so setting this to 9000 means you will see the lines as soon as you're cursed",
+                    min = 0,
+                    max = 9000,
+                    step = 500,
+                    default = 9000 - Crutch.defaultOptions.rockgrove.curseLineDelay,
+                    width = "full",
+                    getFunc = function() return 9000 - Crutch.savedOptions.rockgrove.curseLineDelay end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.curseLineDelay = 9000 - value
+                    end,
+                    disabled = function() return not Crutch.savedOptions.rockgrove.showCursePreview end
+                },
+                {
                     type = "checkbox",
                     name = "Show your curse lines",
                     tooltip = "Shows lines when your Death Touch expires. The trajectory could be slightly inaccurate due to desync, especially if you're moving fast",

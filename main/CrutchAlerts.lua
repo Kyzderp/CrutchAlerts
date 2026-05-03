@@ -11,7 +11,7 @@ CrutchAlerts = {
     InfoPanel = {},
 
     name = "CrutchAlerts",
-    version = "2.15.1",
+    version = "2.16.0",
 
     unlock = false,
 }
@@ -273,6 +273,7 @@ local defaultOptions = {
 
         showCursePreview = false,
         cursePreviewColor = {1, 1, 1, 0.2},
+        curseLineDelay = 0,
         showCurseLines = false,
         curseLineColor = {1, 1, 0, 0.5},
         showOthersCurseLines = false,
@@ -696,7 +697,7 @@ end
 ---------------------------------------------------------------------
 -- On load
 local function OnAddOnLoaded(_, addonName)
-    if addonName == Crutch.name then
+    if (addonName == Crutch.name) then
         EVENT_MANAGER:UnregisterForEvent(Crutch.name, EVENT_ADD_ON_LOADED)
         Initialize()
     end

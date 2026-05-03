@@ -51,6 +51,8 @@ end
 
 local playerCurseLinesKey
 local function DrawInProgressCurseLines()
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiInProgress")
+
     -- Remove in progress lines
     if (playerCurseLinesKey) then
         Crutch.Drawing.RemoveWorldTexture(playerCurseLinesKey)
@@ -137,8 +139,14 @@ local function OnDeathTouchLinesTimeout(changeType, unitTag, playerX, playerY, p
 
     -- Self curse
     if (changeType == EFFECT_RESULT_GAINED) then
-        DrawInProgressCurseLines()
+        if (Crutch.savedOptions.rockgrove.curseLineDelay > 0) then
+            EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "BahseiInProgress", Crutch.savedOptions.rockgrove.curseLineDelay, DrawInProgressCurseLines)
+        else
+            DrawInProgressCurseLines()
+        end
     elseif (changeType == EFFECT_RESULT_FADED) then
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiInProgress")
+
         -- Remove in progress lines
         if (playerCurseLinesKey) then
             Crutch.Drawing.RemoveWorldTexture(playerCurseLinesKey)
@@ -315,6 +323,7 @@ local function CleanUp()
     Crutch.InfoPanel.StopCount(RG.PANEL_SCYTHE_INDEX)
     numBleeds = 0
     ZO_ClearTable(explosions)
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "BahseiInProgress")
 end
 
 

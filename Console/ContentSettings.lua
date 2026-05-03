@@ -1018,6 +1018,21 @@ function Crutch.CreateConsoleContentSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Preview line duration",
+        tooltip = "How long before Death Touch expiration to show the preview lines, in milliseconds. Death Touch lasts for 9 seconds, so setting this to 9000 means you will see the lines as soon as you're cursed",
+        min = 0,
+        max = 9000,
+        step = 500,
+        default = 9000 - Crutch.defaultOptions.rockgrove.curseLineDelay,
+        getFunction = function() return 9000 - Crutch.savedOptions.rockgrove.curseLineDelay end,
+        setFunction = function(value)
+            Crutch.savedOptions.rockgrove.curseLineDelay = 9000 - value
+        end,
+        disable = function() return not Crutch.savedOptions.rockgrove.showCursePreview end
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show your curse lines",
         tooltip = "Shows lines for potential curse AoE trajectories when your Death Touch expires. All 4 possible directions are shown, but only 2 directions have real AoEs. The trajectory could be slightly inaccurate due to desync, especially if you're moving fast",
