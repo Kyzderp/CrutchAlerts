@@ -244,28 +244,30 @@ local function CheckGroupBuffs(idsToCallbacks, finalCallback)
     local buffsToCheck = {}
     for i = 1, GetGroupSize() do
         local unitTag = GetGroupUnitTagByIndex(i)
-        local hasAnyBuffs = false
+        if (unitTag) then
+            local hasAnyBuffs = false
 
-        ZO_ClearTable(buffsToCheck)
-        ZO_ShallowTableCopy(idsToCallbacks, buffsToCheck)
+            ZO_ClearTable(buffsToCheck)
+            ZO_ShallowTableCopy(idsToCallbacks, buffsToCheck)
 
-        -- If ability is found, fire callback immediately
-        for j = 1, GetNumBuffs(unitTag) do
-            local _, _, _, _, stackCount, _, _, _, _, _, abilityId = GetUnitBuffInfo(unitTag, j)
-            if (buffsToCheck[abilityId]) then
-                hasAnyBuffs = true
-                buffsToCheck[abilityId](unitTag, true)
-                buffsToCheck[abilityId] = nil
+            -- If ability is found, fire callback immediately
+            for j = 1, GetNumBuffs(unitTag) do
+                local _, _, _, _, stackCount, _, _, _, _, _, abilityId = GetUnitBuffInfo(unitTag, j)
+                if (buffsToCheck[abilityId]) then
+                    hasAnyBuffs = true
+                    buffsToCheck[abilityId](unitTag, true)
+                    buffsToCheck[abilityId] = nil
+                end
             end
-        end
 
-        -- Fire negative callbacks for any remaining not found
-        for _, callback in pairs(buffsToCheck) do
-            callback(unitTag, false)
-        end
+            -- Fire negative callbacks for any remaining not found
+            for _, callback in pairs(buffsToCheck) do
+                callback(unitTag, false)
+            end
 
-        -- Final callback for whether there were any buffs, for cleanup
-        finalCallback(unitTag, hasAnyBuffs)
+            -- Final callback for whether there were any buffs, for cleanup
+            finalCallback(unitTag, hasAnyBuffs)
+        end
     end
 end
 Crutch.CheckGroupBuffs = CheckGroupBuffs
