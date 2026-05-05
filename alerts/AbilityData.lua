@@ -151,10 +151,10 @@ Crutch.fadedInterrupt = {
 ---------------------------------------------------------------------
 -- Needs testing
 Crutch.testing = {
-    [133045] = true, -- Dragon Totem
-    [133510] = true, -- Harpy Totem
-    [133513] = true, -- Gargoyle Totem
-    [133515] = true, -- Chaurus Totem
+    -- [133045] = true, -- Dragon Totem
+    -- [133510] = true, -- Harpy Totem
+    -- [133513] = true, -- Gargoyle Totem
+    -- [133515] = true, -- Chaurus Totem
 
     [58084] = true, -- Magicka Bomb
     [56782] = true, -- Magicka Bomb, the 11 seconds, not 58084
@@ -163,7 +163,7 @@ Crutch.testing = {
 
     [155184] = true, -- Catastrophe (Magma Incarnate)
 
-    [140606] = true, -- Meteor
+    -- [140606] = true, -- Meteor (KA)
     [134023] = true, -- Meteor
 
     [119596] = true, -- Storm Breath (80%)
@@ -313,6 +313,7 @@ Crutch.others = {
         [133936] = true, -- Exploding Spear
         [136965] = true, -- Sanguine Grasp
         [134050] = true, -- Wrath of Tides
+        [133546] = true, -- Gargoyle's Curse
     },
 
     -- Lucent Citadel

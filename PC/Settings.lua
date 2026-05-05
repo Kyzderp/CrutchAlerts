@@ -1819,8 +1819,8 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show Falgravn 2nd floor DPS stacks",
-                    tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks",
+                    name = "Show Falgravn 2nd floor icons",
+                    tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks and tank spot suggestions",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.kynesaegis.showFalgravnIcons end,
                     setFunc = function(value)

@@ -70,6 +70,9 @@ Crutch.format = {
 
 -- Kyne's Aegis
     [133515] = 100204.5, -- Chaurus Totem seems to send out first projectile ~4.5 seconds after spawn
+    [133559] =    200, -- Chaurus Bile (individual with travel time?)
+    [136873] =    300, -- Gargoyle's Curse (individual with travel time?)
+    -- [133546] =    300, -- Gargoyle's Curse (5 seconds)
     [134050] =  30400, -- Wrath of Tides
     [134196] =    500, -- Crashing Wave
     [140606] =    100, -- Meteor (Yandir)

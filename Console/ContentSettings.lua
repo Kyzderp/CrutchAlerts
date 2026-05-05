@@ -370,8 +370,8 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show Falgravn 2nd floor DPS stacks",
-        tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks",
+        label = "Show Falgravn 2nd floor icons",
+        tooltip = "In the Falgravn fight, shows 1~4 DPS in the world for stacks and tank spot suggestions",
         default = true,
         getFunction = function() return Crutch.savedOptions.kynesaegis.showFalgravnIcons end,
         setFunction = function(value)
