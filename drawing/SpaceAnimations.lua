@@ -205,6 +205,8 @@ local function FindAvailableJetSlot()
 end
 
 local function RemoveJet(key)
+    local realKey = tonumber(string.sub(key, 4))
+
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. key)
     Draw.activeIcons[key] = nil
     Draw.MaybeStopPolling()
@@ -229,6 +231,9 @@ local function CircleJet(text, duration, radius, cycleTime)
     control:SetTransformScale(0.01)
     control:SetAnchor(CENTER, GuiRoot, CENTER)
 
+    -- To not clash with normal keys when put in Draw.activeIcons together
+    local jetKey = "Jet" .. key
+
     local _, x, y, z = GetUnitRawWorldPosition("player")
     text = text or "YOUR AD HERE"
     radius = radius or 28
@@ -242,14 +247,14 @@ local function CircleJet(text, duration, radius, cycleTime)
     control:SetHeight(height)
     control:GetNamedChild("Rope"):SetWidth(height - 28)
 
-    circlingJets[key] = FindAvailableJetSlot()
+    circlingJets[jetKey] = FindAvailableJetSlot()
     numJets = numJets + 1
 
     local function JetFunc(icon)
         local _, x, y, z = GetUnitRawWorldPosition("player")
         local time = (GetGameTimeMilliseconds() + cycleTime) % cycleTime / cycleTime
 
-        local offset = circlingJets[key] / numJets * math.pi * 2
+        local offset = circlingJets[jetKey] / numJets * math.pi * 2
         local angle = time * 2 * -math.pi + offset
         local jetX = x + radius * 100 * math.cos(angle)
         local jetZ = z + radius * 100 * math.sin(angle)
@@ -261,7 +266,7 @@ local function CircleJet(text, duration, radius, cycleTime)
     Draw.CreateControlCommon(
         true, -- isSpace
         control,
-        key,
+        jetKey,
         "CrutchAlerts/assets/jetplane.dds", -- texture
         x, y, z,
         false, -- faceCamera
@@ -270,12 +275,12 @@ local function CircleJet(text, duration, radius, cycleTime)
         Draw.SetPosition,
         Draw.SetOrientation)
 
-    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. key)
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. jetKey)
     if (duration) then
-        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CircleJet" .. key, duration, function() RemoveJet(key) end)
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CircleJet" .. jetKey, duration, function() RemoveJet(jetKey) end)
     end
 
-    return key
+    return jetKey
 end
 Draw.CircleJet = CircleJet
 -- /script CrutchAlerts.Drawing.CircleJet("hi")
