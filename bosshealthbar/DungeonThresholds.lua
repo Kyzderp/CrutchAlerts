@@ -814,7 +814,7 @@ local dungeonThresholds = {
     [GetBossName(CRUTCH_BHB_GILDED_ALZIRIIX)] = {
         [75] = "Spooder",
         [50] = "Spooder",
-        [25] = "Spooder",
+        [30] = "Spooder",
     },
 
 -- Night Market: Timeless Wallow
