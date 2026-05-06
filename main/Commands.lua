@@ -11,10 +11,11 @@ Crutch.ToggleGeneralAlerts = ToggleGeneralAlerts
 
 ---------------------------------------------------------------------
 local function PrintUsage()
-    if (IsConsoleUI()) then
+    if (ZO_IsConsoleOrGameCoreUI()) then
         CrutchAlerts.msg([[Usage:
 |cAAAAAA/crutch printskills
 |cAAAAAA/crutch circle [radius]
+|cAAAAAA/crutch toggle general
 |cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
     else
         CrutchAlerts.msg([[Usage:
@@ -63,11 +64,11 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         Crutch.msg(text)
 
     --------------------
-    elseif (cmd == "lock" and not IsConsoleUI()) then
+    elseif (cmd == "lock" and not ZO_IsConsoleOrGameCoreUI()) then
         Crutch.UnlockUI(false)
 
     --------------------
-    elseif (cmd == "unlock" and not IsConsoleUI()) then
+    elseif (cmd == "unlock" and not ZO_IsConsoleOrGameCoreUI()) then
         Crutch.UnlockUI(true)
 
     --------------------

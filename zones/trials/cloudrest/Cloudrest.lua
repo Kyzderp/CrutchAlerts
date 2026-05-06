@@ -121,7 +121,7 @@ local function OnFrostDroppable(abilityId)
 
     -- Do prominent for drop frost
     local doProminent
-    if (IsConsoleUI()) then
+    if (ZO_IsConsoleOrGameCoreUI()) then
         doProminent = Crutch.savedOptions.console.showProminent
     else
         doProminent = Crutch.savedOptions.cloudrest.dropFrostProminent

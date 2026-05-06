@@ -261,7 +261,7 @@ function Crutch.RegisterDreadsailReef()
 
     -- Lightning Stacks
     local showStatic
-    if (IsConsoleUI()) then
+    if (ZO_IsConsoleOrGameCoreUI()) then
         showStatic = Crutch.savedOptions.console.showProminent
     else
         showStatic = Crutch.savedOptions.dreadsailreef.alertStaticStacks
@@ -274,7 +274,7 @@ function Crutch.RegisterDreadsailReef()
 
     -- Volatile Stacks
     local showVolatile
-    if (IsConsoleUI()) then
+    if (ZO_IsConsoleOrGameCoreUI()) then
         showVolatile = Crutch.savedOptions.console.showProminent
     else
         showVolatile = Crutch.savedOptions.dreadsailreef.alertVolatileStacks

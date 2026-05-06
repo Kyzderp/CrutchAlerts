@@ -253,7 +253,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
 
         -- If self, display a prominent alert because COLOR SWAP!
         local showProminent
-        if (IsConsoleUI()) then
+        if (ZO_IsConsoleOrGameCoreUI()) then
             showProminent = Crutch.savedOptions.console.showProminent
         else
             showProminent = Crutch.savedOptions.mawoflorkhaj.prominentColorSwap
