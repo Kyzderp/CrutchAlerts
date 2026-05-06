@@ -207,11 +207,11 @@ end
 local function RemoveJet(key)
     local realKey = tonumber(string.sub(key, 4))
 
-    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. key)
-    Draw.activeIcons[key] = nil
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. realKey)
+    Draw.activeIcons[realKey] = nil
     Draw.MaybeStopPolling()
-    hangar:ReleaseObject(key)
-    circlingJets[key] = nil
+    hangar:ReleaseObject(realKey)
+    circlingJets[realKey] = nil
     numJets = numJets - 1
 end
 
