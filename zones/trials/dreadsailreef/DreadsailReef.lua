@@ -1,5 +1,7 @@
 local Crutch = CrutchAlerts
 local C = Crutch.Constants
+Crutch.DreadsailReef = {}
+local DSR = Crutch.DreadsailReef
 
 ---------------------------------------------------------------------
 -- Twins
