@@ -287,6 +287,11 @@ function Crutch.RegisterDreadsailReef()
         Crutch.RegisterForEffectChanged("DSRVolatileOther", OnPoisonStacksChanged, 174932, "player")
     end
 
+    -- Reef can run
+    if (Crutch.savedOptions.experimental) then
+        DSR.RegisterReefGuardian()
+    end
+
     -- Taleria cleave
     Crutch.RegisterBossChangedListener("CrutchDreadsailReef", TryEnablingTaleriaCleave)
 
@@ -309,6 +314,11 @@ function Crutch.UnregisterDreadsailReef()
     -- Volatile Stacks
     Crutch.UnregisterForEffectChanged("DSRVolatileBoss")
     Crutch.UnregisterForEffectChanged("DSRVolatileOther")
+
+    -- Reef can run
+    if (Crutch.savedOptions.experimental) then
+        DSR.UnregisterReefGuardian()
+    end
 
     -- Taleria cleave
     Crutch.UnregisterBossChangedListener("CrutchDreadsailReef")
