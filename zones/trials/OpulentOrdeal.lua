@@ -57,7 +57,7 @@ local BOSS_ESSENCES = { -- [summonId] = {}
 
 local function OnSummonEssence(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
     local data = BOSS_ESSENCES[abilityId]
-    Crutch.InfoPanel.CountDownDuration(PANEL_ESSENCE_INDEX, string.format("|c%s%s ", data.color, GetAbilityName(data.displayId)), 243000)
+    Crutch.InfoPanel.CountDownDuration(PANEL_ESSENCE_INDEX, zo_strformat("|c<<1>><<C:2>>", data.color, GetAbilityName(data.displayId), 243000))
 end
 
 local function OnEssenceDone()
@@ -123,12 +123,12 @@ local function FormatOrder(first, second, third, clockwise)
 end
 
 local CSA_STRINGS = {
-    ["Arid Varlet Essence appeared in the Eclipse"] = FormatOrder(1, 2, 3, false),
-    ["Arid Varlet Essence appeared in the Cobwebs"] = FormatOrder(2, 1, 3, true),
-    ["Knightshade Essence appeared in the Cobwebs"] = FormatOrder(2, 3, 1, false),
-    ["Knightshade Essence appeared in the Drylands"] = FormatOrder(3, 2, 1, true),
-    ["Web Eater Essence appeared in the Drylands"] = FormatOrder(3, 1, 2, false),
-    ["Web Eater Essence appeared in the Eclipse"] = FormatOrder(1, 3, 2, true),
+    [GetString(CRUTCH_CSA_ARID_VARLET_ESSENCE_ECLIPSE)] = FormatOrder(1, 2, 3, false),
+    [GetString(CRUTCH_CSA_ARID_VARLET_ESSENCE_COBWEBS)] = FormatOrder(2, 1, 3, true),
+    [GetString(CRUTCH_CSA_KNIGHTSHADE_ESSENCE_COBWEBS)] = FormatOrder(2, 3, 1, false),
+    [GetString(CRUTCH_CSA_KNIGHTSHADE_ESSENCE_DRYLANDS)] = FormatOrder(3, 2, 1, true),
+    [GetString(CRUTCH_CSA_WEB_EATER_ESSENCE_DRYLANDS)] = FormatOrder(3, 1, 2, false),
+    [GetString(CRUTCH_CSA_WEB_EATER_ESSENCE_ECLIPSE)] = FormatOrder(1, 3, 2, true),
 }
 
 local hooked = false
@@ -139,7 +139,7 @@ local function CSAHook(s, messageParams)
     local mainText = messageParams:GetMainText()
     local order = CSA_STRINGS[mainText]
     if (order) then
-        Crutch.InfoPanel.SetLine(order)
+        Crutch.InfoPanel.SetLine(PANEL_ORDER_INDEX, order)
         Crutch.dbgOther(order)
     end
 end
