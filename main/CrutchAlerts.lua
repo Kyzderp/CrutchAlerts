@@ -241,6 +241,7 @@ local defaultOptions = {
     },
     opulentordeal = {
         showAffinityIcons = true,
+        showEssence = true,
     },
     osseincage = {
         showStricken = "TANK", -- "NEVER", "TANK", "ALWAYS"

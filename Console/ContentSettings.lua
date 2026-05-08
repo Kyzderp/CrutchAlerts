@@ -605,6 +605,40 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Opulent Ordeal",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Affinity icons",
+        tooltip = "Shows icons above players' heads with their respective Affinity debuffs",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.opulentordeal.showAffinityIcons end,
+        setFunction = function(value)
+            Crutch.savedOptions.opulentordeal.showAffinityIcons = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Opulent Ordeal - Info Panel",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Essence timer and order",
+        tooltip = "Shows which Essence is being run and the time until wipe, as well as the order of the areas it must be relayed through. Note: other add-ons that interfere with center-screen announcements may conflict with the area order display",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.opulentordeal.showEssence end,
+        setFunction = function(value)
+            Crutch.savedOptions.opulentordeal.showEssence = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
         label = "Ossein Cage",
     })
 

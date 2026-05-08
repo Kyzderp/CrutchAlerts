@@ -32,6 +32,7 @@ Web Eater Essence (256088)
 -- Panel
 ---------------------------------------------------------------------
 local PANEL_ESSENCE_INDEX = 5
+local PANEL_ORDER_INDEX = 6
 
 local BOSS_ESSENCES = { -- [summonId] = {}
     [256159] = {
@@ -61,6 +62,7 @@ end
 
 local function OnEssenceDone()
     Crutch.InfoPanel.StopCount(PANEL_ESSENCE_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_ORDER_INDEX)
 end
 
 ---------------------------------------------------------------------
@@ -98,6 +100,48 @@ end
 local function CleanUp()
     Crutch.RemoveAllAttachedIcons(AFFINITY_UNIQUE_NAME)
     Crutch.InfoPanel.StopCount(PANEL_ESSENCE_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_ORDER_INDEX)
+end
+
+
+---------------------------------------------------------------------
+-- Full-on crutching
+---------------------------------------------------------------------
+-- |ccc33ff|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_square.dds:inheritcolor|t|r
+-- |cff0000|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_triangle.dds:inheritcolor|t|r
+-- |cff8000|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_circle.dds:inheritcolor|t|r
+-- Returns ordered icons. 1 = purple, 2 = red, 3 = orange
+local function FormatOrder(first, second, third, clockwise)
+    local strFormat = string.format("<<%d>> <<4>> <<%d>> <<4>> <<%d>>", first, second, third)
+    local arrow = clockwise and "rotation_arrow_reverse" or "rotation_arrow"
+    return zo_strformat(strFormat,
+        "|ccc33ff|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_square.dds:inheritcolor|t|r",
+        "|cff0000|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_triangle.dds:inheritcolor|t|r",
+        "|cff8000|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_circle.dds:inheritcolor|t|r",
+        "|t100%:100%:/esoui/art/housing/" .. arrow .. ".dds|t"
+        )
+end
+
+local CSA_STRINGS = {
+    ["Arid Varlet Essence appeared in the Eclipse"] = FormatOrder(1, 2, 3, false),
+    ["Arid Varlet Essence appeared in the Cobwebs"] = FormatOrder(2, 1, 3, true),
+    ["Knightshade Essence appeared in the Cobwebs"] = FormatOrder(2, 3, 1, false),
+    ["Knightshade Essence appeared in the Drylands"] = FormatOrder(3, 2, 1, true),
+    ["Web Eater Essence appeared in the Drylands"] = FormatOrder(3, 1, 2, false),
+    ["Web Eater Essence appeared in the Eclipse"] = FormatOrder(1, 3, 2, true),
+}
+
+local hooked = false
+local function CSAHook(s, messageParams)
+    if (not messageParams) then return end
+    if (not Crutch.savedOptions.opulentordeal.showEssence) then return end
+
+    local mainText = messageParams:GetMainText()
+    local order = CSA_STRINGS[mainText]
+    if (order) then
+        Crutch.InfoPanel.SetLine(order)
+        Crutch.dbgOther(order)
+    end
 end
 
 
@@ -135,9 +179,16 @@ function Crutch.RegisterOpulentOrdeal()
         end)
     end
 
-    for summonId, data in pairs(BOSS_ESSENCES) do
-        Crutch.RegisterForCombatEvent("OOSummonEssence" .. summonId, OnSummonEssence, ACTION_RESULT_BEGIN, summonId)
-        Crutch.RegisterForCombatEvent("OOBossStunned" .. data.stunnedId, OnEssenceDone, nil, data.stunnedId)
+    if (Crutch.savedOptions.opulentordeal.showEssence) then
+        for summonId, data in pairs(BOSS_ESSENCES) do
+            Crutch.RegisterForCombatEvent("OOSummonEssence" .. summonId, OnSummonEssence, ACTION_RESULT_BEGIN, summonId)
+            Crutch.RegisterForCombatEvent("OOBossStunned" .. data.stunnedId, OnEssenceDone, nil, data.stunnedId)
+        end
+
+        if (not hooked) then
+            hooked = true
+            ZO_PreHook(CENTER_SCREEN_ANNOUNCE, "QueueMessage", CSAHook)
+        end
     end
 end
 

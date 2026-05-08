@@ -2032,6 +2032,24 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "description",
+                    title = "|c08BD1DInfo Panel|r",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Essence timer and order",
+                    tooltip = "Shows which Essence is being run and the time until wipe, as well as the order of the areas it must be relayed through. Note: other add-ons that interfere with center-screen announcements may conflict with the area order display",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.opulentordeal.showEssence end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.opulentordeal.showEssence = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
         {
