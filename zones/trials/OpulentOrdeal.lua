@@ -32,7 +32,8 @@ Web Eater Essence (256088)
 -- Panel
 ---------------------------------------------------------------------
 local PANEL_ESSENCE_INDEX = 5
-local PANEL_ORDER_INDEX = 6
+local PANEL_FULL_TEXT_INDEX = 6
+local PANEL_ORDER_INDEX = 7
 
 local BOSS_ESSENCES = { -- [summonId] = {}
     [256159] = {
@@ -57,11 +58,12 @@ local BOSS_ESSENCES = { -- [summonId] = {}
 
 local function OnSummonEssence(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
     local data = BOSS_ESSENCES[abilityId]
-    Crutch.InfoPanel.CountDownDuration(PANEL_ESSENCE_INDEX, zo_strformat("|c<<1>><<C:2>>", data.color, GetAbilityName(data.displayId), 243000))
+    Crutch.InfoPanel.CountDownDuration(PANEL_ESSENCE_INDEX, zo_strformat("|c<<1>><<C:2>>: ", data.color, GetAbilityName(data.displayId)), 243000)
 end
 
 local function OnEssenceDone()
     Crutch.InfoPanel.StopCount(PANEL_ESSENCE_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_FULL_TEXT_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_ORDER_INDEX)
 end
 
@@ -100,6 +102,7 @@ end
 local function CleanUp()
     Crutch.RemoveAllAttachedIcons(AFFINITY_UNIQUE_NAME)
     Crutch.InfoPanel.StopCount(PANEL_ESSENCE_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_FULL_TEXT_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_ORDER_INDEX)
 end
 
@@ -134,13 +137,16 @@ local CSA_STRINGS = {
 local hooked = false
 local function CSAHook(s, messageParams)
     if (not messageParams) then return end
-    if (not Crutch.savedOptions.opulentordeal.showEssence) then return end
 
     local mainText = messageParams:GetMainText()
     local order = CSA_STRINGS[mainText]
     if (order) then
-        Crutch.InfoPanel.SetLine(PANEL_ORDER_INDEX, order)
-        Crutch.dbgOther(order)
+        if (Crutch.savedOptions.opulentordeal.showFullText) then
+            Crutch.InfoPanel.SetLine(PANEL_FULL_TEXT_INDEX, mainText, 0.5)
+        end
+        if (Crutch.savedOptions.opulentordeal.showBrainless) then
+            Crutch.InfoPanel.SetLine(PANEL_ORDER_INDEX, order)
+        end
     end
 end
 
@@ -184,11 +190,11 @@ function Crutch.RegisterOpulentOrdeal()
             Crutch.RegisterForCombatEvent("OOSummonEssence" .. summonId, OnSummonEssence, ACTION_RESULT_BEGIN, summonId)
             Crutch.RegisterForCombatEvent("OOBossStunned" .. data.stunnedId, OnEssenceDone, nil, data.stunnedId)
         end
+    end
 
-        if (not hooked) then
-            hooked = true
-            ZO_PreHook(CENTER_SCREEN_ANNOUNCE, "QueueMessage", CSAHook)
-        end
+    if (not hooked) then
+        hooked = true
+        ZO_PreHook(CENTER_SCREEN_ANNOUNCE, "QueueMessage", CSAHook)
     end
 end
 

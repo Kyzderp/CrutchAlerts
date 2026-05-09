@@ -2040,13 +2040,35 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show Essence timer and order",
-                    tooltip = "Shows which Essence is being run and the time until wipe, as well as the order of the areas it must be relayed through. Note: other add-ons that interfere with center-screen announcements may conflict with the area order display",
+                    name = "Show Essence timer",
+                    tooltip = "Shows which Essence is being run and the time until wipe",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.opulentordeal.showEssence end,
                     setFunc = function(value)
                         Crutch.savedOptions.opulentordeal.showEssence = value
                         Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Essence announcement text",
+                    tooltip = "Writes the announcement text, e.g. \"Web Eater Essence Appeared in the Eclipse,\" in the info panel. Note: other add-ons that interfere with center-screen announcements may conflict with this",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.opulentordeal.showFullText end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.opulentordeal.showFullText = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Turn-brain-off mode",
+                    tooltip = "Shows the order of the areas the Essence must be relayed through, and the direction of the run. Note: other add-ons that interfere with center-screen announcements may conflict with this",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.opulentordeal.showBrainless end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.opulentordeal.showBrainless = value
                     end,
                     width = "full",
                 },

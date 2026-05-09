@@ -627,13 +627,35 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show Essence timer and order",
-        tooltip = "Shows which Essence is being run and the time until wipe, as well as the order of the areas it must be relayed through. Note: other add-ons that interfere with center-screen announcements may conflict with the area order display",
+        label = "Show Essence timer",
+        tooltip = "Shows which Essence is being run and the time until wipe",
         default = true,
         getFunction = function() return Crutch.savedOptions.opulentordeal.showEssence end,
         setFunction = function(value)
             Crutch.savedOptions.opulentordeal.showEssence = value
             Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Essence announcement text",
+        tooltip = "Writes the announcement text, e.g. \"Web Eater Essence Appeared in the Eclipse,\" in the info panel. Note: other add-ons that interfere with center-screen announcements may conflict with this",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.opulentordeal.showFullText end,
+        setFunction = function(value)
+            Crutch.savedOptions.opulentordeal.showFullText = value
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Turn-brain-off mode",
+        tooltip = "Shows the order of the areas the Essence must be relayed through, and the direction of the run. Note: other add-ons that interfere with center-screen announcements may conflict with this",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.opulentordeal.showBrainless end,
+        setFunction = function(value)
+            Crutch.savedOptions.opulentordeal.showBrainless = value
         end,
     })
 
