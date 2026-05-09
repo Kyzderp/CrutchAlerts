@@ -10,9 +10,15 @@ local CHARGE_ID = 166022
 local onReef = false -- Track current state because we don't want to reset stuff on bosses changed
 
 ---------------------------------------------------------------------
+-- TODO: big med1 small1 small2 med2?
 ---------------------------------------------------------------------
+local REEF_INDICES = {"big", "med1", "small1", "small2", "med2"}
+local function GetReefPrefix(index)
+    return string.format("#%d (%s)", index, REEF_INDICES[index])
+end
+
 local function SetReefLine(index, suffix)
-    Crutch.InfoPanel.SetLine(PANEL_REEF_INDEX_OFFSET + index, "#" .. index .. suffix, REEF_SCALE)
+    Crutch.InfoPanel.SetLine(PANEL_REEF_INDEX_OFFSET + index, GetReefPrefix(index) .. suffix, REEF_SCALE)
 end
 
 
@@ -46,10 +52,10 @@ end
 -- During Heartburn, count down to portal wipe. After Heartburn, count until next Charge
 local function OnHeartburn(changeType, bossIndex, durationSeconds)
     if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_REEF_INDEX_OFFSET + bossIndex, "#" .. bossIndex .. " - ", durationSeconds * 1000, REEF_SCALE)
+        Crutch.InfoPanel.CountDownDuration(PANEL_REEF_INDEX_OFFSET + bossIndex, GetReefPrefix(bossIndex) .. " - ", durationSeconds * 1000, REEF_SCALE)
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.InfoPanel.StopCount(PANEL_REEF_INDEX_OFFSET + bossIndex)
-        Crutch.InfoPanel.CountDownDuration(PANEL_REEF_INDEX_OFFSET + bossIndex, "#" .. bossIndex .. " - can run in ", 60000, REEF_SCALE) -- TODO: 1:01,
+        Crutch.InfoPanel.CountDownDuration(PANEL_REEF_INDEX_OFFSET + bossIndex, GetReefPrefix(bossIndex) .. " - can run in ", 57400, REEF_SCALE) -- TODO
     end
 end
 
