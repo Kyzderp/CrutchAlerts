@@ -59,6 +59,7 @@ zones/trials/asylumsanctorium/MiniPanel.lua
 zones/trials/cloudrest/Cloudrest.lua
 zones/trials/cloudrest/Grapes.lua
 zones/trials/dreadsailreef/DreadsailReef.lua
+zones/trials/dreadsailreef/ReefGuardian.lua
 zones/trials/HallsOfFabrication.lua
 zones/trials/KynesAegis.lua
 zones/trials/LucentCitadel.lua

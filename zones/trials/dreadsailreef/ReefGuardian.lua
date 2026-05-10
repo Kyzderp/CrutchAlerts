@@ -5,9 +5,7 @@ local PANEL_REEF_INDEX_OFFSET = 10
 local REEF_SCALE = 0.7
 
 local HEARTBURN_ID = 170481
-local CHARGE_ID = 166022
 
-local onReef = false -- Track current state because we don't want to reset stuff on bosses changed
 
 ---------------------------------------------------------------------
 -- TODO: big med1 small1 small2 med2?
@@ -17,18 +15,19 @@ local function GetReefPrefix(index)
     return string.format("#%d (%s)", index, REEF_INDICES[index])
 end
 
-local function SetReefLine(index, suffix)
-    Crutch.InfoPanel.SetLine(PANEL_REEF_INDEX_OFFSET + index, GetReefPrefix(index) .. suffix, REEF_SCALE)
+local function SetReefLine(index, suffix, alpha)
+    Crutch.InfoPanel.SetLine(PANEL_REEF_INDEX_OFFSET + index, GetReefPrefix(index) .. suffix, REEF_SCALE, alpha)
 end
 
 
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
 local bossUnitIds = {}
+local lastHeartburns = {}
 
 local function OnReefStart()
     for i = 1, 5 do
-        SetReefLine(i, "")
+        SetReefLine(i, "", 0.5)
     end
 end
 
@@ -44,52 +43,57 @@ local function OnReefHealth(_, unitTag, _, _, powerValue, powerMax)
     local percent = powerValue / powerMax * 100
     if (percent >= 81) then
         local remaining = math.floor((percent - 81) * 10) / 10
-        SetReefLine(index, " - can run in " .. remaining .. "%")
+        SetReefLine(bossIndex, " - can run in " .. remaining .. "%")
     end
     -- TODO: do anything under 80?
 end
 
--- During Heartburn, count down to portal wipe. After Heartburn, count until next Charge
-local function OnHeartburn(changeType, bossIndex, durationSeconds)
-    if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_REEF_INDEX_OFFSET + bossIndex, GetReefPrefix(bossIndex) .. " - ", durationSeconds * 1000, REEF_SCALE)
-    elseif (changeType == EFFECT_RESULT_FADED) then
-        Crutch.InfoPanel.StopCount(PANEL_REEF_INDEX_OFFSET + bossIndex)
-        Crutch.InfoPanel.CountDownDuration(PANEL_REEF_INDEX_OFFSET + bossIndex, GetReefPrefix(bossIndex) .. " - can run in ", 57400, REEF_SCALE) -- TODO
+-- During Heartburn, count down to portal wipe
+local function OnHeartburnGained(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId)
+    local bossTag = bossUnitIds[targetUnitId]
+    if (not bossTag) then
+        Crutch.dbgOther("|cFF0000Unable to find boss tag for " .. targetUnitId)
+        return
     end
+    local bossIndex = tonumber(bossTag:sub(5, 5))
+
+    Crutch.dbgOther(bossIndex .. " heartburn gained")
+    Crutch.InfoPanel.CountDownDuration(PANEL_REEF_INDEX_OFFSET + bossIndex, GetReefPrefix(bossIndex) .. " - ", hitValue, REEF_SCALE)
+    lastHeartburns[bossIndex] = GetGameTimeMilliseconds()
+end
+
+-- After Heartburn, count until next run. Except we haven't figured it out?
+local function OnHeartburnFaded(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    local bossTag = bossUnitIds[targetUnitId]
+    if (not bossTag) then
+        Crutch.dbgOther("|cFF0000Unable to find boss tag for " .. targetUnitId)
+        return
+    end
+    local bossIndex = tonumber(bossTag:sub(5, 5))
+
+    Crutch.dbgOther(bossIndex .. " heartburn faded")
+    Crutch.InfoPanel.StopCount(PANEL_REEF_INDEX_OFFSET + bossIndex)
+    local targetTime = lastHeartburns[bossIndex] + 57400 -- TODO
+    Crutch.InfoPanel.CountDownToTargetTime(PANEL_REEF_INDEX_OFFSET + bossIndex, GetReefPrefix(bossIndex) .. " - can run in ", targetTime, REEF_SCALE)
 end
 
 -- Unit ID caching
-local function OnBossEffect(_, changeType, _, _, unitTag, beginTime, endTime, _, _, _, _, _, _, _, unitId, abilityId)
+local function OnBossEffect(_, _, _, _, unitTag, _, _, _, _, _, _, _, _, _, unitId)
     bossUnitIds[unitId] = unitTag
-    if (abilityId == HEARTBURN_ID) then
-        local bossIndex = tonumber(unitTag:sub(5, 5))
-        OnHeartburn(changeType, bossIndex, endTime - beginTime)
-    end
-end
-
--- Just show running, it will be overwritten by Heartburn or deadge
-local function OnCharge(_, _, _, _, _, _, _, _, _, _, _, _, _, _, sourceUnitId)
-    local bossTag = bossUnitIds[sourceUnitId]
-    if (not bossTag) then
-        Crutch.dbgOther("|cFF0000Unable to find boss tag for " .. sourceUnitId)
-        return
-    end
-
-    local bossIndex = tonumber(bossTag:sub(5, 5))
-    Crutch.InfoPanel.StopCount(PANEL_REEF_INDEX_OFFSET + bossIndex)
-    SetReefLine(bossIndex, zo_strformat(" - <<C:1>>", GetAbilityName(CHARGE_ID)))
 end
 
 
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
+local reefRegistered = false
 local function MaybeRegisterReef()
+    if (reefRegistered) then return end
+
     -- TODO: only change if actually reef, because bosses can change - check if correct
     local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-    if (not onReef and (powerMax == 41915160 or powerMax == 27943440)) then -- Reef only TODO: norm?
-        Crutch.dbgOther("Registering reef info panel")
-        onReef = true
+    if ((powerMax == 41915160 or powerMax == 27943440)) then -- Reef only TODO: norm?
+        Crutch.dbgOther("Registering reef info panel: " .. tostring(GetUnitName("boss1")) .. " has " .. powerMax)
+        reefRegistered = true
 
         -- TODO: register for replication?
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DSRReefHealth", EVENT_POWER_UPDATE, OnReefHealth)
@@ -97,23 +101,31 @@ local function MaybeRegisterReef()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "DSRReefHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 
         Crutch.RegisterForEffectChanged("DSRReefBossEffect", OnBossEffect, nil, "boss")
-        Crutch.RegisterForCombatEvent("DSRReefCharge", OnCharge, ACTION_RESULT_BEGIN, CHARGE_ID)
-    else
-        Crutch.dbgOther("Unregistering reef info panel")
-        onReef = false
-        -- TODO: unregister
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRReefHealth", EVENT_POWER_UPDATE)
-        Crutch.UnregisterForEffectChanged("DSRReefHeartburn")
-        Crutch.UnregisterForCombatEvent("DSRReefCharge")
+        Crutch.RegisterForCombatEvent("DSRReefHeartburnGained", OnHeartburnGained, ACTION_RESULT_EFFECT_GAINED_DURATION, HEARTBURN_ID)
+        Crutch.RegisterForCombatEvent("DSRReefHeartburnFaded", OnHeartburnFaded, ACTION_RESULT_EFFECT_FADED, HEARTBURN_ID)
+
+        OnReefStart()
     end
 end
 
+local function UnregisterReef()
+    Crutch.dbgOther("Unregistering reef info panel")
+    reefRegistered = false
+    -- TODO: unregister
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DSRReefHealth", EVENT_POWER_UPDATE)
+    Crutch.UnregisterForEffectChanged("DSRReefBossEffect")
+    Crutch.UnregisterForCombatEvent("DSRReefHeartburnGained")
+    Crutch.UnregisterForCombatEvent("DSRReefHeartburnFaded")
+end
+
 local function CleanUp()
-    onReef = false
+    UnregisterReef()
+
     for i = 1, 5 do
         Crutch.InfoPanel.StopCount(PANEL_REEF_INDEX_OFFSET + i)
     end
     ZO_ClearTable(bossUnitIds)
+    ZO_ClearTable(lastHeartburns)
 end
 
 function DSR.RegisterReefGuardian()
