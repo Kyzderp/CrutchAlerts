@@ -90,9 +90,8 @@ local function MaybeRegisterReef()
     if (reefRegistered) then return end
 
     -- TODO: only change if actually reef, because bosses can change - check if correct
-    local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-    if ((powerMax == 41915160 or powerMax == 27943440)) then -- Reef only TODO: norm?
-        Crutch.dbgOther("Registering reef info panel: " .. tostring(GetUnitName("boss1")) .. " has " .. powerMax)
+    if (GetUnitName("boss1") == Crutch.GetCapitalizedString(CRUTCH_BHB_REEF_GUARDIAN)) then -- Reef only
+        Crutch.dbgOther("Registering reef info panel: " .. tostring(GetUnitName("boss1")))
         reefRegistered = true
 
         -- TODO: register for replication?
