@@ -23,6 +23,7 @@ local function PrintUsage()
 |cAAAAAA/crutch circle [radius]
 |cAAAAAA/crutch lock
 |cAAAAAA/crutch unlock
+|cAAAAAA/crutch settings
 |cAAAAAA/crutch toggle general
 |cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
     end
@@ -70,6 +71,10 @@ SLASH_COMMANDS["/crutch"] = function(argString)
     --------------------
     elseif (cmd == "unlock" and not ZO_IsConsoleOrGameCoreUI()) then
         Crutch.UnlockUI(true)
+
+    --------------------
+    elseif (cmd == "settings" and not ZO_IsConsoleOrGameCoreUI()) then
+        LibAddonMenu2:OpenToPanel(CrutchAlertsOptions)
 
     --------------------
     elseif (cmd == "xoryn") then
