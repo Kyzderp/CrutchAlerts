@@ -503,6 +503,7 @@ Crutch.others = {
         [72446] = true, -- Smash Iceberg
         [68194] = true, -- Necrotic Orb (timer for followy-thingy)
         [75281] = true, -- Soul Tether (Dremora Kynlurker)
+        [67061] = true, -- Soul Discharge (Voriak Solkyn bonk)
     },
 
 
