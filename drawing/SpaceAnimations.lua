@@ -204,14 +204,15 @@ local function FindAvailableJetSlot()
     end
 end
 
-local function RemoveJet(key)
-    local realKey = tonumber(string.sub(key, 4))
-
-    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. realKey)
-    Draw.activeIcons[realKey] = nil
+local function RemoveJet(jetKey)
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CircleJet" .. jetKey)
+    Draw.activeIcons[jetKey] = nil
     Draw.MaybeStopPolling()
+
+    local realKey = tonumber(string.sub(jetKey, 4))
     hangar:ReleaseObject(realKey)
-    circlingJets[realKey] = nil
+
+    circlingJets[jetKey] = nil
     numJets = numJets - 1
 end
 
