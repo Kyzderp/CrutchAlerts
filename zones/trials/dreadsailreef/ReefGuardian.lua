@@ -8,7 +8,6 @@ local HEARTBURN_ID = 170481
 
 
 ---------------------------------------------------------------------
--- TODO: big med1 small1 small2 med2?
 ---------------------------------------------------------------------
 local REEF_INDICES = {"big", "med1", "small1", "small2", "med2"}
 local function GetReefPrefix(index)

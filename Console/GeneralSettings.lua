@@ -117,7 +117,7 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show gained casts",
-        tooltip = "Show alerts when you \"Gain\" a cast from an enemy (ACTION_RESULT_GAINED or manually curated ACTION_RESULT_GAINED_DURATION)",
+        tooltip = "Show alerts when you \"Gain\" a cast from an enemy (ACTION_RESULT_EFFECT_GAINED or manually curated ACTION_RESULT_EFFECT_GAINED_DURATION)",
         default = true,
         getFunction = function() return Crutch.savedOptions.general.showGained end,
         setFunction = function(value)

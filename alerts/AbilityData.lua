@@ -196,7 +196,7 @@ Crutch.noSpamZone = {
 
 
 ---------------------------------------------------------------------
--- Normally we don't listen for ACTION_RESULT_GAINED_DURATION, but timers can be useful in some cases
+-- Normally we don't listen for ACTION_RESULT_EFFECT_GAINED_DURATION, but timers can be useful in some cases
 Crutch.gainedDuration = {
 -- Kyne's Aegis
     [140941] = true, -- Instability

@@ -95,6 +95,79 @@ end
 
 
 ---------------------------------------------------------------------
+local FIREBRAND_ID = 166472
+local FROSTBRAND_ID = 166482
+local firebrands = {}
+local frostbrands = {}
+local BRAND_SPOTS = {
+    [1] = {x = 68548, y = 36075, z = 85175, displayName = "entrance"},
+    [2] = {x = 69510, y = 36075, z = 85172, displayName = "center"},
+}
+
+-- Just take them in the order they come. Match Qcell's Dreadsail Reef Helper, 1 entrance 2 center
+local function StackBrands(abilityId, hitValue, sourceUnitId)
+    if (#firebrands ~= 2 or #frostbrands ~= 2) then return end
+
+    local mySpot, partner
+    for i = 1, 2 do
+        if (AreUnitsEqual("player", firebrands[i])) then
+            -- Player has firebrand
+            mySpot = i
+            partner = frostbrands[i]
+        elseif (AreUnitsEqual("player", frostbrands[i])) then
+            -- Player has frostbrand
+            mySpot = i
+            partner = firebrands[i]
+        end
+
+        if (Crutch.savedOptions.general.showRaidDiag) then
+            Crutch.msg(string.format("Brands: %s & %s (%s)",
+                GetUnitDisplayName(firebrands[i]),
+                GetUnitDisplayName(frostbrands[i]),
+                BRAND_SPOTS[i].displayName))
+        end
+    end
+
+    -- If player has brand, show alert and pin
+    if (mySpot) then
+        local label = string.format("|cFF00FFStack on %s (%s)", GetUnitDisplayName(partner), BRAND_SPOTS[mySpot].displayName)
+        Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, 0, 0, 0, 0, 0, 0, false)
+
+        -- Put an icon on the ground
+        local key = Crutch.Drawing.CreatePlacedIcon("CrutchAlerts/assets/poop.dds",
+            BRAND_SPOTS[mySpot].x,
+            BRAND_SPOTS[mySpot].y,
+            BRAND_SPOTS[mySpot].z,
+            100, {1, 0, 1})
+        zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, hitValue)
+    end
+
+    ZO_ClearTable(firebrands)
+    ZO_ClearTable(frostbrands)
+end
+
+local function OnFirebrand(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    if (not unitTag) then
+        Crutch.dbgOther("|cFF0000Brand couldn't find tag for " .. targetUnitId)
+        return
+    end
+    table.insert(firebrands, unitTag)
+    StackBrands(abilityId, hitValue, sourceUnitId)
+end
+
+local function OnFrostbrand(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    if (not unitTag) then
+        Crutch.dbgOther("|cFF0000Brand couldn't find tag for " .. targetUnitId)
+        return
+    end
+    table.insert(frostbrands, unitTag)
+    StackBrands(abilityId, hitValue, sourceUnitId)
+end
+
+
+---------------------------------------------------------------------
 -- Reef Guardian
 ---------------------------------------------------------------------
 -- Display (and ding?) when reaching too many lightning stacks
@@ -232,6 +305,11 @@ Crutch.TryEnablingTaleriaCleave = TryEnablingTaleriaCleave
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
+local function CleanUp()
+    ZO_ClearTable(firebrands)
+    ZO_ClearTable(frostbrands)
+end
+
 local function GetUnitNameIfExists(unitTag)
     if (DoesUnitExist(unitTag)) then
         return GetUnitName(unitTag)
@@ -251,6 +329,8 @@ local function OnBossesChanged()
 end
 
 function Crutch.RegisterDreadsailReef()
+    Crutch.RegisterExitedGroupCombatListener("CrutchDSRExitedGroupCombat", CleanUp)
+
     -- Chat output for who picks up domes
     if (Crutch.savedOptions.general.showRaidDiag) then
         Crutch.RegisterForEffectChanged("DSRDestructiveEmber", OnDestructiveEmber, 166209, "group")
@@ -260,6 +340,12 @@ function Crutch.RegisterDreadsailReef()
     -- Twins detection for which boss first
     Crutch.RegisterBossChangedListener("CrutchDSRBossChanged", OnBossesChanged)
     OnBossesChanged()
+
+    -- Brands
+    if (Crutch.savedOptions.general.experimental) then
+        Crutch.RegisterForCombatEvent("DSRFirebrand", OnFirebrand, ACTION_RESULT_EFFECT_GAINED_DURATION, FIREBRAND_ID)
+        Crutch.RegisterForCombatEvent("DSRFrostbrand", OnFrostbrand, ACTION_RESULT_EFFECT_GAINED_DURATION, FROSTBRAND_ID)
+    end
 
     -- Lightning Stacks
     local showStatic
@@ -299,6 +385,9 @@ function Crutch.RegisterDreadsailReef()
 end
 
 function Crutch.UnregisterDreadsailReef()
+    Crutch.UnregisterExitedGroupCombatListener("CrutchDSRExitedGroupCombat")
+    CleanUp()
+
     -- Domes
     Crutch.UnregisterForEffectChanged("DSRDestructiveEmber")
     Crutch.UnregisterForEffectChanged("DSRPiercingHailstone")
@@ -306,6 +395,10 @@ function Crutch.UnregisterDreadsailReef()
     -- Twins detection
     Crutch.UnregisterBossChangedListener("CrutchDSRBossChanged")
     Crutch.BossHealthBar.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_LYLANAR))
+
+    -- Brands
+    Crutch.UnregisterForCombatEvent("DSRFirebrand")
+    Crutch.UnregisterForCombatEvent("DSRFrostbrand")
 
     -- Lightning Stacks
     Crutch.UnregisterForEffectChanged("DSRStaticBoss")
