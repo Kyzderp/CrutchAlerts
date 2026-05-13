@@ -285,6 +285,30 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show brand sorting / stacking",
+        tooltip = "When you get Firebrand or Frostbrand, shows your suggested stack partner and an icon for your stack spot. Idea credit to Qcell's Dreadsail Reef Helper",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.dreadsailreef.stackBrands end,
+        setFunction = function(value)
+            Crutch.savedOptions.dreadsailreef.stackBrands = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Brewmaster elixirs",
+        tooltip = "Displays icons on where the Dreadsail Brewmaster may have thrown Elixirs of Diminishing",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.dreadsailreef.showElixirs end,
+        setFunction = function(value)
+            Crutch.savedOptions.dreadsailreef.showElixirs = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show Arcing Cleave guidelines",
         tooltip = "Draws guidelines approximating where Taleria's Arcing Cleave will hit. I'm tired of seeing people stand behind tank!",
         default = false,

@@ -168,6 +168,25 @@ end
 
 
 ---------------------------------------------------------------------
+-- Trash
+---------------------------------------------------------------------
+local ELIXIR_ID = 170547
+local function OnElixir(_, _, _, _, _, _, _, _, targetName, _, _, _, _, _, _, targetUnitId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+
+    if (not unitTag) then
+        Crutch.dbgOther(zo_strformat("|cFF0000Elixir couldn't find unit tag for <<1>> ID <<2>>", targetName, targetUnitId))
+        return
+    end
+
+    Crutch.dbgSpam(zo_strformat("Elixir on <<1>> (<<2>>)", targetName, unitTag))
+    local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+    local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/inventory/inventory_consumables_tabicon_active.dds", x, y + 50, z, 100, {1, 0, 1})
+    zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, 16300) -- TODO: is duration same as IA?
+end
+
+
+---------------------------------------------------------------------
 -- Reef Guardian
 ---------------------------------------------------------------------
 -- Display (and ding?) when reaching too many lightning stacks
@@ -342,9 +361,14 @@ function Crutch.RegisterDreadsailReef()
     OnBossesChanged()
 
     -- Brands
-    if (Crutch.savedOptions.general.experimental) then
+    if (Crutch.savedOptions.dreadsailreef.stackBrands and Crutch.savedOptions.general.experimental) then
         Crutch.RegisterForCombatEvent("DSRFirebrand", OnFirebrand, ACTION_RESULT_EFFECT_GAINED_DURATION, FIREBRAND_ID)
         Crutch.RegisterForCombatEvent("DSRFrostbrand", OnFrostbrand, ACTION_RESULT_EFFECT_GAINED_DURATION, FROSTBRAND_ID)
+    end
+
+    -- Brewmaster elixirs
+    if (Crutch.savedOptions.dreadsailreef.showElixirs and Crutch.savedOptions.general.experimental) then
+        Crutch.RegisterForCombatEvent("DSRElixir", OnElixir, ACTION_RESULT_EFFECT_GAINED, ELIXIR_ID)
     end
 
     -- Lightning Stacks
@@ -399,6 +423,9 @@ function Crutch.UnregisterDreadsailReef()
     -- Brands
     Crutch.UnregisterForCombatEvent("DSRFirebrand")
     Crutch.UnregisterForCombatEvent("DSRFrostbrand")
+
+    -- Brewmaster elixir
+    Crutch.UnregisterForCombatEvent("DSRElixir")
 
     -- Lightning Stacks
     Crutch.UnregisterForEffectChanged("DSRStaticBoss")

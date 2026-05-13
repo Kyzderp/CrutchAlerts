@@ -1678,6 +1678,30 @@ function Crutch:CreateSettingsMenu()
             controls = Crutch.GetProminentSettings(1344, {
                 {
                     type = "checkbox",
+                    name = "Show brand sorting / stacking",
+                    tooltip = "When you get Firebrand or Frostbrand, shows your suggested stack partner and an icon for your stack spot. Idea credit to, and matching, Qcell's Dreadsail Reef Helper",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.stackBrands end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.stackBrands = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Brewmaster elixirs",
+                    tooltip = "Displays icons on where the Dreadsail Brewmaster may have thrown Elixirs of Diminishing",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.showElixirs end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.showElixirs = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Alert Building Static stacks",
                     tooltip = "Displays a prominent alert and ding sound if you reach too many Building Static (lightning) stacks",
                     default = true,

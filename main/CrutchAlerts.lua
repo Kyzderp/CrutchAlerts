@@ -207,6 +207,8 @@ local defaultOptions = {
         },
     },
     dreadsailreef = {
+        stackBrands = true,
+        showElixirs = true,
         alertStaticStacks = true,
         staticThreshold = 7,
         alertVolatileStacks = true,
