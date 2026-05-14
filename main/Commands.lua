@@ -12,13 +12,13 @@ Crutch.ToggleGeneralAlerts = ToggleGeneralAlerts
 ---------------------------------------------------------------------
 local function PrintUsage()
     if (ZO_IsConsoleOrGameCoreUI()) then
-        CrutchAlerts.msg([[Usage:
+        Crutch.msg([[Usage:
 |cAAAAAA/crutch printskills
 |cAAAAAA/crutch circle [radius]
 |cAAAAAA/crutch toggle general
 |cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
     else
-        CrutchAlerts.msg([[Usage:
+        Crutch.msg([[Usage:
 |cAAAAAA/crutch printskills
 |cAAAAAA/crutch circle [radius]
 |cAAAAAA/crutch lock
@@ -29,7 +29,7 @@ local function PrintUsage()
     end
 
     if (Crutch.savedOptions.experimental) then
-        CrutchAlerts.msg([[EXPERIMENTAL / HIDDEN:
+        Crutch.msg([[EXPERIMENTAL / HIDDEN:
 |cAAAAAA/crutch jet
 |cAAAAAA/crutch meme
 |cAAAAAA/crutch dump

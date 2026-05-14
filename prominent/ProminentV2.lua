@@ -189,6 +189,24 @@ local prominentData = {
     -- Kyne's Aegis
     [1196] = {
         settingsSubcategory = "kynesaegis",
+        -- Chaurus Bile
+        [133559] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+            },
+            text = "CHAURUS",
+            color = C.POISONGREEN,
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentChaurus",
+                title = "Alert Chaurus Bile",
+                description = "Shows a prominent alert when you have a Chaurus Bile projectile incoming from the Chaurus Totem. If you dodge, you will not receive the Chaurus Bile Pool around you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
         -- Booger
         [136548] = {
             event = EVENT_COMBAT_EVENT,
@@ -690,7 +708,7 @@ local prominentData = {
                 end,
             },
             text = "VENOM",
-            color = {0.4, 0.9, 0},
+            color = C.POISONGREEN,
             slot = 2,
             playSound = true,
             millis = 1000,

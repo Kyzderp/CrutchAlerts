@@ -13,6 +13,7 @@ C.YELLOW = {1, 1, 0}
 C.BLUE = {0, 0, 1}
 C.PURPLE = {0.8, 0.2, 1} -- for Z'Maja shades
 C.BLACK = {0, 0, 0}
+C.POISONGREEN = {0.4, 0.9, 0}
 
 -- vAS mini spoofed BHB colors
 C.LLOTHIS_FG = {15/255, 113/255, 0}
