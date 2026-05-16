@@ -25,7 +25,6 @@ Crutch.registered = {
     interrupts = false,
 }
 
--- currently: none
 -- /script CrutchAlerts.savedOptions.experimental = true
 
 -- Defaults

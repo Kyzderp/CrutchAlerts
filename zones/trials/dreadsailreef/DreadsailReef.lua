@@ -108,6 +108,9 @@ local BRAND_SPOTS = {
 local function StackBrands(abilityId, hitValue, sourceUnitId)
     if (#firebrands ~= 2 or #frostbrands ~= 2) then return end
 
+    table.sort(firebrands, function(a, b) return GetUnitDisplayName(a) < GetUnitDisplayName(b) end)
+    table.sort(frostbrands, function(a, b) return GetUnitDisplayName(a) < GetUnitDisplayName(b) end)
+
     local mySpot, partner
     for i = 1, 2 do
         if (AreUnitsEqual("player", firebrands[i])) then
@@ -361,13 +364,13 @@ function Crutch.RegisterDreadsailReef()
     OnBossesChanged()
 
     -- Brands
-    if (Crutch.savedOptions.dreadsailreef.stackBrands and Crutch.savedOptions.general.experimental) then
+    if (Crutch.savedOptions.dreadsailreef.stackBrands and Crutch.savedOptions.experimental) then
         Crutch.RegisterForCombatEvent("DSRFirebrand", OnFirebrand, ACTION_RESULT_EFFECT_GAINED_DURATION, FIREBRAND_ID)
         Crutch.RegisterForCombatEvent("DSRFrostbrand", OnFrostbrand, ACTION_RESULT_EFFECT_GAINED_DURATION, FROSTBRAND_ID)
     end
 
     -- Brewmaster elixirs
-    if (Crutch.savedOptions.dreadsailreef.showElixirs and Crutch.savedOptions.general.experimental) then
+    if (Crutch.savedOptions.dreadsailreef.showElixirs and Crutch.savedOptions.experimental) then
         Crutch.RegisterForCombatEvent("DSRElixir", OnElixir, ACTION_RESULT_EFFECT_GAINED, ELIXIR_ID)
     end
 
