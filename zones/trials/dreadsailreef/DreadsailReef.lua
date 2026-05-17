@@ -141,7 +141,7 @@ local function StackBrands(abilityId, hitValue, sourceUnitId)
             BRAND_SPOTS[mySpot].x,
             BRAND_SPOTS[mySpot].y,
             BRAND_SPOTS[mySpot].z,
-            100, {1, 0, 1})
+            150, {1, 0, 1})
         zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, hitValue)
     end
 

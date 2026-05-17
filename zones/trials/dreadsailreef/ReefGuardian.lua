@@ -34,15 +34,20 @@ end
 local function OnReefHealth(_, unitTag, _, _, powerValue, powerMax)
     local bossIndex = tonumber(unitTag:sub(5, 5))
     if (powerValue == 0) then
-        SetReefLine(bossIndex, " - |t100%:100%:esoui/art/icons/mapkey/mapkey_groupboss.dds|t")
+        Crutch.InfoPanel.StopCount(PANEL_REEF_INDEX_OFFSET + bossIndex)
+        SetReefLine(bossIndex, " - |t100%:100%:esoui/art/icons/mapkey/mapkey_groupboss.dds|t", 0.7)
         return
     end
+
+    if (bossIndex == 1) then return end -- First one isn't gated by health... TODO: is this HM only?
 
     -- TODO: is it also 80 for vet and norm?
     local percent = powerValue / powerMax * 100
     if (percent >= 81) then
         local remaining = math.floor((percent - 81) * 10) / 10
-        SetReefLine(bossIndex, " - can run in " .. remaining .. "%")
+        SetReefLine(bossIndex, zo_strformat(" - can run in <<1>><<2>>%",
+            (remaining == 0) and "|cFF8C00" or "",
+            remaining))
     end
     -- TODO: do anything under 80?
 end
