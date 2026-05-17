@@ -684,6 +684,18 @@ function Crutch.CreateConsoleContentSettingsMenu()
     })
 
     settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Bombs timer",
+        tooltip = "In the post-relay phase, shows approximate time until the next Bombs can occur",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.opulentordeal.showBombs end,
+        setFunction = function(value)
+            Crutch.savedOptions.opulentordeal.showBombs = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Ossein Cage",
     })

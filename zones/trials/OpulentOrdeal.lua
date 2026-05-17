@@ -98,12 +98,40 @@ end
 
 
 ---------------------------------------------------------------------
+-- Bomb timer under 75
+---------------------------------------------------------------------
+local fightPhase = false
+local PANEL_BOMB_INDEX = 8
+
+local function CountDownToBomb(durationMs)
+    Crutch.InfoPanel.CountDownDuration(PANEL_BOMB_INDEX, "Next Bombs: ", durationMs)
+end
+
+-- 1:10.0, 1:13.7, 1:10.3, 1:10.4
+local function OnBomb()
+    Crutch.dbgOther("bomb")
+    if (fightPhase) then
+        CountDownToBomb(70000) -- TODO
+    end
+end
+
+-- Opulent Arid Varlet seems to always be the first one down
+local function OnSmokeStep()
+    Crutch.dbgOther("smokestep")
+    fightPhase = true
+    CountDownToBomb(10000) -- TODO
+end
+
+
+---------------------------------------------------------------------
 ---------------------------------------------------------------------
 local function CleanUp()
+    fightPhase = false
     Crutch.RemoveAllAttachedIcons(AFFINITY_UNIQUE_NAME)
     Crutch.InfoPanel.StopCount(PANEL_ESSENCE_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_FULL_TEXT_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_ORDER_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_BOMB_INDEX)
 end
 
 
@@ -192,6 +220,13 @@ function Crutch.RegisterOpulentOrdeal()
         end
     end
 
+    if (Crutch.savedOptions.opulentordeal.showBombs) then
+        Crutch.RegisterForCombatEvent("OOSmokeStep", OnSmokeStep, ACTION_RESULT_BEGIN, 257513)
+        Crutch.RegisterForCombatEvent("OOSkitteringBomb", OnBomb, ACTION_RESULT_EFFECT_GAINED_DURATION, 256383)
+        Crutch.RegisterForCombatEvent("OOSorrowBomb", OnBomb, ACTION_RESULT_EFFECT_GAINED_DURATION, 256579)
+        Crutch.RegisterForCombatEvent("OOParchBomb", OnBomb, ACTION_RESULT_EFFECT_GAINED_DURATION, 256483)
+    end
+
     if (not hooked) then
         hooked = true
         ZO_PreHook(CENTER_SCREEN_ANNOUNCE, "QueueMessage", CSAHook)
@@ -199,6 +234,8 @@ function Crutch.RegisterOpulentOrdeal()
 end
 
 function Crutch.UnregisterOpulentOrdeal(isSameZone)
+    Crutch.UnregisterExitedGroupCombatListener("CrutchOpulentOrdealExitedCombat")
+
     for id, _ in pairs(AFFINITIES) do
         Crutch.UnregisterForEffectChanged("OOAffinity" .. id)
     end
@@ -207,6 +244,11 @@ function Crutch.UnregisterOpulentOrdeal(isSameZone)
         Crutch.UnregisterForCombatEvent("OOSummonEssence" .. summonId)
         Crutch.UnregisterForCombatEvent("OOBossStunned" .. data.stunnedId)
     end
+
+    Crutch.UnregisterForCombatEvent("OOSmokeStep")
+    Crutch.UnregisterForCombatEvent("OOSkitteringBomb")
+    Crutch.UnregisterForCombatEvent("OOSorrowBomb")
+    Crutch.UnregisterForCombatEvent("OOParchBomb")
 
     -- Getting ported out of the side areas triggers player activated
     -- We don't actually want to clean up in that case

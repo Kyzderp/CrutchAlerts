@@ -245,6 +245,7 @@ local defaultOptions = {
         showEssence = true,
         showFullText = true,
         showBrainless = false,
+        showBombs = true,
     },
     osseincage = {
         showStricken = "TANK", -- "NEVER", "TANK", "ALWAYS"

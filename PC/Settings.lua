@@ -2096,6 +2096,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Bombs timer",
+                    tooltip = "In the post-relay phase, shows approximate time until the next Bombs can occur",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.opulentordeal.showBombs end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.opulentordeal.showBombs = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
         {

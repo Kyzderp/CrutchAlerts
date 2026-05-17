@@ -223,6 +223,7 @@ Crutch.format = {
 
 -- Night Market: Gossamer Crypt
     [254918] = 500, -- Webdrop (Ensnaring Spider)
+    [251465] = 300, -- Gossamer Blast (Gilded Alziriix)
 
 -- Night Market: Mournful Catacomb
 
