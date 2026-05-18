@@ -139,7 +139,7 @@ local function StackBrands(abilityId, hitValue, sourceUnitId)
         -- Put an icon on the ground
         local key = Crutch.Drawing.CreatePlacedIcon("CrutchAlerts/assets/poop.dds",
             BRAND_SPOTS[mySpot].x,
-            BRAND_SPOTS[mySpot].y,
+            BRAND_SPOTS[mySpot].y + 75,
             BRAND_SPOTS[mySpot].z,
             150, {1, 0, 1})
         zo_callLater(function() Crutch.Drawing.RemovePlacedIcon(key) end, hitValue)

@@ -115,7 +115,7 @@ local function OnBomb()
     end
 end
 
--- Opulent Arid Varlet seems to always be the first one down
+-- Opulent Arid Varlet seems to always be the first one down. 10.3
 local function OnSmokeStep()
     Crutch.dbgOther("smokestep")
     fightPhase = true

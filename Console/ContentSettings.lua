@@ -283,6 +283,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         label = "Dreadsail Reef",
     })
 
+    --[[
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,
         label = "Show brand sorting / stacking",
@@ -306,6 +307,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
             Crutch.OnPlayerActivated()
         end,
     })
+    ]]
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_CHECKBOX,

@@ -1676,6 +1676,7 @@ function Crutch:CreateSettingsMenu()
             type = "submenu",
             name = "Dreadsail Reef",
             controls = Crutch.GetProminentSettings(1344, {
+                --[[
                 {
                     type = "checkbox",
                     name = "Show brand sorting / stacking",
@@ -1700,6 +1701,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                ]]
                 {
                     type = "checkbox",
                     name = "Alert Building Static stacks",

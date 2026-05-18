@@ -25,7 +25,8 @@ local bossUnitIds = {}
 local lastHeartburns = {}
 
 local function OnReefStart()
-    for i = 1, 5 do
+    SetReefLine(1, "")
+    for i = 2, 5 do
         SetReefLine(i, "", 0.5)
     end
 end
