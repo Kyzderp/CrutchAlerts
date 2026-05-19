@@ -103,7 +103,7 @@ local prominentData = {
         -- Cascading Boot (Dreadsail Overseer)
         [170188] = {
             event = EVENT_COMBAT_EVENT,
-            filters = { -- Untested, but probably correct
+            filters = { -- Verified
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
                 [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
@@ -193,6 +193,8 @@ local prominentData = {
         [133559] = {
             event = EVENT_COMBAT_EVENT,
             filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
             },
             text = "CHAURUS",
             color = C.POISONGREEN,
@@ -203,6 +205,27 @@ local prominentData = {
                 name = "prominentChaurus",
                 title = "Alert Chaurus Bile",
                 description = "Shows a prominent alert when you have a Chaurus Bile projectile incoming from the Chaurus Totem. If you dodge, you will not receive the Chaurus Bile Pool around you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Gargoyle's Curse
+        [136873] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function() return GetSelectedLFGRole() ~= LFG_ROLE_TANK end,
+            },
+            text = "GARGOYLE",
+            color = C.PHYSICALTAN,
+            slot = 2,
+            playSound = SOUNDS.BATTLEGROUND_MURDERBALL_TAKEN_OTHER_TEAM,
+            millis = 1000,
+            settings = {
+                name = "prominentGargoyle",
+                title = "Alert Gargoyle's Curse",
+                description = "Shows a prominent alert when you have a Gargoyle's Curse projectile incoming from the Gargoyle Totem. It can be blocked or dodged to avoid the stun. This alert does not show if your LFG role is tank",
                 checkOldForDefault = true,
                 default = true,
             },

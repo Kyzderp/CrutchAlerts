@@ -121,8 +121,12 @@ function Crutch.DisplayProminent2(abilityId, data)
     end
 
     Crutch.dbgSpam(string.format("|cFF8888[P] DisplayProminent2 %d|r", abilityId))
-    if (data.playSound) then
-        PlaySound(SOUNDS.DUEL_START)
+    local sound = data.playSound
+    if (sound) then
+        if (sound == true) then
+            sound = SOUNDS.DUEL_START
+        end
+        PlaySound(sound)
     end
     Display(abilityId, data.text, data.color, data.slot, data.millis or (preMillis + postMillis))
 end
