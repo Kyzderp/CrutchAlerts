@@ -2326,6 +2326,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
                     end,
                     width = "full",
+                    disabled = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
                 },
                 {
                     type = "dropdown",
@@ -2343,6 +2344,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                     reference = "CrutchAlerts_OCAbilitiesToReplace",
+                    disabled = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
                 },
                 {
                     type = "slider",
@@ -2357,6 +2359,7 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.osseincage.portalPercentMargin = value
                     end,
+                    disabled = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
                 },
                 ]]
             }),

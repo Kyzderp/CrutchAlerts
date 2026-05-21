@@ -925,6 +925,107 @@ function Crutch.CreateConsoleContentSettingsMenu()
         end,
     })
 
+    --[[
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SECTION,
+        label = "Ossein Cage - Mark Dangerous Abilities",
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Enable portal ability overlay",
+        tooltip = "Some AOE abilities are dangerous to have active when in Jynorah HM titan portals, because you may accidentally cleave the titan and cause Reflective Scales. This feature can be configured to show a warning icon on the ability when it's almost time for portal",
+        default = Crutch.defaultOptions.osseincage.enableAbilityOverlay,
+        getFunction = function() return Crutch.savedOptions.osseincage.enableAbilityOverlay end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.enableAbilityOverlay = value
+            Crutch.OnPlayerActivated()
+        end,
+    })
+
+    local ocSelectedDangerousAbility = next(Crutch.savedOptions.osseincage.abilitiesToReplace) or 0
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_EDIT,
+        label = "Add dangerous ability",
+        tooltip = "The ID of the ability to add to the list.\nUse |c99FF99/crutch printskills|r to see your currently equipped skill IDs",
+        getFunction = function() return "" end,
+        setFunction = function(text)
+            if (text == "") then return end
+            local num = tonumber(text)
+            if (not num) then
+                Crutch.msg("Ability ID must be a number")
+                return
+            end
+            Crutch.savedOptions.osseincage.abilitiesToReplace[num] = true
+            Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
+
+            if (ocSelectedDangerousAbility == 0) then
+                ocSelectedDangerousAbility = num
+            end
+        end,
+        disable = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
+    })
+
+    local ocDangerousAbilityItems = {}
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_DROPDOWN,
+        label = "Dangerous abilities",
+        tooltip = "Select an ability from this list and use the button below to remove it from the list",
+        getFunction = function()
+            if (ocSelectedDangerousAbility == 0) then
+                return "None"
+            end
+            return string.format("%s (%d)", GetAbilityName(ocSelectedDangerousAbility) or "", ocSelectedDangerousAbility)
+        end,
+        setFunction = function(combobox, name, item)
+            ocSelectedDangerousAbility = item.data
+        end,
+        default = next(Crutch.savedOptions.osseincage.abilitiesToReplace),
+        items = function()
+            ZO_ClearTable(ocDangerousAbilityItems)
+            for id, _ in pairs(Crutch.savedOptions.osseincage.abilitiesToReplace) do
+                table.insert(ocDangerousAbilityItems, {
+                    name = string.format("%s (%d)", GetAbilityName(id) or "", id),
+                    data = id,
+                })
+            end
+
+            -- why empty "dropdowns" gotta be such a pita?
+            if (ZO_IsTableEmpty(ocDangerousAbilityItems)) then
+                table.insert(ocDangerousAbilityItems, {name = "None", data = 0})
+            end
+            return ocDangerousAbilityItems
+        end,
+        disable = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_BUTTON,
+        label = "Remove selected ability",
+        tooltip = function() return ocSelectedDangerousAbility and "Remove " .. ocSelectedDangerousAbility .. " from the dangerous abilities list" or "" end,
+        clickHandler = function()
+            Crutch.savedOptions.osseincage.abilitiesToReplace[ocSelectedDangerousAbility] = nil
+            ocSelectedDangerousAbility = next(Crutch.savedOptions.osseincage.abilitiesToReplace) or 0
+        end,
+        disable = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay or ocSelectedDangerousAbility == 0 end,
+    })
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_SLIDER,
+        label = "Portal percent margin",
+        tooltip = "The target health percent above the portal threshold for which the dangerous abilities start showing overlay icons. For example, setting it to 5 means that from Jynorah+Skorkhif combined health at 80% until Titanic Clash finishes, the overlays would show on your abilities",
+        min = 0,
+        max = 20,
+        step = 1,
+        default = 5,
+        getFunction = function() return Crutch.savedOptions.osseincage.portalPercentMargin end,
+        setFunction = function(value)
+            Crutch.savedOptions.osseincage.portalPercentMargin = value
+        end,
+        disable = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
+    })
+    ]]
+
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Rockgrove",
