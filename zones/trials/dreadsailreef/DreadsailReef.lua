@@ -445,6 +445,9 @@ function Crutch.UnregisterDreadsailReef()
 
     -- Taleria cleave
     Crutch.UnregisterBossChangedListener("CrutchDreadsailReef")
+    if (cleaveEnabled) then
+        Uncleave()
+    end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end
