@@ -22,7 +22,7 @@ local function UpdateDisplay()
     local text = ""
 
     for i = 1, numDead do
-        text = text .. "|c888888|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_circle.dds:inheritcolor|t|r"
+        text = text .. "|c888888|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_x.dds:inheritcolor|t|r"
     end
     for i = 1, numFaceplanted do
         text = text .. "|c945E00|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_triangle.dds:inheritcolor|t|r"
@@ -122,9 +122,9 @@ local function OnGrapeCharged()
     ClearGrapesLater()
 end
 
--- Initial timer when pulling, 42.1, 18.7, 30.8, 18.8, 21.3, 26.8, 24.4, 23.7, 20.0, 18.4, 25.7
+-- Initial timer when pulling, 42.1, 18.7, 30.8, 18.8, 21.3, 26.8, 24.4, 23.7, 20.0, 18.4, 25.7, 18.2
 local function OnInitial()
-    Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_PREFIX, 18400) -- TODO
+    Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_SUMMON_PREFIX, 18000) -- TODO
 end
 
 
@@ -150,7 +150,7 @@ function CR.RegisterGrapes()
     Crutch.RegisterForCombatEvent("GrapesFaceplanted", OnFaceplanted, ACTION_RESULT_EFFECT_GAINED, 105363)
     Crutch.RegisterForCombatEvent("GrapesActive", OnGrapeActivated, ACTION_RESULT_EFFECT_GAINED, 105339)
     Crutch.RegisterForCombatEvent("GrapesCharge", OnGrapeCharged, nil, 105373)
-    Crutch.RegisterForCombatEvent("GrapesZmajaStart", OnInitial, nil, 105890)
+    Crutch.RegisterForCombatEvent("GrapesZmajaStart", OnInitial, ACTION_RESULT_EFFECT_GAINED_DURATION, 105890)
 end
 
 function CR.UnregisterGrapes()
