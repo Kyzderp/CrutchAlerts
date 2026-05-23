@@ -133,11 +133,11 @@ local function StackBrands(abilityId, hitValue, sourceUnitId)
 
     -- If player has brand, show alert and pin
     if (mySpot) then
-        local label = string.format("|cFF00FFStack on %s (%s)", GetUnitDisplayName(partner), BRAND_SPOTS[mySpot].displayName)
+        local label = string.format("|cAAAAAASuggested stack: |cff00ff%s (%s)", GetUnitDisplayName(partner), BRAND_SPOTS[mySpot].displayName)
         Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, 0, 0, 0, 0, 0, 0, false)
 
         -- Put an icon on the ground
-        local key = Crutch.Drawing.CreatePlacedIcon("CrutchAlerts/assets/poop.dds",
+        local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/worldmap/map_indexicon_locations_down.dds",
             BRAND_SPOTS[mySpot].x,
             BRAND_SPOTS[mySpot].y + 75,
             BRAND_SPOTS[mySpot].z,

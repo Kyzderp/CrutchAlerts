@@ -49,8 +49,11 @@ local function OnReefHealth(_, unitTag, _, _, powerValue, powerMax)
         SetReefLine(bossIndex, zo_strformat(" - can run in <<1>><<2>>%",
             (remaining == 0) and "|cFF8C00" or "",
             remaining))
+    elseif (not lastHeartburns[bossIndex]) then
+        -- If it hasn't run before, just set it to 0% once it's under so we don't have to keep track
+        -- of the first time it went below 80
+        SetReefLine(bossIndex, " - can run in |cFF8C000%")
     end
-    -- TODO: do anything under 80?
 end
 
 -- During Heartburn, count down to portal wipe
@@ -94,7 +97,6 @@ local reefRegistered = false
 local function MaybeRegisterReef()
     if (reefRegistered) then return end
 
-    -- TODO: only change if actually reef, because bosses can change - check if correct
     if (GetUnitName("boss1") == Crutch.GetCapitalizedString(CRUTCH_BHB_REEF_GUARDIAN)) then -- Reef only
         Crutch.dbgOther("Registering reef info panel: " .. tostring(GetUnitName("boss1")))
         reefRegistered = true
