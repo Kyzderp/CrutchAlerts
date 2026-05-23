@@ -925,7 +925,6 @@ function Crutch.CreateConsoleContentSettingsMenu()
         end,
     })
 
-    --[[
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,
         label = "Ossein Cage - Mark Dangerous Abilities",
@@ -1024,7 +1023,6 @@ function Crutch.CreateConsoleContentSettingsMenu()
         end,
         disable = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
     })
-    ]]
 
     settings:AddSetting({
         type = LibHarvensAddonSettings.ST_SECTION,

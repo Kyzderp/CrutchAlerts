@@ -743,6 +743,30 @@ local prominentData = {
                 default = true,
             },
         },
+        -- Blood Craze (Goblin Berserker)
+        [196777] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = { -- Verified
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function(hitValue, effectUnitId)
+                    Crutch.dbgSpam(zo_strformat("testing <<1>> unitId", effectUnitId))
+                    return GetEndlessDungeonCounterValue(ENDLESS_DUNGEON_COUNTER_TYPE_ARC) > 9 and not Crutch.majorCowardiceUnitIds[effectUnitId]
+                end,
+            },
+            text = "BLOOD CRAZE",
+            color = C.RED,
+            slot = 2,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentBloodCraze",
+                title = "Alert Blood Craze (Arc 10+)",
+                description = "Shows a prominent alert when a Firesong Wildling, Goblin Berserker, or Grovebound Mauler casts Blood Craze at you, only in Arc 10 and above and if there is no Major Cowardice on it. The DoT snapshots the current strength, so even if you debuff the enemy afterwards, the DoT ticks will remain high. Therefore, it's better to dodge when possible, but this attack happens very quickly",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
     },
 
     ------------------

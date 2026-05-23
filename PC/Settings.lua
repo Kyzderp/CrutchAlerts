@@ -2290,7 +2290,6 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-                --[[
                 {
                     type = "description",
                     title = "|c08BD1DMark Dangerous Abilities|r",
@@ -2361,7 +2360,6 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
                 },
-                ]]
             }),
         },
         {

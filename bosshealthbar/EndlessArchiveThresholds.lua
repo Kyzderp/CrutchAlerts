@@ -10,7 +10,7 @@ end
 -- Add percentage threshold + the mechanic name below
 ---------------------------------------------------------------------
 local endlessArchiveThresholds = {
-    -- Allene Pellingare -- nothing interesting
+    -- Allene Pellingare -- add phase, keep cooldown on weakening
     -- Ash Titan - no adds
 
     -- Barbas -- nothing interesting
@@ -38,7 +38,7 @@ local endlessArchiveThresholds = {
     [GetBossName(CRUTCH_BHB_DRANOS_VELADOR)] = {
         [50] = "Duplicity",
     },
-    -- Dugan the Red
+    -- Dugan the Red -- add later
 
     -- Exarch Kraglen -- nothing interesting, but knockback
 
@@ -51,7 +51,7 @@ local endlessArchiveThresholds = {
     -- Graufang -- nothing interesting
     -- Grothdarr -- nothing interesting
 
-    -- High Kinlord Rilis -- nothing interesting
+    -- High Kinlord Rilis -- daedroths
 
     -- Iceheart -- nothing interesting
 
@@ -92,7 +92,7 @@ local endlessArchiveThresholds = {
     -- Marauder Zulfimbul -- no hp gates
 
     -- Molag Kena -- storm atros. might be possible to debuff while in shielded phase? arc 10 - bring extra healing or shield
-    -- Mulaamnir -- dragons strafe to perpendicular first
+    -- Mulaamnir -- dragons strafe to perpendicular first -- does it have more than 2995?
     [GetBossName(CRUTCH_BHB_MULAAMNIR)] = {
         [50] = "Storm", -- Storm atros at and below 50
     },
@@ -148,7 +148,7 @@ local endlessArchiveThresholds = {
         [50] = "Shehai",
     },
     -- The Weeping Woman -- no hp gates, frost atros
-    -- The Whisperer -- has little spooders
+    -- The Whisperer -- has little spooders (oneshot on arc 27! kite a bunch)
     -- Tho'at Replicanum
     [GetBossName(CRUTCH_BHB_THOAT_REPLICANUM)] = {
         [70] = "Shard", -- TODO: don't show this for Arc 1
@@ -160,7 +160,7 @@ local endlessArchiveThresholds = {
     -- Tremorscale -- no hp gates, no adds
 
     -- Valkynaz Nokvroz -- maybe no hp gates, but annoying magma scamps
-    -- Varlariel -- clones seem to be on a timer, also has wisps
+    -- Varlariel -- clones seem to be on a timer, also has wisps (hurt a little bit at arc 20)
     -- Varzunon -- tons of little skellies, and blastbones that make him big
     -- Vila Theran -- nothing interesting
     -- Voidmother Elgroalif -- no hp gates? LOTS of adds (snipers, mages, boogers)
