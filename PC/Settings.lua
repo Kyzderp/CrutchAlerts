@@ -1638,7 +1638,6 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                     disabled = function() return OSI == nil or OSI.UnitErrorCheck == nil or OSI.GetIconDataForPlayer == nil end,
                 },
-                --[[
                 {
                     type = "description",
                     title = "|c08BD1DInfo Panel|r",
@@ -1669,7 +1668,6 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-                ]]
             })),
         },
         {
@@ -1689,6 +1687,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                ]]
                 {
                     type = "checkbox",
                     name = "Show Brewmaster elixirs",
@@ -1701,7 +1700,6 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-                ]]
                 {
                     type = "checkbox",
                     name = "Alert Building Static stacks",

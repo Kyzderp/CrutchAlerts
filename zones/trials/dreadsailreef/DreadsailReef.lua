@@ -370,7 +370,7 @@ function Crutch.RegisterDreadsailReef()
     end
 
     -- Brewmaster elixirs
-    if (Crutch.savedOptions.dreadsailreef.showElixirs and Crutch.savedOptions.experimental) then
+    if (Crutch.savedOptions.dreadsailreef.showElixirs) then
         Crutch.RegisterForCombatEvent("DSRElixir", OnElixir, ACTION_RESULT_EFFECT_GAINED, ELIXIR_ID)
     end
 
