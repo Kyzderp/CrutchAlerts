@@ -111,7 +111,11 @@ local function StackBrands(abilityId, hitValue, sourceUnitId)
 
     -- For some reason, most of the time the same events fire twice, second time only milliseconds after
     -- the first. So just don't display again if it already happened recently.
-    if (GetGameTimeMilliseconds() - lastStacks < 3000) then return end
+    if (GetGameTimeMilliseconds() - lastStacks < 3000) then
+        ZO_ClearTable(firebrands)
+        ZO_ClearTable(frostbrands)
+        return
+    end
     lastStacks = GetGameTimeMilliseconds()
 
     table.sort(firebrands, function(a, b) return GetUnitDisplayName(a) < GetUnitDisplayName(b) end)
