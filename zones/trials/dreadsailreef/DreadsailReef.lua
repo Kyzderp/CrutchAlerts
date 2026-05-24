@@ -104,9 +104,15 @@ local BRAND_SPOTS = {
     [2] = {x = 69510, y = 36075, z = 85172, displayName = "center"},
 }
 
--- Just take them in the order they come. Match Qcell's Dreadsail Reef Helper, 1 entrance 2 center
+-- Just take them in the order they come. Match Qcell's Dreadsail Reef Helper, 1 entrance 2 center.
+local lastStacks = 0
 local function StackBrands(abilityId, hitValue, sourceUnitId)
     if (#firebrands ~= 2 or #frostbrands ~= 2) then return end
+
+    -- For some reason, most of the time the same events fire twice, second time only milliseconds after
+    -- the first. So just don't display again if it already happened recently.
+    if (GetGameTimeMilliseconds() - lastStacks < 3000) then return end
+    lastStacks = GetGameTimeMilliseconds()
 
     table.sort(firebrands, function(a, b) return GetUnitDisplayName(a) < GetUnitDisplayName(b) end)
     table.sort(frostbrands, function(a, b) return GetUnitDisplayName(a) < GetUnitDisplayName(b) end)
