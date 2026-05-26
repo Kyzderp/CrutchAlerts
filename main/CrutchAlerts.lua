@@ -140,6 +140,7 @@ local defaultOptions = {
     },
     console = { -- Some console-specific settings?
         showProminent = true,
+        showEffects = true,
     },
     bossHealthBar = {
         enabled = true,
