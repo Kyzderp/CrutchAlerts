@@ -164,10 +164,10 @@ end
 ---------------------------------------------------------------------
 local function OnStunnedChanged(_, playerStunned)
     if (playerStunned) then
-        Crutch.dbgSpam("player stunned")
+        -- Crutch.dbgSpam("player stunned")
         Crutch.OnStunned()
     else
-        Crutch.dbgSpam("player no longer stunned")
+        -- Crutch.dbgSpam("player no longer stunned")
         Crutch.OnNotStunned()
     end
 end

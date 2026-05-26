@@ -19,7 +19,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
     ---------------------------------------------------------------------
     -- trials
     settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
+        type = LibHarvensAddonSettings.ST_LABEL,
         label = "Trials",
     })
 
@@ -63,9 +63,15 @@ function Crutch.CreateConsoleContentSettingsMenu()
         disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
     })
 
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Asylum Sanctorium - Info Panel",
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = string.format("|c%s%s|r", ZO_NORMAL_TEXT:ToHex(), string.rep("_", 16)),
+        },
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = "Info Panel",
+        },
     })
 
     local AS_MINI_PANEL_SETTINGS = {
