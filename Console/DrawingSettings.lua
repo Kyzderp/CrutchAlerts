@@ -4,6 +4,11 @@ local C = Crutch.Constants
 local selectedIndividual
 local individualNames = {}
 
+local DIVIDER = {
+    type = LibHarvensAddonSettings.ST_LABEL,
+    label = string.format("|c%s%s|r", ZO_NORMAL_TEXT:ToHex(), string.rep("_", 16)),
+}
+
 function Crutch.CreateConsoleDrawingSettingsMenu()
     local settings = LibHarvensAddonSettings:AddAddon("CrutchAlerts - Icons", {
         allowDefaults = true,
@@ -143,10 +148,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
                 Crutch.Drawing.RefreshGroup()
             end,
         },
-        {
-            type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
+        DIVIDER,
         {
             type = LibHarvensAddonSettings.ST_EDIT,
             label = "Text",
@@ -234,10 +236,6 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         -- general
         {
             type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
-        {
-            type = LibHarvensAddonSettings.ST_LABEL,
             label = "General Settings",
             tooltip = "Crutch can use the 3D API to draw textures (mostly single icons) in the world, including ones attached to players, as well as on the ground for positioning or other mechanics"
         },
@@ -269,10 +267,6 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         -- Attached icons
         {
             type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
-        {
-            type = LibHarvensAddonSettings.ST_LABEL,
             label = "Group Member Icons",
             tooltip = "These are settings for icons attached to group members, which will also apply to icons shown from mechanics, such as MoL twins Aspects"
         },
@@ -329,10 +323,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
                 Crutch.Drawing.RefreshGroup()
             end,
         },
-        {
-            type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
+        DIVIDER,
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show tanks",
@@ -425,10 +416,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
             end,
             disable = function() return not Crutch.savedOptions.drawing.attached.showCrown end
         },
-        {
-            type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
+        DIVIDER,
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show dead group members",
@@ -492,10 +480,6 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         -- placedPositioning icons
         {
             type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
-        {
-            type = LibHarvensAddonSettings.ST_LABEL,
             label = "Positioning Markers",
             tooltip = "These are settings for positioning-type markers placed on the ground, such as Lokkestiiz HM beam phase and Xoryn Tempest positions"
         },
@@ -528,10 +512,6 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         -- placedOriented icons
         {
             type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
-        {
-            type = LibHarvensAddonSettings.ST_LABEL,
             label = "Oriented Textures",
             tooltip = "These are settings for various textures that are drawn in the world, that are oriented in a certain way, instead of always facing the player. For example, circles drawn on the ground, like in HoF triplets, fall under this category"
         },
@@ -553,10 +533,6 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         -- placedIcon icons
         {
             type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
-        {
-            type = LibHarvensAddonSettings.ST_LABEL,
             label = "Other Icons",
             tooltip = "These are settings for other icons that appear to face the player, such as thrown potions from IA Brewmasters"
         },
@@ -578,10 +554,6 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         -- individual icons
         {
             type = LibHarvensAddonSettings.ST_SECTION,
-            label = "",
-        },
-        {
-            type = LibHarvensAddonSettings.ST_LABEL,
             label = "Individual Player Icons",
             tooltip = "You can add individual icons for specific players here when they are in your group. They show over role and crown icons, while death and mechanic icons show over the individual icons. I recommend reloading UI after you finish adding icons, both to save in case of crashes, and also because this icon creation has some memory impact."
         },
