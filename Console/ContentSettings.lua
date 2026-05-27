@@ -130,7 +130,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         })
     end
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetEffectSettingsConsole(1051, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Cloudrest",
@@ -269,7 +269,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
-    })
+    }))
 
     settings:AddSettings({
         {
@@ -410,7 +410,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
     })
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetEffectSettingsConsole(1478, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Lucent Citadel",
@@ -545,9 +545,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
             disable = function() return not Crutch.savedOptions.lucentcitadel.showTempestIcons end,
         },
-    })
+    }))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetEffectSettingsConsole(725, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Maw of Lorkhaj",
@@ -607,9 +607,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.savedOptions.mawoflorkhaj.showTwinsIcons = value
             end,
         },
-    })
+    }))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetEffectSettingsConsole(1565, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Opulent Ordeal",
@@ -672,7 +672,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
-    })
+    }))
 
     settings:AddSettings({
         {
@@ -991,7 +991,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
     })
     ]]
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetEffectSettingsConsole(1263, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Rockgrove",
@@ -1059,6 +1059,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
+    }))
+
+    settings:AddSettings({
         DIVIDER,
         {
             type = LibHarvensAddonSettings.ST_LABEL,

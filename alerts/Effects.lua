@@ -371,6 +371,49 @@ function Crutch.GetEffectSettings(zoneId, controls)
     return controls
 end
 
+-- Represents one control toggle for one effect
+local function GetEffectSettingConsole(subcategory, settingsData)
+    return {
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = settingsData.title,
+        tooltip = settingsData.description,
+        default = true,
+        getFunction = function() return Crutch.savedOptions[subcategory][settingsData.name] end,
+        setFunction = function(value)
+            Crutch.savedOptions[subcategory][settingsData.name] = value
+            Crutch.OnPlayerActivated()
+        end,
+    }
+end
+
+-- Called from Settings.lua to append effect alert sections to existing settings controls
+function Crutch.GetEffectSettingsConsole(zoneId, controls)
+    if (not LibHarvensAddonSettings) then return {} end
+
+    local DIVIDER = {
+        type = LibHarvensAddonSettings.ST_LABEL,
+        label = string.format("|c%s%s|r", ZO_NORMAL_TEXT:ToHex(), string.rep("_", 16)),
+    }
+
+    table.insert(controls, DIVIDER)
+    table.insert(controls, {
+        type = LibHarvensAddonSettings.ST_LABEL,
+        label = "Effect Timers",
+    })
+
+    local zoneData = effectData[zoneId]
+    local added = {} -- Some IDs use the same setting
+    for abilityId, abilityData in pairs(zoneData) do
+        if (type(abilityId) == "number") then
+            if (not added[abilityData.settings.name]) then
+                table.insert(controls, GetEffectSettingConsole(zoneData.settingsSubcategory, abilityData.settings))
+                added[abilityData.settings.name] = true
+            end
+        end
+    end
+    return controls
+end
+
 
 -----------------------------------------------------------
 -- Init
