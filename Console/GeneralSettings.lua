@@ -356,7 +356,7 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
     settings:AddSettings({
         {
             type = LibHarvensAddonSettings.ST_SECTION,
-            label = "Vertical Boss Health Bar",
+            label = "Boss Health Bar",
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,

@@ -23,10 +23,10 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     ---------------------------------------------------------------------
     -- trials
-    settings:AddSetting({
-            type = LibHarvensAddonSettings.ST_LABEL,
-            label = "Trials",
-        })
+    -- settings:AddSetting({
+    --     type = LibHarvensAddonSettings.ST_LABEL,
+    --     label = "Trials",
+    -- })
 
     settings:AddSettings({
         {
@@ -65,12 +65,10 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
             disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
         },
+        DIVIDER,
         {
-            DIVIDER,
-            {
-                type = LibHarvensAddonSettings.ST_LABEL,
-                label = "Info Panel",
-            },
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = "Info Panel",
         },
     })
 
@@ -1534,10 +1532,10 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     ---------------------------------------------------------------------
     -- arenas
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_LABEL,
-        label = "Arenas",
-    })
+    -- settings:AddSetting({
+    --     type = LibHarvensAddonSettings.ST_LABEL,
+    --     label = "Arenas",
+    -- })
 
     settings:AddSettings({
         {
@@ -1628,10 +1626,10 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     ---------------------------------------------------------------------
     -- dungeons
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_LABEL,
-        label = "Dungeons",
-    })
+    -- settings:AddSetting({
+    --     type = LibHarvensAddonSettings.ST_LABEL,
+    --     label = "Dungeons",
+    -- })
 
     settings:AddSettings({
         {

@@ -237,7 +237,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "General Settings",
-            tooltip = "Crutch can use the 3D API to draw textures (mostly single icons) in the world, including ones attached to players, as well as on the ground for positioning or other mechanics"
+            tooltip = "Crutch can use the 3D API to draw textures (mostly single icons) in the world, including ones attached to players, as well as on the ground for positioning or other mechanics",
         },
         {
             type = LibHarvensAddonSettings.ST_SLIDER,
