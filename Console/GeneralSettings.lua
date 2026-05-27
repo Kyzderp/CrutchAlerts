@@ -61,6 +61,11 @@ local function UnlockUI(value)
 end
 Crutch.UnlockUI = UnlockUI
 
+local DIVIDER = {
+    type = LibHarvensAddonSettings.ST_LABEL,
+    label = string.format("|c%s%s|r", ZO_NORMAL_TEXT:ToHex(), string.rep("_", 16)),
+}
+
 function Crutch.CreateConsoleGeneralSettingsMenu()
     local settings = LibHarvensAddonSettings:AddAddon("CrutchAlerts - General", {
         allowDefaults = true,
@@ -78,690 +83,658 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
 ---------------------------------------------------------------------
 -- general
     
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Alerts",
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show begin casts",
-        tooltip = "Show alerts when you are targeted by the beginning of a cast (ACTION_RESULT_BEGIN)",
-        default = true,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showBegin = value
-            if (value) then
-                Crutch.RegisterBegin()
-            else
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Alerts",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show begin casts",
+            tooltip = "Show alerts when you are targeted by the beginning of a cast (ACTION_RESULT_BEGIN)",
+            default = true,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showBegin = value
+                if (value) then
+                    Crutch.RegisterBegin()
+                else
+                    Crutch.UnregisterBegin()
+                end
+            end,
+            getFunction = function() return Crutch.savedOptions.general.showBegin end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show non-enemy casts",
+            tooltip = "Show alerts for beginning of a cast if it is not from an enemy, e.g. player-sourced",
+            default = true,
+            getFunction = function() return not Crutch.savedOptions.general.beginHideSelf end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.beginHideSelf = not value
+                -- Re-register with filters
                 Crutch.UnregisterBegin()
-            end
-        end,
-        getFunction = function() return Crutch.savedOptions.general.showBegin end,
+                Crutch.RegisterBegin()
+            end,
+            disable = function() return not Crutch.savedOptions.general.showBegin end
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show gained casts",
+            tooltip = "Show alerts when you \"Gain\" a cast from an enemy (ACTION_RESULT_EFFECT_GAINED or manually curated ACTION_RESULT_EFFECT_GAINED_DURATION)",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.showGained end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showGained = value
+                if (value) then
+                    Crutch.RegisterGained()
+                else
+                    Crutch.UnregisterGained()
+                end
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show casts on others",
+            tooltip = "Show alerts when someone else in your group is targeted by a specific ability, or in some cases, when the enemy casts something on themselves. This is a manually curated list of abilities that are important enough to affect you, for example the Llothis cone (Defiling Dye Blast) or Rakkhat's kite (Darkness Falls)",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.showOthers end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showOthers = value
+                Crutch.RegisterOthers()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Alerts position X",
+            tooltip = "The horizontal position of the general alerts",
+            min = - GuiRoot:GetWidth() / 2,
+            max = GuiRoot:GetWidth() / 2,
+            step = GuiRoot:GetWidth() / 64,
+            default = Crutch.defaultOptions.display.x,
+            getFunction = function() return Crutch.savedOptions.display.x end,
+            setFunction = function(value)
+                Crutch.savedOptions.display.x = value
+                CrutchAlertsContainer:ClearAnchors()
+                CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Alerts position Y",
+            tooltip = "The vertical position of the general alerts",
+            min = 0,
+            max = GuiRoot:GetHeight(),
+            step = GuiRoot:GetHeight() / 64,
+            default = Crutch.defaultOptions.display.y,
+            getFunction = function() return Crutch.savedOptions.display.y end,
+            setFunction = function(value)
+                Crutch.savedOptions.display.y = value
+                CrutchAlertsContainer:ClearAnchors()
+                CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Alerts size",
+            tooltip = "The size of the general alerts",
+            min = 5,
+            max = 120,
+            step = 1,
+            default = Crutch.defaultOptions.general.alertScale,
+            getFunction = function() return Crutch.savedOptions.general.alertScale end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.alertScale = value
+                Crutch.UnlockUI(true)
+            end,
+        },
+        DIVIDER,
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = "Special Timers",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show arcanist timers",
+            tooltip = "Show \"alert\" timers for arcanist-specific channeled abilities that you cast, i.e. Fatecarver and Remedy Cascade",
+            default = true,
+            getFunction = function() return not Crutch.savedOptions.general.beginHideArcanist end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.beginHideArcanist = not value
+                Crutch.UnregisterChannels()
+                Crutch.RegisterChannels()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show dragonknight Magma Shell",
+            tooltip = "Show an \"alert\" timer for Magma Shell",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.effectMagmaShell end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.effectMagmaShell = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show dragonknight Engulfing Dragonfire",
+            tooltip = "Show an \"alert\" timer for your Engulfing Dragonfire channeled cast",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.showEngulfing end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showEngulfing = value
+                Crutch.UnregisterChannels()
+                Crutch.RegisterChannels()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show templar Radiant Destruction",
+            tooltip = "Show \"alert\" timers for Radiant Destruction and morphs",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.showJBeam end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showJBeam = value
+                Crutch.UnregisterChannels()
+                Crutch.RegisterChannels()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show werewolf Claw Fury",
+            tooltip = "Show an \"alert\" timer for your Claw Fury channeled cast",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.showClawFury end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showClawFury = value
+                Crutch.UnregisterChannels()
+                Crutch.RegisterChannels()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Fencer's Parry",
+            tooltip = "Show an \"alert\" timer for the duration of Fencer's Parry from scribing, along with when it is removed",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.effectParry end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.effectParry = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
     })
 
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show non-enemy casts",
-        tooltip = "Show alerts for beginning of a cast if it is not from an enemy, e.g. player-sourced",
-        default = true,
-        getFunction = function() return not Crutch.savedOptions.general.beginHideSelf end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.beginHideSelf = not value
-            -- Re-register with filters
-            Crutch.UnregisterBegin()
-            Crutch.RegisterBegin()
-        end,
-        disable = function() return not Crutch.savedOptions.general.showBegin end
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show gained casts",
-        tooltip = "Show alerts when you \"Gain\" a cast from an enemy (ACTION_RESULT_EFFECT_GAINED or manually curated ACTION_RESULT_EFFECT_GAINED_DURATION)",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.showGained end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showGained = value
-            if (value) then
-                Crutch.RegisterGained()
-            else
-                Crutch.UnregisterGained()
-            end
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show casts on others",
-        tooltip = "Show alerts when someone else in your group is targeted by a specific ability, or in some cases, when the enemy casts something on themselves. This is a manually curated list of abilities that are important enough to affect you, for example the Llothis cone (Defiling Dye Blast) or Rakkhat's kite (Darkness Falls)",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.showOthers end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showOthers = value
-            Crutch.RegisterOthers()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Alerts position X",
-        tooltip = "The horizontal position of the general alerts",
-        min = - GuiRoot:GetWidth() / 2,
-        max = GuiRoot:GetWidth() / 2,
-        step = GuiRoot:GetWidth() / 64,
-        default = Crutch.defaultOptions.display.x,
-        getFunction = function() return Crutch.savedOptions.display.x end,
-        setFunction = function(value)
-            Crutch.savedOptions.display.x = value
-            CrutchAlertsContainer:ClearAnchors()
-            CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Alerts position Y",
-        tooltip = "The vertical position of the general alerts",
-        min = 0,
-        max = GuiRoot:GetHeight(),
-        step = GuiRoot:GetHeight() / 64,
-        default = Crutch.defaultOptions.display.y,
-        getFunction = function() return Crutch.savedOptions.display.y end,
-        setFunction = function(value)
-            Crutch.savedOptions.display.y = value
-            CrutchAlertsContainer:ClearAnchors()
-            CrutchAlertsContainer:SetAnchor(CENTER, GuiRoot, TOP, Crutch.savedOptions.display.x, Crutch.savedOptions.display.y)
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Alerts size",
-        tooltip = "The size of the general alerts",
-        min = 5,
-        max = 120,
-        step = 1,
-        default = Crutch.defaultOptions.general.alertScale,
-        getFunction = function() return Crutch.savedOptions.general.alertScale end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.alertScale = value
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Special Timers",
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show arcanist timers",
-        tooltip = "Show \"alert\" timers for arcanist-specific channeled abilities that you cast, i.e. Fatecarver and Remedy Cascade",
-        default = true,
-        getFunction = function() return not Crutch.savedOptions.general.beginHideArcanist end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.beginHideArcanist = not value
-            Crutch.UnregisterChannels()
-            Crutch.RegisterChannels()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show dragonknight Magma Shell",
-        tooltip = "Show an \"alert\" timer for Magma Shell",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.effectMagmaShell end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.effectMagmaShell = value
-            Crutch.OnPlayerActivated()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show dragonknight Engulfing Dragonfire",
-        tooltip = "Show an \"alert\" timer for your Engulfing Dragonfire channeled cast",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.showEngulfing end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showEngulfing = value
-            Crutch.UnregisterChannels()
-            Crutch.RegisterChannels()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show templar Radiant Destruction",
-        tooltip = "Show \"alert\" timers for Radiant Destruction and morphs",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.showJBeam end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showJBeam = value
-            Crutch.UnregisterChannels()
-            Crutch.RegisterChannels()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show werewolf Claw Fury",
-        tooltip = "Show an \"alert\" timer for your Claw Fury channeled cast",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.showClawFury end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showClawFury = value
-            Crutch.UnregisterChannels()
-            Crutch.RegisterChannels()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show Fencer's Parry",
-        tooltip = "Show an \"alert\" timer for the duration of Fencer's Parry from scribing, along with when it is removed",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.effectParry end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.effectParry = value
-            Crutch.OnPlayerActivated()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Other Settings",
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show prominent alerts",
-        tooltip = "Show large, obnoxious alerts, usually with a ding sound too, for a manually curated list of important mechanics that warrant your immediate attention",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.console.showProminent end,
-        setFunction = function(value)
-            Crutch.savedOptions.console.showProminent = value
-            Crutch.OnPlayerActivated()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show damageable timers",
-        tooltip = "For certain encounters, show a countdown to when the boss or important adds will become damageable, tauntable, return to the arena, etc. This works best on English client, with some support for other languages.",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.showDamageable end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showDamageable = value
-            Crutch.OnPlayerActivated()
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Consolidate damageable to info panel",
-        tooltip = "Shows the damageable timers in the info panel, instead of as its own UI element.",
-        default = false,
-        getFunction = function() return Crutch.savedOptions.general.consolidateDamageableInInfoPanel end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.consolidateDamageableInInfoPanel = value
-        end,
-        disable = function() return not Crutch.savedOptions.general.showDamageable end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Damageable timer position X",
-        tooltip = "The horizontal position of the damageable timer",
-        min = - GuiRoot:GetWidth() / 2,
-        max = GuiRoot:GetWidth() / 2,
-        step = GuiRoot:GetWidth() / 64,
-        default = Crutch.defaultOptions.damageableDisplay.x,
-        getFunction = function() return Crutch.savedOptions.damageableDisplay.x end,
-        setFunction = function(value)
-            Crutch.savedOptions.damageableDisplay.x = value
-            CrutchAlertsDamageable:ClearAnchors()
-            CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
-            Crutch.UnlockUI(true)
-        end,
-        disable = function() return not Crutch.savedOptions.general.showDamageable end
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Damageable timer position Y",
-        tooltip = "The vertical position of the damageable timer",
-        min = - GuiRoot:GetHeight() / 2,
-        max = GuiRoot:GetHeight() / 2,
-        step = GuiRoot:GetHeight() / 64,
-        default = Crutch.defaultOptions.damageableDisplay.y,
-        getFunction = function() return Crutch.savedOptions.damageableDisplay.y end,
-        setFunction = function(value)
-            Crutch.savedOptions.damageableDisplay.y = value
-            CrutchAlertsDamageable:ClearAnchors()
-            CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
-            Crutch.UnlockUI(true)
-        end,
-        disable = function() return not Crutch.savedOptions.general.showDamageable end
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show raid lead diagnostics",
-        tooltip = "Shows possibly spammy info in the text chat when certain important events occur. For example, someone picking up fire dome in DSR",
-        default = false,
-        getFunction = function() return Crutch.savedOptions.general.showRaidDiag end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showRaidDiag = value
-            Crutch.OnPlayerActivated()
-        end,
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Other Alerts / Timers",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show prominent alerts",
+            tooltip = "Show large, obnoxious alerts, usually with a ding sound too, for a manually curated list of important mechanics that warrant your immediate attention",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.console.showProminent end,
+            setFunction = function(value)
+                Crutch.savedOptions.console.showProminent = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show damageable timers",
+            tooltip = "For certain encounters, show a countdown to when the boss or important adds will become damageable, tauntable, return to the arena, etc. This works best on English client, with some support for other languages.",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.showDamageable end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showDamageable = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Consolidate damageable to info panel",
+            tooltip = "Shows the damageable timers in the info panel, instead of as its own UI element.",
+            default = false,
+            getFunction = function() return Crutch.savedOptions.general.consolidateDamageableInInfoPanel end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.consolidateDamageableInInfoPanel = value
+            end,
+            disable = function() return not Crutch.savedOptions.general.showDamageable end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Damageable timer position X",
+            tooltip = "The horizontal position of the damageable timer",
+            min = - GuiRoot:GetWidth() / 2,
+            max = GuiRoot:GetWidth() / 2,
+            step = GuiRoot:GetWidth() / 64,
+            default = Crutch.defaultOptions.damageableDisplay.x,
+            getFunction = function() return Crutch.savedOptions.damageableDisplay.x end,
+            setFunction = function(value)
+                Crutch.savedOptions.damageableDisplay.x = value
+                CrutchAlertsDamageable:ClearAnchors()
+                CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
+                Crutch.UnlockUI(true)
+            end,
+            disable = function() return not Crutch.savedOptions.general.showDamageable end
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Damageable timer position Y",
+            tooltip = "The vertical position of the damageable timer",
+            min = - GuiRoot:GetHeight() / 2,
+            max = GuiRoot:GetHeight() / 2,
+            step = GuiRoot:GetHeight() / 64,
+            default = Crutch.defaultOptions.damageableDisplay.y,
+            getFunction = function() return Crutch.savedOptions.damageableDisplay.y end,
+            setFunction = function(value)
+                Crutch.savedOptions.damageableDisplay.y = value
+                CrutchAlertsDamageable:ClearAnchors()
+                CrutchAlertsDamageable:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.damageableDisplay.x, Crutch.savedOptions.damageableDisplay.y)
+                Crutch.UnlockUI(true)
+            end,
+            disable = function() return not Crutch.savedOptions.general.showDamageable end
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show raid lead diagnostics",
+            tooltip = "Shows possibly spammy info in the text chat when certain important events occur. For example, someone picking up fire dome in DSR",
+            default = false,
+            getFunction = function() return Crutch.savedOptions.general.showRaidDiag end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showRaidDiag = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
     })
 
     ---------------------------------------------------------------------
     -- BHB
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Vertical Boss Health Bar Settings",
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show boss health bar",
-        tooltip = "Show vertical boss health bars with markers for percentage based mechanics",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.bossHealthBar.enabled end,
-        setFunction = function(value)
-            Crutch.savedOptions.bossHealthBar.enabled = value
-            Crutch.BossHealthBar.Initialize()
-            Crutch.BossHealthBar.UpdateScale()
-            if (value) then
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Vertical Boss Health Bar",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show boss health bar",
+            tooltip = "Show vertical boss health bars with markers for percentage based mechanics",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.bossHealthBar.enabled end,
+            setFunction = function(value)
+                Crutch.savedOptions.bossHealthBar.enabled = value
+                Crutch.BossHealthBar.Initialize()
+                Crutch.BossHealthBar.UpdateScale()
+                if (value) then
+                    Crutch.UnlockUI(true)
+                end
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Use horizontal bars",
+            tooltip = "Show the boss health bars from left to right instead of vertical. Warning: this is just a naive UI element rotation with some adjustments, so there may be things that display weirdly",
+            default = false,
+            getFunction = function() return Crutch.savedOptions.bossHealthBar.horizontal end,
+            setFunction = function(value)
+                Crutch.savedOptions.bossHealthBar.horizontal = value
+                Crutch.BossHealthBar.UpdateRotation(true)
                 Crutch.UnlockUI(true)
-            end
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Use horizontal bars",
-        tooltip = "Show the boss health bars from left to right instead of vertical. Warning: this is just a naive UI element rotation with some adjustments, so there may be things that display weirdly",
-        default = false,
-        getFunction = function() return Crutch.savedOptions.bossHealthBar.horizontal end,
-        setFunction = function(value)
-            Crutch.savedOptions.bossHealthBar.horizontal = value
-            Crutch.BossHealthBar.UpdateRotation(true)
-            Crutch.UnlockUI(true)
-        end,
-        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Boss health bar size",
-        tooltip = "The size to display the vertical boss health bars. Note: some elements may not update size properly until a reload",
-        min = 5,
-        max = 20,
-        step = 1,
-        default = 10,
-        getFunction = function() return Crutch.savedOptions.bossHealthBar.scale * 10 end,
-        setFunction = function(value)
-            Crutch.savedOptions.bossHealthBar.scale = value / 10
-            Crutch.BossHealthBar.UpdateScale()
-            Crutch.UnlockUI(true)
-        end,
-        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Boss health bar position X",
-        tooltip = "The horizontal position of the vertical boss health bars",
-        min = - GuiRoot:GetWidth() / 2,
-        max = GuiRoot:GetWidth() / 2,
-        step = GuiRoot:GetWidth() / 64,
-        default = Crutch.defaultOptions.bossHealthBarDisplay.x,
-        getFunction = function() return Crutch.savedOptions.bossHealthBarDisplay.x end,
-        setFunction = function(value)
-            Crutch.savedOptions.bossHealthBarDisplay.x = value
-            CrutchAlertsBossHealthBarContainer:ClearAnchors()
-            CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
-                Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
-            Crutch.UnlockUI(true)
-        end,
-        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Boss health bar position Y",
-        tooltip = "The vertical position of the vertical boss health bars",
-        min = - GuiRoot:GetHeight() / 2,
-        max = GuiRoot:GetHeight() / 2,
-        step = GuiRoot:GetHeight() / 64,
-        default = Crutch.defaultOptions.bossHealthBarDisplay.y,
-        getFunction = function() return Crutch.savedOptions.bossHealthBarDisplay.y end,
-        setFunction = function(value)
-            Crutch.savedOptions.bossHealthBarDisplay.y = value
-            CrutchAlertsBossHealthBarContainer:ClearAnchors()
-            CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
-                Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
-            Crutch.UnlockUI(true)
-        end,
-        disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_COLOR,
-        label = "Foreground color",
-        tooltip = "Foreground color of the bars. Does not apply to special cases like OC titans and AS minis. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
-        default = Crutch.defaultOptions.bossHealthBar.foreground,
-        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.foreground) end,
-        setFunction = function(r, g, b, a)
-            Crutch.savedOptions.bossHealthBar.foreground = {r, g, b, a}
-            Crutch.BossHealthBar.UpdateColors()
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_COLOR,
-        label = "Background color",
-        tooltip = "Background color of the bars. Does not apply to special cases like OC titans and AS minis. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
-        default = Crutch.defaultOptions.bossHealthBar.background,
-        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.background) end,
-        setFunction = function(r, g, b, a)
-            Crutch.savedOptions.bossHealthBar.background = {r, g, b, a}
-            Crutch.BossHealthBar.UpdateColors()
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_COLOR,
-        label = "Active threshold color",
-        tooltip = "The color of the line and mechanic name when the current boss health is not near the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
-        default = Crutch.defaultOptions.bossHealthBar.activeColor,
-        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.activeColor) end,
-        setFunction = function(r, g, b, a)
-            Crutch.savedOptions.bossHealthBar.activeColor = {r, g, b, a}
-            Crutch.BossHealthBar.UpdateColors()
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_COLOR,
-        label = "Imminent threshold color",
-        tooltip = "The color of the line and mechanic name when the current boss health is near the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
-        default = Crutch.defaultOptions.bossHealthBar.imminentColor,
-        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.imminentColor) end,
-        setFunction = function(r, g, b, a)
-            Crutch.savedOptions.bossHealthBar.imminentColor = {r, g, b, a}
-            Crutch.BossHealthBar.UpdateColors()
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_COLOR,
-        label = "Passed threshold color",
-        tooltip = "The color of the line and mechanic name when the current boss health has passed the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
-        default = Crutch.defaultOptions.bossHealthBar.passedColor,
-        getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.passedColor) end,
-        setFunction = function(r, g, b, a)
-            Crutch.savedOptions.bossHealthBar.passedColor = {r, g, b, a}
-            Crutch.BossHealthBar.UpdateColors()
-            Crutch.UnlockUI(true)
-        end,
+            end,
+            disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Boss health bar size",
+            tooltip = "The size to display the vertical boss health bars. Note: some elements may not update size properly until a reload",
+            min = 5,
+            max = 20,
+            step = 1,
+            default = 10,
+            getFunction = function() return Crutch.savedOptions.bossHealthBar.scale * 10 end,
+            setFunction = function(value)
+                Crutch.savedOptions.bossHealthBar.scale = value / 10
+                Crutch.BossHealthBar.UpdateScale()
+                Crutch.UnlockUI(true)
+            end,
+            disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Boss health bar position X",
+            tooltip = "The horizontal position of the vertical boss health bars",
+            min = - GuiRoot:GetWidth() / 2,
+            max = GuiRoot:GetWidth() / 2,
+            step = GuiRoot:GetWidth() / 64,
+            default = Crutch.defaultOptions.bossHealthBarDisplay.x,
+            getFunction = function() return Crutch.savedOptions.bossHealthBarDisplay.x end,
+            setFunction = function(value)
+                Crutch.savedOptions.bossHealthBarDisplay.x = value
+                CrutchAlertsBossHealthBarContainer:ClearAnchors()
+                CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+                    Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
+                Crutch.UnlockUI(true)
+            end,
+            disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Boss health bar position Y",
+            tooltip = "The vertical position of the vertical boss health bars",
+            min = - GuiRoot:GetHeight() / 2,
+            max = GuiRoot:GetHeight() / 2,
+            step = GuiRoot:GetHeight() / 64,
+            default = Crutch.defaultOptions.bossHealthBarDisplay.y,
+            getFunction = function() return Crutch.savedOptions.bossHealthBarDisplay.y end,
+            setFunction = function(value)
+                Crutch.savedOptions.bossHealthBarDisplay.y = value
+                CrutchAlertsBossHealthBarContainer:ClearAnchors()
+                CrutchAlertsBossHealthBarContainer:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+                    Crutch.savedOptions.bossHealthBarDisplay.x, Crutch.savedOptions.bossHealthBarDisplay.y)
+                Crutch.UnlockUI(true)
+            end,
+            disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_COLOR,
+            label = "Foreground color",
+            tooltip = "Foreground color of the bars. Does not apply to special cases like OC titans and AS minis. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+            default = Crutch.defaultOptions.bossHealthBar.foreground,
+            getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.foreground) end,
+            setFunction = function(r, g, b, a)
+                Crutch.savedOptions.bossHealthBar.foreground = {r, g, b, a}
+                Crutch.BossHealthBar.UpdateColors()
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_COLOR,
+            label = "Background color",
+            tooltip = "Background color of the bars. Does not apply to special cases like OC titans and AS minis. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+            default = Crutch.defaultOptions.bossHealthBar.background,
+            getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.background) end,
+            setFunction = function(r, g, b, a)
+                Crutch.savedOptions.bossHealthBar.background = {r, g, b, a}
+                Crutch.BossHealthBar.UpdateColors()
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_COLOR,
+            label = "Active threshold color",
+            tooltip = "The color of the line and mechanic name when the current boss health is not near the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+            default = Crutch.defaultOptions.bossHealthBar.activeColor,
+            getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.activeColor) end,
+            setFunction = function(r, g, b, a)
+                Crutch.savedOptions.bossHealthBar.activeColor = {r, g, b, a}
+                Crutch.BossHealthBar.UpdateColors()
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_COLOR,
+            label = "Imminent threshold color",
+            tooltip = "The color of the line and mechanic name when the current boss health is near the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+            default = Crutch.defaultOptions.bossHealthBar.imminentColor,
+            getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.imminentColor) end,
+            setFunction = function(r, g, b, a)
+                Crutch.savedOptions.bossHealthBar.imminentColor = {r, g, b, a}
+                Crutch.BossHealthBar.UpdateColors()
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_COLOR,
+            label = "Passed threshold color",
+            tooltip = "The color of the line and mechanic name when the current boss health has passed the threshold percentage. Note that this color includes opacity, so it may appear darker in the settings menu than it actually is",
+            default = Crutch.defaultOptions.bossHealthBar.passedColor,
+            getFunction = function() return unpack(Crutch.savedOptions.bossHealthBar.passedColor) end,
+            setFunction = function(r, g, b, a)
+                Crutch.savedOptions.bossHealthBar.passedColor = {r, g, b, a}
+                Crutch.BossHealthBar.UpdateColors()
+                Crutch.UnlockUI(true)
+            end,
+        },
     })
 
     ---------------------------------------------------------------------
     -- Info Panel
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Info Panel Settings",
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Info panel size",
-        tooltip = "The size of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
-        min = 5,
-        max = 120,
-        step = 1,
-        default = Crutch.defaultOptions.infoPanel.size,
-        getFunction = function() return Crutch.savedOptions.infoPanel.size end,
-        setFunction = function(value)
-            Crutch.savedOptions.infoPanel.size = value
-            Crutch.InfoPanel.ApplyStyle()
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Info panel position X",
-        tooltip = "The horizontal position of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
-        min = - GuiRoot:GetWidth() / 2,
-        max = GuiRoot:GetWidth() / 2,
-        step = GuiRoot:GetWidth() / 64,
-        default = Crutch.defaultOptions.infoPanelDisplay.x,
-        getFunction = function() return Crutch.savedOptions.infoPanelDisplay.x end,
-        setFunction = function(value)
-            Crutch.savedOptions.infoPanelDisplay.x = value
-            CrutchAlertsInfoPanel:ClearAnchors()
-            CrutchAlertsInfoPanel:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
-                Crutch.savedOptions.infoPanelDisplay.x, Crutch.savedOptions.infoPanelDisplay.y)
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Info panel position Y",
-        tooltip = "The vertical position of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
-        min = - GuiRoot:GetHeight() / 2,
-        max = GuiRoot:GetHeight() / 2,
-        step = GuiRoot:GetHeight() / 64,
-        default = Crutch.defaultOptions.infoPanelDisplay.y,
-        getFunction = function() return Crutch.savedOptions.infoPanelDisplay.y end,
-        setFunction = function(value)
-            Crutch.savedOptions.infoPanelDisplay.y = value
-            CrutchAlertsInfoPanel:ClearAnchors()
-            CrutchAlertsInfoPanel:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
-                Crutch.savedOptions.infoPanelDisplay.x, Crutch.savedOptions.infoPanelDisplay.y)
-            Crutch.UnlockUI(true)
-        end,
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Info Panel",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Info panel size",
+            tooltip = "The size of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
+            min = 5,
+            max = 120,
+            step = 1,
+            default = Crutch.defaultOptions.infoPanel.size,
+            getFunction = function() return Crutch.savedOptions.infoPanel.size end,
+            setFunction = function(value)
+                Crutch.savedOptions.infoPanel.size = value
+                Crutch.InfoPanel.ApplyStyle()
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Info panel position X",
+            tooltip = "The horizontal position of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
+            min = - GuiRoot:GetWidth() / 2,
+            max = GuiRoot:GetWidth() / 2,
+            step = GuiRoot:GetWidth() / 64,
+            default = Crutch.defaultOptions.infoPanelDisplay.x,
+            getFunction = function() return Crutch.savedOptions.infoPanelDisplay.x end,
+            setFunction = function(value)
+                Crutch.savedOptions.infoPanelDisplay.x = value
+                CrutchAlertsInfoPanel:ClearAnchors()
+                CrutchAlertsInfoPanel:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+                    Crutch.savedOptions.infoPanelDisplay.x, Crutch.savedOptions.infoPanelDisplay.y)
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Info panel position Y",
+            tooltip = "The vertical position of the info panel. The info panel is used to display some timers or other info, such as when a boss can cast the next mechanic",
+            min = - GuiRoot:GetHeight() / 2,
+            max = GuiRoot:GetHeight() / 2,
+            step = GuiRoot:GetHeight() / 64,
+            default = Crutch.defaultOptions.infoPanelDisplay.y,
+            getFunction = function() return Crutch.savedOptions.infoPanelDisplay.y end,
+            setFunction = function(value)
+                Crutch.savedOptions.infoPanelDisplay.y = value
+                CrutchAlertsInfoPanel:ClearAnchors()
+                CrutchAlertsInfoPanel:SetAnchor(TOPLEFT, GuiRoot, CENTER, 
+                    Crutch.savedOptions.infoPanelDisplay.x, Crutch.savedOptions.infoPanelDisplay.y)
+                Crutch.UnlockUI(true)
+            end,
+        },
     })
 
     ---------------------------------------------------------------------
     -- CC
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Crowd Control Settings",
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show icon UI",
-        tooltip = "Shows a radial progress icon with the stun type, ability, and timer, for hard crowd control (CC) on yourself. This includes CC types that you can typically break free of, such as stuns, fears, and charms.\nInspired by Miat's CC Tracker.",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.cc.showVisual end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.showVisual = value
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Icon UI position X",
-        tooltip = "The horizontal position of the CC icon",
-        min = - GuiRoot:GetWidth() / 2,
-        max = GuiRoot:GetWidth() / 2,
-        step = GuiRoot:GetWidth() / 64,
-        default = Crutch.defaultOptions.cc.visualPositionX,
-        getFunction = function() return Crutch.savedOptions.cc.visualPositionX end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.visualPositionX = value
-            CrutchAlertsCCUIMin:ClearAnchors()
-            CrutchAlertsCCUIMin:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.visualPositionX, Crutch.savedOptions.cc.visualPositionY)
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Icon UI position Y",
-        tooltip = "The vertical position of the CC icon",
-        min = - GuiRoot:GetHeight() / 2,
-        max = GuiRoot:GetHeight() / 2,
-        step = GuiRoot:GetHeight() / 64,
-        default = Crutch.defaultOptions.cc.visualPositionY,
-        getFunction = function() return Crutch.savedOptions.cc.visualPositionY end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.visualPositionY = value
-            CrutchAlertsCCUIMin:ClearAnchors()
-            CrutchAlertsCCUIMin:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.visualPositionX, Crutch.savedOptions.cc.visualPositionY)
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show obnoxious UI",
-        tooltip = "Shows a radial progress icon with the stun type, ability, and timer, for hard crowd control (CC) on yourself. Like the icon UI, but bigger!",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.cc.showObnoxious end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.showObnoxious = value
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Obnoxious UI position X",
-        tooltip = "The horizontal position of the obnoxious CC icon",
-        min = - GuiRoot:GetWidth() / 2,
-        max = GuiRoot:GetWidth() / 2,
-        step = GuiRoot:GetWidth() / 64,
-        default = Crutch.defaultOptions.cc.obnoxiousPositionX,
-        getFunction = function() return Crutch.savedOptions.cc.obnoxiousPositionX end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.obnoxiousPositionX = value
-            CrutchAlertsCCUIObnoxious:ClearAnchors()
-            CrutchAlertsCCUIObnoxious:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.obnoxiousPositionX, Crutch.savedOptions.cc.obnoxiousPositionY)
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Obnoxious UI position Y",
-        tooltip = "The vertical position of the obnoxious CC icon",
-        min = - GuiRoot:GetHeight() / 2,
-        max = GuiRoot:GetHeight() / 2,
-        step = GuiRoot:GetHeight() / 64,
-        default = Crutch.defaultOptions.cc.obnoxiousPositionY,
-        getFunction = function() return Crutch.savedOptions.cc.obnoxiousPositionY end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.obnoxiousPositionY = value
-            CrutchAlertsCCUIObnoxious:ClearAnchors()
-            CrutchAlertsCCUIObnoxious:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.obnoxiousPositionX, Crutch.savedOptions.cc.obnoxiousPositionY)
-            Crutch.UnlockUI(true)
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Play sound when CC'ed",
-        tooltip = "Plays the DeathRecap_KillingBlowShown sound when you get CC'ed",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.cc.playSound end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.playSound = value
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SLIDER,
-        label = "Sound volume",
-        tooltip = "The volume of the sound (AKA the number of times to play the sound at the same time)",
-        min = 1,
-        max = 10,
-        step = 1,
-        default = Crutch.defaultOptions.cc.hardVolume,
-        getFunction = function() return Crutch.savedOptions.cc.hardVolume end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.alertScale = hardVolume
-        end,
-        disable = function() return not Crutch.savedOptions.cc.playSound end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show info in chat",
-        tooltip = "Show information about the CC type, source, ability, and duration in your chat when it happensd",
-        default = Crutch.defaultOptions.cc.showChat,
-        getFunction = function() return Crutch.savedOptions.cc.showChat end,
-        setFunction = function(value)
-            Crutch.savedOptions.cc.showChat = value
-        end,
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Crowd Control",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show icon UI",
+            tooltip = "Shows a radial progress icon with the stun type, ability, and timer, for hard crowd control (CC) on yourself. This includes CC types that you can typically break free of, such as stuns, fears, and charms.\nInspired by Miat's CC Tracker.",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.cc.showVisual end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.showVisual = value
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Icon UI position X",
+            tooltip = "The horizontal position of the CC icon",
+            min = - GuiRoot:GetWidth() / 2,
+            max = GuiRoot:GetWidth() / 2,
+            step = GuiRoot:GetWidth() / 64,
+            default = Crutch.defaultOptions.cc.visualPositionX,
+            getFunction = function() return Crutch.savedOptions.cc.visualPositionX end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.visualPositionX = value
+                CrutchAlertsCCUIMin:ClearAnchors()
+                CrutchAlertsCCUIMin:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.visualPositionX, Crutch.savedOptions.cc.visualPositionY)
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Icon UI position Y",
+            tooltip = "The vertical position of the CC icon",
+            min = - GuiRoot:GetHeight() / 2,
+            max = GuiRoot:GetHeight() / 2,
+            step = GuiRoot:GetHeight() / 64,
+            default = Crutch.defaultOptions.cc.visualPositionY,
+            getFunction = function() return Crutch.savedOptions.cc.visualPositionY end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.visualPositionY = value
+                CrutchAlertsCCUIMin:ClearAnchors()
+                CrutchAlertsCCUIMin:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.visualPositionX, Crutch.savedOptions.cc.visualPositionY)
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show obnoxious UI",
+            tooltip = "Shows a radial progress icon with the stun type, ability, and timer, for hard crowd control (CC) on yourself. Like the icon UI, but bigger!",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.cc.showObnoxious end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.showObnoxious = value
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Obnoxious UI position X",
+            tooltip = "The horizontal position of the obnoxious CC icon",
+            min = - GuiRoot:GetWidth() / 2,
+            max = GuiRoot:GetWidth() / 2,
+            step = GuiRoot:GetWidth() / 64,
+            default = Crutch.defaultOptions.cc.obnoxiousPositionX,
+            getFunction = function() return Crutch.savedOptions.cc.obnoxiousPositionX end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.obnoxiousPositionX = value
+                CrutchAlertsCCUIObnoxious:ClearAnchors()
+                CrutchAlertsCCUIObnoxious:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.obnoxiousPositionX, Crutch.savedOptions.cc.obnoxiousPositionY)
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Obnoxious UI position Y",
+            tooltip = "The vertical position of the obnoxious CC icon",
+            min = - GuiRoot:GetHeight() / 2,
+            max = GuiRoot:GetHeight() / 2,
+            step = GuiRoot:GetHeight() / 64,
+            default = Crutch.defaultOptions.cc.obnoxiousPositionY,
+            getFunction = function() return Crutch.savedOptions.cc.obnoxiousPositionY end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.obnoxiousPositionY = value
+                CrutchAlertsCCUIObnoxious:ClearAnchors()
+                CrutchAlertsCCUIObnoxious:SetAnchor(CENTER, GuiRoot, CENTER, Crutch.savedOptions.cc.obnoxiousPositionX, Crutch.savedOptions.cc.obnoxiousPositionY)
+                Crutch.UnlockUI(true)
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Play sound when CC'ed",
+            tooltip = "Plays the DeathRecap_KillingBlowShown sound when you get CC'ed",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.cc.playSound end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.playSound = value
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Sound volume",
+            tooltip = "The volume of the sound (AKA the number of times to play the sound at the same time)",
+            min = 1,
+            max = 10,
+            step = 1,
+            default = Crutch.defaultOptions.cc.hardVolume,
+            getFunction = function() return Crutch.savedOptions.cc.hardVolume end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.alertScale = hardVolume
+            end,
+            disable = function() return not Crutch.savedOptions.cc.playSound end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show info in chat",
+            tooltip = "Show information about the CC type, source, ability, and duration in your chat when it happensd",
+            default = Crutch.defaultOptions.cc.showChat,
+            getFunction = function() return Crutch.savedOptions.cc.showChat end,
+            setFunction = function(value)
+                Crutch.savedOptions.cc.showChat = value
+            end,
+        },
     })
 
     ---------------------------------------------------------------------
     -- blacklist IDs
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_SECTION,
-        label = "Advanced",
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Enable \"fun\" stuff",
-        tooltip = "This is where I'd put my Easter eggs... if I had any!",
-        default = true,
-        getFunction = function() return Crutch.savedOptions.general.showSpeshul end,
-        setFunction = function(value)
-            Crutch.savedOptions.general.showSpeshul = value
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_EDIT,
-        label = "Blacklist IDs, separated by commas",
-        tooltip = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above. To find IDs, you can turn on \"Show debug on alert\" below, and the ID is the first number shown on the small gray text under the alert (ignore fake IDs starting with 888). Alternatively, you can find IDs from online sources such as ESOLogs, player-maintained spreadsheets, or UESP.\n\nIDs added to this blacklist will no longer be shown in \"begin casts,\" \"gained casts,\" and \"casts on others.\" For example, to suppress Bahsei HM portal direction alerts, add 153517,153518",
-        getFunction = function()
-            local str = ""
-            for id, _ in pairs(Crutch.savedOptions.general.blacklist) do
-                str = string.format("%s%d, ", str, id)
-            end
-            return str
-        end,
-        setFunction = function(value)
-            local ids = {}
-            for _, id in ipairs({zo_strsplit(",", value)}) do
-                id = tonumber(id)
-                if (id) then
-                    ids[id] = true
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Advanced",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Enable \"fun\" stuff",
+            tooltip = "This is where I'd put my Easter eggs... if I had any!",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.showSpeshul end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showSpeshul = value
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_EDIT,
+            label = "Blacklist IDs, separated by commas",
+            tooltip = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above. To find IDs, you can turn on \"Show debug on alert\" below, and the ID is the first number shown on the small gray text under the alert (ignore fake IDs starting with 888). Alternatively, you can find IDs from online sources such as ESOLogs, player-maintained spreadsheets, or UESP.\n\nIDs added to this blacklist will no longer be shown in \"begin casts,\" \"gained casts,\" and \"casts on others.\" For example, to suppress Bahsei HM portal direction alerts, add 153517,153518",
+            getFunction = function()
+                local str = ""
+                for id, _ in pairs(Crutch.savedOptions.general.blacklist) do
+                    str = string.format("%s%d, ", str, id)
                 end
-            end
-            Crutch.savedOptions.general.blacklist = ids
-        end,
-    })
-
-    settings:AddSetting({
-        type = LibHarvensAddonSettings.ST_CHECKBOX,
-        label = "Show debug on alert",
-        tooltip = "Add a small line of text on alerts that shows IDs and other debug information",
-        default = false,
-        getFunction = function() return Crutch.savedOptions.debugLine end,
-        setFunction = function(value)
-            Crutch.savedOptions.debugLine = value
-        end,
+                return str
+            end,
+            setFunction = function(value)
+                local ids = {}
+                for _, id in ipairs({zo_strsplit(",", value)}) do
+                    id = tonumber(id)
+                    if (id) then
+                        ids[id] = true
+                    end
+                end
+                Crutch.savedOptions.general.blacklist = ids
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show debug on alert",
+            tooltip = "Add a small line of text on alerts that shows IDs and other debug information",
+            default = false,
+            getFunction = function() return Crutch.savedOptions.debugLine end,
+            setFunction = function(value)
+                Crutch.savedOptions.debugLine = value
+            end,
+        },
     })
 end
