@@ -889,6 +889,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.savedOptions.osseincage.panel.showClash = value
             end,
         },
+        --[[
         DIVIDER,
         {
             type = LibHarvensAddonSettings.ST_LABEL,
@@ -905,8 +906,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
+        ]]
     })
-
+    --[[
     local ocSelectedDangerousAbility = next(Crutch.savedOptions.osseincage.abilitiesToReplace) or 0
     local ocDangerousAbilityItems = {}
     settings:AddSettings({
@@ -987,6 +989,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
             disable = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
         },
     })
+    ]]
 
     settings:AddSettings({
         {
