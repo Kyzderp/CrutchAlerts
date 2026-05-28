@@ -1718,7 +1718,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
     settings:AddSettings(Crutch.GetProminentSettingsConsole(1227, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
-            label = "Vateshran Hollow",
+            label = "Vateshran Hollows",
         },
     }))
 
