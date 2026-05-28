@@ -130,7 +130,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         })
     end
 
-    settings:AddSettings(Crutch.GetEffectSettingsConsole(1051, {
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1051, Crutch.GetEffectSettingsConsole(1051, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Cloudrest",
@@ -269,9 +269,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
-    }))
+    })))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1344, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Dreadsail Reef",
@@ -311,9 +311,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.TryEnablingTaleriaCleave()
             end,
         },
-    })
+    }))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(975, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Halls of Fabrication",
@@ -354,9 +354,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
             disable = function() return not Crutch.savedOptions.hallsoffabrication.showAGIcons end,
         },
-    })
+    }))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1196, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Kyne's Aegis",
@@ -408,9 +408,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
             disable = function() return not Crutch.savedOptions.kynesaegis.showFalgravnIcons end,
         },
-    })
+    }))
 
-    settings:AddSettings(Crutch.GetEffectSettingsConsole(1478, {
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1478, Crutch.GetEffectSettingsConsole(1478, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Lucent Citadel",
@@ -545,9 +545,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
             disable = function() return not Crutch.savedOptions.lucentcitadel.showTempestIcons end,
         },
-    }))
+    })))
 
-    settings:AddSettings(Crutch.GetEffectSettingsConsole(725, {
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(725, Crutch.GetEffectSettingsConsole(725, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Maw of Lorkhaj",
@@ -607,7 +607,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.savedOptions.mawoflorkhaj.showTwinsIcons = value
             end,
         },
-    }))
+    })))
 
     settings:AddSettings(Crutch.GetEffectSettingsConsole(1565, {
         {
@@ -674,7 +674,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
     }))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1548, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Ossein Cage",
@@ -907,7 +907,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
         },
         ]]
-    })
+    }))
     --[[
     local ocSelectedDangerousAbility = next(Crutch.savedOptions.osseincage.abilitiesToReplace) or 0
     local ocDangerousAbilityItems = {}
@@ -991,7 +991,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
     })
     ]]
 
-    settings:AddSettings(Crutch.GetEffectSettingsConsole(1263, {
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1263, Crutch.GetEffectSettingsConsole(1263, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Rockgrove",
@@ -1059,7 +1059,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
-    }))
+    })))
 
     settings:AddSettings({
         DIVIDER,
@@ -1340,7 +1340,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
     })
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1427, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Sanity's Edge",
@@ -1411,9 +1411,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
-    })
+    }))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1121, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Sunspire",
@@ -1534,7 +1534,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
-    })
+    }))
 
     ---------------------------------------------------------------------
     -- arenas
@@ -1542,8 +1542,21 @@ function Crutch.CreateConsoleContentSettingsMenu()
     --     type = LibHarvensAddonSettings.ST_LABEL,
     --     label = "Arenas",
     -- })
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1082, {
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Blackrose Prison",
+        },
+    }))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(635, {
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Dragonstar Arena",
+        },
+    }))
+
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1436, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Infinite Archive",
@@ -1611,9 +1624,9 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
-    })
+    }))
 
-    settings:AddSettings({
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(677, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Maelstrom Arena",
@@ -1628,7 +1641,14 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.savedOptions.maelstrom.showRounds = value
             end,
         },
-    })
+    }))
+
+    settings:AddSettings(Crutch.GetProminentSettingsConsole(1227, {
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Vateshran Hollow",
+        },
+    }))
 
     ---------------------------------------------------------------------
     -- dungeons

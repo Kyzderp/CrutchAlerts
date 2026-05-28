@@ -140,7 +140,7 @@ local defaultOptions = {
     },
     console = { -- Some console-specific settings?
         showProminent = true,
-        showEffects = true,
+        prominentsMigrated = false,
     },
     bossHealthBar = {
         enabled = true,
@@ -559,6 +559,11 @@ local function Initialize()
     if (Crutch.savedOptions.prominentV2FirstTime) then
         Crutch.InitProminentV2Options()
         Crutch.savedOptions.prominentV2FirstTime = false
+    end
+
+    if (ZO_IsConsoleOrGameCoreUI() and not Crutch.savedOptions.prominentsMigrated) then
+        Crutch.MigrateConsoleProminents()
+        Crutch.savedOptions.prominentsMigrated = true
     end
     PrintTime("savedOptions done")
 

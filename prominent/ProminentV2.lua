@@ -955,6 +955,66 @@ function Crutch.GetProminentSettings(zoneId, controls)
     return controls
 end
 
+
+-----------------------------------------------------------
+-- Console stuff
+
+-- Represents one control toggle for one prominent ability
+local function GetProminentSettingConsole(subcategory, settingsData)
+    return {
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = settingsData.title,
+        tooltip = settingsData.description,
+        default = settingsData.default,
+        getFunction = function() return Crutch.savedOptions[subcategory][settingsData.name] end,
+        setFunction = function(value)
+            Crutch.savedOptions[subcategory][settingsData.name] = value
+            Crutch.OnPlayerActivated()
+        end,
+    }
+end
+
+-- Called from Settings.lua to append prominent alert sections to existing settings controls
+function Crutch.GetProminentSettingsConsole(zoneId, controls)
+    table.insert(controls, {
+        type = LibHarvensAddonSettings.ST_LABEL,
+        label = string.format("|c%s%s|r", ZO_NORMAL_TEXT:ToHex(), string.rep("_", 16)),
+    })
+    table.insert(controls, {
+        type = LibHarvensAddonSettings.ST_LABEL,
+        label = "Prominent Alerts",
+    })
+
+    local zoneData = prominentData[zoneId]
+    local added = {} -- Some have multiple IDs, only add the setting once
+    for abilityId, abilityData in pairs(zoneData) do
+        if (type(abilityId) == "number" and not added[abilityData.settings.name]) then
+            table.insert(controls, GetProminentSettingConsole(zoneData.settingsSubcategory, abilityData.settings))
+            added[abilityData.settings.name] = true
+        end
+    end
+    return controls
+end
+
+-- Prominents were previously an all or nothing toggle on console because of
+-- settings menu clutter. If the user turned them off, apply that to all of
+-- them in a one-time migration.
+function Crutch.MigrateConsoleProminents()
+    if (Crutch.savedOptions.console.showProminent ~= false) then return end
+
+    for zoneId, zoneData in pairs(prominentData) do
+        local subcategory = zoneData.settingsSubcategory
+        for abilityId, abilityData in pairs(zoneData) do
+            if (type(abilityId) == "number") then
+                local settingsData = abilityData.settings
+                Crutch.savedOptions[subcategory][settingsData.name] = false
+            end
+        end
+    end
+end
+
+
+-----------------------------------------------------------
 local resultStrings = {
     [ACTION_RESULT_BEGIN] = "BEGIN",
     [ACTION_RESULT_EFFECT_GAINED] = "GAIN",
