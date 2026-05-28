@@ -271,6 +271,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
     })))
 
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Alert drop Hoarfrost",
+        tooltip = "Displays a prominent alert and ding sound when you can drop Hoarfrost",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.cloudrest.dropFrostProminent end,
+        setFunction = function(value)
+            Crutch.savedOptions.cloudrest.dropFrostProminent = value
+        end,
+    })
+
     settings:AddSettings(Crutch.GetProminentSettingsConsole(1344, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
@@ -289,6 +300,56 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
         },
         ]]
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Alert Building Static stacks",
+            tooltip = "Displays a prominent alert and ding sound if you reach too many Building Static (lightning) stacks",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.alertStaticStacks end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.alertStaticStacks = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Building Static stacks threshold",
+            min = 4,
+            max = 20,
+            step = 1,
+            default = 7,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.staticThreshold end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.staticThreshold = value
+                Crutch.OnPlayerActivated()
+            end,
+            disable = function() return not Crutch.savedOptions.dreadsailreef.alertStaticStacks end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Alert Volatile Residue stacks",
+            tooltip = "Displays a prominent alert and ding sound if you reach too many Volatile Residue (poison) stacks",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.alertVolatileStacks end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.alertVolatileStacks = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Volatile Residue stacks threshold",
+            min = 4,
+            max = 20,
+            step = 1,
+            default = 6,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.volatileThreshold end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.volatileThreshold = value
+                Crutch.OnPlayerActivated()
+            end,
+            disable = function() return not Crutch.savedOptions.dreadsailreef.alertVolatileStacks end,
+        },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show Brewmaster elixirs",
@@ -608,6 +669,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
         },
     })))
+
+    settings:AddSetting({
+        type = LibHarvensAddonSettings.ST_CHECKBOX,
+        label = "Show Twins color swap",
+        tooltip = "In the twins fight, shows a prominent alert when you receive Shadow/Lunar Conversion",
+        default = true,
+        getFunction = function() return Crutch.savedOptions.mawoflorkhaj.prominentColorSwap end,
+        setFunction = function(value)
+            Crutch.savedOptions.mawoflorkhaj.prominentColorSwap = value
+        end,
+    })
 
     settings:AddSettings(Crutch.GetEffectSettingsConsole(1565, {
         {

@@ -273,17 +273,6 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
-            label = "Show prominent alerts",
-            tooltip = "Show large, obnoxious alerts, usually with a ding sound too, for a manually curated list of important mechanics that warrant your immediate attention",
-            default = true,
-            getFunction = function() return Crutch.savedOptions.console.showProminent end,
-            setFunction = function(value)
-                Crutch.savedOptions.console.showProminent = value
-                Crutch.OnPlayerActivated()
-            end,
-        },
-        {
-            type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show damageable timers",
             tooltip = "For certain encounters, show a countdown to when the boss or important adds will become damageable, tauntable, return to the arena, etc. This works best on English client, with some support for other languages.",
             default = true,

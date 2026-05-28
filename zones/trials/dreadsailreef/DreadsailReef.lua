@@ -386,26 +386,13 @@ function Crutch.RegisterDreadsailReef()
 
     -- Lightning Stacks
     local showStatic
-    if (ZO_IsConsoleOrGameCoreUI()) then
-        showStatic = Crutch.savedOptions.console.showProminent
-    else
-        showStatic = Crutch.savedOptions.dreadsailreef.alertStaticStacks
-    end
-
-    if (showStatic) then
+    if (Crutch.savedOptions.dreadsailreef.alertStaticStacks) then
         Crutch.RegisterForEffectChanged("DSRStaticBoss", OnLightningStacksChanged, 163575, "player")
         Crutch.RegisterForEffectChanged("DSRStaticOther", OnLightningStacksChanged, 169688, "player")
     end
 
     -- Volatile Stacks
-    local showVolatile
-    if (ZO_IsConsoleOrGameCoreUI()) then
-        showVolatile = Crutch.savedOptions.console.showProminent
-    else
-        showVolatile = Crutch.savedOptions.dreadsailreef.alertVolatileStacks
-    end
-
-    if (showVolatile) then
+    if (Crutch.savedOptions.dreadsailreef.alertVolatileStacks) then
         Crutch.RegisterForEffectChanged("DSRVolatileBoss", OnPoisonStacksChanged, 174835, "player")
         Crutch.RegisterForEffectChanged("DSRVolatileOther", OnPoisonStacksChanged, 174932, "player")
     end

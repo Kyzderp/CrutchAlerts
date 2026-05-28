@@ -1011,6 +1011,11 @@ function Crutch.MigrateConsoleProminents()
             end
         end
     end
+
+    Crutch.savedOptions.cloudrest.dropFrostProminent = false
+    Crutch.savedOptions.dreadsailreef.alertStaticStacks = false
+    Crutch.savedOptions.dreadsailreef.alertVolatileStacks = false
+    Crutch.savedOptions.mawoflorkhaj.prominentColorSwap = false
 end
 
 
@@ -1033,12 +1038,7 @@ function Crutch.RegisterProminents(zoneId)
     for abilityId, abilityData in pairs(zoneData) do
         local settingsData = abilityData.settings
         if (type(abilityId) == "number") then
-            local prominentEnabled
-            if (ZO_IsConsoleOrGameCoreUI()) then
-                prominentEnabled = Crutch.savedOptions.console.showProminent
-            else
-                prominentEnabled = Crutch.savedOptions[zoneData.settingsSubcategory][settingsData.name]
-            end
+            local prominentEnabled = Crutch.savedOptions[zoneData.settingsSubcategory][settingsData.name]
             if (prominentEnabled) then
                 -- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
                 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)

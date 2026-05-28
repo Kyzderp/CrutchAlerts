@@ -252,13 +252,7 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
         Crutch.Drawing.OverrideDeadColor(unitTag, iconData.color)
 
         -- If self, display a prominent alert because COLOR SWAP!
-        local showProminent
-        if (ZO_IsConsoleOrGameCoreUI()) then
-            showProminent = Crutch.savedOptions.console.showProminent
-        else
-            showProminent = Crutch.savedOptions.mawoflorkhaj.prominentColorSwap
-        end
-        if (atName == GetUnitDisplayName("player") and showProminent) then
+        if (atName == GetUnitDisplayName("player") and Crutch.savedOptions.mawoflorkhaj.prominentColorSwap) then
             Crutch.DisplayProminent(C.ID.COLOR_SWAP)
         end
     elseif (result == ACTION_RESULT_EFFECT_FADED) then
