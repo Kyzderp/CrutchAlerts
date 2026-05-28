@@ -60,6 +60,10 @@ Crutch.format = {
     [105291] =    600, -- SUM Shadow Beads
 
 -- Dreadsail Reef
+    [166522] = 100, -- Imminent Blister
+    [166525] = 100, -- Blistering Fragility
+    [166527] = 100, -- Imminent Chill
+    [166529] = 100, -- Chilling Fragility
     [163987] = 500, -- Coral Slam
     [166353] = 400, -- Crashing Wave (Taleria)
 

@@ -116,6 +116,10 @@ Crutch.filter = {
     [227461] = function(hitValue) return hitValue == 1233 end, -- Ram (Marauder Zulfimbul) -- BEGIN timer is 1233, but DUR 10000. Only use BEGIN
     [ 56857] = function(hitValue) return hitValue == 4000 end, -- Emerald Eclipse (Serpent) -- BEGIN is 1400 before 4000 DUR
     [246168] = function(hitValue) return hitValue == 500 end, -- Acute Enervation (initial targeting of first, for some reason is 500 then 2800, but then not another ~1s until the real cast)
+
+    -- DSR Twins swap: only on self, or if set as tank
+    [166525] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Blistering Fragility
+    [166529] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Chilling Fragility
 }
 
 
@@ -283,6 +287,8 @@ Crutch.others = {
 
     -- Dreadsail Reef
     [1344] = {
+        [166525] = true, -- Blistering Fragility
+        [166529] = true, -- Chilling Fragility
         [166353] = true, -- Crashing Wave (Taleria)
     },
 
