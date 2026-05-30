@@ -118,8 +118,8 @@ Crutch.filter = {
     [246168] = function(hitValue) return hitValue == 500 end, -- Acute Enervation (initial targeting of first, for some reason is 500 then 2800, but then not another ~1s until the real cast)
 
     -- DSR Twins swap: only on self, or if set as tank
-    [166525] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Blistering Fragility
-    [166529] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Chilling Fragility
+    [168526] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Imminent Blister (duration before fragility, not initial cast)
+    [168525] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Imminent Chill (duration before fragility, not initial cast)
 }
 
 
@@ -177,6 +177,11 @@ Crutch.testing = {
     [121411] = true, -- Negate Field
 
     [52773] = true, -- Ice Comet (Mavus)
+
+    [166525] = true, -- Blistering Fragility
+    [166529] = true, -- Chilling Fragility
+    [168526] = true, -- Imminent Blister (duration before fragility, not initial cast)
+    [168525] = true, -- Imminent Chill (duration before fragility, not initial cast)
 }
 
 ---------------------------------------------------------------------
@@ -202,6 +207,10 @@ Crutch.noSpamZone = {
 ---------------------------------------------------------------------
 -- Normally we don't listen for ACTION_RESULT_EFFECT_GAINED_DURATION, but timers can be useful in some cases
 Crutch.gainedDuration = {
+-- Dreadsail Reef
+    [166525] = true, -- Blistering Fragility (duration of the actual debuff)
+    [166529] = true, -- Chilling Fragility (duration of the actual debuff)
+
 -- Kyne's Aegis
     [140941] = true, -- Instability
     [140944] = true, -- Instability HM
@@ -287,8 +296,6 @@ Crutch.others = {
 
     -- Dreadsail Reef
     [1344] = {
-        [166525] = true, -- Blistering Fragility
-        [166529] = true, -- Chilling Fragility
         [166353] = true, -- Crashing Wave (Taleria)
     },
 

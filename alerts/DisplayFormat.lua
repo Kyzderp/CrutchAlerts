@@ -61,9 +61,11 @@ Crutch.format = {
 
 -- Dreadsail Reef
     [166522] = 100, -- Imminent Blister
+    [168526] = 100, -- Imminent Blister (duration before fragility, not initial cast)
     [166525] = 100, -- Blistering Fragility
-    [166527] = 100, -- Imminent Chill
-    [166529] = 100, -- Chilling Fragility
+    [166527] = 400, -- Imminent Chill
+    [168525] = 400, -- Imminent Chill (duration before fragility, not initial cast)
+    [166529] = 400, -- Chilling Fragility
     [163987] = 500, -- Coral Slam
     [166353] = 400, -- Crashing Wave (Taleria)
 
