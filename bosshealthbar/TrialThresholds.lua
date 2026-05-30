@@ -184,6 +184,7 @@ local trialThresholds = {
     },
     [GetBossName(CRUTCH_BHB_TIDEBORN_TALERIA)] = {
         [85] = "Winter Storm",
+        [75] = "Sirens",
         [50] = "Bridge",
         [35] = "Bridge",
         [20] = "Bridge",
