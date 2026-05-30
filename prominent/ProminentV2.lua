@@ -100,6 +100,44 @@ local prominentData = {
     -- Dreadsail Reef
     [1344] = {
         settingsSubcategory = "dreadsailreef",
+        -- Scalding Swell
+        [169587] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED_DURATION,
+            },
+            text = "WAVE",
+            color = C.ORANGE,
+            slot = 1,
+            playSound = function() Crutch.PlayMultiSound(SOUNDS.BATTLEGROUND_CAPTURE_FLAG_TAKEN_OWN_TEAM, 4, 4, 700, true) end,
+            millis = 6000,
+            settings = {
+                name = "prominentWeaponWave",
+                title = "Alert Scalding Swell / Biting Billow",
+                description = "Shows a prominent alert and plays a sound when a weapon is killed and releases a shockwave",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Biting Billow
+        [169594] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED_DURATION,
+            },
+            text = "WAVE",
+            color = C.ICEBLUE,
+            slot = 2,
+            playSound = function() Crutch.PlayMultiSound(SOUNDS.BATTLEGROUND_CAPTURE_FLAG_TAKEN_OWN_TEAM, 4, 4, 700, true) end,
+            millis = 6000,
+            settings = {
+                name = "prominentWeaponWave",
+                title = "Alert Scalding Swell / Biting Billow",
+                description = "Shows a prominent alert and plays a sound when a weapon is killed and releases a shockwave",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
         -- Cascading Boot (Dreadsail Overseer)
         [170188] = {
             event = EVENT_COMBAT_EVENT,

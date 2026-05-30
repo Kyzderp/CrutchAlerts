@@ -147,7 +147,7 @@ local function StackBrands(abilityId, hitValue, sourceUnitId)
         Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, 0, 0, 0, 0, 0, 0, false)
 
         -- Put an icon on the ground
-        local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/worldmap/map_indexicon_locations_down.dds",
+        local key = Crutch.Drawing.CreatePlacedIcon("/esoui/art/actionbar/stateoverlay_vulnerable.dds",
             BRAND_SPOTS[mySpot].x,
             BRAND_SPOTS[mySpot].y + 75,
             BRAND_SPOTS[mySpot].z,

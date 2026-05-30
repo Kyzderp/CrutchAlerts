@@ -124,9 +124,12 @@ function Crutch.DisplayProminent2(abilityId, data)
     local sound = data.playSound
     if (sound) then
         if (sound == true) then
-            sound = SOUNDS.DUEL_START
+            PlaySound(SOUNDS.DUEL_START)
+        elseif (type(sound) == "function") then
+            sound()
+        else
+            PlaySound(sound)
         end
-        PlaySound(sound)
     end
     Display(abilityId, data.text, data.color, data.slot, data.millis or (preMillis + postMillis))
 end

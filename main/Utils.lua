@@ -276,13 +276,22 @@ Crutch.CheckGroupBuffs = CheckGroupBuffs
 ---------------------------------------------------------------------
 -- Sound
 ---------------------------------------------------------------------
-local function PlayMultiSound(sound, volume, times, delay)
-    if (times < 1) then return end
+local function PlayMultiSound(sound, volume, times, delay, attenuate)
+    if (not times or times < 1) then return end
+    volume = volume or 1
+
     for i = 1, volume do
         PlaySound(sound)
     end
+
+    if (not delay or times == 1) then return end
     zo_callLater(function()
-        PlayMultiSound(sound, volume, times - 1, delay)
+        PlayMultiSound(
+            sound,
+            attenuate and (volume - 1) or volume,
+            times - 1,
+            delay,
+            attenuate)
     end, delay)
 end
 Crutch.PlayMultiSound = PlayMultiSound
