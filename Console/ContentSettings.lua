@@ -386,6 +386,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Summon Behemoth timer",
+            tooltip = "Shows the approximate time until Taleria will summon a Behemoth",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
     }))
 
     settings:AddSettings(Crutch.GetProminentSettingsConsole(975, {

@@ -217,6 +217,7 @@ local defaultOptions = {
 
         infoPanel = {
             showMaelstrom = true,
+            showBehemothSpawn = true,
         },
     },
     hallsoffabrication = {

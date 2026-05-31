@@ -345,8 +345,12 @@ Crutch.TryEnablingTaleriaCleave = TryEnablingTaleriaCleave
 -- Taleria Info Panel
 ---------------------------------------------------------------------
 local PANEL_MAELSTROM_INDEX = 3
+local PANEL_BEHEMOTH_INDEX = 4
+
 local MAELSTROM_ID = 166292
 local MAELSTROM_PREFIX = zo_strformat("|cfff1ab<<C:1>>: ", GetAbilityName(MAELSTROM_ID))
+local BEHEMOTH_ID = 166928
+local BEHEMOTH_PREFIX = zo_strformat("|c66CCFF<<C:1>>: ", GetAbilityName(BEHEMOTH_ID)) -- color matching CCA
 
 local callLaterId
 -- 500ms cast time, 6000ms channeled
@@ -358,9 +362,16 @@ local function OnMaelstromGainedDuration(_, _, _, _, _, _, _, _, _, _, hitValue)
         end, hitValue)
 end
 
+local function OnBehemothSummoned()
+    -- 45.173, 45.251, 45.319, 45.635, 45.675, 45.683, 45.794, 45.859, 46.197, 46.425, 46.545, 46.655, 46.946, 47.312, 47.512, 47.918, 50.757, 55.651, 55.972, 56.326, 56.467, 58.114, 58.145
+    Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 45000) -- TODO: different for nonhm?
+end
+
 local function OnCombat()
     -- initial timer (to gained duration) 12.776, 13.011, 14.405, 14.207, 14.179
     Crutch.InfoPanel.CountDownDuration(PANEL_MAELSTROM_INDEX, MAELSTROM_PREFIX, 12000)
+    -- initial timer (to begin) 6.159, 6.447, 5.967, 5.78, 5.771
+    Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 5700)
 end
 
 
@@ -374,6 +385,7 @@ local function CleanUp()
     if (callLaterId) then
         zo_removeCallLater(callLaterId)
     end
+    Crutch.InfoPanel.StopCount(PANEL_BEHEMOTH_INDEX)
 end
 
 local function GetUnitNameIfExists(unitTag)
@@ -420,7 +432,6 @@ function Crutch.RegisterDreadsailReef()
     end
 
     -- Lightning Stacks
-    local showStatic
     if (Crutch.savedOptions.dreadsailreef.alertStaticStacks) then
         Crutch.RegisterForEffectChanged("DSRStaticBoss", OnLightningStacksChanged, 163575, "player")
         Crutch.RegisterForEffectChanged("DSRStaticOther", OnLightningStacksChanged, 169688, "player")
@@ -440,9 +451,12 @@ function Crutch.RegisterDreadsailReef()
     -- Taleria cleave
     Crutch.RegisterBossChangedListener("CrutchDreadsailReef", TryEnablingTaleriaCleave)
 
-    -- Taleria Maelstrom info panel
+    -- Taleria info panel
     if (Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom) then
         Crutch.RegisterForCombatEvent("DSRMaelstrom", OnMaelstromGainedDuration, ACTION_RESULT_EFFECT_GAINED_DURATION, MAELSTROM_ID)
+    end
+    if (Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn) then
+        Crutch.RegisterForCombatEvent("DSRBehemoth", OnBehemothSummoned, ACTION_RESULT_BEGIN, BEHEMOTH_ID)
     end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Dreadsail Reef")
@@ -489,6 +503,7 @@ function Crutch.UnregisterDreadsailReef()
 
     -- Taleria info panel
     Crutch.UnregisterForCombatEvent("DSRMaelstrom")
+    Crutch.UnregisterForCombatEvent("DSRBehemoth")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end

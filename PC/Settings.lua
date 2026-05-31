@@ -1782,6 +1782,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Summon Behemoth timer",
+                    tooltip = "Shows the approximate time until Taleria will summon a Behemoth",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
         {
