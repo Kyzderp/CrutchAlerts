@@ -1674,7 +1674,6 @@ function Crutch:CreateSettingsMenu()
             type = "submenu",
             name = "Dreadsail Reef",
             controls = Crutch.GetProminentSettings(1344, {
-                --[[
                 {
                     type = "checkbox",
                     name = "Show brand sorting / stacking",
@@ -1687,7 +1686,6 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
-                ]]
                 {
                     type = "checkbox",
                     name = "Show Brewmaster elixirs",
@@ -1763,6 +1761,24 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.dreadsailreef.showArcingCleave = value
                         Crutch.TryEnablingTaleriaCleave()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "description",
+                    title = "|c08BD1DInfo Panel|r",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Maelstrom timer",
+                    tooltip = "Shows the approximate time until Taleria can cast Maelstrom",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom = value
+                        Crutch.OnPlayerActivated()
                     end,
                     width = "full",
                 },

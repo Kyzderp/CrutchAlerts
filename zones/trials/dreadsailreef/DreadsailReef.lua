@@ -316,12 +316,19 @@ Crutch.ShowArcingCleave = ShowArcingCleave
 -- /script CrutchAlerts.ShowArcingCleave(57158, 19610,  96815, 3600, 25 / 180 * math.pi)
 -- /script CrutchAlerts.ShowArcingCleave()
 
--- Enable Cleave lines if the boss is present
-local function TryEnablingTaleriaCleave()
+local function IsTaleria()
     local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     if (powerMax == 181632304 -- Hardmode
         or powerMax == 100906840 -- Veteran
         or powerMax == 29538220) then -- Normal
+        return true
+    end
+    return false
+end
+
+-- Enable Cleave lines if the boss is present
+local function TryEnablingTaleriaCleave()
+    if (IsTaleria()) then
         if (not cleaveEnabled) then
             ShowArcingCleave()
         end
@@ -335,11 +342,38 @@ Crutch.TryEnablingTaleriaCleave = TryEnablingTaleriaCleave
 
 
 ---------------------------------------------------------------------
+-- Taleria Info Panel
+---------------------------------------------------------------------
+local PANEL_MAELSTROM_INDEX = 3
+local MAELSTROM_ID = 166292
+local MAELSTROM_PREFIX = zo_strformat("|cfff1ab<<C:1>>: ", GetAbilityName(MAELSTROM_ID))
+
+local callLaterId
+-- 500ms cast time, 6000ms channeled
+local function OnMaelstromGainedDuration(_, _, _, _, _, _, _, _, _, _, hitValue)
+    Crutch.InfoPanel.CountDownDuration(PANEL_MAELSTROM_INDEX, MAELSTROM_PREFIX, hitValue)
+    callLaterId = zo_callLater(function()
+        -- outlier 27.632? not sure if related to tank death. 31.897, 32.332, 32.383, 32.46, 32.529, 32.798, 34.569, 35, 36.009, 36.144, 36.348, 36.71, 39.676, 39.836, 39.861, 39.962, 40.069, 40.173, 40.176, 40.301, 40.403, 40.412, 42.111, 44.079, 44.108, 45.234, 47.669, 47.895
+        Crutch.InfoPanel.CountDownToTargetTime(PANEL_MAELSTROM_INDEX, MAELSTROM_PREFIX, GetGameTimeMilliseconds() + 31800)
+        end, hitValue)
+end
+
+local function OnCombat()
+    -- initial timer (to gained duration) 12.776, 13.011, 14.405, 14.207, 14.179
+    Crutch.InfoPanel.CountDownDuration(PANEL_MAELSTROM_INDEX, MAELSTROM_PREFIX, 12000)
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local function CleanUp()
     ZO_ClearTable(firebrands)
     ZO_ClearTable(frostbrands)
+    Crutch.InfoPanel.StopCount(PANEL_MAELSTROM_INDEX)
+    if (callLaterId) then
+        zo_removeCallLater(callLaterId)
+    end
 end
 
 local function GetUnitNameIfExists(unitTag)
@@ -361,6 +395,7 @@ local function OnBossesChanged()
 end
 
 function Crutch.RegisterDreadsailReef()
+    Crutch.RegisterEnteredGroupCombatListener("CrutchDSREnteredGroupCombat", OnCombat)
     Crutch.RegisterExitedGroupCombatListener("CrutchDSRExitedGroupCombat", CleanUp)
 
     -- Chat output for who picks up domes
@@ -374,7 +409,7 @@ function Crutch.RegisterDreadsailReef()
     OnBossesChanged()
 
     -- Brands
-    if (Crutch.savedOptions.dreadsailreef.stackBrands and Crutch.savedOptions.experimental) then
+    if (Crutch.savedOptions.dreadsailreef.stackBrands) then
         Crutch.RegisterForCombatEvent("DSRFirebrand", OnFirebrand, ACTION_RESULT_EFFECT_GAINED_DURATION, FIREBRAND_ID)
         Crutch.RegisterForCombatEvent("DSRFrostbrand", OnFrostbrand, ACTION_RESULT_EFFECT_GAINED_DURATION, FROSTBRAND_ID)
     end
@@ -405,10 +440,16 @@ function Crutch.RegisterDreadsailReef()
     -- Taleria cleave
     Crutch.RegisterBossChangedListener("CrutchDreadsailReef", TryEnablingTaleriaCleave)
 
+    -- Taleria Maelstrom info panel
+    if (Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom) then
+        Crutch.RegisterForCombatEvent("DSRMaelstrom", OnMaelstromGainedDuration, ACTION_RESULT_EFFECT_GAINED_DURATION, MAELSTROM_ID)
+    end
+
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Dreadsail Reef")
 end
 
 function Crutch.UnregisterDreadsailReef()
+    Crutch.UnregisterEnteredGroupCombatListener("CrutchDSREnteredGroupCombat")
     Crutch.UnregisterExitedGroupCombatListener("CrutchDSRExitedGroupCombat")
     CleanUp()
 
@@ -445,6 +486,9 @@ function Crutch.UnregisterDreadsailReef()
     if (cleaveEnabled) then
         Uncleave()
     end
+
+    -- Taleria info panel
+    Crutch.UnregisterForCombatEvent("DSRMaelstrom")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end

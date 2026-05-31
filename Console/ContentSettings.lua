@@ -287,7 +287,6 @@ function Crutch.CreateConsoleContentSettingsMenu()
             type = LibHarvensAddonSettings.ST_SECTION,
             label = "Dreadsail Reef",
         },
-        --[[
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show brand sorting / stacking",
@@ -299,7 +298,6 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
-        ]]
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Alert Building Static stacks",
@@ -370,6 +368,22 @@ function Crutch.CreateConsoleContentSettingsMenu()
             setFunction = function(value)
                 Crutch.savedOptions.dreadsailreef.showArcingCleave = value
                 Crutch.TryEnablingTaleriaCleave()
+            end,
+        },
+        DIVIDER,
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = "Info Panel",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Maelstrom timer",
+            tooltip = "Shows the approximate time until Taleria can cast Maelstrom",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom = value
+                Crutch.OnPlayerActivated()
             end,
         },
     }))

@@ -214,6 +214,10 @@ local defaultOptions = {
         alertVolatileStacks = true,
         volatileThreshold = 6,
         showArcingCleave = false,
+
+        infoPanel = {
+            showMaelstrom = true,
+        },
     },
     hallsoffabrication = {
         showTripletsIcon = true,
