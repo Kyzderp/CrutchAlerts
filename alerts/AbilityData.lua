@@ -297,6 +297,8 @@ Crutch.others = {
     -- Dreadsail Reef
     [1344] = {
         [166353] = true, -- Crashing Wave (Taleria)
+        [168526] = true, -- Imminent Blister (duration before fragility, not initial cast)
+        [168525] = true, -- Imminent Chill (duration before fragility, not initial cast)
     },
 
     -- Halls of Fabrication

@@ -68,6 +68,7 @@ Crutch.format = {
     [166529] = 400, -- Chilling Fragility
     [163987] = 500, -- Coral Slam
     [166353] = 400, -- Crashing Wave (Taleria)
+    [163952] = 800, -- Lure of the Sea (Sirens)
 
 -- Halls of Fabrication
     [ 91019] = 430, -- Phase 1.1 (Assembly General)

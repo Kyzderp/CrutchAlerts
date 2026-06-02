@@ -345,12 +345,15 @@ Crutch.TryEnablingTaleriaCleave = TryEnablingTaleriaCleave
 -- Taleria Info Panel
 ---------------------------------------------------------------------
 local PANEL_MAELSTROM_INDEX = 3
-local PANEL_BEHEMOTH_INDEX = 4
+local PANEL_WINTER_STORM_INDEX = 4
+local PANEL_BEHEMOTH_INDEX = 5
+local PANEL_SIREN_INDEX = 6
 
+
+---------------------------------------------------------------------
+-- Maelstrom
 local MAELSTROM_ID = 166292
 local MAELSTROM_PREFIX = zo_strformat("|cfff1ab<<C:1>>: ", GetAbilityName(MAELSTROM_ID))
-local BEHEMOTH_ID = 166928
-local BEHEMOTH_PREFIX = zo_strformat("|c66CCFF<<C:1>>: ", GetAbilityName(BEHEMOTH_ID)) -- color matching CCA
 
 local callLaterId
 -- 500ms cast time, 6000ms channeled
@@ -362,16 +365,57 @@ local function OnMaelstromGainedDuration(_, _, _, _, _, _, _, _, _, _, hitValue)
         end, hitValue)
 end
 
+
+---------------------------------------------------------------------
+-- Winter Storm
+local WINTER_STORM_CW_ID = 175447
+local WINTER_STORM_CCW_ID = 174866
+local PLATFORM_FALL_ID = 167702
+local WINTER_STORM_PREFIX = zo_strformat("|c00CCCC<<C:1>>: ", GetAbilityName(WINTER_STORM_CW_ID)) -- color matching CCA
+
+local function OnWinterStorm()
+    Crutch.dbgOther("winter")
+    Crutch.InfoPanel.CountDownDuration(PANEL_WINTER_STORM_INDEX, WINTER_STORM_PREFIX, 110000) -- TODO
+end
+
+
+---------------------------------------------------------------------
+-- Summon Behemoth
+local BEHEMOTH_ID = 166928
+local BEHEMOTH_PREFIX = zo_strformat("|c66CCFF<<C:1>>: ", GetAbilityName(BEHEMOTH_ID)) -- color matching CCA
+
 local function OnBehemothSummoned()
     -- 45.173, 45.251, 45.319, 45.635, 45.675, 45.683, 45.794, 45.859, 46.197, 46.425, 46.545, 46.655, 46.946, 47.312, 47.512, 47.918, 50.757, 55.651, 55.972, 56.326, 56.467, 58.114, 58.145
     Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 45000) -- TODO: different for nonhm?
 end
 
+
+---------------------------------------------------------------------
+-- Summon Siren
+local SIREN_ID = 166929
+local SIREN_PREFIX = zo_strformat("|c9966FF<<C:1>>: ", GetAbilityName(SIREN_ID)) -- color matching CCA
+
+local function OnSirenSummoned()
+    -- 97.997, 103, 102, 106, 99, 103
+    Crutch.InfoPanel.CountDownDuration(PANEL_SIREN_INDEX, SIREN_PREFIX, 98000) -- TODO
+end
+
+
+---------------------------------------------------------------------
+local function OnPlatformFall() -- TODO: register
+    -- Bridge delays storm: TODO 63 62
+    Crutch.InfoPanel.CountDownDuration(PANEL_WINTER_STORM_INDEX, WINTER_STORM_PREFIX, 60000)
+    -- Bridge delays (or shortens) sirens? 39.136 27.796 26.355 33.797 31.005 39.124 33.785, 38, 39, 32
+    Crutch.InfoPanel.CountDownDuration(PANEL_SIREN_INDEX, SIREN_PREFIX, 26300)
+end
+
 local function OnCombat()
-    -- initial timer (to gained duration) 12.776, 13.011, 14.405, 14.207, 14.179
-    Crutch.InfoPanel.CountDownDuration(PANEL_MAELSTROM_INDEX, MAELSTROM_PREFIX, 12000)
-    -- initial timer (to begin) 6.159, 6.447, 5.967, 5.78, 5.771
-    Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 5700)
+    if (IsTaleria()) then
+        -- initial timer (to gained duration) 12.776, 13.011, 14.405, 14.207, 14.179
+        Crutch.InfoPanel.CountDownDuration(PANEL_MAELSTROM_INDEX, MAELSTROM_PREFIX, 12000)
+        -- initial timer (to begin) 6.159, 6.447, 5.967, 5.78, 5.771
+        Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 5700)
+    end
 end
 
 
@@ -386,6 +430,8 @@ local function CleanUp()
         zo_removeCallLater(callLaterId)
     end
     Crutch.InfoPanel.StopCount(PANEL_BEHEMOTH_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_WINTER_STORM_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_SIREN_INDEX)
 end
 
 local function GetUnitNameIfExists(unitTag)
@@ -458,6 +504,9 @@ function Crutch.RegisterDreadsailReef()
     if (Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn) then
         Crutch.RegisterForCombatEvent("DSRBehemoth", OnBehemothSummoned, ACTION_RESULT_BEGIN, BEHEMOTH_ID)
     end
+    Crutch.RegisterForCombatEvent("DSRWinterStorm", OnWinterStorm, ACTION_RESULT_EFFECT_GAINED, WINTER_STORM_CW_ID)
+    Crutch.RegisterForCombatEvent("DSRWinterStormCCW", OnWinterStorm, ACTION_RESULT_EFFECT_GAINED, WINTER_STORM_CCW_ID)
+    Crutch.RegisterForCombatEvent("DSRSiren", OnSirenSummoned, ACTION_RESULT_BEGIN, SIREN_ID)
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Dreadsail Reef")
 end
@@ -504,6 +553,9 @@ function Crutch.UnregisterDreadsailReef()
     -- Taleria info panel
     Crutch.UnregisterForCombatEvent("DSRMaelstrom")
     Crutch.UnregisterForCombatEvent("DSRBehemoth")
+    Crutch.UnregisterForCombatEvent("DSRWinterStorm")
+    Crutch.UnregisterForCombatEvent("DSRWinterStormCCW")
+    Crutch.UnregisterForCombatEvent("DSRSiren")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end

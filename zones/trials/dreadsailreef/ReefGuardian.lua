@@ -81,8 +81,9 @@ local function OnHeartburnFaded(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, tar
 
     Crutch.dbgOther(bossIndex .. " heartburn faded")
     Crutch.InfoPanel.StopCount(PANEL_REEF_INDEX_OFFSET + bossIndex)
-    local targetTime = lastHeartburns[bossIndex] + 57400 -- TODO
-    Crutch.InfoPanel.CountDownToTargetTime(PANEL_REEF_INDEX_OFFSET + bossIndex, GetReefPrefix(bossIndex) .. " - can run in ", targetTime, REEF_SCALE)
+    local lastTime = lastHeartburns[bossIndex]
+    if (not lastTime) then return end -- could possibly happen after wipe
+    Crutch.InfoPanel.CountDownToTargetTime(PANEL_REEF_INDEX_OFFSET + bossIndex, GetReefPrefix(bossIndex) .. " - can run in ", lastTime + 57400, REEF_SCALE)-- TODO
 end
 
 -- Unit ID caching
