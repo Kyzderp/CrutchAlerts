@@ -388,12 +388,34 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Winter Storm timer",
+            tooltip = "Shows the approximate time until Taleria can cast Winter Storm",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.infoPanel.showWinterStorm end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.infoPanel.showWinterStorm = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show Summon Behemoth timer",
             tooltip = "Shows the approximate time until Taleria will summon a Behemoth",
             default = true,
             getFunction = function() return Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn end,
             setFunction = function(value)
                 Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Summon Siren timer",
+            tooltip = "Shows the approximate time until Taleria will summon Enthralling Matrons",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.infoPanel.showSirenSpawn end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.infoPanel.showSirenSpawn = value
                 Crutch.OnPlayerActivated()
             end,
         },

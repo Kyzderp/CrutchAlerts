@@ -402,7 +402,7 @@ end
 
 
 ---------------------------------------------------------------------
-local function OnPlatformFall() -- TODO: register
+local function OnPlatformFall()
     -- Bridge delays storm: TODO 63 62
     Crutch.InfoPanel.CountDownDuration(PANEL_WINTER_STORM_INDEX, WINTER_STORM_PREFIX, 60000)
     -- Bridge delays (or shortens) sirens? 39.136 27.796 26.355 33.797 31.005 39.124 33.785, 38, 39, 32
@@ -504,9 +504,16 @@ function Crutch.RegisterDreadsailReef()
     if (Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn) then
         Crutch.RegisterForCombatEvent("DSRBehemoth", OnBehemothSummoned, ACTION_RESULT_BEGIN, BEHEMOTH_ID)
     end
-    Crutch.RegisterForCombatEvent("DSRWinterStorm", OnWinterStorm, ACTION_RESULT_EFFECT_GAINED, WINTER_STORM_CW_ID)
-    Crutch.RegisterForCombatEvent("DSRWinterStormCCW", OnWinterStorm, ACTION_RESULT_EFFECT_GAINED, WINTER_STORM_CCW_ID)
-    Crutch.RegisterForCombatEvent("DSRSiren", OnSirenSummoned, ACTION_RESULT_BEGIN, SIREN_ID)
+    if (Crutch.savedOptions.dreadsailreef.infoPanel.showWinterStorm) then
+        Crutch.RegisterForCombatEvent("DSRWinterStorm", OnWinterStorm, ACTION_RESULT_EFFECT_GAINED, WINTER_STORM_CW_ID)
+        Crutch.RegisterForCombatEvent("DSRWinterStormCCW", OnWinterStorm, ACTION_RESULT_EFFECT_GAINED, WINTER_STORM_CCW_ID)
+    end
+    if (Crutch.savedOptions.dreadsailreef.infoPanel.showSirenSpawn) then
+        Crutch.RegisterForCombatEvent("DSRSiren", OnSirenSummoned, ACTION_RESULT_BEGIN, SIREN_ID)
+    end
+    if (Crutch.savedOptions.dreadsailreef.infoPanel.showSirenSpawn or Crutch.savedOptions.dreadsailreef.infoPanel.showWinterStorm) then
+        Crutch.RegisterForCombatEvent("DSRPlatformFall", OnPlatformFall, ACTION_RESULT_EFFECT_GAINED, PLATFORM_FALL_ID) -- TODO: what action result?
+    end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Dreadsail Reef")
 end
@@ -556,6 +563,7 @@ function Crutch.UnregisterDreadsailReef()
     Crutch.UnregisterForCombatEvent("DSRWinterStorm")
     Crutch.UnregisterForCombatEvent("DSRWinterStormCCW")
     Crutch.UnregisterForCombatEvent("DSRSiren")
+    Crutch.UnregisterForCombatEvent("DSRPlatformFall")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end

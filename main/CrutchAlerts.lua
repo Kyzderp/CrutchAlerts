@@ -218,6 +218,8 @@ local defaultOptions = {
         infoPanel = {
             showMaelstrom = true,
             showBehemothSpawn = true,
+            showSirenSpawn = true,
+            showWinterStorm = true
         },
     },
     hallsoffabrication = {
