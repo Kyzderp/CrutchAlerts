@@ -1527,6 +1527,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Ansuul Wrathstorm timer",
+            tooltip = "In the Ansuul fight, shows approximate time until Wrathstorm in the info panel",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.sanitysedge.infoPanel.showWrathstorm end,
+            setFunction = function(value)
+                Crutch.savedOptions.sanitysedge.infoPanel.showWrathstorm = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
     }))
 
     settings:AddSettings(Crutch.GetProminentSettingsConsole(1121, {

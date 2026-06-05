@@ -314,6 +314,10 @@ local defaultOptions = {
         showArcticShred = true,
         showAnsuulIcon = true,
         ansuulIconSize = 150,
+
+        infoPanel = {
+            showWrathstorm = true,
+        },
     },
     sunspire = {
         showLokkIcons = true,

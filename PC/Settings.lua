@@ -2791,6 +2791,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Ansuul Wrathstorm timer",
+                    tooltip = "In the Ansuul fight, shows approximate time until Wrathstorm in the info panel",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.infoPanel.showWrathstorm end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.infoPanel.showWrathstorm = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
         {

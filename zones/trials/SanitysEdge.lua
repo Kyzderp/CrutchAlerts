@@ -99,11 +99,37 @@ end
 
 
 ---------------------------------------------------------------------
+-- Info Panel
+---------------------------------------------------------------------
+local PANEL_WRATHSTORM_INDEX = 6
+local WRATHSTORM_ID = 198759
+local WRATHSTORM_PREFIX = zo_strformat("|cCC0000<<C:1>>: ", GetAbilityName(WRATHSTORM_ID)) -- matching cca color
+
+local function OnWrathstorm()
+    -- 25.1, 25.6, 24.97, 23.9, 27.7, 25.35
+    Crutch.InfoPanel.CountDownDuration(PANEL_WRATHSTORM_INDEX, WRATHSTORM_PREFIX, 23900)
+end
+
+-- Remove timer when maze starts; it only restarts much later
+local function OnRitual()
+    Crutch.InfoPanel.StopCount(PANEL_WRATHSTORM_INDEX)
+end
+
+-- When recombining, 23.67, 24.221, 24.334, 23.681
+local function OnBreakdownFaded()
+    Crutch.InfoPanel.CountDownDuration(PANEL_WRATHSTORM_INDEX, WRATHSTORM_PREFIX, 23600)
+end
+
+-- worth adding enraged fragments? 11.90, 11.92, 11.97, 11.98, 11.99, 12.00, 12.01, 12.02, 12.03, 12.04
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local function CleanUp()
     numArctic = 0
     Crutch.InfoPanel.StopCount(PANEL_ARCTIC_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_WRATHSTORM_INDEX)
 end
 
 function Crutch.RegisterSanitysEdge()
@@ -123,6 +149,12 @@ function Crutch.RegisterSanitysEdge()
     if (Crutch.savedOptions.sanitysedge.showChimeraIcons) then
         CheckMantle()
     end
+
+    if (Crutch.savedOptions.sanitysedge.infoPanel.showWrathstorm) then
+        Crutch.RegisterForCombatEvent("SEWrathstorm", OnWrathstorm, ACTION_RESULT_BEGIN, WRATHSTORM_ID)
+        Crutch.RegisterForCombatEvent("SERitual", OnRitual, ACTION_RESULT_BEGIN, 183855)
+        Crutch.RegisterForCombatEvent("SEBreakdownFaded", OnBreakdownFaded, ACTION_RESULT_EFFECT_FADED, 188760)
+    end
 end
 
 function Crutch.UnregisterSanitysEdge()
@@ -136,6 +168,11 @@ function Crutch.UnregisterSanitysEdge()
 
     Crutch.UnregisterForCombatEvent("SEArcticShred")
     Crutch.UnregisterForCombatEvent("SEChainLightning")
+
+    Crutch.UnregisterForCombatEvent("SEWrathstorm")
+    Crutch.UnregisterForCombatEvent("SERitual")
+    Crutch.UnregisterForCombatEvent("SEBreakdownFaded")
+
     CleanUp()
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Sanity's Edge")
