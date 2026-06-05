@@ -139,26 +139,26 @@ local SUBTITLE_TIMES = {
 -- SE
     [GetNameStr(CRUTCH_BHB_EXARCHANIC_YASEYLA)] = {
         -- Exarchanic Yaseyla
-        ["Your sorcery deceives good people. It brings nothing but pain, malpracticer!"] = 7.9,
+        [GetSubtitleStr(CRUTCH_DMG_YOUR_SORCERY_DECEIVES_GOOD_PEOPLE_IT_BRINGS_NOTHING_BUT_PAIN_MALPRACTICER)] = 7.9,
     },
-    ["Archwizard Twelvane"] = {
+    [GetNameStr(CRUTCH_DMG_ARCHWIZARD_TWELVANE)] = {
         -- Archwizard Twelvane and Chimera
-        ["Why do you still hesitate, Vanton?"] = 6.8,
+        [GetSubtitleStr(CRUTCH_DMG_WHY_DO_YOU_STILL_HESITATE_VANTON)] = 6.8,
     },
-    ["Warlock Vanton"] = {
+    [GetNameStr(CRUTCH_DMG_WARLOCK_VANTON)] = {
         -- 2nd boss - Gryphon
-        ["The gryphon is strong, but you may be stronger."] = 6.5, -- Untested
-        ["You tamed the gryphon. It's vulnerable."] = 6.5, -- Untested
-        ["You did it? You woke the gryphon?"] = 6.5, -- Untested
+        [GetSubtitleStr(CRUTCH_DMG_THE_GRYPHON_IS_STRONG_BUT_YOU_MAY_BE_STRONGER)] = 6.5,
+        [GetSubtitleStr(CRUTCH_DMG_YOU_TAMED_THE_GRYPHON_ITS_VULNERABLE)] = 6.5, -- Untested
+        [GetSubtitleStr(CRUTCH_DMG_YOU_DID_IT_YOU_WOKE_THE_GRYPHON)] = 6.5, -- Untested
         -- 2nd boss - Wamasu
-        ["You have the wamasu's power?"] = 6.5, -- Untested
-        ["You beat the wamasu. Please don't die now."] = 6.5, -- Untested
-        ["The wamasu's power can turn against the chimera!"] = 6.5, -- Untested
+        [GetSubtitleStr(CRUTCH_DMG_YOU_HAVE_THE_WAMASUS_POWER)] = 6.5, -- Untested
+        [GetSubtitleStr(CRUTCH_DMG_YOU_BEAT_THE_WAMASU_PLEASE_DONT_DIE_NOW)] = 6.5, -- Untested
+        [GetSubtitleStr(CRUTCH_DMG_THE_WAMASUS_POWER_CAN_TURN_AGAINST_THE_CHIMERA)] = 6.5, -- Untested
         -- 2nd boss - Lion
-        ["You beat the house of the lion?"] = 6.5, -- Untested
-        ["Did you take the lion's fire?"] = 6.5, -- Untested
+        [GetSubtitleStr(CRUTCH_DMG_YOU_BEAT_THE_HOUSE_OF_THE_LION)] = 6.5, -- Untested
+        [GetSubtitleStr(CRUTCH_DMG_DID_YOU_TAKE_THE_LIONS_FIRE)] = 6.5, -- Untested
         -- Ansuul the Tormentor
-        ["Who are you? Are you one of hers? She's hurting me."] = 13, -- Untested
+        [GetSubtitleStr(CRUTCH_DMG_WHO_ARE_YOU_ARE_YOU_ONE_OF_HERS_SHES_HURTING_ME)] = 13,
     },
 
 -- SS
