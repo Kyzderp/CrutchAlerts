@@ -94,13 +94,13 @@ local SUBTITLE_TIMES = {
 
 -- KA
     [GetNameStr(CRUTCH_BHB_LORD_FALGRAVN)] = {
-        ["You dare face me? Baleful power lurks beneath your feet, and I will have it for my own!"] = 9.7, -- could be a tick late
-        ["You wish to see my works? Very well! I will plunge you into deeper darkness!"] = 12.6,
+        [GetSubtitleStr(CRUTCH_DMG_YOU_DARE_FACE_ME_BALEFUL_POWER_LURKS)] = 9.7, -- could be a tick late
+        [GetSubtitleStr(CRUTCH_DMG_YOU_WISH_TO_SEE_MY_WORKS_VERY_WELL_I)] = 12.6,
         -- Torturers
-        ["Feed, my pets. Feed!"] = {time = 30, displayFormat = "Torturers in "},
-        ["Come, cattle! Time for the slaughter!"] = {time = 30, displayFormat = "Torturers in "},
-        ["Behold, my banquet!"] = {time = 30, displayFormat = "Torturers in "},
-        ["Go, children, and drink your fill!"] = {time = 30, displayFormat = "Torturers in "},
+        [GetSubtitleStr(CRUTCH_DMG_FEED_MY_PETS_FEED)] = {time = 30, displayFormat = "Torturers in "},
+        [GetSubtitleStr(CRUTCH_DMG_COME_CATTLE_TIME_FOR_THE_SLAUGHTER)] = {time = 30, displayFormat = "Torturers in "},
+        [GetSubtitleStr(CRUTCH_DMG_BEHOLD_MY_BANQUET)] = {time = 30, displayFormat = "Torturers in "},
+        [GetSubtitleStr(CRUTCH_DMG_GO_CHILDREN_AND_DRINK_YOUR_FILL)] = {time = 30, displayFormat = "Torturers in "},
     },
 
 -- LC
@@ -133,13 +133,13 @@ local SUBTITLE_TIMES = {
 
 -- RG
     [GetNameStr(CRUTCH_BHB_FLAMEHERALD_BAHSEI)] = {
-        ["Great Xalvakka drank deep from the souls we served her. Soon, she arrives!"] = 7.0, -- TODO: not sure if 7 or 8, both have happened...
+        [GetSubtitleStr(CRUTCH_DMG_GREAT_XALVAKKA_DRANK_DEEP_FROM_THE)] = 7.0, -- TODO: not sure if 7 or 8, both have happened...
     },
 
 -- SE
     [GetNameStr(CRUTCH_BHB_EXARCHANIC_YASEYLA)] = {
         -- Exarchanic Yaseyla
-        [GetSubtitleStr(CRUTCH_DMG_YOUR_SORCERY_DECEIVES_GOOD_PEOPLE_IT_BRINGS_NOTHING_BUT_PAIN_MALPRACTICER)] = 7.9,
+        [GetSubtitleStr(CRUTCH_DMG_YOUR_SORCERY_DECEIVES_GOOD_PEOPLE_IT)] = 7.9,
     },
     [GetNameStr(CRUTCH_DMG_ARCHWIZARD_TWELVANE)] = {
         -- Archwizard Twelvane and Chimera
