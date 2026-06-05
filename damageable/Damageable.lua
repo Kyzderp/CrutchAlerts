@@ -32,6 +32,7 @@ local SUBTITLE_TIMES = {
         [GetSubtitleStr(CRUTCH_DMG_DO_YOU_TRULY_THINK_YOU_CAN_STAND_AGAINST)] = {time = 7.5, singleZoneId = 1051},
         [GetSubtitleStr(CRUTCH_DMG_I_CAN_WAIT_AFTER_ALL_YOUR_DEATHS_ARE)] = {time = 7.5, singleZoneId = 1051},
     },
+
 -- DSR
     [GetNameStr(CRUTCH_DMG_TURLASSIL)] = {
         -- Lylanar and Turlassil
@@ -78,12 +79,9 @@ local SUBTITLE_TIMES = {
     },
 
 -- HoF
-    ["Assembly General"] = {
+    [GetNameStr(CRUTCH_BHB_ASSEMBLY_GENERAL)] = {
         -- Triplets
         ["Reprocessing yard contamination critical. Disassembly status suspended. Mass reactivation initiated."] = 10.2, -- TODO
-    },
-    ["Montagegeneral"] = {
-        -- Triplets
         ["Kritische Kontamination auf dem Wertstoffhof. Ausschlachtung wird ausgesetzt. Massenreaktivierung eingeleitet."] = 10.2, -- TODO
     },
     ["Divayth Fyr"] = {
@@ -93,8 +91,9 @@ local SUBTITLE_TIMES = {
         -- Assembly General
         ["Well, well. Now that's the second largest construct I've ever seen. Inactive, at the moment."] = 26.4,  -- TODO: I was given 19.2, but I think it's 26.4... need testing
     },
+
 -- KA
-    ["Lord Falgravn"] = {
+    [GetNameStr(CRUTCH_BHB_LORD_FALGRAVN)] = {
         ["You dare face me? Baleful power lurks beneath your feet, and I will have it for my own!"] = 9.7, -- could be a tick late
         ["You wish to see my works? Very well! I will plunge you into deeper darkness!"] = 12.6,
         -- Torturers
@@ -103,11 +102,13 @@ local SUBTITLE_TIMES = {
         ["Behold, my banquet!"] = {time = 30, displayFormat = "Torturers in "},
         ["Go, children, and drink your fill!"] = {time = 30, displayFormat = "Torturers in "},
     },
+
 -- LC
     [GetNameStr(CRUTCH_DMG_XORYN)] = {
         -- Count Ryelaz & Zilyesset
         [GetSubtitleStr(CRUTCH_DMG_LIKE_THEM)] = 17.6,
     },
+
 -- MoL
     ["Mirarro"] = {
         -- Zhaj'hassa
@@ -147,12 +148,12 @@ local SUBTITLE_TIMES = {
     },
 
 -- RG
-    ["Flame-Herald Bahsei"] = {
+    [GetNameStr(CRUTCH_BHB_FLAMEHERALD_BAHSEI)] = {
         ["Great Xalvakka drank deep from the souls we served her. Soon, she arrives!"] = 7.0, -- TODO: not sure if 7 or 8, both have happened...
     },
 
 -- SE
-    ["Exarchanic Yaseyla"] = {
+    [GetNameStr(CRUTCH_BHB_EXARCHANIC_YASEYLA)] = {
         -- Exarchanic Yaseyla
         ["Your sorcery deceives good people. It brings nothing but pain, malpracticer!"] = 7.9,
     },
@@ -233,12 +234,9 @@ local SUBTITLE_TIMES = {
     },
 
 -- Castle Thorn
-    ["Lady Thorn"] = {
+    [GetNameStr(CRUTCH_BHB_LADY_THORN)] = {
         -- Blood Twilight
         ["Well done, Talfyg. You brought me a daughter of Verandis, as requested. She will complement our lord's army well."] = 23.1,
-    },
-    ["Fürstin Dorn"] = {
-        -- Blood Twilight
         ["Gut gemacht, Talfyg. Ihr habt mir eine Tochter von Verandis gebracht. Wie erbeten. Sie wird die Armee unseres Fürsten gut ergänzen."] = 19.2,
     },
     ["Talfyg"] = {
@@ -436,7 +434,7 @@ local SUBTITLE_TIMES = {
 -- Arenas
 
 -- DSA
-    ["Hiath the Battlemaster"] = {
+    [GetNameStr(CRUTCH_BHB_HIATH_THE_BATTLEMASTER)] = {
         -- Arena 1 start
         ["We have new challengers! Will they survive the competition, or will their blood decorate the floor of our grand Arena?"] = {time = 20.0, displayFormat = "Portal spawns in "},
         -- Arena 2 start
