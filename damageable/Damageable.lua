@@ -127,24 +127,8 @@ local SUBTITLE_TIMES = {
     },
 
 -- OC
-    ["Skorkhif"] = {
-        ["When I'm the one who caused their suffering?"] = 13.4, -- en
-        ["Obwohl ich doch der bin, der sie leiden ließ?"] = 13.4, -- de
-        ["¿Cuando fui yo quien causó su sufrimiento?"] = 13.4, -- es
-        ["Alors que c'est moi qui les fais souffrir ?"] = 13.4, -- fr
-        ["Quando fui eu quem causou o sofrimento deles?"] = 13.4, -- br
-    },
-    -- jp
-    ["スコルキフ"] = {
-        ["奴らを苦しめたのは私なのに？"] = 13.4,
-    },
-    -- ru
-    ["Скоркиф"] = {
-        ["Но ведь это я заставил их страдать."] = 13.4,
-    },
-    -- zh
-    ["斯科尔基弗"] = {
-        ["让他们受苦的人不是我吗？"] = 13.4,
+    [GetNameStr(CRUTCH_DMG_SKORKHIF)] = {
+        [GetSubtitleStr(CRUTCH_DMG_WHEN_IM_THE_ONE_WHO_CAUSED_THEIR_SUFFERING)] = 13.4,
     },
 
 -- RG
