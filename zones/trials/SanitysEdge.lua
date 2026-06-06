@@ -1,6 +1,24 @@
 local Crutch = CrutchAlerts
 local C = Crutch.Constants
 
+
+---------------------------------------------------------------------
+-- Frost Bombs
+---------------------------------------------------------------------
+local PANEL_FROST_BOMB_INDEX = 4
+local FROST_BOMB_ID = 183768
+local FROST_BOMB_DOUBLE_ID = 185392
+local FROST_BOMB_PREFIX = zo_strformat("|c66CCFF<<C:1>>: ", GetAbilityName(FROST_BOMB_ID)) -- matching cca color
+
+-- 27.84, 28.60, 30.98, 33.85, 34.30, 34.60, 35.42, 35.52
+local function OnFrostBomb()
+    Crutch.InfoPanel.CountDownDuration(PANEL_FROST_BOMB_INDEX, FROST_BOMB_PREFIX, 27800)
+end
+
+
+---------------------------------------------------------------------
+-- Chimera Icons
+---------------------------------------------------------------------
 local function DisableChimeraIcons()
     Crutch.DisableIconGroup("SEChimeraVetGryphon")
     Crutch.DisableIconGroup("SEChimeraVetLion")
@@ -99,7 +117,7 @@ end
 
 
 ---------------------------------------------------------------------
--- Info Panel
+-- Ansuul
 ---------------------------------------------------------------------
 local PANEL_WRATHSTORM_INDEX = 6
 local WRATHSTORM_ID = 198759
@@ -128,6 +146,7 @@ end
 ---------------------------------------------------------------------
 local function CleanUp()
     numArctic = 0
+    Crutch.InfoPanel.StopCount(PANEL_FROST_BOMB_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_ARCTIC_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_WRATHSTORM_INDEX)
 end
@@ -136,6 +155,11 @@ function Crutch.RegisterSanitysEdge()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Sanity's Edge")
 
     Crutch.RegisterExitedGroupCombatListener("CrutchSanitysEdgeChimeraExitedCombat", CleanUp)
+
+    if (Crutch.savedOptions.sanitysedge.infoPanel.showFrostBomb) then
+        Crutch.RegisterForCombatEvent("SEFrostBomb", OnFrostBomb, ACTION_RESULT_BEGIN, FROST_BOMB_ID)
+        Crutch.RegisterForCombatEvent("SEFrostBombDouble", OnFrostBomb, ACTION_RESULT_BEGIN, FROST_BOMB_DOUBLE_ID)
+    end
 
     if (Crutch.savedOptions.sanitysedge.showArcticShred) then
         OnActivated() -- For returning from Chimera portal
@@ -159,6 +183,9 @@ end
 
 function Crutch.UnregisterSanitysEdge()
     Crutch.UnregisterExitedGroupCombatListener("CrutchSanitysEdgeChimeraExitedCombat")
+
+    Crutch.UnregisterForCombatEvent("SEFrostBomb")
+    Crutch.UnregisterForCombatEvent("SEFrostBombDouble")
 
     -- Ansuul icon
     Crutch.DisableIcon("AnsuulCenter")

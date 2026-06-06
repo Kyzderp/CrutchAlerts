@@ -316,6 +316,7 @@ local defaultOptions = {
         ansuulIconSize = 150,
 
         infoPanel = {
+            showFrostBomb = true,
             showWrathstorm = true,
         },
     },

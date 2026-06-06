@@ -2781,7 +2781,19 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show Chimera Arctic Shred timer",
+                    name = "Show Frost Bomb timer",
+                    tooltip = "In the Yaseyla fight, shows approximate time until Frost Bombs in the info panel",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.infoPanel.showFrostBomb end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.infoPanel.showFrostBomb = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Arctic Shred timer",
                     tooltip = "In the Twelvane + Chimera fight, shows approximate time until Arctic Shred in the info panel",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.sanitysedge.showArcticShred end,
@@ -2793,7 +2805,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show Ansuul Wrathstorm timer",
+                    name = "Show Wrathstorm timer",
                     tooltip = "In the Ansuul fight, shows approximate time until Wrathstorm in the info panel",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.sanitysedge.infoPanel.showWrathstorm end,

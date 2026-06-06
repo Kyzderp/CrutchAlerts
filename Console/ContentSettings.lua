@@ -1518,7 +1518,18 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
-            label = "Show Chimera Arctic Shred timer",
+            label = "Show Frost Bomb timer",
+            tooltip = "In the Yaseyla fight, shows approximate time until Frost Bombs in the info panel",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.sanitysedge.infoPanel.showFrostBomb end,
+            setFunction = function(value)
+                Crutch.savedOptions.sanitysedge.infoPanel.showFrostBomb = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Arctic Shred timer",
             tooltip = "In the Twelvane + Chimera fight, shows approximate time until Arctic Shred in the info panel",
             default = true,
             getFunction = function() return Crutch.savedOptions.sanitysedge.showArcticShred end,
@@ -1529,7 +1540,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
-            label = "Show Ansuul Wrathstorm timer",
+            label = "Show Wrathstorm timer",
             tooltip = "In the Ansuul fight, shows approximate time until Wrathstorm in the info panel",
             default = true,
             getFunction = function() return Crutch.savedOptions.sanitysedge.infoPanel.showWrathstorm end,
