@@ -482,7 +482,25 @@ end
 ---------------------------------------------------------------------
 -- Group refresh
 ---------------------------------------------------------------------
+local lastTime
+local timings = ""
+local function PrintTime(reason)
+    if (not lastTime) then
+        lastTime = GetGameTimeMilliseconds()
+        return
+    end
+
+    local now = GetGameTimeMilliseconds()
+    timings = string.format("%s\n%d - %s",
+        timings,
+        now - lastTime,
+        reason)
+    lastTime = now
+end
+
 local function RefreshGroup()
+    lastTime = nil
+    timings = ""
     Crutch.dbgSpam("|c0055FF[draw]|r doing RefreshGroup")
     -- Do a first pass because unit tags could have changed.
     -- This could probably be done as part of another loop, but meh.
@@ -498,9 +516,12 @@ local function RefreshGroup()
 
     -- Roles
     DestroyAllRoleIcons()
+    PrintTime("destroyed role icons")
     CreateGroupRoleIcons()
+    PrintTime("created group role icons")
 
     Draw.DestroyIndividualIcons()
+    PrintTime("destroyed individual icons")
 
     for i = 1, MAX_GROUP_SIZE_THRESHOLD do
         -- Intentionally use index here, instead of GetGroupUnitTagByIndex,
@@ -530,13 +551,17 @@ local function RefreshGroup()
 
         end
     end
+    PrintTime("finished group")
 
     -- Self
     OnDeathStateChanged(nil, "player", IsUnitDead("player"))
     Draw.MaybeSetIndividualIcon("player")
+    PrintTime("finished self")
 
     -- Suppression
     EvaluateAllSuppression()
+    PrintTime("finished suppression")
+    Crutch.dbgSpam(timings)
 end
 Draw.RefreshGroup = RefreshGroup
 -- /script CrutchAlerts.Drawing.RefreshGroup()

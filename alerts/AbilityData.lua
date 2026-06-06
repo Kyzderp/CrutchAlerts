@@ -118,8 +118,8 @@ Crutch.filter = {
     [246168] = function(hitValue) return hitValue == 500 end, -- Acute Enervation (initial targeting of first, for some reason is 500 then 2800, but then not another ~1s until the real cast)
 
     -- DSR Twins swap: only on self, or if set as tank
-    [168526] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Imminent Blister (duration before fragility, not initial cast)
-    [168525] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Imminent Chill (duration before fragility, not initial cast)
+    [168525] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Imminent Blister (duration before fragility, not initial cast)
+    [168526] = function(hitValue, targetUnitTag) return AreUnitsEqual("player", targetUnitTag) or GetSelectedLFGRole() == LFG_ROLE_TANK end, -- Imminent Chill (duration before fragility, not initial cast)
 }
 
 
@@ -142,6 +142,9 @@ Crutch.uninterruptible = {
     [157466] = true, -- Soul Remnant
     [163153] = true, -- Coalescing Shadows (Varallion)
     [250667] = true, -- Impaling Shards (Bone Wyrm (Timeless Wallow))
+
+    [168525] = true, -- Imminent Blister (duration before fragility, not initial cast)
+    [168526] = true, -- Imminent Chill (duration before fragility, not initial cast)
 }
 
 ---------------------------------------------------------------------
@@ -180,8 +183,6 @@ Crutch.testing = {
 
     [166525] = true, -- Blistering Fragility
     [166529] = true, -- Chilling Fragility
-    [168526] = true, -- Imminent Blister (duration before fragility, not initial cast)
-    [168525] = true, -- Imminent Chill (duration before fragility, not initial cast)
 }
 
 ---------------------------------------------------------------------
@@ -297,8 +298,8 @@ Crutch.others = {
     -- Dreadsail Reef
     [1344] = {
         [166353] = true, -- Crashing Wave (Taleria)
-        [168526] = true, -- Imminent Blister (duration before fragility, not initial cast)
-        [168525] = true, -- Imminent Chill (duration before fragility, not initial cast)
+        [168525] = true, -- Imminent Blister (duration before fragility, not initial cast)
+        [168526] = true, -- Imminent Chill (duration before fragility, not initial cast)
     },
 
     -- Halls of Fabrication
