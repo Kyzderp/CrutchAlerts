@@ -316,14 +316,20 @@ Crutch.ShowArcingCleave = ShowArcingCleave
 -- /script CrutchAlerts.ShowArcingCleave(57158, 19610,  96815, 3600, 25 / 180 * math.pi)
 -- /script CrutchAlerts.ShowArcingCleave()
 
+local TALERIA_HM_HP = 181632304
 local function IsTaleria()
     local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-    if (powerMax == 181632304 -- Hardmode
+    if (powerMax == TALERIA_HM_HP
         or powerMax == 100906840 -- Veteran
         or powerMax == 29538220) then -- Normal
         return true
     end
     return false
+end
+
+local function IsTaleriaHM()
+    local _, powerMax, _ = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    return powerMax == TALERIA_HM_HP
 end
 
 -- Enable Cleave lines if the boss is present
@@ -374,7 +380,6 @@ local PLATFORM_FALL_ID = 167702
 local WINTER_STORM_PREFIX = zo_strformat("|c00CCCC<<C:1>>: ", GetAbilityName(WINTER_STORM_CW_ID)) -- color matching CCA
 
 local function OnWinterStorm()
-    Crutch.dbgOther("winter")
     Crutch.InfoPanel.CountDownDuration(PANEL_WINTER_STORM_INDEX, WINTER_STORM_PREFIX, 110000) -- TODO
 end
 
@@ -385,8 +390,13 @@ local BEHEMOTH_ID = 166928
 local BEHEMOTH_PREFIX = zo_strformat("|c66CCFF<<C:1>>: ", GetAbilityName(BEHEMOTH_ID)) -- color matching CCA
 
 local function OnBehemothSummoned()
-    -- 45.173, 45.251, 45.319, 45.635, 45.675, 45.683, 45.794, 45.859, 46.197, 46.425, 46.545, 46.655, 46.946, 47.312, 47.512, 47.918, 50.757, 55.651, 55.972, 56.326, 56.467, 58.114, 58.145
-    Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 45000) -- TODO: different for nonhm?
+    if (IsTaleriaHM()) then
+        -- HM: 45.173, 45.251, 45.319, 45.635, 45.675, 45.683, 45.794, 45.859, 46.197, 46.425, 46.545, 46.655, 46.946, 47.312, 47.512, 47.918, 50.757, 55.651, 55.972, 56.326, 56.467, 58.114, 58.145
+        Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 45000)
+    else
+        -- vet: 70.166, 69.249, 70.449, 67.299, 70.115, 63.015, 70.282, 65.015
+        Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 63000) -- TODO: is it different for normal?
+    end
 end
 
 
@@ -406,7 +416,8 @@ local function OnPlatformFall()
     -- Bridge delays storm: TODO 63 62
     Crutch.InfoPanel.CountDownDuration(PANEL_WINTER_STORM_INDEX, WINTER_STORM_PREFIX, 60000)
     -- Bridge delays (or shortens) sirens? 39.136 27.796 26.355 33.797 31.005 39.124 33.785, 38, 39, 32
-    Crutch.InfoPanel.CountDownDuration(PANEL_SIREN_INDEX, SIREN_PREFIX, 26300)
+    -- vet: 25.327, 26.165, 30.399, 33.375, 33.563, 33.665, 33.78, 38.848, 39.252
+    Crutch.InfoPanel.CountDownDuration(PANEL_SIREN_INDEX, SIREN_PREFIX, 25300)
 end
 
 local function OnCombat()
