@@ -15,11 +15,6 @@ local function AcquireTexture()
     return control, key
 end
 
--- Pitch, yaw, roll
-local function IsDOF(value)
-    return type(value) == "number"
-end
-
 
 ---------------------------------------------------------------------
 -- The core 3D code, at its simplest... or close to it

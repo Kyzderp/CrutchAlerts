@@ -23,10 +23,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     ---------------------------------------------------------------------
     -- trials
-    -- settings:AddSetting({
-    --     type = LibHarvensAddonSettings.ST_LABEL,
-    --     label = "Trials",
-    -- })
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = string.format("|c%s%s|r", ZO_NORMAL_TEXT:ToHex(), string.rep("_", 15)),
+            subMenu = false,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = "Trials",
+        },
+    })
 
     settings:AddSettings({
         {
@@ -1676,10 +1683,18 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     ---------------------------------------------------------------------
     -- arenas
-    -- settings:AddSetting({
-    --     type = LibHarvensAddonSettings.ST_LABEL,
-    --     label = "Arenas",
-    -- })
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = string.format("|c%s%s|r", ZO_NORMAL_TEXT:ToHex(), string.rep("_", 15)),
+            subMenu = false,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = "Arenas",
+        },
+    })
+
     settings:AddSettings(Crutch.GetProminentSettingsConsole(1082, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,
@@ -1790,10 +1805,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
 
     ---------------------------------------------------------------------
     -- dungeons
-    -- settings:AddSetting({
-    --     type = LibHarvensAddonSettings.ST_LABEL,
-    --     label = "Dungeons",
-    -- })
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = string.format("|c%s%s|r", ZO_NORMAL_TEXT:ToHex(), string.rep("_", 15)),
+            subMenu = false,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = "Dungeons",
+        },
+    })
 
     settings:AddSettings({
         {
