@@ -55,12 +55,19 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         local text = "Slotted ability IDs:\n"
         for i = 3, 8 do
             local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_PRIMARY)
-            text = string.format("%s  ||  %d - %s", text, abilityId, GetAbilityName(abilityId) or "")
+            text = string.format("%s ||  %d - %s ", text, abilityId, GetAbilityName(abilityId) or "")
         end
         text = text .. "\n--------\n"
         for i = 3, 8 do
             local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_BACKUP)
-            text = string.format("%s  ||  %d - %s", text, abilityId, GetAbilityName(abilityId) or "")
+            text = string.format("%s ||  %d - %s ", text, abilityId, GetAbilityName(abilityId) or "")
+        end
+        if (IsPlayerInWerewolfForm()) then
+            text = text .. "\n--------\n"
+            for i = 3, 8 do
+                local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_WEREWOLF)
+                text = string.format("%s ||  %d - %s ", text, abilityId, GetAbilityName(abilityId) or "")
+            end
         end
         Crutch.msg(text)
 
