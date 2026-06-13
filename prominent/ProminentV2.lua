@@ -553,6 +553,48 @@ local prominentData = {
                 default = true,
             },
         },
+        -- Execute (Vanton)
+        [198482] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                -- TODO: only show if in portal (has gotten attunement?)
+                filterFunction = function() return Crutch.IsInVantonPortal(Crutch.playerGroupTag) end,
+            },
+            text = "EXECUTE",
+            color = C.ICEBLUE,
+            slot = 2,
+            playSound = true,
+            millis = 1700,
+            settings = {
+                name = "prominentVantonExecute",
+                title = "Alert Execute (Warlock Vanton)",
+                description = "Shows a prominent alert when the lightning portal Vanton starts to execute a player and must be interrupted",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Execute (Ansuul)
+        [198797] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                -- TODO: only show if not in portal?
+                filterFunction = function() return not Crutch.IsInVantonPortal(Crutch.playerGroupTag) end,
+            },
+            text = "EXECUTE",
+            color = C.ICEBLUE,
+            slot = 1,
+            playSound = true,
+            millis = 1700,
+            settings = {
+                name = "prominentAnsuulExecute",
+                title = "Alert Execute (Ansuul)",
+                description = "Shows a prominent alert when Ansuul starts to execute a player and must be interrupted",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
     },
 
     -----------

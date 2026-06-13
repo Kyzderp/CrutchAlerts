@@ -142,6 +142,34 @@ end
 
 
 ---------------------------------------------------------------------
+local ATTUNEMENT_ID = 242224 -- one of the many...
+local UNATTUNED_ID = 189027 -- Blind to the Unattuned fades when done
+local attuned = {}
+
+local function OnAttunement(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    if (not unitTag) then return end
+
+    Crutch.dbgOther(zo_strformat("attunement gained: <<1>>", GetUnitDisplayName(unitTag)))
+    attuned[unitTag] = true
+end
+
+local function OnUnattuned()
+    Crutch.dbgOther("unattuning")
+    ZO_ClearTable(attuned)
+end
+
+function Crutch.IsInVantonPortal(unitTag)
+    if (attuned[unitTag]) then
+        Crutch.dbgSpam(zo_strformat("<<1>> is in portal", unitTag))
+    else
+        Crutch.dbgSpam(zo_strformat("<<1>> is not in portal", unitTag))
+    end
+    return attuned[unitTag]
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local function CleanUp()
@@ -149,6 +177,7 @@ local function CleanUp()
     Crutch.InfoPanel.StopCount(PANEL_FROST_BOMB_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_ARCTIC_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_WRATHSTORM_INDEX)
+    ZO_ClearTable(attuned)
 end
 
 function Crutch.RegisterSanitysEdge()
@@ -179,6 +208,9 @@ function Crutch.RegisterSanitysEdge()
         Crutch.RegisterForCombatEvent("SERitual", OnRitual, ACTION_RESULT_BEGIN, 183855)
         Crutch.RegisterForCombatEvent("SEBreakdownFaded", OnBreakdownFaded, ACTION_RESULT_EFFECT_FADED, 188760)
     end
+
+    Crutch.RegisterForCombatEvent("SEAttunement", OnAttunement, ACTION_RESULT_EFFECT_GAINED, ATTUNEMENT_ID)
+    Crutch.RegisterForCombatEvent("SEUnattuned", OnUnattuned, ACTION_RESULT_EFFECT_FADED, UNATTUNED_ID)
 end
 
 function Crutch.UnregisterSanitysEdge()
@@ -199,6 +231,9 @@ function Crutch.UnregisterSanitysEdge()
     Crutch.UnregisterForCombatEvent("SEWrathstorm")
     Crutch.UnregisterForCombatEvent("SERitual")
     Crutch.UnregisterForCombatEvent("SEBreakdownFaded")
+
+    Crutch.UnregisterForCombatEvent("SEAttunement")
+    Crutch.UnregisterForCombatEvent("SEUnattuned")
 
     CleanUp()
 
