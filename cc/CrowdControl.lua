@@ -69,6 +69,16 @@ local CC_ABILITY_DATA = {
 
 
 ---------------------------------------------------------------------
+local function IsInPvP()
+    local pvp = IsUnitPvPFlagged("player") -- TODO: this work?
+    if (pvp) then
+        Crutch.dbgOther("|cFFAA00cced in pvp")
+    end
+    return pvp
+end
+
+
+---------------------------------------------------------------------
 -- CC begin
 ---------------------------------------------------------------------
 -- When the player is cced, we also want to know the duration of the
@@ -78,8 +88,19 @@ local CC_ABILITY_DATA = {
 -- then display the visual.
 local recentCCs = {} -- {[abilityId] = {result = ACTION_RESULT_STUNNED, time = 12355436}}
 
+local function DoCC(abilityId, ccResult, hitValue, sourceName)
+    Crutch.OnHardCCed(abilityId, ccResult, hitValue, sourceName)
+
+    local typeOptions = TYPE_OPTIONS[HARD]
+    local abilityData = CC_ABILITY_DATA[abilityId]
+    if (typeOptions.sound and abilityData ~= SILENT and Crutch.savedOptions.cc.playSound) then
+        for i = 1, Crutch.savedOptions.cc.hardVolume do
+            PlaySound(typeOptions.sound)
+        end
+    end
+end
+
 -- Tracking for initial stunned/feared/etc. result
--- EVENT_COMBAT_EVENT (*[ActionResult|#ActionResult]* _result_, *bool* _isError_, *string* _abilityName_, *integer* _abilityGraphic_, *[ActionSlotType|#ActionSlotType]* _abilityActionSlotType_, *string* _sourceName_, *[CombatUnitType|#CombatUnitType]* _sourceType_, *string* _targetName_, *[CombatUnitType|#CombatUnitType]* _targetType_, *integer* _hitValue_, *[CombatMechanicFlags|#CombatMechanicFlags]* _powerType_, *[DamageType|#DamageType]* _damageType_, *bool* _log_, *integer* _sourceUnitId_, *integer* _targetUnitId_, *integer* _abilityId_, *integer* _overflow_)
 local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _, hitValue, powerType, _, _, sourceUnitId, targetUnitId, abilityId)
     local options = CC_OPTIONS[result]
     if (not options) then return end
@@ -95,8 +116,6 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
         local textColor = ""
         if (sourceType == COMBAT_UNIT_TYPE_PLAYER) then
             return
-            -- typeColor = "888888"
-            -- textColor = "|c888888"
         elseif (sourceType == COMBAT_UNIT_TYPE_GROUP) then
             textColor = "|cFF00FF"
         end
@@ -116,16 +135,22 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
 
     -- If source type is player, it's usually player trying to cast stuff while stunned
     -- It could be self stuns like entering portals but that doesn't need alerts
-    -- Sometimes they come from GROUP too, like radiating regen and meridia's favor, for some reason
-    -- So just stick to strictly enemy NONE for now
+    -- Sometimes they come from GROUP too, like radiating regen and meridia's favor, when
+    -- getting stunned while casting those. So just stick to strictly enemy NONE for now.
     if (sourceType ~= COMBAT_UNIT_TYPE_NONE) then return end
 
+    -- Only care about getting the duration for hard ccs
     if (options.type == HARD) then
-        -- Only care about getting the duration for hard ccs
-        recentCCs[abilityId] = {
-            result = result,
-            time = GetGameTimeMilliseconds(),
-        }
+        -- In PvP, we don't get many incoming events, so just display the cc immediately
+        -- with a generic timer
+        if (IsInPvP()) then
+            DoCC(abilityId, result, 4000, sourceName) -- TODO: check hitValue
+        else
+            recentCCs[abilityId] = {
+                result = result,
+                time = GetGameTimeMilliseconds(),
+            }
+        end
     end
 end
 
@@ -148,15 +173,7 @@ local function OnEffectGainedDuration(_, _, _, _, _, _, sourceName, _, _, _, hit
     end
 
     -- Only show UI and play sound after the effect gained is confirmed (unless it was EFFECT_ONLY)
-    Crutch.OnHardCCed(abilityId, ccResult, hitValue, sourceName)
-
-    local typeOptions = TYPE_OPTIONS[HARD]
-    local abilityData = CC_ABILITY_DATA[abilityId]
-    if (typeOptions.sound and abilityData ~= SILENT and Crutch.savedOptions.cc.playSound) then
-        for i = 1, Crutch.savedOptions.cc.hardVolume do
-            PlaySound(typeOptions.sound)
-        end
-    end
+    DoCC(abilityId, ccResult, hitValue, sourceName)
 end
 
 ---------------------------------------------------------------------
