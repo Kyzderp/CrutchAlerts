@@ -133,6 +133,13 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
 
     if (abilityData == SUPPRESS) then return end
 
+    -- In PvP, we don't get many incoming events, so just display the cc immediately
+    -- with a generic timer. Even the source displays as yourself.
+    if (IsInPvP()) then
+        DoCC(abilityId, result, 4000, sourceName)
+        return
+    end
+
     -- If source type is player, it's usually player trying to cast stuff while stunned
     -- It could be self stuns like entering portals but that doesn't need alerts
     -- Sometimes they come from GROUP too, like radiating regen and meridia's favor, when
@@ -141,16 +148,10 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
 
     -- Only care about getting the duration for hard ccs
     if (options.type == HARD) then
-        -- In PvP, we don't get many incoming events, so just display the cc immediately
-        -- with a generic timer
-        if (IsInPvP()) then
-            DoCC(abilityId, result, 4000, sourceName) -- TODO: check hitValue
-        else
-            recentCCs[abilityId] = {
-                result = result,
-                time = GetGameTimeMilliseconds(),
-            }
-        end
+        recentCCs[abilityId] = {
+            result = result,
+            time = GetGameTimeMilliseconds(),
+        }
     end
 end
 

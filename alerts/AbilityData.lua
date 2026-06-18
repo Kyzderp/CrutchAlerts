@@ -183,6 +183,8 @@ Crutch.testing = {
 
     [166525] = true, -- Blistering Fragility
     [166529] = true, -- Chilling Fragility
+
+    [185922] = true, -- rune of uncanny adoration
 }
 
 ---------------------------------------------------------------------
