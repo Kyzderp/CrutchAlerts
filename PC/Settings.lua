@@ -194,7 +194,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
-                    name = "Show casts on others",
+                    name = "Show AOE / important casts",
                     tooltip = "Show alerts when someone else in your group is targeted by a specific ability, or in some cases, when the enemy casts something on themselves. This is a manually curated list of abilities that are important enough to affect you, for example the Llothis cone (Defiling Dye Blast) or Rakkhat's kite (Darkness Falls)",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.general.showOthers end,
@@ -328,13 +328,13 @@ function Crutch:CreateSettingsMenu()
                     controls = {
                         {
                             type = "description",
-                            text = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and others as listed above. To find IDs, you can turn on |c99FF99CrutchAlerts > Debug > Show debug on alert|r, and the ID is the first number shown on the small gray text under the alert (ignore fake IDs starting with 888). Alternatively, you can find IDs from online sources such as ESOLogs, player-maintained spreadsheets, or UESP.",
+                            text = "You can adjust the abilities that are shown in the general alerts here. This includes the casts on yourself and important casts as listed above. To find IDs, you can turn on |c99FF99CrutchAlerts > Debug > Show debug on alert|r, and the ID is the first number shown on the small gray text under the alert (ignore fake IDs starting with 888). Alternatively, you can find IDs from online sources such as ESOLogs, player-maintained spreadsheets, or UESP.",
                             width = "full",
                         },
                         {
                             type = "editbox",
                             name = "Blacklist IDs, separated by commas",
-                            tooltip = "IDs added to this blacklist will no longer be shown in \"begin casts,\" \"gained casts,\" and \"casts on others.\" For example, to suppress Bahsei HM portal direction alerts, add 153517,153518",
+                            tooltip = "IDs added to this blacklist will no longer be shown in \"begin casts,\" \"gained casts,\" and \"AOE / important casts.\" For example, to suppress Bahsei HM portal direction alerts, add 153517,153518",
                             default = "",
                             getFunc = function()
                                 local str = ""
