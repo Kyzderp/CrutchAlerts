@@ -70,6 +70,7 @@
         </TopLevelControl>
 
 <!-- ======================================================================================================================= -->
+        <!-- TODO: move all this nonsense to templates -->
         <TopLevelControl name="CrutchAlertsProminent1" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="true">
             <Dimensions x="40" y="40"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
@@ -123,6 +124,28 @@
             </Controls>
         </TopLevelControl>
         <TopLevelControl name="CrutchAlertsProminent3" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="true">
+            <Dimensions x="40" y="40"/>
+            <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
+            <Controls>
+                <Label name="$(parent)LeftTop" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="225"/>
+                </Label>
+                <Label name="$(parent)LeftBottom" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="-800" offsetY="-225"/>
+                </Label>
+                <Label name="$(parent)RightTop" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="225"/>
+                </Label>
+                <Label name="$(parent)RightBottom" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+                    <Dimensions x="1000" y="50"/>
+                    <Anchor point="CENTER" offsetX="800" offsetY="-225"/>
+                </Label>
+            </Controls>
+        </TopLevelControl>
+        <TopLevelControl name="CrutchAlertsProminent4" clampedToScreen="true" mouseEnabled="false" movable="false" hidden="true">
             <Dimensions x="40" y="40"/>
             <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="0"/>
             <Controls>

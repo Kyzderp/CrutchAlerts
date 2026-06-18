@@ -83,7 +83,7 @@ local prominentData = {
             },
             text = "STOP REZZING",
             color = {0.6, 0, 1},
-            slot = 3,
+            slot = 4,
             playSound = true,
             millis = 1000,
             settings = {
@@ -134,6 +134,44 @@ local prominentData = {
                 name = "prominentWeaponWave",
                 title = "Alert Scalding Swell / Biting Billow",
                 description = "Shows a prominent alert and plays a sound when a weapon is killed and releases a shockwave",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Charred Constriction
+        [167466] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "NEED ICE DOME",
+            color = C.ICEBLUE,
+            slot = 3,
+            playSound = function() Crutch.PlayMultiSound(SOUNDS.JUSTICE_NOW_KOS, 2, 4, 1000, false) end,
+            millis = 4000,
+            settings = {
+                name = "prominentDome",
+                title = "Alert Charred Constriction / Frigidarium",
+                description = "Shows a prominent alert and plays a sound when a boss teleports and the opposite side needs to run the dome over",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Frigidarium
+        [167545] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+            },
+            text = "NEED FIRE DOME",
+            color = C.ORANGE,
+            slot = 3,
+            playSound = function() Crutch.PlayMultiSound(SOUNDS.JUSTICE_NOW_KOS, 2, 4, 1000, false) end,
+            millis = 4000,
+            settings = {
+                name = "prominentDome",
+                title = "Alert Charred Constriction / Frigidarium",
+                description = "Shows a prominent alert and plays a sound when a boss teleports and the opposite side needs to run the dome over",
                 checkOldForDefault = true,
                 default = true,
             },
