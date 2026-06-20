@@ -136,9 +136,9 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
     -- OTHER for PvP for now.
     if (sourceType ~= COMBAT_UNIT_TYPE_NONE) then
         if (IsInPvP() and sourceType == COMBAT_UNIT_TYPE_OTHER) then
-            Crutch.dbgOther("|cFFAA00cced in pvp by other")
+            Crutch.dbgSpam("|cFFAA00cced in pvp by other")
         else
-            Crutch.dbgOther("unit type: " .. sourceType)
+            Crutch.dbgSpam("unit type: " .. sourceType)
             return
         end
     end
