@@ -599,7 +599,7 @@ local prominentData = {
                 -- TODO: only show if in portal (has gotten attunement?)
                 filterFunction = function() return Crutch.IsInVantonPortal(Crutch.playerGroupTag) end,
             },
-            text = "EXECUTE",
+            text = "INTERRUPT",
             color = C.ICEBLUE,
             slot = 2,
             playSound = true,
@@ -620,7 +620,7 @@ local prominentData = {
                 -- TODO: only show if not in portal?
                 filterFunction = function() return not Crutch.IsInVantonPortal(Crutch.playerGroupTag) end,
             },
-            text = "EXECUTE",
+            text = "INTERRUPT",
             color = C.ICEBLUE,
             slot = 1,
             playSound = true,

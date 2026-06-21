@@ -164,7 +164,7 @@ local function OnEffectGainedDuration(_, _, _, _, _, _, sourceName, _, _, _, hit
         -- This *seems* to only happen if it's a "fake" stun, so there's no associated stun event
         if (GetGameTimeMilliseconds() - cc.time > 100) then
             recentCCs[abilityId] = nil
-            Crutch.dbgOther("|cFF0000CC effect duration received " .. (GetGameTimeMilliseconds() - cc.time) .. "ms after initial?!")
+            Crutch.dbgOther(string.format("|cFF0000CC effect duration %s (%d) received %dms after initial?!", GetAbilityName(abilityId), abilityId, GetGameTimeMilliseconds() - cc.time))
             return
         end
         ccResult = cc.result
