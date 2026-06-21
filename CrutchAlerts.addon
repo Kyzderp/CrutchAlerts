@@ -8,12 +8,12 @@
 ## Description: Combat alerts, boss health bars with mechanic thresholds, time until boss spawn, and more!
 ## Author: Kyzeragon
 ## Contributors: @M0R_Gaming and @Ooki42 for Bahsei curse lines
-## Version: 2.20.0
-## AddOnVersion: 22000
+## Version: 2.21.0
+## AddOnVersion: 22100
 ## APIVersion: 101050
 
 ## PCDependsOn: LibAddonMenu-2.0>=43
-## ConsoleDependsOn: LibHarvensAddonSettings>=20002
+## ConsoleDependsOn: LibHarvensAddonSettings>=20108
 ## OptionalDependsOn: OdySupportIcons LibFilteredChatPanel LibGroupBroadcast>=91 LibCustomIcons
 
 ## SavedVariables: CrutchAlertsSavedVariables
