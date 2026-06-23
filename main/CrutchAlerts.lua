@@ -74,6 +74,7 @@ local defaultOptions = {
         hitValueBelowThreshold = 75,
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?
         showDamageable = true,
+        damageableSize = 30,
         consolidateDamageableInInfoPanel = false,
         showRaidDiag = false,
 

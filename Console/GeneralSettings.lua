@@ -279,7 +279,23 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
             getFunction = function() return Crutch.savedOptions.general.showDamageable end,
             setFunction = function(value)
                 Crutch.savedOptions.general.showDamageable = value
-                Crutch.OnPlayerActivated()
+                if (value) then
+                    Crutch.DisplayDamageable(10)
+                end
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Damageable size",
+            tooltip = "The size to display the damageable timers",
+            min = 5,
+            max = 120,
+            step = 1,
+            default = Crutch.defaultOptions.general.damageableSize,
+            getFunction = function() return Crutch.savedOptions.general.damageableSize end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.damageableSize = value
+                Crutch.UnlockUI(true)
             end,
         },
         {
@@ -290,6 +306,7 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
             getFunction = function() return Crutch.savedOptions.general.consolidateDamageableInInfoPanel end,
             setFunction = function(value)
                 Crutch.savedOptions.general.consolidateDamageableInInfoPanel = value
+                Crutch.DisplayDamageable(10)
             end,
             disable = function() return not Crutch.savedOptions.general.showDamageable end,
         },

@@ -227,9 +227,26 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.general.showDamageable end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.showDamageable = value
-                        Crutch.OnPlayerActivated()
+                        if (value) then
+                            Crutch.DisplayDamageable(10)
+                        end
                     end,
                     width = "full",
+                },
+                {
+                    type = "slider",
+                    name = "Damageable size",
+                    tooltip = "The size to display the damageable timers",
+                    min = 5,
+                    max = 120,
+                    step = 1,
+                    default = Crutch.defaultOptions.general.damageableSize,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.general.damageableSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.damageableSize = value
+                        Crutch.DisplayDamageable(10)
+                    end,
                 },
                 {
                     type = "checkbox",
@@ -239,6 +256,7 @@ function Crutch:CreateSettingsMenu()
                     getFunc = function() return Crutch.savedOptions.general.consolidateDamageableInInfoPanel end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.consolidateDamageableInInfoPanel = value
+                        Crutch.DisplayDamageable(10)
                     end,
                     width = "full",
                     disabled = function() return not Crutch.savedOptions.general.showDamageable end,
