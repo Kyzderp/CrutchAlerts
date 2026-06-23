@@ -422,10 +422,14 @@ end
 
 local function OnCombat()
     if (IsTaleria()) then
-        -- initial timer (to gained duration) 12.776, 13.011, 14.405, 14.207, 14.179
-        Crutch.InfoPanel.CountDownDuration(PANEL_MAELSTROM_INDEX, MAELSTROM_PREFIX, 12000)
-        -- initial timer (to begin) 6.159, 6.447, 5.967, 5.78, 5.771
-        Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 5700)
+        if (Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom) then
+            -- initial timer (to gained duration) 12.776, 13.011, 14.405, 14.207, 14.179
+            Crutch.InfoPanel.CountDownDuration(PANEL_MAELSTROM_INDEX, MAELSTROM_PREFIX, 12000)
+        end
+        if (Crutch.savedOptions.dreadsailreef.infoPanel.showBehemothSpawn) then
+            -- initial timer (to begin) 6.159, 6.447, 5.967, 5.78, 5.771
+            Crutch.InfoPanel.CountDownDuration(PANEL_BEHEMOTH_INDEX, BEHEMOTH_PREFIX, 5700)
+        end
     end
 end
 
