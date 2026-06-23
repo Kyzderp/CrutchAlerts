@@ -76,6 +76,7 @@ local defaultOptions = {
         showDamageable = true,
         damageableSize = 30,
         consolidateDamageableInInfoPanel = false,
+        hideNailguns = false,
         showRaidDiag = false,
 
         beginHideArcanist = false, -- has been changed to be its own thing, reusing the setting

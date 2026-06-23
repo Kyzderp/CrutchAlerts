@@ -516,7 +516,7 @@ local dmgDisplayFormat = "Boss in |c%s%.1f|r"
 local function UpdateDisplay()
     local currTime = GetGameTimeMilliseconds()
     local millisRemaining = pollTime - currTime
-    if (millisRemaining < -1000) then
+    if ((Crutch.savedOptions.general.hideNailguns and millisRemaining < 0) or millisRemaining < -1000) then
         isPolling = false
         EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "PollDamageable")
         CrutchAlertsDamageableLabel:SetHidden(true)

@@ -235,7 +235,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Damageable size",
+                    name = "    Damageable size",
                     tooltip = "The size to display the damageable timers",
                     min = 5,
                     max = 120,
@@ -247,6 +247,7 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.general.damageableSize = value
                         Crutch.DisplayDamageable(10)
                     end,
+                    disabled = function() return not Crutch.savedOptions.general.showDamageable end,
                 },
                 {
                     type = "checkbox",
@@ -257,6 +258,18 @@ function Crutch:CreateSettingsMenu()
                     setFunc = function(value)
                         Crutch.savedOptions.general.consolidateDamageableInInfoPanel = value
                         Crutch.DisplayDamageable(10)
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.general.showDamageable end,
+                },
+                {
+                    type = "checkbox",
+                    name = "    Fire the nailguns!",
+                    tooltip = "Shows text for 1 second after the damageable timer expires, instead of instantly disappearing",
+                    default = not Crutch.defaultOptions.general.hideNailguns,
+                    getFunc = function() return not Crutch.savedOptions.general.hideNailguns end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.hideNailguns = not value
                     end,
                     width = "full",
                     disabled = function() return not Crutch.savedOptions.general.showDamageable end,

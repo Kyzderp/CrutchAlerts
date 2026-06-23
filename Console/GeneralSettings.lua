@@ -287,7 +287,7 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         {
             type = LibHarvensAddonSettings.ST_SLIDER,
             label = "Damageable size",
-            tooltip = "The size to display the damageable timers",
+            tooltip = "The size to display the damageable timers.",
             min = 5,
             max = 120,
             step = 1,
@@ -297,6 +297,7 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
                 Crutch.savedOptions.general.damageableSize = value
                 Crutch.UnlockUI(true)
             end,
+            disable = function() return not Crutch.savedOptions.general.showDamageable end,
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
@@ -307,6 +308,17 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
             setFunction = function(value)
                 Crutch.savedOptions.general.consolidateDamageableInInfoPanel = value
                 Crutch.DisplayDamageable(10)
+            end,
+            disable = function() return not Crutch.savedOptions.general.showDamageable end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Fire the nailguns!",
+            tooltip = "Shows text for 1 second after the damageable timer expires, instead of instantly disappearing.",
+            default = not Crutch.defaultOptions.general.hideNailguns,
+            getFunction = function() return not Crutch.savedOptions.general.hideNailguns end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.hideNailguns = not value
             end,
             disable = function() return not Crutch.savedOptions.general.showDamageable end,
         },
