@@ -6,7 +6,7 @@ local Crutch = CrutchAlerts
 local queuedMessages = {}
 function Crutch.msg(msg)
     if (not msg) then return end
-    msg = "|c3bdb5e[CrutchAlerts]|caaaaaa " .. tostring(msg) .. "|r"
+    msg = "|c3bdb5e[CrutchAlerts]|caaaaaa " .. tostring(msg)
     if (CHAT_ROUTER) then
         CHAT_ROUTER:AddSystemMessage(msg)
     else
@@ -23,7 +23,7 @@ function Crutch.Warn(msg)
                         "|c0000FFI" ..
                         "|c2E2B5FN" ..
                         "|c8B00FFG" ..
-                        "|cFF00FF: " .. msg .. "|r"
+                        "|cFF00FF: " .. msg
     if (CHAT_ROUTER) then
         CHAT_ROUTER:AddSystemMessage(chatWarning)
     else

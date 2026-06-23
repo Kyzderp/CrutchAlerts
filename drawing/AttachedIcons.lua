@@ -561,7 +561,7 @@ local function RefreshGroup()
     -- Suppression
     EvaluateAllSuppression()
     PrintTime("finished suppression")
-    Crutch.dbgSpam(timings)
+    -- Crutch.dbgSpam(timings)
 end
 Draw.RefreshGroup = RefreshGroup
 -- /script CrutchAlerts.Drawing.RefreshGroup()
