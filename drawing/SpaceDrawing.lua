@@ -129,7 +129,6 @@ options = {
         height = 100,
         centerColor = {0, 0, 1, 1},
         edgeColor = {0, 0, 0.2, 1},
-        edgeSize = 6,
         roll = math.pi/4,
     },
     composite = {
@@ -189,7 +188,6 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         backdrop:SetDimensions(options.backdrop.width or 100, options.backdrop.height or 100)
         backdrop:SetCenterColor(unpack(options.backdrop.centerColor))
         backdrop:SetEdgeColor(unpack(options.backdrop.edgeColor))
-        backdrop:SetEdgeSize(options.backdrop.edgeSize or 6)
         backdrop:SetTransformRotation(0, 0, options.backdrop.roll or 0)
         backdrop:SetHidden(false)
     end
