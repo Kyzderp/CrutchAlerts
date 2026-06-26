@@ -174,6 +174,7 @@ local function CleanUp()
     nextPortalTimer = 20
     UnspoofAllIcons()
     ZO_ClearTable(groupBitterMarrow)
+    RG.linesHidden = false
     Crutch.InfoPanel.StopCount(RG.PANEL_PORTAL_TIMER_INDEX)
     Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_COUNT_INDEX)
     Crutch.InfoPanel.RemoveLine(RG.PANEL_PORTAL_PLAYERS_INDEX)
