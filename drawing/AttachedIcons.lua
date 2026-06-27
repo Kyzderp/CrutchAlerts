@@ -405,7 +405,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             else
                 r, g, b = unpack(Crutch.savedOptions.drawing.attached.deadColor)
             end
-            icon:SetColor(r, g, b)
+            icon:SetColor(r, g, b, Crutch.savedOptions.drawing.attached.opacity)
         end
 
         local texturePath = "esoui/art/icons/mapkey/mapkey_groupboss.dds"
