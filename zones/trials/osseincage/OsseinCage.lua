@@ -141,7 +141,7 @@ function Crutch.RegisterOsseinCage()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Ossein Cage")
 
     Crutch.OsseinCage.RegisterCarrion()
-    Crutch.OsseinCage.RegisterTwins()
+    Crutch.OsseinCage.RegisterOCZoneTwins()
 
     -- Stricken (tank swap)
     if (Crutch.savedOptions.osseincage.showStricken ~= "NEVER") then
@@ -159,7 +159,7 @@ end
 
 function Crutch.UnregisterOsseinCage()
     Crutch.OsseinCage.UnregisterCarrion()
-    Crutch.OsseinCage.UnregisterTwins()
+    Crutch.OsseinCage.UnregisterOCZoneTwins()
 
     Crutch.UnregisterForEffectChanged("Stricken")
     Crutch.UnregisterForEffectChanged("ChainsInitial1")

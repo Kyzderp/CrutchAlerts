@@ -557,6 +557,17 @@ local function MaybeRegisterTwins()
         UnregisterHardmodeAtros()
     end
 
+    -- Check health for upcoming portal
+    if (IsHM() and Crutch.savedOptions.osseincage.enableAbilityOverlay) then
+        Crutch.dbgOther("registering twins health")
+        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, OnTwinsHealth)
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
+        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
+    else
+        Crutch.dbgOther("unregistering twins health")
+        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE)
+    end
+
     -- Only enable enfeeblement icons if the difficulty is appropriate
     local enfeeblementOption = Crutch.savedOptions.osseincage.showEnfeeblementIcons
     if (enfeeblementOption == "NEVER") then
@@ -591,7 +602,7 @@ end
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
-function OC.RegisterTwins()
+function OC.RegisterOCZoneTwins()
     Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat", OnCombatStart)
     Crutch.RegisterExitedGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
 
@@ -622,17 +633,9 @@ function OC.RegisterTwins()
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss1")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
-
-    -- Check health for upcoming portal
-    if (IsHM() and Crutch.savedOptions.osseincage.enableAbilityOverlay) then
-        Crutch.dbgOther("registering twins health")
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, OnTwinsHealth)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
-    end
 end
 
-function OC.UnregisterTwins()
+function OC.UnregisterOCZoneTwins()
     Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat")
     Crutch.UnregisterExitedGroupCombatListener("CrutchOsseinCageJynorahExitedCombat")
 
@@ -640,12 +643,7 @@ function OC.UnregisterTwins()
 
     Crutch.UnregisterBossChangedListener("CrutchOsseinCage")
 
-    UnregisterEnfeeblement()
-
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCTwinsHealth", EVENT_POWER_UPDATE)
 
-    for damageResult, _ in pairs(damageTypes) do
-        Crutch.UnregisterForCombatEvent("OCTitanReflect" .. tostring(damageResult))
-    end
+    MaybeRegisterTwins()
 end
