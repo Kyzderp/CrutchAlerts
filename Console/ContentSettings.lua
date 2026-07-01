@@ -1556,6 +1556,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Calamity timer",
+            tooltip = "In the Ansuul fight, shows approximate time until Calamity in the info panel",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.sanitysedge.infoPanel.showCalamity end,
+            setFunction = function(value)
+                Crutch.savedOptions.sanitysedge.infoPanel.showCalamity = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
     }))
 
     settings:AddSettings(Crutch.GetProminentSettingsConsole(1121, {

@@ -142,6 +142,21 @@ end
 
 
 ---------------------------------------------------------------------
+local PANEL_CALAMITY_INDEX = 7 -- TODO: priority vs wrathstorm?
+local CALAMITY_ID = 186728
+local CALAMITY_PREFIX = zo_strformat("|c8ef5f5<<C:1>>: ", GetAbilityName(CALAMITY_ID))
+
+local function OnCalamity()
+    Crutch.InfoPanel.CountDownDuration(PANEL_CALAMITY_INDEX, CALAMITY_PREFIX, 25000) -- TODO
+end
+
+local function OnCalamityRitual()
+    -- TODO: 44, 47, 45
+    Crutch.InfoPanel.CountDownDuration(PANEL_CALAMITY_INDEX, CALAMITY_PREFIX, 44000)
+end
+
+
+---------------------------------------------------------------------
 local ATTUNEMENT_ID = 242224 -- one of the many...
 local UNATTUNED_ID = 189027 -- Blind to the Unattuned fades when done
 local attuned = {}
@@ -209,6 +224,11 @@ function Crutch.RegisterSanitysEdge()
         Crutch.RegisterForCombatEvent("SEBreakdownFaded", OnBreakdownFaded, ACTION_RESULT_EFFECT_FADED, 188760)
     end
 
+    if (Crutch.savedOptions.sanitysedge.infoPanel.showCalamity) then
+        Crutch.RegisterForCombatEvent("SECalamity", OnCalamity, ACTION_RESULT_BEGIN, CALAMITY_ID)
+        Crutch.RegisterForCombatEvent("SECalamityRitual", OnCalamityRitual, ACTION_RESULT_BEGIN, 183855)
+    end
+
     Crutch.RegisterForCombatEvent("SEAttunement", OnAttunement, ACTION_RESULT_EFFECT_GAINED, ATTUNEMENT_ID)
     Crutch.RegisterForCombatEvent("SEUnattuned", OnUnattuned, ACTION_RESULT_EFFECT_FADED, UNATTUNED_ID)
 end
@@ -231,6 +251,9 @@ function Crutch.UnregisterSanitysEdge()
     Crutch.UnregisterForCombatEvent("SEWrathstorm")
     Crutch.UnregisterForCombatEvent("SERitual")
     Crutch.UnregisterForCombatEvent("SEBreakdownFaded")
+
+    Crutch.UnregisterForCombatEvent("SECalamity")
+    Crutch.UnregisterForCombatEvent("SECalamityRitual")
 
     Crutch.UnregisterForCombatEvent("SEAttunement")
     Crutch.UnregisterForCombatEvent("SEUnattuned")

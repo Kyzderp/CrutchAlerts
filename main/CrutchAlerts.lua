@@ -320,6 +320,7 @@ local defaultOptions = {
         infoPanel = {
             showFrostBomb = true,
             showWrathstorm = true,
+            showCalamity = true,
         },
     },
     sunspire = {

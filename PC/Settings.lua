@@ -2846,6 +2846,18 @@ function Crutch:CreateSettingsMenu()
                     end,
                     width = "full",
                 },
+                {
+                    type = "checkbox",
+                    name = "Show Calamity timer",
+                    tooltip = "In the Ansuul fight, shows approximate time until Calamity in the info panel",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.infoPanel.showCalamity end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.infoPanel.showCalamity = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             }),
         },
         {
