@@ -14,12 +14,14 @@ local function PrintUsage()
     if (ZO_IsConsoleOrGameCoreUI()) then
         Crutch.msg([[Usage:
 |cAAAAAA/crutch printskills
+|cAAAAAA/crutch printeffects
 |cAAAAAA/crutch circle [radius]
 |cAAAAAA/crutch toggle general
 |cAAAAAA/crutch xoryn - temporarily toggle Tempest icons]])
     else
         Crutch.msg([[Usage:
 |cAAAAAA/crutch printskills
+|cAAAAAA/crutch printeffects
 |cAAAAAA/crutch circle [radius]
 |cAAAAAA/crutch lock
 |cAAAAAA/crutch unlock
@@ -70,6 +72,15 @@ SLASH_COMMANDS["/crutch"] = function(argString)
             end
         end
         Crutch.msg(text)
+
+    --------------------
+    elseif (cmd == "printeffects" or cmd == "printbuffs") then
+        local text = ""
+        for i = 1, GetNumBuffs("player") do
+            local _, _, _, _, _, _, _, _, _, _, abilityId = GetUnitBuffInfo("player", i)
+            text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId))
+        end
+        Crutch.msg("Current effects:" .. text)
 
     --------------------
     elseif (cmd == "lock" and not ZO_IsConsoleOrGameCoreUI()) then
