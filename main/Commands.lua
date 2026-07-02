@@ -83,6 +83,14 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         Crutch.msg("Current effects:" .. text)
 
     --------------------
+    elseif (cmd == "printsets") then
+        if (CrutchAlertsExtensions) then
+            SLASH_COMMANDS["/cae"]("printsets") -- redirect to CAE
+        else
+            Crutch.msg("You need CrutchAlerts Extensions to use this command.")
+        end
+
+    --------------------
     elseif (cmd == "lock" and not ZO_IsConsoleOrGameCoreUI()) then
         Crutch.UnlockUI(false)
 
