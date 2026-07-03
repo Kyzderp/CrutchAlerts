@@ -147,12 +147,13 @@ local CALAMITY_ID = 186728
 local CALAMITY_PREFIX = zo_strformat("|c8ef5f5<<C:1>>: ", GetAbilityName(CALAMITY_ID))
 
 local function OnCalamity()
-    Crutch.InfoPanel.CountDownDuration(PANEL_CALAMITY_INDEX, CALAMITY_PREFIX, 25000) -- TODO
+    -- 22.506 (on healer then tank during manic), 26.833, 26.942, 27.131, 27.357, 27.719, 27.734, 27.752, 27.818, 27.82, 27.842, 28.058, 28.149, 28.204, 28.236, 28.317, 28.317, 28.399, 28.417, ...
+    Crutch.InfoPanel.CountDownDuration(PANEL_CALAMITY_INDEX, CALAMITY_PREFIX, 22500)
 end
 
 local function OnCalamityRitual()
-    -- TODO: 44, 47, 45
-    Crutch.InfoPanel.CountDownDuration(PANEL_CALAMITY_INDEX, CALAMITY_PREFIX, 44000)
+    -- 37.031, 37.465, 38.319, 42.249, 42.326, 42.443, 42.569, 42.599, 42.911, 43.698, 44.195, 44.35, 44.564, 44.912, 45.388, 45.427, 45.623
+    Crutch.InfoPanel.CountDownDuration(PANEL_CALAMITY_INDEX, CALAMITY_PREFIX, 37000)
 end
 
 
