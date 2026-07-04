@@ -193,6 +193,7 @@ local function CleanUp()
     Crutch.InfoPanel.StopCount(PANEL_FROST_BOMB_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_ARCTIC_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_WRATHSTORM_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_CALAMITY_INDEX)
     ZO_ClearTable(attuned)
 end
 
