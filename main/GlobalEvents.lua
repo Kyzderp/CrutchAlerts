@@ -262,11 +262,11 @@ local function UpdateUnitTags(reason)
 end
 
 function Crutch.RegisterUnitTagListener(name, listener)
-    updateListeners[name] = listener
+    unitTagListeners[name] = listener
 end
 
 function Crutch.UnregisterUnitTagListener(name)
-    updateListeners[name] = nil
+    unitTagListeners[name] = nil
 end
 
 
