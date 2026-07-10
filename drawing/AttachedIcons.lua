@@ -579,10 +579,8 @@ end
 local hooked = false
 local function InitializeAttachedIcons()
     -- Group changes
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: player activated") RefreshGroupTimeout() end)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member joined") RefreshGroupTimeout() end)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member left") RefreshGroupTimeout() end)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: update") RefreshGroupTimeout() end)
+    Crutch.RegisterUnitTagListener("CrutchAlertsAttachedGroup", function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: unit tags changed") RefreshGroupTimeout() end)
+
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member role change") RefreshGroupTimeout() end) -- TODO: could be more efficient
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member connected status") RefreshGroupTimeout() end) -- TODO: could be more efficient
 
@@ -620,10 +618,7 @@ Draw.InitializeAttachedIcons = InitializeAttachedIcons
 -- TODO: use this at some point?
 local function UnregisterAttachedIcons()
     -- Group changes
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupJoined", EVENT_GROUP_MEMBER_JOINED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupLeft", EVENT_GROUP_MEMBER_LEFT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupUpdate", EVENT_GROUP_UPDATE)
+    Crutch.UnregisterUnitTagListener("CrutchAlertsAttachedGroup")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS)
 

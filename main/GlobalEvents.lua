@@ -232,6 +232,44 @@ end
 Crutch.OnTrialComplete = OnTrialComplete
 -- /script CrutchAlerts.OnTrialComplete(nil, nil, 12345, 934000)
 
+
+---------------------------------------------------------------------
+-- Group unit tag changes
+---------------------------------------------------------------------
+local unitTagListeners = {}
+local prevTags = {} -- tag = charName
+
+local function UpdateUnitTags(reason)
+    local changed = false
+    -- Intentionally use index here, instead of GetGroupUnitTagByIndex,
+    -- in order to check tags that no longer exist
+    for i = 1, MAX_GROUP_SIZE_THRESHOLD do
+        local unitTag = "group" .. tostring(i)
+        local charName = GetUnitName(unitTag)
+        if (prevTags[unitTag] ~= charName) then
+            changed = true
+            Crutch.dbgOther(string.format("[%s] unit tag %s changed: %s -> %s", reason, unitTag, tostring(prevTags[unitTag]), tostring(charName)))
+        end
+
+        prevTags[unitTag] = charName
+    end
+
+    if (changed) then
+        for _, listener in pairs(unitTagListeners) do
+            listener()
+        end
+    end
+end
+
+function Crutch.RegisterUnitTagListener(name, listener)
+    updateListeners[name] = listener
+end
+
+function Crutch.UnregisterUnitTagListener(name)
+    updateListeners[name] = nil
+end
+
+
 ---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
@@ -239,6 +277,11 @@ function Crutch.InitializeGlobalEvents()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalCombat", EVENT_PLAYER_COMBAT_STATE, OnCombatStateChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalBossesChanged", EVENT_BOSSES_CHANGED, OnBossesChanged)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalPlayerActivated", EVENT_PLAYER_ACTIVATED, OnBossesChanged)
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalTagsActivated", EVENT_PLAYER_ACTIVATED, function() UpdateUnitTags("Activated") end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalTagsJoined", EVENT_GROUP_MEMBER_JOINED, function() UpdateUnitTags("Joined") end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalTagsLeft", EVENT_GROUP_MEMBER_LEFT, function() UpdateUnitTags("Left") end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GlobalTagsUpdate", EVENT_GROUP_UPDATE, function() UpdateUnitTags("Update") end)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialComplete", EVENT_RAID_TRIAL_COMPLETE, OnTrialComplete)
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrialStart", EVENT_RAID_TRIAL_STARTED, OnTrialStarted)
@@ -254,6 +297,11 @@ function Crutch.UninitializeGlobalEvents()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalCombat", EVENT_PLAYER_COMBAT_STATE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalBossesChanged", EVENT_BOSSES_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalPlayerActivated", EVENT_PLAYER_ACTIVATED)
+
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalTagsActivated", EVENT_PLAYER_ACTIVATED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalTagsJoined", EVENT_GROUP_MEMBER_JOINED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalTagsLeft", EVENT_GROUP_MEMBER_LEFT)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GlobalTagsUpdate", EVENT_GROUP_UPDATE)
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TrialComplete", EVENT_RAID_TRIAL_COMPLETE)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TrialStart", EVENT_RAID_TRIAL_STARTED)
