@@ -267,8 +267,39 @@ local function OnConversion(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _
     end
 end
 
+-- To be called when unit tags change
+local function RefreshAllAspectIcons()
+    Crutch.dbgOther("|cFF0000REFRESHING ALL ASPECT ICONS!")
+    RemoveAllAttachedIcons(ASPECT_UNIQUE_NAME)
+    for i = 1, MAX_GROUP_SIZE_THRESHOLD do
+        Crutch.Drawing.OverrideDeadColor("group" .. i, nil)
+    end
+
+    for i = 1, GetGroupSize() do
+        local unitTag = GetGroupUnitTagByIndex(i)
+        if (unitTag and DoesUnitExist(unitTag)) then
+            local atName = GetUnitDisplayName(unitTag)
+            local abilityId = currentlyDisplayingAbility[atName]
+            if (abilityId) then
+                local iconData = ASPECT_ICONS[abilityId]
+                local iconPath = iconData.path
+
+                if (Crutch.savedOptions.mawoflorkhaj.showTwinsIcons) then
+                    Crutch.dbgSpam(string.format("Refreshing |t100%%:100%%:%s|t for %s", iconPath, atName))
+                    Crutch.SetAttachedIconForUnit(unitTag, ASPECT_UNIQUE_NAME, C.PRIORITY.ASPECT, iconPath, 100, iconData.color)
+                end
+
+                -- Color dead icon regardless
+                Crutch.Drawing.OverrideDeadColor(unitTag, iconData.color)
+            end
+        end
+    end
+end
+
 local origOSIGetIconDataForPlayer = nil
 local function RegisterTwins()
+    Crutch.RegisterUnitTagListener("CrutchAlertsMoLAspectRefresh", RefreshAllAspectIcons)
+
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, OnAspect)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 59639) -- Shadow Aspect (duration)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
@@ -310,6 +341,7 @@ local function RegisterTwins()
 end
 
 local function UnregisterTwins()
+    Crutch.UnregisterUnitTagListener("CrutchAlertsMoLAspectRefresh")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadow", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsLunar", EVENT_EFFECT_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TwinsShadowConversion", EVENT_EFFECT_CHANGED)
