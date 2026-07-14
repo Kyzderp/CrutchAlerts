@@ -65,7 +65,7 @@ local function GetRandomSound()
     return SOUNDS.DUEL_START
 end
 
-function Crutch.DisplayProminentSpin(text, color, slot)
+function Crutch.DisplayProminentSpin(text, color, slot, mute)
     color = color or {1, 0.6, 0}
     slot = slot or 1
     Display(888888, text, color, slot, 5000)
@@ -76,7 +76,9 @@ function Crutch.DisplayProminentSpin(text, color, slot)
 
     local angle = 0
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "Spinny" .. tostring(slot), 30, function()
-        PlaySound(GetRandomSound())
+        if (not mute) then
+            PlaySound(GetRandomSound())
+        end
         angle = angle + 10 * ((slot % 2 == 0) and 1 or -1) * slot
         if (stop) then
             EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "Spinny" .. tostring(slot))

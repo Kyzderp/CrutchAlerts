@@ -65,6 +65,11 @@ local CC_ABILITY_DATA = {
     [203125] = SUPPRESS, -- Verse Select
     [211431] = SUPPRESS, -- Side Content Transporter (self)
     [211433] = SUPPRESS, -- Side Content Selector (pulled by other)
+
+-- Hiding Spot
+    [75747] = SUPPRESS, -- basket
+    [261608] = SUPPRESS, -- curtains
+    [261624] = SUPPRESS, -- plant pot
 }
 
 
