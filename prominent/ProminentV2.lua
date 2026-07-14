@@ -565,6 +565,90 @@ local prominentData = {
                 default = true,
             },
         },
+        -- Bloody Bash
+        [153180] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function() return GetSelectedLFGRole() ~= LFG_ROLE_TANK end,
+            },
+            text = "BONK",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentBonk",
+                title = "Alert Bonks",
+                description = "Shows a prominent alert when you are not a tank and a Flesh Abomination or Fire Behemoth tries to light attack you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Hack
+        [153350] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function() return GetSelectedLFGRole() ~= LFG_ROLE_TANK end,
+            },
+            text = "BONK",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentBonk",
+                title = "Alert Bonks",
+                description = "Shows a prominent alert when you are not a tank and a Flesh Abomination or Fire Behemoth tries to light attack you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Strike
+        [152385] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function() return GetSelectedLFGRole() ~= LFG_ROLE_TANK end,
+            },
+            text = "BONK",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentBonk",
+                title = "Alert Bonks",
+                description = "Shows a prominent alert when you are not a tank and a Flesh Abomination or Fire Behemoth tries to light attack you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Crush
+        [152383] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function() return GetSelectedLFGRole() ~= LFG_ROLE_TANK end,
+            },
+            text = "BONK",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentBonk",
+                title = "Alert Bonks",
+                description = "Shows a prominent alert when you are not a tank and a Flesh Abomination or Fire Behemoth tries to light attack you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
     },
 
     ----------------
