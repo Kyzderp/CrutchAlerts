@@ -141,6 +141,7 @@ local numClashes = 0
 -- 36.6, 36.56, 37.9, 36.9, 36.58, 37.84, 36.9, 36.5
 local function OnClashBegin()
     Crutch.dbgOther("clash begin")
+    firstLeap = false -- just in case the user was pulled into the encounter
     numClashes = numClashes + 1
 
     Crutch.InfoPanel.StopCount(PANEL_LEAP_INDEX)
