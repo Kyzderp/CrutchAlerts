@@ -581,6 +581,7 @@ local function InitializeAttachedIcons()
     -- Group changes
     Crutch.RegisterUnitTagListener("CrutchAlertsAttachedGroup", function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: unit tags changed") RefreshGroupTimeout() end)
 
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: player activated") RefreshGroupTimeout() end) -- keep this because unit tag listener only fires on tags changed
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member role change") RefreshGroupTimeout() end) -- TODO: could be more efficient
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS, function() Crutch.dbgSpam("|c0055FF[draw]|r RefreshGroupTimeout reason: member connected status") RefreshGroupTimeout() end) -- TODO: could be more efficient
 
@@ -619,6 +620,7 @@ Draw.InitializeAttachedIcons = InitializeAttachedIcons
 local function UnregisterAttachedIcons()
     -- Group changes
     Crutch.UnregisterUnitTagListener("CrutchAlertsAttachedGroup")
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupActivated", EVENT_PLAYER_ACTIVATED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupRoleChanged", EVENT_GROUP_MEMBER_ROLE_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "AttachedGroupConnectedStatus", EVENT_GROUP_MEMBER_CONNECTED_STATUS)
 
