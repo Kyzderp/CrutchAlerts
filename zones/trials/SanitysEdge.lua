@@ -135,6 +135,11 @@ end
 
 -- When recombining, 23.67, 24.221, 24.334, 23.681
 local function OnBreakdownFaded()
+    -- Faded also happens when wiping during splits
+    if (not Crutch.groupInCombat) then
+        Crutch.dbgOther("|cFF0000Skipping Wrathstorm timer because end of combat")
+        return
+    end
     Crutch.InfoPanel.CountDownDuration(PANEL_WRATHSTORM_INDEX, WRATHSTORM_PREFIX, 23600)
 end
 
