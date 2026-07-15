@@ -295,3 +295,15 @@ local function PlayMultiSound(sound, volume, times, delay, attenuate)
     end, delay)
 end
 Crutch.PlayMultiSound = PlayMultiSound
+
+
+---------------------------------------------------------------------
+-- Unit tags
+---------------------------------------------------------------------
+local function GetGroupTagNumber(unitTag)
+    local tagNumber = string.gsub(unitTag, "group", "")
+    local tagId = tonumber(tagNumber)
+    if (tagId) then return tagId end
+    return 15 -- probably a companion
+end
+Crutch.GetGroupTagNumber = GetGroupTagNumber

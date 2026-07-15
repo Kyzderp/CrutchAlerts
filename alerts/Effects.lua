@@ -219,8 +219,7 @@ local function OnEffectChanged(changeType, unitTag, beginTime, endTime, abilityI
             Crutch.dbgSpam("|cFF0000unhandled unitTag " .. tostring(unitTag) .. ", probably player not grouped")
         end
     elseif (string.sub(unitTag, 1, 5) == "group") then
-        local tagNumber = string.gsub(unitTag, "group", "")
-        tagId = tonumber(tagNumber)
+        tagId = Crutch.GetGroupTagNumber(unitTag) -- could be 15 from companion
     else
         tagId = 13
         Crutch.dbgSpam("|cFF0000unhandled unitTag " .. tostring(unitTag))

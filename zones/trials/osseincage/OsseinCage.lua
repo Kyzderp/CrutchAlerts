@@ -9,8 +9,7 @@ local C = Crutch.Constants
 -- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnStricken(_, changeType, _, _, unitTag, beginTime, endTime)
     local atName = GetUnitDisplayName(unitTag)
-    local tagNumber = string.gsub(unitTag, "group", "")
-    local tagId = tonumber(tagNumber)
+    local tagId = Crutch.GetGroupTagNumber(unitTag)
     local fakeSourceUnitId = 8880100 + tagId -- TODO: really gotta rework the alerts and stop hacking around like this
 
     -- Gained

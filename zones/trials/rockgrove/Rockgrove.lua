@@ -261,8 +261,7 @@ Crutch.OnDeathTouch = OnDeathTouch
 local numBleeds = 0
 local function OnBleeding(_, changeType, _, _, unitTag, beginTime, endTime)
     local atName = GetUnitDisplayName(unitTag)
-    local tagNumber = string.gsub(unitTag, "group", "")
-    local tagId = tonumber(tagNumber)
+    local tagId = Crutch.GetGroupTagNumber(unitTag)
     local fakeSourceUnitId = 8880080 + tagId + numBleeds -- TODO: really gotta rework the alerts and stop hacking around like this
     -- numBleeds is added just to get a unique number, because core can only display one per source id * ability id
 
