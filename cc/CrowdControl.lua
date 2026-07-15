@@ -132,6 +132,8 @@ local function OnCombatEvent(_, result, _, _, _, _, sourceName, sourceType, _, _
             MECHANIC_FLAGS[powerType] or "???"))
     end
 
+    if (Crutch.savedOptions.cc.combatOnly and not IsUnitInCombat("player")) then return end
+
     if (abilityData == SUPPRESS) then return end
 
     -- If source type is player, it's usually player trying to cast stuff while stunned

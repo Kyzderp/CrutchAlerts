@@ -1271,6 +1271,17 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show only in combat",
+                    tooltip = "If ON, the CC UI and sound will not be played when out of combat",
+                    default = Crutch.defaultOptions.cc.combatOnly,
+                    getFunc = function() return Crutch.savedOptions.cc.combatOnly end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.cc.combatOnly = value
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show info in chat",
                     tooltip = "Show information about the CC type, source, ability, and duration in your chat when it happens",
                     default = Crutch.defaultOptions.cc.showChat,

@@ -170,6 +170,7 @@ local defaultOptions = {
         showObnoxious = true,
         obnoxiousPositionX = GuiRoot:GetWidth() * 5 / 16,
         obnoxiousPositionY = 0,
+        combatOnly = true,
     },
     memes = {},
     asylumsanctorium = {
