@@ -668,6 +668,7 @@ local function Initialize()
     PrintTime("player activation register done")
     zoneUnregisters = {
         [635 ] = Crutch.UnregisterDragonstarArena,
+        [636 ] = Crutch.UnregisterHelRaCitadel,
         [639 ] = Crutch.UnregisterSanctumOphidia,
         [725 ] = Crutch.UnregisterMawOfLorkhaj,
         [975 ] = Crutch.UnregisterHallsOfFabrication,
@@ -694,6 +695,7 @@ local function Initialize()
 
     zoneRegisters = {
         [635 ] = Crutch.RegisterDragonstarArena,
+        [636 ] = Crutch.RegisterHelRaCitadel,
         [639 ] = Crutch.RegisterSanctumOphidia,
         [725 ] = Crutch.RegisterMawOfLorkhaj,
         [975 ] = Crutch.RegisterHallsOfFabrication,
