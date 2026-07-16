@@ -206,7 +206,6 @@ Draw.CreateControlCommon = CreateControlCommon
 -- care to make it performant, e.g. do not create tables or functions
 -- on every call.
 ---------------------------------------------------------------------
-local useSpace = true
 local orientationTable = {}
 
 local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
@@ -216,7 +215,7 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
     orientationTable[2] = yaw
     orientationTable[3] = roll
 
-    local isSpace = useSpace and not useDepthBuffer and width == height -- Space framework is only squares for now
+    local isSpace = not useDepthBuffer and width == height -- Space framework is only squares for now
     local control, key
     if (isSpace) then
         control, key = Draw.CreateSpaceTexture(texture, x, y, z, width, height, color, orientationTable)

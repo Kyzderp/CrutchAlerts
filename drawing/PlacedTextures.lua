@@ -106,10 +106,11 @@ Draw.RemovePlacedIcon = RemovePlacedIcon
 -- color: {r, g, b, a} (max value 1), default white. Leave off the alpha to use user-specified opacity
 -- orientation: 3 orientation vectors(?) or 3 degrees of freedom, defaults to being flat on the ground. Either {{fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}} or {pitch, yaw, roll}. {pitch, yaw, roll} is preferred for slightly less math
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
+-- useDepthBuffers: yes it's kinda out of order, I added it later
 --
 -- @returns key: you must use this key to remove the texture later
 ---------------------------------------------------------------------
-local function CreateOrientedTexture(texture, x, y, z, size, color, orientation, updateFunc)
+local function CreateOrientedTexture(texture, x, y, z, size, color, orientation, updateFunc, useDepthBuffers)
     local _
     if (not x) then
         _, x, y, z = GetUnitRawWorldPosition("player")
@@ -130,6 +131,10 @@ local function CreateOrientedTexture(texture, x, y, z, size, color, orientation,
         {0, 0, 1},
     }
 
+    if (useDepthBuffers == nil) then
+        useDepthBuffers = Crutch.savedOptions.drawing.placedOriented.useDepthBuffers
+    end
+
     return Draw.CreateWorldTexture(
         texture,
         x,
@@ -138,7 +143,7 @@ local function CreateOrientedTexture(texture, x, y, z, size, color, orientation,
         size,
         size,
         {r, g, b, a},
-        Crutch.savedOptions.drawing.placedOriented.useDepthBuffers,
+        useDepthBuffers,
         false,
         orientation,
         updateFunc)
@@ -162,10 +167,11 @@ Draw.RemoveOrientedTexture = RemoveOrientedTexture
 -- color: {r, g, b, a} (max value 1), default red. Leave off the alpha to use user-specified opacity
 -- orientation: 3 orientation vectors(?) or 3 degrees of freedom, defaults to being flat on the ground. Either {{fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}} or {pitch, yaw, roll}. {pitch, yaw, roll} is preferred for slightly less math
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
+-- useDepthBuffers: whether to use depth buffers. Default uses user setting for placed oriented textures
 --
 -- @returns key: you must use this key to remove the circle later
 ---------------------------------------------------------------------
-local function CreateGroundCircle(x, y, z, radius, color, orientation, updateFunc)
+local function CreateGroundCircle(x, y, z, radius, color, orientation, updateFunc, useDepthBuffers)
     radius = radius or 3
     local size = radius * 2
 
@@ -179,7 +185,8 @@ local function CreateGroundCircle(x, y, z, radius, color, orientation, updateFun
         size,
         color,
         orientation,
-        updateFunc)
+        updateFunc,
+        useDepthBuffers)
 end
 Draw.CreateGroundCircle = CreateGroundCircle
 
