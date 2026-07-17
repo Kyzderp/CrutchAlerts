@@ -270,7 +270,7 @@ end
 -- To be called when unit tags change
 local function RefreshAllAspectIcons()
     Crutch.dbgOther("|cFF0000REFRESHING ALL ASPECT ICONS!")
-    RemoveAllAttachedIcons(ASPECT_UNIQUE_NAME)
+    Crutch.RemoveAllAttachedIcons(ASPECT_UNIQUE_NAME)
     for i = 1, MAX_GROUP_SIZE_THRESHOLD do
         Crutch.Drawing.OverrideDeadColor("group" .. i, nil)
     end
