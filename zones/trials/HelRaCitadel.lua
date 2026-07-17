@@ -25,7 +25,7 @@ local function OnStoned(_, changeType, _, _, unitTag)
             icon:SetPosition(x, y, z)
         end
 
-        key = Crutch.Drawing.CreateGroundCircle(x, y, z, 8, C.RED_1, nil, CircleFunc, false)
+        key = Crutch.Drawing.CreateGroundCircle(x, y, z, 8, C.RED_2, nil, CircleFunc, false)
         circleKeys[atName] = key
     end
 end
