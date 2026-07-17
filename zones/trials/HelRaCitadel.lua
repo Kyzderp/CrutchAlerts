@@ -4,7 +4,6 @@ local C = Crutch.Constants
 ---------------------------------------------------------------------
 -- Stone Form circle
 ---------------------------------------------------------------------
-Crutch.stonedRadius = 8 -- TODO: /script CrutchAlerts.stonedRadius = 8
 local circleKeys = {} -- [atName] = key -- store using @name because of potential tag changes
 local function OnStoned(_, changeType, _, _, unitTag)
     if (changeType == EFFECT_RESULT_UPDATED) then return end
@@ -14,12 +13,19 @@ local function OnStoned(_, changeType, _, _, unitTag)
     local key = circleKeys[atName]
     if (key) then
         Crutch.Drawing.RemoveGroundCircle(key)
-        circleKeys[key] = nil
+        circleKeys[atName] = nil
     end
 
     if (changeType == EFFECT_RESULT_GAINED) then
         local _, x, y, z = GetUnitRawWorldPosition(unitTag)
-        key = Crutch.Drawing.CreateGroundCircle(x, y + 5, z, Crutch.stonedRadius, C.RED_3, nil, nil, false)
+
+        -- Make circle follow the player because the player could be in motion as they gain Stone Form
+        local function CircleFunc(icon)
+            local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+            icon:SetPosition(x, y, z)
+        end
+
+        key = Crutch.Drawing.CreateGroundCircle(x, y, z, 8, C.RED_1, nil, CircleFunc, false)
         circleKeys[atName] = key
     end
 end
