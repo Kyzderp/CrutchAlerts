@@ -511,6 +511,7 @@ function Crutch.RegisterDreadsailReef()
 
     -- Taleria cleave
     Crutch.RegisterBossChangedListener("CrutchDreadsailReef", TryEnablingTaleriaCleave)
+    TryEnablingTaleriaCleave()
 
     -- Taleria info panel
     if (Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom) then
