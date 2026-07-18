@@ -196,6 +196,69 @@ local prominentData = {
                 default = true,
             },
         },
+        -- Crush
+        [164158] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function() return GetSelectedLFGRole() ~= LFG_ROLE_TANK end,
+            },
+            text = "BONK",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentDSRBonk",
+                title = "Alert Bonks",
+                description = "Shows a prominent alert when you are not a tank and a Sea Behemoth tries to light attack you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Strike
+        [164160] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function() return GetSelectedLFGRole() ~= LFG_ROLE_TANK end,
+            },
+            text = "BONK",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentDSRBonk",
+                title = "Alert Bonks",
+                description = "Shows a prominent alert when you are not a tank and a Sea Behemoth tries to light attack you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
+        -- Hack
+        [164162] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
+                [REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE] = COMBAT_UNIT_TYPE_PLAYER,
+                filterFunction = function() return GetSelectedLFGRole() ~= LFG_ROLE_TANK end,
+            },
+            text = "BONK",
+            color = {1, 0, 0},
+            slot = 1,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentDSRBonk",
+                title = "Alert Bonks",
+                description = "Shows a prominent alert when you are not a tank and a Sea Behemoth tries to light attack you",
+                checkOldForDefault = true,
+                default = true,
+            },
+        },
     },
 
     -----------------------
