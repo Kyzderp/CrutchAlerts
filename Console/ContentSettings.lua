@@ -471,6 +471,24 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
     }))
 
+    settings:AddSettings({
+        {
+            type = LibHarvensAddonSettings.ST_SECTION,
+            label = "Hel Ra Citadel",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show circles on Stone Form",
+            tooltip = "On the Warrior hardmode, shows faint circles around players who have Stone Form. The circle approximates the area of the oneshot if the player synergizes to break out of it",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.helracitadel.showStoneFormCircle end,
+            setFunction = function(value)
+                Crutch.savedOptions.helracitadel.showStoneFormCircle = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+    })
+
     settings:AddSettings(Crutch.GetProminentSettingsConsole(1196, {
         {
             type = LibHarvensAddonSettings.ST_SECTION,

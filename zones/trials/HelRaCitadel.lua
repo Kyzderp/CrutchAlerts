@@ -45,7 +45,10 @@ function Crutch.RegisterHelRaCitadel()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Hel Ra Citadel")
 
     Crutch.RegisterExitedGroupCombatListener("CrutchHRCStonedExitedCombat", CleanUp)
-    Crutch.RegisterForEffectChanged("HRCStoned", OnStoned, 56577, "group")
+
+    if (Crutch.savedOptions.helracitadel.showStoneFormCircle) then
+        Crutch.RegisterForEffectChanged("HRCStoned", OnStoned, 56577, "group")
+    end
 end
 
 function Crutch.UnregisterHelRaCitadel()

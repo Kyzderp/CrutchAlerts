@@ -231,6 +231,9 @@ local defaultOptions = {
         showAGIcons = true,
         agIconsSize = 150,
     },
+    helracitadel = {
+        showStoneFormCircle = true,
+    },
     kynesaegis = {
         showSpearIcon = true,
         showPrisonIcon = true,

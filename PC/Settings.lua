@@ -1909,6 +1909,24 @@ function Crutch:CreateSettingsMenu()
         },
         {
             type = "submenu",
+            name = "Hel Ra Citadel",
+            controls = {
+                {
+                    type = "checkbox",
+                    name = "Show circles on Stone Form",
+                    tooltip = "On the Warrior hardmode, shows faint circles around players who have Stone Form. The circle approximates the area of the oneshot if the player synergizes to break out of it",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.helracitadel.showStoneFormCircle end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.helracitadel.showStoneFormCircle = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+            },
+        },
+        {
+            type = "submenu",
             name = "Kyne's Aegis",
             controls = Crutch.GetProminentSettings(1196, {
                 {
