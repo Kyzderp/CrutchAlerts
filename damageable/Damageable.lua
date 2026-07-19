@@ -110,20 +110,13 @@ local SUBTITLE_TIMES = {
     },
 
 -- MoL
-    ["Mirarro"] = {
+    [GetNameStr(CRUTCH_DMG_MIRARRO)] = {
         -- Zhaj'hassa
-        ["Don't …. It's … trap. He's coming!"] = 16.8,
-        ["Nicht*… Eine*… Falle."] = 16.8,
-        ["Er kommt!"] = 16.8,
+        [GetSubtitleStr(CRUTCH_DMG_DONT_ITS_TRAP_HES_COMING)] = 16.8,
     },
-    ["Kulan-Dro"] = {
+    [GetNameStr(CRUTCH_DMG_KULANDRO)] = {
         -- Rakkhat
-        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals ... even if it means peeling the ears from your scalps and shouting Namiira's will into whatever's left of your broken skulls!"] = 26.4, -- TODO: probably fix the ...
-        ["Have you not heard me? Have I not made your choice plain? You will listen, mortals"] = 26.4,
-    },
-    ["Kulan-dro"] = {
-        -- Rakkhat
-        ["Habt Ihr mich nicht gehört? Hatte ich mich nicht klar ausgedrückt? Ihr werdet zuhören, Sterbliche"] = 26.4,
+        [GetSubtitleStr(CRUTCH_DMG_HAVE_YOU_NOT_HEARD_ME_HAVE_I_NOT_MADE_YOUR_CHOICE)] = 26.4,
     },
 
 -- OC
