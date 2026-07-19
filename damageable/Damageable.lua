@@ -81,15 +81,13 @@ local SUBTITLE_TIMES = {
 -- HoF
     [GetNameStr(CRUTCH_BHB_ASSEMBLY_GENERAL)] = {
         -- Triplets
-        ["Reprocessing yard contamination critical. Disassembly status suspended. Mass reactivation initiated."] = 10.2, -- TODO
-        ["Kritische Kontamination auf dem Wertstoffhof. Ausschlachtung wird ausgesetzt. Massenreaktivierung eingeleitet."] = 10.2, -- TODO
+        [GetSubtitleStr(CRUTCH_DMG_REPROCESSING_YARD_CONTAMINATION_CRITICAL)] = 10.2,
     },
-    ["Divayth Fyr"] = {
+    [GetNameStr(CRUTCH_DMG_DIVAYTH_FYR)] = {
         -- Pinnacle
-        ["Interesting. These devices have all reset themselves. I didn't do that."] = 16.0,
-        ["Interessant. Diese Maschinen haben sich alle zurückgesetzt. Das war nicht ich."] = 16.0,
+        [GetSubtitleStr(CRUTCH_DMG_INTERESTING_THESE_DEVICES_HAVE_ALL_RESET)] = 16.0,
         -- Assembly General
-        ["Well, well. Now that's the second largest construct I've ever seen. Inactive, at the moment."] = 26.4,  -- TODO: I was given 19.2, but I think it's 26.4... need testing
+        [GetSubtitleStr(CRUTCH_DMG_WELL_WELL_NOW_THATS_THE_SECOND_LARGEST)] = 26.4,
     },
 
 -- KA
