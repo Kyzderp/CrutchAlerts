@@ -503,6 +503,19 @@ local function UpdateEnfeeblementIcon(atName, unitTag)
     Crutch.SetAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, icon, 100, color, false, callback, spaceOptions)
 end
 
+-- To be called when unit tags change
+local function RefreshAllEnfeeblementIcons()
+    Crutch.dbgOther("|cFF0000REFRESHING ALL ENFEEBLEMENT ICONS!")
+    Crutch.RemoveAllAttachedIcons(ENFEEBLEMENT_UNIQUE_NAME)
+    for i = 1, GetGroupSize() do
+        local unitTag = GetGroupUnitTagByIndex(i)
+        if (unitTag and DoesUnitExist(unitTag)) then
+            local atName = GetUnitDisplayName(unitTag)
+            UpdateEnfeeblementIcon(atName, unitTag)
+        end
+    end
+end
+
 local function OnEnfeeblement(enfeeblementStruct, changeType, unitTag, durationMs)
     local atName = GetUnitDisplayName(unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
@@ -634,6 +647,8 @@ function OC.RegisterOCZoneTwins()
     end)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss1")
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
+
+    Crutch.RegisterUnitTagListener("CrutchAlertsOCEnfeeblementRefresh", RefreshAllEnfeeblementIcons)
 end
 
 function OC.UnregisterOCZoneTwins()
@@ -645,6 +660,8 @@ function OC.UnregisterOCZoneTwins()
     Crutch.UnregisterBossChangedListener("CrutchOsseinCage")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE)
+
+    Crutch.UnregisterUnitTagListener("CrutchAlertsOCEnfeeblementRefresh")
 
     MaybeRegisterTwins()
 end
