@@ -430,8 +430,8 @@ local SUBTITLE_TIMES = {
         ["Now the real challenge begins, my honored contestants. My champion has been silenced so that I may congratulate you personally for making it this far. From this point on, you will be pushed to your limits."] = {time = 40.1, displayFormat = "Portal spawns in "},
         -- 8
         ["Your strength knows no bounds. Rarely have I seen a group that works so well together. The last time must have been, oh, those poor Mages Guild members I found in the Dwemer ruins years ago."] = {time = 36.0, displayFormat = "Portal spawns in "},
-        -- 10 TODO: precise time unknown; 39 from Cas for now
-        ["And so the final challenge begins. Those who would represent me as champion now stand in this arena, deep within my realm. Only those who remain standing will receive my highest honor."] = 40.0,
+        -- 10
+        ["And so the final challenge begins. Those who would represent me as champion now stand in this arena, deep within my realm. Only those who remain standing will receive my highest honor."] = 40.1,
     },
 
 -----------

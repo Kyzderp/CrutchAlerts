@@ -6,6 +6,11 @@ local C = Crutch.Constants
 ---------------------------------------------------------------------
 -- Bahsei
 ---------------------------------------------------------------------
+-- 20s to start
+-- 50s after previous finished
+local nextPortal = 1
+local nextPortalTimer = 20
+
 local effectResults = {
     [EFFECT_RESULT_FADED] = "FADED",
     [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
@@ -26,7 +31,7 @@ local function UpdatePlayersInPortal()
             names = string.format("%s%s ", names, GetUnitDisplayName(unitTag))
         end
     end
-    Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_COUNT_INDEX, "|c9999ff" .. count .. " in portal")
+    Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_COUNT_INDEX, "|c9999ff" .. count .. " in portal " .. nextPortal)
     Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_PLAYERS_INDEX, "|c9999ff" .. names, 0.4)
 end
 
@@ -76,10 +81,6 @@ end
 ---------------------------------------------------------------------
 -- Pre-portal ability icons & portal timers
 ---------------------------------------------------------------------
--- 20s to start
--- 50s after previous finished
-local nextPortal = 1
-local nextPortalTimer = 20
 local function OnPortalSummoned(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
     Crutch.InfoPanel.StopCount(RG.PANEL_PORTAL_TIMER_INDEX)
     UpdatePlayersInPortal()

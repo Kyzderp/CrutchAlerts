@@ -43,6 +43,9 @@ local function DrawConfirmedCurseLines(x, y, z, angle, color, duration)
         {-math.pi/2, angle, 0},
         LineCallback)
 
+    -- Needed immediately, otherwise it flashes
+    Crutch.Drawing.activeIcons[key]:SetTextureHidden(RG.linesHidden)
+
     -- Natural expiry
     zo_callLater(function()
         Crutch.Drawing.RemoveWorldTexture(key)
