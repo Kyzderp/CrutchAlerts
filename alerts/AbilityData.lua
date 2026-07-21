@@ -288,13 +288,12 @@ Crutch.others = {
         [105890] = true, -- Set Start CD of SRealm
         [105016] = true, -- SUM Lrg Tentacle
         [106023] = true, -- ZMaja Break Amulet
-        [105673] = true, -- Talon Slice
         [105239] = true, -- Crushing Darkness
         [105380] = true, -- Direct Current (Relequen interruptible)
         [106405] = true, -- Glacial Spikes (Galenwe interruptible)
-        [104036] = true, -- Welkynar's Light (synergized with spear)
-        [103980] = true, -- Grant Malevolent Core
-        [104047] = true, -- Shadow Piercer Exit
+        -- [104036] = true, -- Welkynar's Light (synergized with spear)
+        -- [103980] = true, -- Grant Malevolent Core
+        -- [104047] = true, -- Shadow Piercer Exit
     },
 
     -- Dreadsail Reef
