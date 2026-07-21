@@ -199,13 +199,13 @@ local SUBTITLE_TIMES = {
     },
 
 -- Blessed Crucible
-    ["Snagg gro-Mashul"] = {
-        ["Congratulations. You've passed the first trial."] = 15.1,
+    [GetNameStr(CRUTCH_DMG_SNAGG_GROMASHUL)] = {
+        [GetSubtitleStr(CRUTCH_DMG_CONGRATULATIONS_YOUVE_PASSED_THE_FIRST_TRIAL)] = 15.1,
     },
-    ["The Beast Master"] = {
-        ["And there we have it! The winners of the Grand Melee!"] = {time = 43.4, displayFormat = "INCINERATION BEETLES!!! in "},
-        ["These challengers are surprisingly fierce! But here's the real reason you've come today!"] = 25.5, -- Stinger
-        ["What? Impossible? How did you win?"] = 19.7, -- Troll King
+    [GetNameStr(CRUTCH_DMG_THE_BEAST_MASTER)] = {
+        [GetSubtitleStr(CRUTCH_DMG_AND_THERE_WE_HAVE_IT_THE_WINNERS_OF_THE_GRAND)] = {time = 41.2, displayFormat = "INCINERATION BEETLES!!! in "},
+        [GetSubtitleStr(CRUTCH_DMG_THESE_CHALLENGERS_ARE_SURPRISINGLY_FIERCE_BUT)] = 25.2, -- Stinger
+        [GetSubtitleStr(CRUTCH_DMG_WHAT_IMPOSSIBLE_HOW_DID_YOU_WIN)] = 19.7, -- Troll King
     },
 
 -- Castle Thorn
