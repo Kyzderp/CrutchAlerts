@@ -573,7 +573,7 @@ local function GetOrCreateStatusBar(index)
             CrutchAlertsBossHealthBarContainer, -- parent
             "CrutchAlertsBossHealthBarBarTemplate", -- template
             "") -- suffix
-        SetBarColors(index, nil, nil)
+        Crutch.SetBarColors(index, nil, nil)
         dbg("Created new control Bar" .. tostring(index))
     end
     -- Scale-related changes
@@ -729,7 +729,7 @@ BHB.UpdateScale = UpdateScale
 local function UpdateColors()
     ShowOrHideBars(true)
     for i = 1, BOSS_RANK_ITERATION_END do
-        SetBarColors(i, nil, nil)
+        Crutch.SetBarColors(i, nil, nil)
     end
 end
 BHB.UpdateColors = UpdateColors

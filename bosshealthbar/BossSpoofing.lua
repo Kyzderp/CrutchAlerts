@@ -134,7 +134,7 @@ end
 Crutch.TrackUnitForSpoofing = TrackUnitForSpoofing
 
 local function UntrackUnitForSpoofing(unitId)
-    local trackedUnit = trackedUnits[unitId] = nil
+    local trackedUnit = trackedUnits[unitId]
     if (trackedUnit) then
         UnspoofBoss(trackedUnit.unitTag)
     end
