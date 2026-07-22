@@ -327,7 +327,7 @@ local function SpoofTitans()
                     return titan.hp, titanMaxHp, titanMaxHp
                 end
             end
-            Crutch.dbgOther("|cFF0000Couldn't find titans (end of encounter?)|r")
+            Crutch.dbgSpam("|cFF0000Couldn't find titans (end of encounter?)|r")
             return 0.5, 1, 1
         end,
         data.fgColor,

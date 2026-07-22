@@ -9,50 +9,6 @@ local BHB = Crutch.BossHealthBar
 
 -- I was really hoping to be able to use status bar gradient colors, but it seems to have really unexpected behavior with the vertical orientation
 
----------------------------------------------------------------------------------------------------
--- Boss spoofing
----------------------------------------------------------------------------------------------------
-local spoofedBosses = {} -- {["boss3"] = {name = "Blazeforged Valneer", getHealthFunction = function() return powerValue, powerMax, powerEffectiveMax end}}
-
-local function SetBarColors(index, fgColor, bgColor)
-    fgColor = fgColor or Crutch.savedOptions.bossHealthBar.foreground
-    bgColor = bgColor or Crutch.savedOptions.bossHealthBar.background
-
-    local bar = CrutchAlertsBossHealthBarContainer:GetNamedChild("Bar" .. tostring(index))
-    -- Use the user-set alphas if not specified
-    bar:SetColor(fgColor[1], fgColor[2], fgColor[3], fgColor[4] or Crutch.savedOptions.bossHealthBar.foreground[4])
-    bar:GetNamedChild("Backdrop"):SetEdgeColor(bgColor[1], bgColor[2], bgColor[3], bgColor[4] or Crutch.savedOptions.bossHealthBar.background[4])
-    bar:GetNamedChild("Backdrop"):SetCenterColor(bgColor[1], bgColor[2], bgColor[3], bgColor[4] or Crutch.savedOptions.bossHealthBar.background[4])
-end
-Crutch.SetBarColors = SetBarColors
-
-local function SpoofBoss(unitTag, name, getHealthFunction, fgColor, bgColor)
-    spoofedBosses[unitTag] = {
-        name = name,
-        getHealthFunction = getHealthFunction,
-        fgColor = fgColor or Crutch.savedOptions.bossHealthBar.foreground,
-        bgColor = bgColor or Crutch.savedOptions.bossHealthBar.background,
-    }
-
-    BHB.ShowOrHideBars(false, true)
-    local index = unitTag:sub(5, 5)
-    SetBarColors(index, spoofedBosses[unitTag].fgColor, spoofedBosses[unitTag].bgColor)
-    Crutch.dbgOther(string.format("Spoofing %s as %s", name, unitTag))
-end
-Crutch.SpoofBoss = SpoofBoss
-
-local function UnspoofBoss(unitTag)
-    if (spoofedBosses[unitTag]) then
-        Crutch.dbgOther(string.format("Unspoofing %s", unitTag))
-        spoofedBosses[unitTag] = nil
-
-        BHB.ShowOrHideBars(false, true)
-        local index = unitTag:sub(5, 5)
-        SetBarColors(index, nil, nil)
-    end
-end
-Crutch.UnspoofBoss = UnspoofBoss
-
 
 ---------------------------------------------------------------------------------------------------
 -- Threshold overrides, to be used when threshold determination is
@@ -91,8 +47,8 @@ local function dbg(msg)
 end
 
 local function GetUnitNameIfExists(unitTag)
-    if (spoofedBosses[unitTag]) then
-        return spoofedBosses[unitTag].name
+    if (BHB.spoofedBosses[unitTag]) then
+        return BHB.spoofedBosses[unitTag].name
     end
 
     if (DoesUnitExist(unitTag)) then
@@ -101,9 +57,10 @@ local function GetUnitNameIfExists(unitTag)
 end
 BHB.GetUnitNameIfExists = GetUnitNameIfExists
 
+-- powerValue, powerMax, powerEffectiveMax
 local function GetUnitHealths(unitTag)
-    if (spoofedBosses[unitTag]) then
-        return spoofedBosses[unitTag].getHealthFunction()
+    if (BHB.spoofedBosses[unitTag]) then
+        return BHB.spoofedBosses[unitTag].getHealthFunction()
     end
     return GetUnitPower(unitTag, COMBAT_MECHANIC_FLAGS_HEALTH)
 end
@@ -248,7 +205,7 @@ local bossHealths = {} -- { [1] = {current = 7231, max = 329131,}, }
 local function GetBossHealthFraction(id)
     -- Do not include spoofed bosses in stage highlighting
     local tag = "boss" .. tostring(id)
-    if (spoofedBosses[tag]) then
+    if (BHB.spoofedBosses[tag]) then
         return 0
     end
 
@@ -596,19 +553,7 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         UpdateStagesWithBossHealth()
     end
 end
-
-local function UpdateSpoofedBossHealth(unitTag, value, max)
-    OnPowerUpdate(nil, unitTag, nil, nil, value, max, max)
-end
-Crutch.UpdateSpoofedBossHealth = UpdateSpoofedBossHealth
-
---[[
-/script CrutchAlerts.SpoofBoss("boss3", "yeetus", function() return 28394, 32939, 32939 end,
-        {230/256, 129/256, 34/256, 0.73},
-        {18/256, 9/256, 1/256, 0.66})
-/script CrutchAlerts.UpdateSpoofedBossHealth("boss3", 4939, 32939)
-/script CrutchAlerts.UnspoofBoss("boss3")
-]]
+BHB.OnPowerUpdate = OnPowerUpdate
 
 local function ToggleHealthDebug()
     powerUpdateDebug = not powerUpdateDebug
