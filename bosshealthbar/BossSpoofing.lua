@@ -120,12 +120,12 @@ end
 ---------------------------------------------------------------------
 -- API
 ---------------------------------------------------------------------
-local function TrackUnitForSpoofing(unitId, name, unitTag, maxHealth, fgColor, bgColor)
+local function TrackUnitForSpoofing(unitId, name, unitTag, maxHealth, fgColor, bgColor, initialHealth)
     trackedUnits[unitId] = {
         name = name,
         unitTag = unitTag,
         maxHealth = maxHealth,
-        health = maxHealth,
+        health = initialHealth or maxHealth,
         fgColor = fgColor,
         bgColor = bgColor,
     }
