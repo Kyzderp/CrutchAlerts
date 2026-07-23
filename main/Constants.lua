@@ -74,3 +74,33 @@ C.ID = {
     DROP_FROST = 888007, -- CR Hoarfrost
     SEEKING_SURGE_DROPPED = 888008,
 }
+
+
+---------------------------------------------------------------------
+-- ZO constants for debugging
+---------------------------------------------------------------------
+C.ACTION_RESULTS = {
+    [ACTION_RESULT_BEGIN] = "BEGIN",
+    [ACTION_RESULT_EFFECT_GAINED] = "GAIN",
+    [ACTION_RESULT_EFFECT_GAINED_DURATION] = "DUR",
+    [ACTION_RESULT_EFFECT_FADED] = "FADED",
+    [ACTION_RESULT_DAMAGE] = "DAMAGE",
+}
+
+C.UNIT_TYPES = {
+    [COMBAT_UNIT_TYPE_GROUP] = "G",
+    [COMBAT_UNIT_TYPE_NONE] = "N",
+    [COMBAT_UNIT_TYPE_OTHER] = "O",
+    [COMBAT_UNIT_TYPE_PLAYER] = "P",
+    [COMBAT_UNIT_TYPE_PLAYER_COMPANION] = "C",
+    [COMBAT_UNIT_TYPE_PLAYER_PET] = "PET",
+    [COMBAT_UNIT_TYPE_TARGET_DUMMY] = "D",
+}
+
+C.EFFECT_RESULTS = {
+    [EFFECT_RESULT_FADED] = "FADED",
+    [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
+    [EFFECT_RESULT_GAINED] = "GAINED",
+    [EFFECT_RESULT_TRANSFER] = "TRANSFER",
+    [EFFECT_RESULT_UPDATED] = "UPDATED",
+}

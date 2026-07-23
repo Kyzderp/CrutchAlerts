@@ -11,13 +11,7 @@ local C = Crutch.Constants
 local nextPortal = 1
 local nextPortalTimer = 20
 
-local effectResults = {
-    [EFFECT_RESULT_FADED] = "FADED",
-    [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
-    [EFFECT_RESULT_GAINED] = "|cb95effGAINED",
-    [EFFECT_RESULT_TRANSFER] = "TRANSFER",
-    [EFFECT_RESULT_UPDATED] = "UPDATED",
-}
+local effectResults = C.EFFECT_RESULTS
 
 local groupBitterMarrow = {}
 

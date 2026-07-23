@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- Data
@@ -74,20 +75,8 @@ local fontSize = 32 -- This isn't really font size, just line size
 Crutch.groupIdToTag = {}
 Crutch.groupTagToId = {}
 
-local resultStrings = {
-    [ACTION_RESULT_BEGIN] = "begin",
-    [ACTION_RESULT_EFFECT_GAINED] = "gained",
-    [ACTION_RESULT_EFFECT_GAINED_DURATION] = "duration",
-}
-
-local unitTypeStrings = {
-    [COMBAT_UNIT_TYPE_NONE] = "none",
-    [COMBAT_UNIT_TYPE_PLAYER] = "player",
-    [COMBAT_UNIT_TYPE_PLAYER_PET] = "pet",
-    [COMBAT_UNIT_TYPE_GROUP] = "group",
-    [COMBAT_UNIT_TYPE_TARGET_DUMMY] = "dummy",
-    [COMBAT_UNIT_TYPE_OTHER] = "other",
-}
+local resultStrings = C.ACTION_RESULTS
+local unitTypeStrings = C.UNIT_TYPES
 
 
 ---------------------------------------------------------------------

@@ -1285,13 +1285,7 @@ end
 
 
 -----------------------------------------------------------
-local resultStrings = {
-    [ACTION_RESULT_BEGIN] = "BEGIN",
-    [ACTION_RESULT_EFFECT_GAINED] = "GAIN",
-    [ACTION_RESULT_EFFECT_GAINED_DURATION] = "DUR",
-    [ACTION_RESULT_EFFECT_FADED] = "FADED",
-    [ACTION_RESULT_DAMAGE] = "DAMAGE",
-}
+local resultStrings = C.ACTION_RESULTS
 
 -----------------------------------------------------------
 -- Called whenever we enter a zone

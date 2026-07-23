@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 local arcanistIds = {
     [185805] = true, -- Fatecarver (cost mag)
@@ -21,32 +22,9 @@ local jbeamIds = {
     [63046] = true, -- Radiant Oppression
 }
 
--- TODO: these are just copied over from events.lua, lame
-local resultStrings = {
-    [ACTION_RESULT_BEGIN] = "BEGIN",
-    [ACTION_RESULT_EFFECT_GAINED] = "GAIN",
-    [ACTION_RESULT_EFFECT_GAINED_DURATION] = "DUR",
-    [ACTION_RESULT_EFFECT_FADED] = "FADED",
-    [ACTION_RESULT_DAMAGE] = "DAMAGE",
-}
-
-local sourceStrings = {
-    [COMBAT_UNIT_TYPE_GROUP] = "G",
-    [COMBAT_UNIT_TYPE_NONE] = "N",
-    [COMBAT_UNIT_TYPE_OTHER] = "O",
-    [COMBAT_UNIT_TYPE_PLAYER] = "P",
-    [COMBAT_UNIT_TYPE_PLAYER_COMPANION] = "C",
-    [COMBAT_UNIT_TYPE_PLAYER_PET] = "PET",
-    [COMBAT_UNIT_TYPE_TARGET_DUMMY] = "D",
-}
-
-local effectResults = {
-    [EFFECT_RESULT_FADED] = "FADED",
-    [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
-    [EFFECT_RESULT_GAINED] = "GAINED",
-    [EFFECT_RESULT_TRANSFER] = "TRANSFER",
-    [EFFECT_RESULT_UPDATED] = "UPDATED",
-}
+local resultStrings = C.ACTION_RESULTS
+local sourceStrings = C.UNIT_TYPES
+local effectResults = C.EFFECT_RESULTS
 
 local function OnChannel(_, result, isError, abilityName, _, _, sourceName, sourceType, targetName, targetType, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId, _)
 

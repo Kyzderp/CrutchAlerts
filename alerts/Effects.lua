@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 ---------------------------------------------------------------------
 -- This is a generic system for displaying timers as "alerts" for
@@ -249,13 +250,7 @@ end
 -----------------------------------------------------------
 -- Called whenever we enter a zone
 -----------------------------------------------------------
-local effectResults = {
-    [EFFECT_RESULT_FADED] = "FADED",
-    [EFFECT_RESULT_FULL_REFRESH] = "FULL_REFRESH",
-    [EFFECT_RESULT_GAINED] = "GAINED",
-    [EFFECT_RESULT_TRANSFER] = "TRANSFER",
-    [EFFECT_RESULT_UPDATED] = "UPDATED",
-}
+local effectResults = C.EFFECT_RESULTS
 
 function Crutch.RegisterEffects(zoneId)
     if (zoneId ~= -1) then
