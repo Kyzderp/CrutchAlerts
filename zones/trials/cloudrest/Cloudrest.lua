@@ -380,6 +380,73 @@ local function OnAmplificationChanged(_, changeType, _, _, unitTag, _, _, stackC
 end
 
 ---------------------------------------------------------------------
+-- Mini spoofing
+---------------------------------------------------------------------
+local numMinisToSpoof = 0
+
+local function GetBossName(id)
+    return Crutch.GetCapitalizedString(id)
+end
+
+local MINI_DATA = {
+    [GetBossName(CRUTCH_BHB_SHADE_OF_SIRORIA)] = {
+        unitTag = "boss2",
+        fgColor = C.FELMS_FG,
+        bgColor = C.FELMS_BG,
+    },
+    [GetBossName(CRUTCH_BHB_SHADE_OF_RELEQUEN)] = {
+        unitTag = "boss3",
+        fgColor = {7/255, 87/255, 179/255}, -- TODO: color
+        bgColor = {1/255, 11/255, 23/255},
+    },
+    [GetBossName(CRUTCH_BHB_SHADE_OF_GALENWE)] = {
+        unitTag = "boss4",
+        fgColor = C.LLOTHIS_FG, -- TODO: color
+        bgColor = C.LLOTHIS_BG,
+    },
+}
+
+local trackedUnits = {} -- for cleanup {[id] = true}
+-- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+
+local function OnMiniCombatEvent(_, _, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId, abilityId)
+    local source = zo_strformat("<<C:1>>", sourceName)
+    if (MINI_DATA[source]) then
+        local MINI_MAX_HEALTH = (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) and 13971720 or 6816516
+        local options = MINI_DATA[source]
+        trackedUnits[sourceUnitId] = true
+        Crutch.dbgOther(zo_strformat("found <<1>> via <<2>> (<<3>>)", source, GetAbilityName(abilityId), abilityId))
+        Crutch.TrackUnitForSpoofing(sourceUnitId, source, options.unitTag, MINI_MAX_HEALTH, options.fgColor, options.bgColor)
+        numMinisToSpoof = numMinisToSpoof - 1
+        if (numMinisToSpoof <= 0) then
+            Crutch.UnregisterForCombatEvent("CRMiniSpoofDetect")
+        end -- TODO: fix this uggo duplicated code
+        return
+    end
+
+    local target = zo_strformat("<<C:1>>", targetName)
+    if (MINI_DATA[target]) then
+        local options = MINI_DATA[source]
+        trackedUnits[targetUnitId] = true
+        Crutch.dbgOther(zo_strformat("found <<1>> via <<2>> (<<3>>)", target, GetAbilityName(abilityId), abilityId))
+        Crutch.TrackUnitForSpoofing(targetUnitId, target, options.unitTag, MINI_MAX_HEALTH, options.fgColor, options.bgColor)
+        numMinisToSpoof = numMinisToSpoof - 1
+        if (numMinisToSpoof <= 0) then
+            Crutch.UnregisterForCombatEvent("CRMiniSpoofDetect")
+        end
+        return
+    end
+end
+
+local function UntrackAll()
+    for unitId, _ in pairs(trackedUnits) do
+        Crutch.UntrackUnitForSpoofing(unitId)
+        trackedUnits[unitId] = nil
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Boss health bar thresholds
 ---------------------------------------------------------------------
 local knownHealths = {[1] = {50}, [2] = {65, 35}, [3] = {75, 50, 25}}
@@ -391,16 +458,19 @@ local function OverrideBHBThresholds()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "CRBossSpeedTimeout")
 
     foundMinis = true
-    local numMinis = NonContiguousCount(foundMiniShades)
+    numMinisToSpoof = NonContiguousCount(foundMiniShades)
     ZO_ClearTable(zmajaThresholds)
 
     -- Add each threshold
-    for _, threshold in ipairs(knownHealths[numMinis]) do
+    for _, threshold in ipairs(knownHealths[numMinisToSpoof]) do
         zmajaThresholds[threshold] = "Mini"
     end
 
-    Crutch.dbgOther("Inferred " .. numMinis .. " minis, overriding thresholds...")
+    Crutch.dbgOther("Inferred " .. numMinisToSpoof .. " minis, overriding thresholds...")
     Crutch.BossHealthBar.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds)
+
+    -- TODO: setting
+    Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent)
 end
 
 local function OnMiniBoss(_, _, _, _, _, _, _, _, _, _, _, _, _, _, sourceUnitId, targetUnitId)
@@ -414,6 +484,7 @@ local function OnMiniBoss(_, _, _, _, _, _, _, _, _, _, _, _, _, _, sourceUnitId
     -- other shades to be found
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "CRBossSpeedTimeout", 500, OverrideBHBThresholds)
 end
+
 
 ---------------------------------------------------------------------
 -- Reset/cleanup
@@ -435,6 +506,10 @@ local function ResetValuesOnWipe()
     foundMinis = false
     ZO_ClearTable(foundMiniShades)
     Crutch.BossHealthBar.RemoveThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA))
+
+    -- mini spoofing
+    numMinisToSpoof = 0
+    UntrackAll()
 end
 
 ---------------------------------------------------------------------

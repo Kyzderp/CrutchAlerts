@@ -141,10 +141,18 @@ local BREAKDOWN_DATA = {
     },
 }
 
+local ANSUUL_TO_CLONE_HP = {
+    [40899072] = 1136086,
+    [69858576] = 3881032,
+    [160674720] = 8926374,
+}
+
 local trackedUnits = {} -- for cleanup {[id] = true}
 local function OnBreakdownSplits(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId, abilityId)
     local options = BREAKDOWN_DATA[abilityId]
     trackedUnits[targetUnitId] = true
+    local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+    local maxHealth = ANSUUL_TO_CLONE_HP[powerMax]
     Crutch.TrackUnitForSpoofing(targetUnitId, options.name, options.unitTag, maxHealth, options.fgColor, options.bgColor)
 end
 
