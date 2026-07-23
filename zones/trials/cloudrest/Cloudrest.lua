@@ -9,6 +9,10 @@ local spearsRevealed = 0
 local spearsSent = 0
 local orbsDunked = 0
 
+local function IsZmaja()
+    return zo_strformat(SI_UNIT_NAME, GetUnitName("boss1") or "") == Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA)
+end
+
 
 ---------------------------------------------------------------------
 -- Portal panel
@@ -407,33 +411,35 @@ local MINI_DATA = {
 }
 
 local trackedUnits = {} -- for cleanup {[id] = true}
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
+
+local function StartTracking(unitName, unitId, abilityId)
+    local MINI_MAX_HEALTH = (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) and 13971720 or 6816516
+    local options = MINI_DATA[unitName]
+    trackedUnits[unitId] = true
+    Crutch.dbgOther(zo_strformat("found <<1>> via <<2>> (<<3>>)", unitName, GetAbilityName(abilityId), abilityId))
+    Crutch.TrackUnitForSpoofing(unitId, unitName, options.unitTag, MINI_MAX_HEALTH, options.fgColor, options.bgColor)
+    numMinisToSpoof = numMinisToSpoof - 1
+    if (numMinisToSpoof <= 0) then
+        Crutch.UnregisterForCombatEvent("CRMiniSpoofDetect")
+    end
+end
 
 local function OnMiniCombatEvent(_, _, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId, abilityId)
-    local source = zo_strformat("<<C:1>>", sourceName)
-    if (MINI_DATA[source]) then
-        local MINI_MAX_HEALTH = (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) and 13971720 or 6816516
-        local options = MINI_DATA[source]
-        trackedUnits[sourceUnitId] = true
-        Crutch.dbgOther(zo_strformat("found <<1>> via <<2>> (<<3>>)", source, GetAbilityName(abilityId), abilityId))
-        Crutch.TrackUnitForSpoofing(sourceUnitId, source, options.unitTag, MINI_MAX_HEALTH, options.fgColor, options.bgColor)
-        numMinisToSpoof = numMinisToSpoof - 1
-        if (numMinisToSpoof <= 0) then
-            Crutch.UnregisterForCombatEvent("CRMiniSpoofDetect")
-        end -- TODO: fix this uggo duplicated code
+    if (not IsZmaja() or numMinisToSpoof <= 0) then
+        Crutch.dbgOther("not Z'Maja")
+        Crutch.UnregisterForCombatEvent("CRMiniSpoofDetect")
         return
     end
 
-    local target = zo_strformat("<<C:1>>", targetName)
+    local source = zo_strformat(SI_UNIT_NAME, sourceName)
+    if (MINI_DATA[source]) then
+        StartTracking(source, sourceUnitId, abilityId)
+        return
+    end
+
+    local target = zo_strformat(SI_UNIT_NAME, targetName)
     if (MINI_DATA[target]) then
-        local options = MINI_DATA[source]
-        trackedUnits[targetUnitId] = true
-        Crutch.dbgOther(zo_strformat("found <<1>> via <<2>> (<<3>>)", target, GetAbilityName(abilityId), abilityId))
-        Crutch.TrackUnitForSpoofing(targetUnitId, target, options.unitTag, MINI_MAX_HEALTH, options.fgColor, options.bgColor)
-        numMinisToSpoof = numMinisToSpoof - 1
-        if (numMinisToSpoof <= 0) then
-            Crutch.UnregisterForCombatEvent("CRMiniSpoofDetect")
-        end
+        StartTracking(target, targetUnitId, abilityId)
         return
     end
 end
