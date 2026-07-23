@@ -320,6 +320,7 @@ local defaultOptions = {
         showArcticShred = true,
         showAnsuulIcon = true,
         ansuulIconSize = 150,
+        showSplitHp = true,
 
         infoPanel = {
             showFrostBomb = true,

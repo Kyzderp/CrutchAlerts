@@ -117,7 +117,47 @@ end
 
 
 ---------------------------------------------------------------------
--- Ansuul
+-- Ansuul split spoofing
+---------------------------------------------------------------------
+-- all of them get 188771 but also their own IDs
+local BREAKDOWN_DATA = {
+    [188766] = {
+        name = "Red",
+        unitTag = "boss2",
+        fgColor = C.FELMS_FG,
+        bgColor = C.FELMS_BG,
+    },
+    [188768] = {
+        name = "Blue",
+        unitTag = "boss3",
+        fgColor = {7/255, 87/255, 179/255}, -- TODO: combine with titans
+        bgColor = {1/255, 11/255, 23/255},
+    },
+    [188769] = {
+        name = "Green",
+        unitTag = "boss4",
+        fgColor = C.LLOTHIS_FG,
+        bgColor = C.LLOTHIS_BG,
+    },
+}
+
+local trackedUnits = {} -- for cleanup {[id] = true}
+local function OnBreakdownSplits(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId, abilityId)
+    local options = BREAKDOWN_DATA[abilityId]
+    trackedUnits[targetUnitId] = true
+    Crutch.TrackUnitForSpoofing(targetUnitId, options.name, options.unitTag, maxHealth, options.fgColor, options.bgColor)
+end
+
+local function UntrackAll()
+    for unitId, _ in pairs(trackedUnits) do
+        Crutch.UntrackUnitForSpoofing(unitId)
+        trackedUnits[unitId] = nil
+    end
+end
+
+
+---------------------------------------------------------------------
+-- Ansuul info panel
 ---------------------------------------------------------------------
 local PANEL_WRATHSTORM_INDEX = 6
 local WRATHSTORM_ID = 198759
@@ -200,6 +240,8 @@ local function CleanUp()
     Crutch.InfoPanel.StopCount(PANEL_WRATHSTORM_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_CALAMITY_INDEX)
     ZO_ClearTable(attuned)
+
+    UntrackAll()
 end
 
 function Crutch.RegisterSanitysEdge()
@@ -236,6 +278,13 @@ function Crutch.RegisterSanitysEdge()
         Crutch.RegisterForCombatEvent("SECalamityRitual", OnCalamityRitual, ACTION_RESULT_BEGIN, 183855)
     end
 
+    if (Crutch.savedOptions.sanitysedge.showSplitHp) then
+        Crutch.RegisterForCombatEvent("SEBreakdownFadedSplits", UntrackAll, ACTION_RESULT_EFFECT_FADED, 188760)
+        for abilityId, _ in pairs(BREAKDOWN_DATA) do
+            Crutch.RegisterForCombatEvent("SEBreakdownSplits" .. abilityId, OnBreakdownSplits, ACTION_RESULT_EFFECT_GAINED, abilityId)
+        end
+    end
+
     Crutch.RegisterForCombatEvent("SEAttunement", OnAttunement, ACTION_RESULT_EFFECT_GAINED, ATTUNEMENT_ID)
     Crutch.RegisterForCombatEvent("SEUnattuned", OnUnattuned, ACTION_RESULT_EFFECT_FADED, UNATTUNED_ID)
 end
@@ -261,6 +310,11 @@ function Crutch.UnregisterSanitysEdge()
 
     Crutch.UnregisterForCombatEvent("SECalamity")
     Crutch.UnregisterForCombatEvent("SECalamityRitual")
+
+    Crutch.UnregisterForCombatEvent("SEBreakdownFadedSplits")
+    for abilityId, _ in pairs(BREAKDOWN_DATA) do
+        Crutch.UnregisterForCombatEvent("SEBreakdownSplits" .. abilityId)
+    end
 
     Crutch.UnregisterForCombatEvent("SEAttunement")
     Crutch.UnregisterForCombatEvent("SEUnattuned")
