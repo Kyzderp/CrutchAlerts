@@ -81,20 +81,27 @@ local trackedUnits = {}
 ---------------------------------------------------------------------
 -- Events
 ---------------------------------------------------------------------
-local function OnDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
-    local trackedUnit = trackedUnits[targetUnitId]
-    if (not trackedUnit) then return end
-
-    trackedUnit.health = trackedUnit.health - hitValue
-    UpdateSpoofedBossHealth(trackedUnit.unitTag, trackedUnit.health, trackedUnit.maxHealth)
-end
-
 local damageTypes = {
     [ACTION_RESULT_DAMAGE] = "dmg",
     [ACTION_RESULT_CRITICAL_DAMAGE] = "dmg*",
     [ACTION_RESULT_DOT_TICK] = "tick",
     [ACTION_RESULT_DOT_TICK_CRITICAL] = "tick*",
+    [ACTION_RESULT_HEAL] = "heal",
+    [ACTION_RESULT_CRITICAL_HEAL] = "heal*",
 }
+
+local function OnDamage(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
+    local trackedUnit = trackedUnits[targetUnitId]
+    if (not trackedUnit) then return end
+
+    if (result == ACTION_RESULT_HEAL or result == ACTION_RESULT_CRITICAL_HEAL) then
+        trackedUnit.health = zo_clamp(trackedUnit.health + hitValue, 0, trackedUnit.maxHealth)
+        Crutch.dbgOther(string.format("|cFFAA00%s (%d) %s for %d via %s (%d)", trackedUnit.name, targetUnitId, damageTypes[result], hitValue, GetAbilityName(abilityId), abilityId))
+    else
+        trackedUnit.health = zo_clamp(trackedUnit.health - hitValue, 0, trackedUnit.maxHealth)
+    end
+    UpdateSpoofedBossHealth(trackedUnit.unitTag, trackedUnit.health, trackedUnit.maxHealth)
+end
 
 local function UnregisterDamageEvents()
     for _, text in pairs(damageTypes) do
