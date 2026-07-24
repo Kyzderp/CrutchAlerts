@@ -12,14 +12,11 @@ end
 function Crutch.RegisterSanctumOphidia()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Sanctum Ophidia")
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "MagBomb", EVENT_COMBAT_EVENT, OnMagBombFaded)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "MagBomb", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 56782)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "MagBomb", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER) -- self only
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "MagBomb", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
+    Crutch.RegisterForCombatEvent("MagBomb", OnMagBombFaded, ACTION_RESULT_EFFECT_FADED, 56782, nil, COMBAT_UNIT_TYPE_PLAYER)
 end
 
 function Crutch.UnregisterSanctumOphidia()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "MagBomb", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("MagBomb")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Sanctum Ophidia")
 end

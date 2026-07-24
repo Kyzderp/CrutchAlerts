@@ -3,32 +3,6 @@ local C = Crutch.Constants
 
 
 ---------------------------------------------------------------------
---[[
-Parch Bomb (256478)
-Parch Bomb (256480)
-Parch Bomb (256483)
-Skittering Bomb (256383)
-Skittering Bomb (256386)
-Skittering Bomb (256388)
-Sorrow Bomb (256574)
-Sorrow Bomb (256576)
-Sorrow Bomb (256579)
-
-3 second cast to summon + 4 mins for essence
-Summon Arid Varlet Essence (256413)
-Summon Knightshade Essence (256495)
-Summon Web Eater Essence (256159)
-Stunned (257929) Arid Varlet
-Stunned (257928) Web Eater
-Stunned (257930) Knightshade
-
-damage taken (just to display as text)
-Arid Varlet Essence (256447)
-Knightshade Essence (256518)
-Web Eater Essence (256088)
-]]
-
----------------------------------------------------------------------
 -- Panel
 ---------------------------------------------------------------------
 local PANEL_ESSENCE_INDEX = 5
@@ -138,9 +112,6 @@ end
 ---------------------------------------------------------------------
 -- Full-on crutching
 ---------------------------------------------------------------------
--- |ccc33ff|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_square.dds:inheritcolor|t|r
--- |cff0000|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_triangle.dds:inheritcolor|t|r
--- |cff8000|t100%:100%:/esoui/art/buttons/gamepad/ps5/nav_ps5_circle.dds:inheritcolor|t|r
 -- Returns ordered icons. 1 = purple, 2 = red, 3 = orange
 local function FormatOrder(first, second, third, clockwise)
     local strFormat = string.format("<<%d>> <<4>> <<%d>> <<4>> <<%d>>", first, second, third)

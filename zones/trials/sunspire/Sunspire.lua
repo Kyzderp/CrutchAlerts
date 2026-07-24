@@ -235,7 +235,7 @@ end
 Crutch.Do20StormBreath = Do20StormBreath
 
 local function RegisterStormBreath()
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, function()
+    Crutch.RegisterForCombatEvent("StormBreath1", function()
         if (not IsLokkHM()) then return end
         local key = Crutch.Drawing.CreateWorldTexture(
             "CrutchAlerts/assets/floor/square.dds",
@@ -248,19 +248,15 @@ local function RegisterStormBreath()
             {math.pi/2, 0.03, 0},
             nil)
         zo_callLater(function() Crutch.Drawing.RemoveWorldTexture(key) end, 18000)
-    end)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 119596)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    end, ACTION_RESULT_EFFECT_GAINED_DURATION, 119596)
 
     -- storm breath 20%
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, Do20StormBreath)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122961)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+    Crutch.RegisterForCombatEvent("StormBreath3", Do20StormBreath, ACTION_RESULT_EFFECT_GAINED_DURATION, 122961)
 end
 
 local function UnregisterStormBreath()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "StormBreath1", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "StormBreath3", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("StormBreath1")
+    Crutch.UnregisterForCombatEvent("StormBreath3")
 end
 
 ---------------------------------------------------------------------
@@ -461,16 +457,11 @@ function Crutch.RegisterSunspire()
 
     Crutch.RegisterExitedGroupCombatListener("CrutchSunspire", CleanUp)
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, OnFocusFireGained)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 121722)
+    Crutch.RegisterForCombatEvent("FocusFireBegin", OnFocusFireGained, ACTION_RESULT_BEGIN, 121722)
     -- TODO: only show for self option
 
     -- Register for Time Breach effect gained/faded
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, OnTimeBreachChanged)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_GROUP)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 121216)
+    Crutch.RegisterForEffectChanged("TimeBreachEffect", OnTimeBreachChanged, 121216, "group")
 
     if (Crutch.savedOptions.sunspire.showLokkIcons) then
         Crutch.RegisterBossChangedListener("CrutchSunspire", OnBossesChanged)
@@ -482,17 +473,12 @@ function Crutch.RegisterSunspire()
         EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SunspireHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 
         -- Register for Lokk flying (Gravechill)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT, OnLokkFly)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122820)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT, OnLokkFly)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122821)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT, OnLokkFly)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 122822)
+        Crutch.RegisterForCombatEvent("Gravechill80", OnLokkFly, nil, 122820)
+        Crutch.RegisterForCombatEvent("Gravechill50", OnLokkFly, nil, 122821)
+        Crutch.RegisterForCombatEvent("Gravechill20", OnLokkFly, nil, 122822)
 
         -- Register for Lokk beam (Storm Fury)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, OnLokkBeam)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 115702)
+        Crutch.RegisterForCombatEvent("StormFury", OnLokkBeam, ACTION_RESULT_EFFECT_GAINED_DURATION, 115702)
 
         -- Trigger initial "changes," in case a reload was done while at Lokk
         OnBossesChanged()
@@ -503,16 +489,10 @@ function Crutch.RegisterSunspire()
     end
 
     -- Register for Yol flying (Takeoff)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT, OnYolFly75)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124910)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT, OnYolFly50)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124915)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT, OnYolFly25)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 124916)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, OnYolFly)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 125693)
+    Crutch.RegisterForCombatEvent("Takeoff75", OnYolFly75, nil, 124910)
+    Crutch.RegisterForCombatEvent("Takeoff50", OnYolFly50, nil, 124915)
+    Crutch.RegisterForCombatEvent("Takeoff25", OnYolFly25, nil, 124916)
+    Crutch.RegisterForCombatEvent("TurnOffAim", OnYolFly, ACTION_RESULT_EFFECT_GAINED, 125693)
 
     if (Crutch.savedOptions.sunspire.panel.showFocusFire) then
         Crutch.RegisterEnteredGroupCombatListener("CrutchSunspireEnteredCombatYol", OnEnteredCombatYol)
@@ -520,9 +500,7 @@ function Crutch.RegisterSunspire()
 
     -- Nahv landing
     if (Crutch.savedOptions.general.showDamageable) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT, OnFireStormBegin)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 118884)
+        Crutch.RegisterForCombatEvent("FireStorm", OnFireStormBegin, ACTION_RESULT_BEGIN, 118884)
     end
 
     -- Eternal Servant anticipation
@@ -550,30 +528,29 @@ function Crutch.RegisterSunspire()
 end
 
 function Crutch.UnregisterSunspire()
-
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FocusFireBegin", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TimeBreachEffect", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForCombatEvent("FocusFireBegin")
+    Crutch.UnregisterForEffectChanged("TimeBreachEffect")
 
     -- Lokk
     Crutch.UnregisterBossChangedListener("CrutchSunspire")
     Crutch.UnregisterEnteredGroupCombatListener("CrutchSunspireEnteredCombatLokk")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SunspireHealthUpdate", EVENT_POWER_UPDATE)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill80", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill50", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gravechill20", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "StormFury", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("Gravechill80")
+    Crutch.UnregisterForCombatEvent("Gravechill50")
+    Crutch.UnregisterForCombatEvent("Gravechill20")
+    Crutch.UnregisterForCombatEvent("StormFury")
 
     UnregisterStormBreath()
 
     -- Yol
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff75", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff50", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Takeoff25", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "TurnOffAim", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("Takeoff75")
+    Crutch.UnregisterForCombatEvent("Takeoff50")
+    Crutch.UnregisterForCombatEvent("Takeoff25")
+    Crutch.UnregisterForCombatEvent("TurnOffAim")
     Crutch.UnregisterEnteredGroupCombatListener("CrutchSunspireEnteredCombatYol")
 
     -- Nahv
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "FireStorm", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("FireStorm")
 
     SS.UnregisterNahvPortal()
 

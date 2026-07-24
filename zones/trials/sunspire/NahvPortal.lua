@@ -148,15 +148,13 @@ function SS.RegisterNahvPortal()
 
     nextIndex = 1
     for id, _ in pairs(SERVANT_IDS) do
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SSServant" .. id, EVENT_COMBAT_EVENT, OnServantBegin)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SSServant" .. id, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SSServant" .. id, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, id)
+        Crutch.RegisterForCombatEvent("SSServant" .. id, OnServantBegin, ACTION_RESULT_BEGIN, id)
     end
 end
 
 function SS.UnregisterNahvPortal()
     nextIndex = 1
     for id, _ in pairs(SERVANT_IDS) do
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SSServant" .. id, EVENT_COMBAT_EVENT)
+        Crutch.UnregisterForCombatEvent("SSServant" .. id)
     end
 end
