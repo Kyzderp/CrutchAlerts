@@ -318,6 +318,7 @@ local function UnspoofTitans()
     for id, _ in pairs(titanIds) do
         Crutch.UntrackUnitForSpoofing(id)
     end
+    ZO_ClearTable(titanIds)
 end
 
 -- TODO: change this to just first cast or buff or something
@@ -580,10 +581,10 @@ function OC.RegisterOCZoneTwins()
     Crutch.RegisterExitedGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
 
     Crutch.RegisterExitedGroupCombatListener("ExitedCombatOsseinCageTwins", function()
-        ZO_ClearTable(titanIds)
         myrinaxFound = false
         valneerFound = false
         UnspoofTitans()
+        ZO_ClearTable(titanIds)
         ZO_ClearTable(sparking)
         ZO_ClearTable(blazing)
     end)
