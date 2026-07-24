@@ -280,41 +280,23 @@ end
 -- Overall init
 ---------------------------------------------------------------------
 function AS.RegisterMiniPanel()
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelBoltsBegin", EVENT_COMBAT_EVENT, OnBoltsBegin)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelBoltsBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelBoltsBegin", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 95585)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelBoltsFaded", EVENT_COMBAT_EVENT, OnBoltsFaded)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelBoltsFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_FADED)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelBoltsFaded", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 95585)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelInterrupted", EVENT_COMBAT_EVENT, OnInterrupted)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelInterrupted", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_INTERRUPT)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, OnCone)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 95545)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT, OnFart)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 99819)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, OnFelmsJump)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 99138)
-
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASPanelEnrage", EVENT_EFFECT_CHANGED, OnEnraged)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASPanelEnrage", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 101354)
+    Crutch.RegisterForCombatEvent("ASPanelBoltsBegin", OnBoltsBegin, ACTION_RESULT_BEGIN, 95585)
+    Crutch.RegisterForCombatEvent("ASPanelBoltsFaded", OnBoltsFaded, ACTION_RESULT_EFFECT_FADED, 95585)
+    Crutch.RegisterForCombatEvent("ASPanelInterrupted", OnInterrupted, ACTION_RESULT_INTERRUPT)
+    Crutch.RegisterForCombatEvent("ASPanelCone", OnCone, ACTION_RESULT_BEGIN, 95545)
+    Crutch.RegisterForCombatEvent("ASPanelFart", OnFart, ACTION_RESULT_BEGIN, 99819)
+    Crutch.RegisterForCombatEvent("ASPanelTeleportStrike", OnFelmsJump, ACTION_RESULT_BEGIN, 99138)
+    Crutch.RegisterForEffectChanged("ASPanelEnrage", OnEnraged, 101354)
 end
 
 function AS.UnregisterMiniPanel()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelBoltsBegin", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelBoltsFaded", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelInterrupted", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelCone", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelFart", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelTeleportStrike", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASPanelEnrage", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForCombatEvent("ASPanelBoltsBegin")
+    Crutch.UnregisterForCombatEvent("ASPanelBoltsFaded")
+    Crutch.UnregisterForCombatEvent("ASPanelInterrupted")
+    Crutch.UnregisterForCombatEvent("ASPanelCone")
+    Crutch.UnregisterForCombatEvent("ASPanelFart")
+    Crutch.UnregisterForCombatEvent("ASPanelTeleportStrike")
+    Crutch.UnregisterForEffectChanged("ASPanelEnrage")
 
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_HEADER_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_LLOTHIS_ENRAGE_INDEX)

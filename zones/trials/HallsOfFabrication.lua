@@ -53,8 +53,7 @@ function Crutch.RegisterHallsOfFabrication()
     -- Spooder damageable
     if (Crutch.savedOptions.general.showDamageable) then
         EVENT_MANAGER:RegisterForEvent(Crutch.name .. "DamageableCombatState", EVENT_PLAYER_COMBAT_STATE, HandleCombatState)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name.."Spooder", EVENT_COMBAT_EVENT, HandleOverheadRail)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name.."Spooder", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 94805)
+        Crutch.RegisterForCombatEvent("Spooder", HandleOverheadRail, nil, 94805)
     end
 
     -- Triplets icon
@@ -72,7 +71,7 @@ end
 function Crutch.UnregisterHallsOfFabrication()
     -- Spooder damageable
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "DamageableCombatState", EVENT_PLAYER_COMBAT_STATE)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name.."Spooder", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("Spooder")
 
     -- Triplets icon
     if (tripletsCircleKey) then

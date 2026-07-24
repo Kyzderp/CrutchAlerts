@@ -10,7 +10,6 @@ local C = Crutch.Constants
 -- Llothis
 ---------------------------------------------------------------------
 -- Alert is already displayed by data.lua, this is just for dinging
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnCone(_, _, _, _, _, _, _, _, targetName, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     if (hitValue ~= 2000) then
         -- Only the initial cast
@@ -21,12 +20,10 @@ local function OnCone(_, _, _, _, _, _, _, _, targetName, _, hitValue, _, _, _, 
     if (not targetName) then return end
 
     if (targetName == GetUnitDisplayName("player")) then
-        Crutch.dbgOther(string.format("Cone self %s", targetName))
         if (Crutch.savedOptions.asylumsanctorium.dingSelfCone) then
             PlaySound(SOUNDS.DUEL_START)
         end
     else
-        Crutch.dbgOther(string.format("Cone other %s", targetName))
         if (Crutch.savedOptions.asylumsanctorium.dingOthersCone) then
             PlaySound(SOUNDS.DUEL_START)
         end
@@ -52,8 +49,8 @@ local FELMS_NAME = GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD)
 ]]
 -- Felms name detection
 local function OnFelmsDetected()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetectionEffect", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForCombatEvent("ASFelmsDetection")
+    Crutch.UnregisterForEffectChanged("ASFelmsDetectionEffect")
 
     AS.OnFelmsDetectedBHB()
     AS.OnFelmsDetectedPanel()
@@ -89,7 +86,7 @@ end
 local function OnSpeedboost(_, _, _, _, _, _, sourceName, _, targetName, _, _, _, _, _, sourceUnitId, targetUnitId, abilityId)
     AS.llothisId = targetUnitId
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("ASSpeedboost")
     Crutch.dbgSpam(string.format("detected Llothis %d from %s %d - %s %d - %s (%d)", AS.llothisId, sourceName, sourceUnitId, targetName, targetUnitId, GetAbilityName(abilityId), abilityId))
     
     AS.OnLlothisDetectedBHB()
@@ -109,27 +106,25 @@ end
 
 local function RegisterMiniDetection()
     -- Llothis detection only needs Speedboost
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT, OnSpeedboost)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 58246)
+    Crutch.RegisterForCombatEvent("ASSpeedboost", OnSpeedboost, nil, 58246)
 
     -- Events for detecting Felms
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT, OnMiniDetectionCombat)
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASFelmsDetectionEffect", EVENT_EFFECT_CHANGED, OnMiniDetectionEffect)
+    Crutch.RegisterForCombatEvent("ASFelmsDetection", OnMiniDetectionCombat)
+    Crutch.RegisterForEffectChanged("ASFelmsDetectionEffect", OnMiniDetectionEffect)
 
     -- Dormant for resetting hp
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASMiniDormant", EVENT_EFFECT_CHANGED, OnDormant)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASMiniDormant", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 99990)
+    Crutch.RegisterForEffectChanged("ASMiniDormant", OnDormant, 99990)
 
     AS.RegisterMinisBHB()
     AS.RegisterMiniPanel()
 end
 
 local function UnregisterMiniDetection()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASSpeedboost", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetection", EVENT_COMBAT_EVENT)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASFelmsDetectionEffect", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForCombatEvent("ASSpeedboost")
+    Crutch.UnregisterForCombatEvent("ASFelmsDetection")
+    Crutch.UnregisterForEffectChanged("ASFelmsDetectionEffect")
 
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASMiniDormant", EVENT_EFFECT_CHANGED)
+    Crutch.UnregisterForEffectChanged("ASMiniDormant")
 
     AS.llothisId = nil
     AS.felmsId = nil
@@ -153,9 +148,7 @@ end
 ---------------------------------------------------------------------
 function Crutch.RegisterAsylumSanctorium()
     -- Defiling Dye Blast
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ASDefiledBlast", EVENT_COMBAT_EVENT, OnCone)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASDefiledBlast", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-    EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ASDefiledBlast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 95545)
+    Crutch.RegisterForCombatEvent("ASDefiledBlast", OnCone, ACTION_RESULT_BEGIN, 95545)
 
     Crutch.RegisterBossChangedListener("CrutchAsylum", MaybeRegisterMiniDetection)
     MaybeRegisterMiniDetection()
@@ -171,8 +164,7 @@ function Crutch.RegisterAsylumSanctorium()
 end
 
 function Crutch.UnregisterAsylumSanctorium()
-    -- Defiling Dye Blast
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ASDefiledBlast", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("ASDefiledBlast")
 
     Crutch.UnregisterBossChangedListener("CrutchAsylum")
     UnregisterMiniDetection()

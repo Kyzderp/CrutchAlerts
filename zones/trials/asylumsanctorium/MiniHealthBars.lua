@@ -114,16 +114,14 @@ function AS.RegisterMinisBHB()
     -- Damage events for hp changes
     for actionResult, str in pairs(damageTypes) do
         local eventName = Crutch.name .. "ASMinis" .. tostring(actionResult)
-        EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnMiniDamage)
-        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, actionResult)
-        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_NONE)
+        Crutch.RegisterForCombatEvent(eventName, OnMiniDamage, actionResult, nil, nil, COMBAT_UNIT_TYPE_NONE)
     end
 end
 
 function AS.UnregisterMinisBHB()
     for actionResult, str in pairs(damageTypes) do
         local eventName = Crutch.name .. "ASMinis" .. tostring(actionResult)
-        EVENT_MANAGER:UnregisterForEvent(eventName, EVENT_COMBAT_EVENT)
+        Crutch.UnregisterForCombatEvent(eventName)
     end
 
     UnspoofMinis()

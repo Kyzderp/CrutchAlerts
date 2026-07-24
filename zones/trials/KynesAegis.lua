@@ -103,18 +103,13 @@ function Crutch.RegisterKynesAegis()
 
     -- Prison icon
     if (Crutch.savedOptions.kynesaegis.showPrisonIcon) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, OnPrisonEffect)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED, REGISTER_FILTER_ABILITY_ID, 132473)
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, OnPrisonBegin)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 132468)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+        Crutch.RegisterForEffectChanged("PrisonEffect", OnPrisonEffect, 132473)
+        Crutch.RegisterForCombatEvent("PrisonCast", OnPrisonBegin, ACTION_RESULT_BEGIN, 132468)
     end
 
     --Spear
     if (Crutch.savedOptions.kynesaegis.showSpearIcon) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, OnExplodingSpearBegin)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 133936)
+        Crutch.RegisterForCombatEvent("ExplodingSpear", OnExplodingSpearBegin, ACTION_RESULT_BEGIN, 133936)
     end
 
     -- Falgravn icons
@@ -127,12 +122,9 @@ function Crutch.RegisterKynesAegis()
 end
 
 function Crutch.UnregisterKynesAegis()
-    -- Spear
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "ExplodingSpear", EVENT_COMBAT_EVENT)
-
-    -- Prison icon
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PrisonEffect", EVENT_EFFECT_CHANGED)
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PrisonCast", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForEffectChanged("PrisonEffect")
+    Crutch.UnregisterForCombatEvent("PrisonCast")
+    Crutch.UnregisterForCombatEvent("ExplodingSpear")
 
     -- Falgravn icons
     Crutch.UnregisterBossChangedListener("CrutchKynesAegis")
