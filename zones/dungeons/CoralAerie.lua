@@ -26,16 +26,14 @@ function Crutch.RegisterCoralAerie()
 
     if (Crutch.savedOptions.general.showDamageable) then
         for abilityId, _ in pairs(gryphonCheckerIds) do
-            EVENT_MANAGER:RegisterForEvent(Crutch.name .. "Gryphon" .. tostring(abilityId), EVENT_COMBAT_EVENT, OnGryphon)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gryphon" .. tostring(abilityId), EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-            EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "Gryphon" .. tostring(abilityId), EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+            Crutch.RegisterForCombatEvent("Gryphon" .. abilityId, OnGryphon, ACTION_RESULT_EFFECT_GAINED, abilityId)
         end
     end
 end
 
 function Crutch.UnregisterCoralAerie()
     for abilityId, _ in pairs(gryphonCheckerIds) do
-        EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "Gryphon" .. tostring(abilityId), EVENT_COMBAT_EVENT)
+        Crutch.UnregisterForCombatEvent("Gryphon" .. abilityId)
     end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Coral Aerie")

@@ -86,14 +86,12 @@ function Crutch.RegisterShipwrightsRegret()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Shipwright's Regret")
 
     if (Crutch.savedOptions.shipwrightsRegret.showBombStacks) then
-        EVENT_MANAGER:RegisterForEvent(Crutch.name .. "SoulBomb2", EVENT_COMBAT_EVENT, OnSecondSoulBomb)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SoulBomb2", EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
-        EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "SoulBomb2", EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, 168314)
+        Crutch.RegisterForCombatEvent("SoulBomb2", OnSecondSoulBomb, ACTION_RESULT_EFFECT_GAINED, 168314)
     end
 end
 
 function Crutch.UnregisterShipwrightsRegret()
-    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "SoulBomb2", EVENT_COMBAT_EVENT)
+    Crutch.UnregisterForCombatEvent("SoulBomb2")
 
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(BOMB_UNIQUE_NAME)
