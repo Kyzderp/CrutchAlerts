@@ -271,13 +271,13 @@ local SUBTITLE_TIMES = {
     },
 
 -- Fang Lair
-    ["Orryn the Black"] = {
+    [GetNameStr(CRUTCH_DMG_ORRYN_THE_BLACK)] = {
         -- Cadaverous Bear
-        ["You're still here? If you must admire my work, at least allow me to put my best fossil forward."] = 10.9,
+        [GetSubtitleStr(CRUTCH_DMG_YOURE_STILL_HERE_IF_YOU_MUST_ADMIRE_MY_WORK_AT)] = 10.9,
         -- Caluurion
-        ["Caluurion. See that our uninvited guests are made comfortable for a very long stay."] = 14.2,
+        [GetSubtitleStr(CRUTCH_DMG_CALUURION_SEE_THAT_OUR_UNINVITED_GUESTS_ARE_MADE)] = 14.2,
         -- Ulfnor and Sabina
-        ["So many of the things you've broken I can easily replace, but Caluurion … he was a unique specimen. He'll never be the same."] = 17.5,
+        [GetSubtitleStr(CRUTCH_DMG_SO_MANY_OF_THE_THINGS_YOUVE_BROKEN_I_CAN_EASILY)] = 17.5,
     },
 
 -- Icereach
