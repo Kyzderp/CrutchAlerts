@@ -2834,6 +2834,19 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return not Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
                 },
                 {
+                    type = "checkbox",
+                    name = "Show Breakdown health bars",
+                    tooltip = "Shows the health of the clones during the split phase of the Ansuul fight, using the vertical boss health bars",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.showSplitHp end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.showSplitHp = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+                },
+                {
                     type = "description",
                     title = "|c08BD1DInfo Panel|r",
                     text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",

@@ -1536,6 +1536,18 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
             disable = function() return not Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
         },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Breakdown health bars",
+            tooltip = "Shows the health of the clones during the split phase of the Ansuul fight, using the vertical boss health bars",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.sanitysedge.showSplitHp end,
+            setFunction = function(value)
+                Crutch.savedOptions.sanitysedge.showSplitHp = value
+                Crutch.OnPlayerActivated()
+            end,
+            disable = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
+        },
         DIVIDER,
         {
             type = LibHarvensAddonSettings.ST_LABEL,

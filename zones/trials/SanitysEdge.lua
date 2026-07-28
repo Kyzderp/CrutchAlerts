@@ -286,7 +286,7 @@ function Crutch.RegisterSanitysEdge()
         Crutch.RegisterForCombatEvent("SECalamityRitual", OnCalamityRitual, ACTION_RESULT_BEGIN, 183855)
     end
 
-    if (Crutch.savedOptions.sanitysedge.showSplitHp) then
+    if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.sanitysedge.showSplitHp) then
         Crutch.RegisterForCombatEvent("SEBreakdownFadedSplits", UntrackAll, ACTION_RESULT_EFFECT_FADED, 188760)
         for abilityId, _ in pairs(BREAKDOWN_DATA) do
             Crutch.RegisterForCombatEvent("SEBreakdownSplits" .. abilityId, OnBreakdownSplits, ACTION_RESULT_EFFECT_GAINED, abilityId)
