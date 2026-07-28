@@ -406,12 +406,16 @@ local MINI_DATA = {
 
 local trackedUnits = {} -- for cleanup {[id] = true}
 
-local function StartTracking(unitName, unitId, abilityId)
+local function MaybeStartTracking(unitName, unitId, abilityId)
+    if (trackedUnits[unitId]) then return end -- this one already being tracked
     local MINI_MAX_HEALTH = (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) and 13971720 or 6816516
-    local options = MINI_DATA[unitName]
+
     trackedUnits[unitId] = true
     Crutch.dbgOther(zo_strformat("found <<1>> via <<2>> (<<3>>)", unitName, GetAbilityName(abilityId), abilityId))
-    Crutch.TrackUnitForSpoofing(unitId, unitName, options.unitTag, MINI_MAX_HEALTH, options.fgColor, options.bgColor)
+
+    local unitTag = "boss" .. (1 + NonContiguousCount(trackedUnits))
+
+    Crutch.TrackUnitForSpoofing(unitId, unitName, unitTag, MINI_MAX_HEALTH)
     numMinisToSpoof = numMinisToSpoof - 1
     if (numMinisToSpoof <= 0) then
         Crutch.UnregisterForCombatEvent("CRMiniSpoofDetect")
@@ -425,17 +429,19 @@ local function OnMiniCombatEvent(_, _, _, _, _, _, sourceName, _, targetName, _,
         return
     end
 
-    local source = zo_strformat(SI_UNIT_NAME, sourceName)
-    if (MINI_DATA[source]) then
-        StartTracking(source, sourceUnitId, abilityId)
-        return
-    end
+    MaybeStartTracking("Mini", targetUnitId, abilityId)
 
-    local target = zo_strformat(SI_UNIT_NAME, targetName)
-    if (MINI_DATA[target]) then
-        StartTracking(target, targetUnitId, abilityId)
-        return
-    end
+    -- local source = zo_strformat(SI_UNIT_NAME, sourceName)
+    -- if (MINI_DATA[source]) then
+    --     MaybeStartTracking(source, sourceUnitId, abilityId)
+    --     return
+    -- end
+
+    -- local target = zo_strformat(SI_UNIT_NAME, targetName)
+    -- if (MINI_DATA[target]) then
+    --     MaybeStartTracking(target, targetUnitId, abilityId)
+    --     return
+    -- end
 end
 
 local function UntrackAll()
@@ -470,7 +476,8 @@ local function OverrideBHBThresholds()
     Crutch.BossHealthBar.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds)
 
     -- TODO: setting
-    Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent)
+    -- Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent)
+    Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent, ACTION_RESULT_EFFECT_GAINED, 105541)
 end
 
 local function OnMiniBoss(_, _, _, _, _, _, _, _, _, _, _, _, _, _, sourceUnitId, targetUnitId)
