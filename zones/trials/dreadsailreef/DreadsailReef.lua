@@ -410,6 +410,11 @@ local function OnSirenSummoned()
     Crutch.InfoPanel.CountDownDuration(PANEL_SIREN_INDEX, SIREN_PREFIX, 98000) -- TODO
 end
 
+local function OnLureOfTheSea()
+    -- 163952
+    PlaySound(SOUNDS.BATTLEGROUND_CAPTURE_FLAG_TAKEN_OWN_TEAM)
+end
+
 
 ---------------------------------------------------------------------
 local function OnPlatformFall()
@@ -531,6 +536,9 @@ function Crutch.RegisterDreadsailReef()
         Crutch.RegisterForCombatEvent("DSRPlatformFall", OnPlatformFall, ACTION_RESULT_EFFECT_GAINED, PLATFORM_FALL_ID) -- TODO: what action result?
     end
 
+    -- Lure of the Sea sound
+    Crutch.RegisterForCombatEvent("DSRLureOfTheSea", OnLureOfTheSea, ACTION_RESULT_BEGIN, 163952, nil, COMBAT_UNIT_TYPE_PLAYER)
+
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Dreadsail Reef")
 end
 
@@ -580,6 +588,9 @@ function Crutch.UnregisterDreadsailReef()
     Crutch.UnregisterForCombatEvent("DSRWinterStormCCW")
     Crutch.UnregisterForCombatEvent("DSRSiren")
     Crutch.UnregisterForCombatEvent("DSRPlatformFall")
+
+    -- Lure of the Sea sound
+    Crutch.UnregisterForCombatEvent("DSRLureOfTheSea")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Dreadsail Reef")
 end
