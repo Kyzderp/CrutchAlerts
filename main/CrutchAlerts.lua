@@ -217,6 +217,7 @@ local defaultOptions = {
         alertVolatileStacks = true,
         volatileThreshold = 6,
         showArcingCleave = false,
+        lureSound = true,
 
         infoPanel = {
             showMaelstrom = true,

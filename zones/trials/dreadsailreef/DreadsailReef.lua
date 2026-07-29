@@ -412,7 +412,7 @@ end
 
 local function OnLureOfTheSea()
     -- 163952
-    PlaySound(SOUNDS.BATTLEGROUND_CAPTURE_FLAG_TAKEN_OWN_TEAM)
+    PlaySound(SOUNDS.JUSTICE_NOW_KOS)
 end
 
 
@@ -537,7 +537,9 @@ function Crutch.RegisterDreadsailReef()
     end
 
     -- Lure of the Sea sound
-    Crutch.RegisterForCombatEvent("DSRLureOfTheSea", OnLureOfTheSea, ACTION_RESULT_BEGIN, 163952, nil, COMBAT_UNIT_TYPE_PLAYER)
+    if (Crutch.savedOptions.dreadsailreef.lureSound) then
+        Crutch.RegisterForCombatEvent("DSRLureOfTheSea", OnLureOfTheSea, ACTION_RESULT_BEGIN, 163952, nil, COMBAT_UNIT_TYPE_PLAYER)
+    end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Dreadsail Reef")
 end

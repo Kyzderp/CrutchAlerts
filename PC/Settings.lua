@@ -1807,6 +1807,18 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "checkbox",
+                    name = "Play sound for Lure of the Sea",
+                    tooltip = "Plays a sound when an Enthralling Matron (siren) starts casting the charm on you",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.dreadsailreef.lureSound end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.dreadsailreef.lureSound = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
                     type = "description",
                     title = "|c08BD1DInfo Panel|r",
                     text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",

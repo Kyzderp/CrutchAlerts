@@ -377,6 +377,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.TryEnablingTaleriaCleave()
             end,
         },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Play sound for Lure of the Sea",
+            tooltip = "Plays a sound when an Enthralling Matron (siren) starts casting the charm on you",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.dreadsailreef.lureSound end,
+            setFunction = function(value)
+                Crutch.savedOptions.dreadsailreef.lureSound = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
         DIVIDER,
         {
             type = LibHarvensAddonSettings.ST_LABEL,
