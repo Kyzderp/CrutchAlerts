@@ -118,6 +118,44 @@ end
 
 
 ---------------------------------------------------------------------
+-- reticleover syncing
+---------------------------------------------------------------------
+local reticleTrackingUnits = {} -- {["Shade of Relequen"] = 12355,}
+
+local function OnReticleTargetChanged()
+    if (not DoesUnitExist("reticleover")) then return end
+    local name = zo_strformat(SI_UNIT_NAME, GetUnitName("reticleover"))
+    local unitId = reticleTrackingUnits[name]
+    if (not unitId) then return end
+
+    local trackedUnit = trackedUnits[unitId]
+    if (not trackedUnit) then
+        Crutch.dbgOther(zo_strformat("|cFF0000<<1>> (<<2>>) is registered for reticle tracking but not tracked unit?", name, unitId))
+        return
+    end
+
+    local current, max = GetUnitPower("reticleover", COMBAT_MECHANIC_FLAGS_HEALTH)
+    if (trackedUnit.maxHealth ~= max) then
+        Crutch.dbgOther(zo_strformat("|cFF0000<<1>> (<<2>>) max health <<3>> does not match initial; updating. Initial: <<4>>", name, unitId, max, trackedUnit.maxHealth))
+        trackedUnit.maxHealth = max
+    end
+
+    Crutch.dbgOther(zo_strformat("<<1>> (<<2>>) syncing health from <<3>> -> <<4>>", name, unitId, trackedUnit.health, current))
+    trackedUnit.health = current
+    UpdateSpoofedBossHealth(trackedUnit.unitTag, trackedUnit.health, trackedUnit.maxHealth)
+end
+
+local function UnregisterReticleEvents()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BossSpoofingReticle", EVENT_RETICLE_TARGET_CHANGED)
+end
+
+local function RegisterReticleEvents()
+    UnregisterReticleEvents()
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BossSpoofingReticle", EVENT_RETICLE_TARGET_CHANGED, OnReticleTargetChanged)
+end
+
+
+---------------------------------------------------------------------
 -- API
 ---------------------------------------------------------------------
 local function TrackUnitForSpoofing(unitId, name, unitTag, maxHealth, fgColor, bgColor, initialHealth)
@@ -152,3 +190,20 @@ local function UntrackUnitForSpoofing(unitId)
     end
 end
 Crutch.UntrackUnitForSpoofing = UntrackUnitForSpoofing
+
+-- Should not be used for non-unique names
+local function TrackUnitForReticleSyncing(name, unitId)
+    reticleTrackingUnits[name] = unitId
+
+    RegisterReticleEvents()
+end
+Crutch.TrackUnitForReticleSyncing = TrackUnitForReticleSyncing
+
+local function UntrackUnitForReticleSyncing(name)
+    reticleTrackingUnits[name] = nil
+
+    if (ZO_IsTableEmpty(reticleTrackingUnits)) then
+        UnregisterReticleEvents()
+    end
+end
+Crutch.UntrackUnitForReticleSyncing = UntrackUnitForReticleSyncing
