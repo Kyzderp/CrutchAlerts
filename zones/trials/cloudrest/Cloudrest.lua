@@ -381,6 +381,10 @@ end
 ---------------------------------------------------------------------
 -- Mini spoofing
 ---------------------------------------------------------------------
+local function GetBossName(id)
+    return Crutch.GetCapitalizedString(id)
+end
+
 -- for ordering
 local MINI_NAMES = {
     GetBossName(CRUTCH_BHB_SHADE_OF_SIRORIA),
@@ -390,12 +394,7 @@ local MINI_NAMES = {
 local detectedMinis = {}
 local availableMinis = {} -- {["Shade of Siroria"] = true}
 
-
 local numMinisToSpoof = 0
-
-local function GetBossName(id)
-    return Crutch.GetCapitalizedString(id)
-end
 
 local MINI_DATA = {
     [GetBossName(CRUTCH_BHB_SHADE_OF_SIRORIA)] = {
