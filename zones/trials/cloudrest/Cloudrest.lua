@@ -377,9 +377,20 @@ local function OnAmplificationChanged(_, changeType, _, _, unitTag, _, _, stackC
     end
 end
 
+
 ---------------------------------------------------------------------
 -- Mini spoofing
 ---------------------------------------------------------------------
+-- for ordering
+local MINI_NAMES = {
+    GetBossName(CRUTCH_BHB_SHADE_OF_SIRORIA),
+    GetBossName(CRUTCH_BHB_SHADE_OF_RELEQUEN),
+    GetBossName(CRUTCH_BHB_SHADE_OF_GALENWE),
+}
+local detectedMinis = {}
+local availableMinis = {} -- {["Shade of Siroria"] = true}
+
+
 local numMinisToSpoof = 0
 
 local function GetBossName(id)
@@ -391,20 +402,51 @@ local MINI_DATA = {
         unitTag = "boss2",
         fgColor = C.FELMS_FG,
         bgColor = C.FELMS_BG,
+        detectIds = {},
     },
     [GetBossName(CRUTCH_BHB_SHADE_OF_RELEQUEN)] = {
         unitTag = "boss3",
         fgColor = {7/255, 87/255, 179/255}, -- TODO: color
         bgColor = {1/255, 11/255, 23/255},
+        detectIds = {},
     },
     [GetBossName(CRUTCH_BHB_SHADE_OF_GALENWE)] = {
         unitTag = "boss4",
         fgColor = C.LLOTHIS_FG, -- TODO: color
         bgColor = C.LLOTHIS_BG,
+        detectIds = {},
     },
 }
 
 local trackedUnits = {} -- for cleanup {[id] = true}
+
+local function OnMiniEvent(name)
+    availableMinis[name] = true
+    for _, id in ipairs(MINI_DATA[name].detectIds) do
+        Crutch.UnregisterForCombatEvent("CRMiniDetect" .. id)
+    end
+
+    -- TODO: update existing bosses?
+end
+
+-- Once we know how many minis there are, we can start looking for which minis are needed
+local function OnNumMinisDetected()
+    -- If there are 3 minis then obv all are needed
+    if (numMinisToSpoof == 3) then
+        for _, name in ipairs(MINI_NAMES) do
+            availableMinis[name] = true
+        end
+        -- TODO: anything else?
+        return
+    end
+
+    -- Otherwise, look for events to identify which minis
+    for name, data in pairs(MINI_DATA) do
+        for _, id in ipairs(data.detectIds) do
+            Crutch.RegisterForCombatEvent("CRMiniDetect" .. id, function() OnMiniEvent(name) end, nil, id)
+        end
+    end
+end
 
 local function MaybeStartTracking(unitName, unitId, abilityId)
     if (trackedUnits[unitId]) then return end -- this one already being tracked
@@ -475,6 +517,8 @@ local function OverrideBHBThresholds()
     Crutch.dbgOther("Inferred " .. numMinisToSpoof .. " minis, overriding thresholds...")
     Crutch.BossHealthBar.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds)
 
+    OnNumMinisDetected()
+
     -- TODO: setting
     -- Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent)
     Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent, ACTION_RESULT_EFFECT_GAINED, 105541)
@@ -517,6 +561,14 @@ local function ResetValuesOnWipe()
     -- mini spoofing
     numMinisToSpoof = 0
     UntrackAll()
+    ZO_ClearTable(availableMinis)
+    ZO_ClearTable(detectedMinis)
+
+    for name, data in pairs(MINI_DATA) do
+        for _, id in ipairs(data.detectIds) do
+            Crutch.UnregisterForCombatEvent("CRMiniDetect" .. id)
+        end
+    end
 end
 
 ---------------------------------------------------------------------
