@@ -248,7 +248,7 @@ local function UpdateUnitTags(reason)
         local charName = GetUnitName(unitTag)
         if (prevTags[unitTag] ~= charName) then
             changed = true
-            Crutch.dbgOther(string.format("[%s] unit tag %s changed: %s -> %s", reason, unitTag, tostring(prevTags[unitTag]), tostring(charName)))
+            Crutch.dbgSpam(string.format("[%s] unit tag %s changed: %s -> %s", reason, unitTag, tostring(prevTags[unitTag]), tostring(charName)))
         end
 
         prevTags[unitTag] = charName

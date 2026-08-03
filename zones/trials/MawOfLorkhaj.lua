@@ -295,8 +295,21 @@ local function RefreshAllAspectIcons()
     end
 end
 
+local function CleanUp()
+    Crutch.RemoveAllAttachedIcons(ASPECT_UNIQUE_NAME)
+    for i = 1, MAX_GROUP_SIZE_THRESHOLD do
+        Crutch.Drawing.OverrideDeadColor("group" .. i, nil)
+        local unitTag = GetGroupUnitTagByIndex(i)
+        if (unitTag and GetUnitDisplayName(unitTag)) then
+            currentlyDisplayingAbility[GetUnitDisplayName(unitTag)] = nil
+        end
+    end
+end
+
 local origOSIGetIconDataForPlayer = nil
 local function RegisterTwins()
+    Crutch.RegisterExitedGroupCombatListener("CrutchMoLExitedCombat", CleanUp)
+
     Crutch.RegisterUnitTagListener("CrutchAlertsMoLAspectRefresh", RefreshAllAspectIcons)
 
     Crutch.RegisterForEffectChanged("TwinsShadow", OnAspect, 59639, "group") -- Shadow Aspect (duration)
@@ -332,6 +345,9 @@ local function RegisterTwins()
 end
 
 local function UnregisterTwins()
+    Crutch.UnregisterExitedGroupCombatListener("CrutchMoLExitedCombat")
+    CleanUp()
+
     Crutch.UnregisterUnitTagListener("CrutchAlertsMoLAspectRefresh")
 
     Crutch.UnregisterForEffectChanged("TwinsShadow")
