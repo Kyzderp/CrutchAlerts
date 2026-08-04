@@ -193,6 +193,7 @@ Crutch.UntrackUnitForSpoofing = UntrackUnitForSpoofing
 
 -- Should not be used for non-unique names
 local function TrackUnitForReticleSyncing(name, unitId)
+    Crutch.dbgOther("Starting reticle tracking for " .. name .. " " .. unitId)
     reticleTrackingUnits[name] = unitId
 
     RegisterReticleEvents()
@@ -200,6 +201,7 @@ end
 Crutch.TrackUnitForReticleSyncing = TrackUnitForReticleSyncing
 
 local function UntrackUnitForReticleSyncing(name)
+    Crutch.dbgOther("Stopping reticle tracking for " .. name)
     reticleTrackingUnits[name] = nil
 
     if (ZO_IsTableEmpty(reticleTrackingUnits)) then

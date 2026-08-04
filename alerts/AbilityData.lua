@@ -185,6 +185,8 @@ Crutch.testing = {
     [166529] = true, -- Chilling Fragility
 
     [185922] = true, -- rune of uncanny adoration
+
+    [167044] = true, -- Gryphon's Reprisal
 }
 
 ---------------------------------------------------------------------
