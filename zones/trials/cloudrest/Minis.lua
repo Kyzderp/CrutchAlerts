@@ -5,7 +5,7 @@ local C = Crutch.Constants
 
 
 ---------------------------------------------------------------------
--- Mini spoofing
+-- Mini reticle syncing
 -- When the number of minis is detected, we don't know which ones
 -- they are, so we'll start listening to combat events. If flare
 -- happens, we know there's Siroria, etc.
@@ -20,8 +20,6 @@ local MINI_NAMES = {
     GetBossName(CRUTCH_BHB_SHADE_OF_RELEQUEN),
     GetBossName(CRUTCH_BHB_SHADE_OF_GALENWE),
 }
-local detectedMinis = {}
-local availableMinis = {} -- {["Shade of Siroria"] = true}
 
 local numMinisToSpoof = 0
 
@@ -71,7 +69,6 @@ local function GetMiniNumber(name)
 end
 
 local function OnMiniMechanicEvent(name)
-    availableMinis[name] = true
     local tag = "boss" .. GetMiniNumber(name)
     knownMinis[tag] = name
     for _, id in ipairs(MINI_DATA[name].detectIds) do
@@ -92,7 +89,6 @@ local function OnNumMinisDetected()
     -- If there are 3 minis then obv all are needed
     if (totalMinis == 3) then
         for i, name in ipairs(MINI_NAMES) do
-            availableMinis[name] = true
             local tag = "boss" .. (i + 1)
             knownMinis[tag] = name
 
@@ -117,13 +113,16 @@ local function OnNumMinisDetected()
     end
 end
 
+
+---------------------------------------------------------------------
+-- BHB spoofing start
+---------------------------------------------------------------------
 local function MaybeStartTracking(unitName, unitId, abilityId)
     if (trackedUnits[unitId]) then return end -- this one already being tracked
     local MINI_MAX_HEALTH = (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) and 13971720 or 6816516
 
-
     trackedUnits[unitId] = "boss" .. (1 + NonContiguousCount(trackedUnits))
-    local unitTag = "boss" .. (1 + NonContiguousCount(trackedUnits))
+    local unitTag = trackedUnits[unitId]
     Crutch.dbgOther(zo_strformat("found <<1>> via <<2>> (<<3>>)", unitName, GetAbilityName(abilityId), abilityId))
 
     Crutch.TrackUnitForSpoofing(unitId, unitName, unitTag, MINI_MAX_HEALTH)
@@ -147,17 +146,6 @@ local function OnMiniCombatEvent(_, _, _, _, _, _, sourceName, _, targetName, _,
     end
 
     MaybeStartTracking("Mini", targetUnitId, abilityId)
-end
-
-local function UntrackAll()
-    for unitId, _ in pairs(trackedUnits) do
-        Crutch.UntrackUnitForSpoofing(unitId)
-        trackedUnits[unitId] = nil
-    end
-
-    for _, name in ipairs(MINI_NAMES) do
-        Crutch.UntrackUnitForReticleSyncing(name)
-    end
 end
 
 
@@ -185,10 +173,8 @@ local function OverrideBHBThresholds()
     Crutch.dbgOther("Inferred " .. numMinisToSpoof .. " minis, overriding thresholds...")
     Crutch.BossHealthBar.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds)
 
-    OnNumMinisDetected()
-
     -- TODO: setting
-    -- Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent)
+    OnNumMinisDetected()
     Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent, ACTION_RESULT_EFFECT_GAINED, 105541)
 end
 
@@ -207,6 +193,17 @@ end
 
 ---------------------------------------------------------------------
 -- Reset/cleanup
+local function UntrackAll()
+    for unitId, _ in pairs(trackedUnits) do
+        Crutch.UntrackUnitForSpoofing(unitId)
+        trackedUnits[unitId] = nil
+    end
+
+    for _, name in ipairs(MINI_NAMES) do
+        Crutch.UntrackUnitForReticleSyncing(name)
+    end
+end
+
 local function CleanUp()
     -- mini detection
     foundMinis = false
@@ -217,8 +214,6 @@ local function CleanUp()
     numMinisToSpoof = 0
     totalMinis = 0
     UntrackAll()
-    ZO_ClearTable(availableMinis)
-    ZO_ClearTable(detectedMinis)
     ZO_ClearTable(knownMinis)
 
     for name, data in pairs(MINI_DATA) do
