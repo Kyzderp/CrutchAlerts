@@ -424,13 +424,15 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             end
         end
 
+        local yOffset = Draw.Model.AreGravesEnabled() and 350 or DEAD_Y_OFFSET
+
         SetIconForUnit(unitTag,
             GROUP_DEAD_NAME,
             C.PRIORITY.GROUP_DEAD,
             texturePath,
             nil,
             Crutch.savedOptions.drawing.attached.deadColor,
-            DEAD_Y_OFFSET,
+            yOffset,
             true,
             Callback)
     else

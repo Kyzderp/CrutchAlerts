@@ -180,7 +180,7 @@ function Crutch.DisplayNotification(abilityId, textLabel, timer, sourceUnitId, s
     if (customText) then
         textLabel = customText
     end
-    if (Crutch.savedOptions.memes.alertNames) then
+    if (Crutch.savedOptions.general.showSpeshul and Crutch.savedOptions.memes.alertNames) then
         textLabel = Crutch.DecorateNotificationText(textLabel)
     end
 
