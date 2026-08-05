@@ -222,8 +222,15 @@ local function OnDeathStateChanged(_, unitTag, isDead)
     end
 end
 
+local function UnregisterGrave()
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GraveGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GravePlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED)
+end
+
 function M.InitializeGrave()
-    if (not Crutch.savedOptions.experimental) then return end
+    UnregisterGrave()
+
+    if (not Crutch.savedOptions.experimental and not Crutch.savedOptions.meme.graves and Crutch.GetSpeshulDate() ~= 1031) then return end
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GraveGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GraveGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")

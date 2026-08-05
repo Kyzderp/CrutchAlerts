@@ -45,6 +45,17 @@ Draw.ReleaseRenderSpaceTexture = ReleaseRenderSpaceTexture
 
 
 ---------------------------------------------------------------------
+-- Utils
+---------------------------------------------------------------------
+function Draw.AreDepthBuffersSupported()
+    if (IsConsoleUI()) then return false end
+    -- TODO: check XBPA
+    -- TODO: check subsampling
+    return true
+end
+
+
+---------------------------------------------------------------------
 -- Init 3D render space and stuff idk
 ---------------------------------------------------------------------
 function Draw.InitializeRenderSpace()

@@ -171,6 +171,12 @@ SLASH_COMMANDS["/crutch"] = function(argString)
             local prev = Crutch.savedOptions.memes.alertNames or false
             Crutch.savedOptions.memes.alertNames = not prev
             Crutch.msg("Alert Names now " .. (Crutch.savedOptions.memes.alertNames and "ON" or "OFF"))
+        elseif (args[2] == "graves") then
+            local prev = Crutch.savedOptions.memes.graves or false
+            Crutch.savedOptions.memes.graves = not prev
+            Crutch.msg("Graves now " .. (Crutch.savedOptions.memes.alertNames and "ON" or "OFF"))
+            Crutch.msg("Note: For the best experience, have \"SubSampling Quality\" set to \"High\" in your Video settings, otherwise they will display in front of objects!")
+            Crutch.Drawing.Model.InitializeGrave()
         else
             Crutch.msg("These are not the memes you're looking for.")
         end
