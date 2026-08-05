@@ -1,0 +1,6 @@
+<GuiXml>
+    <Controls>
+        <Texture name="CrutchAlertsModelTexture" virtual="true"/>
+        <Label name="CrutchAlertsModelLabel" virtual="true"/>
+    </Controls>
+</GuiXml>

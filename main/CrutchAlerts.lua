@@ -652,6 +652,8 @@ local function Initialize()
     PrintTime("ability overlays done")
     Crutch.InitializeInfoPanel()
     PrintTime("info panel done")
+    Crutch.Drawing.Model.InitializeGrave()
+    PrintTime("grave done")
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()

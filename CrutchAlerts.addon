@@ -129,3 +129,6 @@ drawing/RenderSpaceDrawing.lua
 drawing/SpaceDrawing.xml
 drawing/SpaceDrawing.lua
 drawing/SpaceAnimations.lua
+
+drawing/model/Model.xml
+drawing/model/Model.lua
