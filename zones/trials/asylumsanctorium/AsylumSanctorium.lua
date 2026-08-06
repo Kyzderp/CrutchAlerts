@@ -71,7 +71,6 @@ local function OnMiniDetectionCombat(_, _, _, _, _, _, sourceName, _, targetName
     OnFelmsDetected()
 end
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnMiniDetectionEffect(_, changeType, _, _, _, _, _, _, _, _, _, _, _, unitName, unitId, abilityId)
     if (unitName == FELMS_NAME and unitId ~= 0 and changeType == EFFECT_RESULT_GAINED) then
         AS.felmsId = unitId
@@ -93,7 +92,6 @@ local function OnSpeedboost(_, _, _, _, _, _, sourceName, _, targetName, _, _, _
     AS.OnLlothisDetectedPanel()
 end
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnDormant(_, changeType, _, _, _, _, _, _, _, _, _, _, _, _, unitId)
     if (unitId == AS.llothisId) then
         AS.OnLlothisDormantBHB(changeType)

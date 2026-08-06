@@ -5,7 +5,6 @@ local Crutch = CrutchAlerts
 ---------------------------------------------------------------------
 Crutch.majorCowardiceUnitIds = {}
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnMajorCowardice(_, changeType, _, _, _, _, _, _, _, _, _, _, _, unitName, unitId)
     if (changeType == EFFECT_RESULT_GAINED or changeType == EFFECT_RESULT_UPDATED) then
         Crutch.majorCowardiceUnitIds[unitId] = true
@@ -140,7 +139,6 @@ end
 ---------------------------------------------------------------------
 -- Icon for Elixir of Diminishing
 ---------------------------------------------------------------------
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnElixir(_, _, _, _, _, _, _, _, targetName, _, _, _, _, _, _, targetUnitId)
     local unitTag = Crutch.groupIdToTag[targetUnitId]
 

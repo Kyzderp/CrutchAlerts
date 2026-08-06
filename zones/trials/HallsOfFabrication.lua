@@ -5,7 +5,6 @@ local C = Crutch.Constants
 local spooderPulled = false
 
 ---------------------------------------------------------------------
--- EVENT_PLAYER_COMBAT_STATE (number eventCode, boolean inCombat)
 local function HandleCombatState(_, inCombat)
     if (not inCombat) then
         -- Reset one-time vars

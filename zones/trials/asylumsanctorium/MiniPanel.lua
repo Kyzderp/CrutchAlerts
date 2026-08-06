@@ -214,7 +214,6 @@ end
 
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnEnraged(_, changeType, _, _, _, _, _, stackCount, _, _, _, _, _, _, unitId, abilityId)
     local panelIndex
     if (unitId == AS.llothisId) then

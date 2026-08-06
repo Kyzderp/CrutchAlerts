@@ -76,7 +76,6 @@ end
 ---------------------------------------------------------------------
 -- Weakening Charge
 ---------------------------------------------------------------------
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnWeakeningCharge(_, changeType, _, _, unitTag, beginTime, endTime)
     local atName = GetUnitDisplayName(unitTag)
     local tagId = Crutch.GetGroupTagNumber(unitTag)

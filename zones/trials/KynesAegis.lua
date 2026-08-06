@@ -6,7 +6,6 @@ local C = Crutch.Constants
 ---------------------------------------------------------------------
 -- Trash
 ---------------------------------------------------------------------
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnExplodingSpearBegin(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     local unitTag = Crutch.groupIdToTag[targetUnitId]
     if (unitTag) then
@@ -29,7 +28,6 @@ end
 local prisoned = {}
 local PRISON_UNIQUE_NAME = "CrutchAlertsKAPrison"
 
--- EVENT_COMBAT_EVENT (number eventCode, number ActionResult result, boolean isError, string abilityName, number abilityGraphic, number ActionSlotType abilityActionSlotType, string sourceName, number CombatUnitType sourceType, string targetName, number CombatUnitType targetType, number hitValue, number CombatMechanicType powerType, number DamageType damageType, boolean log, number sourceUnitId, number targetUnitId, number abilityId, number overflow)
 local function OnPrisonBegin(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId)
     if (hitValue ~= 1500) then return end
     local unitTag = Crutch.groupIdToTag[targetUnitId]
@@ -44,7 +42,6 @@ local function OnPrisonBegin(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _,
     end
 end
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnPrisonEffect(_, changeType, _, _, unitTag)
     -- seems to be 1.5s for the cast, then 8s for the prison?
     if (changeType == EFFECT_RESULT_GAINED) then

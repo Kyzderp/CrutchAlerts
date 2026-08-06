@@ -22,7 +22,6 @@ end
 local sludgeTag1 = nil
 local lastSludge = 0 -- for resetting
 
--- EVENT_EFFECT_CHANGED (number eventCode, MsgEffectResult changeType, number effectSlot, string effectName, string unitTag, number beginTime, number endTime, number stackCount, string iconName, string buffType, BuffEffectType effectType, AbilityType abilityType, StatusEffectType statusEffectType, string unitName, number unitId, number abilityId, CombatUnitType sourceType)
 local function OnNoxiousSludgeGained(_, changeType, _, _, unitTag)
     if (Crutch.savedOptions.rockgrove.showSludgeIcons) then
         OnSludgeIcon(changeType, unitTag)

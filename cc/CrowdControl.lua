@@ -179,10 +179,8 @@ end
 ---------------------------------------------------------------------
 local function OnStunnedChanged(_, playerStunned)
     if (playerStunned) then
-        -- Crutch.dbgSpam("player stunned")
         Crutch.OnStunned()
     else
-        -- Crutch.dbgSpam("player no longer stunned")
         Crutch.OnNotStunned()
     end
 end
@@ -193,9 +191,6 @@ end
 -- Init
 ---------------------------------------------------------------------
 function Crutch.InitializeCC()
-    -- EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CC", EVENT_EFFECT_CHANGED, OnEffectChanged)
-    -- EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CC", EVENT_EFFECT_CHANGED, REGISTER_FILTER_UNIT_TAG, "player")
-
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "CC", EVENT_COMBAT_EVENT, OnCombatEvent)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "CC", EVENT_COMBAT_EVENT, REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE, COMBAT_UNIT_TYPE_PLAYER)
 

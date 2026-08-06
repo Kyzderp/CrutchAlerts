@@ -1,14 +1,6 @@
 local Crutch = CrutchAlerts
 local BHB = Crutch.BossHealthBar
 
--- CrutchAlertsBossHealthBarContainerBar
--- ZO_StatusBar_SmoothTransition(self, value, max, forceInit, onStopCallback, customApproachAmountMs)
--- /script ZO_StatusBar_SmoothTransition(CrutchAlertsBossHealthBarContainerBar, 0, 1)
--- SetBarGradient
--- /script CrutchAlertsBossHealthBarContainerBar:SetGradientColors(1, 0, 0, 1, 0.5, 0, 0, 1)
-
--- I was really hoping to be able to use status bar gradient colors, but it seems to have really unexpected behavior with the vertical orientation
-
 
 ---------------------------------------------------------------------------------------------------
 -- Threshold overrides, to be used when threshold determination is
