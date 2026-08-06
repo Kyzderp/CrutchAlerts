@@ -743,7 +743,6 @@ local prominentData = {
             event = EVENT_COMBAT_EVENT,
             filters = {
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
-                -- TODO: only show if in portal (has gotten attunement?)
                 filterFunction = function() return Crutch.IsInVantonPortal(Crutch.playerGroupTag) end,
             },
             text = "INTERRUPT",
@@ -764,7 +763,6 @@ local prominentData = {
             event = EVENT_COMBAT_EVENT,
             filters = {
                 [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_BEGIN,
-                -- TODO: only show if not in portal?
                 filterFunction = function() return not Crutch.IsInVantonPortal(Crutch.playerGroupTag) end,
             },
             text = "INTERRUPT",

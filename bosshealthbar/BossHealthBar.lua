@@ -489,9 +489,6 @@ local function OnPowerUpdate(_, unitTag, _, _, powerValue, powerMax, powerEffect
         attachedPercent.slide:SetDeltaOffsetY(targetY - originY)
         attachedPercent.slideAnimation:PlayFromStart()
 
-        -- TODO: figure out if any bosses change in max health during the fight.
-        -- Otherwise, we can naively use this as a HM detector (and therefore NOT update stages)
-
         if (bossHealths[index]) then
             local prevValue = bossHealths[index].current
             local prevMax = bossHealths[index].max
@@ -702,8 +699,6 @@ local function OnBossesChanged(boss1IsSame)
 end
 BHB.OnBossesChanged = OnBossesChanged
 -- /script CrutchAlerts.BossHealthBar.OnBossesChanged()
-
--- TODO: check if there are any bosses that don't despawn and respawn when you wipe?
 
 
 ---------------------------------------------------------------------------------------------------

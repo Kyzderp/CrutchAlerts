@@ -49,7 +49,6 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         end
         table.sort(names)
 
-        -- TODO: alphabetize
         for _, name in ipairs(names) do
             individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or CreateNewIndividualIconSubmenuButtonTable(name)
             settings:AddSetting(individualPlayerSubmenus[name])

@@ -1,7 +1,6 @@
 local Crutch = CrutchAlerts
 local C = Crutch.Constants
 
--- TODO: chaurus totem dodge
 
 ---------------------------------------------------------------------
 -- Trash

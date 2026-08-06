@@ -85,7 +85,7 @@ end
 local function OnBomb()
     Crutch.dbgOther("bomb")
     if (fightPhase) then
-        CountDownToBomb(70000) -- TODO
+        CountDownToBomb(70000)
     end
 end
 
@@ -93,7 +93,7 @@ end
 local function OnSmokeStep()
     Crutch.dbgOther("smokestep")
     fightPhase = true
-    CountDownToBomb(10000) -- TODO
+    CountDownToBomb(10000)
 end
 
 

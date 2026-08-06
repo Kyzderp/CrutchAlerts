@@ -68,7 +68,7 @@ local CC_ABILITY_DATA = {
 
 ---------------------------------------------------------------------
 local function IsInPvP()
-    return IsUnitPvPFlagged("player") -- TODO: seems to work
+    return IsUnitPvPFlagged("player")
 end
 
 

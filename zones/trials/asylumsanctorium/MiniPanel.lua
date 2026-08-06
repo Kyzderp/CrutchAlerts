@@ -200,7 +200,7 @@ end
 
 local function OnFart()
     if (not llothisDormant) then
-        SetFart(25000) -- TODO
+        SetFart(25000)
     end
 end
 
@@ -208,7 +208,7 @@ end
 local function OnCone(_, _, _, _, _, _, _, _, targetName, _, hitValue)
     if (hitValue ~= 2000) then return end
     Crutch.dbgSpam("cone begin")
-    SetCone(21000) -- TODO
+    SetCone(21000)
 end
 
 
@@ -239,9 +239,9 @@ end
 ---------------------------------------------------------------------
 function AS.OnLlothisDetectedPanel()
     StartLlothisHeader()
-    SetBolts(12000) -- TODO
-    SetCone(10400) -- TODO
-    SetFart(0) -- TODO
+    SetBolts(12000)
+    SetCone(10400)
+    SetFart(0)
 end
 
 -- Minis remain dormant for 45s
@@ -260,7 +260,7 @@ end
 
 function AS.OnFelmsDetectedPanel()
     StartFelmsHeader()
-    SetTeleportCountdown(10700) -- TODO
+    SetTeleportCountdown(10700)
 end
 
 function AS.OnFelmsDormantPanel(changeType)

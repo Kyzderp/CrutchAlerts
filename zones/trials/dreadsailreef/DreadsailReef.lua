@@ -380,7 +380,7 @@ local PLATFORM_FALL_ID = 167702
 local WINTER_STORM_PREFIX = zo_strformat("|c00CCCC<<C:1>>: ", GetAbilityName(WINTER_STORM_CW_ID)) -- color matching CCA
 
 local function OnWinterStorm()
-    Crutch.InfoPanel.CountDownDuration(PANEL_WINTER_STORM_INDEX, WINTER_STORM_PREFIX, 110000) -- TODO
+    Crutch.InfoPanel.CountDownDuration(PANEL_WINTER_STORM_INDEX, WINTER_STORM_PREFIX, 110000)
 end
 
 
@@ -534,7 +534,6 @@ function Crutch.RegisterDreadsailReef()
         Crutch.RegisterForCombatEvent("DSRSiren", OnSirenSummoned, ACTION_RESULT_BEGIN, SIREN_ID)
     end
     if (Crutch.savedOptions.dreadsailreef.infoPanel.showSirenSpawn or Crutch.savedOptions.dreadsailreef.infoPanel.showWinterStorm) then
-        Crutch.RegisterForCombatEvent("DSRPlatformFall", OnPlatformFall, ACTION_RESULT_EFFECT_GAINED, PLATFORM_FALL_ID) -- TODO: what action result?
     end
 
     -- Lure of the Sea sound

@@ -295,7 +295,6 @@ local function OnScythe()
     Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 15000)
 end
 
--- TODO: get initial values
 local function OnEnteredCombat()
     -- Check that it's Bahsei
     local _, maxHp = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)

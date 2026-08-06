@@ -76,8 +76,8 @@ local function OnGrapesSummoned()
     numDead = 0
     UpdateDisplay()
 
-    Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_PREFIX, 22000) -- TODO
-    nextGrapeTarget = GetGameTimeMilliseconds() + 33000 -- TODO
+    Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_PREFIX, 22000)
+    nextGrapeTarget = GetGameTimeMilliseconds() + 33000
 end
 
 local function OnGrapeDied(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
@@ -124,7 +124,7 @@ end
 
 -- Initial timer when pulling, 42.1, 18.7, 30.8, 18.8, 21.3, 26.8, 24.4, 23.7, 20.0, 18.4, 25.7, 18.2
 local function OnInitial()
-    Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_SUMMON_PREFIX, 18000) -- TODO
+    Crutch.InfoPanel.CountDownDuration(PANEL_GRAPE_TIMER_INDEX, GRAPE_SUMMON_PREFIX, 18000)
 end
 
 

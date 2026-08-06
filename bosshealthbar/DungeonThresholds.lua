@@ -608,7 +608,7 @@ local dungeonThresholds = {
         [20] = "Gleaming Deluge",
     },
 
--- Exiled Redoubt -- TODO: jp, pl
+-- Exiled Redoubt
     [GetBossName(CRUTCH_BHB_JERENSI)] = {
         [80] = "Condemn + Adds",
         [50] = "Condemn + Adds",
@@ -676,7 +676,7 @@ local dungeonThresholds = {
         },
     },
 
--- Lep Seculsa -- TODO: jp, pl
+-- Lep Seculsa
     [GetBossName(CRUTCH_BHB_GARVIN_THE_TRACKER)] = {
         normHealth = 3367972,
         vetHealth = 5954854, -- Still need to find
@@ -822,7 +822,7 @@ local dungeonThresholds = {
         [84] = "Wyrm",
         [69] = "Wyrm",
         [54] = "Wyrm",
-        [44] = "Dark Transformation", -- TODO: 45 or 44?
+        [44] = "Dark Transformation",
     },
 
 -- Night Market: Mournful Catacomb
