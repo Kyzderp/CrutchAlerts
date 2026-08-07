@@ -424,7 +424,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
             end
         end
 
-        local yOffset = Draw.Model.AreGravesEnabled() and 350 or DEAD_Y_OFFSET
+        local yOffset = Draw.Model.AreGravesEnabled() and 200 or DEAD_Y_OFFSET
 
         SetIconForUnit(unitTag,
             GROUP_DEAD_NAME,

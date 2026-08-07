@@ -9,10 +9,6 @@ local spearsRevealed = 0
 local spearsSent = 0
 local orbsDunked = 0
 
-local function IsZmaja()
-    return zo_strformat(SI_UNIT_NAME, GetUnitName("boss1") or "") == Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA)
-end
-
 
 ---------------------------------------------------------------------
 -- Portal panel

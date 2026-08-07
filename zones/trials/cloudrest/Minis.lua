@@ -1,7 +1,10 @@
 local Crutch = CrutchAlerts
-Crutch.Cloudrest = {}
 local CR = Crutch.Cloudrest
 local C = Crutch.Constants
+
+local function IsZmaja()
+    return zo_strformat(SI_UNIT_NAME, GetUnitName("boss1") or "") == Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA)
+end
 
 
 ---------------------------------------------------------------------

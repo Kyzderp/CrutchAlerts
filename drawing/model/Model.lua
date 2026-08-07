@@ -163,7 +163,6 @@ local function Grave(unitTag, intro, name, birth, death)
             -- width of 1.2 is about 160 in textwidth at font 20 -> 
             if (textWidth / 160 > width / 1.2) then
                 local newFontSize = math.floor(160 / textWidth * 20) - 1
-                d(text .. " too wide, changing to " .. newFontSize)
                 control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
                 textWidth = control:GetTextWidth()
             end
