@@ -223,7 +223,7 @@ end
 
 local function AreGravesEnabled()
     if (not Crutch.savedOptions.general.showSpeshul) then return false end
-    return Crutch.savedOptions.experimental or Crutch.savedOptions.meme.graves or Crutch.GetSpeshulDate() == 1031
+    return Crutch.savedOptions.experimental or Crutch.savedOptions.memes.graves or Crutch.GetSpeshulDate() == 1031
 end
 M.AreGravesEnabled = AreGravesEnabled
 
