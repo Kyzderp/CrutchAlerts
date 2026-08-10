@@ -155,10 +155,12 @@ local function Grave(unitTag, intro, name, birth, death)
             local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, element.texture)
             table.insert(graves[unitTag].rects, key)
         elseif (element.text) then
+            -- Create it normally first
             local text = zo_strformat(element.text, intro, name, birth, death)
             local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, text, element.fontSize)
             table.insert(graves[unitTag].labels, key)
 
+            -- Adjust font size
             local textWidth = control:GetTextWidth()
             -- width of 1.2 is about 160 in textwidth at font 20 -> 
             if (textWidth / 160 > width / 1.2) then
@@ -167,8 +169,7 @@ local function Grave(unitTag, intro, name, birth, death)
                 textWidth = control:GetTextWidth()
             end
 
-            -- d("width: " .. width .. " height: " .. height)
-            -- d("textwidth: " .. control:GetTextWidth())
+            -- Adjust location to re-center it
             local offset = textWidth / 100 / 2 * .75 -- .75 arbitrary to get the centering offset right
             -- TODO: not just x
             local sX, sY, sZ = CalculateValues(

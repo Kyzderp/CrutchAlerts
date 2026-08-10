@@ -414,6 +414,7 @@ local function OnLureOfTheSea()
     -- 163952
     PlaySound(SOUNDS.JUSTICE_NOW_KOS)
     PlaySound(SOUNDS.JUSTICE_NOW_KOS)
+    PlaySound(SOUNDS.JUSTICE_NOW_KOS)
 end
 
 
