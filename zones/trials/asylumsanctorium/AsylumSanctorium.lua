@@ -134,7 +134,7 @@ end
 local function MaybeRegisterMiniDetection()
     -- Check if it's Olms
     local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-    if (MINI_HPS[powerMax]) then
+    if (MINI_HPS[powerMax] and not IsUnitDead("boss1")) then
         RegisterMiniDetection()
     else
         UnregisterMiniDetection()
