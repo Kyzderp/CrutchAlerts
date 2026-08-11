@@ -53,6 +53,7 @@ local function CreateLabelRenderSpace(x, y, z, pitch, yaw, roll, width, height, 
     control:SetFont("$(STONE_TABLET_FONT)|" .. fontSize)
     control:SetText(text)
     control:SetColor(.1, .1, .1, 1)
+    Crutch.dbgSpam(text .. " - $(STONE_TABLET_FONT)|" .. fontSize)
 
     control:SetScale(0.01)
 
@@ -164,9 +165,14 @@ local function Grave(unitTag, intro, name, birth, death)
             local textWidth = control:GetTextWidth()
             -- width of 1.2 is about 160 in textwidth at font 20 -> 
             if (textWidth / 160 > width / 1.2) then
+                Crutch.dbgSpam(string.format("adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
                 local newFontSize = math.floor(160 / textWidth * 20) - 1
+                Crutch.dbgSpam("newFontSize: " .. newFontSize)
                 control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
                 textWidth = control:GetTextWidth()
+                Crutch.dbgSpam("new textWidth: " .. textWidth)
+            else
+                Crutch.dbgSpam(string.format("NOT adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
             end
 
             -- Adjust location to re-center it
@@ -184,6 +190,7 @@ local function Grave(unitTag, intro, name, birth, death)
                 element.coords[9]
                 )
             control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x + sX * scale, y + sY * scale, z + sZ * scale))
+            Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
         else
             return
         end
@@ -192,6 +199,8 @@ end
 M.Grave = Grave
 --[[
 /script CrutchAlerts.Drawing.Model.Grave()
+/script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "efiye", "May 12, 3203")
+/script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "TheClawlessConqueror", "May 12, 3203")
 ]]
 
 local intros = {
