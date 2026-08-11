@@ -176,6 +176,7 @@ local function OverrideBHBThresholds()
     Crutch.dbgOther("Inferred " .. numMinisToSpoof .. " minis, overriding thresholds...")
     Crutch.BossHealthBar.AddThresholdOverride(Crutch.GetCapitalizedString(CRUTCH_BHB_ZMAJA), zmajaThresholds)
 
+    if (not Crutch.savedOptions.experimental) then return end
     -- TODO: setting
     OnNumMinisDetected()
     Crutch.RegisterForCombatEvent("CRMiniSpoofDetect", OnMiniCombatEvent, ACTION_RESULT_EFFECT_GAINED, 105541)
