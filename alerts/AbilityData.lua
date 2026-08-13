@@ -186,7 +186,7 @@ Crutch.testing = {
 
     [185922] = true, -- rune of uncanny adoration
 
-    [167044] = true, -- Gryphon's Reprisal
+    [35451] = true, -- Shadow Image
 }
 
 ---------------------------------------------------------------------

@@ -369,9 +369,10 @@ local function SpamDebugEffect(changeType, unitTag, stackCount, unitName, unitId
     if (sourceType) then
         sourceString = (sourceStrings[sourceType] or tostring(sourceType))
     end
-    Crutch.dbgSpam(string.format("|cFF8888TestEffect %s(%s)(%d): %s(%d) x%d %s %s|r",
+    Crutch.dbgSpam(string.format("|cFF8888TestEffect [%s] %s(%s)(%d): %s(%d) x%d %s %s|r",
+        unitTag or "",
         unitName or "",
-        (unitTag ~= nil) and GetUnitDisplayName(unitTag) or "",
+        GetUnitDisplayName(unitTag) or GetUnitName(unitTag) or "",
         unitId,
         FormatAbilityName(abilityId),
         abilityId,
