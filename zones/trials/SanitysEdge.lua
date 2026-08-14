@@ -245,7 +245,12 @@ local POISONED_MIND_UNIQUE_NAME = "CrutchAlertsSEPoisonedMind"
 
 local function OnPoisonedMind(_, changeType, _, _, unitTag)
     if (changeType == EFFECT_RESULT_GAINED) then
-        Crutch.SetAttachedIconForUnit(unitTag, POISONED_MIND_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "CrutchAlerts/assets/poop.dds", nil, {0.6, 1, 0.6})
+        Crutch.SetAttachedIconForUnit(
+            unitTag,
+            POISONED_MIND_UNIQUE_NAME,
+            C.PRIORITY.MECHANIC_1_PRIORITY,
+            "/esoui/art/icons/visions/vision_utility_viciouspoisons.dds",
+            Crutch.savedOptions.drawing.attached.size * 1.5)
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.RemoveAttachedIconForUnit(unitTag, POISONED_MIND_UNIQUE_NAME)
     end
@@ -262,6 +267,8 @@ local function CleanUp()
     Crutch.InfoPanel.StopCount(PANEL_WRATHSTORM_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_CALAMITY_INDEX)
     ZO_ClearTable(attuned)
+
+    Crutch.RemoveAllAttachedIcons(POISONED_MIND_UNIQUE_NAME)
 
     UntrackAll()
 end
