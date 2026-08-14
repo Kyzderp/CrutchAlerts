@@ -239,6 +239,20 @@ end
 
 
 ---------------------------------------------------------------------
+-- Poisoned Mind icons
+---------------------------------------------------------------------
+local POISONED_MIND_UNIQUE_NAME = "CrutchAlertsSEPoisonedMind"
+
+local function OnPoisonedMind(_, changeType, _, _, unitTag)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        Crutch.SetAttachedIconForUnit(unitTag, POISONED_MIND_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, "CrutchAlerts/assets/poop.dds", nil, {0.6, 1, 0.6})
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        Crutch.RemoveAttachedIconForUnit(unitTag, POISONED_MIND_UNIQUE_NAME)
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 local function CleanUp()
@@ -293,6 +307,9 @@ function Crutch.RegisterSanitysEdge()
         end
     end
 
+    -- TODO: setting
+    Crutch.RegisterForEffectChanged("SEPoisonedMind", OnPoisonedMind, 184710, "group")
+
     Crutch.RegisterForCombatEvent("SEAttunement", OnAttunement, ACTION_RESULT_EFFECT_GAINED, ATTUNEMENT_ID)
     Crutch.RegisterForCombatEvent("SEUnattuned", OnUnattuned, ACTION_RESULT_EFFECT_FADED, UNATTUNED_ID)
 end
@@ -323,6 +340,8 @@ function Crutch.UnregisterSanitysEdge()
     for abilityId, _ in pairs(BREAKDOWN_DATA) do
         Crutch.UnregisterForCombatEvent("SEBreakdownSplits" .. abilityId)
     end
+
+    Crutch.UnregisterForEffectChanged("SEPoisonedMind")
 
     Crutch.UnregisterForCombatEvent("SEAttunement")
     Crutch.UnregisterForCombatEvent("SEUnattuned")
