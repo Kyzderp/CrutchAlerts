@@ -1,0 +1,1 @@
+../../../../../codestuffs/ESO/AntiClankerAddonConsortiumUpdateChecker/AntiClankerAddonConsortiumUpdateChecker.lua
