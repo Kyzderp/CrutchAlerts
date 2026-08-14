@@ -140,9 +140,11 @@ local function OnReticleTargetChanged()
         trackedUnit.maxHealth = max
     end
 
-    Crutch.dbgOther(zo_strformat("<<1>> (<<2>>) syncing health from <<3>> -> <<4>>", name, unitId, trackedUnit.health, current))
-    trackedUnit.health = current
-    UpdateSpoofedBossHealth(trackedUnit.unitTag, trackedUnit.health, trackedUnit.maxHealth)
+    if (trackedUnit.health ~= current) then
+        Crutch.dbgOther(zo_strformat("|cFFAA00<<1>> (<<2>>) syncing health from <<3>> -> <<4>>", name, unitId, trackedUnit.health, current))
+        trackedUnit.health = current
+        UpdateSpoofedBossHealth(trackedUnit.unitTag, trackedUnit.health, trackedUnit.maxHealth)
+    end
 end
 
 local function UnregisterReticleEvents()

@@ -124,7 +124,7 @@ local function MaybeStartTracking(unitName, unitId, abilityId)
     if (trackedUnits[unitId]) then return end -- this one already being tracked
     local MINI_MAX_HEALTH = (GetCurrentZoneDungeonDifficulty() == DUNGEON_DIFFICULTY_VETERAN) and 13971720 or 6816516
 
-    trackedUnits[unitId] = "boss" .. (1 + NonContiguousCount(trackedUnits))
+    trackedUnits[unitId] = "boss" .. (2 + NonContiguousCount(trackedUnits))
     local unitTag = trackedUnits[unitId]
     Crutch.dbgOther(zo_strformat("found <<1>> via <<2>> (<<3>>)", unitName, GetAbilityName(abilityId), abilityId))
 
