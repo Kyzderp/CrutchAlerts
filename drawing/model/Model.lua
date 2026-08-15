@@ -4,6 +4,13 @@ local M = Crutch.Drawing.Model
 
 
 ---------------------------------------------------------------------
+local function AreDepthBuffersSupported()
+    if (IsConsoleUI()) then return false end
+    return GetCVar("SUB_SAMPLING") == SUB_SAMPLING_MODE_NORMAL
+end
+
+
+---------------------------------------------------------------------
 -- generic?
 ---------------------------------------------------------------------
 local genericTexturePool, genericLabelPool
@@ -216,7 +223,7 @@ end
 M.Grave = Grave
 --[[
 /script CrutchAlerts.Drawing.Model.Grave()
-/script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "efiye", "May 12, 3203")
+/script CrutchAlerts.Drawing.Model.Grave("player", "Forever in our hearts", "efiye", "May 12, 3203")
 /script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "TheClawlessConqueror", "May 12, 320312345113")
 ]]
 
@@ -227,6 +234,8 @@ local intros = {
     "Rest in Peace",
     "Rest in Pieces",
     "Never forgotten",
+    "Gone too soon",
+    "Sadly missed",
 }
 
 local function OnDeathStateChanged(_, unitTag, isDead)
@@ -248,9 +257,11 @@ local function OnDeathStateChanged(_, unitTag, isDead)
     end
 end
 
+-- Enable if it was deliberately turned on; if involuntary, only allow with depth buffers
 local function AreGravesEnabled()
     if (not Crutch.savedOptions.general.showSpeshul) then return false end
-    return Crutch.savedOptions.experimental or Crutch.savedOptions.memes.graves or Crutch.GetSpeshulDate() == 1031
+    if (Crutch.savedOptions.experimental or Crutch.savedOptions.memes.graves) then return true end
+    return Crutch.GetSpeshulDate() == 1031 and AreDepthBuffersSupported()
 end
 M.AreGravesEnabled = AreGravesEnabled
 
