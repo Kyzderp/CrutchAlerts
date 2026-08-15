@@ -148,6 +148,8 @@ local function Grave(unitTag, intro, name, birth, death)
 
     graves[unitTag] = {rects = {}, labels = {}}
 
+    local uiScale = GetUIGlobalScale()
+
     local scale = 100
     local num = 1
     for _, element in ipairs(elements) do
@@ -156,17 +158,32 @@ local function Grave(unitTag, intro, name, birth, death)
             local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, element.texture)
             table.insert(graves[unitTag].rects, key)
         elseif (element.text) then
+            local scaledFontSize = math.floor((element.fontSize or 20) / uiScale)
+
             -- Create it normally first
             local text = zo_strformat(element.text, intro, name, birth, death)
-            local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, text, element.fontSize)
+            local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, text, scaledFontSize)
             table.insert(graves[unitTag].labels, key)
 
             -- Adjust font size
             local textWidth = control:GetTextWidth()
-            -- width of 1.2 is about 160 in textwidth at font 20 -> 
-            if (textWidth / 160 > width / 1.2) then
+            -- uiscale 1: width of 1.2 is 120 in textwidth; TheClawlessConqueror is 110 at font size 8
+            -- uiscale .752: width of 1.2 is ~150 in textwidth; TheClawlessConqueror is 147 at font size 10
+
+            local allowedTextWidth = 115 / uiScale
+
+            -- /script CrutchAlertsDrawingCrutchAlertsModelLabel2:SetFont("$(STONE_TABLET_FONT)|10") d(CrutchAlertsDrawingCrutchAlertsModelLabel2:GetTextWidth())
+            if (textWidth > allowedTextWidth) then
                 Crutch.dbgSpam(string.format("adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
-                local newFontSize = math.floor(160 / textWidth * 20) - 1
+                local newFontSize = scaledFontSize
+
+                while (textWidth > allowedTextWidth and newFontSize > 0) do
+                    newFontSize = newFontSize - 1
+                    control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
+                    textWidth = control:GetTextWidth()
+                    Crutch.dbgSpam("trying newFontSize " .. newFontSize .. " = " .. textWidth)
+                end
+
                 Crutch.dbgSpam("newFontSize: " .. newFontSize)
                 control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
                 textWidth = control:GetTextWidth()
@@ -176,7 +193,7 @@ local function Grave(unitTag, intro, name, birth, death)
             end
 
             -- Adjust location to re-center it
-            local offset = textWidth / 100 / 2 * .75 -- .75 arbitrary to get the centering offset right
+            local offset = textWidth / 100 / 2 * uiScale -- .75 arbitrary to get the centering offset right
             -- TODO: not just x
             local sX, sY, sZ = CalculateValues(
                 element.coords[1] - offset,
@@ -200,7 +217,7 @@ M.Grave = Grave
 --[[
 /script CrutchAlerts.Drawing.Model.Grave()
 /script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "efiye", "May 12, 3203")
-/script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "TheClawlessConqueror", "May 12, 3203")
+/script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "TheClawlessConqueror", "May 12, 320312345113")
 ]]
 
 local intros = {

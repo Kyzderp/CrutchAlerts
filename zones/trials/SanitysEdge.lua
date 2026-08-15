@@ -250,7 +250,7 @@ local function OnPoisonedMind(_, changeType, _, _, unitTag)
             POISONED_MIND_UNIQUE_NAME,
             C.PRIORITY.MECHANIC_1_PRIORITY,
             "/esoui/art/icons/visions/vision_utility_viciouspoisons.dds",
-            Crutch.savedOptions.drawing.attached.size * 1.5)
+            Crutch.savedOptions.drawing.attached.size * 2)
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.RemoveAttachedIconForUnit(unitTag, POISONED_MIND_UNIQUE_NAME)
     end
