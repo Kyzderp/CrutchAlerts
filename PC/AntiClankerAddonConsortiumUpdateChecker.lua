@@ -47,7 +47,7 @@ local function CheckVersions( )
 			local expectedVersion = KNOWN_VERSIONS[addonName]
 
 			if installedVersion < expectedVersion then
-				-- Only notify the same version up to 3 times
+				-- Only notify the same version up to 3 times (assuming the SV table is defined)
 				local sv = GetSV(addonName)
 
 				local notifiedVersion = (sv and sv.notifiedVersion) or 0
@@ -81,7 +81,7 @@ local function CreateSettingsMenu()
 	local panelData = {
 		type = "panel",
 		name = "ACAC Update Checker",
-		author = "@code65536, Kyzeragon",
+		author = "Kyzeragon, @code65536",
 		version = tostring(VERSION),
 	}
 
@@ -122,8 +122,6 @@ end
 EVENT_MANAGER:UnregisterForEvent(NAME, EVENT_PLAYER_ACTIVATED) -- In case we are overriding an older version embedded in another addon
 
 EVENT_MANAGER:RegisterForEvent(NAME, EVENT_PLAYER_ACTIVATED, function()
-	EVENT_MANAGER:UnregisterForEvent(NAME, EVENT_PLAYER_ACTIVATED)
-
 	CreateSettingsMenu()
 
 	if (ACACUpdateCheckDisabled == nil) then
