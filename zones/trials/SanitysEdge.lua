@@ -250,7 +250,7 @@ local function OnPoisonedMind(_, changeType, _, _, unitTag)
             POISONED_MIND_UNIQUE_NAME,
             C.PRIORITY.MECHANIC_1_PRIORITY,
             "/esoui/art/icons/visions/vision_utility_viciouspoisons.dds",
-            Crutch.savedOptions.drawing.attached.size * 2)
+            Crutch.savedOptions.sanitysedge.poisonedMindIconsSize)
     elseif (changeType == EFFECT_RESULT_FADED) then
         Crutch.RemoveAttachedIconForUnit(unitTag, POISONED_MIND_UNIQUE_NAME)
     end
@@ -314,8 +314,9 @@ function Crutch.RegisterSanitysEdge()
         end
     end
 
-    -- TODO: setting
-    Crutch.RegisterForEffectChanged("SEPoisonedMind", OnPoisonedMind, 184710, "group")
+    if (Crutch.savedOptions.sanitysedge.showPoisonedMindIcons) then
+        Crutch.RegisterForEffectChanged("SEPoisonedMind", OnPoisonedMind, 184710, "group")
+    end
 
     Crutch.RegisterForCombatEvent("SEAttunement", OnAttunement, ACTION_RESULT_EFFECT_GAINED, ATTUNEMENT_ID)
     Crutch.RegisterForCombatEvent("SEUnattuned", OnUnattuned, ACTION_RESULT_EFFECT_FADED, UNATTUNED_ID)

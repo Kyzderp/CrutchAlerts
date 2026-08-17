@@ -2805,7 +2805,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Chimera icons size",
+                    name = "    Chimera icons size",
                     min = 20,
                     max = 300,
                     step = 10,
@@ -2832,7 +2832,7 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "slider",
-                    name = "Ansuul icon size",
+                    name = "    Ansuul icon size",
                     min = 20,
                     max = 300,
                     step = 10,
@@ -2844,6 +2844,33 @@ function Crutch:CreateSettingsMenu()
                         Crutch.OnPlayerActivated()
                     end,
                     disabled = function() return not Crutch.savedOptions.sanitysedge.showAnsuulIcon end,
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Poisoned Mind icons",
+                    tooltip = "In the Ansuul fight, shows icons above players who have Poisoned Mind",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.showPoisonedMindIcons end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.showPoisonedMindIcons = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "slider",
+                    name = "    Poisoned Mind icons size",
+                    min = 20,
+                    max = 300,
+                    step = 10,
+                    default = 150,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.sanitysedge.poisonedMindIconsSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.sanitysedge.poisonedMindIconsSize = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    disabled = function() return not Crutch.savedOptions.sanitysedge.showPoisonedMindIcons end,
                 },
                 {
                     type = "checkbox",

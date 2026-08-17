@@ -1549,6 +1549,31 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Poisoned Mind icons",
+            tooltip = "In the Ansuul fight, shows icons above players who have Poisoned Mind",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.sanitysedge.showPoisonedMindIcons end,
+            setFunction = function(value)
+                Crutch.savedOptions.sanitysedge.showPoisonedMindIcons = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Poisoned Mind icons size",
+            min = 20,
+            max = 300,
+            step = 10,
+            default = 150,
+            getFunction = function() return Crutch.savedOptions.sanitysedge.poisonedMindIconsSize end,
+            setFunction = function(value)
+                Crutch.savedOptions.sanitysedge.poisonedMindIconsSize = value
+                Crutch.OnPlayerActivated()
+            end,
+            disable = function() return not Crutch.savedOptions.sanitysedge.showPoisonedMindIcons end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show Breakdown health bars",
             tooltip = "Shows the health of the clones during the split phase of the Ansuul fight, using the vertical boss health bars",
             default = true,

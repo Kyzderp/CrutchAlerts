@@ -165,7 +165,7 @@ local function Grave(unitTag, intro, name, birth, death)
             local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, element.texture)
             table.insert(graves[unitTag].rects, key)
         elseif (element.text) then
-            local scaledFontSize = math.floor((element.fontSize or 20) / uiScale)
+            local scaledFontSize = math.floor((element.fontSize or 17) / uiScale)
 
             -- Create it normally first
             local text = zo_strformat(element.text, intro, name, birth, death)
@@ -235,7 +235,6 @@ local intros = {
     "Rest in Pieces",
     "Never forgotten",
     "Gone too soon",
-    "Sadly missed",
 }
 
 local function OnDeathStateChanged(_, unitTag, isDead)

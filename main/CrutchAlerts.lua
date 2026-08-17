@@ -322,6 +322,8 @@ local defaultOptions = {
         showAnsuulIcon = true,
         ansuulIconSize = 150,
         showSplitHp = true,
+        showPoisonedMindIcons = true,
+        poisonedMindIconsSize = 150,
 
         infoPanel = {
             showFrostBomb = true,
