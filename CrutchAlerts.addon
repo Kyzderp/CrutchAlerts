@@ -33,7 +33,7 @@ main/Commands.lua
 main/AbilityOverlay.lua
 main/Bindings.xml
 
-libs/AntiClankerAddonConsortiumUpdateChecker.lua
+PC/AntiClankerAddonConsortiumUpdateChecker.lua
 
 sharing/BroadcastHandler.lua
 
