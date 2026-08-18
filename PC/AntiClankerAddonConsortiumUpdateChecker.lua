@@ -1,17 +1,17 @@
 local NAME = "AntiClankerAddonConsortiumUpdateChecker"
-local VERSION = 2
+local VERSION = 3
 
 if type(_G[NAME]) == "number" and _G[NAME] >= VERSION then return end
 _G[NAME] = VERSION
 
 local KNOWN_VERSIONS = {
-	["CombatAlerts"]          = 205010,
+	["CombatAlerts"]          = 205020,
 	["CrutchAlerts"]          = 22400,
 	["GroupBuffPanels"]       = 203000,
 	["KyzderpsDerps"]         = 1501,
 	["LibGroupCombatStats"]   = 20260726,
 	["M0RMarkers"]            = 210,
-	["Raidificator"]          = 407010,
+	["Raidificator"]          = 407020,
 }
 
 local MESSAGE = {
@@ -78,6 +78,8 @@ end
 ---------------------------------------------------------------------
 local function CreateSettingsMenu()
 	local LAM = LibAddonMenu2
+	if (not LAM) then return end
+
 	local panelData = {
 		type = "panel",
 		name = "ACAC Update Checker",
