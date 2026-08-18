@@ -159,7 +159,7 @@ local function DrawLineBetween2DPoints(x1, y1, x2, y2, lineNum)
     local y = y2 - y1
     local length = math.sqrt(x*x + y*y)
     line:SetDimensions(length, 10)
-    local angle = math.atan(y/x)
+    local angle = math.atan2(y, x)
     line:SetTransformRotationZ(-angle)
 end
 

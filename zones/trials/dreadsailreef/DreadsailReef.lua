@@ -255,7 +255,7 @@ local function GetArcingCleavePoints(sign)
     local originTankZ = tankZ - CENTER_Z
 
     -- Find the angle to the current tank spot
-    local angle = math.atan(originTankZ / originTankX)
+    local angle = math.atan2(originTankZ, originTankX)
     if (originTankX < 0) then
         angle = angle + math.pi
     end
