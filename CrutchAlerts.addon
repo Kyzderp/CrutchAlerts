@@ -103,6 +103,7 @@ bosshealthbar/TrialThresholds.lua
 bosshealthbar/DungeonThresholds.lua
 bosshealthbar/ArenaThresholds.lua
 bosshealthbar/EndlessArchiveThresholds.lua
+bosshealthbar/SoloDungeonThresholds.lua
 
 damageable/Damageable.lua
 

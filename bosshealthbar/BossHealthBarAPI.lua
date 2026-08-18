@@ -6,6 +6,17 @@ local function dbg(msg)
     Crutch.dbgSpam(string.format("|c8888FF[BHB]|r %s", msg))
 end
 
+local function GetThresholdsTable(zoneId)
+    if (zoneId == 1436) then
+        return BHB.eaThresholds
+    elseif (zoneId == 1592 or zoneId == 1593) then -- solo MoS, MHK
+        -- if more are added later, change it to a table
+        return BHB.soloDungeonThresholds
+    else
+        return BHB.thresholds
+    end
+end
+
 
 ----------------
 -- PUBLIC API --
@@ -66,11 +77,8 @@ local function GetBossThresholds(optionalBossName)
     if (thresholdOverride) then
         -- Overrides for things like Z'Maja that need to be determined by code
         data = thresholdOverride
-    elseif (GetZoneId(GetUnitZoneIndex("player")) == 1436) then
-        -- Endless Archive has different boss thresholds
-        data = BHB.eaThresholds[bossName]
     else
-        data = BHB.thresholds[bossName]
+        data = GetThresholdsTable(GetZoneId(GetUnitZoneIndex("player")))[bossName]
     end
 
     -- Detect HM or vet or normal first based on boss health

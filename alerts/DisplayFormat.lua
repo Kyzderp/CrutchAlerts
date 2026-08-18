@@ -216,6 +216,10 @@ Crutch.format = {
     [233821] = 100, -- Cyclone (Flame Gryphon)
     [224822] = 100, -- Blast Powder (Noriwen)
 
+-- Moon Hunter Keep (solo)
+    [265060] = 300, -- Shred (Mylenne Moon-Caller)
+    [267268] = 300, -- Assassinate (Moon Hunter Striker (Archivist))
+
 -- Naj-Caldeesh
     [242063] = 100, -- Ancient Blaze (Voskrona Stonehulk Poxito)
 
