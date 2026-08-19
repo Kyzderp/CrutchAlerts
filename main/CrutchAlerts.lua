@@ -29,6 +29,7 @@ Crutch.registered = {
 
 -- Defaults
 local defaultOptions = {
+    installationWide = false,
     display = {
         x = 0,
         y = GuiRoot:GetHeight() / 3,
@@ -550,7 +551,19 @@ local function Initialize()
     Crutch.AddProminentDefaults()
     Crutch.AddEffectDefaults()
     PrintTime("defaults done")
-    Crutch.savedOptions = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
+
+    Crutch.accountSVs = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
+    if (Crutch.accountSVs.installationWide) then
+        -- If it doesn't exist yet, copy the current one over
+        if (not CrutchAlertsInstallationWide) then
+            Crutch.dbgOther("Copying settings from " .. GetUnitDisplayName("player") .. " to installation-wide")
+            CrutchAlertsInstallationWide = ZO_DeepTableCopy(Crutch.accountSVs)
+        end
+        Crutch.savedOptions = CrutchAlertsInstallationWide
+        Crutch.dbgOther("Using installation-wide settings")
+    else
+        Crutch.savedOptions = Crutch.accountSVs
+    end
 
     -- First time population of Bahsei portal abilities
     if (Crutch.savedOptions.rockgrove.spoofAbilitiesFirstTime) then

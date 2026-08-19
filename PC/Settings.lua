@@ -139,6 +139,19 @@ function Crutch:CreateSettingsMenu()
             setFunc = UnlockUI,
             width = "full",
         },
+        {
+            type = "checkbox",
+            name = "Use installation-wide settings",
+            tooltip = "Use the same settings across all accounts and megaservers on this machine. If this is the first time you turn it on, the settings from this account+server will be copied to the installation-wide settings",
+            default = false,
+            getFunc = function() return Crutch.accountSVs.installationWide end,
+            setFunc = function(value)
+                Crutch.accountSVs.installationWide = value
+            end,
+            width = "full",
+            requiresReload = true,
+            isDangerous = true,
+        },
 ---------------------------------------------------------------------
 -- general
         {
