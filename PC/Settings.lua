@@ -142,7 +142,7 @@ function Crutch:CreateSettingsMenu()
         {
             type = "checkbox",
             name = "Use installation-wide settings",
-            tooltip = "Use the same settings across all accounts and megaservers on this machine. If this is the first time you turn it on, the settings from this account+server will be copied to the installation-wide settings",
+            tooltip = "Use the same settings across all opted-in accounts and megaservers on this machine, instead of per-account. If this is the first time you turn it on, the settings from this account+server will be copied to the installation-wide settings. If you turn this back off, the settings will go back to your account settings before the switch to installation-wide",
             default = false,
             getFunc = function() return Crutch.accountSVs.installationWide end,
             setFunc = function(value)

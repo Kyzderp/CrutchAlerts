@@ -545,6 +545,22 @@ end
 ---------------------------------------------------------------------
 -- Initialize 
 ---------------------------------------------------------------------
+local function FillAllDefaults(tab, defaults)
+    for k, v in pairs(defaults) do
+        if (type(v) == "table") then
+            if (tab[k] == nil) then
+                tab[k] = ZO_DeepTableCopy(v)
+            else
+                FillAllDefaults(tab[k], v)
+            end
+        else
+            if (tab[k] == nil) then
+                tab[k] = v
+            end
+        end
+    end
+end
+
 local function Initialize()
     PrintTime("init")
     -- Settings and saved variables
@@ -555,11 +571,19 @@ local function Initialize()
     Crutch.accountSVs = ZO_SavedVars:NewAccountWide("CrutchAlertsSavedVariables", 1, "Options", defaultOptions)
     if (Crutch.accountSVs.installationWide) then
         -- If it doesn't exist yet, copy the current one over
-        if (not CrutchAlertsInstallationWide) then
-            Crutch.dbgOther("Copying settings from " .. GetUnitDisplayName("player") .. " to installation-wide")
-            CrutchAlertsInstallationWide = ZO_DeepTableCopy(Crutch.accountSVs)
+        local isNew = false
+        if (not CrutchAlertsInstallationWide or ZO_IsTableEmpty(CrutchAlertsInstallationWide)) then
+            isNew = true
+            CrutchAlertsInstallationWide = ZO_DeepTableCopy(getmetatable(Crutch.accountSVs).__index)
         end
+
+        -- Fill with defaults
+        FillAllDefaults(CrutchAlertsInstallationWide, defaultOptions)
+
         Crutch.savedOptions = CrutchAlertsInstallationWide
+        if (isNew) then -- This has to go after savedOptions assignment because it uses that
+            Crutch.dbgOther("Copied settings from " .. GetUnitDisplayName("player") .. " to installation-wide")
+        end
         Crutch.dbgOther("Using installation-wide settings")
     else
         Crutch.savedOptions = Crutch.accountSVs
