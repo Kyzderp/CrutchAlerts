@@ -121,6 +121,12 @@ local function RemoveGrave(unitTag)
 end
 M.RemoveGrave = RemoveGrave
 
+local function RemoveAllGraves()
+    for unitTag, _ in pairs(graves) do
+        RemoveGrave(unitTag)
+    end
+end
+
 local elements = {
     -- top left, bottom right, top right
     {coords = {0, 0, 0, 0, 0, 0, 0, 0, 0}, color = {.9, .9, .9, 1}, texture = "CrutchAlerts/assets/floor/square.dds"},
@@ -245,12 +251,14 @@ local function OnDeathStateChanged(_, unitTag, isDead)
     if (unitTag ~= "player" and AreUnitsEqual("player", unitTag)) then return end
 
     if (isDead) then
-        Grave(
-            unitTag,
-            intros[math.random(#intros)],
-            string.gsub(GetUnitDisplayName(unitTag), "@", ""),
-            unitTag == "player" and FormatDate(GetAchievementTimestamp(17))
-            )
+        if (Crutch.Drawing.ShouldUnitBeShown(unitTag)) then
+            Grave(
+                unitTag,
+                intros[math.random(#intros)],
+                string.gsub(GetUnitDisplayName(unitTag), "@", ""),
+                unitTag == "player" and FormatDate(GetAchievementTimestamp(17))
+                )
+        end
     else
         RemoveGrave(unitTag)
     end
@@ -267,6 +275,7 @@ M.AreGravesEnabled = AreGravesEnabled
 function M.InitializeGrave()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GraveGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GravePlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GravePlayerActivated", EVENT_PLAYER_ACTIVATED)
 
     if (not AreGravesEnabled()) then return end
 
@@ -274,4 +283,7 @@ function M.InitializeGrave()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GraveGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GravePlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GravePlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_UNIT_TAG, "player")
+
+    -- Clean up on port
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GravePlayerActivated", EVENT_PLAYER_ACTIVATED, RemoveAllGraves)
 end
