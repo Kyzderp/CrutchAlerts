@@ -20,8 +20,8 @@ local labelControls = {} -- ''
 local graves = {} -- {["group3"] = {rects = {key,}, labels = {}}}
 local animations = {} -- {["group3"] = targetTime}
 
-local ANIMATION_DURATION = 2000
-local ANIMATION_Y = 130
+local ANIMATION_DURATION = 1000
+local ANIMATION_Y = 170
 
 local function UpdateAnimations()
     for unitTag, targetTime in pairs(animations) do
@@ -37,7 +37,7 @@ local function UpdateAnimations()
             timeUntilEnd = 0
         end
 
-        local yOffset = timeUntilEnd / ANIMATION_DURATION * ANIMATION_Y
+        local yOffset = (1 - ZO_EaseOutCubic(1 - timeUntilEnd / ANIMATION_DURATION)) * ANIMATION_Y
 
         local keys = graves[unitTag]
         if (not keys) then return end
@@ -272,9 +272,9 @@ local function Grave(unitTag, intro, name, birth, death)
             local newX = x + sX * scale
             local newY = y + sY * scale
             local newZ = z + sZ * scale
-            labelControls[unitTag].targetX = newX
-            labelControls[unitTag].targetY = newY
-            labelControls[unitTag].targetZ = newZ
+            labelControls[key].targetX = newX
+            labelControls[key].targetY = newY
+            labelControls[key].targetZ = newZ
             control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - ANIMATION_Y, newZ))
             Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
         end
