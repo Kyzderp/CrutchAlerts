@@ -304,6 +304,10 @@ local intros = {
     "Gone too soon",
 }
 
+
+---------------------------------------------------------------------
+-- Events
+---------------------------------------------------------------------
 local function OnDeathStateChanged(_, unitTag, isDead)
     -- To exclude companions and possibly pets too
     if (unitTag ~= "player" and not string.find(unitTag, "^group%d+$")) then return end
@@ -325,6 +329,23 @@ local function OnDeathStateChanged(_, unitTag, isDead)
     end
 end
 
+-- If someone leaves, clear all graves... cba figuring out new tags
+local function RefreshUnitTags(reason)
+    if (reason == "Left" or reason == "Update") then
+        Crutch.dbgOther("Removing all graves because " .. reason)
+        RemoveAllGraves()
+    end
+end
+
+local function RefreshUnitTagsTimeout(reason)
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "GraveRefreshTimeout", 200, function()
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "GraveRefreshTimeout")
+        RefreshUnitTags(reason)
+    end)
+end
+
+
+---------------------------------------------------------------------
 -- Enable if it was deliberately turned on; if involuntary, only allow with depth buffers
 local function AreGravesEnabled()
     if (not Crutch.savedOptions.general.showSpeshul) then return false end
@@ -333,12 +354,19 @@ local function AreGravesEnabled()
 end
 M.AreGravesEnabled = AreGravesEnabled
 
+
+---------------------------------------------------------------------
+-- Init
+---------------------------------------------------------------------
 function M.InitializeGrave()
+    Crutch.UnregisterUnitTagListener("CrutchAlertsGraveUnitTags")
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GraveGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GravePlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GravePlayerActivated", EVENT_PLAYER_ACTIVATED)
 
     if (not AreGravesEnabled()) then return end
+
+    Crutch.RegisterUnitTagListener("CrutchAlertsGraveUnitTags", RefreshUnitTagsTimeout)
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GraveGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, OnDeathStateChanged)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "GraveGroupDeathState", EVENT_UNIT_DEATH_STATE_CHANGED, REGISTER_FILTER_UNIT_TAG_PREFIX, "group")

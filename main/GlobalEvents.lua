@@ -256,7 +256,7 @@ local function UpdateUnitTags(reason)
 
     if (changed) then
         for _, listener in pairs(unitTagListeners) do
-            listener()
+            listener(reason)
         end
     end
 end
