@@ -22,6 +22,8 @@ local animations = {} -- {["group3"] = targetTime}
 
 local ANIMATION_DURATION = 1000
 local ANIMATION_Y = 170
+local ANIMATION_X_PERIOD = 100
+local ANIMATION_X = 5
 
 local function UpdateAnimations()
     for unitTag, targetTime in pairs(animations) do
@@ -37,7 +39,9 @@ local function UpdateAnimations()
             timeUntilEnd = 0
         end
 
-        local yOffset = (1 - ZO_EaseOutCubic(1 - timeUntilEnd / ANIMATION_DURATION)) * ANIMATION_Y
+        local progress = 1 - timeUntilEnd / ANIMATION_DURATION
+        local xOffset = ZO_EaseInOutCubic(progress % ANIMATION_X_PERIOD) * ANIMATION_X
+        local yOffset = (1 - ZO_EaseOutCubic(progress)) * ANIMATION_Y
 
         local keys = graves[unitTag]
         if (not keys) then return end
@@ -45,12 +49,12 @@ local function UpdateAnimations()
         for _, key in ipairs(keys.rects) do
             local controlData = rectControls[key]
             controlData.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(
-                controlData.targetX, controlData.targetY - yOffset, controlData.targetZ))
+                controlData.targetX + xOffset, controlData.targetY - yOffset, controlData.targetZ))
         end
         for _, key in ipairs(keys.labels) do
             local controlData = labelControls[key]
             controlData.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(
-                controlData.targetX, controlData.targetY - yOffset, controlData.targetZ))
+                controlData.targetX + xOffset, controlData.targetY - yOffset, controlData.targetZ))
         end
     end
 end
