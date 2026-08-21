@@ -23,7 +23,7 @@ local animations = {} -- {["group3"] = targetTime}
 local ANIMATION_DURATION = 1000
 local ANIMATION_Y = 170
 local ANIMATION_X_PERIOD = 100
-local ANIMATION_X = 5
+local ANIMATION_X = 2
 
 local function UpdateAnimations()
     for unitTag, targetTime in pairs(animations) do
@@ -40,8 +40,9 @@ local function UpdateAnimations()
         end
 
         local progress = 1 - timeUntilEnd / ANIMATION_DURATION
-        local xOffset = ZO_EaseInOutCubic(progress % ANIMATION_X_PERIOD) * ANIMATION_X
         local yOffset = (1 - ZO_EaseOutCubic(progress)) * ANIMATION_Y
+        local xOffset = math.sin((ANIMATION_DURATION - timeUntilEnd) / ANIMATION_X_PERIOD * math.pi * 2) * ANIMATION_X
+        Crutch.dbgSpam(xOffset)
 
         local keys = graves[unitTag]
         if (not keys) then return end
