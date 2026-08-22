@@ -23,7 +23,7 @@ local animations = {} -- {["group3"] = targetTime}
 local ANIMATION_DURATION = 1000
 local ANIMATION_Y = 170
 local ANIMATION_X_PERIOD = 100
-local ANIMATION_X = 2
+local ANIMATION_X = 1.5
 
 local function UpdateAnimations()
     for unitTag, targetTime in pairs(animations) do
