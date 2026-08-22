@@ -365,6 +365,8 @@ function M.InitializeGrave()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GravePlayerDeathState", EVENT_UNIT_DEATH_STATE_CHANGED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "GravePlayerActivated", EVENT_PLAYER_ACTIVATED)
 
+    RemoveAllGraves()
+
     if (not AreGravesEnabled()) then return end
 
     Crutch.RegisterUnitTagListener("CrutchAlertsGraveUnitTags", RefreshUnitTagsTimeout)
