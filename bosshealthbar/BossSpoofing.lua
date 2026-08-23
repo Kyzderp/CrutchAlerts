@@ -96,7 +96,11 @@ local function OnDamage(_, result, _, _, _, _, _, _, _, _, hitValue, _, _, _, so
 
     if (result == ACTION_RESULT_HEAL or result == ACTION_RESULT_CRITICAL_HEAL) then
         trackedUnit.health = zo_clamp(trackedUnit.health + hitValue, 0, trackedUnit.maxHealth)
-        Crutch.dbgOther(string.format("|cFFAA00%s (%d) %s for %d via %s (%d)", trackedUnit.name, targetUnitId, damageTypes[result], hitValue, GetAbilityName(abilityId), abilityId))
+
+        -- spammy on OC twins with altar because they're hitting each other
+        if (abilityId ~= 86304) then
+            Crutch.dbgOther(string.format("|cFFAA00%s (%d) %s for %d via %s (%d)", trackedUnit.name, targetUnitId, damageTypes[result], hitValue, GetAbilityName(abilityId), abilityId))
+        end
     else
         trackedUnit.health = zo_clamp(trackedUnit.health - hitValue, 0, trackedUnit.maxHealth)
     end
