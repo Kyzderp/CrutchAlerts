@@ -42,7 +42,7 @@ local function UpdateAnimations()
         local progress = 1 - timeUntilEnd / ANIMATION_DURATION
         local yOffset = (1 - ZO_EaseOutCubic(progress)) * ANIMATION_Y
         local xOffset = math.sin((ANIMATION_DURATION - timeUntilEnd) / ANIMATION_X_PERIOD * math.pi * 2) * ANIMATION_X
-        Crutch.dbgSpam(xOffset)
+        -- Crutch.dbgSpam(xOffset)
 
         local keys = graves[unitTag]
         if (not keys) then return end

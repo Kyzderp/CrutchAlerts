@@ -46,15 +46,16 @@ local soloDungeonThresholds = {
     },
 
 -- March of Sacrifices (Bloodscent Pass)
-    [GetBossName(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE)] = {
-        [70] = "Lurcher", -- TODO
-        [55] = "Lurcher", -- TODO
-        [25] = "Lurcher", -- TODO
-    },
+    -- I don't think these are even hp thresholds... on a timer probably
+    -- [GetBossName(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE)] = {
+    --     [70] = "Lurcher", -- TODO
+    --     [55] = "Lurcher", -- TODO
+    --     [25] = "Lurcher", -- TODO
+    -- },
     [GetBossName(CRUTCH_BHB_TARCYR)] = {
-        [80] = "Hunt", -- TODO
-        [50] = "Hunt", -- TODO
-        [20] = "Hunt", -- TODO
+        [80] = "Hunt",
+        [55] = "Hunt", -- TODO
+        [20] = "Hunt",
     },
     [GetBossName(CRUTCH_BHB_BALORGH)] = {
         [80] = "Hunt",
