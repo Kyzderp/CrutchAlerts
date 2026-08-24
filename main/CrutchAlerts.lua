@@ -84,6 +84,7 @@ local defaultOptions = {
         showJBeam = true,
         showEngulfing = true,
         showClawFury = true,
+        showInsatiableHunger = false,
 
         showGeneralAlerts = true, -- extra manual toggle for people who don't like to see general alerts in overland etc
 

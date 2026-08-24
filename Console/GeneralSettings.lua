@@ -255,6 +255,18 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show werewolf Insatiable Hunger",
+            tooltip = "Show an \"alert\" timer when you devour a corpse",
+            default = false,
+            getFunction = function() return Crutch.savedOptions.general.showInsatiableHunger end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showInsatiableHunger = value
+                Crutch.UnregisterChannels()
+                Crutch.RegisterChannels()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show Fencer's Parry",
             tooltip = "Show an \"alert\" timer for the duration of Fencer's Parry from scribing, along with when it is removed",
             default = true,

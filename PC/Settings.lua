@@ -356,6 +356,19 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show werewolf Insatiable Hunger",
+                    tooltip = "Show an \"alert\" timer when you devour a corpse",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.general.showInsatiableHunger end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showInsatiableHunger = value
+                        Crutch.UnregisterChannels()
+                        Crutch.RegisterChannels()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show Fencer's Parry",
                     tooltip = "Show an \"alert\" timer for the duration of Fencer's Parry from scribing, along with when it is removed",
                     default = true,

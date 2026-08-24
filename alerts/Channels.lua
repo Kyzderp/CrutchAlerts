@@ -124,6 +124,11 @@ function Crutch.RegisterChannels()
         Crutch.RegisterForCombatEvent("ClawFuryBegin", OnChannel, ACTION_RESULT_BEGIN, 58864, COMBAT_UNIT_TYPE_PLAYER)
         Crutch.RegisterForEffectChanged("ClawFuryFaded", OnChannelFaded, 58864)
     end
+
+    if (Crutch.savedOptions.general.showInsatiableHunger) then
+        Crutch.RegisterForCombatEvent("InsatiableHungerBegin", OnChannel, ACTION_RESULT_BEGIN, 33208, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForEffectChanged("InsatiableHungerFaded", OnChannelFaded, 33208)
+    end
 end
 
 -- For use from settings when toggling
@@ -144,4 +149,7 @@ function Crutch.UnregisterChannels()
 
     Crutch.UnregisterForCombatEvent("ClawFuryBegin")
     Crutch.UnregisterForEffectChanged("ClawFuryFaded")
+
+    Crutch.UnregisterForCombatEvent("InsatiableHungerBegin")
+    Crutch.UnregisterForEffectChanged("InsatiableHungerFaded")
 end
