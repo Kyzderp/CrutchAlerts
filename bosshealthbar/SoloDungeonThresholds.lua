@@ -29,7 +29,7 @@ local soloDungeonThresholds = {
         [65] = "Wolves", -- does it also require being after wardens?
         [50] = "Wardens",
         [27] = "Wolves", -- TODO: 27? 30? didn't spawn on one, maybe because warden still up?
-        [21] = "Wardens", -- TODO: 21.015 (maybe from healing mm)
+        [20] = "Wardens", -- TODO: 21.015 (maybe from healing mm)
     },
     [GetBossName(CRUTCH_BHB_ARCHIVIST_ERNARDE)] = {
         [80] = "Symbols",
@@ -46,15 +46,9 @@ local soloDungeonThresholds = {
     },
 
 -- March of Sacrifices (Bloodscent Pass)
-    -- I don't think these are even hp thresholds... on a timer probably
-    -- [GetBossName(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE)] = {
-    --     [70] = "Lurcher", -- TODO
-    --     [55] = "Lurcher", -- TODO
-    --     [25] = "Lurcher", -- TODO
-    -- },
     [GetBossName(CRUTCH_BHB_TARCYR)] = {
         [80] = "Hunt",
-        [55] = "Hunt", -- TODO
+        [55] = "Hunt",
         [20] = "Hunt",
     },
     [GetBossName(CRUTCH_BHB_BALORGH)] = {

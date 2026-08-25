@@ -185,16 +185,17 @@ local dungeonThresholds = {
         [50] = "Werewolves", -- TODO
         [30] = "Werewolves", -- TODO
     },
+    [GetBossName(CRUTCH_BHB_HEDGE_MAZE_GUARDIAN)] = {
+        [80] = "Spriggans",
+        [60] = "Spriggans",
+        [40] = "Spriggans",
+    },
     [GetBossName(CRUTCH_BHB_MYLENNE_MOONCALLER)] = {
+        -- TODO: no wardens on normal
         [80] = "Warden", -- TODO
         [60] = "Warden", -- TODO
         [40] = "Warden", -- TODO
         [20] = "Warden", -- TODO
-    },
-    [GetBossName(CRUTCH_BHB_HEDGE_MAZE_GUARDIAN)] = {
-        [75] = "2 Spriggans", -- TODO
-        [55] = "3 Spriggans", -- TODO
-        [35] = "5 Spriggans", -- TODO
     },
     [GetBossName(CRUTCH_BHB_ARCHIVIST_ERNARDE)] = {
         -- how can the guides be so different??
@@ -246,15 +247,10 @@ local dungeonThresholds = {
     },
 
 -- March of Sacrifices (Bloodscent Pass)
-    [GetBossName(CRUTCH_BHB_AGHAEDH_OF_THE_SOLSTICE)] = {
-        [70] = "Lurcher", -- TODO
-        [55] = "Lurcher", -- TODO
-        [25] = "Lurcher", -- TODO
-    },
     [GetBossName(CRUTCH_BHB_TARCYR)] = {
-        [80] = "Hunt", -- TODO
-        [50] = "Hunt", -- TODO
-        [20] = "Hunt", -- TODO
+        [80] = "Hunt",
+        [55] = "Hunt",
+        [20] = "Hunt",
     },
     [GetBossName(CRUTCH_BHB_BALORGH)] = {
         [80] = "Hunt",

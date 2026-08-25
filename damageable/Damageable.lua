@@ -310,8 +310,8 @@ local SUBTITLE_TIMES = {
     },
 
 -- March of Sacrifices
-    ["Dagrund the Bulky"] = {
-        ["Troll's blood, it has to be here somewhere! Keep an eye out."] = 18.2,
+    [GetNameStr(CRUTCH_DMG_DAGRUND_THE_BULKY)] = {
+        [GetSubtitleStr(CRUTCH_DMG_TROLLS_BLOOD_IT_HAS_TO_BE_HERE_SOMEWHERE_KEEP)] = 18.2,
     },
 
 -- Moongrave Fane
