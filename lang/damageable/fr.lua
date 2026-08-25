@@ -52,6 +52,7 @@ SafeAddString(CRUTCH_DMG_THESE_CHALLENGERS_ARE_SURPRISINGLY_FIERCE_BUT, "Ces dé
 SafeAddString(CRUTCH_DMG_TO_RESTORE_THE_NATURAL_ORDER_TO_RECLAIM, "Pour ramener l'ordre naturel. Reprendre ce qui fut et ce qui sera. Corriger l'erreur mortelle.")
 SafeAddString(CRUTCH_DMG_TURLASSIL, "Turlassil^M")
 SafeAddString(CRUTCH_DMG_WARLOCK_VANTON, "ensorceleur Vanton^md")
+SafeAddString(CRUTCH_DMG_WAS_VYKOSA_NOT_TOLD_THE_INTRUDERS_WOULD_BE_DEALT, "On m'avait dit que les intrus seraient éliminés. Je dois donc tout faire moi-même ?")
 SafeAddString(CRUTCH_DMG_WATCH_ME_TURLI_THIS_IS_HOW_ITS_DONE, "Regarde-moi, Turli. Voilà comment on fait !")
 SafeAddString(CRUTCH_DMG_WELL_WELL_NOW_THATS_THE_SECOND_LARGEST, "Tiens, tiens. C'est le deuxième plus gros assemblage que j'aie jamais vu. Il est inactif, pour le moment.")
 SafeAddString(CRUTCH_DMG_WHAT_IMPOSSIBLE_HOW_DID_YOU_WIN, "Quoi ? Impossible ! Comment avez-vous pu gagner ?")

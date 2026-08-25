@@ -52,6 +52,7 @@ SafeAddString(CRUTCH_DMG_THESE_CHALLENGERS_ARE_SURPRISINGLY_FIERCE_BUT, "あの�
 SafeAddString(CRUTCH_DMG_TO_RESTORE_THE_NATURAL_ORDER_TO_RECLAIM, "自然の秩序を取り戻すため。過去、未来、すべてを取り戻すため。定命の者の過ちを正すためだ")
 SafeAddString(CRUTCH_DMG_TURLASSIL, "トゥルラシル^M")
 SafeAddString(CRUTCH_DMG_WARLOCK_VANTON, "妖術師ヴァントン^M")
+SafeAddString(CRUTCH_DMG_WAS_VYKOSA_NOT_TOLD_THE_INTRUDERS_WOULD_BE_DEALT, "侵入者を始末しろと言ったはずだ。ヴィコサは何もかも自分でやらなければならないのか？")
 SafeAddString(CRUTCH_DMG_WATCH_ME_TURLI_THIS_IS_HOW_ITS_DONE, "見ていろ、トゥルリ。戦い方を教えてやる！")
 SafeAddString(CRUTCH_DMG_WELL_WELL_NOW_THATS_THE_SECOND_LARGEST, "ほう。今まで見た中で2番目に大きいコンストラクトだな。今のところ作動していない")
 SafeAddString(CRUTCH_DMG_WHAT_IMPOSSIBLE_HOW_DID_YOU_WIN, "何だって？ そんな馬鹿な？ どうやって勝った？")

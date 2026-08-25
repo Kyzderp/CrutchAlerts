@@ -52,6 +52,7 @@ SafeAddString(CRUTCH_DMG_THESE_CHALLENGERS_ARE_SURPRISINGLY_FIERCE_BUT, "这些�
 SafeAddString(CRUTCH_DMG_TO_RESTORE_THE_NATURAL_ORDER_TO_RECLAIM, "为了重建自然的秩序。为了感化所有的过去和将来。为了纠正凡人的错误。")
 SafeAddString(CRUTCH_DMG_TURLASSIL, "图拉塞尔^M")
 SafeAddString(CRUTCH_DMG_WARLOCK_VANTON, "法士威顿^M")
+SafeAddString(CRUTCH_DMG_WAS_VYKOSA_NOT_TOLD_THE_INTRUDERS_WOULD_BE_DEALT, "维科萨没说要怎么处理这些入侵者吗？所有事情都必须得让她亲自动手吗？")
 SafeAddString(CRUTCH_DMG_WATCH_ME_TURLI_THIS_IS_HOW_ITS_DONE, "你看好了，特里。就该这么做！")
 SafeAddString(CRUTCH_DMG_WELL_WELL_NOW_THATS_THE_SECOND_LARGEST, "嗯。这是我见过的第二大结构，目前不活跃。")
 SafeAddString(CRUTCH_DMG_WHAT_IMPOSSIBLE_HOW_DID_YOU_WIN, "什么？不可能？你怎么赢的？")

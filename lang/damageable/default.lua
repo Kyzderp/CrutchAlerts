@@ -52,6 +52,7 @@ ZO_CreateStringId("CRUTCH_DMG_THESE_CHALLENGERS_ARE_SURPRISINGLY_FIERCE_BUT", "T
 ZO_CreateStringId("CRUTCH_DMG_TO_RESTORE_THE_NATURAL_ORDER_TO_RECLAIM", "To restore the natural order. To reclaim all that was and will be. To correct the mortal mistake.")
 ZO_CreateStringId("CRUTCH_DMG_TURLASSIL", "Turlassil^M")
 ZO_CreateStringId("CRUTCH_DMG_WARLOCK_VANTON", "Warlock Vanton^M")
+ZO_CreateStringId("CRUTCH_DMG_WAS_VYKOSA_NOT_TOLD_THE_INTRUDERS_WOULD_BE_DEALT", "Was Vykosa not told the intruders would be dealt with? Must she handle everything herself?")
 ZO_CreateStringId("CRUTCH_DMG_WATCH_ME_TURLI_THIS_IS_HOW_ITS_DONE", "Watch me, Turli. This is how it's done!")
 ZO_CreateStringId("CRUTCH_DMG_WELL_WELL_NOW_THATS_THE_SECOND_LARGEST", "Well, well. Now that's the second largest construct I've ever seen. Inactive, at the moment.")
 ZO_CreateStringId("CRUTCH_DMG_WHAT_IMPOSSIBLE_HOW_DID_YOU_WIN", "What? Impossible? How did you win?")

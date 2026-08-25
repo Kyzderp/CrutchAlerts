@@ -326,9 +326,9 @@ local SUBTITLE_TIMES = {
     },
 
 -- Moon Hunter Keep
-    ["Vykosa the Ascendant"] = {
+    [GetNameStr(CRUTCH_BHB_VYKOSA_THE_ASCENDANT)] = {
         -- Mylenne Moon-Caller
-        ["Was Vykosa not told the intruders would be dealt with? Must she handle everything herself?"] = 14.7,
+        [GetSubtitleStr(CRUTCH_DMG_WAS_VYKOSA_NOT_TOLD_THE_INTRUDERS_WOULD_BE_DEALT)] = 14.7,
     },
 
 -- Oathsworn Pit

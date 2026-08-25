@@ -52,6 +52,7 @@ SafeAddString(CRUTCH_DMG_THESE_CHALLENGERS_ARE_SURPRISINGLY_FIERCE_BUT, "Эти 
 SafeAddString(CRUTCH_DMG_TO_RESTORE_THE_NATURAL_ORDER_TO_RECLAIM, "Чтобы восстановить естественный порядок вещей. Вернуть все, что было и будет. Исправить ошибку смертных.")
 SafeAddString(CRUTCH_DMG_TURLASSIL, "Турлассил^M")
 SafeAddString(CRUTCH_DMG_WARLOCK_VANTON, "Чародей Вантон^M")
+SafeAddString(CRUTCH_DMG_WAS_VYKOSA_NOT_TOLD_THE_INTRUDERS_WOULD_BE_DEALT, "Разве Вайкосе не обещали разобраться с незваными гостями? Она что, должна всем заниматься сама?")
 SafeAddString(CRUTCH_DMG_WATCH_ME_TURLI_THIS_IS_HOW_ITS_DONE, "Турли, смотри и учись!")
 SafeAddString(CRUTCH_DMG_WELL_WELL_NOW_THATS_THE_SECOND_LARGEST, "Так-так. Это вторая по величине конструкция из тех, что я видел. И на данный момент она не работает.")
 SafeAddString(CRUTCH_DMG_WHAT_IMPOSSIBLE_HOW_DID_YOU_WIN, "Что? Это невозможно! Как вы победили?")
