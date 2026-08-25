@@ -16,6 +16,7 @@ C.BLACK = {0, 0, 0}
 C.POISONGREEN = {0.4, 0.9, 0}
 C.PHYSICALTAN = {1, 0.95, 0.67}
 C.ICEBLUE = {0.56, 0.96, 0.96}
+C.CURSEPURPLE = {183/255, 38/255, 1} -- for OC twins curses
 
 -- vAS mini spoofed BHB colors
 C.LLOTHIS_FG = {15/255, 113/255, 0}

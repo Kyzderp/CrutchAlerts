@@ -429,7 +429,7 @@ local function UpdateEnfeeblementIcon(atName, unitTag)
     if (sparking[atName] and blazing[atName]) then
         -- Purplish
         icon = "/esoui/art/ava/ava_rankicon64_grandoverlord.dds"
-        color = {183/255, 38/255, 1}
+        color = C.CURSEPURPLE
         callback = function(icon)
             DoubleCurseIconCallback(icon, atName)
         end
@@ -437,12 +437,12 @@ local function UpdateEnfeeblementIcon(atName, unitTag)
             label = {
                 text = "!",
                 size = 30,
-                color = {183/255, 38/255, 1},
+                color = C.CURSEPURPLE,
             },
             texture = {
                 path = "/esoui/art/ava/ava_rankicon64_grandoverlord.dds",
                 size = 0.8,
-                color = {183/255, 38/255, 1},
+                color = C.CURSEPURPLE,
             },
         }
     elseif (sparking[atName]) then
