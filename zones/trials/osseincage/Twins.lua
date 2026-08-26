@@ -206,16 +206,6 @@ local function OnCombatStart()
     CountDownLeap(timer, true)
 end
 
--- Cleanup
-local function CleanUp()
-    Crutch.InfoPanel.StopCount(PANEL_LEAP_INDEX)
-    Crutch.InfoPanel.StopCount(PANEL_CLASH_INDEX)
-    numClashes = 0
-    firstLeap = true
-    ZO_ClearTable(bossHealths)
-    UnspoofAllIcons()
-end
-
 local function RegisterPanelEvents()
     for _, id in ipairs(LEAP_IDS) do
         Crutch.RegisterForCombatEvent("Leap" .. id, OnLeap, ACTION_RESULT_BEGIN, id)
@@ -407,6 +397,57 @@ end
 
 
 ---------------------------------------------------------------------
+-- Which side player should be on
+-- If player is not a tank and gets a curse, show the opposite color
+-- in the info panel. Even if the curse is lost (dying), keep the
+-- text. This can mess up if curse gets assigned wrong... but meh.
+-- If double cursed, assume the previously existing one is correct.
+---------------------------------------------------------------------
+local PANEL_ENFEEBLEMENT_INDEX = 7
+local selfBlazing, selfSparking
+
+-- This is kinda duplicated from icons, but since they're different settings,
+-- it's easier to just keep the code entirely separated
+local function UpdateEnfeeblementInfoPanel()
+    if (selfBlazing and selfSparking) then
+        -- If both active, don't make any changes (assume stepped in one)
+        return
+    elseif (selfBlazing) then
+        -- If player has blazing, then they should be on Jynorah
+        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|c8ef5f5Jynorah (blue)|r")
+    elseif (selfSparking) then
+        -- If player has sparking, then they should be on Skorkhif
+        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|cff6600Skorkhif (orange)|r")
+    end
+    -- If neither active, then do nothing (died, continue displaying previous)
+end
+
+local function OnSparkingEnfeeblementInfoPanel(_, changeType, _, _, _, beginTime, endTime)
+    -- no need to update on faded or updated... probably
+    if (changeType == EFFECT_RESULT_GAINED) then
+        selfSparking = GetGameTimeMilliseconds() + (endTime - beginTime) * 1000
+        UpdateEnfeeblementInfoPanel()
+    elseif (changeType == EFFECT_RESULT_UPDATED) then
+        selfSparking = GetGameTimeMilliseconds() + (endTime - beginTime) * 1000
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        selfSparking = nil
+    end
+end
+
+local function OnBlazingEnfeeblementInfoPanel(_, changeType, _, _, _, beginTime, endTime)
+    -- no need to update on faded or updated... probably
+    if (changeType == EFFECT_RESULT_GAINED) then
+        selfBlazing = GetGameTimeMilliseconds() + (endTime - beginTime) * 1000
+        UpdateEnfeeblementInfoPanel()
+    elseif (changeType == EFFECT_RESULT_UPDATED) then
+        selfBlazing = GetGameTimeMilliseconds() + (endTime - beginTime) * 1000
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        selfBlazing = nil
+    end
+end
+
+
+---------------------------------------------------------------------
 -- Player-attached icons for Enfeeblement
 ---------------------------------------------------------------------
 -- {"Kyzeragon" = true}
@@ -574,20 +615,32 @@ end
 
 
 ---------------------------------------------------------------------
+---------------------------------------------------------------------
+local function CleanUp()
+    Crutch.InfoPanel.StopCount(PANEL_LEAP_INDEX)
+    Crutch.InfoPanel.StopCount(PANEL_CLASH_INDEX)
+    numClashes = 0
+    firstLeap = true
+    ZO_ClearTable(bossHealths)
+    UnspoofAllIcons()
+
+    myrinaxFound = false
+    valneerFound = false
+    UnspoofTitans()
+    ZO_ClearTable(titanIds)
+    ZO_ClearTable(sparking)
+    ZO_ClearTable(blazing)
+
+    Crutch.InfoPanel.StopCount(PANEL_ENFEEBLEMENT_INDEX)
+end
+
+
+---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
 function OC.RegisterOCZoneTwins()
     Crutch.RegisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat", OnCombatStart)
     Crutch.RegisterExitedGroupCombatListener("CrutchOsseinCageJynorahExitedCombat", CleanUp)
-
-    Crutch.RegisterExitedGroupCombatListener("ExitedCombatOsseinCageTwins", function()
-        myrinaxFound = false
-        valneerFound = false
-        UnspoofTitans()
-        ZO_ClearTable(titanIds)
-        ZO_ClearTable(sparking)
-        ZO_ClearTable(blazing)
-    end)
 
     -- Bosses changed, for titan spoofing and Enfeeblement markers
     -- This is delayed a bit because HM wipes respawn the boss at the nonHM health, and then increase max health.
@@ -608,19 +661,24 @@ function OC.RegisterOCZoneTwins()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 
     Crutch.RegisterUnitTagListener("CrutchAlertsOCEnfeeblementRefresh", RefreshAllEnfeeblementIcons)
+
+    -- TODO: setting
+    Crutch.RegisterForEffectChanged("SparkingEnfeeblementInfoPanel", OnSparkingEnfeeblementInfoPanel, 233644, "player")
+    Crutch.RegisterForEffectChanged("BlazingEnfeeblementInfoPanel", OnBlazingEnfeeblementInfoPanel, 233692, "player")
 end
 
 function OC.UnregisterOCZoneTwins()
     Crutch.UnregisterEnteredGroupCombatListener("CrutchOsseinCageJynorahEnteredCombat")
     Crutch.UnregisterExitedGroupCombatListener("CrutchOsseinCageJynorahExitedCombat")
 
-    Crutch.UnregisterExitedGroupCombatListener("ExitedCombatOsseinCageTwins")
-
     Crutch.UnregisterBossChangedListener("CrutchOsseinCage")
 
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE)
 
     Crutch.UnregisterUnitTagListener("CrutchAlertsOCEnfeeblementRefresh")
+
+    Crutch.UnregisterForEffectChanged("SparkingEnfeeblementInfoPanel")
+    Crutch.UnregisterForEffectChanged("BlazingEnfeeblementInfoPanel")
 
     MaybeRegisterTwins()
 end
