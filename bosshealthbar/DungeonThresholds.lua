@@ -191,16 +191,25 @@ local dungeonThresholds = {
         [40] = "Spriggans",
     },
     [GetBossName(CRUTCH_BHB_MYLENNE_MOONCALLER)] = {
-        -- TODO: no wardens on normal
+        normHealth = 2210231,
+        ["Normal"] = {
+            [75] = "",
+            [50] = "",
+            [25] = "",
+        },
         [80] = "Warden", -- TODO
         [60] = "Warden", -- TODO
         [40] = "Warden", -- TODO
         [20] = "Warden", -- TODO
     },
     [GetBossName(CRUTCH_BHB_ARCHIVIST_ERNARDE)] = {
-        -- how can the guides be so different??
-        -- xynode: 76, 56, 36
-        -- esoplanet: 80, 60, 40, 20
+        -- norm: colors on timer. adds 60 40 20
+        normHealth = 1683986,
+        ["Normal"] = {
+            [60] = "Adds",
+            [40] = "Adds",
+            [20] = "Adds",
+        },
         [80] = "Adds", -- TODO
         [60] = "Adds", -- TODO
         [40] = "Adds", -- TODO
