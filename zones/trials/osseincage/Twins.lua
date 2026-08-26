@@ -504,8 +504,10 @@ local function UpdateEnfeeblementIcon(atName, unitTag)
     Crutch.SetAttachedIconForUnit(unitTag, ENFEEBLEMENT_UNIQUE_NAME, C.PRIORITY.MECHANIC_1_PRIORITY, icon, 100, color, false, callback, spaceOptions)
 end
 
+local areIconsEnabled
 -- To be called when unit tags change
 local function RefreshAllEnfeeblementIcons()
+    if (not areIconsEnabled) then return end
     Crutch.dbgOther("|cFF0000REFRESHING ALL ENFEEBLEMENT ICONS!")
     Crutch.RemoveAllAttachedIcons(ENFEEBLEMENT_UNIQUE_NAME)
     for i = 1, GetGroupSize() do
@@ -534,6 +536,7 @@ local function UnregisterEnfeeblement()
     Crutch.dbgSpam("Unregistering Enfeeblement")
     Crutch.UnregisterForEffectChanged("SparkingEnfeeblement")
     Crutch.UnregisterForEffectChanged("BlazingEnfeeblement")
+    areIconsEnabled = false
 end
 
 local function RegisterEnfeeblement()
@@ -547,6 +550,8 @@ local function RegisterEnfeeblement()
     Crutch.RegisterForEffectChanged("BlazingEnfeeblement", function(_, changeType, _, _, unitTag, beginTime, endTime)
         OnEnfeeblement(blazing, changeType, unitTag, (endTime - beginTime) * 1000)
     end, 233692, "group")
+
+    areIconsEnabled = true
 end
 
 
