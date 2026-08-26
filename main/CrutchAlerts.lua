@@ -285,6 +285,7 @@ local defaultOptions = {
         panel = {
             showLeap = true,
             showClash = true,
+            showTarget = true,
         },
     },
     rockgrove = {

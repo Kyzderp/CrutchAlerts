@@ -2439,6 +2439,17 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "checkbox",
+                    name = "Show target / portal on twins HM",
+                    tooltip = "On hardmode Jynorah + Skorkhif, shows text in the info panel indicating the opposite of your Enfeeblement debuff. For example, if you last got blue curse, it will display to target Skorkhif / go to orange portal, persisting through death, so you don't forget where you're going. This is based on the last Enfeeblement you got, ignoring double curses, so it could be incorrect if you step in even more curses after you resurrect, or curses are assigned unusually",
+                    default = Crutch.defaultOptions.osseincage.panel.showTarget,
+                    getFunc = function() return Crutch.savedOptions.osseincage.panel.showTarget end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.panel.showTarget = value
+                    end,
+                    width = "full",
+                },
+                {
                     type = "description",
                     title = "|c08BD1DMark Dangerous Abilities|r",
                     text = "Some AOE abilities are dangerous to have active when in Jynorah HM titan portals, because you may accidentally cleave the titan and cause Reflective Scales. This feature can be configured to show a warning icon on the ability when it's almost time for portal.",

@@ -414,10 +414,10 @@ local function UpdateEnfeeblementInfoPanel()
         return
     elseif (selfBlazing) then
         -- If player has blazing, then they should be on Jynorah
-        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|c8ef5f5Jynorah (blue)|r")
+        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|c8ef5f5Target Jynorah / blue portal|r")
     elseif (selfSparking) then
         -- If player has sparking, then they should be on Skorkhif
-        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|cff6600Skorkhif (orange)|r")
+        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|cff6600Target Skorkhif / orange portal|r")
     end
     -- If neither active, then do nothing (died, continue displaying previous)
 end
@@ -603,6 +603,15 @@ local function MaybeRegisterTwins()
         UnregisterEnfeeblement()
     end
 
+    -- Info panel target / portal
+    if (Crutch.savedOptions.osseincage.panel.showTarget and IsHM()) then
+        Crutch.RegisterForEffectChanged("SparkingEnfeeblementInfoPanel", OnSparkingEnfeeblementInfoPanel, 233644, "player")
+        Crutch.RegisterForEffectChanged("BlazingEnfeeblementInfoPanel", OnBlazingEnfeeblementInfoPanel, 233692, "player")
+    else
+        Crutch.UnregisterForEffectChanged("SparkingEnfeeblementInfoPanel")
+        Crutch.UnregisterForEffectChanged("BlazingEnfeeblementInfoPanel")
+    end
+
     -- Reflective Scales
     for damageResult, str in pairs(damageTypes) do
         -- Only enable if on HM
@@ -666,10 +675,6 @@ function OC.RegisterOCZoneTwins()
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE, REGISTER_FILTER_POWER_TYPE, COMBAT_MECHANIC_FLAGS_HEALTH)
 
     Crutch.RegisterUnitTagListener("CrutchAlertsOCEnfeeblementRefresh", RefreshAllEnfeeblementIcons)
-
-    -- TODO: setting
-    Crutch.RegisterForEffectChanged("SparkingEnfeeblementInfoPanel", OnSparkingEnfeeblementInfoPanel, 233644, "player")
-    Crutch.RegisterForEffectChanged("BlazingEnfeeblementInfoPanel", OnBlazingEnfeeblementInfoPanel, 233692, "player")
 end
 
 function OC.UnregisterOCZoneTwins()
@@ -681,9 +686,6 @@ function OC.UnregisterOCZoneTwins()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "OCHealthUpdate", EVENT_POWER_UPDATE)
 
     Crutch.UnregisterUnitTagListener("CrutchAlertsOCEnfeeblementRefresh")
-
-    Crutch.UnregisterForEffectChanged("SparkingEnfeeblementInfoPanel")
-    Crutch.UnregisterForEffectChanged("BlazingEnfeeblementInfoPanel")
 
     MaybeRegisterTwins()
 end
