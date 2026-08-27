@@ -278,7 +278,7 @@ Crutch.others = {
         [95545] = true, -- Defiling Dye Blast (Saint Llothis) -- TODO: add the extra pulses?
         [99027] = true, -- Manifest Wrath
         [98582] = true, -- Trial by Fire
-        [95482] = true, -- Exhaustive Charges
+        [95482] = true, -- Exhaustive Chargesax
     },
 
     -- Cloudrest
@@ -340,9 +340,6 @@ Crutch.others = {
         [214203] = true, -- Bleak Annihilation
         [214187] = true, -- Brilliant Annihilation
         [214136] = true, -- Fate Sealer
-        -- [214311] = true, -- Fate Sealer (first one gained by pillar?)
-        -- [214344] = true, -- Fate Sealer (second one gained by pillar?)
-        -- [214138] = true, -- Fate Sealer (from logs, maybe full duration?)
         [215107] = true, -- Tempest
         [214355] = true, -- Lightning Flood (Xoryn cone)
     },
@@ -375,10 +372,7 @@ Crutch.others = {
         [233762] = true, -- Abduct
         [234276] = true, -- Blazing Curse (Skorkhif)
         [234000] = true, -- Sparking Curse (Jynorah)
-        [236381] = true, -- True Shot (Coldharbour Sinewshot)
-        -- [236383] = true, -- True Shot (Coldharbour Sinewshot) (the effect?)
-        -- [234683] = true, -- Radiance (Blazing Flame Atronach)
-        -- [234680] = true, -- Radiance (Sparking Cold-Flame Atronach)
+        [236381] = function() return Crutch.savedOptions.general.showOthersTrueShot end, -- True Shot (Coldharbour Sinewshot)
 
         [234704] = true, -- Myr Leap Exit AL
         [233452] = true, -- Myrinax Leap AL
@@ -398,7 +392,6 @@ Crutch.others = {
         [149414] = true, -- Savage Blitz (Oaxiltso)
         [152688] = true, -- Cinder Cleave (Havocrel Annihilator)
         [152463] = true, -- Skull Salvo (Flame-Herald Bahsei)
-        -- [150008] = true, -- Hemorrhaging Smack (Flesh Abomination)
         [153175] = true, -- Scalding Strike (Fire Behemoth)
         [157482] = true, -- Molten Rain (Ash Titan)
         [152414] = true, -- Meteor Call (Havocrel Torchcaster)
@@ -423,7 +416,7 @@ Crutch.others = {
         [200544] = true, -- Charge (Wamasu during trash)
         [191133] = true, -- Charge (Wamasu during boss?)
         [183855] = true, -- The Ritual (Ansuul maze)
-        [184802] = true, -- True Shot (Contramagis Archer)
+        [184802] = function() return Crutch.savedOptions.general.showOthersTrueShot end, -- True Shot (Contramagis Archer)
         [199344] = true, -- Sunburst (Ansuul)
         [183778] = true, -- Inferno (Enraged Fragment)
     },

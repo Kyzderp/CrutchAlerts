@@ -144,6 +144,18 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
             end,
         },
         {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Include True Shot on others",
+            tooltip = "\"True Shot\" from archers in Sanity's Edge and Ossein Cage can appear spammy when targeted on other players, because they won't show as interrupted, so this is a convenience setting to ignore them",
+            default = true,
+            getFunction = function() return Crutch.savedOptions.general.showOthersTrueShot end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.showOthersTrueShot = value
+                Crutch.RegisterOthers()
+            end,
+            disable = function() return not Crutch.savedOptions.general.showOthers end,
+        },
+        {
             type = LibHarvensAddonSettings.ST_SLIDER,
             label = "Alerts position X",
             tooltip = "The horizontal position of the general alerts",

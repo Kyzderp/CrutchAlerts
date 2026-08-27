@@ -71,6 +71,7 @@ local defaultOptions = {
             beginHideSelf = false,
         showGained = true,
         showOthers = true,
+        showOthersTrueShot = true,
         showProminent = true,
         hitValueBelowThreshold = 75,
         hitValueAboveThreshold = 60000, -- nothing above 1 minute... right?

@@ -121,6 +121,13 @@ end
 ---------------------------------------------------------------------
 -- Outside calling
 ---------------------------------------------------------------------
+local function IsOthersEnabledFor(zoneId, abilityId)
+    if (not Crutch.others[zoneId]) then return false end
+    local maybeFunc = Crutch.others[zoneId][abilityId]
+    if (not maybeFunc) then return false end
+    if (type(maybeFunc) ~= "function") then return true end
+    return maybeFunc()
+end
 
 ---------------------------------------------------------------------
 -- ALL ACTION_RESULT_BEGIN/GAINED/GAINED_DURATION
@@ -162,8 +169,8 @@ local function OnCombatEventAll(_, result, isError, abilityName, _, _, sourceNam
     end
 
     -- Ignore abilities that are in the "others" because they will be displayed from there
-    if (Crutch.savedOptions.general.showOthers) then
-        if (Crutch.others[Crutch.zoneId] and Crutch.others[Crutch.zoneId][abilityId]) then return end
+    if (Crutch.savedOptions.general.showOthers and IsOthersEnabledFor(Crutch.zoneId, abilityId)) then
+        return
     end
 
     -- Setting for not showing casts on self (things like Recall and others not already blacklisted)
@@ -514,23 +521,25 @@ end
 local othersCurrentlyRegistered = {}
 
 local function RegisterOthersByZone(zoneData)
-    for abilityId, _ in pairs(zoneData) do
-        table.insert(othersCurrentlyRegistered, abilityId)
+    for abilityId, maybeFunc in pairs(zoneData) do
+        if (type(maybeFunc) ~= "function" or maybeFunc()) then
+            table.insert(othersCurrentlyRegistered, abilityId)
 
-        local eventName = Crutch.name .. "OthersBegin" .. tostring(abilityId)
-        EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
-        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
-        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
+            local eventName = Crutch.name .. "OthersBegin" .. tostring(abilityId)
+            EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
+            EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+            EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_BEGIN)
 
-        eventName = Crutch.name .. "OthersGained" .. tostring(abilityId)
-        EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
-        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
-        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
+            eventName = Crutch.name .. "OthersGained" .. tostring(abilityId)
+            EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
+            EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+            EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED)
 
-        eventName = Crutch.name .. "OthersGainedDuration" .. tostring(abilityId)
-        EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
-        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
-        EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+            eventName = Crutch.name .. "OthersGainedDuration" .. tostring(abilityId)
+            EVENT_MANAGER:RegisterForEvent(eventName, EVENT_COMBAT_EVENT, OnCombatEventOthers)
+            EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_ABILITY_ID, abilityId)
+            EVENT_MANAGER:AddFilterForEvent(eventName, EVENT_COMBAT_EVENT, REGISTER_FILTER_COMBAT_RESULT, ACTION_RESULT_EFFECT_GAINED_DURATION)
+        end
     end
 end
 
