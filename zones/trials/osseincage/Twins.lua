@@ -164,6 +164,11 @@ local function OnClashFaded()
         timer = 12500
     end
     CountDownLeap(timer, false)
+
+    if (Crutch.savedOptions.general.showDamageable) then
+        -- OCH shows it 2250 ms in, but they might be accounting for jump time. Carrion and Superheat VFX don't fade until 3s after clash fades
+        Crutch.DisplayDamageable(2.25, "Jump in ")
+    end
 end
 
 local function OnLeap()
@@ -312,6 +317,9 @@ local function UnspoofTitans()
 end
 
 -- TODO: change this to just first cast or buff or something
+-- [946797] = "[2557.602] {EFFECT_GAINED} [0/]->[41981/] : Valneer Stun Self (233497) : [1]",
+-- [946242] = "[2556.885] {EFFECT_GAINED} [0/]->[65537/] : Myrinax Stun Self (233486) : [1]",
+
 local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
     -- Source shows as 0, so we can't do both at once
     if (not valneerFound) then
