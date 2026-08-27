@@ -2343,7 +2343,7 @@ function Crutch:CreateSettingsMenu()
                     type = "checkbox",
                     name = "    Show middle icons",
                     tooltip = "Additionally shows a set of icons for positioning in the middle of the arena",
-                    default = true,
+                    default = Crutch.defaultOptions.osseincage.useMiddleIcons,
                     getFunc = function() return Crutch.savedOptions.osseincage.useMiddleIcons end,
                     setFunc = function(value)
                         Crutch.savedOptions.osseincage.useMiddleIcons = value

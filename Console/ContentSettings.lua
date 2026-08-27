@@ -906,7 +906,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show middle icons",
             tooltip = "Additionally shows a set of icons for positioning in the middle of the arena",
-            default = true,
+            default = Crutch.defaultOptions.osseincage.useMiddleIcons,
             getFunction = function() return Crutch.savedOptions.osseincage.useMiddleIcons end,
             setFunction = function(value)
                 Crutch.savedOptions.osseincage.useMiddleIcons = value
