@@ -968,7 +968,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Print titan damage on HM",
-            tooltip = "On hardmode, prints to chat when you damage a titan, which would proc Reflective Scales. For now, it doesn't print until the titan health bars appear",
+            tooltip = "On hardmode, prints to chat when you damage a titan, which would proc Reflective Scales",
             default = true,
             getFunction = function() return Crutch.savedOptions.osseincage.printHMReflectiveScales end,
             setFunction = function(value)

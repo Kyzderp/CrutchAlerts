@@ -2386,7 +2386,7 @@ function Crutch:CreateSettingsMenu()
                 {
                     type = "checkbox",
                     name = "Print titan damage on HM",
-                    tooltip = "On hardmode, prints to chat when you damage a titan, which would proc Reflective Scales. For now, it doesn't print until the titan health bars appear",
+                    tooltip = "On hardmode, prints to chat when you damage a titan, which would proc Reflective Scales",
                     default = true,
                     getFunc = function() return Crutch.savedOptions.osseincage.printHMReflectiveScales end,
                     setFunc = function(value)

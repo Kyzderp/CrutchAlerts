@@ -284,14 +284,18 @@ local TITAN_MAX_HPS = {
 }
 
 local TITAN_ATTACKS = {
-    -- Myrinax -> Valneer
-    [232242] = "Myrinax", -- Monstrous Cleave
-    [232243] = "Myrinax", -- Sparking Bolt
-    [235806] = "Myrinax", -- Backhand
-    -- Valneer -> Myrinax
-    [232244] = "Valneer", -- Blazing Flame Bolt
-    [232254] = "Valneer", -- Monstrous Cleave
-    [235807] = "Valneer", -- Backhand
+    Valneer = {
+        -- Myrinax -> Valneer
+        [232242] = true, -- Monstrous Cleave
+        [232243] = true, -- Sparking Bolt
+        [235806] = true, -- Backhand
+    },
+    Myrinax = {
+        -- Valneer -> Myrinax
+        [232244] = true, -- Blazing Flame Bolt
+        [232254] = true, -- Monstrous Cleave
+        [235807] = true, -- Backhand
+    },
 }
 
 local TITANS = {
@@ -305,9 +309,7 @@ local TITANS = {
     }
 }
 
-local titanIds = {} -- { 12345 = {name = "Myrinax", hp = 3213544},}
-local myrinaxFound = false
-local valneerFound = false
+local titanIds = {} -- { 12345 = "Myrinax",} used for damage warning and cleanup
 
 local function UnspoofTitans()
     for id, _ in pairs(titanIds) do
@@ -316,40 +318,64 @@ local function UnspoofTitans()
     ZO_ClearTable(titanIds)
 end
 
--- TODO: change this to just first cast or buff or something
--- [946797] = "[2557.602] {EFFECT_GAINED} [0/]->[41981/] : Valneer Stun Self (233497) : [1]",
--- [946242] = "[2556.885] {EFFECT_GAINED} [0/]->[65537/] : Myrinax Stun Self (233486) : [1]",
+local function StartTrackingTitan(unitId, bossTag, name)
+    titanIds[unitId] = name
 
-local function OnTitanDamage(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, sourceUnitId, targetUnitId, abilityId)
-    -- Source shows as 0, so we can't do both at once
-    if (not valneerFound) then
-        if (TITAN_ATTACKS[abilityId] == "Myrinax") then
-            titanIds[targetUnitId] = true
-            Crutch.dbgOther(string.format("Identified Valneer %d", targetUnitId))
-            valneerFound = true
+    if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.osseincage.showTitansHp) then
+        local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
+        Crutch.TrackUnitForSpoofing(unitId, name, bossTag, TITAN_MAX_HPS[powerMax], TITANS[name].fgColor, TITANS[name].bgColor)
+    end
+end
 
-            local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-            Crutch.TrackUnitForSpoofing(targetUnitId, "Valneer", "boss4", TITAN_MAX_HPS[powerMax], TITANS.Valneer.fgColor, TITANS.Valneer.bgColor)
+local function UnregisterMyrinaxIdentification()
+    Crutch.UnregisterForCombatEvent("IdentifyMyrinaxStunSelf")
+    for abilityId, _ in pairs(TITAN_ATTACKS.Myrinax) do
+        Crutch.UnregisterForCombatEvent("IdentifyMyrinax" .. abilityId)
+    end
+end
 
-            if (myrinaxFound) then
-                Crutch.UnregisterForCombatEvent("OCTitanDamage")
-            end
-        end
+local function UnregisterValneerIdentification()
+    Crutch.UnregisterForCombatEvent("IdentifyValneerStunSelf")
+    for abilityId, _ in pairs(TITAN_ATTACKS.Valneer) do
+        Crutch.UnregisterForCombatEvent("IdentifyValneer" .. abilityId)
+    end
+end
+
+-- Earliest identifyable event on all(?) difficulties
+local function OnMyrinaxStunSelf(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    Crutch.dbgOther(string.format("Identified Myrinax %d using Stun Self", targetUnitId))
+    StartTrackingTitan(targetUnitId, "boss3", "Myrinax")
+    UnregisterMyrinaxIdentification()
+end
+
+local function OnValneerStunSelf(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    Crutch.dbgOther(string.format("Identified Valneer %d using Stun Self", targetUnitId))
+    StartTrackingTitan(targetUnitId, "boss4", "Valneer")
+    UnregisterValneerIdentification()
+end
+
+-- Backup in case player is pulled into encounter
+local function OnMyrinaxDamagedByValneer(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId, abilityId)
+    Crutch.dbgOther(string.format("Identified Myrinax %d using %s", targetUnitId, GetAbilityName(abilityId)))
+    StartTrackingTitan(targetUnitId, "boss3", "Myrinax")
+    UnregisterMyrinaxIdentification()
+end
+
+local function OnValneerDamagedByMyrinax(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId, abilityId)
+    Crutch.dbgOther(string.format("Identified Valneer %d using %s", targetUnitId, GetAbilityName(abilityId)))
+    StartTrackingTitan(targetUnitId, "boss4", "Valneer")
+    UnregisterValneerIdentification()
+end
+
+local function RegisterTitanIdentification()
+    Crutch.RegisterForCombatEvent("IdentifyMyrinaxStunSelf", OnMyrinaxStunSelf, ACTION_RESULT_EFFECT_GAINED, 233486)
+    for abilityId, _ in pairs(TITAN_ATTACKS.Myrinax) do
+        Crutch.RegisterForCombatEvent("IdentifyMyrinax" .. abilityId, OnMyrinaxDamagedByValneer, ACTION_RESULT_DAMAGE, abilityId)
     end
 
-    if (not myrinaxFound) then
-        if (TITAN_ATTACKS[abilityId] == "Valneer") then
-            titanIds[targetUnitId] = true
-            Crutch.dbgOther(string.format("Identified Myrinax %d", targetUnitId))
-            myrinaxFound = true
-
-            local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
-            Crutch.TrackUnitForSpoofing(targetUnitId, "Myrinax", "boss3", TITAN_MAX_HPS[powerMax], TITANS.Myrinax.fgColor, TITANS.Myrinax.bgColor)
-
-            if (valneerFound) then
-                Crutch.UnregisterForCombatEvent("OCTitanDamage")
-            end
-        end
+    Crutch.RegisterForCombatEvent("IdentifyValneerStunSelf", OnValneerStunSelf, ACTION_RESULT_EFFECT_GAINED, 233497)
+    for abilityId, _ in pairs(TITAN_ATTACKS.Valneer) do
+        Crutch.RegisterForCombatEvent("IdentifyValneer" .. abilityId, OnValneerDamagedByMyrinax, ACTION_RESULT_DAMAGE, abilityId)
     end
 end
 
@@ -357,7 +383,9 @@ local exitKey
 
 local function UnregisterTwins()
     UnspoofTitans()
-    Crutch.UnregisterForCombatEvent("OCTitanDamage")
+
+    UnregisterMyrinaxIdentification()
+    UnregisterValneerIdentification()
 
     Crutch.DisableIconGroup("OCAOCH")
     Crutch.DisableIconGroup("OCAlt")
@@ -374,12 +402,9 @@ end
 local function RegisterTwins()
     UnregisterTwins()
 
-    -- Titans BHB
-    -- Event listening for all damage on enemies, registered only when Jynorah is active
-    if (Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.osseincage.showTitansHp) then
-        -- Player damage ticks for only 1 each, so imo it's negligible enough to
-        -- not do that extra processing. So it should be fine to ignore crits
-        Crutch.RegisterForCombatEvent("OCTitanDamage", OnTitanDamage, ACTION_RESULT_DAMAGE, nil, nil,  COMBAT_UNIT_TYPE_NONE)
+    -- Titans BHB or reflective warning
+    if ((Crutch.savedOptions.bossHealthBar.enabled and Crutch.savedOptions.osseincage.showTitansHp) or Crutch.savedOptions.osseincage.printHMReflectiveScales) then
+        RegisterTitanIdentification()
     end
 
     -- Positioning icons
@@ -626,7 +651,7 @@ local function MaybeRegisterTwins()
         if (IsHM() and Crutch.savedOptions.osseincage.printHMReflectiveScales) then
             Crutch.RegisterForCombatEvent("OCTitanReflect" .. tostring(damageResult), function(_, _, _, _, _, _, _, sourceType, _, _, _, _, _, _, _, targetUnitId, abilityId)
                 if (sourceType == COMBAT_UNIT_TYPE_PLAYER and titanIds[targetUnitId]) then
-                    Crutch.msg(string.format("You hit a titan with |cFF00FF%s|r%s", GetAbilityName(abilityId), str))
+                    Crutch.msg(string.format("You hit %s with |cFF00FF%s|r%s", titanIds[targetUnitId], GetAbilityName(abilityId), str))
                 end
             end, damageResult, nil, nil, COMBAT_UNIT_TYPE_NONE)
         else
@@ -646,10 +671,7 @@ local function CleanUp()
     ZO_ClearTable(bossHealths)
     UnspoofAllIcons()
 
-    myrinaxFound = false
-    valneerFound = false
     UnspoofTitans()
-    ZO_ClearTable(titanIds)
     ZO_ClearTable(sparking)
     ZO_ClearTable(blazing)
 
