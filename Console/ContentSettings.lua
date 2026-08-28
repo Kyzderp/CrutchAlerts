@@ -1047,7 +1047,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show target / portal on twins HM",
-            tooltip = "On hardmode Jynorah + Skorkhif, shows text in the info panel indicating the opposite of your Enfeeblement debuff. For example, if you last got blue curse, it will display to target Skorkhif / go to orange portal, persisting through death, so you don't forget where you're going. This is based on the last Enfeeblement you got, ignoring double curses, so it could be incorrect if you step in even more curses after you resurrect, or curses are assigned unusually",
+            tooltip = "On hardmode Jynorah + Skorkhif, shows text in the info panel indicating the side you should be on, as a non-tank. For example, if you got Sparking Enfeeblement on the first curse phase, it will display to target Skorkhif / go to orange portal, persisting through death, so you don't forget where you're going. This is based on the very first Enfeeblement you receive, alternating afterwards, so it could be incorrect if initial curses are assigned unusually",
             default = Crutch.defaultOptions.osseincage.panel.showTarget,
             getFunction = function() return Crutch.savedOptions.osseincage.panel.showTarget end,
             setFunction = function(value)

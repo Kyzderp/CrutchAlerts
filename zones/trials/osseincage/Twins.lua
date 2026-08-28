@@ -229,7 +229,7 @@ local function UnregisterPanelEvents()
     Crutch.UnregisterForCombatEvent("TitanicClashBegin")
     Crutch.UnregisterForCombatEvent("TitanicClashFaded")
 
-    CleanUp()
+    OC.CleanUp()
 end
 
 
@@ -431,51 +431,31 @@ end
 
 ---------------------------------------------------------------------
 -- Which side player should be on
--- If player is not a tank and gets a curse, show the opposite color
--- in the info panel. Even if the curse is lost (dying), keep the
--- text. This can mess up if curse gets assigned wrong... but meh.
--- If double cursed, assume the previously existing one is correct.
+-- Assume the player receives the correct curse in the beginning, and
+-- just flip it every time curse happens. Because prog groups would
+-- be more likely to call wipe if the initial curse messes up, as
+-- opposed to bad ones later. Also don't show it for tanks.
 ---------------------------------------------------------------------
 local PANEL_ENFEEBLEMENT_INDEX = 7
-local selfBlazing, selfSparking
+local BLAZING_MALEDICTION_ID = 234284
+local SPARKING_MALEDICTION_ID = 234011
 
--- This is kinda duplicated from icons, but since they're different settings,
--- it's easier to just keep the code entirely separated
-local function UpdateEnfeeblementInfoPanel()
-    if (selfBlazing and selfSparking) then
-        -- If both active, don't make any changes (assume stepped in one)
-        return
-    elseif (selfBlazing) then
-        -- If player has blazing, then they should be on Jynorah
+local shouldTargetJynorah = nil
+
+-- When curse phase ends, swap sides
+local function OnMaledictionFaded(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    if (shouldTargetJynorah == nil) then
+        -- First curse
+        shouldTargetJynorah = (abilityId == BLAZING_MALEDICTION_ID)
+    else
+        -- Otherwise just flip
+        shouldTargetJynorah = not shouldTargetJynorah
+    end
+
+    if (shouldTargetJynorah) then
         Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|c8ef5f5Target Jynorah / blue portal|r")
-    elseif (selfSparking) then
-        -- If player has sparking, then they should be on Skorkhif
+    else
         Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|cff6600Target Skorkhif / orange portal|r")
-    end
-    -- If neither active, then do nothing (died, continue displaying previous)
-end
-
-local function OnSparkingEnfeeblementInfoPanel(_, changeType, _, _, _, beginTime, endTime)
-    -- no need to update on faded or updated... probably
-    if (changeType == EFFECT_RESULT_GAINED) then
-        selfSparking = GetGameTimeMilliseconds() + (endTime - beginTime) * 1000
-        UpdateEnfeeblementInfoPanel()
-    elseif (changeType == EFFECT_RESULT_UPDATED) then
-        selfSparking = GetGameTimeMilliseconds() + (endTime - beginTime) * 1000
-    elseif (changeType == EFFECT_RESULT_FADED) then
-        selfSparking = nil
-    end
-end
-
-local function OnBlazingEnfeeblementInfoPanel(_, changeType, _, _, _, beginTime, endTime)
-    -- no need to update on faded or updated... probably
-    if (changeType == EFFECT_RESULT_GAINED) then
-        selfBlazing = GetGameTimeMilliseconds() + (endTime - beginTime) * 1000
-        UpdateEnfeeblementInfoPanel()
-    elseif (changeType == EFFECT_RESULT_UPDATED) then
-        selfBlazing = GetGameTimeMilliseconds() + (endTime - beginTime) * 1000
-    elseif (changeType == EFFECT_RESULT_FADED) then
-        selfBlazing = nil
     end
 end
 
@@ -637,12 +617,12 @@ local function MaybeRegisterTwins()
     end
 
     -- Info panel target / portal
-    if (Crutch.savedOptions.osseincage.panel.showTarget and IsHM()) then
-        Crutch.RegisterForEffectChanged("SparkingEnfeeblementInfoPanel", OnSparkingEnfeeblementInfoPanel, 233644, "player")
-        Crutch.RegisterForEffectChanged("BlazingEnfeeblementInfoPanel", OnBlazingEnfeeblementInfoPanel, 233692, "player")
+    if (Crutch.savedOptions.osseincage.panel.showTarget and IsHM() and GetSelectedLFGRole() ~= LFG_ROLE_TANK) then
+        Crutch.RegisterForCombatEvent("SparkingMaledictionInfoPanel", OnMaledictionFaded, ACTION_RESULT_EFFECT_FADED, SPARKING_MALEDICTION_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForCombatEvent("BlazingMaledictionInfoPanel", OnMaledictionFaded, ACTION_RESULT_EFFECT_FADED, BLAZING_MALEDICTION_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
     else
-        Crutch.UnregisterForEffectChanged("SparkingEnfeeblementInfoPanel")
-        Crutch.UnregisterForEffectChanged("BlazingEnfeeblementInfoPanel")
+        Crutch.UnregisterForCombatEvent("SparkingMaledictionInfoPanel")
+        Crutch.UnregisterForCombatEvent("BlazingMaledictionInfoPanel")
     end
 
     -- Reflective Scales
@@ -677,6 +657,7 @@ local function CleanUp()
 
     Crutch.InfoPanel.StopCount(PANEL_ENFEEBLEMENT_INDEX)
 end
+OC.CleanUp = CleanUp -- TODO: maybe rearrange stuff
 
 
 ---------------------------------------------------------------------
