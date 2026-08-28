@@ -442,21 +442,39 @@ local SPARKING_MALEDICTION_ID = 234011
 
 local shouldTargetJynorah = nil
 
--- When curse phase ends, swap sides
-local function OnMaledictionFaded(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
-    if (shouldTargetJynorah == nil) then
-        -- First curse
-        shouldTargetJynorah = (abilityId == BLAZING_MALEDICTION_ID)
-    else
-        -- Otherwise just flip
-        shouldTargetJynorah = not shouldTargetJynorah
-    end
+-- Initial curse
+local function OnMaledictionGainedSelf(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    shouldTargetJynorah = (abilityId == SPARKING_MALEDICTION_ID) -- do the opposite here initially, because timeout will swap it
+    Crutch.dbgOther("initialized shouldTargetJynorah " .. tostring(shouldTargetJynorah))
+    Crutch.UnregisterForCombatEvent("SparkingMaledictionInfoPanelSelf")
+    Crutch.UnregisterForCombatEvent("BlazingMaledictionInfoPanelSelf")
+end
 
-    if (shouldTargetJynorah) then
-        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|c8ef5f5Target Jynorah / blue portal|r", 0.8)
-    else
-        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|cff6600Target Skorkhif / orange portal|r", 0.8)
-    end
+-- The player may not be guaranteed to get a curse themselves, so listen for all and debounce
+local function OnMaledictionTimeout()
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "MaledictionTimeout")
+
+    zo_callLater(function()
+        if (not Crutch.groupInCombat) then return end
+        if (shouldTargetJynorah == nil) then
+            Crutch.dbgOther("|cFF0000shouldTargetJynorah nil")
+            return
+        end
+
+        -- Always flip sides
+        shouldTargetJynorah = not shouldTargetJynorah
+        Crutch.dbgOther("flipped shouldTargetJynorah: " .. tostring(shouldTargetJynorah))
+
+        if (shouldTargetJynorah) then
+            Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|c8ef5f5Target Jynorah / blue portal|r", 0.8)
+        else
+            Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|cff6600Target Skorkhif / orange portal|r", 0.8)
+        end
+    end, 4500)
+end
+
+local function OnMaledictionGained(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "MaledictionTimeout", 500, OnMaledictionTimeout)
 end
 
 
@@ -618,11 +636,15 @@ local function MaybeRegisterTwins()
 
     -- Info panel target / portal
     if (Crutch.savedOptions.osseincage.panel.showTarget and IsHM() and GetSelectedLFGRole() ~= LFG_ROLE_TANK) then
-        Crutch.RegisterForCombatEvent("SparkingMaledictionInfoPanel", OnMaledictionFaded, ACTION_RESULT_EFFECT_FADED, SPARKING_MALEDICTION_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
-        Crutch.RegisterForCombatEvent("BlazingMaledictionInfoPanel", OnMaledictionFaded, ACTION_RESULT_EFFECT_FADED, BLAZING_MALEDICTION_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForCombatEvent("SparkingMaledictionInfoPanel", OnMaledictionGained, ACTION_RESULT_EFFECT_GAINED, SPARKING_MALEDICTION_ID)
+        Crutch.RegisterForCombatEvent("SparkingMaledictionInfoPanelSelf", OnMaledictionGainedSelf, ACTION_RESULT_EFFECT_GAINED, SPARKING_MALEDICTION_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForCombatEvent("BlazingMaledictionInfoPanel", OnMaledictionGained, ACTION_RESULT_EFFECT_GAINED, BLAZING_MALEDICTION_ID)
+        Crutch.RegisterForCombatEvent("BlazingMaledictionInfoPanelSelf", OnMaledictionGainedSelf, ACTION_RESULT_EFFECT_GAINED, BLAZING_MALEDICTION_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
     else
         Crutch.UnregisterForCombatEvent("SparkingMaledictionInfoPanel")
+        Crutch.UnregisterForCombatEvent("SparkingMaledictionInfoPanelSelf")
         Crutch.UnregisterForCombatEvent("BlazingMaledictionInfoPanel")
+        Crutch.UnregisterForCombatEvent("BlazingMaledictionInfoPanelSelf")
     end
 
     -- Reflective Scales
