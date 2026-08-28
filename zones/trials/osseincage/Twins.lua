@@ -655,6 +655,8 @@ local function CleanUp()
     ZO_ClearTable(sparking)
     ZO_ClearTable(blazing)
 
+    shouldTargetJynorah = nil
+
     Crutch.InfoPanel.StopCount(PANEL_ENFEEBLEMENT_INDEX)
 end
 OC.CleanUp = CleanUp -- TODO: maybe rearrange stuff
