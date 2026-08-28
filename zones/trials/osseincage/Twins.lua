@@ -453,9 +453,9 @@ local function OnMaledictionFaded(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _
     end
 
     if (shouldTargetJynorah) then
-        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|c8ef5f5Target Jynorah / blue portal|r")
+        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|c8ef5f5Target Jynorah / blue portal|r", 0.8)
     else
-        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|cff6600Target Skorkhif / orange portal|r")
+        Crutch.InfoPanel.SetLine(PANEL_ENFEEBLEMENT_INDEX, "|cff6600Target Skorkhif / orange portal|r", 0.8)
     end
 end
 

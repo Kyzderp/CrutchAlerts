@@ -372,6 +372,8 @@ Crutch.others = {
         [233762] = true, -- Abduct
         [234276] = true, -- Blazing Curse (Skorkhif)
         [234000] = true, -- Sparking Curse (Jynorah)
+        [234150] = true, -- Blazing Heat Ray (Blazing Brimstone Aspect)
+        [234076] = true, -- Sparking Heat Ray (Sparking Cold-Flame Aspect)
         [236381] = function() return Crutch.savedOptions.general.showOthersTrueShot end, -- True Shot (Coldharbour Sinewshot)
 
         [234704] = true, -- Myr Leap Exit AL
