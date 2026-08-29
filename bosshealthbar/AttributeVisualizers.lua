@@ -142,7 +142,7 @@ end
 -- BHB calling
 ---------------------------------------------------------------------
 -- To be called when showing "new" bar, because the shield may already exist, etc.
-function BHB.UpdateAttributeVisuals(unitTag)
+local function UpdateAttributeVisuals(unitTag)
     Crutch.dbgSpam("forcing attribute visuals update for " .. unitTag)
 
     local invulnValue, invulnMax = GetUnitAttributeVisualizerEffectInfo(unitTag, ATTRIBUTE_VISUAL_UNWAVERING_POWER, STAT_MITIGATION, ATTRIBUTE_HEALTH, COMBAT_MECHANIC_FLAGS_HEALTH)
@@ -151,6 +151,7 @@ function BHB.UpdateAttributeVisuals(unitTag)
     local shieldValue, shieldMax = GetUnitAttributeVisualizerEffectInfo(unitTag, ATTRIBUTE_VISUAL_POWER_SHIELDING, STAT_MITIGATION, ATTRIBUTE_HEALTH, COMBAT_MECHANIC_FLAGS_HEALTH)
     UpdateBar(unitTag, ATTRIBUTE_VISUAL_POWER_SHIELDING, shieldMax == nil, shieldValue or 0, shieldMax or 1)
 end
+BHB.UpdateAttributeVisuals = UpdateAttributeVisuals
 
 function BHB.RegisterVisualizers()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BHBAttrVisualAdded", EVENT_UNIT_ATTRIBUTE_VISUAL_ADDED, OnVisualAdded)
@@ -161,10 +162,20 @@ function BHB.RegisterVisualizers()
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BHBAttrVisualUpdated", EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED, OnVisualUpdated)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BHBAttrVisualUpdated", EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
+
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BHBAttrVisualPlayerActivated", EVENT_PLAYER_ACTIVATED, function()
+        for i = 1, BOSS_RANK_ITERATION_END do
+            local unitTag = "boss" .. tostring(i)
+            if (DoesUnitExist(unitTag)) then
+                UpdateAttributeVisuals(unitTag)
+            end
+        end
+    end)
 end
 
 function BHB.UnregisterVisualizers()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BHBAttrVisualAdded", EVENT_UNIT_ATTRIBUTE_VISUAL_ADDED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BHBAttrVisualRemoved", EVENT_UNIT_ATTRIBUTE_VISUAL_REMOVED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BHBAttrVisualUpdated", EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BHBAttrVisualPlayerActivated", EVENT_PLAYER_ACTIVATED)
 end
