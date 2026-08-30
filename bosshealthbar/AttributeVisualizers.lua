@@ -153,6 +153,15 @@ local function UpdateAttributeVisuals(unitTag)
 end
 BHB.UpdateAttributeVisuals = UpdateAttributeVisuals
 
+local function UpdateExistingBossVisuals()
+    for i = 1, BOSS_RANK_ITERATION_END do
+        local unitTag = "boss" .. tostring(i)
+        if (DoesUnitExist(unitTag)) then
+            UpdateAttributeVisuals(unitTag)
+        end
+    end
+end
+
 function BHB.RegisterVisualizers()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BHBAttrVisualAdded", EVENT_UNIT_ATTRIBUTE_VISUAL_ADDED, OnVisualAdded)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BHBAttrVisualAdded", EVENT_UNIT_ATTRIBUTE_VISUAL_ADDED, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
@@ -163,14 +172,8 @@ function BHB.RegisterVisualizers()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BHBAttrVisualUpdated", EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED, OnVisualUpdated)
     EVENT_MANAGER:AddFilterForEvent(Crutch.name .. "BHBAttrVisualUpdated", EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED, REGISTER_FILTER_UNIT_TAG_PREFIX, "boss")
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BHBAttrVisualPlayerActivated", EVENT_PLAYER_ACTIVATED, function()
-        for i = 1, BOSS_RANK_ITERATION_END do
-            local unitTag = "boss" .. tostring(i)
-            if (DoesUnitExist(unitTag)) then
-                UpdateAttributeVisuals(unitTag)
-            end
-        end
-    end)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BHBAttrVisualPlayerActivated", EVENT_PLAYER_ACTIVATED, UpdateExistingBossVisuals)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "BHBAttrVisualBossesChanged", EVENT_BOSSES_CHANGED, UpdateExistingBossVisuals)
 end
 
 function BHB.UnregisterVisualizers()
@@ -178,4 +181,5 @@ function BHB.UnregisterVisualizers()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BHBAttrVisualRemoved", EVENT_UNIT_ATTRIBUTE_VISUAL_REMOVED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BHBAttrVisualUpdated", EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED)
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BHBAttrVisualPlayerActivated", EVENT_PLAYER_ACTIVATED)
+    EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "BHBAttrVisualBossesChanged", EVENT_BOSSES_CHANGED)
 end
