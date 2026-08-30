@@ -197,10 +197,12 @@ local dungeonThresholds = {
             [50] = "",
             [25] = "",
         },
-        [80] = "Warden", -- TODO
-        [60] = "Warden", -- TODO
-        [40] = "Warden", -- TODO
-        [20] = "Warden", -- TODO
+        Veteran = {
+            [80] = "Warden", -- TODO
+            [60] = "Warden", -- TODO
+            [40] = "Warden", -- TODO
+            [20] = "Warden", -- TODO
+        },
     },
     [GetBossName(CRUTCH_BHB_ARCHIVIST_ERNARDE)] = {
         -- norm: colors on timer. adds 60 40 20
@@ -210,10 +212,12 @@ local dungeonThresholds = {
             [40] = "Adds",
             [20] = "Adds",
         },
-        [80] = "Adds", -- TODO
-        [60] = "Adds", -- TODO
-        [40] = "Adds", -- TODO
-        [20] = "Adds", -- TODO
+        Veteran = {
+            [80] = "Adds", -- TODO
+            [60] = "Adds", -- TODO
+            [40] = "Adds", -- TODO
+            [20] = "Adds", -- TODO
+        },
     },
     [GetBossName(CRUTCH_BHB_VYKOSA_THE_ASCENDANT)] = {
         normHealth = 1515587, -- TODO
@@ -299,9 +303,11 @@ local dungeonThresholds = {
             [65] = "Hide",
             [30] = "Hide",
         },
-        [80] = "Hide", -- TODO guides 80 or 75
-        [50] = "Hide", -- TODO
-        [25] = "Hide", -- TODO
+        Veteran = {
+            [80] = "Hide",
+            [50] = "Hide",
+            [25] = "Hide",
+        },
     },
     [GetBossName(CRUTCH_BHB_THE_WEEPING_WOMAN)] = {
         normHealth = 1683986,
@@ -310,9 +316,11 @@ local dungeonThresholds = {
             [50] = "",
             [25] = "",
         },
-        [75] = "Watcher", -- TODO
-        [55] = "Watcher", -- TODO
-        [35] = "Watcher", -- TODO
+        Veteran = {
+            [75] = "Watcher", -- TODO
+            [55] = "Watcher", -- TODO
+            [35] = "Watcher", -- TODO
+        },
     },
     [GetBossName(CRUTCH_BHB_DARK_ORB)] = {
         [80] = "Off",
