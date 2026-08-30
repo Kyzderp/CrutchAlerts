@@ -294,17 +294,35 @@ local dungeonThresholds = {
 
 -- Depths of Malatar
     [GetBossName(CRUTCH_BHB_THE_SCAVENGING_MAW)] = {
-        [80] = "Disappear", -- TODO guides 80 or 75
-        [50] = "Disappear", -- TODO
-        [25] = "Disappear", -- TODO
+        normHealth = 2189182,
+        Normal = {
+            [65] = "Hide",
+            [30] = "Hide",
+        },
+        [80] = "Hide", -- TODO guides 80 or 75
+        [50] = "Hide", -- TODO
+        [25] = "Hide", -- TODO
     },
     [GetBossName(CRUTCH_BHB_THE_WEEPING_WOMAN)] = {
+        normHealth = 1683986,
+        Normal = {
+            [75] = "",
+            [50] = "",
+            [25] = "",
+        },
         [75] = "Watcher", -- TODO
         [55] = "Watcher", -- TODO
         [35] = "Watcher", -- TODO
     },
+    [GetBossName(CRUTCH_BHB_DARK_ORB)] = {
+        [80] = "Off",
+        [60] = "Off",
+        [40] = "Off",
+    },
     [GetBossName(CRUTCH_BHB_SYMPHONY_OF_BLADES)] = {
-        [10] = "Teleport", -- TODO
+        [60] = "Phalanx", -- TODO: is v/hm different?
+        [30] = "Phalanx", -- TODO: is v/hm different?
+        [10] = "Teleport",
     },
 
 -- Moongrave Fane

@@ -20,6 +20,7 @@ SafeAddString(CRUTCH_BHB_CHAMPION_MARCAULD, "チャンピオン・マルカウ�
 SafeAddString(CRUTCH_BHB_CORRUPTION_OF_ROOT, "腐敗の根^F")
 SafeAddString(CRUTCH_BHB_CORRUPTION_OF_STONE, "腐敗の石^N")
 SafeAddString(CRUTCH_BHB_COUNCILOR_VANDACIA, "ヴァンダシア評議員^M")
+SafeAddString(CRUTCH_BHB_DARK_ORB, "闇のオーブ^n")
 SafeAddString(CRUTCH_BHB_DARKSHARD, "ダークシャード^N")
 SafeAddString(CRUTCH_BHB_DEATHS_LEVIATHAN, "死のリヴァイアサン^N")
 SafeAddString(CRUTCH_BHB_DEFENSE_PRISM, "ディフェンス・プリズム^n")
