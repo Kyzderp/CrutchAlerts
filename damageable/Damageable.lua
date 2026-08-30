@@ -234,12 +234,12 @@ local SUBTITLE_TIMES = {
     },
 
 -- Depths of Malatar
-    ["The Weeping Woman"] = {
-        ["For her, we kept it hidden from our brethren and buried them with our tears. Here you too will drown."] = 11.1,
+    [GetNameStr(CRUTCH_BHB_THE_WEEPING_WOMAN)] = {
+        [GetSubtitleStr(CRUTCH_DMG_FOR_HER_WE_KEPT_IT_HIDDEN_FROM_OUR_BRETHREN_AND)] = 11.1,
     } ,
-    ["Tharayya"] = {
+    [GetNameStr(CRUTCH_DMG_THARAYYA)] = {
         -- King Narilmor
-        ["Feel that? A chill breeze. We must be nearing an exit!"] = 23,
+        [GetSubtitleStr(CRUTCH_DMG_FEEL_THAT_A_CHILL_BREEZE_WE_MUST_BE_NEARING_AN)] = 23,
     },
 
 -- Earthen Root Enclave
