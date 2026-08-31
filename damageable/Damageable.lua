@@ -239,7 +239,7 @@ local SUBTITLE_TIMES = {
     } ,
     [GetNameStr(CRUTCH_DMG_THARAYYA)] = {
         -- King Narilmor
-        [GetSubtitleStr(CRUTCH_DMG_FEEL_THAT_A_CHILL_BREEZE_WE_MUST_BE_NEARING_AN)] = 23,
+        [GetSubtitleStr(CRUTCH_DMG_FEEL_THAT_A_CHILL_BREEZE_WE_MUST_BE_NEARING_AN)] = 22.7,
     },
 
 -- Earthen Root Enclave

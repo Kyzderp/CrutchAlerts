@@ -317,9 +317,9 @@ local dungeonThresholds = {
             [25] = "",
         },
         Veteran = {
-            [75] = "Watcher", -- TODO
-            [55] = "Watcher", -- TODO
-            [35] = "Watcher", -- TODO
+            [75] = "Watcher",
+            [55] = "Watcher",
+            [35] = "Watcher",
         },
     },
     [GetBossName(CRUTCH_BHB_DARK_ORB)] = {

@@ -198,6 +198,9 @@ Crutch.format = {
 -- Coral Aerie
     [163153] = 600, -- Coalescing Shadows
 
+-- Depths of Malatar
+    [113173] = 300, -- Smiting Dawn (King Narilmor)
+
 -- Earthen Root Enclave
     [172410] = 200003.3, -- Crumble (Archdruid Devyric rock pillar things)
     [171742] = 500, -- Boughroot Slash
