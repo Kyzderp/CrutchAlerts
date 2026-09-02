@@ -244,6 +244,7 @@ Draw.ShouldUnitBeShown = ShouldUnitBeShown
 local function EvaluateSuppressionFor(unitTag)
     if (not ShouldUnitBeShown(unitTag)) then
         SuppressIcons(unitTag)
+        Draw.Model.RemoveGrave(unitTag)
     else
         UnsuppressIcons(unitTag)
     end
