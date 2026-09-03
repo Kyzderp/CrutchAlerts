@@ -184,7 +184,7 @@ end
 
 local elements = {
     -- top left, bottom right, top right
-    {coords = {.3, 1.4, -.01, -.3, .8, -.01, -.3, 1.4, -.01}, color = {.9, .9, .9, .5}, texture = "CrutchAlerts/assets/poop.dds"},
+    -- {coords = {.3, 1.4, -.1, -.3, .8, -.1, -.3, 1.4, -.1}, color = {.9, .9, .9, .5}, texture = "esoui/art/trials/vitalitydepletion.dds"},
     -- {coords = {0, 0, 0, 0, 0, 0, 0, 0, 0}, color = {.9, .9, .9, 1}, texture = "CrutchAlerts/assets/floor/square.dds"},
 
     -- frontback
@@ -205,7 +205,7 @@ local elements = {
 }
 
 local scale = 100
-local function CreateControlFromElement(unitTag, x, y, z, intro, name, birth, death, uiScale)
+local function CreateControlFromElement(element, unitTag, x, y, z, intro, name, birth, death, uiScale)
     local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(unpack(element.coords))
     if (element.texture) then
         local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, element.texture)
@@ -286,7 +286,7 @@ local function Grave(unitTag, intro, name, birth, death)
     local uiScale = GetUIGlobalScale()
 
     for _, element in ipairs(elements) do
-        CreateControlFromElement(unitTag, x, y, z, intro, name, birth, death, uiScale)
+        CreateControlFromElement(element, unitTag, x, y, z, intro, name, birth, death, uiScale)
     end
 
     animations[unitTag] = GetGameTimeMilliseconds() + ANIMATION_DURATION
