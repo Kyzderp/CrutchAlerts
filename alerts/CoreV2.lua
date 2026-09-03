@@ -23,6 +23,9 @@ key using abilityid + source unit id?
         key = 1,
     }
 }
+-- ["e" .. unitTag .. abilityId] -- effects
+-- ["c" .. abilityId] -- channels (only need self)
+-- ["g" .. source .. ability .. target] -- general alert. most likely to need interrupting based on source unit id. there shouldn't be many in total tho, so iterating is probably ok
 ]]
 local alerts = {}
 
@@ -51,7 +54,7 @@ local function RemoveAlert()
 end
 
 local function DisplayAlert()
-    -- ["e" .. unitTag .. abilitId]
+
     -- TODO: return a key?
 end
 

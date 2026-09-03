@@ -184,7 +184,8 @@ end
 
 local elements = {
     -- top left, bottom right, top right
-    {coords = {0, 0, 0, 0, 0, 0, 0, 0, 0}, color = {.9, .9, .9, 1}, texture = "CrutchAlerts/assets/floor/square.dds"},
+    {coords = {.3, 1.4, -.01, -.3, .8, -.01, -.3, 1.4, -.01}, color = {.9, .9, .9, .5}, texture = "CrutchAlerts/assets/poop.dds"},
+    -- {coords = {0, 0, 0, 0, 0, 0, 0, 0, 0}, color = {.9, .9, .9, 1}, texture = "CrutchAlerts/assets/floor/square.dds"},
 
     -- frontback
     {coords = {-.6, 1.8, .3, .6, 0, .3, .6, 1.8, .3}, color = {.5, .5, .5, 1}, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
@@ -203,12 +204,78 @@ local elements = {
     {coords = { .6, 1.8, .3,  .6,   0,  0,  .6, 1.8,  0}, color = {.4, .4, .4, 1}, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
 }
 
+local scale = 100
+local function CreateControlFromElement(unitTag, x, y, z, intro, name, birth, death, uiScale)
+    local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(unpack(element.coords))
+    if (element.texture) then
+        local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, element.texture)
+        table.insert(graves[unitTag].rects, key)
+    elseif (element.text) then
+        local scaledFontSize = math.floor((element.fontSize or 17) / uiScale)
+
+        -- Create it normally first
+        local text = zo_strformat(element.text, intro, name, birth, death)
+        local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, text, scaledFontSize)
+        table.insert(graves[unitTag].labels, key)
+
+        -- Adjust font size
+        local textWidth = control:GetTextWidth()
+        -- uiscale 1: width of 1.2 is 120 in textwidth; TheClawlessConqueror is 110 at font size 8
+        -- uiscale .752: width of 1.2 is ~150 in textwidth; TheClawlessConqueror is 147 at font size 10
+
+        local allowedTextWidth = 115 / uiScale
+
+        -- /script CrutchAlertsDrawingCrutchAlertsModelLabel2:SetFont("$(STONE_TABLET_FONT)|10") d(CrutchAlertsDrawingCrutchAlertsModelLabel2:GetTextWidth())
+        if (textWidth > allowedTextWidth) then
+            Crutch.dbgSpam(string.format("adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
+            local newFontSize = scaledFontSize
+
+            while (textWidth > allowedTextWidth and newFontSize > 0) do
+                newFontSize = newFontSize - 1
+                control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
+                textWidth = control:GetTextWidth()
+                Crutch.dbgSpam("trying newFontSize " .. newFontSize .. " = " .. textWidth)
+            end
+
+            Crutch.dbgSpam("newFontSize: " .. newFontSize)
+            control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
+            textWidth = control:GetTextWidth()
+            Crutch.dbgSpam("new textWidth: " .. textWidth)
+        else
+            Crutch.dbgSpam(string.format("NOT adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
+        end
+
+        -- Adjust location to re-center it
+        local offset = textWidth / 100 / 2 * uiScale
+        -- TODO: not just x
+        local sX, sY, sZ = CalculateValues(
+            element.coords[1] - offset,
+            element.coords[2],
+            element.coords[3],
+            element.coords[4] - offset,
+            element.coords[5],
+            element.coords[6],
+            element.coords[7] - offset,
+            element.coords[8],
+            element.coords[9]
+            )
+        local newX = x + sX * scale
+        local newY = y + sY * scale
+        local newZ = z + sZ * scale
+        labelControls[key].targetX = newX
+        labelControls[key].targetY = newY
+        labelControls[key].targetZ = newZ
+        control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - ANIMATION_Y, newZ))
+        Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
+    end
+end
+
 local function Grave(unitTag, intro, name, birth, death)
     unitTag = unitTag or "player"
     local _, x, y, z = GetUnitRawWorldPosition(unitTag)
     y = y - 20
     intro = intro or "Here lies"
-    name = name or "TheClawlessConqueror"
+    name = name or "Kyzeragon"
     birth = birth or "Unknown"
     death = death or FormatDate(GetTimeStamp())
 
@@ -218,71 +285,8 @@ local function Grave(unitTag, intro, name, birth, death)
 
     local uiScale = GetUIGlobalScale()
 
-    local scale = 100
-    local num = 1
     for _, element in ipairs(elements) do
-        local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(unpack(element.coords))
-        if (element.texture) then
-            local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, element.texture)
-            table.insert(graves[unitTag].rects, key)
-        elseif (element.text) then
-            local scaledFontSize = math.floor((element.fontSize or 17) / uiScale)
-
-            -- Create it normally first
-            local text = zo_strformat(element.text, intro, name, birth, death)
-            local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, text, scaledFontSize)
-            table.insert(graves[unitTag].labels, key)
-
-            -- Adjust font size
-            local textWidth = control:GetTextWidth()
-            -- uiscale 1: width of 1.2 is 120 in textwidth; TheClawlessConqueror is 110 at font size 8
-            -- uiscale .752: width of 1.2 is ~150 in textwidth; TheClawlessConqueror is 147 at font size 10
-
-            local allowedTextWidth = 115 / uiScale
-
-            -- /script CrutchAlertsDrawingCrutchAlertsModelLabel2:SetFont("$(STONE_TABLET_FONT)|10") d(CrutchAlertsDrawingCrutchAlertsModelLabel2:GetTextWidth())
-            if (textWidth > allowedTextWidth) then
-                Crutch.dbgSpam(string.format("adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
-                local newFontSize = scaledFontSize
-
-                while (textWidth > allowedTextWidth and newFontSize > 0) do
-                    newFontSize = newFontSize - 1
-                    control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
-                    textWidth = control:GetTextWidth()
-                    Crutch.dbgSpam("trying newFontSize " .. newFontSize .. " = " .. textWidth)
-                end
-
-                Crutch.dbgSpam("newFontSize: " .. newFontSize)
-                control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
-                textWidth = control:GetTextWidth()
-                Crutch.dbgSpam("new textWidth: " .. textWidth)
-            else
-                Crutch.dbgSpam(string.format("NOT adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
-            end
-
-            -- Adjust location to re-center it
-            local offset = textWidth / 100 / 2 * uiScale
-            -- TODO: not just x
-            local sX, sY, sZ = CalculateValues(
-                element.coords[1] - offset,
-                element.coords[2],
-                element.coords[3],
-                element.coords[4] - offset,
-                element.coords[5],
-                element.coords[6],
-                element.coords[7] - offset,
-                element.coords[8],
-                element.coords[9]
-                )
-            local newX = x + sX * scale
-            local newY = y + sY * scale
-            local newZ = z + sZ * scale
-            labelControls[key].targetX = newX
-            labelControls[key].targetY = newY
-            labelControls[key].targetZ = newZ
-            control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - ANIMATION_Y, newZ))
-            Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
-        end
+        CreateControlFromElement(unitTag, x, y, z, intro, name, birth, death, uiScale)
     end
 
     animations[unitTag] = GetGameTimeMilliseconds() + ANIMATION_DURATION
