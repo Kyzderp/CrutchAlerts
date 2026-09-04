@@ -8,7 +8,7 @@ local C = Crutch.Constants
 -- 
 -- DingIA: 0 = no ding, 1 = Uppercut/Power Bash ding in IA only, 2 = ding in IA only
 -- Result: 0 = any, 1 = BEGIN only, 2 = GAINED only, 3 = NOT DURATION
--- Type: 0 = normal alert, 1 = secondary, 2 = prevent overwrite, 3 = always display even if already displaying (show multiple)
+-- Type: 0 = normal alert, 1 = secondary (unused), 2 = prevent overwrite, 3 = always display even if already displaying (show multiple)
 -- HideTimer: 0 = false, 1 = true
 -- Color: 0 = white, 1 = ...
 -- Timer: actual number, or 0 for auto detect
