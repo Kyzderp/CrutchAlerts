@@ -174,7 +174,8 @@ local function RemoveGrave(unitTag)
     end
     graves[unitTag] = nil
 end
-M.RemoveGrave = function() Crutch.dbgOther(zo_strformat("|cFFAA00Removing <<1>> grave due to suppression", GetUnitDisplayName(unitTag))) RemoveGrave() end
+M.RemoveGrave = RemoveGrave
+-- M.RemoveGrave = function(unitTag) Crutch.dbgOther(zo_strformat("|cFFAA00Removing <<1>> grave due to suppression", GetUnitDisplayName(unitTag))) RemoveGrave() end
 
 local function RemoveAllGraves()
     for unitTag, _ in pairs(graves) do

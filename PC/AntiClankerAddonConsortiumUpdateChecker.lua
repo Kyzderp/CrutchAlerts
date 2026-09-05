@@ -1,5 +1,5 @@
 local NAME = "AntiClankerAddonConsortiumUpdateChecker"
-local VERSION = 12
+local VERSION = 13
 
 if type(_G[NAME]) == "number" and _G[NAME] >= VERSION then return end
 _G[NAME] = VERSION
@@ -12,7 +12,7 @@ local KNOWN_VERSIONS = {
     -- code65536
     ["CharacterKnowledge"]    = 301020,
     ["CollectiblesTracker"]   = 306000,
-    ["CombatAlerts"]          = 206030,
+    ["CombatAlerts"]          = 206040,
     ["GroupBuffPanels"]       = 203030,
     ["ItemBrowser"]           = 407010,
     ["LootLog"]               = 409060,
@@ -45,12 +45,54 @@ MESSAGE = MESSAGE[GetCVar("Language.2")] or MESSAGE.default
 ---------------------------------------------------------------------
 -- Addon table like ACACUC_CrutchAlerts = {notifiedVersion = 22300, times = 1}
 local SV_PREFIX = "ACACUC_"
-local function GetSV(addonName)
+local function GetSV(addonName, createIfNecessary)
     local addonTable = _G[SV_PREFIX .. addonName]
-    if (type(addonTable) == "table") then return addonTable end
+    if (type(addonTable) == "table") then
+        return addonTable
+    elseif (createIfNecessary) then
+        addonTable = {}
+        _G[SV_PREFIX .. addonName] = addonTable
+        return addonTable
+    end
 end
 
-local function CheckVersions( )
+local function SetEnablementState(enabled)
+    local newState = GetTimeStamp() + (enabled and BitLShift(1, 33) or 0)
+    local am = GetAddOnManager()
+    for i = 1, am:GetNumAddOns() do
+        local addonName, _, _, _, addonEnabled = am:GetAddOnInfo(i)
+        if addonEnabled and KNOWN_VERSIONS[addonName] then
+            local sv = GetSV(addonName, true)
+            sv.enabled = newState
+        end
+    end
+end
+
+local function GetEnablementState()
+    local lastStateSeen = true
+    local lastStateTime = 0
+    for addonName in pairs(KNOWN_VERSIONS) do
+        local sv = GetSV(addonName)
+        if (sv and sv.enabled) then
+            local svTime = BitAnd(sv.enabled, 0x1FFFFFFFF)
+            if (svTime > lastStateTime) then
+                lastStateTime = svTime
+                lastStateSeen = BitRShift(sv.enabled, 33) == 1
+            end
+        end
+    end
+
+    -- Continuity with legacy ACACUpdateCheckDisabled
+    if (lastStateTime == 0 and ACACUpdateCheckDisabled ~= nil) then
+        ACACUpdateCheckDisabled = nil
+        SetEnablementState(false)
+        return false
+    end
+
+    return lastStateSeen
+end
+
+local function CheckVersions()
     local am = GetAddOnManager()
 
     for i = 1, am:GetNumAddOns() do
@@ -74,10 +116,7 @@ local function CheckVersions( )
                     CHAT_ROUTER:AddSystemMessage(zo_strformat(MESSAGE, addonTitle, installedVersion, expectedVersion))
 
                     -- Save number of times this version has been notified
-                    if (not sv) then
-                        _G[SV_PREFIX .. addonName] = {}
-                        sv = _G[SV_PREFIX .. addonName]
-                    end
+                    sv = GetSV(addonName, true)
                     sv.notifiedVersion = expectedVersion
                     sv.times = timesNotified + 1
                 end
@@ -111,14 +150,8 @@ local function CreateSettingsMenu()
             name = "Enabled",
             tooltip = "Whether to check addon versions on initial load",
             default = true,
-            getFunc = function() return ACACUpdateCheckDisabled == nil end,
-            setFunc = function(value)
-                if (value) then
-                    ACACUpdateCheckDisabled = nil
-                else
-                    ACACUpdateCheckDisabled = {true}
-                end
-            end,
+            getFunc = GetEnablementState,
+            setFunc = SetEnablementState,
         },
         {
             type = "description",
@@ -140,7 +173,7 @@ EVENT_MANAGER:UnregisterForEvent(NAME, EVENT_PLAYER_ACTIVATED) -- In case we are
 EVENT_MANAGER:RegisterForEvent(NAME, EVENT_PLAYER_ACTIVATED, function()
     CreateSettingsMenu()
 
-    if (ACACUpdateCheckDisabled == nil) then
+    if (GetEnablementState()) then
         zo_callLater(CheckVersions, 6000)
     end
 end, true)
