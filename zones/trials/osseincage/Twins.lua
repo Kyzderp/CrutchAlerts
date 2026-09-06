@@ -44,6 +44,9 @@ local function SpoofAllIcons()
     for i = 3, 8 do
         SpoofIconIfDangerous(GetSlotBoundId(i, HOTBAR_CATEGORY_PRIMARY))
         SpoofIconIfDangerous(GetSlotBoundId(i, HOTBAR_CATEGORY_BACKUP))
+        if (IsPlayerInWerewolfForm()) then
+            SpoofIconIfDangerous(GetSlotBoundId(i, HOTBAR_CATEGORY_WEREWOLF))
+        end
     end
 end
 
