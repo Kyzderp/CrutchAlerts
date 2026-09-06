@@ -156,10 +156,10 @@ local dungeonThresholds = {
 
 -- Scalecaller Peak
     [GetBossName(CRUTCH_BHB_DOYLEMISH_IRONHEART)] = {
-        [80] = "Stone Orb", -- TODO
-        [60] = "Stone Orb", -- TODO
-        [40] = "Stone Orb", -- TODO
-        [20] = "Stone Orb", -- TODO
+        [80] = "Stone Orb",
+        [60] = "Stone Orb",
+        [40] = "Stone Orb",
+        [20] = "Stone Orb",
     },
     [GetBossName(CRUTCH_BHB_MATRIARCH_ALDIS)] = {
         [90] = "Leiminid",

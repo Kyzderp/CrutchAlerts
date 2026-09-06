@@ -187,6 +187,8 @@ Crutch.testing = {
     [185922] = true, -- rune of uncanny adoration
 
     [35451] = true, -- Shadow Image
+
+    [132571] = true, -- Thunderous Leap (Yandir)
 }
 
 ---------------------------------------------------------------------
@@ -333,6 +335,7 @@ Crutch.others = {
         [136965] = true, -- Sanguine Grasp
         [134050] = true, -- Wrath of Tides
         [133546] = true, -- Gargoyle's Curse
+        -- [132571] = true, -- Thunderous Leap (Yandir)
     },
 
     -- Lucent Citadel

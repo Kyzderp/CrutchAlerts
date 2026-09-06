@@ -352,8 +352,8 @@ local SUBTITLE_TIMES = {
     },
 
 -- Scalecaller Peak
-    ["Plague Concocter Mortieu"] = {
-        ["So busy, so busy, and now I must entertain these guests?"] = 6.2,
+    [GetNameStr(CRUTCH_DMG_PLAGUE_CONCOCTER_MORTIEU)] = {
+        [GetSubtitleStr(CRUTCH_DMG_SO_BUSY_SO_BUSY_AND_NOW_I_MUST_ENTERTAIN_THESE)] = 6.2,
     },
 
 -- Scrivener’s Hall
