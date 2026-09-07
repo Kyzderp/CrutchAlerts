@@ -493,7 +493,7 @@ local ENFEEBLEMENT_UNIQUE_NAME = "CrutchAlertsOCEnfeeblement"
 local function DoubleCurseIconCallback(icon, atName)
     if (sparking[atName] and blazing[atName]) then
         local doubleCursedDuration = math.min(sparking[atName], blazing[atName]) - GetGameTimeMilliseconds()
-        icon:SetText(math.ceil(doubleCursedDuration / 1000))
+        icon:SetText(math.max(0, math.ceil(doubleCursedDuration / 1000)))
     end
 end
 
