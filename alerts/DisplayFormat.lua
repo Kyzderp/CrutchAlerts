@@ -87,6 +87,7 @@ Crutch.format = {
     [134023] =    100, -- Meteor (Vrol)
     [140941] =    400, -- Instability
     [140944] =    400, -- Instability (HM)
+    [132571] = 20504.15, -- Thunderous Leap (Yandir)
 
 -- Lucent Citadel
     [214203] = 500, -- Bleak Annihilation

@@ -335,7 +335,7 @@ Crutch.others = {
         [136965] = true, -- Sanguine Grasp
         [134050] = true, -- Wrath of Tides
         [133546] = true, -- Gargoyle's Curse
-        -- [132571] = true, -- Thunderous Leap (Yandir)
+        [132571] = true, -- Thunderous Leap (Yandir)
     },
 
     -- Lucent Citadel
