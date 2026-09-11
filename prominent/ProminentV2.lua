@@ -603,6 +603,26 @@ local prominentData = {
                 default = true,
             },
         },
+        -- Seething Vile Leap
+        [245208] = {
+            event = EVENT_COMBAT_EVENT,
+            filters = {
+                [REGISTER_FILTER_COMBAT_RESULT] = ACTION_RESULT_EFFECT_GAINED,
+            },
+            text = "DODGE",
+            color = {1, 0, 0},
+            slot = 2,
+            playSound = true,
+            millis = 1000,
+            settings = {
+                name = "prominentSeethingVileLeap",
+                title = "Alert Seething Vile Leap",
+                description = "Shows a prominent alert when Kazpian does an enraged leap",
+                checkOldForDefault = true,
+                default = true,
+            },
+            hitValueOverride = 1500, -- Use this because he has 2 begins, 1 for cast time and 1 for the channeled cast. EFFECT_GAINED happens on the 2nd one, ~1.6s before the damage hits, but hitValue is 1 for it.
+        },
     },
 
     ------------
@@ -1320,6 +1340,11 @@ function Crutch.RegisterProminents(zoneId)
                             GetAbilityName(abilityId),
                             targetName,
                             hitValue))
+                    end
+
+                    if (abilityData.hitValueOverride) then
+                        hitValue = abilityData.hitValueOverride
+                        Crutch.dbgOther("|cFFAA00Overriding hitValue for " .. GetAbilityName(abilityId))
                     end
 
                     if (abilityData.preMillis) then
