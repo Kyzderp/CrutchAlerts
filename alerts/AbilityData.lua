@@ -235,7 +235,6 @@ Crutch.gainedDuration = {
     [232780] = true, -- Dominator's Chains (after it's gained, 16100)
     -- [237121] = true, -- Daedric Bombardment (Channeler / Pain Channeler) doesn't seem to work right, and doesn't cover all of them
     -- [237163] = true, -- Agonizing Burden (6000)
-    [245208] = true, -- Seething Vile Leap
 
 -- Sanctum Ophidia
     [56782] = true, -- Magicka Bomb, the 11 seconds, not 58084
@@ -388,6 +387,7 @@ Crutch.others = {
         [234722] = true, -- Val Exit Leap AL
         [233466] = true, -- Valneer Leap AL
         [233489] = true, -- Valnner Leap UPPER AL
+        [245208] = true, -- Seething Vile Leap
     },
 
     -- Rockgrove

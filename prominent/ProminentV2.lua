@@ -614,6 +614,7 @@ local prominentData = {
             slot = 2,
             playSound = true,
             millis = 1000,
+            preMillis = 1000,
             settings = {
                 name = "prominentSeethingVileLeap",
                 title = "Alert Seething Vile Leap",
