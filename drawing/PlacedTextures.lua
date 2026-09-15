@@ -252,16 +252,16 @@ local function CreateLine(x1, y1, z1, x2, y2, z2, width, color, useDepthBuffers,
         end
 
         if (getPointsFunc) then
-            local x1, y1, z1, x2, y2, z2 = getPointsFunc()
+            local x1, y1, z1, x2, y2, z2 = getPointsFunc() -- TODO: nil?
+            if (x1 ~= nil and x2 ~= nil) then
+                local oX, oY, oZ, pitch, yaw, height = CalculateValues(x1, y1, z1, x2, y2, z2)
+                icon:SetPosition(oX, oY, oZ)
+                icon:SetOrientation(pitch, yaw, 0)
 
-            local oX, oY, oZ, pitch, yaw, height = CalculateValues(x1, y1, z1, x2, y2, z2)
-
-            icon:SetPosition(oX, oY, oZ)
-            icon:SetOrientation(pitch, yaw, 0)
-
-            -- TODO: setDimensionsFunc?
-            width = width or icon.control:Get3DLocalDimensions()
-            icon.control:Set3DLocalDimensions(width, height)
+                -- TODO: setDimensionsFunc?
+                width = width or icon.control:Get3DLocalDimensions() or 0.1
+                icon.control:Set3DLocalDimensions(width, height)
+            end
         end
     end
 
