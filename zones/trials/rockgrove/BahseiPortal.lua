@@ -74,15 +74,33 @@ end
 ---------------------------------------------------------------------
 -- Pre-portal ability icons & portal timers
 ---------------------------------------------------------------------
+local PORTAL_DISPLAY_CHOICES = {
+    [2] = {
+        [153517] = "Clockwise |t100%:100%:esoui/art/housing/rotation_arrow_reverse.dds:inheritcolor|t", -- CW
+        [153518] = "Counter-Clockwise|t100%:100%:esoui/art/housing/rotation_arrow.dds:inheritcolor|t", -- CCW
+    },
+    [3] = {
+        [153517] = "|t100%%:100%%:esoui/art/buttons/large_leftarrow_up.dds:inheritcolor|t LEFT", -- CW
+        [153518] = "RIGHT |t100%%:100%%:esoui/art/buttons/large_rightarrow_up.dds:inheritcolor|t", -- CCW
+    },
+    [4] = {
+        [153517] = "RIGHT |t100%%:100%%:esoui/art/buttons/large_rightarrow_up.dds:inheritcolor|t", -- CW
+        [153518] = "|t100%%:100%%:esoui/art/buttons/large_leftarrow_up.dds:inheritcolor|t LEFT", -- CCW
+    },
+}
+
 local function OnPortalSummoned(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
     Crutch.InfoPanel.StopCount(RG.PANEL_PORTAL_TIMER_INDEX)
     UpdatePlayersInPortal()
 
+    local alertText = PORTAL_DISPLAY_CHOICES[Crutch.savedOptions.rockgrove.portalDirectionText][abilityId]
+    if (alertText) then
+        Crutch.DisplayNotification(abilityId, alertText, 5000, 0, "", 0, 0, "", 0, 0, false)
+    end
+
     if (Crutch.savedOptions.rockgrove.panel.showPortalDirection) then
-        local display = Crutch.format[abilityId]
-        if (display) then
-            Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_DIRECTION_INDEX, "|c9999ff" .. display.text)
-        end
+        local display = PORTAL_DISPLAY_CHOICES[2][abilityId]
+        Crutch.InfoPanel.SetLine(RG.PANEL_PORTAL_DIRECTION_INDEX, "|c9999ff" .. display)
     end
 end
 

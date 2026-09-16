@@ -308,6 +308,8 @@ local defaultOptions = {
         abilitiesToReplace = {},
         portalTimeMargin = 4000,
 
+        portalDirectionText = 2, -- 1 = never show, 2 = Clockwise / Counter-Clockwise, 3 = Left / Right, 4 = Right / Left
+
         panel = {
             showSludge = true,
             showBlitz = true,

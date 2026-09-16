@@ -403,8 +403,8 @@ Crutch.others = {
         [153175] = true, -- Scalding Strike (Fire Behemoth)
         [157482] = true, -- Molten Rain (Ash Titan)
         [152414] = true, -- Meteor Call (Havocrel Torchcaster)
-        [153517] = true, -- Portal CW
-        [153518] = true, -- Portal CCW
+        -- [153517] = true, -- Portal CW
+        -- [153518] = true, -- Portal CCW
     },
 
     -- Sanctum Ophidia

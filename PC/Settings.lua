@@ -2589,6 +2589,21 @@ function Crutch:CreateSettingsMenu()
                     width = "full",
                 },
                 {
+                    type = "dropdown",
+                    name = "Show portal direction override",
+                    tooltip = "Shows a general \"alert\" for the portal direction on HM, with overridden text",
+                    choices = {"None", "Clockwise / Counter-Clockwise", "Left / Right", "Right / Left"},
+                    choicesValues = {1, 2, 3, 4},
+                    default = "Clockwise / Counter-Clockwise",
+                    getFunc = function()
+                        return Crutch.savedOptions.rockgrove.portalDirectionText
+                    end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.rockgrove.portalDirectionText = value
+                    end,
+                    width = "full",
+                },
+                {
                     type = "description",
                     title = "|c08BD1DInfo Panel|r",
                     text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",

@@ -1221,6 +1221,42 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 Crutch.OnPlayerActivated()
             end,
         },
+        {
+            type = LibHarvensAddonSettings.ST_DROPDOWN,
+            label = "Show portal direction override",
+            tooltip = "Shows a general \"alert\" for the portal direction on HM, with overridden text",
+            getFunction = function()
+                local names = {
+                    [1] = "None",
+                    [2] = "Clockwise / Counter-Clockwise",
+                    [3] = "Left / Right",
+                    [4] = "Right / Left",
+                }
+                return names[Crutch.savedOptions.rockgrove.portalDirectionText]
+            end,
+            setFunction = function(combobox, name, item)
+                Crutch.savedOptions.rockgrove.portalDirectionText = item.data
+            end,
+            default = "Clockwise / Counter-Clockwise",
+            items = {
+                {
+                    name = "None",
+                    data = 1,
+                },
+                {
+                    name = "Clockwise / Counter-Clockwise",
+                    data = 2,
+                },
+                {
+                    name = "Left / Right",
+                    data = 3,
+                },
+                {
+                    name = "Right / Left",
+                    data = 4,
+                },
+            },
+        },
     })))
 
     settings:AddSettings({
