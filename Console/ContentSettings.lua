@@ -1267,6 +1267,17 @@ function Crutch.CreateConsoleContentSettingsMenu()
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show time until Blistering Smash",
+            tooltip = "Shows the time until Oaxiltso may cast the big slam AOE",
+            default = Crutch.defaultOptions.rockgrove.panel.showSmash,
+            getFunction = function() return Crutch.savedOptions.rockgrove.panel.showSmash end,
+            setFunction = function(value)
+                Crutch.savedOptions.rockgrove.panel.showSmash = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show time until Noxious Sludge",
             tooltip = "Shows the time until Oaxiltso may cast the next Noxious Sludge",
             default = Crutch.defaultOptions.rockgrove.panel.showSludge,

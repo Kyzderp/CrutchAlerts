@@ -311,6 +311,7 @@ local defaultOptions = {
         portalDirectionText = 2, -- 1 = never show, 2 = Clockwise / Counter-Clockwise, 3 = Left / Right, 4 = Right / Left
 
         panel = {
+            showSmash = false,
             showSludge = true,
             showBlitz = true,
 

@@ -191,6 +191,8 @@ Crutch.testing = {
     [132571] = true, -- Thunderous Leap (Yandir)
 
     [245208] = true, -- Seething Vile Leap
+
+    [149531] = true, -- Blistering Smash
 }
 
 ---------------------------------------------------------------------
