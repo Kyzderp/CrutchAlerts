@@ -87,10 +87,6 @@ local function DisplayAlertCommon(key, abilityId, textLabel, timer, sourceUnitId
         Crutch.dbgOther("|cFF0000Warning: timer is not number, setting to 1000|r")
     end
 
-    local sourceIdAndName = zo_strformat("<<1>> <<2>>", sourceUnitId, sourceName)
-    local targetIdAndName = zo_strformat("<<1>> <<2>>", targetUnitId, targetName)
-
-
     -- Normally, we overwrite existing casts of the same ability, if the source is the same. But source
     -- can sometimes be unknown (0), or it's multiple projectiles, etc. If preventOverwrite is specified,
     -- do nothing. If "always display" is specified, make a new alert line.
@@ -125,15 +121,9 @@ local function DisplayAlertCommon(key, abilityId, textLabel, timer, sourceUnitId
         data.controlKey = controlKey
     end
 
-    -- UI things that are only set once
-    data.control:SetText()
-
-    -- TODO: vvv
-
-    -- Set the time and make some strings
-    local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
-    freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer, abilityId = abilityId, target = targetUnitId}
-    AddToDisplaying(sourceUnitId, abilityId, preventOverwrite, targetUnitId, index)
+    -- Debug text
+    local sourceIdAndName = zo_strformat("<<1>> <<2>>", sourceUnitId, sourceName)
+    local targetIdAndName = zo_strformat("<<1>> <<2>>", targetUnitId, targetName)
 
     local resultString = ""
     if (result) then
@@ -149,6 +139,17 @@ local function DisplayAlertCommon(key, abilityId, textLabel, timer, sourceUnitId
     if (targetType) then
         targetTypeString = " " .. (unitTypeStrings[targetType] or tostring(targetType))
     end
+
+    -- UI things that are only set once
+    data.control:GetNamedChild("Id"):SetText(zo_strformat("<<1>> (<<2>>) [<<3>><<4>>] [<<5>><<6>>]<<7>>", abilityId, timer, sourceIdAndName, sourceTypeString, targetIdAndName, targetTypeString, resultString)))
+
+    -- TODO: vvv
+
+    -- Set the time and make some strings
+    local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
+    freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer, abilityId = abilityId, target = targetUnitId}
+    AddToDisplaying(sourceUnitId, abilityId, preventOverwrite, targetUnitId, index)
+    
 
     -- Keyboard vs gamepad fonts
     local styles = Crutch.GetStyles()
