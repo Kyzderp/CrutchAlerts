@@ -20,7 +20,7 @@ key using abilityid + source unit id?
         abilityId = 13243,
         sourceUnitId = 12314,
         targetUnitId = 132124,
-        key = 1,
+        controlKey = 1,
     }
 }
 ]]
@@ -30,14 +30,59 @@ local displaySlots = {} -- {[1] = nil, [2] = ?}
 
 
 ---------------------------------------------------------------------
--- Update
----------------------------------------------------------------------
-local controlPool
+-- Util
 
-local function UpdateDisplay()
+-- Milliseconds
+local function GetTimerColor(timer)
+    if (timer > 2000) then
+        return {255, 238, 0}
+    elseif (timer > 1000) then
+        return {255, 140, 0}
+    else
+        return {255, 0, 0}
+    end
 end
 
+-- Scale is the size of the icon, default 36
+-- Default font size was 32
+local function GetScale()
+    return Crutch.savedOptions.general.alertScale
+end
+
+
+---------------------------------------------------------------------
+-- Update
+---------------------------------------------------------------------
+local isPolling = false
+local controlPool
+
 local function UpdateAllAnchors()
+end
+
+local function UpdateDisplay()
+    local numActive = 0
+    for key, data in pairs(alerts) do
+        local timer = data.endTime - GetGameTimeMilliseconds()
+        if (timer < 0) then
+            control:SetHidden(true)
+            controlPool:ReleaseObject(data.controlKey)
+            alerts[key] = nil
+            UpdateAllAnchors()
+        else
+            numActive = numActive + 1
+            local timerLabel = data.control:GetNamedChild("Timer")
+            if (not timerLabel:IsHidden()) then
+                timerLabel:SetText(string.format("%.1f", timer / 1000))
+                timerLabel:SetColor(unpack(GetTimerColor(timer)))
+            end
+        end
+    end
+
+    -- Stop polling
+    if (numActive == 0) then
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "PollV2")
+        isPolling = false
+    end
 end
 
 local function CreateAlertControl()
@@ -46,14 +91,88 @@ local function CreateAlertControl()
     return control, key
 end
 
+local function Poll()
+end
+
 
 ---------------------------------------------------------------------
 -- Mostly model
 ---------------------------------------------------------------------
-local function Poll()
+local function SetInitialUI(control, customColor, alertType, resultFilter, dingInIA, customText, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result, abilityId, timer, hideTimer)
+    -- Keyboard vs gamepad fonts
+    local styles = Crutch.GetStyles()
+    local scale = GetScale()
+    local alertFont = styles.GetAlertFont(scale * 8 / 9)
+    local smallFont = styles.GetAlertFont(scale * 7 / 18)
+
+    control:SetHeight(scale)
+
+    -- Main label text
+    local labelControl = control:GetNamedChild("Label")
+    labelControl:SetFont(alertFont)
+    labelControl:SetDimensions(1200, scale)
+    labelControl:SetText(customColor and zo_strformat("|c<<1>><<2>>|r", customColor, textLabel) or zo_strformat("<<1>>", textLabel))
+    labelControl:SetWidth(labelControl:GetTextWidth())
+
+    -- Debug text
+    local debugControl = control:GetNamedChild("Id")
+    debugControl:SetFont(smallFont)
+    if (Crutch.savedOptions.debugLine) then
+        local sourceIdAndName = zo_strformat("<<1>> <<2>>", sourceUnitId, sourceName)
+        local targetIdAndName = zo_strformat("<<1>> <<2>>", targetUnitId, targetName)
+
+        local resultString = ""
+        if (result) then
+            resultString = " " .. (resultStrings[result] or tostring(result))
+        end
+
+        local sourceTypeString = ""
+        if (sourceType) then
+            sourceTypeString = " " .. (unitTypeStrings[sourceType] or tostring(sourceType))
+        end
+
+        local targetTypeString = ""
+        if (targetType) then
+            targetTypeString = " " .. (unitTypeStrings[targetType] or tostring(targetType))
+        end
+
+        debugControl:SetText(zo_strformat("<<1>> (<<2>>) [<<3>><<4>>] [<<5>><<6>>]<<7>>", abilityId, timer, sourceIdAndName, sourceTypeString, targetIdAndName, targetTypeString, resultString)))
+    else
+        debugControl:SetText("")
+    end
+
+    -- Timer
+    local timerControl = control:GetNamedChild("Timer")
+    timerControl:SetHidden(hideTimer == 1)
+    if (hideTimer ~= 1) then
+        timerControl:SetFont(alertFont)
+        timerControl:SetHeight(scale)
+        timerControl:SetAnchor(LEFT, labelControl, RIGHT, scale * 5 / 18)
+    end
+
+    -- Icon
+    local iconControl = control:GetNamedChild("Icon")
+    iconControl:SetTexture(GetAbilityIcon(abilityId))
+    iconControl:SetDimensions(scale, scale)
+    iconControl:SetAnchor(RIGHT, labelControl, LEFT, - scale * 2 / 9, 3)
+
+    control:SetHidden(false)
 end
 
-local function RemoveAlert()
+local function PlaySoundIfApplicable(dingInIA)
+    -- Play a ding sound only in IA for Uppercut and Power Bash
+    if (dingInIA == 1
+        and Crutch.savedOptions.endlessArchive.dingUppercut
+        and GetZoneId(GetUnitZoneIndex("player")) == 1436) then
+        PlaySound(SOUNDS.DUEL_START)
+    end
+
+    -- Play a ding sound only in IA for other dangerous attacks
+    if (dingInIA == 2
+        and Crutch.savedOptions.endlessArchive.dingDangerous
+        and GetZoneId(GetUnitZoneIndex("player")) == 1436) then
+        PlaySound(SOUNDS.DUEL_START)
+    end
 end
 
 -- preventOverwrite might be used by Roaring Flare and Bahsei portal, but could probably just specify that from format?
@@ -121,102 +240,20 @@ local function DisplayAlertCommon(key, abilityId, textLabel, timer, sourceUnitId
         data.controlKey = controlKey
     end
 
-    -- Debug text
-    local sourceIdAndName = zo_strformat("<<1>> <<2>>", sourceUnitId, sourceName)
-    local targetIdAndName = zo_strformat("<<1>> <<2>>", targetUnitId, targetName)
-
-    local resultString = ""
-    if (result) then
-        resultString = " " .. (resultStrings[result] or tostring(result))
-    end
-
-    local sourceTypeString = ""
-    if (sourceType) then
-        sourceTypeString = " " .. (unitTypeStrings[sourceType] or tostring(sourceType))
-    end
-
-    local targetTypeString = ""
-    if (targetType) then
-        targetTypeString = " " .. (unitTypeStrings[targetType] or tostring(targetType))
-    end
-
+    -----------------------------------
     -- UI things that are only set once
-    data.control:GetNamedChild("Id"):SetText(zo_strformat("<<1>> (<<2>>) [<<3>><<4>>] [<<5>><<6>>]<<7>>", abilityId, timer, sourceIdAndName, sourceTypeString, targetIdAndName, targetTypeString, resultString)))
+    SetInitialUI(data.control, customColor, alertType, resultFilter, dingInIA, customText, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result, abilityId, timer, hideTimer)
 
-    -- TODO: vvv
+    -- Dings in IA
+    PlaySoundIfApplicable(dingInIA)
 
-    -- Set the time and make some strings
-    local lineControl = CrutchAlertsContainer:GetNamedChild("Line" .. tostring(index))
-    freeControls[index] = {source = sourceUnitId, expireTime = GetGameTimeMilliseconds() + timer, abilityId = abilityId, target = targetUnitId}
-    AddToDisplaying(sourceUnitId, abilityId, preventOverwrite, targetUnitId, index)
-    
-
-    -- Keyboard vs gamepad fonts
-    local styles = Crutch.GetStyles()
-    local scale = GetScale()
-    local alertFont = styles.GetAlertFont(scale * 8 / 9)
-    local smallFont = styles.GetAlertFont(scale * 7 / 18)
-
-
-    -- Set the items
-    lineControl:SetHeight(scale)
-    local labelControl = lineControl:GetNamedChild("Label")
-    labelControl:SetFont(alertFont)
-    labelControl:SetDimensions(1200, scale)
-    labelControl:SetText(customColor and zo_strformat("|c<<1>><<2>>|r", customColor, textLabel) or zo_strformat("<<1>>", textLabel))
-    labelControl:SetWidth(labelControl:GetTextWidth())
-
-    if (hideTimer == 1) then
-        lineControl:GetNamedChild("Timer"):SetHidden(true)
-    else
-        local timerLabel = lineControl:GetNamedChild("Timer")
-        timerLabel:SetHidden(false)
-        timerLabel:SetFont(alertFont)
-        timerLabel:SetText(string.format("%.1f", timer / 1000))
-        timerLabel:SetDimensions(200, scale)
-        timerLabel:SetWidth(timerLabel:GetTextWidth())
-        timerLabel:SetAnchor(LEFT, labelControl, RIGHT, scale * 5 / 18)
-        timerLabel:SetColor(unpack(GetTimerColor(timer)))
-    end
-
-    local iconControl = lineControl:GetNamedChild("Icon")
-    iconControl:SetTexture(GetAbilityIcon(abilityId))
-    iconControl:SetDimensions(scale, scale)
-    iconControl:SetAnchor(RIGHT, labelControl, LEFT, - scale * 2 / 9, 3)
-
-    lineControl:GetNamedChild("Id"):SetFont(smallFont)
-    if (Crutch.savedOptions.debugLine) then
-        lineControl:GetNamedChild("Id"):SetText(string.format("%d (%d) [%s%s] [%s%s]%s", abilityId, timer, sourceIdAndName, sourceTypeString, targetIdAndName, targetTypeString, resultString))
-    else
-        lineControl:GetNamedChild("Id"):SetText("")
-    end
-
-    lineControl:SetHidden(false)
-
-    -- Play a ding sound only in IA for Uppercut and Power Bash
-    if (dingInIA == 1
-        and Crutch.savedOptions.endlessArchive.dingUppercut
-        and GetZoneId(GetUnitZoneIndex("player")) == 1436) then
-        PlaySound(SOUNDS.DUEL_START)
-    end
-
-    -- Play a ding sound only in IA for other dangerous attacks
-    if (dingInIA == 2
-        and Crutch.savedOptions.endlessArchive.dingDangerous
-        and GetZoneId(GetUnitZoneIndex("player")) == 1436) then
-        PlaySound(SOUNDS.DUEL_START)
-    end
+    UpdateDisplay()
 
     -- Start polling if it's not already going
     if (not isPolling) then
-        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "Poll", 100, UpdateDisplay)
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "PollV2", 100, UpdateDisplay)
         isPolling = true
     end
-
-    alerts[key] = {
-        abilityId = abilityId,
-
-    }
 end
 
 -- ["e" .. unitTag .. abilityId] -- effects
@@ -233,6 +270,13 @@ end
 local function DisplayGeneralAlert(abilityId, textLabel, timer, sourceUnitId, sourceName, sourceType, targetUnitId, targetName, targetType, result, preventOverwrite)
     local key = zo_strformat("g_<<1>>_<<2>>_<<3>>", sourceUnitId, abilityId, targetUnitId)
     -- TODO: return a key?
+end
+
+local function InterruptAlert()
+    -- TODO
+end
+
+local function RemoveAlert(showStopped)
 end
 
 
