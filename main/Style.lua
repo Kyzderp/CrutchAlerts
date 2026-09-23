@@ -9,7 +9,9 @@ local KEYBOARD_STYLE = {
     GetDamageableFont = function(size)
         return string.format("$(BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
     end,
-    prominentFont = "$(BOLD_FONT)|80|soft-shadow-thick",
+    GetProminentFont = function(size)
+        return string.format("$(BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
+    end,
     GetBHBFont = function(size)
         return string.format("$(BOLD_FONT)|%d|shadow", math.floor(size))
     end,
@@ -28,7 +30,9 @@ local GAMEPAD_STYLE = {
     GetDamageableFont = function(size)
         return string.format("$(GAMEPAD_BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
     end,
-    prominentFont = "ZoFontGamepad61",
+    GetProminentFont = function(size)
+        return string.format("$(GAMEPAD_BOLD_FONT)|%d|soft-shadow-thick", math.floor(size))
+    end,
     GetBHBFont = function(size)
         return string.format("$(GAMEPAD_MEDIUM_FONT)|%d|soft-shadow-thick", math.floor(size))
     end,

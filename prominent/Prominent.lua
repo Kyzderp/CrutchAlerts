@@ -83,10 +83,10 @@ local function Display(abilityId, text, color, slot, millis)
     end
 
     -- Individual lines
-    local styles = Crutch.GetStyles()
+    local font = Crutch.GetStyles().GetProminentFont(Crutch.savedOptions.general.prominentSize)
     for i = 1, control:GetNumChildren() do
         local label = control:GetChild(i)
-        label:SetFont(styles.prominentFont)
+        label:SetFont(font)
         label:SetText(text)
         label:SetColor(unpack(color))
         label:SetDimensions(1000, 1000)

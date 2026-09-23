@@ -1,4 +1,5 @@
 local Crutch = CrutchAlerts
+local C = Crutch.Constants
 
 local function UnlockUI(value)
     if (value) then
@@ -379,6 +380,20 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
                 Crutch.UnlockUI(true)
             end,
             disable = function() return not Crutch.savedOptions.general.showDamageable end
+        },
+        {
+            type = LibHarvensAddonSettings.ST_SLIDER,
+            label = "Prominent alert size",
+            tooltip = "The size to display the prominent alerts",
+            min = 5,
+            max = 120,
+            step = 1,
+            default = Crutch.defaultOptions.general.prominentSize,
+            getFunction = function() return Crutch.savedOptions.general.prominentSize end,
+            setFunction = function(value)
+                Crutch.savedOptions.general.prominentSize = value
+                Crutch.DisplayProminent(C.ID.DROP_FROST)
+            end,
         },
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,

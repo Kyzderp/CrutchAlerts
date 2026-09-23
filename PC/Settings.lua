@@ -301,6 +301,21 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return not Crutch.savedOptions.general.showDamageable end,
                 },
                 {
+                    type = "slider",
+                    name = "Prominent alert size",
+                    tooltip = "The size to display the prominent alerts",
+                    min = 5,
+                    max = 120,
+                    step = 1,
+                    default = Crutch.defaultOptions.general.prominentSize,
+                    width = "full",
+                    getFunc = function() return Crutch.savedOptions.general.prominentSize end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.prominentSize = value
+                        Crutch.DisplayProminent(C.ID.DROP_FROST)
+                    end,
+                },
+                {
                     type = "divider",
                 },
                 {
