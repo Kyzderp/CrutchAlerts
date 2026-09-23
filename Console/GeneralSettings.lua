@@ -749,7 +749,10 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Enable \"fun\" stuff",
-            tooltip = "This is where I'd put my Easter eggs... if I had any!",
+            tooltip = function()
+                local hint = Crutch.Drawing.Model.AreGravesEnabled() and "\n\nHint: if your friends are wondering why they don't see graves, it might not be Halloween for them yet, or they are on console, or they don't have SubSampling set to high. To disregard and show graves anyway, use /crutch meme graves" or ""
+                return "This is where I'd put my Easter eggs... if I had any! To revisit previous or never-released shenanigans, check out /crutch meme" .. hint
+            end,
             default = true,
             getFunction = function() return Crutch.savedOptions.general.showSpeshul end,
             setFunction = function(value)
