@@ -20,21 +20,80 @@ Crutch.prominent = {
 
 Crutch.prominentDisplaying = {} -- {[12459] = 1,}
 
+
+-------------------------------------------------------------------------------
+-- virtuals
+local SLOT_COORDS = {
+    [1] = {
+        {-900,    0, LEFT},
+        {-900,  300, LEFT},
+        {-900, -300, LEFT},
+        { 900,    0, RIGHT},
+        { 900,  300, RIGHT},
+        { 900, -300, RIGHT},
+    },
+    [2] = {
+        {-900,  150, LEFT},
+        {-900, -150, LEFT},
+        { 900,  150, RIGHT},
+        { 900, -150, RIGHT},
+    },
+    [3] = {
+        {-900,  225, LEFT},
+        {-900, -225, LEFT},
+        { 900,  225, RIGHT},
+        { 900, -225, RIGHT},
+    },
+    [4] = {
+        {   0,    0, CENTER},
+        {-900,  225, LEFT},
+        {-900, -225, LEFT},
+        {   0,  450, CENTER},
+        { 900,  225, RIGHT},
+        { 900, -225, RIGHT},
+    },
+}
+
+local prominentControls = {}
+
+local function CreateProminents(slot)
+    local control = WINDOW_MANAGER:CreateTopLevelWindow("CrutchAlertsProminent" .. slot)
+    for i, coords in ipairs(SLOT_COORDS[slot]) do
+        local line = CreateControlFromVirtual(
+            "$(parent)Line" .. i,
+            control,
+            "CrutchAlertsProminentLineTemplate",
+            "")
+        line:SetAnchor(coords[3], GuiRoot, CENTER, coords[1], coords[2])
+    end
+    return control
+end
+
+
 -------------------------------------------------------------------------------
 local function Display(abilityId, text, color, slot, millis)
     Crutch.prominentDisplaying[abilityId] = slot
 
-    local styles = Crutch.GetStyles()
-
-    local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
-    for _, name in ipairs(childNames) do
-        local label = control:GetNamedChild(name)
-        if (label) then
-            label:SetFont(styles.prominentFont)
-            label:SetText(text)
-            label:SetColor(unpack(color))
-        end
+    -- Get or create
+    local control = GetControl("CrutchAlertsProminent" .. slot)
+    if (not control) then
+        local creationStartTime = GetGameTimeMilliseconds()
+        control = CreateProminents(slot)
+        Crutch.dbgOther("Creating prominents took " .. GetGameTimeMilliseconds() - creationStartTime)
     end
+
+    -- Individual lines
+    local styles = Crutch.GetStyles()
+    for i = 1, control:GetNumChildren() do
+        local label = control:GetChild(i)
+        label:SetFont(styles.prominentFont)
+        label:SetText(text)
+        label:SetColor(unpack(color))
+        label:SetDimensions(1000, 1000)
+        label:SetWidth(label:GetTextWidth())
+        label:SetHeight(label:GetTextHeight())
+    end
+
     control:SetHidden(false)
 
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "Prominent" .. tostring(slot), millis, function()
