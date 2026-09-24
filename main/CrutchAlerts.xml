@@ -70,7 +70,7 @@
         </TopLevelControl>
 
 <!-- ======================================================================================================================= -->
-        <Label name="CrutchAlertsProminentLineTemplate" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH">
+        <Label name="CrutchAlertsProminentLineTemplate" color="8800ff" text="STOP REZZING" verticalAlignment="CENTER" horizontalAlignment="CENTER" tier="HIGH" virtual="true">
             <Dimensions x="1000" y="50"/>
         </Label>
     </Controls>

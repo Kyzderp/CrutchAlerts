@@ -23,34 +23,35 @@ Crutch.prominentDisplaying = {} -- {[12459] = 1,}
 
 -------------------------------------------------------------------------------
 -- virtuals
+local X_OFFSET = GuiRoot:GetWidth() / 2 * 0.8
 local SLOT_COORDS = {
     [1] = {
-        {-900,    0, LEFT},
-        {-900,  300, LEFT},
-        {-900, -300, LEFT},
-        { 900,    0, RIGHT},
-        { 900,  300, RIGHT},
-        { 900, -300, RIGHT},
+        {-X_OFFSET,    0, LEFT},
+        {-X_OFFSET,  300, LEFT},
+        {-X_OFFSET, -300, LEFT},
+        { X_OFFSET,    0, RIGHT},
+        { X_OFFSET,  300, RIGHT},
+        { X_OFFSET, -300, RIGHT},
     },
     [2] = {
-        {-900,  150, LEFT},
-        {-900, -150, LEFT},
-        { 900,  150, RIGHT},
-        { 900, -150, RIGHT},
+        {-X_OFFSET,  150, LEFT},
+        {-X_OFFSET, -150, LEFT},
+        { X_OFFSET,  150, RIGHT},
+        { X_OFFSET, -150, RIGHT},
     },
     [3] = {
-        {-900,  225, LEFT},
-        {-900, -225, LEFT},
-        { 900,  225, RIGHT},
-        { 900, -225, RIGHT},
+        {-X_OFFSET,  225, LEFT},
+        {-X_OFFSET, -225, LEFT},
+        { X_OFFSET,  225, RIGHT},
+        { X_OFFSET, -225, RIGHT},
     },
     [4] = {
-        {   0,    0, CENTER},
-        {-900,  225, LEFT},
-        {-900, -225, LEFT},
-        {   0,  450, CENTER},
-        { 900,  225, RIGHT},
-        { 900, -225, RIGHT},
+        {        0,    0, CENTER},
+        {-X_OFFSET,  225, LEFT},
+        {-X_OFFSET, -225, LEFT},
+        {        0,  450, CENTER},
+        { X_OFFSET,  225, RIGHT},
+        { X_OFFSET, -225, RIGHT},
     },
 }
 
