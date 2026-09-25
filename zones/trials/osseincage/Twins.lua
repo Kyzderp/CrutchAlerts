@@ -442,20 +442,23 @@ end
 local PANEL_ENFEEBLEMENT_INDEX = 7
 local BLAZING_MALEDICTION_ID = 234284
 local SPARKING_MALEDICTION_ID = 234011
+local SEARING_BLAZE_ID = 234277
+local SEARING_SPARKS_ID = 234002
 
 local shouldTargetJynorah = nil
 
 -- Initial curse
-local function OnMaledictionGainedSelf(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
-    shouldTargetJynorah = (abilityId == SPARKING_MALEDICTION_ID) -- do the opposite here initially, because timeout will swap it
+local function OnCurseDamageSelf(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    shouldTargetJynorah = (abilityId == SEARING_BLAZE_ID) -- do the opposite here initially, because timeout will swap it
     Crutch.dbgOther("initialized shouldTargetJynorah " .. tostring(shouldTargetJynorah))
-    Crutch.UnregisterForCombatEvent("SparkingMaledictionInfoPanelSelf")
-    Crutch.UnregisterForCombatEvent("BlazingMaledictionInfoPanelSelf")
+    Crutch.UnregisterForCombatEvent("SearingSparksInfoPanelSelf")
+    Crutch.UnregisterForCombatEvent("SearingBlazeInfoPanelSelf")
 end
 
 -- The player may not be guaranteed to get a curse themselves, so listen for all and debounce
 local function OnMaledictionTimeout()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "MaledictionTimeout")
+    Crutch.dbgOther("OnMaledictionTimeout")
 
     zo_callLater(function()
         if (not Crutch.groupInCombat) then return end
@@ -477,6 +480,7 @@ local function OnMaledictionTimeout()
 end
 
 local function OnMaledictionGained(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
+    Crutch.dbgOther("OnMaledictionGained")
     EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "MaledictionTimeout", 500, OnMaledictionTimeout)
 end
 
@@ -640,14 +644,14 @@ local function MaybeRegisterTwins()
     -- Info panel target / portal
     if (Crutch.savedOptions.osseincage.panel.showTarget and IsHM() and GetSelectedLFGRole() ~= LFG_ROLE_TANK) then
         Crutch.RegisterForCombatEvent("SparkingMaledictionInfoPanel", OnMaledictionGained, ACTION_RESULT_EFFECT_GAINED, SPARKING_MALEDICTION_ID)
-        Crutch.RegisterForCombatEvent("SparkingMaledictionInfoPanelSelf", OnMaledictionGainedSelf, ACTION_RESULT_EFFECT_GAINED, SPARKING_MALEDICTION_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForCombatEvent("SearingSparksInfoPanelSelf", OnCurseDamageSelf, ACTION_RESULT_DAMAGE, SEARING_SPARKS_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
         Crutch.RegisterForCombatEvent("BlazingMaledictionInfoPanel", OnMaledictionGained, ACTION_RESULT_EFFECT_GAINED, BLAZING_MALEDICTION_ID)
-        Crutch.RegisterForCombatEvent("BlazingMaledictionInfoPanelSelf", OnMaledictionGainedSelf, ACTION_RESULT_EFFECT_GAINED, BLAZING_MALEDICTION_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
+        Crutch.RegisterForCombatEvent("SearingBlazeInfoPanelSelf", OnCurseDamageSelf, ACTION_RESULT_DAMAGE, SEARING_BLAZE_ID, nil, COMBAT_UNIT_TYPE_PLAYER)
     else
         Crutch.UnregisterForCombatEvent("SparkingMaledictionInfoPanel")
-        Crutch.UnregisterForCombatEvent("SparkingMaledictionInfoPanelSelf")
+        Crutch.UnregisterForCombatEvent("SearingSparksInfoPanelSelf")
         Crutch.UnregisterForCombatEvent("BlazingMaledictionInfoPanel")
-        Crutch.UnregisterForCombatEvent("BlazingMaledictionInfoPanelSelf")
+        Crutch.UnregisterForCombatEvent("SearingBlazeInfoPanelSelf")
     end
 
     -- Reflective Scales
