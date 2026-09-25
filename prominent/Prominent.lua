@@ -1,8 +1,6 @@
 local Crutch = CrutchAlerts
 local C = Crutch.Constants
 
-local childNames = {"LeftMid", "LeftTop", "LeftBottom", "RightMid", "RightTop", "RightBottom"}
-
 -- TODO: make these user vars
 -- TODO: interrupted
 local preMillis = 1000
@@ -146,8 +144,8 @@ function Crutch.DisplayProminentSpin(text, color, slot, mute)
         end
 
         local control = GetControl("CrutchAlertsProminent" .. tostring(slot))
-        for _, name in ipairs(childNames) do
-            local label = control:GetNamedChild(name)
+        for i = 1, control:GetNumChildren() do
+            local label = control:GetChild(i)
             if (label) then
                 label:SetTransformRotationZ(math.rad(angle))
             end

@@ -145,6 +145,7 @@ Crutch.uninterruptible = {
 
     [168525] = true, -- Imminent Blister (duration before fragility, not initial cast)
     [168526] = true, -- Imminent Chill (duration before fragility, not initial cast)
+    [170409] = true, -- Cinder Shot (DSR)
 }
 
 ---------------------------------------------------------------------
