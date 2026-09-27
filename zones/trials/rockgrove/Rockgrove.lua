@@ -286,13 +286,15 @@ end
 ---------------------------------------------------------------------
 -- Info Panel
 ---------------------------------------------------------------------
+local CURSED_GROUND_PREFIX = zo_strformat("|c8ef5f5<<C:1>>: ", GetAbilityName(152475))
+local SCYTHE_PREFIX = zo_strformat("|c64c200<<C:1>>: ", GetAbilityName(150067))
 local function OnCursedGround()
     -- 27.2
-    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 27200)
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, CURSED_GROUND_PREFIX, 27200)
 end
 
 local function OnScythe()
-    Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 15000)
+    Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, SCYTHE_PREFIX, 15000)
 end
 
 local function OnEnteredCombat()
@@ -307,10 +309,10 @@ local function OnEnteredCombat()
 
     if (Crutch.savedOptions.rockgrove.panel.showCursedGround) then
         -- Vet testing: 14.1, 22.9 (had salvo), 17.6 (salvo); 11.4
-        Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, string.format("|c8ef5f5%s: ", GetAbilityName(152475)), 11400)
+        Crutch.InfoPanel.CountDownDuration(RG.PANEL_CURSED_GROUND_INDEX, CURSED_GROUND_PREFIX, 11400)
     end
     if (Crutch.savedOptions.rockgrove.panel.showScythe) then
-        Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, string.format("|c64c200%s: ", GetAbilityName(150067)), 15000)
+        Crutch.InfoPanel.CountDownDuration(RG.PANEL_SCYTHE_INDEX, SCYTHE_PREFIX, 15000)
     end
 end
 
