@@ -77,8 +77,8 @@ end
 ---------------------------------------------------------------------
 -- Info Panel
 ---------------------------------------------------------------------
-local PANEL_SMASH_INDEX = 3
-local PANEL_SLUDGE_INDEX = 4
+local PANEL_SLUDGE_INDEX = 3
+local PANEL_SMASH_INDEX = 4
 local PANEL_BLITZ_INDEX = 5
 
 local SMASH_ID = 149531
@@ -94,7 +94,7 @@ local function IsOax()
 end
 
 local function OnSmash()
-    Crutch.InfoPanel.CountDownDuration(PANEL_SMASH_INDEX, "|cff6600" .. GetAbilityName(SMASH_ID) .. ": ", 22000) -- TODO
+    Crutch.InfoPanel.CountDownDuration(PANEL_SMASH_INDEX, "|cff6600" .. GetAbilityName(SMASH_ID) .. ": ", 17800) -- Usually 22s+, but seen a few around 17.8? Also usually lower priority than sludge, but seen sludge happen after slam before... unless sludge timer is very wrong
 end
 
 local function OnSludge()
@@ -108,11 +108,12 @@ end
 local function OnEnteredCombat()
     if (IsOax()) then
         if (Crutch.savedOptions.rockgrove.panel.showSmash) then
-            Crutch.InfoPanel.CountDownDuration(PANEL_SMASH_INDEX, "|cff6600" .. GetAbilityName(SMASH_ID) .. ": ", 12000) -- TODO
+            -- normal testing: 25.1, 21.1, 35.1 (delayed by mini spawn), 21.1, 25.3, 26.0
+            Crutch.InfoPanel.CountDownDuration(PANEL_SMASH_INDEX, "|cff6600" .. GetAbilityName(SMASH_ID) .. ": ", 21000)
         end
         if (Crutch.savedOptions.rockgrove.panel.showSludge) then
-            -- normal testing: 21.9, 21.7, 22.4
-            Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(SLUDGE_ID) .. ": ", 20000)
+            -- normal testing: 21.9, 21.7, 22.4, 17.5?!
+            Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(SLUDGE_ID) .. ": ", 17500)
         end
         if (Crutch.savedOptions.rockgrove.panel.showBlitz) then
             -- normal testing: 16.0, 15.6, 15.5, 16.1

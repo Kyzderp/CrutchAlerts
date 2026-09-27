@@ -88,7 +88,7 @@ local function Display(abilityId, text, color, slot, millis)
         label:SetFont(font)
         label:SetText(text)
         label:SetColor(unpack(color))
-        label:SetDimensions(1000, 1000)
+        label:SetDimensions(2000, 2000)
         label:SetWidth(label:GetTextWidth())
         label:SetHeight(label:GetTextHeight())
     end
