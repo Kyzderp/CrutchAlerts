@@ -305,7 +305,7 @@ function Crutch:CreateSettingsMenu()
                     name = "Prominent alert size",
                     tooltip = "The size to display the prominent alerts",
                     min = 5,
-                    max = 120,
+                    max = 200,
                     step = 1,
                     default = Crutch.defaultOptions.general.prominentSize,
                     width = "full",

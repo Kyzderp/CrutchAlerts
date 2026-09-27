@@ -21,49 +21,47 @@ Crutch.prominentDisplaying = {} -- {[12459] = 1,}
 
 -------------------------------------------------------------------------------
 -- virtuals
-local X_OFFSET = GuiRoot:GetWidth() / 2 * 0.8
+
+-- x coord is just a multiplier
 local SLOT_COORDS = {
     [1] = {
-        {-X_OFFSET,    0, LEFT},
-        {-X_OFFSET,  300, LEFT},
-        {-X_OFFSET, -300, LEFT},
-        { X_OFFSET,    0, RIGHT},
-        { X_OFFSET,  300, RIGHT},
-        { X_OFFSET, -300, RIGHT},
+        {-1,    0, LEFT},
+        {-1,  300, LEFT},
+        {-1, -300, LEFT},
+        { 1,    0, RIGHT},
+        { 1,  300, RIGHT},
+        { 1, -300, RIGHT},
     },
     [2] = {
-        {-X_OFFSET,  150, LEFT},
-        {-X_OFFSET, -150, LEFT},
-        { X_OFFSET,  150, RIGHT},
-        { X_OFFSET, -150, RIGHT},
+        {-1,  150, LEFT},
+        {-1, -150, LEFT},
+        { 1,  150, RIGHT},
+        { 1, -150, RIGHT},
     },
     [3] = {
-        {-X_OFFSET,  225, LEFT},
-        {-X_OFFSET, -225, LEFT},
-        { X_OFFSET,  225, RIGHT},
-        { X_OFFSET, -225, RIGHT},
+        {-1,  225, LEFT},
+        {-1, -225, LEFT},
+        { 1,  225, RIGHT},
+        { 1, -225, RIGHT},
     },
     [4] = {
-        {        0,    0, CENTER},
-        {-X_OFFSET,  225, LEFT},
-        {-X_OFFSET, -225, LEFT},
-        {        0,  450, CENTER},
-        { X_OFFSET,  225, RIGHT},
-        { X_OFFSET, -225, RIGHT},
+        { 0,    0, CENTER},
+        {-1,  225, LEFT},
+        {-1, -225, LEFT},
+        { 0,  450, CENTER},
+        { 1,  225, RIGHT},
+        { 1, -225, RIGHT},
     },
 }
 
-local prominentControls = {}
-
 local function CreateProminents(slot)
     local control = WINDOW_MANAGER:CreateTopLevelWindow("CrutchAlertsProminent" .. slot)
-    for i, coords in ipairs(SLOT_COORDS[slot]) do
+    for i, _ in ipairs(SLOT_COORDS[slot]) do
         local line = CreateControlFromVirtual(
             "$(parent)Line" .. i,
             control,
             "CrutchAlertsProminentLineTemplate",
             "")
-        line:SetAnchor(coords[3], GuiRoot, CENTER, coords[1], coords[2])
     end
     return control
 end
@@ -83,14 +81,18 @@ local function Display(abilityId, text, color, slot, millis)
 
     -- Individual lines
     local font = Crutch.GetStyles().GetProminentFont(Crutch.savedOptions.general.prominentSize)
-    for i = 1, control:GetNumChildren() do
-        local label = control:GetChild(i)
+    for i, coords in ipairs(SLOT_COORDS[slot]) do
+        local label = control:GetNamedChild("Line" .. i)
         label:SetFont(font)
         label:SetText(text)
         label:SetColor(unpack(color))
         label:SetDimensions(2000, 2000)
         label:SetWidth(label:GetTextWidth())
         label:SetHeight(label:GetTextHeight())
+
+        label:ClearAnchors()
+        local xOffset = GuiRoot:GetWidth() / 2 * 0.8 * coords[1]
+        label:SetAnchor(coords[3], GuiRoot, CENTER, xOffset, coords[2])
     end
 
     control:SetHidden(false)
