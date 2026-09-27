@@ -340,13 +340,21 @@ local function OnDeathStateChanged(_, unitTag, isDead)
 
     if (isDead) then
         if (Crutch.Drawing.ShouldUnitBeShown(unitTag)) then
+            local theta = GetPlayerCameraHeading()
+            -- local theta = math.random() * math.pi * 2
+            -- Grave facing player character?
+            if (not AreUnitsEqual(unitTag, "player")) then
+                local _, x1, _, z1 = GetUnitRawWorldPosition(unitTag)
+                local _, x2, _, z2 = GetUnitRawWorldPosition("player")
+                theta = math.atan2(x2 - x1, z2 - z1)
+            end
             Grave(
                 unitTag,
                 intros[math.random(#intros)],
                 string.gsub(GetUnitDisplayName(unitTag), "@", ""),
                 unitTag == "player" and FormatDate(GetAchievementTimestamp(17)),
                 nil,
-                GetPlayerCameraHeading()
+                theta
                 )
         end
     else
