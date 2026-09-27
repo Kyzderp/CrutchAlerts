@@ -126,19 +126,23 @@ local function CreateLabelRenderSpace(x, y, z, pitch, yaw, roll, width, height, 
     return control, key
 end
 
-local function CalculateValues(x1, y1, z1, x2, y2, z2, x3, y3, z3)
+local function CalculateValues(x1, y1, z1, x2, y2, z2, x3, y3, z3, theta)
     -- Midpoint
     local oX = (x1 + x2) / 2
     local oY = (y1 + y2) / 2
     local oZ = (z1 + z2) / 2
 
+    theta = math.pi * 2 - theta
+    local roX = oX * math.cos(theta) - oZ * math.sin(theta)
+    local roZ = oZ * math.cos(theta) + oX * math.sin(theta)
+
     local height = math.sqrt((x3 - x2)^2 + (y3 - y2)^2 + (z3 - z2)^2)
     local width = math.sqrt((x3 - x1)^2 + (y3 - y1)^2 + (z3 - z1)^2)
     local pitch = math.atan2(z3 - z2, y3 - y2)
-    local yaw = math.atan2(z3 - z1, x3 - x1)
+    local yaw = math.atan2(z3 - z1, x3 - x1) - theta
     local roll = -math.atan2(x3 - x2, y3 - y2)
 
-    return oX, oY, oZ, pitch, yaw, roll, width, height
+    return roX, oY, roZ, pitch, yaw, roll, width, height
 end
 
 local function FormatDate(timestamp)
@@ -206,8 +210,19 @@ local elements = {
 }
 
 local scale = 100
-local function CreateControlFromElement(element, unitTag, x, y, z, intro, name, birth, death, uiScale)
-    local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(unpack(element.coords))
+local function CreateControlFromElement(element, unitTag, x, y, z, intro, name, birth, death, uiScale, theta)
+    local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(
+        element.coords[1],
+        element.coords[2],
+        element.coords[3],
+        element.coords[4],
+        element.coords[5],
+        element.coords[6],
+        element.coords[7],
+        element.coords[8],
+        element.coords[9],
+        theta
+        )
     if (element.texture) then
         local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, element.texture)
         table.insert(graves[unitTag].rects, key)
@@ -258,7 +273,8 @@ local function CreateControlFromElement(element, unitTag, x, y, z, intro, name, 
             element.coords[6],
             element.coords[7] - offset,
             element.coords[8],
-            element.coords[9]
+            element.coords[9],
+            theta
             )
         local newX = x + sX * scale
         local newY = y + sY * scale
@@ -271,7 +287,7 @@ local function CreateControlFromElement(element, unitTag, x, y, z, intro, name, 
     end
 end
 
-local function Grave(unitTag, intro, name, birth, death)
+local function Grave(unitTag, intro, name, birth, death, theta)
     unitTag = unitTag or "player"
     local _, x, y, z = GetUnitRawWorldPosition(unitTag)
     y = y - 20
@@ -279,6 +295,7 @@ local function Grave(unitTag, intro, name, birth, death)
     name = name or "Kyzeragon"
     birth = birth or "Unknown"
     death = death or FormatDate(GetTimeStamp())
+    theta = theta or 0
 
     RemoveGrave(unitTag)
 
@@ -287,7 +304,7 @@ local function Grave(unitTag, intro, name, birth, death)
     local uiScale = GetUIGlobalScale()
 
     for _, element in ipairs(elements) do
-        CreateControlFromElement(element, unitTag, x, y, z, intro, name, birth, death, uiScale)
+        CreateControlFromElement(element, unitTag, x, y, z, intro, name, birth, death, uiScale, theta)
     end
 
     animations[unitTag] = GetGameTimeMilliseconds() + ANIMATION_DURATION
@@ -296,7 +313,7 @@ end
 M.Grave = Grave
 --[[
 /script CrutchAlerts.Drawing.Model.Grave()
-/script CrutchAlerts.Drawing.Model.Grave("player", "Forever in our hearts", "efiye", "May 12, 3203")
+/script CrutchAlerts.Drawing.Model.Grave("player", "Forever in our hearts", "efiye", "May 12, 3203", nil, math.pi/2)
 /script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "TheClawlessConqueror", "May 12, 320312345113")
 ]]
 
@@ -327,7 +344,9 @@ local function OnDeathStateChanged(_, unitTag, isDead)
                 unitTag,
                 intros[math.random(#intros)],
                 string.gsub(GetUnitDisplayName(unitTag), "@", ""),
-                unitTag == "player" and FormatDate(GetAchievementTimestamp(17))
+                unitTag == "player" and FormatDate(GetAchievementTimestamp(17)),
+                nil,
+                GetPlayerCameraHeading()
                 )
         end
     else
