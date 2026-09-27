@@ -449,7 +449,8 @@ local shouldTargetJynorah = nil
 
 -- Initial curse
 local function OnCurseDamageSelf(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, abilityId)
-    shouldTargetJynorah = (abilityId == SEARING_BLAZE_ID) -- do the opposite here initially, because timeout will swap it
+    -- If player is initially on Jynorah, they will get blue curse (sparks)
+    shouldTargetJynorah = (abilityId == SEARING_SPARKS_ID) -- timeout will swap it
     Crutch.dbgOther("initialized shouldTargetJynorah " .. tostring(shouldTargetJynorah))
     Crutch.UnregisterForCombatEvent("SearingSparksInfoPanelSelf")
     Crutch.UnregisterForCombatEvent("SearingBlazeInfoPanelSelf")
