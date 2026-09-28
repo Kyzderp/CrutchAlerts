@@ -125,6 +125,7 @@ local LEAP_IDS = {
 -- be set if it's within 3 seconds of the previous update. This is because
 -- both titans jump at different times, to not refresh the timer
 local lastLeap = 0
+local LEAP_PREFIX = zo_strformat("|cfff1ab<<C:1>>: ", GetAbilityName(233453))
 local function CountDownLeap(durationMs, preventOverwrite)
     local currTime = GetGameTimeMilliseconds()
     if (preventOverwrite and currTime - lastLeap < 3000) then
@@ -134,12 +135,13 @@ local function CountDownLeap(durationMs, preventOverwrite)
     lastLeap = currTime
 
     if (Crutch.savedOptions.osseincage.panel.showLeap) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_LEAP_INDEX, "|cfff1ab" .. GetAbilityName(233453) .. ": ", durationMs)
+        Crutch.InfoPanel.CountDownDuration(PANEL_LEAP_INDEX, LEAP_PREFIX, durationMs)
     end
 end
 
 local firstLeap = true -- Used to do initial leap timer
 local numClashes = 0
+local CLASH_PREFIX = zo_strformat("|cff6600<<C:1>>: ", GetAbilityName(232517))
 -- 36.906, 38.246, 36.941, 36.819, 38.268, 38.263, 36.899
 -- 36.6, 36.56, 37.9, 36.9, 36.58, 37.84, 36.9, 36.5
 local function OnClashBegin()
@@ -150,7 +152,7 @@ local function OnClashBegin()
     Crutch.InfoPanel.StopCount(PANEL_LEAP_INDEX)
 
     if (Crutch.savedOptions.osseincage.panel.showClash) then
-        Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, "|cff6600" .. GetAbilityName(232517) .. ": ", 36500, true)
+        Crutch.InfoPanel.CountDownHardStop(PANEL_CLASH_INDEX, CLASH_PREFIX, 36500, true)
     end
 end
 
@@ -661,7 +663,7 @@ local function MaybeRegisterTwins()
         if (IsHM() and Crutch.savedOptions.osseincage.printHMReflectiveScales) then
             Crutch.RegisterForCombatEvent("OCTitanReflect" .. tostring(damageResult), function(_, _, _, _, _, _, _, sourceType, _, _, _, _, _, _, _, targetUnitId, abilityId)
                 if (sourceType == COMBAT_UNIT_TYPE_PLAYER and titanIds[targetUnitId]) then
-                    Crutch.msg(string.format("You hit %s with |cFF00FF%s|r%s", titanIds[targetUnitId], GetAbilityName(abilityId), str))
+                    Crutch.msg(zo_strformat("You hit <<1>> with |cFF00FF<<C:2>>|r<<3>>", titanIds[targetUnitId], GetAbilityName(abilityId), str))
                 end
             end, damageResult, nil, nil, COMBAT_UNIT_TYPE_NONE)
         else

@@ -269,7 +269,7 @@ local YOL_HEALTH_HM = 145538704
 
 local function CountDownFocusFire(durationMs)
     if (Crutch.savedOptions.sunspire.panel.showFocusFire) then
-        Crutch.InfoPanel.CountDownDuration(PANEL_FOCUS_FIRE_INDEX, "|cff6600" .. GetAbilityName(121722) .. ": ", durationMs)
+        Crutch.InfoPanel.CountDownDuration(PANEL_FOCUS_FIRE_INDEX, zo_strformat("|cff6600<<C:1>>: ", GetAbilityName(121722)), durationMs)
     end
 end
 

@@ -85,6 +85,10 @@ local SMASH_ID = 149531
 local SLUDGE_ID = 149190
 local BLITZ_ID = 149414
 
+local SMASH_PREFIX = zo_strformat("|cff6600<<C:1>>: ", GetAbilityName(SMASH_ID))
+local SLUDGE_PREFIX = zo_strformat("|c64c200<<C:1>>: ", GetAbilityName(SLUDGE_ID))
+local BLITZ_PREFIX = zo_strformat("|cfff1ab<<C:1>>: ", GetAbilityName(BLITZ_ID))
+
 local function IsOax()
     local _, powerMax = GetUnitPower("boss1", COMBAT_MECHANIC_FLAGS_HEALTH)
     if (powerMax == 125745480 or powerMax == 62872740 or powerMax == 19086236) then
@@ -94,30 +98,30 @@ local function IsOax()
 end
 
 local function OnSmash()
-    Crutch.InfoPanel.CountDownDuration(PANEL_SMASH_INDEX, "|cff6600" .. GetAbilityName(SMASH_ID) .. ": ", 17800) -- Usually 22s+, but seen a few around 17.8? Also usually lower priority than sludge, but seen sludge happen after slam before... unless sludge timer is very wrong
+    Crutch.InfoPanel.CountDownDuration(PANEL_SMASH_INDEX, SMASH_PREFIX, 17800) -- Usually 22s+, but seen a few around 17.8? Also usually lower priority than sludge, but seen sludge happen after slam before... unless sludge timer is very wrong
 end
 
 local function OnSludge()
-    Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(SLUDGE_ID) .. ": ", 27000)
+    Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, SLUDGE_PREFIX, 27000)
 end
 
 local function OnBlitz()
-    Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, "|cfff1ab" .. GetAbilityName(BLITZ_ID) .. ": ", 36000)
+    Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, BLITZ_PREFIX, 36000)
 end
 
 local function OnEnteredCombat()
     if (IsOax()) then
         if (Crutch.savedOptions.rockgrove.panel.showSmash) then
             -- normal testing: 25.1, 21.1, 35.1 (delayed by mini spawn), 21.1, 25.3, 26.0
-            Crutch.InfoPanel.CountDownDuration(PANEL_SMASH_INDEX, "|cff6600" .. GetAbilityName(SMASH_ID) .. ": ", 21000)
+            Crutch.InfoPanel.CountDownDuration(PANEL_SMASH_INDEX, SMASH_PREFIX, 21000)
         end
         if (Crutch.savedOptions.rockgrove.panel.showSludge) then
             -- normal testing: 21.9, 21.7, 22.4, 17.5?!
-            Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, "|c64c200" .. GetAbilityName(SLUDGE_ID) .. ": ", 17500)
+            Crutch.InfoPanel.CountDownDuration(PANEL_SLUDGE_INDEX, SLUDGE_PREFIX, 17500)
         end
         if (Crutch.savedOptions.rockgrove.panel.showBlitz) then
             -- normal testing: 16.0, 15.6, 15.5, 16.1
-            Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, "|cfff1ab" .. GetAbilityName(BLITZ_ID) .. ": ", 15000)
+            Crutch.InfoPanel.CountDownDuration(PANEL_BLITZ_INDEX, BLITZ_PREFIX, 15000)
         end
     end
 end

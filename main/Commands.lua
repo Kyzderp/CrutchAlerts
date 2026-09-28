@@ -56,18 +56,18 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         local text = "Slotted ability IDs:\n"
         for i = 3, 8 do
             local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_PRIMARY)
-            text = string.format("%s ||  %d - %s ", text, abilityId, GetAbilityName(abilityId) or "")
+            text = string.format("%s ||  %d - %s ", text, abilityId, Crutch.FormatAbilityName(abilityId) or "")
         end
         text = text .. "\n--------\n"
         for i = 3, 8 do
             local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_BACKUP)
-            text = string.format("%s ||  %d - %s ", text, abilityId, GetAbilityName(abilityId) or "")
+            text = string.format("%s ||  %d - %s ", text, abilityId, Crutch.FormatAbilityName(abilityId) or "")
         end
         if (IsPlayerInWerewolfForm()) then
             text = text .. "\n--------\n"
             for i = 3, 8 do
                 local abilityId = Crutch.GetSlotTrueBoundId(i, HOTBAR_CATEGORY_WEREWOLF)
-                text = string.format("%s ||  %d - %s ", text, abilityId, GetAbilityName(abilityId) or "")
+                text = string.format("%s ||  %d - %s ", text, abilityId, Crutch.FormatAbilityName(abilityId) or "")
             end
         end
         Crutch.msg(text)
@@ -77,7 +77,7 @@ SLASH_COMMANDS["/crutch"] = function(argString)
         local text = ""
         for i = 1, GetNumBuffs("player") do
             local _, _, _, _, _, _, _, _, _, _, abilityId = GetUnitBuffInfo("player", i)
-            text = string.format("%s\n%d - %s", text, abilityId, GetAbilityName(abilityId))
+            text = string.format("%s\n%d - %s", text, abilityId, Crutch.FormatAbilityName(abilityId))
         end
         Crutch.msg("Current effects:" .. text)
 

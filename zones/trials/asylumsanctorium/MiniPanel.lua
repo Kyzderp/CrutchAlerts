@@ -4,9 +4,9 @@ local C = Crutch.Constants
 
 local FELMS_NAME = zo_strformat("<<C:1>>", GetString(CRUTCH_BHB_SAINT_FELMS_THE_BOLD))
 local LLOTHIS_NAME = zo_strformat("<<C:1>>", GetString(CRUTCH_BHB_SAINT_LLOTHIS_THE_PIOUS))
-local BOLTS_NAME = "   |c3a9dd6" .. GetAbilityName(95687) .. ": " -- Oppressive Bolts (actual ability is Soul Stained Corruption)
-local CONE_NAME = "   |c64c200" .. GetAbilityName(95545) .. ": " -- Defiling Dye Blast
-local FART_NAME = "   |c9447ff" .. GetAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
+local BOLTS_NAME = "   |c3a9dd6" .. Crutch.FormatAbilityName(95687) .. ": " -- Oppressive Bolts (actual ability is Soul Stained Corruption)
+local CONE_NAME = "   |c64c200" .. Crutch.FormatAbilityName(95545) .. ": " -- Defiling Dye Blast
+local FART_NAME = "   |c9447ff" .. Crutch.FormatAbilityName(98356) .. ": " -- Noxious Gas (actual ability is Pernicious Transmission)
 
 local PANEL_LLOTHIS_HEADER_INDEX = 5
 local PANEL_LLOTHIS_ENRAGE_INDEX = 6
@@ -103,7 +103,7 @@ end
 -- jump > 2.9s > jump > 2.9s > jump > 20.6s > repeat
 -- 21.4
 ---------------------------------------------------------------------
-local TELEPORT_NAME = "   |cd63a3a" .. GetAbilityName(99138)
+local TELEPORT_NAME = "   |cd63a3a" .. Crutch.FormatAbilityName(99138)
 local lastFelmsJump = 0
 local felmsJumpNumber = 0
 

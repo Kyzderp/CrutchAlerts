@@ -32,7 +32,7 @@ local function UpdateAbilitiesToReplace()
     ZO_ClearTable(abilityIds)
     for id, _ in pairs(Crutch.savedOptions.rockgrove.abilitiesToReplace) do
         table.insert(abilityIds, id)
-        table.insert(abilityNames, string.format("%s (%d)", GetAbilityName(id) or "", id))
+        table.insert(abilityNames, zo_strformat("<<C:1>> (<<2>>)", GetAbilityName(id) or "", id))
     end
     CrutchAlerts_AbilitiesToReplace:UpdateChoices(abilityNames, abilityIds)
 end
@@ -46,7 +46,7 @@ local function UpdateOCAbilitiesToReplace()
     ZO_ClearTable(ocAbilityIds)
     for id, _ in pairs(Crutch.savedOptions.osseincage.abilitiesToReplace) do
         table.insert(ocAbilityIds, id)
-        table.insert(ocAbilityNames, string.format("%s (%d)", GetAbilityName(id) or "", id))
+        table.insert(ocAbilityNames, zo_strformat("<<C:1>> (<<2>>)", GetAbilityName(id) or "", id))
     end
     CrutchAlerts_OCAbilitiesToReplace:UpdateChoices(ocAbilityNames, ocAbilityIds)
 end
@@ -447,7 +447,7 @@ function Crutch:CreateSettingsMenu()
                             text = function()
                                 local str = "Current blacklist: "
                                 for id, _ in pairs(Crutch.savedOptions.general.blacklist) do
-                                    str = string.format("%s%s (%d), ", str, GetAbilityName(id) or "INVALID", id)
+                                    str = zo_strformat("<<1>><<C:2>> (<<3>>), ", str, GetAbilityName(id) or "INVALID", id)
                                 end
                                 return str
                             end,
@@ -2512,7 +2512,7 @@ function Crutch:CreateSettingsMenu()
                             return
                         end
                         Crutch.savedOptions.osseincage.abilitiesToReplace[num] = true
-                        Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
+                        Crutch.msg(zo_strformat("Added <<C:1>> (<<2>>) to abilities to replace.", GetAbilityName(num), num))
                     end,
                     width = "full",
                     disabled = function() return not Crutch.savedOptions.osseincage.enableAbilityOverlay end,
@@ -2528,7 +2528,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     setFunc = function(value)
                         Crutch.savedOptions.osseincage.abilitiesToReplace[value] = nil
-                        Crutch.msg(string.format("Removed %s(%d) from abilities to replace.", GetAbilityName(value), value))
+                        Crutch.msg(zo_strformat("Removed <<C:1>> (<<2>>) from abilities to replace.", GetAbilityName(value), value))
                         UpdateOCAbilitiesToReplace()
                     end,
                     width = "full",
@@ -2845,7 +2845,7 @@ function Crutch:CreateSettingsMenu()
                             return
                         end
                         Crutch.savedOptions.rockgrove.abilitiesToReplace[num] = true
-                        Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
+                        Crutch.msg(zo_strformat("Added <<C:1>> (<<2>>) to abilities to replace.", GetAbilityName(num), num))
                     end,
                     width = "full",
                 },
@@ -2860,7 +2860,7 @@ function Crutch:CreateSettingsMenu()
                     end,
                     setFunc = function(value)
                         Crutch.savedOptions.rockgrove.abilitiesToReplace[value] = nil
-                        Crutch.msg(string.format("Removed %s(%d) from abilities to replace.", GetAbilityName(value), value))
+                        Crutch.msg(zo_strformat("Removed <<C:1>> (<<2>>) from abilities to replace.", GetAbilityName(value), value))
                         UpdateAbilitiesToReplace()
                     end,
                     width = "full",

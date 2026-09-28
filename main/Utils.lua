@@ -46,6 +46,10 @@ function Crutch.GetCapitalizedString(id)
     return zo_strformat("<<C:1>>", GetString(id))
 end
 
+function Crutch.FormatAbilityName(abilityId)
+    return ZO_CachedStrFormat(SI_ABILITY_NAME, GetAbilityName(abilityId))
+end
+
 ---------------------------------------------------------------------
 -- Distance
 ---------------------------------------------------------------------

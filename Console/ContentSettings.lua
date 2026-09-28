@@ -1088,7 +1088,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                     return
                 end
                 Crutch.savedOptions.osseincage.abilitiesToReplace[num] = true
-                Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
+                Crutch.msg(zo_strformat("Added <<C:1>> (<<2>>) to abilities to replace.", GetAbilityName(num), num))
 
                 if (ocSelectedDangerousAbility == 0) then
                     ocSelectedDangerousAbility = num
@@ -1104,7 +1104,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 if (ocSelectedDangerousAbility == 0) then
                     return "None"
                 end
-                return string.format("%s (%d)", GetAbilityName(ocSelectedDangerousAbility) or "", ocSelectedDangerousAbility)
+                return zo_strformat("<<C:1>> (<<2>>)", GetAbilityName(ocSelectedDangerousAbility) or "", ocSelectedDangerousAbility)
             end,
             setFunction = function(combobox, name, item)
                 ocSelectedDangerousAbility = item.data
@@ -1114,7 +1114,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 ZO_ClearTable(ocDangerousAbilityItems)
                 for id, _ in pairs(Crutch.savedOptions.osseincage.abilitiesToReplace) do
                     table.insert(ocDangerousAbilityItems, {
-                        name = string.format("%s (%d)", GetAbilityName(id) or "", id),
+                        name = zo_strformat("<<C:1>> (<<2>>)", GetAbilityName(id) or "", id),
                         data = id,
                     })
                 end
@@ -1487,7 +1487,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                     return
                 end
                 Crutch.savedOptions.rockgrove.abilitiesToReplace[num] = true
-                Crutch.msg(string.format("Added %s (%d) to abilities to replace.", GetAbilityName(num), num))
+                Crutch.msg(zo_strformat("Added <<C:1>> (<<2>>) to abilities to replace.", GetAbilityName(num), num))
 
                 if (selectedDangerousAbility == 0) then
                     selectedDangerousAbility = num
@@ -1502,7 +1502,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 if (selectedDangerousAbility == 0) then
                     return "None"
                 end
-                return string.format("%s (%d)", GetAbilityName(selectedDangerousAbility) or "", selectedDangerousAbility)
+                return zo_strformat("<<C:1>> (<<2>>)", GetAbilityName(selectedDangerousAbility) or "", selectedDangerousAbility)
             end,
             setFunction = function(combobox, name, item)
                 selectedDangerousAbility = item.data
@@ -1512,7 +1512,7 @@ function Crutch.CreateConsoleContentSettingsMenu()
                 ZO_ClearTable(dangerousAbilityItems)
                 for id, _ in pairs(Crutch.savedOptions.rockgrove.abilitiesToReplace) do
                     table.insert(dangerousAbilityItems, {
-                        name = string.format("%s (%d)", GetAbilityName(id) or "", id),
+                        name = zo_strformat("<<C:1>> (<<2>>)", GetAbilityName(id) or "", id),
                         data = id,
                     })
                 end
