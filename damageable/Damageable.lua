@@ -249,15 +249,15 @@ local SUBTITLE_TIMES = {
     },
 
 -- Exiled Redoubt
-    ["Cato Albus"] = {
-        ["Who dares interrupt? I cannot avenge my son without these deaths!"] = 6.9,
+    [GetNameStr(CRUTCH_DMG_CATO_ALBUS)] = {
+        [GetSubtitleStr(CRUTCH_DMG_WHO_DARES_INTERRUPT_I_CANNOT_AVENGE_MY_SON)] = 6.9,
     },
-    ["Prime Sorcerer Vandorallen"] = {
-        ["No one can stop us. You stand no chance!"] = 4.3,
+    [GetNameStr(CRUTCH_BHB_VANDORALLEN)] = {
+        [GetSubtitleStr(CRUTCH_DMG_NO_ONE_CAN_STOP_US_YOU_STAND_NO_CHANCE)] = 4.3,
     },
-    ["Lucilla Caprenia"] = {
+    [GetNameStr(CRUTCH_DMG_LUCILLA_CAPRENIA)] = {
         -- Squall of Retribution
-        ["Cato! It's over. Stop this madness!"] = 6.9,
+        [GetSubtitleStr(CRUTCH_DMG_CATO_ITS_OVER_STOP_THIS_MADNESS)] = 6.9,
     },
 
 -- Falkreath Hold
