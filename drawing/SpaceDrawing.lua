@@ -55,6 +55,9 @@ local function ReleaseSpaceControl(key)
     icon.control:GetNamedChild("Label"):SetHidden(true)
     icon.control:GetNamedChild("Label"):SetAlpha(1)
     icon.control:GetNamedChild("Label"):SetScale(1)
+    icon.control:GetNamedChild("Cooldown"):SetHidden(true)
+    icon.control:GetNamedChild("Cooldown"):SetAlpha(1)
+    icon.control:GetNamedChild("Cooldown"):SetScale(1)
 
     local realKey = tonumber(string.sub(key, 6))
     controlPool:ReleaseObject(realKey)
@@ -109,6 +112,11 @@ local function SetBackdropRoll(icon, roll)
     icon.control:GetNamedChild("Backdrop"):SetTransformRotation(0, 0, roll)
 end
 
+local function SetCooldownColor(icon, r, g, b, a)
+    local cooldown = icon.control:GetNamedChild("Cooldown")
+    cooldown:SetFillColor(r, g, b, a)
+end
+
 ---------------------------------------------------------------------
 -- Generic public API
 -- @param options: table with options for which elements to enable
@@ -141,6 +149,11 @@ options = {
             composite:SetInsets(surfaceIndex, 0, 0, 0, 0)
         end,
         size = 0.8,
+    },
+    cooldown = {
+        progress = 0.7,
+        color = {0, 1, 0, 1},
+        size = 2,
     },
 }
 ]]
@@ -192,6 +205,16 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         backdrop:SetHidden(false)
     end
 
+    if (options.cooldown and options.cooldown.progress) then
+        local cooldown = control:GetNamedChild("Cooldown")
+        cooldown:SetScale(options.cooldown.size)
+        cooldown:StartFixedCooldown(options.cooldown.progress, CD_TYPE_RADIAL, CD_TIME_TYPE_TIME_REMAINING, NO_LEADING_EDGE)
+        if (options.cooldown.color) then
+            cooldown:SetFillColor(unpack(options.cooldown.color))
+        end
+        cooldown:SetHidden(false)
+    end
+
     local pitch, yaw, roll = Draw.ConvertToPitchYawRollIfNeeded(unpack(orientation))
 
     Draw.CreateControlCommon(
@@ -212,7 +235,8 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         options.label and function(icon, r, g, b, a) Draw.SetColor(icon, r, g, b, a, "Label") end or nil,
         options.backdrop and SetBackdropColors or nil,
         options.backdrop and SetBackdropRoll or nil,
-        options.composite and function(icon) return icon.control:GetNamedChild("Composite") end or nil)
+        options.composite and function(icon) return icon.control:GetNamedChild("Composite") end or nil,
+        options.cooldown and SetCooldownColor or nil)
 
     return key
 end

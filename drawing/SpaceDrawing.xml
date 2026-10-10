@@ -24,6 +24,10 @@
                     <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER" offsetY="4"/>
                     <Dimensions x="100" y="100"/>
                 </Label>
+                <Cooldown name="$(parent)Cooldown" textureFile="CrutchAlerts/assets/floor/circle.dds" hidden="true">
+                    <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="CENTER"/>
+                    <Dimensions x="100" y="100"/>
+                </Cooldown>
             </Controls>
         </Control>
 
