@@ -331,6 +331,7 @@ local intros = {
 ---------------------------------------------------------------------
 -- Events
 ---------------------------------------------------------------------
+local messaged
 local function OnDeathStateChanged(_, unitTag, isDead)
     -- To exclude companions and possibly pets too
     if (unitTag ~= "player" and not string.find(unitTag, "^group%d+$")) then return end
@@ -356,6 +357,11 @@ local function OnDeathStateChanged(_, unitTag, isDead)
                 nil,
                 theta
                 )
+
+            if (not messaged and Crutch.GetSpeshulDate() == 1019) then
+                messaged = true
+                Crutch.msg("Happy spoopy season! If you don't want to see graves, you can turn it off in CrutchAlerts > Miscellaneous > Enable \"fun\" stuff")
+            end
         end
     else
         RemoveGrave(unitTag)
