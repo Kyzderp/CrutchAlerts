@@ -358,7 +358,7 @@ local function OnDeathStateChanged(_, unitTag, isDead)
                 theta
                 )
 
-            if (not messaged and Crutch.GetSpeshulDate() == 1019) then
+            if (not messaged and Crutch.GetSpeshulDate() == 1031) then
                 messaged = true
                 Crutch.msg("Happy spoopy season! If you don't want to see graves, you can turn it off in CrutchAlerts > Miscellaneous > Enable \"fun\" stuff")
             end

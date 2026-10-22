@@ -78,6 +78,25 @@ C.ID = {
 
 
 ---------------------------------------------------------------------
+-- IDs for solo dungeons
+---------------------------------------------------------------------
+C.MISFORTUNES = {
+    -- Solo MoS
+    [1592] = {
+        [269804] = true, -- Pulled Punches
+        [269749] = true, -- Warm Welcome
+        [269799] = true, -- Weary Submission
+    },
+    -- Solo MHK
+    [1593] = {
+        [269792] = true, -- Alleviating Assault
+        [269803] = true, -- Revoke of Respite
+        [269749] = true, -- Warm Welcome
+    },
+}
+
+
+---------------------------------------------------------------------
 -- ZO constants for debugging
 ---------------------------------------------------------------------
 C.ACTION_RESULTS = {

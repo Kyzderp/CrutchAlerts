@@ -230,6 +230,7 @@ Crutch.format = {
 -- Moon Hunter Keep (solo)
     [265060] = 300, -- Shred (Mylenne Moon-Caller)
     [267268] = 300, -- Assassinate (Moon Hunter Striker (Archivist))
+    [264999] = 300, -- Surging Gale (Vykosa)
 
 -- Naj-Caldeesh
     [242063] = 100, -- Ancient Blaze (Voskrona Stonehulk Poxito)

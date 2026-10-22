@@ -1,16 +1,21 @@
 local Crutch = CrutchAlerts
 local BHB = Crutch.BossHealthBar
+local C = Crutch.Constants
 
 
 local function dbg(msg)
     Crutch.dbgSpam(string.format("|c8888FF[BHB]|r %s", msg))
 end
 
+local function IsSoloDungeon(zoneId)
+    -- if more are added later, change it to a table
+    return zoneId == 1592 or zoneId == 1593
+end
+
 local function GetThresholdsTable(zoneId)
     if (zoneId == 1436) then
         return BHB.eaThresholds
-    elseif (zoneId == 1592 or zoneId == 1593) then -- solo MoS, MHK
-        -- if more are added later, change it to a table
+    elseif (IsSoloDungeon(zoneId)) then -- solo MoS, MHK
         return BHB.soloDungeonThresholds
     else
         return BHB.thresholds
@@ -74,11 +79,12 @@ local function GetBossThresholds(optionalBossName)
     local bossName = zo_strformat(SI_UNIT_NAME, optionalBossName or BHB.GetUnitNameIfExists(BHB.GetFirstValidBossTag()))
     local data
     local thresholdOverride = BHB.GetThresholdOverride(bossName)
+    local zoneId = GetZoneId(GetUnitZoneIndex("player"))
     if (thresholdOverride) then
         -- Overrides for things like Z'Maja that need to be determined by code
         data = thresholdOverride
     else
-        data = GetThresholdsTable(GetZoneId(GetUnitZoneIndex("player")))[bossName]
+        data = GetThresholdsTable(zoneId)[bossName]
     end
 
     -- Detect HM or vet or normal first based on boss health
@@ -88,6 +94,17 @@ local function GetBossThresholds(optionalBossName)
     if (not data) then
         dbg(string.format("No data found for %s", bossName))
         -- Just return nil if no thresholds
+    elseif (IsSoloDungeon(zoneId)) then
+        -- For solo dungeons, check number of misfortunes. We *could* go by max health, but who knows if there will be misfortunes that increase boss health later...
+        local numMisfortunes = 0
+        for i = 1, GetNumBuffs("player") do
+            local _, _, _, _, _, _, _, _, _, _, abilityId = GetUnitBuffInfo("player", i)
+            if (C.MISFORTUNES[zoneId][abilityId]) then
+                numMisfortunes = numMisfortunes + 1
+            end
+        end
+        Crutch.dbgOther(string.format("Found %d misfortunes", numMisfortunes))
+        data = data[tostring(numMisfortunes)] or data -- Use the specific number of misfortunes, or just the general data
     elseif (powerMax == data.hmHealth and data.Hardmode) then
         dbg(string.format("%s hp matched HARDMODE %d", bossName, powerMax))
         data = data.Hardmode

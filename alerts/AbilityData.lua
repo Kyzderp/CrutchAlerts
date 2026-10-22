@@ -611,6 +611,11 @@ Crutch.others = {
         [224822] = true, -- Blast Powder (Noriwen)
     },
 
+    -- Moon Hunter Keep (solo)
+    [1593] = {
+        [264999] = true, -- Surging Gale (Vykosa)
+    },
+
     -- Oathsworn Pit
     [1470] = {
         [203989] = true, -- Hurl Axe (Anthelmir's Construct)
