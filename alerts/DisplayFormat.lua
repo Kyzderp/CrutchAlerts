@@ -227,7 +227,19 @@ Crutch.format = {
     [233821] = 100, -- Cyclone (Flame Gryphon)
     [224822] = 100, -- Blast Powder (Noriwen)
 
+-- March of Sacrifices (solo)
+    [264047] = 300, -- Power Bash (Wyress Ursus)
+    [263988] = 100, -- Slinging Flame (Dagrund)
+    [264015] = 100, -- Conflagration (Tarcyr)
+    [263959] = 100200, -- Venomous Slam (Balorgh)
+    [263953] = 400, -- Thunder Stomp (Balorgh)
+    [264064] = 300, -- Slaughtering Strike (Balorgh)
+
 -- Moon Hunter Keep (solo)
+    [265041] = 500, -- Bloodmoon's Mercy (Jailer Melitus)
+    [267392] = 300, -- Crushing Leap (Werewolf Bloodcaller + more?)
+    [263979] = 300, -- Crushing Limbs (Hedge Maze Guardian)
+    [265121] = 200, -- Thorn Toss
     [265060] = 300, -- Shred (Mylenne Moon-Caller)
     [267268] = 300, -- Assassinate (Moon Hunter Striker (Archivist))
     [264999] = 300, -- Surging Gale (Vykosa)

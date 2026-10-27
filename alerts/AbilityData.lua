@@ -611,8 +611,18 @@ Crutch.others = {
         [224822] = true, -- Blast Powder (Noriwen)
     },
 
+    -- March of Sacrifices (solo)
+    [1592] = {
+        [263988] = true, -- Slinging Flame (Dagrund)
+        [264015] = true, -- Conflagration (Tarcyr)
+        [263959] = true, -- Venomous Slam (Balorgh)
+        [263953] = true, -- Thunder Stomp (Balorgh)
+    },
+
     -- Moon Hunter Keep (solo)
     [1593] = {
+        [265041] = true, -- Bloodmoon's Mercy (Jailer Melitus)
+        [265121] = true, -- Thorn Toss
         [264999] = true, -- Surging Gale (Vykosa)
     },
 
