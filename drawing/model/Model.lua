@@ -4,9 +4,12 @@ local M = Crutch.Drawing.Model
 
 
 ---------------------------------------------------------------------
+-- FSR and DLSS must be off so that subsampling can be high
 local function AreDepthBuffersSupported()
     if (IsConsoleUI()) then return false end
-    return GetCVar("SUB_SAMPLING") == SUB_SAMPLING_MODE_NORMAL
+    return GetCVar("FSR_MODE") == tostring(FSR_MODE_OFF)
+        and GetCVar("ANTIALIASING_TYPE") ~= tostring(ANTIALIASING_TYPE_DLSS)
+        and GetCVar("SUB_SAMPLING") == tostring(SUB_SAMPLING_MODE_NORMAL)
 end
 
 

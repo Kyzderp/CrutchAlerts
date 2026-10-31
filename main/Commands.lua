@@ -178,7 +178,7 @@ SLASH_COMMANDS["/crutch"] = function(argString)
                     -- TODO: font mem?
                     Crutch.msg("Warning: console does not support depth buffers, so graves will display in front of objects!")
                 else
-                    Crutch.msg("Note: For the best experience, ensure \"SubSampling Quality\" is set to \"High\" in your Video settings, otherwise they will display in front of objects!")
+                    Crutch.msg("Note: For the best experience, ensure \"SubSampling Quality\" is set to \"High\" in your Video settings (requires FSR/DLSS to be off), otherwise they will display in front of objects!")
                 end
             end
             Crutch.Drawing.Model.InitializeGrave()
