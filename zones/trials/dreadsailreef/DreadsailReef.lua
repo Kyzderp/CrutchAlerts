@@ -100,8 +100,8 @@ local FROSTBRAND_ID = 166482
 local firebrands = {}
 local frostbrands = {}
 local BRAND_SPOTS = {
-    [1] = {x = 68548, y = 36075, z = 85175, displayName = "entrance"},
-    [2] = {x = 69510, y = 36075, z = 85172, displayName = "center"},
+    [1] = {x = 68548, y = 36075, z = 85175, displayName = "1 / entrance"},
+    [2] = {x = 69510, y = 36075, z = 85172, displayName = "2 / center"},
 }
 
 -- Just take them in the order they come. Match Qcell's Dreadsail Reef Helper, 1 entrance 2 center.
@@ -143,7 +143,7 @@ local function StackBrands(abilityId, hitValue, sourceUnitId)
 
     -- If player has brand, show alert and pin
     if (mySpot) then
-        local label = string.format("|cAAAAAASuggested stack: |cff00ff%s (%s)", GetUnitDisplayName(partner), BRAND_SPOTS[mySpot].displayName)
+        local label = string.format("|cAAAAAASuggested stack: |cff00ff%s — %s", GetUnitDisplayName(partner), BRAND_SPOTS[mySpot].displayName)
         Crutch.DisplayNotification(abilityId, label, hitValue, sourceUnitId, 0, 0, 0, 0, 0, 0, false)
 
         -- Put an icon on the ground
