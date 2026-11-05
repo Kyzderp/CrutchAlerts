@@ -93,7 +93,7 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show begin casts",
             tooltip = "Show alerts when you are targeted by the beginning of a cast (ACTION_RESULT_BEGIN)",
-            default = true,
+            default = Crutch.defaultOptions.general.showBegin,
             setFunction = function(value)
                 Crutch.savedOptions.general.showBegin = value
                 if (value) then
@@ -122,7 +122,7 @@ function Crutch.CreateConsoleGeneralSettingsMenu()
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Show gained casts",
             tooltip = "Show alerts when you \"Gain\" a cast from an enemy (ACTION_RESULT_EFFECT_GAINED or manually curated ACTION_RESULT_EFFECT_GAINED_DURATION)",
-            default = true,
+            default = Crutch.defaultOptions.general.showGained,
             getFunction = function() return Crutch.savedOptions.general.showGained end,
             setFunction = function(value)
                 Crutch.savedOptions.general.showGained = value

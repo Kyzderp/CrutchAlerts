@@ -162,7 +162,7 @@ function Crutch:CreateSettingsMenu()
                     type = "checkbox",
                     name = "Show begin casts",
                     tooltip = "Show alerts when you are targeted by the beginning of a cast (ACTION_RESULT_BEGIN)",
-                    default = true,
+                    default = Crutch.defaultOptions.general.showBegin,
                     getFunc = function() return Crutch.savedOptions.general.showBegin end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.showBegin = value
@@ -193,7 +193,7 @@ function Crutch:CreateSettingsMenu()
                     type = "checkbox",
                     name = "Show gained casts",
                     tooltip = "Show alerts when you \"Gain\" a cast from an enemy (ACTION_RESULT_EFFECT_GAINED or manually curated ACTION_RESULT_EFFECT_GAINED_DURATION)",
-                    default = true,
+                    default = Crutch.defaultOptions.general.showGained,
                     getFunc = function() return Crutch.savedOptions.general.showGained end,
                     setFunc = function(value)
                         Crutch.savedOptions.general.showGained = value
