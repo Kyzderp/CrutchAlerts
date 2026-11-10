@@ -17,7 +17,6 @@ end
 -- generic?
 ---------------------------------------------------------------------
 local genericTexturePool, genericLabelPool
-local first
 local rectControls = {} -- {[key] = {control = control, targetY = 123}}
 local labelControls = {} -- ''
 local graves = {} -- {["group3"] = {rects = {key,}, labels = {}}}
@@ -71,7 +70,11 @@ local function PollIfNeeded()
     end
 end
 
-local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, texture)
+
+---------------------------------------------------------------------
+-- Common
+---------------------------------------------------------------------
+local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, desaturation, texture, animate)
     if (not genericTexturePool) then
         genericTexturePool = ZO_ControlPool:New("CrutchAlertsModelTexture", CrutchAlertsDrawing)
         -- TODO: reset function?
@@ -82,10 +85,11 @@ local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, c
 
     control:SetHidden(false)
     control:Create3DRenderSpace()
+    d(color)
     control:SetColor(unpack(color))
     control:SetTexture(texture or "CrutchAlerts/assets/floor/square.dds")
 
-    control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y - ANIMATION_Y, z))
+    control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y - (animate and ANIMATION_Y or 0), z))
 
     control:Set3DLocalDimensions(width, height)
     control:Set3DRenderSpaceUsesDepthBuffer(true)
@@ -94,7 +98,7 @@ local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, c
     control:Set3DRenderSpaceOrientation(pitch, yaw, roll)
 
     -- TODO
-    control:SetDesaturation(1)
+    control:SetDesaturation(desaturation)
 
     return control, key
 end
@@ -148,6 +152,120 @@ local function CalculateValues(x1, y1, z1, x2, y2, z2, x3, y3, z3, theta)
     return roX, oY, roZ, pitch, yaw, roll, width, height
 end
 
+local scale = 100
+local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, intro, name, birth, death, uiScale, theta, animate)
+    local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(
+        rect.coords[1],
+        rect.coords[2],
+        rect.coords[3],
+        rect.coords[4],
+        rect.coords[5],
+        rect.coords[6],
+        rect.coords[7],
+        rect.coords[8],
+        rect.coords[9],
+        theta
+        )
+    if (rect.text) then
+        local scaledFontSize = math.floor((rect.fontSize or 17) / uiScale)
+
+        -- Create it normally first
+        local text = zo_strformat(rect.text, intro, name, birth, death)
+        local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, rect.color, text, scaledFontSize)
+        table.insert(labelTable, key)
+
+        -- Adjust font size
+        local textWidth = control:GetTextWidth()
+        -- uiscale 1: width of 1.2 is 120 in textwidth; TheClawlessConqueror is 110 at font size 8
+        -- uiscale .752: width of 1.2 is ~150 in textwidth; TheClawlessConqueror is 147 at font size 10
+
+        local allowedTextWidth = 115 / uiScale
+
+        -- /script CrutchAlertsDrawingCrutchAlertsModelLabel2:SetFont("$(STONE_TABLET_FONT)|10") d(CrutchAlertsDrawingCrutchAlertsModelLabel2:GetTextWidth())
+        if (textWidth > allowedTextWidth) then
+            Crutch.dbgSpam(string.format("adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
+            local newFontSize = scaledFontSize
+
+            while (textWidth > allowedTextWidth and newFontSize > 0) do
+                newFontSize = newFontSize - 1
+                control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
+                textWidth = control:GetTextWidth()
+                Crutch.dbgSpam("trying newFontSize " .. newFontSize .. " = " .. textWidth)
+            end
+
+            Crutch.dbgSpam("newFontSize: " .. newFontSize)
+            control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
+            textWidth = control:GetTextWidth()
+            Crutch.dbgSpam("new textWidth: " .. textWidth)
+        else
+            Crutch.dbgSpam(string.format("NOT adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
+        end
+
+        -- Adjust location to re-center it
+        local offset = textWidth / 100 / 2 * uiScale
+        -- TODO: not just x
+        local sX, sY, sZ = CalculateValues(
+            rect.coords[1] - offset,
+            rect.coords[2],
+            rect.coords[3],
+            rect.coords[4] - offset,
+            rect.coords[5],
+            rect.coords[6],
+            rect.coords[7] - offset,
+            rect.coords[8],
+            rect.coords[9],
+            theta
+            )
+        local newX = x + sX * scale
+        local newY = y + sY * scale
+        local newZ = z + sZ * scale
+        labelControls[key].targetX = newX
+        labelControls[key].targetY = newY
+        labelControls[key].targetZ = newZ
+        control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - ANIMATION_Y, newZ))
+        Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
+    else
+        local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, rect.color, rect.desaturation or 0, rect.texture, animate)
+        table.insert(rectTable, key)
+    end
+end
+
+
+---------------------------------------------------------------------
+-- Grave
+---------------------------------------------------------------------
+local graveRects = {
+    -- top left, bottom right, top right
+    -- {coords = {.3, 1.4, -.1, -.3, .8, -.1, -.3, 1.4, -.1}, color = {.9, .9, .9, .5}, texture = "esoui/art/trials/vitalitydepletion.dds"},
+    -- {coords = {0, 0, 0, 0, 0, 0, 0, 0, 0}, color = {.9, .9, .9, 1}, texture = "CrutchAlerts/assets/floor/square.dds"},
+
+    -- frontback
+    {coords = {-.6, 1.8, .3, .6, 0, .3, .6, 1.8, .3}, color = {.5, .5, .5, 1}, desaturation = 1, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
+    {coords = {-.6, 1.8,  0, .6, 0,  0, .6, 1.8,  0}, color = {.5, .5, .5, 1}, desaturation = 1, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
+
+    {coords = {-.6, 1.5, .31, .6, 1.4, .31, .6, 1.5, .31}, color = {.1, .1, .1, 1}, text = "<<1>>"},
+    {coords = {-.6, 1.3, .31, .6, 1.2, .31, .6, 1.3, .31}, color = {.1, .1, .1, 1}, text = "<<2>>"},
+
+    {coords = {-.6,   1, .31, .6,  .9, .31, .6,   1, .31}, color = {.1, .1, .1, 1}, text = "<<3>>", fontSize = 14},
+    {coords = {-.6,  .9, .31, .6,  .8, .31, .6,  .9, .31}, color = {.1, .1, .1, 1}, text = "-", fontSize = 14},
+    {coords = {-.6, .77, .31, .6, .67, .31, .6, .77, .31}, color = {.1, .1, .1, 1}, text = "<<4>>", fontSize = 14},
+
+    -- sides
+    {coords = {-.6, 1.8,  0, -.6,   0, .3, -.6, 1.8, .3}, color = {.4, .4, .4, 1}, desaturation = 1, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
+    {coords = {-.6, 1.8,  0,  .6, 1.8, .3,  .6, 1.8,  0}, color = {.45, .45, .45, 1}, desaturation = 1, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
+    {coords = { .6, 1.8, .3,  .6,   0,  0,  .6, 1.8,  0}, color = {.4, .4, .4, 1}, desaturation = 1, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
+}
+
+local intros = {
+    "Here lies",
+    "In loving memory of",
+    "R.I.P.",
+    "Rest in Peace",
+    "Rest in Pieces",
+    "Never forgotten",
+    "Gone too soon",
+}
+
 local function FormatDate(timestamp)
     local MONTHS = {
         [1] = "Jan",
@@ -190,106 +308,6 @@ local function RemoveAllGraves()
     end
 end
 
-local elements = {
-    -- top left, bottom right, top right
-    -- {coords = {.3, 1.4, -.1, -.3, .8, -.1, -.3, 1.4, -.1}, color = {.9, .9, .9, .5}, texture = "esoui/art/trials/vitalitydepletion.dds"},
-    -- {coords = {0, 0, 0, 0, 0, 0, 0, 0, 0}, color = {.9, .9, .9, 1}, texture = "CrutchAlerts/assets/floor/square.dds"},
-
-    -- frontback
-    {coords = {-.6, 1.8, .3, .6, 0, .3, .6, 1.8, .3}, color = {.5, .5, .5, 1}, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
-    {coords = {-.6, 1.8,  0, .6, 0,  0, .6, 1.8,  0}, color = {.5, .5, .5, 1}, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
-
-    {coords = {-.6, 1.5, .31, .6, 1.4, .31, .6, 1.5, .31}, color = {.1, .1, .1, 1}, text = "<<1>>"},
-    {coords = {-.6, 1.3, .31, .6, 1.2, .31, .6, 1.3, .31}, color = {.1, .1, .1, 1}, text = "<<2>>"},
-
-    {coords = {-.6,   1, .31, .6,  .9, .31, .6,   1, .31}, color = {.1, .1, .1, 1}, text = "<<3>>", fontSize = 14},
-    {coords = {-.6,  .9, .31, .6,  .8, .31, .6,  .9, .31}, color = {.1, .1, .1, 1}, text = "-", fontSize = 14},
-    {coords = {-.6, .77, .31, .6, .67, .31, .6, .77, .31}, color = {.1, .1, .1, 1}, text = "<<4>>", fontSize = 14},
-
-    -- sides
-    {coords = {-.6, 1.8,  0, -.6,   0, .3, -.6, 1.8, .3}, color = {.4, .4, .4, 1}, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
-    {coords = {-.6, 1.8,  0,  .6, 1.8, .3,  .6, 1.8,  0}, color = {.45, .45, .45, 1}, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
-    {coords = { .6, 1.8, .3,  .6,   0,  0,  .6, 1.8,  0}, color = {.4, .4, .4, 1}, texture = "esoui/art/worldmap/worldmap_map_background_512tile.dds"},
-}
-
-local scale = 100
-local function CreateControlFromElement(element, unitTag, x, y, z, intro, name, birth, death, uiScale, theta)
-    local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(
-        element.coords[1],
-        element.coords[2],
-        element.coords[3],
-        element.coords[4],
-        element.coords[5],
-        element.coords[6],
-        element.coords[7],
-        element.coords[8],
-        element.coords[9],
-        theta
-        )
-    if (element.texture) then
-        local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, element.texture)
-        table.insert(graves[unitTag].rects, key)
-    elseif (element.text) then
-        local scaledFontSize = math.floor((element.fontSize or 17) / uiScale)
-
-        -- Create it normally first
-        local text = zo_strformat(element.text, intro, name, birth, death)
-        local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, element.color, text, scaledFontSize)
-        table.insert(graves[unitTag].labels, key)
-
-        -- Adjust font size
-        local textWidth = control:GetTextWidth()
-        -- uiscale 1: width of 1.2 is 120 in textwidth; TheClawlessConqueror is 110 at font size 8
-        -- uiscale .752: width of 1.2 is ~150 in textwidth; TheClawlessConqueror is 147 at font size 10
-
-        local allowedTextWidth = 115 / uiScale
-
-        -- /script CrutchAlertsDrawingCrutchAlertsModelLabel2:SetFont("$(STONE_TABLET_FONT)|10") d(CrutchAlertsDrawingCrutchAlertsModelLabel2:GetTextWidth())
-        if (textWidth > allowedTextWidth) then
-            Crutch.dbgSpam(string.format("adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
-            local newFontSize = scaledFontSize
-
-            while (textWidth > allowedTextWidth and newFontSize > 0) do
-                newFontSize = newFontSize - 1
-                control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
-                textWidth = control:GetTextWidth()
-                Crutch.dbgSpam("trying newFontSize " .. newFontSize .. " = " .. textWidth)
-            end
-
-            Crutch.dbgSpam("newFontSize: " .. newFontSize)
-            control:SetFont("$(STONE_TABLET_FONT)|" .. newFontSize)
-            textWidth = control:GetTextWidth()
-            Crutch.dbgSpam("new textWidth: " .. textWidth)
-        else
-            Crutch.dbgSpam(string.format("NOT adjusting font size for \"%s\" because textWidth %f and width %f", text, textWidth, width))
-        end
-
-        -- Adjust location to re-center it
-        local offset = textWidth / 100 / 2 * uiScale
-        -- TODO: not just x
-        local sX, sY, sZ = CalculateValues(
-            element.coords[1] - offset,
-            element.coords[2],
-            element.coords[3],
-            element.coords[4] - offset,
-            element.coords[5],
-            element.coords[6],
-            element.coords[7] - offset,
-            element.coords[8],
-            element.coords[9],
-            theta
-            )
-        local newX = x + sX * scale
-        local newY = y + sY * scale
-        local newZ = z + sZ * scale
-        labelControls[key].targetX = newX
-        labelControls[key].targetY = newY
-        labelControls[key].targetZ = newZ
-        control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - ANIMATION_Y, newZ))
-        Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
-    end
-end
-
 local function Grave(unitTag, intro, name, birth, death, theta)
     unitTag = unitTag or "player"
     local _, x, y, z = GetUnitRawWorldPosition(unitTag)
@@ -306,8 +324,8 @@ local function Grave(unitTag, intro, name, birth, death, theta)
 
     local uiScale = GetUIGlobalScale()
 
-    for _, element in ipairs(elements) do
-        CreateControlFromElement(element, unitTag, x, y, z, intro, name, birth, death, uiScale, theta)
+    for _, rect in ipairs(graveRects) do
+        CreateControlFromElement(rect, graves[unitTag].rects, graves[unitTag].labels, x, y, z, intro, name, birth, death, uiScale, theta, true)
     end
 
     animations[unitTag] = GetGameTimeMilliseconds() + ANIMATION_DURATION
@@ -320,15 +338,65 @@ M.Grave = Grave
 /script CrutchAlerts.Drawing.Model.Grave("player", "Rest in Peace", "TheClawlessConqueror", "May 12, 320312345113")
 ]]
 
-local intros = {
-    "Here lies",
-    "In loving memory of",
-    "R.I.P.",
-    "Rest in Peace",
-    "Rest in Pieces",
-    "Never forgotten",
-    "Gone too soon",
+
+---------------------------------------------------------------------
+-- Gift
+---------------------------------------------------------------------
+local bW, bH, bD = 0, 0, 0
+local function width() return bW end
+local function height() return bH end
+local function depth() return bD end
+
+local boxRects = {
+    -- top left, bottom right, top right
+    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = { .7, .2, .15, 1}, }, -- frontback
+    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = { .7, .2, .15, 1}, },
+    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {.75, .2, .15, 1}, },
+    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {.75, .2, .15, 1}, },
+    {coords = {-.5, 1, -.5,  .5, 1,  .5,  .5, 1, -.5}, color = {.65, .2, .15, 1}, }, -- top
+    {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.65, .2, .15, 1}, }, -- bottom
+
+    {coords = {-.2,  1.015,  .51,   .2,    0,  .51,   .2,  1.015,   .51}, color = { .1, .7, .15, 1}, }, -- frontback
+    {coords = {-.2,  1.015, -.51,   .2,    0, -.51,   .2,  1.015,  -.51}, color = { .1, .7, .15, 1}, },
+    {coords = {-.51, 1.015,  -.2, -.51,    0,   .2, -.51,  1.015,    .2}, color = {.15, .75, .15, 1}, },
+    {coords = { .51, 1.015,   .2,  .51,    0,  -.2,  .51,  1.015,   -.2}, color = {.15, .75, .15, 1}, },
+    {coords = {-.2,   1.01, -.51,   .2, 1.01,  .51,   .2,   1.01,  -.51}, color = {.05, .65, .15, 1}, }, -- top
+    {coords = {-.51,  1.01,  -.2,  .51, 1.01,   .2,  .51,   1.01,   -.2}, color = {.05, .65, .15, 1}, }, -- top
+    -- {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.05, .7, .15, 1}, }, -- bottom
 }
+
+local boxes = {}
+
+local function RemoveBox(name)
+    local data = boxes[name]
+    if (not data) then return end
+
+    for _, key in ipairs(data.rects) do
+        genericTexturePool:ReleaseObject(key)
+        rectControls[key] = nil
+    end
+    for _, key in ipairs(data.labels) do
+        genericLabelPool:ReleaseObject(key)
+        labelControls[key] = nil
+    end
+    boxes[name] = nil
+end
+
+local function Box(name)
+    name = name or "LC1"
+
+    RemoveBox(name)
+    boxes[name] = {rects = {}, labels = {}}
+
+    local _, x, y, z = GetUnitRawWorldPosition("player")
+    for _, rect in ipairs(boxRects) do
+        CreateControlFromElement(rect, boxes[name].rects, boxes[name].labels, x, y, z, "", "", "", "", GetUIGlobalScale(), 0) -- math.random() * math.pi * 2)
+    end
+end
+M.Box = Box
+--[[
+/script CrutchAlerts.Drawing.Model.Box()
+]]
 
 
 ---------------------------------------------------------------------
