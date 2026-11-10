@@ -14,67 +14,13 @@ end
 
 
 ---------------------------------------------------------------------
--- generic?
+-- Common
 ---------------------------------------------------------------------
 local genericTexturePool, genericLabelPool
 local rectControls = {} -- {[key] = {control = control, targetY = 123}}
 local labelControls = {} -- ''
-local graves = {} -- {["group3"] = {rects = {key,}, labels = {}}}
-local animations = {} -- {["group3"] = targetTime}
 
-local ANIMATION_DURATION = 1000
-local ANIMATION_Y = 170
-local ANIMATION_X_PERIOD = 100
-local ANIMATION_X = 1.5
-
-local function UpdateAnimations()
-    for unitTag, targetTime in pairs(animations) do
-        local timeUntilEnd = targetTime - GetGameTimeMilliseconds()
-        if (timeUntilEnd < 0) then
-            -- animation reached end, remove animation but do 1 last update to the end target
-            animations[unitTag] = nil
-            if (ZO_IsTableEmpty(animations)) then
-                Crutch.dbgSpam("end animation " .. unitTag)
-                EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "GraveUpdate")
-            end
-
-            timeUntilEnd = 0
-        end
-
-        local progress = 1 - timeUntilEnd / ANIMATION_DURATION
-        local yOffset = (1 - ZO_EaseOutCubic(progress)) * ANIMATION_Y
-        local xOffset = math.sin((ANIMATION_DURATION - timeUntilEnd) / ANIMATION_X_PERIOD * math.pi * 2) * ANIMATION_X
-        -- Crutch.dbgSpam(xOffset)
-
-        local keys = graves[unitTag]
-        if (not keys) then return end
-
-        for _, key in ipairs(keys.rects) do
-            local controlData = rectControls[key]
-            controlData.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(
-                controlData.targetX + xOffset, controlData.targetY - yOffset, controlData.targetZ))
-        end
-        for _, key in ipairs(keys.labels) do
-            local controlData = labelControls[key]
-            controlData.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(
-                controlData.targetX + xOffset, controlData.targetY - yOffset, controlData.targetZ))
-        end
-    end
-end
-
-local function PollIfNeeded()
-    if (ZO_IsTableEmpty(animations)) then
-        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "GraveUpdate")
-    else
-        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "GraveUpdate", 20, UpdateAnimations)
-    end
-end
-
-
----------------------------------------------------------------------
--- Common
----------------------------------------------------------------------
-local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, desaturation, texture, animate)
+local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, desaturation, texture, animationOffset)
     if (not genericTexturePool) then
         genericTexturePool = ZO_ControlPool:New("CrutchAlertsModelTexture", CrutchAlertsDrawing)
         -- TODO: reset function?
@@ -85,11 +31,10 @@ local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, c
 
     control:SetHidden(false)
     control:Create3DRenderSpace()
-    d(color)
     control:SetColor(unpack(color))
     control:SetTexture(texture or "CrutchAlerts/assets/floor/square.dds")
 
-    control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y - (animate and ANIMATION_Y or 0), z))
+    control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y - animationOffset, z))
 
     control:Set3DLocalDimensions(width, height)
     control:Set3DRenderSpaceUsesDepthBuffer(true)
@@ -103,7 +48,7 @@ local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, c
     return control, key
 end
 
-local function CreateLabelRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, text, fontSize)
+local function CreateLabelRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, text, fontSize, animationOffset)
     if (not genericLabelPool) then
         genericLabelPool = ZO_ControlPool:New("CrutchAlertsModelLabel", CrutchAlertsDrawing)
         -- TODO: reset function?
@@ -124,7 +69,7 @@ local function CreateLabelRenderSpace(x, y, z, pitch, yaw, roll, width, height, 
 
     control:SetScale(0.01)
 
-    control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y - ANIMATION_Y, z))
+    control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(x, y - animationOffset, z))
     control:Set3DRenderSpaceUsesDepthBuffer(true)
 
     -- pitch, yaw, roll
@@ -153,7 +98,8 @@ local function CalculateValues(x1, y1, z1, x2, y2, z2, x3, y3, z3, theta)
 end
 
 local scale = 100
-local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, intro, name, birth, death, uiScale, theta, animate)
+local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, intro, name, birth, death, uiScale, theta, animationOffset, coordsCallback)
+    animationOffset = animationOffset or 0
     local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(
         rect.coords[1],
         rect.coords[2],
@@ -171,7 +117,7 @@ local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, in
 
         -- Create it normally first
         local text = zo_strformat(rect.text, intro, name, birth, death)
-        local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, rect.color, text, scaledFontSize)
+        local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, rect.color, text, scaledFontSize, animationOffset)
         table.insert(labelTable, key)
 
         -- Adjust font size
@@ -222,11 +168,70 @@ local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, in
         labelControls[key].targetX = newX
         labelControls[key].targetY = newY
         labelControls[key].targetZ = newZ
-        control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - ANIMATION_Y, newZ))
+        control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - animationOffset, newZ))
         Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
     else
-        local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, rect.color, rect.desaturation or 0, rect.texture, animate)
+        local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, rect.color, rect.desaturation or 0, rect.texture, animationOffset)
         table.insert(rectTable, key)
+
+        if (coordsCallback) then
+            coordsCallback(x + oX * scale, y + oY * scale, z + oZ * scale)
+        end
+    end
+end
+
+
+---------------------------------------------------------------------
+-- Grave animation
+---------------------------------------------------------------------
+local graves = {} -- {["group3"] = {rects = {key,}, labels = {}}}
+local graveAnimations = {} -- {["group3"] = targetTime}
+
+local ANIMATION_DURATION = 1000
+local ANIMATION_Y = 170
+local ANIMATION_X_PERIOD = 100
+local ANIMATION_X = 1.5
+
+local function UpdateGraveAnimations()
+    for unitTag, targetTime in pairs(graveAnimations) do
+        local timeUntilEnd = targetTime - GetGameTimeMilliseconds()
+        if (timeUntilEnd < 0) then
+            -- animation reached end, remove animation but do 1 last update to the end target
+            graveAnimations[unitTag] = nil
+            if (ZO_IsTableEmpty(graveAnimations)) then
+                Crutch.dbgSpam("end animation " .. unitTag)
+                EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "GraveUpdate")
+            end
+
+            timeUntilEnd = 0
+        end
+
+        local progress = 1 - timeUntilEnd / ANIMATION_DURATION
+        local yOffset = (1 - ZO_EaseOutCubic(progress)) * ANIMATION_Y
+        local xOffset = math.sin((ANIMATION_DURATION - timeUntilEnd) / ANIMATION_X_PERIOD * math.pi * 2) * ANIMATION_X
+        -- Crutch.dbgSpam(xOffset)
+
+        local keys = graves[unitTag]
+        if (not keys) then return end
+
+        for _, key in ipairs(keys.rects) do
+            local controlData = rectControls[key]
+            controlData.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(
+                controlData.targetX + xOffset, controlData.targetY - yOffset, controlData.targetZ))
+        end
+        for _, key in ipairs(keys.labels) do
+            local controlData = labelControls[key]
+            controlData.control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(
+                controlData.targetX + xOffset, controlData.targetY - yOffset, controlData.targetZ))
+        end
+    end
+end
+
+local function PollIfNeeded()
+    if (ZO_IsTableEmpty(graveAnimations)) then
+        EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "GraveUpdate")
+    else
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "GraveUpdate", 20, UpdateGraveAnimations)
     end
 end
 
@@ -325,10 +330,10 @@ local function Grave(unitTag, intro, name, birth, death, theta)
     local uiScale = GetUIGlobalScale()
 
     for _, rect in ipairs(graveRects) do
-        CreateControlFromElement(rect, graves[unitTag].rects, graves[unitTag].labels, x, y, z, intro, name, birth, death, uiScale, theta, true)
+        CreateControlFromElement(rect, graves[unitTag].rects, graves[unitTag].labels, x, y, z, intro, name, birth, death, uiScale, theta, ANIMATION_Y)
     end
 
-    animations[unitTag] = GetGameTimeMilliseconds() + ANIMATION_DURATION
+    graveAnimations[unitTag] = GetGameTimeMilliseconds() + ANIMATION_DURATION
     PollIfNeeded()
 end
 M.Grave = Grave
@@ -340,29 +345,69 @@ M.Grave = Grave
 
 
 ---------------------------------------------------------------------
--- Gift
+-- Present
 ---------------------------------------------------------------------
-local bW, bH, bD = 0, 0, 0
-local function width() return bW end
-local function height() return bH end
-local function depth() return bD end
+local presentAnimations = {} -- {[name] = {x = 123, y = 123, z = 123, w = 2, h = 3, d = 1, theta = pi}}
+--[[
+{
+    [name] = {
+        height = 2,
+        theta = 1,
+        {oX, oY, oZ},
+    }
+}
+
+
+ERE
+[21:54:48] [Kyzderp's Derps] zoneId=1360 {x = 147724, y = 37560, z = 160802} -- 2nd secret cliff
+[22:47:52] [Kyzderp's Derps] zoneId=1360 {x = 129975, y = 36625, z = 56351} -- boss next to banner
+]]
+
+
+
+local function UpdatePresentAnimation(name, progress)
+    name = name or "LC1"
+    local present = presentAnimations[name]
+
+    local pitch, yaw, roll = CrutchAlertsDrawingCrutchAlertsModelTexture1:Get3DRenderSpaceOrientation()
+    local angle = progress * math.pi / 2
+
+    CrutchAlertsDrawingCrutchAlertsModelTexture1:Set3DRenderSpaceOrientation(angle, yaw, roll)
+
+    -- Calculate new center. height / 2 is the radius, must rotate in the direction of yaw
+    -- 1 south means rotation point is d / 2
+
+    local adj = math.cos(progress) * present.height * 100 / 2
+    local y = -math.sin(progress) * present.height * 100 / 2
+    local z = math.cos(present.theta) * adj
+    local x = math.sin(present.theta) * adj
+    d(adj, x, y, z)
+
+    local newX = present[1].oX + x
+    local newY = present[1].oY + y
+    local newZ = present[1].oZ + z
+    d(zo_strformat("update: <<1>> <<2>> <<3>>", newX, newY, newZ))
+    CrutchAlertsDrawingCrutchAlertsModelTexture1:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(present[1].oX + x, present[1].oY + y, present[1].oZ + z))
+end
+M.UpdatePresentAnimation = UpdatePresentAnimation
+-- /script CrutchAlerts.Drawing.Model.UpdatePresentAnimation(nil, 0.5)
 
 local boxRects = {
     -- top left, bottom right, top right
-    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = { .7, .2, .15, 1}, }, -- frontback
-    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = { .7, .2, .15, 1}, },
-    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {.75, .2, .15, 1}, },
-    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {.75, .2, .15, 1}, },
-    {coords = {-.5, 1, -.5,  .5, 1,  .5,  .5, 1, -.5}, color = {.65, .2, .15, 1}, }, -- top
-    {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.65, .2, .15, 1}, }, -- bottom
+    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = { .7, .2, .15, 1}}, -- south
+    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = { .7, .2, .15, 1}}, -- north
+    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {.75, .2, .15, 1}}, -- west
+    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {.75, .2, .15, 1}}, -- east
+    {coords = {-.5, 1, -.5,  .5, 1,  .5,  .5, 1, -.5}, color = {.65, .2, .15, 1}}, -- top
+    {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.65, .2, .15, 1}}, -- bottom
 
-    {coords = {-.2,  1.015,  .51,   .2,    0,  .51,   .2,  1.015,   .51}, color = { .1, .7, .15, 1}, }, -- frontback
-    {coords = {-.2,  1.015, -.51,   .2,    0, -.51,   .2,  1.015,  -.51}, color = { .1, .7, .15, 1}, },
-    {coords = {-.51, 1.015,  -.2, -.51,    0,   .2, -.51,  1.015,    .2}, color = {.15, .75, .15, 1}, },
-    {coords = { .51, 1.015,   .2,  .51,    0,  -.2,  .51,  1.015,   -.2}, color = {.15, .75, .15, 1}, },
-    {coords = {-.2,   1.01, -.51,   .2, 1.01,  .51,   .2,   1.01,  -.51}, color = {.05, .65, .15, 1}, }, -- top
-    {coords = {-.51,  1.01,  -.2,  .51, 1.01,   .2,  .51,   1.01,   -.2}, color = {.05, .65, .15, 1}, }, -- top
-    -- {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.05, .7, .15, 1}, }, -- bottom
+    {coords = {-.2,  1.015,  .51,   .2,    0,  .51,   .2,  1.015,   .51}, color = { .1, .7, .15, 1}}, -- frontback
+    {coords = {-.2,  1.015, -.51,   .2,    0, -.51,   .2,  1.015,  -.51}, color = { .1, .7, .15, 1}},
+    {coords = {-.51, 1.015,  -.2, -.51,    0,   .2, -.51,  1.015,    .2}, color = {.15, .75, .15, 1}},
+    {coords = { .51, 1.015,   .2,  .51,    0,  -.2,  .51,  1.015,   -.2}, color = {.15, .75, .15, 1}},
+    {coords = {-.2,   1.01, -.51,   .2, 1.01,  .51,   .2,   1.01,  -.51}, color = {.05, .65, .15, 1}}, -- top
+    {coords = {-.51,  1.01,  -.2,  .51, 1.01,   .2,  .51,   1.01,   -.2}, color = {.05, .65, .15, 1}}, -- top
+    -- {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.05, .7, .15, 1}}, -- bottom
 }
 
 local boxes = {}
@@ -380,22 +425,42 @@ local function RemoveBox(name)
         labelControls[key] = nil
     end
     boxes[name] = nil
+    presentAnimations[name] = nil
 end
 
-local function Box(name)
+local function Box(name, width, height, depth, theta)
     name = name or "LC1"
+    theta = theta or 0
+    height = height or 1
 
     RemoveBox(name)
     boxes[name] = {rects = {}, labels = {}}
+    presentAnimations[name] = {
+        theta = theta,
+        height = height,
+    }
 
     local _, x, y, z = GetUnitRawWorldPosition("player")
-    for _, rect in ipairs(boxRects) do
-        CreateControlFromElement(rect, boxes[name].rects, boxes[name].labels, x, y, z, "", "", "", "", GetUIGlobalScale(), 0) -- math.random() * math.pi * 2)
+    for i, rect in ipairs(boxRects) do
+        local coordsFunc
+        if (i < 5) then -- TODO
+            coordsFunc = function(x, y, z)
+                d(zo_strformat("initial: <<1>> <<2>> <<3>>", x, y, z))
+                presentAnimations[name][i] = {oX = x, oY = y, oZ = z}
+            end
+        end
+        CreateControlFromElement(rect, boxes[name].rects, boxes[name].labels, x, y, z, "", "", "", "", GetUIGlobalScale(), theta, 0, coordsFunc) -- math.random() * math.pi * 2)
     end
 end
 M.Box = Box
 --[[
 /script CrutchAlerts.Drawing.Model.Box()
+/script d(CrutchAlertsDrawingCrutchAlertsModelTexture1:Get3DRenderSpaceOrientation())
+/script local pitch, yaw, roll = CrutchAlertsDrawingCrutchAlertsModelTexture1:Get3DRenderSpaceOrientation()
+CrutchAlertsDrawingCrutchAlertsModelTexture1:Set3DRenderSpaceOrientation(pitch + 0.2, yaw, roll)
+/script local pitch, yaw, roll = CrutchAlertsDrawingCrutchAlertsModelTexture3:Get3DRenderSpaceOrientation()
+CrutchAlertsDrawingCrutchAlertsModelTexture3:Set3DRenderSpaceOrientation(pitch - 0.2, yaw, roll)
+/script CrutchAlerts.Drawing.Model.UpdatePresentAnimation(nil, 0.5)
 ]]
 
 
