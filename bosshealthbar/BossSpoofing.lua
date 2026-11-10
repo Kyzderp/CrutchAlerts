@@ -28,8 +28,8 @@ local function SpoofBoss(unitTag, name, getHealthFunction, fgColor, bgColor)
         bgColor = bgColor or Crutch.savedOptions.bossHealthBar.background,
     }
 
-    BHB.ShowOrHideBars(false, true)
-    local index = unitTag:sub(5, 5)
+    local index = unitTag:sub(5)
+    BHB.ShowOrHideBars(false, true, index)
     SetBarColors(index, spoofedBosses[unitTag].fgColor, spoofedBosses[unitTag].bgColor)
     Crutch.dbgOther(string.format("Spoofing %s as %s", name, unitTag))
 end
@@ -165,6 +165,9 @@ end
 -- API
 ---------------------------------------------------------------------
 local function TrackUnitForSpoofing(unitId, name, unitTag, maxHealth, fgColor, bgColor, initialHealth)
+    fgColor = fgColor or Crutch.savedOptions.bossHealthBar.foreground
+    bgColor = bgColor or Crutch.savedOptions.bossHealthBar.background
+
     trackedUnits[unitId] = {
         name = name,
         unitTag = unitTag,

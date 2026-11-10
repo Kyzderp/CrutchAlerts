@@ -614,10 +614,11 @@ end
 -- leaving a gap (e.g. Reef Guardian), so we can't just base it on number of bosses.
 -- onlyReanchorStages: Some fights like Reef Guardian trigger BOSSES_CHANGED when one dies.
 --                     We don't want to redraw the stages for that.
-local function ShowOrHideBars(showAllForMoving, onlyReanchorStages)
+-- forcedIndex: show bar for at least that index, if it is larger than the normal number of bosses (for spoofing)
+local function ShowOrHideBars(showAllForMoving, onlyReanchorStages, forcedIndex)
     local highestTag = 0
 
-    for i = 1, BOSS_RANK_ITERATION_END do
+    for i = 1, math.max(BOSS_RANK_ITERATION_END, forcedIndex or 0) do
         local unitTag = "boss" .. tostring(i)
         local name = GetUnitNameIfExists(unitTag)
         if (showAllForMoving) then
