@@ -243,9 +243,9 @@ local SUBTITLE_TIMES = {
     },
 
 -- Earthen Root Enclave
-    ["Druid Laurel"] = {
+    [GetNameStr(CRUTCH_DMG_DRUID_LAUREL)] = {
         -- Archdruid Devyric
-        ["He's killing the spirit. He has the seed. Stop him. Please stop him!"] = 11.2,
+        [GetSubtitleStr(CRUTCH_DMG_HES_KILLING_THE_SPIRIT_HE_HAS_THE_SEED_STOP)] = 11.2,
     },
 
 -- Exiled Redoubt
