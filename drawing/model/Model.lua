@@ -368,31 +368,34 @@ local function UpdatePresentAnimation(name, progress)
     -- Calculate new center. height / 2 is the radius, must rotate in the direction of yaw
     -- 1 south means rotation point is d / 2
 
-    local adj = math.sin(progress) * presentAnimation.height * 100 / 2
-    local y = -math.cos(progress) * presentAnimation.height * 100 / 2
 
-    for i = 1, 1 do -- TODO
-        local present = presentAnimation[i]
-        local control = CrutchAlertsDrawing:GetNamedChild("CrutchAlertsModelTexture" .. i)
+    for i, present in pairs(presentAnimation) do -- TODO
+        -- local present = presentAnimation[i]
+        if (type(i) == "number") then
+            local control = CrutchAlertsDrawing:GetNamedChild("CrutchAlertsModelTexture" .. i)
 
-        if (present.theta) then
-            -- Sides
-            -- rotation
-            local pitch, yaw, roll = control:Get3DRenderSpaceOrientation()
-            control:Set3DRenderSpaceOrientation(angle, yaw, roll)
+            if (present.theta) then
+                -- Sides
+                local horiz = math.sin(angle * present.angleMultiplier) * presentAnimation.height * 100 / 2
+                local y = math.cos(angle * present.angleMultiplier) * presentAnimation.height * 100 / 2
 
-            -- offset due to rotating around bottom
-            local x = math.sin(present.theta) * adj
-            local z = math.cos(present.theta) * adj
-            d(adj, x, y, z)
+                -- rotation
+                local pitch, yaw, roll = control:Get3DRenderSpaceOrientation()
+                control:Set3DRenderSpaceOrientation(angle * present.angleMultiplier, yaw, roll)
 
-            local newX = present[1].oX + x
-            local newY = present[1].oY + y
-            local newZ = present[1].oZ + z
-            d(zo_strformat("update: <<1>> <<2>> <<3>>", newX, newY, newZ))
-            control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(present[1].oX + x, present[1].oY + y, present[1].oZ + z))
-        elseif (present.top) then
-            -- Top
+                -- offset due to rotating around bottom
+                local x = math.sin(present.theta) * horiz
+                local z = math.cos(present.theta) * horiz
+                -- d("horiz x y z", horiz, x, y, z)
+
+                local newX = present.oX + x
+                local newY = present.oY + y
+                local newZ = present.oZ + z
+                -- d(zo_strformat("update: <<1>> <<2>> <<3>>", newX, newY, newZ))
+                control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY, newZ))
+            elseif (present.top) then
+                -- Top
+            end
         end
     end
 end
@@ -405,7 +408,7 @@ local function PlayPresentAnimation(name)
     present.animating = true
 
     local progress = 0
-    EVENT_MANAGER:RegisterForUpdate("CrutchAlertsPresent" .. name, 50, function()
+    EVENT_MANAGER:RegisterForUpdate("CrutchAlertsPresent" .. name, 25, function()
         if (progress > 1) then
             EVENT_MANAGER:UnregisterForUpdate("CrutchAlertsPresent" .. name)
             return
@@ -418,17 +421,17 @@ M.PlayPresentAnimation = PlayPresentAnimation
 
 local presentRects = {
     -- top left, bottom right, top right
-    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = { .7, .2, .15, 1}, thetaOffset = 0}, -- south
-    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = { .7, .2, .15, 1}, thetaOffset = math.pi}, -- north
-    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {.75, .2, .15, 1}, thetaOffset = math.pi/2}, -- west
-    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {.75, .2, .15, 1}, thetaOffset = math.pi*1.5}, -- east
+    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = { .7, .2, .15, 1}, angle = 1, thetaOffset = 0}, -- south
+    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = { .7, .2, .15, 1}, angle = -1, thetaOffset = 0}, -- north
+    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {.75, .2, .15, 1}, angle = -1, thetaOffset = math.pi/2}, -- west
+    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {.75, .2, .15, 1}, angle = -1, thetaOffset = math.pi*1.5}, -- east
     {coords = {-.5, 1, -.5,  .5, 1,  .5,  .5, 1, -.5}, color = {.65, .2, .15, 1}, top = true}, -- top
     {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.65, .2, .15, 1}}, -- bottom
 
-    {coords = {-.2,  1.015,  .51,   .2,    0,  .51,   .2,  1.015,   .51}, color = { .1, .7, .15, 1}, thetaOffset = 0}, -- frontback
-    {coords = {-.2,  1.015, -.51,   .2,    0, -.51,   .2,  1.015,  -.51}, color = { .1, .7, .15, 1}, thetaOffset = math.pi},
-    {coords = {-.51, 1.015,  -.2, -.51,    0,   .2, -.51,  1.015,    .2}, color = {.15, .75, .15, 1}, thetaOffset = math.pi/2},
-    {coords = { .51, 1.015,   .2,  .51,    0,  -.2,  .51,  1.015,   -.2}, color = {.15, .75, .15, 1}, thetaOffset = math.pi*1.5},
+    {coords = {-.2,  1.015,  .51,   .2,    -.015,  .51,   .2,  1.015,   .51}, color = { .1, .7, .15, 1}, angle = 1, thetaOffset = 0}, -- frontback
+    {coords = {-.2,  1.015, -.51,   .2,    -.015, -.51,   .2,  1.015,  -.51}, color = { .1, .7, .15, 1}, angle = -1, thetaOffset = 0},
+    {coords = {-.51, 1.015,  -.2, -.51,    -.015,   .2, -.51,  1.015,    .2}, color = {.15, .75, .15, 1}, angle = -1, thetaOffset = math.pi/2},
+    {coords = { .51, 1.015,   .2,  .51,    -.015,  -.2,  .51,  1.015,   -.2}, color = {.15, .75, .15, 1}, angle = -1, thetaOffset = math.pi*1.5},
     {coords = {-.2,   1.01, -.51,   .2, 1.01,  .51,   .2,   1.01,  -.51}, color = {.05, .65, .15, 1}, top = true}, -- top
     {coords = {-.51,  1.01,  -.2,  .51, 1.01,   .2,  .51,   1.01,   -.2}, color = {.05, .65, .15, 1}, top = true}, -- top
     -- {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.05, .7, .15, 1}}, -- bottom
@@ -468,10 +471,10 @@ local function Present(name, width, height, depth, theta)
     local _, x, y, z = GetUnitRawWorldPosition("player")
     for i, rect in ipairs(presentRects) do
         local coordsFunc
-        if (presentRects.thetaOffset) then
+        if (rect.thetaOffset) then
             coordsFunc = function(x, y, z)
-                d(zo_strformat("initial: <<1>> <<2>> <<3>> <<4>>", x, y, z, theta + presentRects.thetaOffset))
-                presentAnimations[name][i] = {oX = x, oY = y, oZ = z, theta = theta + presentRects.thetaOffset}
+                -- d(zo_strformat("initial: <<1>> <<2>> <<3>> <<4>>", x, y - height * 100 / 2, z, theta + rect.thetaOffset))
+                presentAnimations[name][i] = {oX = x, oY = y - (rect.coords[2] - rect.coords[5]) * 100 / 2, oZ = z, theta = theta + rect.thetaOffset, angleMultiplier = rect.angle}
             end
         end
         CreateControlFromElement(rect, presentControls[name].rects, presentControls[name].labels, x, y, z, GetUIGlobalScale(), theta, 0, coordsFunc, nil, width, height, depth)
@@ -479,13 +482,9 @@ local function Present(name, width, height, depth, theta)
 end
 M.Present = Present
 --[[
-/script CrutchAlerts.Drawing.Model.Box()
-/script d(CrutchAlertsDrawingCrutchAlertsModelTexture1:Get3DRenderSpaceOrientation())
-/script local pitch, yaw, roll = CrutchAlertsDrawingCrutchAlertsModelTexture1:Get3DRenderSpaceOrientation()
-CrutchAlertsDrawingCrutchAlertsModelTexture1:Set3DRenderSpaceOrientation(pitch + 0.2, yaw, roll)
-/script local pitch, yaw, roll = CrutchAlertsDrawingCrutchAlertsModelTexture3:Get3DRenderSpaceOrientation()
-CrutchAlertsDrawingCrutchAlertsModelTexture3:Set3DRenderSpaceOrientation(pitch - 0.2, yaw, roll)
+/script CrutchAlerts.Drawing.Model.Present()
 /script CrutchAlerts.Drawing.Model.UpdatePresentAnimation(nil, 0.5)
+/script CrutchAlerts.Drawing.Model.PlayPresentAnimation("LC1")
 ]]
 
 
