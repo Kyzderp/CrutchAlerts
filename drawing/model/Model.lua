@@ -11,6 +11,7 @@ local function AreDepthBuffersSupported()
         and GetCVar("ANTIALIASING_TYPE") ~= tostring(ANTIALIASING_TYPE_DLSS)
         and GetCVar("SUB_SAMPLING") == tostring(SUB_SAMPLING_MODE_NORMAL)
 end
+M.AreDepthBuffersSupported = AreDepthBuffersSupported
 
 
 ---------------------------------------------------------------------
@@ -23,7 +24,6 @@ local labelControls = {} -- ''
 local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, desaturation, texture, animationOffset)
     if (not genericTexturePool) then
         genericTexturePool = ZO_ControlPool:New("CrutchAlertsModelTexture", CrutchAlertsDrawing)
-        -- TODO: reset function?
     end
 
     local control, key = genericTexturePool:AcquireObject()
@@ -42,7 +42,6 @@ local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, c
     -- pitch, yaw, roll
     control:Set3DRenderSpaceOrientation(pitch, yaw, roll)
 
-    -- TODO
     control:SetDesaturation(desaturation)
 
     return control, key
@@ -51,7 +50,6 @@ end
 local function CreateLabelRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, text, fontSize, animationOffset)
     if (not genericLabelPool) then
         genericLabelPool = ZO_ControlPool:New("CrutchAlertsModelLabel", CrutchAlertsDrawing)
-        -- TODO: reset function?
     end
 
     local control, key = genericLabelPool:AcquireObject()
@@ -98,25 +96,25 @@ local function CalculateValues(x1, y1, z1, x2, y2, z2, x3, y3, z3, theta)
 end
 
 local scale = 100
-local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, intro, name, birth, death, uiScale, theta, animationOffset, coordsCallback)
+local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, uiScale, theta, animationOffset, coordsCallback, textParams, xScale, yScale, zScale)
     animationOffset = animationOffset or 0
     local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(
-        rect.coords[1],
-        rect.coords[2],
-        rect.coords[3],
-        rect.coords[4],
-        rect.coords[5],
-        rect.coords[6],
-        rect.coords[7],
-        rect.coords[8],
-        rect.coords[9],
+        rect.coords[1] * xScale,
+        rect.coords[2] * yScale,
+        rect.coords[3] * zScale,
+        rect.coords[4] * xScale,
+        rect.coords[5] * yScale,
+        rect.coords[6] * zScale,
+        rect.coords[7] * xScale,
+        rect.coords[8] * yScale,
+        rect.coords[9] * zScale,
         theta
         )
     if (rect.text) then
         local scaledFontSize = math.floor((rect.fontSize or 17) / uiScale)
 
         -- Create it normally first
-        local text = zo_strformat(rect.text, intro, name, birth, death)
+        local text = zo_strformat(rect.text, textParams[1], textParams[2], textParams[3], textParams[4])
         local control, key = CreateLabelRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, rect.color, text, scaledFontSize, animationOffset)
         table.insert(labelTable, key)
 
@@ -329,8 +327,10 @@ local function Grave(unitTag, intro, name, birth, death, theta)
 
     local uiScale = GetUIGlobalScale()
 
+    local textParams = {intro, name, birth, death}
+
     for _, rect in ipairs(graveRects) do
-        CreateControlFromElement(rect, graves[unitTag].rects, graves[unitTag].labels, x, y, z, intro, name, birth, death, uiScale, theta, ANIMATION_Y)
+        CreateControlFromElement(rect, graves[unitTag].rects, graves[unitTag].labels, x, y, z, uiScale, theta, ANIMATION_Y, nil, textParams, 1, 1, 1)
     end
 
     graveAnimations[unitTag] = GetGameTimeMilliseconds() + ANIMATION_DURATION
@@ -356,64 +356,88 @@ local presentAnimations = {} -- {[name] = {x = 123, y = 123, z = 123, w = 2, h =
         {oX, oY, oZ},
     }
 }
-
-
-ERE
-[21:54:48] [Kyzderp's Derps] zoneId=1360 {x = 147724, y = 37560, z = 160802} -- 2nd secret cliff
-[22:47:52] [Kyzderp's Derps] zoneId=1360 {x = 129975, y = 36625, z = 56351} -- boss next to banner
 ]]
-
-
 
 local function UpdatePresentAnimation(name, progress)
     name = name or "LC1"
-    local present = presentAnimations[name]
+    local presentAnimation = presentAnimations[name]
 
-    local pitch, yaw, roll = CrutchAlertsDrawingCrutchAlertsModelTexture1:Get3DRenderSpaceOrientation()
     local angle = progress * math.pi / 2
 
-    CrutchAlertsDrawingCrutchAlertsModelTexture1:Set3DRenderSpaceOrientation(angle, yaw, roll)
 
     -- Calculate new center. height / 2 is the radius, must rotate in the direction of yaw
     -- 1 south means rotation point is d / 2
 
-    local adj = math.cos(progress) * present.height * 100 / 2
-    local y = -math.sin(progress) * present.height * 100 / 2
-    local z = math.cos(present.theta) * adj
-    local x = math.sin(present.theta) * adj
-    d(adj, x, y, z)
+    local adj = math.sin(progress) * presentAnimation.height * 100 / 2
+    local y = -math.cos(progress) * presentAnimation.height * 100 / 2
 
-    local newX = present[1].oX + x
-    local newY = present[1].oY + y
-    local newZ = present[1].oZ + z
-    d(zo_strformat("update: <<1>> <<2>> <<3>>", newX, newY, newZ))
-    CrutchAlertsDrawingCrutchAlertsModelTexture1:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(present[1].oX + x, present[1].oY + y, present[1].oZ + z))
+    for i = 1, 1 do -- TODO
+        local present = presentAnimation[i]
+        local control = CrutchAlertsDrawing:GetNamedChild("CrutchAlertsModelTexture" .. i)
+
+        if (present.theta) then
+            -- Sides
+            -- rotation
+            local pitch, yaw, roll = control:Get3DRenderSpaceOrientation()
+            control:Set3DRenderSpaceOrientation(angle, yaw, roll)
+
+            -- offset due to rotating around bottom
+            local x = math.sin(present.theta) * adj
+            local z = math.cos(present.theta) * adj
+            d(adj, x, y, z)
+
+            local newX = present[1].oX + x
+            local newY = present[1].oY + y
+            local newZ = present[1].oZ + z
+            d(zo_strformat("update: <<1>> <<2>> <<3>>", newX, newY, newZ))
+            control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(present[1].oX + x, present[1].oY + y, present[1].oZ + z))
+        elseif (present.top) then
+            -- Top
+        end
+    end
 end
 M.UpdatePresentAnimation = UpdatePresentAnimation
 -- /script CrutchAlerts.Drawing.Model.UpdatePresentAnimation(nil, 0.5)
 
-local boxRects = {
+local function PlayPresentAnimation(name)
+    local present = presentAnimations[name]
+    if (present.animating) then return end
+    present.animating = true
+
+    local progress = 0
+    EVENT_MANAGER:RegisterForUpdate("CrutchAlertsPresent" .. name, 50, function()
+        if (progress > 1) then
+            EVENT_MANAGER:UnregisterForUpdate("CrutchAlertsPresent" .. name)
+            return
+        end
+        progress = progress + 0.05
+        UpdatePresentAnimation(name, progress)
+    end)
+end
+M.PlayPresentAnimation = PlayPresentAnimation
+
+local presentRects = {
     -- top left, bottom right, top right
-    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = { .7, .2, .15, 1}}, -- south
-    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = { .7, .2, .15, 1}}, -- north
-    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {.75, .2, .15, 1}}, -- west
-    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {.75, .2, .15, 1}}, -- east
-    {coords = {-.5, 1, -.5,  .5, 1,  .5,  .5, 1, -.5}, color = {.65, .2, .15, 1}}, -- top
+    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = { .7, .2, .15, 1}, thetaOffset = 0}, -- south
+    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = { .7, .2, .15, 1}, thetaOffset = math.pi}, -- north
+    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {.75, .2, .15, 1}, thetaOffset = math.pi/2}, -- west
+    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {.75, .2, .15, 1}, thetaOffset = math.pi*1.5}, -- east
+    {coords = {-.5, 1, -.5,  .5, 1,  .5,  .5, 1, -.5}, color = {.65, .2, .15, 1}, top = true}, -- top
     {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.65, .2, .15, 1}}, -- bottom
 
-    {coords = {-.2,  1.015,  .51,   .2,    0,  .51,   .2,  1.015,   .51}, color = { .1, .7, .15, 1}}, -- frontback
-    {coords = {-.2,  1.015, -.51,   .2,    0, -.51,   .2,  1.015,  -.51}, color = { .1, .7, .15, 1}},
-    {coords = {-.51, 1.015,  -.2, -.51,    0,   .2, -.51,  1.015,    .2}, color = {.15, .75, .15, 1}},
-    {coords = { .51, 1.015,   .2,  .51,    0,  -.2,  .51,  1.015,   -.2}, color = {.15, .75, .15, 1}},
-    {coords = {-.2,   1.01, -.51,   .2, 1.01,  .51,   .2,   1.01,  -.51}, color = {.05, .65, .15, 1}}, -- top
-    {coords = {-.51,  1.01,  -.2,  .51, 1.01,   .2,  .51,   1.01,   -.2}, color = {.05, .65, .15, 1}}, -- top
+    {coords = {-.2,  1.015,  .51,   .2,    0,  .51,   .2,  1.015,   .51}, color = { .1, .7, .15, 1}, thetaOffset = 0}, -- frontback
+    {coords = {-.2,  1.015, -.51,   .2,    0, -.51,   .2,  1.015,  -.51}, color = { .1, .7, .15, 1}, thetaOffset = math.pi},
+    {coords = {-.51, 1.015,  -.2, -.51,    0,   .2, -.51,  1.015,    .2}, color = {.15, .75, .15, 1}, thetaOffset = math.pi/2},
+    {coords = { .51, 1.015,   .2,  .51,    0,  -.2,  .51,  1.015,   -.2}, color = {.15, .75, .15, 1}, thetaOffset = math.pi*1.5},
+    {coords = {-.2,   1.01, -.51,   .2, 1.01,  .51,   .2,   1.01,  -.51}, color = {.05, .65, .15, 1}, top = true}, -- top
+    {coords = {-.51,  1.01,  -.2,  .51, 1.01,   .2,  .51,   1.01,   -.2}, color = {.05, .65, .15, 1}, top = true}, -- top
     -- {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.05, .7, .15, 1}}, -- bottom
 }
 
-local boxes = {}
+local presentControls = {}
 
-local function RemoveBox(name)
-    local data = boxes[name]
+local function RemovePresent(name)
+    local data = presentControls[name]
     if (not data) then return end
 
     for _, key in ipairs(data.rects) do
@@ -424,35 +448,36 @@ local function RemoveBox(name)
         genericLabelPool:ReleaseObject(key)
         labelControls[key] = nil
     end
-    boxes[name] = nil
+    presentControls[name] = nil
     presentAnimations[name] = nil
 end
 
-local function Box(name, width, height, depth, theta)
+local function Present(name, width, height, depth, theta)
     name = name or "LC1"
     theta = theta or 0
+    width = width or 1
     height = height or 1
+    depth = depth or 1
 
-    RemoveBox(name)
-    boxes[name] = {rects = {}, labels = {}}
+    RemovePresent(name)
+    presentControls[name] = {rects = {}, labels = {}}
     presentAnimations[name] = {
-        theta = theta,
         height = height,
     }
 
     local _, x, y, z = GetUnitRawWorldPosition("player")
-    for i, rect in ipairs(boxRects) do
+    for i, rect in ipairs(presentRects) do
         local coordsFunc
-        if (i < 5) then -- TODO
+        if (presentRects.thetaOffset) then
             coordsFunc = function(x, y, z)
-                d(zo_strformat("initial: <<1>> <<2>> <<3>>", x, y, z))
-                presentAnimations[name][i] = {oX = x, oY = y, oZ = z}
+                d(zo_strformat("initial: <<1>> <<2>> <<3>> <<4>>", x, y, z, theta + presentRects.thetaOffset))
+                presentAnimations[name][i] = {oX = x, oY = y, oZ = z, theta = theta + presentRects.thetaOffset}
             end
         end
-        CreateControlFromElement(rect, boxes[name].rects, boxes[name].labels, x, y, z, "", "", "", "", GetUIGlobalScale(), theta, 0, coordsFunc) -- math.random() * math.pi * 2)
+        CreateControlFromElement(rect, presentControls[name].rects, presentControls[name].labels, x, y, z, GetUIGlobalScale(), theta, 0, coordsFunc, nil, width, height, depth)
     end
 end
-M.Box = Box
+M.Present = Present
 --[[
 /script CrutchAlerts.Drawing.Model.Box()
 /script d(CrutchAlertsDrawingCrutchAlertsModelTexture1:Get3DRenderSpaceOrientation())
