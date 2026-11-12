@@ -6,7 +6,47 @@ local C = Crutch.Constants
 ---------------------------------------------------------------------
 -- Immolating Sphere
 ---------------------------------------------------------------------
-local function OnImmolatingSphere()
+-- there's a begin cast where the target is already known, then gained with hitvalue > 1, then faded
+-- probably no need to draw for the begin cast
+local IMMOLATING_ID = 237011
+local immolatingCircles = {}
+
+local function RemoveImmolatingCircle(unitTag)
+    if (not immolatingCircles[unitTag]) then return end
+    Crutch.Drawing.RemoveWorldTexture(immolatingCircles[unitTag])
+    immolatingCircles[unitTag] = nil
+end
+
+local function OnImmolatingSphereGained(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId)
+    if (hitValue <= 1) then return end
+
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    if (not unitTag) then Crutch.dbgOther("|cFF0000couldn't find target for immolating " .. targetUnitId) return end
+
+    local function ImmolatingFunc(icon)
+        local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+        icon:SetPosition(x, y, z)
+    end
+
+    local _, x, y, z = GetUnitRawWorldPosition(unitTag)
+    local key = Crutch.Drawing.CreateWorldTexture(
+        "CrutchAlerts/assets/floor/circle.dds",
+        x, y, z,
+        4, 4
+        {1, 0.5, 0, 0.6},
+        false,
+        false,
+        C.FLAT_ORIENTATION,
+        ImmolatingFunc)
+
+    immolatingCircles[unitTag] = key
+end
+
+local function OnImmolatingSphereFaded(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId)
+    local unitTag = Crutch.groupIdToTag[targetUnitId]
+    if (not unitTag) then Crutch.dbgOther("|cFF0000couldn't find faded target for immolating " .. targetUnitId) return end
+
+    RemoveImmolatingCircle(unitTag)
 end
 
 
@@ -148,6 +188,12 @@ function Crutch.RegisterOsseinCage()
     Crutch.OsseinCage.RegisterCarrion()
     Crutch.OsseinCage.RegisterOCZoneTwins()
 
+    -- Immolating Sphere
+    if (Crutch.savedOptions.osseincage.showImmolating) then
+        Crutch.RegisterForCombatEvent("ImmolatingGained", OnImmolatingSphereGained, ACTION_RESULT_EFFECT_GAINED, IMMOLATING_ID)
+        Crutch.RegisterForCombatEvent("ImmolatingFaded", OnImmolatingSphereFaded, ACTION_RESULT_EFFECT_FADED, IMMOLATING_ID)
+    end
+
     -- Stricken (tank swap)
     if (Crutch.savedOptions.osseincage.showStricken ~= "NEVER") then
         Crutch.RegisterForEffectChanged("Stricken", OnStricken, 235594, "group")
@@ -162,10 +208,12 @@ function Crutch.RegisterOsseinCage()
     end
 end
 
-function Crutch.UnregisterOsseinCage()
+function Crutch.UnregisterOsseinCage(isSameZone)
     Crutch.OsseinCage.UnregisterCarrion()
     Crutch.OsseinCage.UnregisterOCZoneTwins()
 
+    Crutch.UnregisterForCombatEvent("ImmolatingGained")
+    Crutch.UnregisterForCombatEvent("ImmolatingFaded")
     Crutch.UnregisterForEffectChanged("Stricken")
     Crutch.UnregisterForEffectChanged("ChainsInitial1")
     Crutch.UnregisterForEffectChanged("ChainsInitial2")
@@ -175,6 +223,14 @@ function Crutch.UnregisterOsseinCage()
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(ENFEEBLEMENT_UNIQUE_NAME)
     Crutch.RemoveAllAttachedIcons(CHAIN_UNIQUE_NAME)
+    RemoveChain()
+
+    -- Might be possible for someone to have incoming, but then player steps through a portal and has loadscreen?
+    if (not isSameZone) then
+        for unitTag, _ in pairs(immolatingCircles) do
+            RemoveImmolatingCircle(unitTag)
+        end
+    end
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Ossein Cage")
 end

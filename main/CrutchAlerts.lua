@@ -267,6 +267,7 @@ local defaultOptions = {
         showBombs = true,
     },
     osseincage = {
+        showImmolating = true,
         showStricken = "TANK", -- "NEVER", "TANK", "ALWAYS"
         showChains = true,
         showCarrion = true,

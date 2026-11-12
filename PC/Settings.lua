@@ -2321,6 +2321,18 @@ function Crutch:CreateSettingsMenu()
                 },
                 {
                     type = "checkbox",
+                    name = "Show Immolating Sphere circle",
+                    tooltip = "Draws circles on the ground following players who are targeted by Immolating Sphere",
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.osseincage.showImmolating end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.osseincage.showImmolating = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
                     name = "Show titans' health bars",
                     tooltip = "Shows Blazeforged Valneer's and Sparkstorm Myrinax's health using the vertical boss health bars",
                     default = true,
