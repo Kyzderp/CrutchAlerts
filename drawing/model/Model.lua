@@ -1,6 +1,7 @@
 local Crutch = CrutchAlerts
 Crutch.Drawing.Model = {}
 local M = Crutch.Drawing.Model
+local C = Crutch.Constants
 
 
 ---------------------------------------------------------------------
@@ -23,7 +24,12 @@ local labelControls = {} -- ''
 
 local function CreateRectRenderSpace(x, y, z, pitch, yaw, roll, width, height, color, desaturation, texture, animationOffset)
     if (not genericTexturePool) then
+        local function ResetControl(control)
+            control:SetHidden(true)
+            control:SetAlpha(1)
+        end
         genericTexturePool = ZO_ControlPool:New("CrutchAlertsModelTexture", CrutchAlertsDrawing)
+        genericTexturePool:SetCustomResetBehavior(ResetControl)
     end
 
     local control, key = genericTexturePool:AcquireObject()
@@ -359,10 +365,14 @@ local presentAnimations = {} -- {[name] = {x = 123, y = 123, z = 123, w = 2, h =
 ]]
 
 local function UpdatePresentAnimation(name, progress)
-    name = name or "LC1"
+    name = name or "Test1"
     local presentAnimation = presentAnimations[name]
 
     local angle = progress * math.pi / 2
+    local topProgress = ZO_EaseInQuadratic(progress)
+    local topAngle = topProgress * math.pi * 2
+    local topY = topProgress * presentAnimation.height
+    local topAlpha = 1 - ZO_EaseOutCubic(progress)
 
 
     -- Calculate new center. height / 2 is the radius, must rotate in the direction of yaw
@@ -380,7 +390,7 @@ local function UpdatePresentAnimation(name, progress)
                 local y = math.cos(angle * present.angleMultiplier) * presentAnimation.height * 100 / 2
 
                 -- rotation
-                local pitch, yaw, roll = control:Get3DRenderSpaceOrientation()
+                local _, yaw, roll = control:Get3DRenderSpaceOrientation()
                 control:Set3DRenderSpaceOrientation(angle * present.angleMultiplier, yaw, roll)
 
                 -- offset due to rotating around bottom
@@ -395,6 +405,10 @@ local function UpdatePresentAnimation(name, progress)
                 control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY, newZ))
             elseif (present.top) then
                 -- Top
+                local pitch, _, roll = control:Get3DRenderSpaceOrientation()
+                control:Set3DRenderSpaceOrientation(pitch, present.theta + topAngle)
+                control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(present.oX, present.oY + topY, present.oZ))
+                control:SetAlpha(topAlpha)
             end
         end
     end
@@ -406,6 +420,42 @@ local function PlayPresentAnimation(name)
     local present = presentAnimations[name]
     if (present.animating) then return end
     present.animating = true
+
+    local startTime = GetGameTimeMilliseconds() + 500
+    local function poopFunc(icon)
+        local poopgress = zo_clamp((GetGameTimeMilliseconds() - startTime) / 2000, 0, 1)
+        icon.control:Set3DLocalDimensions(ZO_EaseInCubic(poopgress), ZO_EaseInQuadratic(poopgress))
+    end
+
+    present.poopKey = Crutch.Drawing.CreateWorldTexture(
+        "CrutchAlerts/assets/poop.dds",
+        present.x,
+        present.y + 50,
+        present.z,
+        1,
+        1,
+        C.WHITE,
+        false,
+        true,
+        nil,
+        poopFunc)
+
+    local function glowFunc(icon)
+        local glowProgress = zo_clamp((GetGameTimeMilliseconds() - startTime) / 3000, 0, 1)
+        icon.control:Set3DLocalDimensions(ZO_EaseInOutQuadratic(glowProgress), ZO_EaseInOutQuadratic(glowProgress))
+    end
+    present.glowKey = Crutch.Drawing.CreateWorldTexture(
+        "CrutchAlerts/assets/floor/circle.dds",
+        present.x,
+        present.y + 3,
+        present.z
+        2,
+        2.01, -- hack to use renderspace because lazy
+        {1, 1, 0.9, 1},
+        true,
+        false,
+        C.FLAT_ORIENTATION,
+        glowFunc)
 
     local progress = 0
     EVENT_MANAGER:RegisterForUpdate("CrutchAlertsPresent" .. name, 25, function()
@@ -452,29 +502,42 @@ local function RemovePresent(name)
         labelControls[key] = nil
     end
     presentControls[name] = nil
+
+    if (presentAnimations[name].poopKey) then
+        Crutch.Drawing.RemoveWorldTexture(presentAnimations[name].poopKey)
+        Crutch.Drawing.RemoveWorldTexture(presentAnimations[name].glowKey)
+    end
     presentAnimations[name] = nil
 end
 
 local function Present(name, width, height, depth, theta)
-    name = name or "LC1"
+    name = name or "Test1"
     theta = theta or 0
     width = width or 1
     height = height or 1
     depth = depth or 1
+    local _, x, y, z = GetUnitRawWorldPosition("player")
 
     RemovePresent(name)
+
     presentControls[name] = {rects = {}, labels = {}}
     presentAnimations[name] = {
         height = height,
+        x = x,
+        y = y,
+        z = z,
     }
 
-    local _, x, y, z = GetUnitRawWorldPosition("player")
     for i, rect in ipairs(presentRects) do
         local coordsFunc
         if (rect.thetaOffset) then
             coordsFunc = function(x, y, z)
                 -- d(zo_strformat("initial: <<1>> <<2>> <<3>> <<4>>", x, y - height * 100 / 2, z, theta + rect.thetaOffset))
                 presentAnimations[name][i] = {oX = x, oY = y - (rect.coords[2] - rect.coords[5]) * 100 / 2, oZ = z, theta = theta + rect.thetaOffset, angleMultiplier = rect.angle}
+            end
+        elseif (rect.top) then
+            coordsFunc = function(x, y, z)
+                presentAnimations[name][i] = {oX = x, oY = y, oZ = z, theta = theta, top = true}
             end
         end
         CreateControlFromElement(rect, presentControls[name].rects, presentControls[name].labels, x, y, z, GetUIGlobalScale(), theta, 0, coordsFunc, nil, width, height, depth)
@@ -484,7 +547,7 @@ M.Present = Present
 --[[
 /script CrutchAlerts.Drawing.Model.Present()
 /script CrutchAlerts.Drawing.Model.UpdatePresentAnimation(nil, 0.5)
-/script CrutchAlerts.Drawing.Model.PlayPresentAnimation("LC1")
+/script CrutchAlerts.Drawing.Model.PlayPresentAnimation("Test1")
 ]]
 
 

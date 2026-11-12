@@ -3,8 +3,6 @@ local M = Crutch.Drawing.Model
 
 
 --[[
-ERE|147724,37560,160802
-
 ERE
 [21:54:48] [Kyzderp's Derps] zoneId=1360 {x = 147724, y = 37560, z = 160802} -- 2nd secret cliff
 [22:47:52] [Kyzderp's Derps] zoneId=1360 {x = 129975, y = 36625, z = 56351} -- boss next to banner
@@ -25,7 +23,7 @@ local presentCoords = {
     [1427] = "SE|",  -- Sanity's Edge
     [1478] = "LC|",  -- Lucent Citadel
     [1548] = "OC|",  -- Ossein Cage
-    [1565] = "OO|",  -- Opulent Ordeal (Night Market)
+    -- [1565] = "OO|",  -- Opulent Ordeal (Night Market)
 }
 
 local activePresents = {}
