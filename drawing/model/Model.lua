@@ -368,23 +368,24 @@ local function UpdatePresentAnimation(name, progress)
     name = name or "Test1"
     local presentAnimation = presentAnimations[name]
 
-    local angle = progress * math.pi / 2
+    local sideProgress = zo_clamp(progress * 2, 0, 1)
+    local angle = sideProgress * math.pi / 2
+
     local topProgress = ZO_EaseInQuadratic(progress)
     local topAngle = topProgress * math.pi * 2
-    local topY = topProgress * presentAnimation.height
-    local topAlpha = 1 - ZO_EaseOutCubic(progress)
+    local topY = topProgress * presentAnimation.height * 100
+    local topAlpha = 1 - ZO_EaseOutCubic(topProgress)
 
 
     -- Calculate new center. height / 2 is the radius, must rotate in the direction of yaw
     -- 1 south means rotation point is d / 2
-
 
     for i, present in pairs(presentAnimation) do -- TODO
         -- local present = presentAnimation[i]
         if (type(i) == "number") then
             local control = CrutchAlertsDrawing:GetNamedChild("CrutchAlertsModelTexture" .. i)
 
-            if (present.theta) then
+            if (present.angleMultiplier) then
                 -- Sides
                 local horiz = math.sin(angle * present.angleMultiplier) * presentAnimation.height * 100 / 2
                 local y = math.cos(angle * present.angleMultiplier) * presentAnimation.height * 100 / 2
@@ -417,13 +418,15 @@ M.UpdatePresentAnimation = UpdatePresentAnimation
 -- /script CrutchAlerts.Drawing.Model.UpdatePresentAnimation(nil, 0.5)
 
 local function PlayPresentAnimation(name)
+    Crutch.dbgOther("Opening " .. name)
+
     local present = presentAnimations[name]
     if (present.animating) then return end
     present.animating = true
 
-    local startTime = GetGameTimeMilliseconds() + 500
+    local startTime = GetGameTimeMilliseconds()
     local function poopFunc(icon)
-        local poopgress = zo_clamp((GetGameTimeMilliseconds() - startTime) / 2000, 0, 1)
+        local poopgress = zo_clamp((GetGameTimeMilliseconds() - startTime) / 1500, 0, 1)
         icon.control:Set3DLocalDimensions(ZO_EaseInCubic(poopgress), ZO_EaseInQuadratic(poopgress))
     end
 
@@ -432,26 +435,28 @@ local function PlayPresentAnimation(name)
         present.x,
         present.y + 50,
         present.z,
-        1,
-        1,
+        0,
+        0,
         C.WHITE,
-        false,
+        true,
         true,
         nil,
         poopFunc)
 
     local function glowFunc(icon)
         local glowProgress = zo_clamp((GetGameTimeMilliseconds() - startTime) / 3000, 0, 1)
-        icon.control:Set3DLocalDimensions(ZO_EaseInOutQuadratic(glowProgress), ZO_EaseInOutQuadratic(glowProgress))
+        local size = ZO_EaseInOutQuadratic(glowProgress) * 6
+        icon.control:Set3DLocalDimensions(size, size)
+        icon:SetOrientation(-math.pi/2, (GetGameTimeMilliseconds() % 4000) / 4000 * math.pi * 2, 0)
     end
     present.glowKey = Crutch.Drawing.CreateWorldTexture(
-        "CrutchAlerts/assets/floor/circle.dds",
+        "/esoui/art/champion/champion_star_burst.dds",
         present.x,
         present.y + 3,
-        present.z
-        2,
-        2.01, -- hack to use renderspace because lazy
-        {1, 1, 0.9, 1},
+        present.z,
+        0,
+        0,
+        C.WHITE,
         true,
         false,
         C.FLAT_ORIENTATION,
@@ -463,7 +468,7 @@ local function PlayPresentAnimation(name)
             EVENT_MANAGER:UnregisterForUpdate("CrutchAlertsPresent" .. name)
             return
         end
-        progress = progress + 0.05
+        progress = progress + 0.025
         UpdatePresentAnimation(name, progress)
     end)
 end
@@ -509,14 +514,19 @@ local function RemovePresent(name)
     end
     presentAnimations[name] = nil
 end
+M.RemovePresent = RemovePresent
 
-local function Present(name, width, height, depth, theta)
+local function Present(name, x, y, z, width, height, depth, theta)
     name = name or "Test1"
     theta = theta or 0
     width = width or 1
     height = height or 1
     depth = depth or 1
-    local _, x, y, z = GetUnitRawWorldPosition("player")
+    if (not x) then
+        local _
+        _, x, y, z = GetUnitRawWorldPosition("player")
+    end
+    y = y + 5 -- assume y coord given is right on the floor
 
     RemovePresent(name)
 
@@ -533,7 +543,13 @@ local function Present(name, width, height, depth, theta)
         if (rect.thetaOffset) then
             coordsFunc = function(x, y, z)
                 -- d(zo_strformat("initial: <<1>> <<2>> <<3>> <<4>>", x, y - height * 100 / 2, z, theta + rect.thetaOffset))
-                presentAnimations[name][i] = {oX = x, oY = y - (rect.coords[2] - rect.coords[5]) * 100 / 2, oZ = z, theta = theta + rect.thetaOffset, angleMultiplier = rect.angle}
+                presentAnimations[name][i] = {
+                    oX = x,
+                    oY = y - (rect.coords[2] - rect.coords[5]) * 100 / 2,
+                    oZ = z,
+                    theta = theta + rect.thetaOffset,
+                    angleMultiplier = rect.angle,
+                }
             end
         elseif (rect.top) then
             coordsFunc = function(x, y, z)
@@ -547,6 +563,7 @@ M.Present = Present
 --[[
 /script CrutchAlerts.Drawing.Model.Present()
 /script CrutchAlerts.Drawing.Model.UpdatePresentAnimation(nil, 0.5)
+/script CrutchAlerts.Drawing.Model.Present() zo_callLater(function() CrutchAlerts.Drawing.Model.PlayPresentAnimation("Test1") end, 2000)
 /script CrutchAlerts.Drawing.Model.PlayPresentAnimation("Test1")
 ]]
 

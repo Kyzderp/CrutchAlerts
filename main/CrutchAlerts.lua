@@ -700,6 +700,8 @@ local function Initialize()
     PrintTime("info panel done")
     Crutch.Drawing.Model.InitializeGrave()
     PrintTime("grave done")
+    Crutch.Drawing.Model.InitializePresent()
+    PrintTime("present done")
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()

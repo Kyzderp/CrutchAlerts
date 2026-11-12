@@ -23,6 +23,7 @@ local presentCoords = {
     [1427] = "SE|",  -- Sanity's Edge
     [1478] = "LC|",  -- Lucent Citadel
     [1548] = "OC|",  -- Ossein Cage
+    [ 849] = "VV|218739,11576,508011,218920,11583,504866",  -- Vvardenfell testing
     -- [1565] = "OO|",  -- Opulent Ordeal (Night Market)
 }
 
@@ -46,7 +47,7 @@ local function CheckDistances()
     local _, x, y, z = GetUnitRawWorldPosition("player")
     for name, coords in pairs(activePresents) do
         local dist = Crutch.GetSquaredDistance(x, y, z, coords.x, coords.y, coords.z)
-        if (dist < 10000) then
+        if (dist < 40000) then
             OpenPresent(name)
             return
         end
@@ -80,12 +81,17 @@ local function PlacePresents()
     end
 
     local prefix, rest = zo_strsplit("|", presentCoords[zoneId])
-    local coords = zo_strsplit(",", rest)
+    local coords = {zo_strsplit(",", rest)}
 
     for i = 1, #coords / 3 do
         local name = prefix .. i
         local baseIndex = (i - 1) * 3
-        activePresents[name] = {x = coords[baseIndex + 1], y = coords[baseIndex + 2], z = coords[baseIndex + 3]}
+        Crutch.dbgOther(coords[baseIndex + 1])
+        local x = tonumber(coords[baseIndex + 1])
+        local y = tonumber(coords[baseIndex + 2])
+        local z = tonumber(coords[baseIndex + 3])
+        activePresents[name] = {x = x, y = y, z = z}
+        M.Present(name, x, y, z)
     end
 
     Crutch.dbgOther(NonContiguousCount(activePresents) .. " presents placed")
@@ -118,3 +124,4 @@ function M.InitializePresent()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PresentPlayerActivated", EVENT_PLAYER_ACTIVATED, PlacePresents)
     PlacePresents()
 end
+-- /script CrutchAlerts.Drawing.Model.InitializePresent()
