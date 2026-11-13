@@ -25,22 +25,13 @@ local trials = {
     1548, -- Ossein Cage
 }
 
-local function IndexOf(tab, item)
-    for i, v in ipairs(tab) do
-        if (v == item) then
-            return i
-        end
-    end
-    return nil
-end
-
 local found = {} -- {0x1F, 0x00}
 M.found = found
 
 local function TrialsFoundToString()
     local result = ""
     for i = 1, #trials do
-        result = string.format("%s%02x", result, found[trials[i]] or 0)
+        result = string.format("%02x%s", found[trials[i]] or 0, result)
     end
     return result
 end
@@ -61,30 +52,29 @@ local function TrialsStringToFound(str)
 end
 M.TrialsStringToFound = TrialsStringToFound
 
-local function InitFound(index)
-    if (not found[index]) then
-        found[index] = 0
-    end
-end
-
 -- found 1111 1111
 -- put both trials and boxes in order like 4 3 2 1 so that existing ones never change
 local function GetCompleted(zoneId)
-    local index = IndexOf(trials, zoneId)
-    if (not index) then return end
-    InitFound(index)
-
-    return found[index]
+    return found[zoneId]
 end
 M.GetCompleted = GetCompleted
 
-local function SetCompleted(zoneId, i, v)
-    local index = IndexOf(trials, zoneId)
-    if (not index) then return end
-    InitFound(index)
+local function IsCompleted(zoneId, i)
+    local val = found[zoneId] or 0
+    local mask = BitLShift(1, i - 1)
+    return BitAnd(val, mask) ~= 0
+end
 
-    local newVal = found[index]
-    Crutch.dbgOther(newVal)
+local function GetNumCompleted(zoneId)
+    local num = 0
+    for i = 1, NUM_TRIAL do
+        num = num + (IsCompleted(zoneId, i) and 1 or 0)
+    end
+    return num
+end
+
+local function SetCompleted(zoneId, i, v)
+    local newVal = found[zoneId] or 0
 
     if (v == true) then
         -- if setting to true, set mask to 1, then or
@@ -94,8 +84,7 @@ local function SetCompleted(zoneId, i, v)
         newVal = BitAnd(newVal, BitNot(BitLShift(1, i - 1), 8))
     end
 
-    found[index] = newVal
-    Crutch.dbgOther(newVal)
+    found[zoneId] = newVal
     return newVal
 end
 M.SetCompleted = SetCompleted
@@ -111,23 +100,23 @@ ERE
 ]]
 local presentCoords = {
     -- [1360] = "", -- ERE
-    [ 636] = "HRC|",  -- Hel Ra Citadel
-    [ 638] = "AA|",  -- Aetherian Archive
-    [ 639] = "SO|",  -- Sanctum Ophidia
-    [ 725] = "MoL|",  -- Maw of Lorkhaj
-    [ 975] = "HoF|",  -- Halls of Fabrication
-    [1000] = "AS|",  -- Asylum Sanctorium
-    [1051] = "CR|",  -- Cloudrest
-    [1121] = "SS|",  -- Sunspire
-    [1196] = "KA|",  -- Kyne's Aegis
-    [1263] = "RG|",  -- Rockgrove
-    [1344] = "DSR|",  -- Dreadsail Reef
-    [1427] = "SE|",  -- Sanity's Edge
-    [1478] = "LC|139502,34997,173352",  -- Lucent Citadel
-    [1548] = "OC|",  -- Ossein Cage
-    -- [ 849] = "VV|218739,11576,508011,218920,11583,504866",  -- Vvardenfell testing
-    [ 849] = "VV|218739,11576,508011,218920,11583,504866,218474,11589,505594,218228,11579,505673,218287,11590,505453,218077,11580,505493,218269,11579,505727,218331,11586,505594,218214,11585,505511,218155,11586,505412,218052,11571,505607,218031,11560,505766,217867,11555,505726,217964,11567,505544",  -- Vvardenfell testing
-    -- [1565] = "OO|",  -- Opulent Ordeal (Night Market)
+    [ 636] = "HRC|", -- Hel Ra Citadel
+    [ 638] = "AA|", -- Aetherian Archive
+    [ 639] = "SO|", -- Sanctum Ophidia
+    [ 725] = "MoL|", -- Maw of Lorkhaj
+    [ 975] = "HoF|", -- Halls of Fabrication
+    [1000] = "AS|", -- Asylum Sanctorium
+    [1051] = "CR|", -- Cloudrest
+    [1121] = "SS|", -- Sunspire
+    [1196] = "KA|", -- Kyne's Aegis
+    [1263] = "RG|", -- Rockgrove
+    [1344] = "DSR|", -- Dreadsail Reef
+    [1427] = "SE|", -- Sanity's Edge
+    [1478] = "LC|139502,34997,173352,97518,20872,116668,81213,17682,130453,149708,22860,91033,122181,33500,126048", -- Lucent Citadel
+    [1548] = "OC|", -- Ossein Cage
+    -- [ 849] = "VV|218739,11576,508011,218920,11583,504866", -- Vvardenfell testing
+    [ 849] = "VV|218739,11576,508011,218920,11583,504866,218474,11589,505594,218228,11579,505673,218287,11590,505453,218077,11580,505493,218269,11579,505727,218331,11586,505594,218214,11585,505511,218155,11586,505412,218052,11571,505607,218031,11560,505766,217867,11555,505726,217964,11567,505544", -- Vvardenfell testing
+    -- [1565] = "OO|", -- Opulent Ordeal (Night Market)
 }
 
 local activePrefix
@@ -138,17 +127,31 @@ local activePresents = {} -- {[1] = {}} -- do NOT use ipairs; they can be remove
 -- Approach
 ---------------------------------------------------------------------
 local POLLING_NAME = "CrutchAlertsPresentProximity"
+
+local function OnAllCollected()
+    -- TODO
+end
+
 local function OpenPresent(index)
     activePresents[index] = nil
     M.PlayPresentAnimation(activePrefix .. index)
 
-    SetCompleted(GetZoneId(GetUnitZoneIndex("player")), index, true)
+    local zoneId = GetZoneId(GetUnitZoneIndex("player"))
+    local isAlreadyDone = IsCompleted(zoneId, index)
+    SetCompleted(zoneId, index, true)
+    local num = GetNumCompleted(zoneId)
 
     if (not next(activePresents)) then
         EVENT_MANAGER:UnregisterForUpdate(POLLING_NAME)
     end
 
     Crutch.dbgOther(TrialsFoundToString())
+
+    if (isAlreadyDone) then
+        Crutch.msg(zo_strformat("You've found this |t100%:100%:CrutchAlerts/assets/poop.dds|t before. <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))
+    else
+        Crutch.msg(zo_strformat("You found a |t100%:100%:CrutchAlerts/assets/poop.dds|t ! <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))
+    end
 end
 
 local function CheckDistances()
@@ -157,7 +160,7 @@ local function CheckDistances()
         local dist = Crutch.GetSquaredDistance(x, y, z, coords.x, coords.y, coords.z)
         if (dist < 40000) then
             OpenPresent(index)
-            -- return -- TODO: put this back lol
+            return
         end
     end
 end

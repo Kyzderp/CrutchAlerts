@@ -175,7 +175,6 @@ local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, ui
         control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - animationOffset, newZ))
         Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
     else
-        d(controlParams)
         local control, key = CreateRectRenderSpace(
             x + oX * scale,
             y + oY * scale,
@@ -346,7 +345,7 @@ local function Grave(unitTag, intro, name, birth, death, theta)
     local textParams = {intro, name, birth, death}
 
     for _, rect in ipairs(graveRects) do
-        CreateControlFromElement(rect, graves[unitTag].rects, graves[unitTag].labels, x, y, z, uiScale, theta, ANIMATION_Y, nil, textParams, 1, 1, 1)
+        CreateControlFromElement(rect, graves[unitTag].rects, graves[unitTag].labels, x, y, z, uiScale, theta, ANIMATION_Y, nil, textParams)
     end
 
     graveAnimations[unitTag] = GetGameTimeMilliseconds() + ANIMATION_DURATION
@@ -363,6 +362,7 @@ M.Grave = Grave
 ---------------------------------------------------------------------
 -- Present
 ---------------------------------------------------------------------
+local presentControls = {}
 local presentAnimations = {} -- {[name] = {x = 123, y = 123, z = 123, w = 2, h = 3, d = 1, theta = pi}}
 --[[
 {
@@ -373,6 +373,28 @@ local presentAnimations = {} -- {[name] = {x = 123, y = 123, z = 123, w = 2, h =
     }
 }
 ]]
+
+local function RemovePresent(name)
+    local data = presentControls[name]
+    if (not data) then return end
+
+    for _, key in ipairs(data.rects) do
+        genericTexturePool:ReleaseObject(key)
+        rectControls[key] = nil
+    end
+    for _, key in ipairs(data.labels) do
+        genericLabelPool:ReleaseObject(key)
+        labelControls[key] = nil
+    end
+    presentControls[name] = nil
+
+    if (presentAnimations[name].poopKey) then
+        Crutch.Drawing.RemoveWorldTexture(presentAnimations[name].poopKey)
+        Crutch.Drawing.RemoveWorldTexture(presentAnimations[name].glowKey)
+    end
+    presentAnimations[name] = nil
+end
+M.RemovePresent = RemovePresent
 
 local function UpdatePresentAnimation(name, progress)
     name = name or "Test1"
@@ -481,6 +503,8 @@ local function PlayPresentAnimation(name)
         progress = progress + 0.025
         UpdatePresentAnimation(name, progress)
     end)
+
+    zo_callLater(function() RemovePresent(name) end, 10000)
 end
 M.PlayPresentAnimation = PlayPresentAnimation
 
@@ -531,30 +555,6 @@ local function SelectColor(taken)
     local colors = presentColors[index]
     return colors[math.random(1, #colors)], index
 end
-
-local presentControls = {}
-
-local function RemovePresent(name)
-    local data = presentControls[name]
-    if (not data) then return end
-
-    for _, key in ipairs(data.rects) do
-        genericTexturePool:ReleaseObject(key)
-        rectControls[key] = nil
-    end
-    for _, key in ipairs(data.labels) do
-        genericLabelPool:ReleaseObject(key)
-        labelControls[key] = nil
-    end
-    presentControls[name] = nil
-
-    if (presentAnimations[name].poopKey) then
-        Crutch.Drawing.RemoveWorldTexture(presentAnimations[name].poopKey)
-        Crutch.Drawing.RemoveWorldTexture(presentAnimations[name].glowKey)
-    end
-    presentAnimations[name] = nil
-end
-M.RemovePresent = RemovePresent
 
 local function Present(name, x, y, z, width, height, depth, boxColor, ribbonColor, theta)
     name = name or "Test1"
