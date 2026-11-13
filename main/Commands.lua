@@ -175,13 +175,24 @@ SLASH_COMMANDS["/crutch"] = function(argString)
             Crutch.msg("Graves now " .. (Crutch.savedOptions.memes.graves and "ON" or "OFF"))
             if (Crutch.savedOptions.memes.graves) then
                 if (IsConsoleUI()) then
-                    -- TODO: font mem?
                     Crutch.msg("Warning: console does not support depth buffers, so graves will display in front of objects!")
                 else
                     Crutch.msg("Note: For the best experience, ensure \"SubSampling Quality\" is set to \"High\" in your Video settings (requires FSR/DLSS to be off), otherwise they will display in front of objects!")
                 end
             end
             Crutch.Drawing.Model.InitializeGrave()
+        elseif (args[2] == "presents") then
+            local prev = Crutch.savedOptions.memes.presents or false
+            Crutch.savedOptions.memes.presents = not prev
+            Crutch.msg("Presents now " .. (Crutch.savedOptions.memes.presents and "ON" or "OFF"))
+            if (Crutch.savedOptions.memes.presents) then
+                if (IsConsoleUI()) then
+                    Crutch.msg("Warning: console does not support depth buffers, so presents will display in front of objects!")
+                else
+                    Crutch.msg("Note: For the best experience, ensure \"SubSampling Quality\" is set to \"High\" in your Video settings (requires FSR/DLSS to be off), otherwise they will display in front of objects!")
+                end
+            end
+            Crutch.Drawing.Model.InitializePresent()
         else
             Crutch.msg("These are not the memes you're looking for.")
         end
