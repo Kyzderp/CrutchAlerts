@@ -84,6 +84,7 @@ local function SetCompleted(zoneId, i, v)
     InitFound(index)
 
     local newVal = found[index]
+    Crutch.dbgOther(newVal)
 
     if (v == true) then
         -- if setting to true, set mask to 1, then or
@@ -94,6 +95,7 @@ local function SetCompleted(zoneId, i, v)
     end
 
     found[index] = newVal
+    Crutch.dbgOther(newVal)
     return newVal
 end
 M.SetCompleted = SetCompleted
@@ -121,9 +123,10 @@ local presentCoords = {
     [1263] = "RG|",  -- Rockgrove
     [1344] = "DSR|",  -- Dreadsail Reef
     [1427] = "SE|",  -- Sanity's Edge
-    [1478] = "LC|",  -- Lucent Citadel
+    [1478] = "LC|139502,34997,173352",  -- Lucent Citadel
     [1548] = "OC|",  -- Ossein Cage
-    [ 849] = "VV|218739,11576,508011,218920,11583,504866",  -- Vvardenfell testing
+    -- [ 849] = "VV|218739,11576,508011,218920,11583,504866",  -- Vvardenfell testing
+    [ 849] = "VV|218739,11576,508011,218920,11583,504866,218474,11589,505594,218228,11579,505673,218287,11590,505453,218077,11580,505493,218269,11579,505727,218331,11586,505594,218214,11585,505511,218155,11586,505412,218052,11571,505607,218031,11560,505766,217867,11555,505726,217964,11567,505544",  -- Vvardenfell testing
     -- [1565] = "OO|",  -- Opulent Ordeal (Night Market)
 }
 
@@ -153,8 +156,8 @@ local function CheckDistances()
     for index, coords in pairs(activePresents) do
         local dist = Crutch.GetSquaredDistance(x, y, z, coords.x, coords.y, coords.z)
         if (dist < 40000) then
-            OpenPresent(activePrefix .. index)
-            return
+            OpenPresent(index)
+            -- return -- TODO: put this back lol
         end
     end
 end
@@ -163,7 +166,7 @@ local function MaybePollProximity()
     EVENT_MANAGER:UnregisterForUpdate(POLLING_NAME)
     if (not next(activePresents)) then return end
 
-    EVENT_MANAGER:RegisterForUpdate(POLLING_NAME, 1000, CheckDistances)
+    EVENT_MANAGER:RegisterForUpdate(POLLING_NAME, 500, CheckDistances)
 end
 
 

@@ -32,7 +32,7 @@ local function OnImmolatingSphereGained(_, _, _, _, _, _, _, _, _, _, hitValue, 
     local key = Crutch.Drawing.CreateWorldTexture(
         "CrutchAlerts/assets/floor/circle.dds",
         x, y, z,
-        4, 4
+        4, 4,
         {1, 0.5, 0, 0.6},
         false,
         false,

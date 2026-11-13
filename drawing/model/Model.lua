@@ -102,18 +102,18 @@ local function CalculateValues(x1, y1, z1, x2, y2, z2, x3, y3, z3, theta)
 end
 
 local scale = 100
-local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, uiScale, theta, animationOffset, coordsCallback, textParams, xScale, yScale, zScale)
+local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, uiScale, theta, animationOffset, coordsCallback, textParams, controlParams)
     animationOffset = animationOffset or 0
     local oX, oY, oZ, pitch, yaw, roll, width, height = CalculateValues(
-        rect.coords[1] * xScale,
-        rect.coords[2] * yScale,
-        rect.coords[3] * zScale,
-        rect.coords[4] * xScale,
-        rect.coords[5] * yScale,
-        rect.coords[6] * zScale,
-        rect.coords[7] * xScale,
-        rect.coords[8] * yScale,
-        rect.coords[9] * zScale,
+        rect.coords[1] * (controlParams and controlParams.xScale or 1),
+        rect.coords[2] * (controlParams and controlParams.yScale or 1),
+        rect.coords[3] * (controlParams and controlParams.zScale or 1),
+        rect.coords[4] * (controlParams and controlParams.xScale or 1),
+        rect.coords[5] * (controlParams and controlParams.yScale or 1),
+        rect.coords[6] * (controlParams and controlParams.zScale or 1),
+        rect.coords[7] * (controlParams and controlParams.xScale or 1),
+        rect.coords[8] * (controlParams and controlParams.yScale or 1),
+        rect.coords[9] * (controlParams and controlParams.zScale or 1),
         theta
         )
     if (rect.text) then
@@ -175,11 +175,21 @@ local function CreateControlFromElement(rect, rectTable, labelTable, x, y, z, ui
         control:Set3DRenderSpaceOrigin(WorldPositionToGuiRender3DPosition(newX, newY - animationOffset, newZ))
         Crutch.dbgSpam("^^^ " .. control:GetName() .. " ^^^")
     else
-        local control, key = CreateRectRenderSpace(x + oX * scale, y + oY * scale, z + oZ * scale, pitch, yaw, roll, width, height, rect.color, rect.desaturation or 0, rect.texture, animationOffset)
+        d(controlParams)
+        local control, key = CreateRectRenderSpace(
+            x + oX * scale,
+            y + oY * scale,
+            z + oZ * scale,
+            pitch, yaw, roll,
+            width, height,
+            controlParams and controlParams.color or rect.color,
+            rect.desaturation or 0,
+            rect.texture,
+            animationOffset)
         table.insert(rectTable, key)
 
         if (coordsCallback) then
-            coordsCallback(x + oX * scale, y + oY * scale, z + oZ * scale)
+            coordsCallback(x + oX * scale, y + oY * scale, z + oZ * scale, control)
         end
     end
 end
@@ -383,7 +393,7 @@ local function UpdatePresentAnimation(name, progress)
     for i, present in pairs(presentAnimation) do -- TODO
         -- local present = presentAnimation[i]
         if (type(i) == "number") then
-            local control = CrutchAlertsDrawing:GetNamedChild("CrutchAlertsModelTexture" .. i)
+            local control = present.control
 
             if (present.angleMultiplier) then
                 -- Sides
@@ -444,7 +454,7 @@ local function PlayPresentAnimation(name)
         poopFunc)
 
     local function glowFunc(icon)
-        local glowProgress = zo_clamp((GetGameTimeMilliseconds() - startTime) / 3000, 0, 1)
+        local glowProgress = zo_clamp((GetGameTimeMilliseconds() - startTime) / 2000, 0, 1)
         local size = ZO_EaseInOutQuadratic(glowProgress) * 6
         icon.control:Set3DLocalDimensions(size, size)
         icon:SetOrientation(-math.pi/2, (GetGameTimeMilliseconds() % 4000) / 4000 * math.pi * 2, 0)
@@ -476,21 +486,51 @@ M.PlayPresentAnimation = PlayPresentAnimation
 
 local presentRects = {
     -- top left, bottom right, top right
-    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = { .7, .2, .15, 1}, angle = 1, thetaOffset = 0}, -- south
-    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = { .7, .2, .15, 1}, angle = -1, thetaOffset = 0}, -- north
-    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {.75, .2, .15, 1}, angle = -1, thetaOffset = math.pi/2}, -- west
-    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {.75, .2, .15, 1}, angle = -1, thetaOffset = math.pi*1.5}, -- east
-    {coords = {-.5, 1, -.5,  .5, 1,  .5,  .5, 1, -.5}, color = {.65, .2, .15, 1}, top = true}, -- top
-    {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.65, .2, .15, 1}}, -- bottom
+    {coords = {-.5, 1,  .5,  .5, 0,  .5,  .5, 1,  .5}, color = {-.05, 0, 0, "base"}, angle = 1, thetaOffset = 0}, -- south
+    {coords = {-.5, 1, -.5,  .5, 0, -.5,  .5, 1, -.5}, color = {-.05, 0, 0, "base"}, angle = -1, thetaOffset = 0}, -- north
+    {coords = {-.5, 1, -.5, -.5, 0,  .5, -.5, 1,  .5}, color = {   0, 0, 0, "base"}, angle = -1, thetaOffset = math.pi/2}, -- west
+    {coords = { .5, 1,  .5,  .5, 0, -.5,  .5, 1, -.5}, color = {   0, 0, 0, "base"}, angle = -1, thetaOffset = math.pi*1.5}, -- east
+    {coords = {-.5, 1, -.5,  .5, 1,  .5,  .5, 1, -.5}, color = { -.1, 0, 0, "base"}, top = true}, -- top
+    {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = { -.1, 0, 0, "base"}}, -- bottom
 
-    {coords = {-.2,  1.015,  .51,   .2,    -.015,  .51,   .2,  1.015,   .51}, color = { .1, .7, .15, 1}, angle = 1, thetaOffset = 0}, -- frontback
-    {coords = {-.2,  1.015, -.51,   .2,    -.015, -.51,   .2,  1.015,  -.51}, color = { .1, .7, .15, 1}, angle = -1, thetaOffset = 0},
-    {coords = {-.51, 1.015,  -.2, -.51,    -.015,   .2, -.51,  1.015,    .2}, color = {.15, .75, .15, 1}, angle = -1, thetaOffset = math.pi/2},
-    {coords = { .51, 1.015,   .2,  .51,    -.015,  -.2,  .51,  1.015,   -.2}, color = {.15, .75, .15, 1}, angle = -1, thetaOffset = math.pi*1.5},
-    {coords = {-.2,   1.01, -.51,   .2, 1.01,  .51,   .2,   1.01,  -.51}, color = {.05, .65, .15, 1}, top = true}, -- top
-    {coords = {-.51,  1.01,  -.2,  .51, 1.01,   .2,  .51,   1.01,   -.2}, color = {.05, .65, .15, 1}, top = true}, -- top
+    {coords = { -.2, 1.02,  .52,   .2, -.02,  .52,   .2, 1.02,  .52}, color = {-.05, -.05, 0, "ribbon"}, angle = 1, thetaOffset = 0}, -- frontback
+    {coords = { -.2, 1.02, -.52,   .2, -.02, -.52,   .2, 1.02, -.52}, color = {-.05, -.05, 0, "ribbon"}, angle = -1, thetaOffset = 0},
+    {coords = {-.52, 1.02,  -.2, -.52, -.02,   .2, -.52, 1.02,   .2}, color = {   0,    0, 0, "ribbon"}, angle = -1, thetaOffset = math.pi/2},
+    {coords = { .52, 1.02,   .2,  .52, -.02,  -.2,  .52, 1.02,  -.2}, color = {   0,    0, 0, "ribbon"}, angle = -1, thetaOffset = math.pi*1.5},
+    {coords = { -.2, 1.02, -.52,   .2, 1.02,  .52,   .2, 1.02, -.52}, color = { -.1,  -.1, 0, "ribbon"}, top = true}, -- top
+    {coords = {-.52, 1.02,  -.2,  .52, 1.02,   .2,  .52, 1.02,  -.2}, color = { -.1,  -.1, 0, "ribbon"}, top = true}, -- top
     -- {coords = {-.5, 0, -.5,  .5, 0,  .5,  .5, 0, -.5}, color = {.05, .7, .15, 1}}, -- bottom
 }
+
+local presentColors = {
+    -- reds
+    {
+        {.75, .2, .15},
+        {.6, .1, 0},
+        {.4, .1, 0},
+    },
+    -- greens
+    {
+        {.15, .75, .15},
+        {.1, .5, .1},
+        {.1, .4, .1},
+        {.2, .3, .1},
+    },
+    -- whites
+    {
+        {.9, .9, .9},
+        {.9, .9, .8},
+    },
+}
+local function SelectColor(taken)
+    local index = taken
+    while (index == taken) do -- not ideal but easy, good enough for now
+        index = math.random(1, 3)
+    end
+
+    local colors = presentColors[index]
+    return colors[math.random(1, #colors)], index
+end
 
 local presentControls = {}
 
@@ -516,17 +556,24 @@ local function RemovePresent(name)
 end
 M.RemovePresent = RemovePresent
 
-local function Present(name, x, y, z, width, height, depth, theta)
+local function Present(name, x, y, z, width, height, depth, boxColor, ribbonColor, theta)
     name = name or "Test1"
-    theta = theta or 0
-    width = width or 1
-    height = height or 1
-    depth = depth or 1
+    theta = theta or math.random() * math.pi * .5
+    width = width or math.random() * .5 + .5
+    height = height or math.random() * .5 + .5
+    depth = depth or math.random() * .5 + .5
     if (not x) then
         local _
         _, x, y, z = GetUnitRawWorldPosition("player")
     end
     y = y + 5 -- assume y coord given is right on the floor
+
+    -- select random color
+    local taken
+    if (not boxColor) then
+        boxColor, taken = SelectColor()
+    end
+    ribbonColor = ribbonColor or SelectColor(taken)
 
     RemovePresent(name)
 
@@ -538,25 +585,39 @@ local function Present(name, x, y, z, width, height, depth, theta)
         z = z,
     }
 
+    local controlParams = {
+        xScale = width,
+        yScale = height,
+        zScale = depth,
+        color = {1, 1, 1, 1},
+    }
+
     for i, rect in ipairs(presentRects) do
         local coordsFunc
         if (rect.thetaOffset) then
-            coordsFunc = function(x, y, z)
+            coordsFunc = function(x, y, z, control)
                 -- d(zo_strformat("initial: <<1>> <<2>> <<3>> <<4>>", x, y - height * 100 / 2, z, theta + rect.thetaOffset))
                 presentAnimations[name][i] = {
+                    control = control,
                     oX = x,
-                    oY = y - (rect.coords[2] - rect.coords[5]) * 100 / 2,
+                    oY = y - (rect.coords[2] - rect.coords[5]) * height * 100 / 2,
                     oZ = z,
                     theta = theta + rect.thetaOffset,
                     angleMultiplier = rect.angle,
                 }
             end
         elseif (rect.top) then
-            coordsFunc = function(x, y, z)
-                presentAnimations[name][i] = {oX = x, oY = y, oZ = z, theta = theta, top = true}
+            coordsFunc = function(x, y, z, control)
+                presentAnimations[name][i] = {oX = x, oY = y, oZ = z, theta = theta, top = true, control = control}
             end
         end
-        CreateControlFromElement(rect, presentControls[name].rects, presentControls[name].labels, x, y, z, GetUIGlobalScale(), theta, 0, coordsFunc, nil, width, height, depth)
+
+        local baseColor = rect.color[4] == "base" and boxColor or ribbonColor
+        controlParams.color[1] = baseColor[1] + rect.color[1]
+        controlParams.color[2] = baseColor[2] + rect.color[2]
+        controlParams.color[3] = baseColor[3] + rect.color[3]
+
+        CreateControlFromElement(rect, presentControls[name].rects, presentControls[name].labels, x, y, z, GetUIGlobalScale(), theta, 0, coordsFunc, nil, controlParams)
     end
 end
 M.Present = Present
