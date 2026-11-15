@@ -53,11 +53,6 @@ end
 M.TrialsStringToFound = TrialsStringToFound
 
 -- put both trials and boxes in order like 4 3 2 1 so that existing ones never change
-local function GetCompleted(zoneId)
-    return found[zoneId]
-end
-M.GetCompleted = GetCompleted
-
 local function IsCompleted(zoneId, i)
     local val = found[zoneId] or 0
     local mask = BitLShift(1, i - 1)
@@ -71,6 +66,12 @@ local function GetNumCompleted(zoneId)
     end
     return num
 end
+
+-- TODO: non-trials
+local function AreAllPresentsCompleted(zoneId)
+    return GetNumCompleted(zoneId) == NUM_TRIAL
+end
+M.AreAllPresentsCompleted = AreAllPresentsCompleted
 
 local function SetCompleted(zoneId, i, v)
     local newVal = found[zoneId] or 0
@@ -99,15 +100,15 @@ ERE
 ]]
 local presentCoords = {
     -- [1360] = "", -- ERE
-    [ 636] = "HRC|", -- Hel Ra Citadel
-    [ 638] = "AA|", -- Aetherian Archive
-    [ 639] = "SO|", -- Sanctum Ophidia
+    [ 636] = "HRC|63000,21251,31790,92758,25508,76640,82584,24902,86550,88731,28386,87583,92522,37121,93983", -- Hel Ra Citadel
+    [ 638] = "AA|81733,9472,76452,113014,14691,74865,98785,13625,103688,95544,13765,137753,129628,39378,184150", -- Aetherian Archive
+    [ 639] = "SO|106847,14627,188222,83234,20092,155520,120587,23780,94093,113491,23790,88746,111631,29312,80472", -- Sanctum Ophidia
     [ 725] = "MoL|", -- Maw of Lorkhaj
     [ 975] = "HoF|", -- Halls of Fabrication
     [1000] = "AS|", -- Asylum Sanctorium
-    [1051] = "CR|", -- Cloudrest
+    [1051] = "CR|152670,30523,71288,159398,31423,101037,167669,31445,92713,153329,31587,94847,159141,32851,103606", -- Cloudrest
     [1121] = "SS|", -- Sunspire
-    [1196] = "KA|", -- Kyne's Aegis
+    [1196] = "KA|127276,25182,114645,115771,25027,115190,119672,29984,92948,94912,24969,51739,26677,7918,11111", -- Kyne's Aegis
     [1263] = "RG|", -- Rockgrove
     [1344] = "DSR|28849,15510,175113,155426,38747,162970,116057,37876,98053,47148,36825,29775,117053,40874,28838", -- Dreadsail Reef
     [1427] = "SE|108935,13899,23543,67016,22665,98759,144754,28077,156982,172372,32765,184498,198849,35313,78654", -- Sanity's Edge
@@ -118,8 +119,13 @@ local presentCoords = {
     -- [1565] = "OO|", -- Opulent Ordeal (Night Market)
 }
 
+local function DoesZoneHavePresents(zoneId)
+    return presentCoords[zoneId] ~= nil
+end
+M.DoesZoneHavePresents = DoesZoneHavePresents
+
 local activePrefix
-local activePresents = {} -- {[1] = {}} -- do NOT use ipairs; they can be removed when opened
+local activePresents = {} -- {[1] = {}} -- do NOT use ipairs; they are not contiguous
 
 
 ---------------------------------------------------------------------
@@ -127,17 +133,11 @@ local activePresents = {} -- {[1] = {}} -- do NOT use ipairs; they can be remove
 ---------------------------------------------------------------------
 local POLLING_NAME = "CrutchAlertsPresentProximity"
 
-local function OnAllCollected()
-    -- TODO
-    Crutch.msg(zo_strformat("You found all <<1>> |t100%:100%:CrutchAlerts/assets/poop.dds|ts in <<2>>! Happy holidays and enjoy the little snowflakes while in <<2>> :) Effects can be turned off in CrutchAlerts > Miscellaneous > Show fun effects", num, GetZoneNameById(zoneId)))
-end
-
 local function OpenPresent(index)
     activePresents[index] = nil
     M.PlayPresentAnimation(activePrefix .. index)
 
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
-    -- local isAlreadyDone = IsCompleted(zoneId, index)
     SetCompleted(zoneId, index, true)
     local num = GetNumCompleted(zoneId)
 
@@ -147,14 +147,10 @@ local function OpenPresent(index)
 
     Crutch.dbgOther(TrialsFoundToString())
 
-    -- if (isAlreadyDone) then
-    --     Crutch.msg(zo_strformat("You've found this |t100%:100%:CrutchAlerts/assets/poop.dds|t before. <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))
-    -- else
-    -- end
-
     -- shouldn't be possible to have more than 5; that probably means cheating
     if (num == NUM_TRIAL) then
-        OnAllCollected()
+        Crutch.msg(zo_strformat("You found all <<1>> |t100%:100%:CrutchAlerts/assets/poop.dds|ts in <<2>>! Happy holidays and enjoy the little snowflakes while in <<3>> :) Effects can be turned off in CrutchAlerts > Miscellaneous > Enable fun effects", num, GetZoneNameById(zoneId), GetZoneNameById(zoneId)))
+        Crutch.Drawing.Trail.OnPlayerActivated()
     else
         Crutch.msg(zo_strformat("You found a |t100%:100%:CrutchAlerts/assets/poop.dds|t ! <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))
     end
@@ -223,13 +219,19 @@ end
 
 
 ---------------------------------------------------------------------
+local function IsPresentSeason()
+    local speshulDate = Crutch.GetSpeshulDate()
+    return speshulDate >= 1224 and speshulDate <= 1231
+end
+M.IsPresentSeason = IsPresentSeason
+
 -- Enable if it was deliberately turned on; if involuntary, only allow with depth buffers
 local function ArePresentsEnabled()
     if (not Crutch.savedOptions.general.showSpeshul) then return false end
     if (Crutch.savedOptions.experimental or Crutch.savedOptions.memes.presents) then return true end
-    local speshulDate = Crutch.GetSpeshulDate()
-    return speshulDate >= 1224 and speshulDate <= 1231 and M.AreDepthBuffersSupported()
+    return IsPresentSeason() and M.AreDepthBuffersSupported()
 end
+M.ArePresentsEnabled = ArePresentsEnabled
 
 
 ---------------------------------------------------------------------

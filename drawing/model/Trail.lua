@@ -53,6 +53,26 @@ local function OnUpdate()
     CreateParticle(x, y, z)
 end
 
+local function AreTrailsEnabled()
+    if (not Crutch.savedOptions.general.showSpeshulEffects) then return false end
+
+    local zoneId = GetZoneId(GetUnitZoneIndex("player"))
+    if (not Crutch.Drawing.Model.DoesZoneHavePresents(zoneId)) then
+        return Crutch.savedOptions.experimental
+    end
+
+    if (not Crutch.Drawing.Model.IsPresentSeason() and not Crutch.savedOptions.general.showEffectsOutOfSeason) then return false end
+    return Crutch.Drawing.Model.AreAllPresentsCompleted(zoneId)
+end
+
+local function OnPlayerActivated()
+    EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "TrailUpdate")
+    if (AreTrailsEnabled()) then
+        EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "TrailUpdate", 150, OnUpdate)
+    end
+end
+T.OnPlayerActivated = OnPlayerActivated
+
 function T.Initialize()
-    EVENT_MANAGER:RegisterForUpdate(Crutch.name .. "TrailUpdate", 150, OnUpdate)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "TrailPlayerActivated", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 end

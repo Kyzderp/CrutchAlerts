@@ -461,7 +461,6 @@ end
 -- The player may not be guaranteed to get a curse themselves, so listen for all and debounce
 local function OnMaledictionTimeout()
     EVENT_MANAGER:UnregisterForUpdate(Crutch.name .. "MaledictionTimeout")
-    Crutch.dbgOther("OnMaledictionTimeout")
 
     zo_callLater(function()
         if (not Crutch.groupInCombat) then return end

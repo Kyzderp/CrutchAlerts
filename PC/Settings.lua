@@ -1409,7 +1409,13 @@ function Crutch:CreateSettingsMenu()
                     type = "checkbox",
                     name = "Enable \"fun\" stuff",
                     tooltip = function()
-                        local hint = Crutch.Drawing.Model.AreGravesEnabled() and "\n\nHint: if your friends are wondering why they don't see graves, it might not be Halloween for them yet, or they are on console, or they don't have SubSampling set to high. To disregard and show graves anyway, use /crutch meme graves" or ""
+                        local hint = ""
+                        if (Crutch.Drawing.Model.AreGravesEnabled()) then
+                            hint = "\n\nHint: if your friends are wondering why they don't see graves, it might not be Halloween for them yet, or they are on console, or they don't have SubSampling set to high. To disregard and show graves anyway, use\n/crutch meme graves"
+                        end
+                        if (Crutch.Drawing.Model.ArePresentsEnabled()) then
+                            hint = "\n\nHint: if your friends are wondering why they don't see presents, it might not be December 24~31 for them, or they are on console, or they don't have SubSampling set to high. To disregard and show presents anyway, use\n/crutch meme presents"
+                        end
                         return "This is where I'd put my Easter eggs... if I had any! To revisit previous or never-released shenanigans, check out /crutch meme" .. hint
                     end,
                     default = true,
@@ -1418,6 +1424,33 @@ function Crutch:CreateSettingsMenu()
                         Crutch.savedOptions.general.showSpeshul = value
                     end,
                     width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Enable fun effects",
+                    tooltip = function()
+                        return "You might \"earn\" some effects while participating in seasonal Crutch nonsense"
+                    end,
+                    default = true,
+                    getFunc = function() return Crutch.savedOptions.general.showSpeshulEffects end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showSpeshulEffects = value
+                        Crutch.Drawing.Trail.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "    Enable effects out of season",
+                    tooltip = "Snowflakes all year round!",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.general.showEffectsOutOfSeason end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.general.showEffectsOutOfSeason = value
+                        Crutch.Drawing.Trail.OnPlayerActivated()
+                    end,
+                    width = "full",
+                    disabled = function() return not Crutch.savedOptions.general.showSpeshulEffects end,
                 },
             }
         },

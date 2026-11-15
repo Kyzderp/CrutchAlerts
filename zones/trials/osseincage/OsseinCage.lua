@@ -6,9 +6,12 @@ local C = Crutch.Constants
 ---------------------------------------------------------------------
 -- Immolating Sphere
 ---------------------------------------------------------------------
--- there's a begin cast where the target is already known, then gained with hitvalue > 1, then faded
+-- there's a 237011 begin cast where the target is already known, then gained with hitvalue > 1. it fades before the damage hits
+-- 237030 is accurate for the remove effect
 -- probably no need to draw for the begin cast
-local IMMOLATING_ID = 237011
+-- TODO: probably need to track; 237030 gains before 237011 fades
+local IMMOLATING_GAINED_ID = 237011
+local IMMOLATING_FADED_ID = 237030
 local immolatingCircles = {}
 
 local function RemoveImmolatingCircle(unitTag)
@@ -32,7 +35,7 @@ local function OnImmolatingSphereGained(_, _, _, _, _, _, _, _, _, _, hitValue, 
     local key = Crutch.Drawing.CreateWorldTexture(
         "CrutchAlerts/assets/floor/circle.dds",
         x, y, z,
-        6, 6,
+        7, 7,
         {1, 0.5, 0, 0.6},
         false,
         false,
@@ -190,8 +193,8 @@ function Crutch.RegisterOsseinCage()
 
     -- Immolating Sphere
     if (Crutch.savedOptions.osseincage.showImmolating) then
-        Crutch.RegisterForCombatEvent("ImmolatingGained", OnImmolatingSphereGained, ACTION_RESULT_EFFECT_GAINED, IMMOLATING_ID)
-        Crutch.RegisterForCombatEvent("ImmolatingFaded", OnImmolatingSphereFaded, ACTION_RESULT_EFFECT_FADED, IMMOLATING_ID)
+        Crutch.RegisterForCombatEvent("ImmolatingGained", OnImmolatingSphereGained, ACTION_RESULT_EFFECT_GAINED, IMMOLATING_GAINED_ID)
+        Crutch.RegisterForCombatEvent("ImmolatingFaded", OnImmolatingSphereFaded, ACTION_RESULT_EFFECT_FADED, IMMOLATING_FADED_ID)
     end
 
     -- Stricken (tank swap)
