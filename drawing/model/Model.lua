@@ -543,7 +543,7 @@ local presentColors = {
     -- whites
     {
         {.9, .9, .9},
-        {.9, .9, .8},
+        {.9, .9, .85},
     },
 }
 local function SelectColor(taken)

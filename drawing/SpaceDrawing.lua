@@ -158,7 +158,7 @@ options = {
 }
 ]]
 ---------------------------------------------------------------------
-local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, updateFunc)
+local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, updateFunc, extraData, suppressDebug)
     orientation = orientation or C.ZERO_ORIENTATION
     local control, key = CreateSpaceControlCommon(x, y, z, orientation)
 
@@ -226,6 +226,8 @@ local function CreateSpaceControl(x, y, z, faceCamera, orientation, options, upd
         faceCamera,
         pitch, yaw, roll,
         updateFunc,
+        extraData,
+        suppressDebug,
         Draw.SetPosition,
         Draw.SetOrientation,
         options.texture and Draw.SetColor or nil,
@@ -247,7 +249,7 @@ Draw.CreateSpaceControl = CreateSpaceControl
 -- Text label
 ---------------------------------------------------------------------
 -- Public API
-local function CreateSpaceLabel(text, x, y, z, fontSize, color, faceCamera, orientation, updateFunc)
+local function CreateSpaceLabel(text, x, y, z, fontSize, color, faceCamera, orientation, updateFunc, suppressDebug)
     local options = {
         label = {
             text = text,
@@ -255,7 +257,7 @@ local function CreateSpaceLabel(text, x, y, z, fontSize, color, faceCamera, orie
             color = color,
         }
     }
-    return CreateSpaceControl(x, y, z, faceCamera, orientation, options, updateFunc)
+    return CreateSpaceControl(x, y, z, faceCamera, orientation, options, updateFunc, suppressDebug)
 end
 Draw.CreateSpaceLabel = CreateSpaceLabel
 --[[

@@ -52,7 +52,6 @@ local function TrialsStringToFound(str)
 end
 M.TrialsStringToFound = TrialsStringToFound
 
--- found 1111 1111
 -- put both trials and boxes in order like 4 3 2 1 so that existing ones never change
 local function GetCompleted(zoneId)
     return found[zoneId]
@@ -110,10 +109,10 @@ local presentCoords = {
     [1121] = "SS|", -- Sunspire
     [1196] = "KA|", -- Kyne's Aegis
     [1263] = "RG|", -- Rockgrove
-    [1344] = "DSR|", -- Dreadsail Reef
-    [1427] = "SE|", -- Sanity's Edge
+    [1344] = "DSR|28849,15510,175113,155426,38747,162970,116057,37876,98053,47148,36825,29775,117053,40874,28838", -- Dreadsail Reef
+    [1427] = "SE|108935,13899,23543,67016,22665,98759,144754,28077,156982,172372,32765,184498,198849,35313,78654", -- Sanity's Edge
     [1478] = "LC|139502,34997,173352,97518,20872,116668,81213,17682,130453,149708,22860,91033,122181,33500,126048", -- Lucent Citadel
-    [1548] = "OC|", -- Ossein Cage
+    [1548] = "OC|25417,32748,25215,221016,32934,75966,108402,27677,127362,182482,39985,182316,46462,35808,185322", -- Ossein Cage
     -- [ 849] = "VV|218739,11576,508011,218920,11583,504866", -- Vvardenfell testing
     [ 849] = "VV|218739,11576,508011,218920,11583,504866,218474,11589,505594,218228,11579,505673,218287,11590,505453,218077,11580,505493,218269,11579,505727,218331,11586,505594,218214,11585,505511,218155,11586,505412,218052,11571,505607,218031,11560,505766,217867,11555,505726,217964,11567,505544", -- Vvardenfell testing
     -- [1565] = "OO|", -- Opulent Ordeal (Night Market)
@@ -130,6 +129,7 @@ local POLLING_NAME = "CrutchAlertsPresentProximity"
 
 local function OnAllCollected()
     -- TODO
+    Crutch.msg(zo_strformat("You found all <<1>> |t100%:100%:CrutchAlerts/assets/poop.dds|ts in <<2>>! Happy holidays and enjoy the little snowflakes while in <<2>> :) Effects can be turned off in CrutchAlerts > Miscellaneous > Show fun effects", num, GetZoneNameById(zoneId)))
 end
 
 local function OpenPresent(index)
@@ -137,7 +137,7 @@ local function OpenPresent(index)
     M.PlayPresentAnimation(activePrefix .. index)
 
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
-    local isAlreadyDone = IsCompleted(zoneId, index)
+    -- local isAlreadyDone = IsCompleted(zoneId, index)
     SetCompleted(zoneId, index, true)
     local num = GetNumCompleted(zoneId)
 
@@ -147,8 +147,14 @@ local function OpenPresent(index)
 
     Crutch.dbgOther(TrialsFoundToString())
 
-    if (isAlreadyDone) then
-        Crutch.msg(zo_strformat("You've found this |t100%:100%:CrutchAlerts/assets/poop.dds|t before. <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))
+    -- if (isAlreadyDone) then
+    --     Crutch.msg(zo_strformat("You've found this |t100%:100%:CrutchAlerts/assets/poop.dds|t before. <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))
+    -- else
+    -- end
+
+    -- shouldn't be possible to have more than 5; that probably means cheating
+    if (num == NUM_TRIAL) then
+        OnAllCollected()
     else
         Crutch.msg(zo_strformat("You found a |t100%:100%:CrutchAlerts/assets/poop.dds|t ! <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))
     end
@@ -198,13 +204,16 @@ local function PlacePresents()
     activePrefix = prefix
 
     for i = 1, #coords / 3 do
-        local baseIndex = (i - 1) * 3
-        Crutch.dbgOther(coords[baseIndex + 1])
-        local x = tonumber(coords[baseIndex + 1])
-        local y = tonumber(coords[baseIndex + 2])
-        local z = tonumber(coords[baseIndex + 3])
-        activePresents[i] = {x = x, y = y, z = z}
-        M.Present(prefix .. i, x, y, z)
+        if (IsCompleted(zoneId, i)) then
+            Crutch.dbgOther("skipping " .. i .. " since it has already been found")
+        else
+            local baseIndex = (i - 1) * 3
+            local x = tonumber(coords[baseIndex + 1])
+            local y = tonumber(coords[baseIndex + 2])
+            local z = tonumber(coords[baseIndex + 3])
+            activePresents[i] = {x = x, y = y, z = z}
+            M.Present(prefix .. i, x, y, z)
+        end
     end
 
     Crutch.dbgOther(NonContiguousCount(activePresents) .. " presents placed")

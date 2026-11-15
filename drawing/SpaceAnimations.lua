@@ -273,6 +273,8 @@ local function CircleJet(text, duration, radius, cycleTime)
         false, -- faceCamera
         pitch, yaw, roll,
         JetFunc,
+        nil,
+        false,
         Draw.SetPosition,
         Draw.SetOrientation)
 
@@ -313,6 +315,8 @@ local function AttachControl(control, unitTag, key)
         true, -- faceCamera
         0, 0, 0,
         AttachedFunc,
+        nil,
+        false,
         Draw.SetPosition,
         Draw.SetOrientation)
 end

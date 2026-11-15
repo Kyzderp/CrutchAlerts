@@ -134,7 +134,7 @@ Draw.SetTextureHidden = SetTextureHidden
 ---------------------------------------------------------------------
 -- Common for both Space and RenderSpace
 ---------------------------------------------------------------------
-local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextureHiddenFunc, setTextFunc, setFontColorFunc, setBackdropColorsFunc, setBackdropRollFunc, getCompositeFunc, setCooldownColorFunc)
+local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  faceCamera, pitch, yaw, roll, updateFunc, extraData, suppressDebug, setPositionFunc, setOrientationFunc, setColorFunc, setTextureFunc, setTextureHiddenFunc, setTextFunc, setFontColorFunc, setBackdropColorsFunc, setBackdropRollFunc, getCompositeFunc, setCooldownColorFunc)
     Draw.activeIcons[key] = {
         isSpace = isSpace,
         control = control,
@@ -145,6 +145,8 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  fac
         orientation = {pitch = pitch, yaw = yaw, roll = roll},
         texture = texture,
         updateFunc = updateFunc,
+        extraData = extraData,
+        key = key,
 
         -- Callback functions
         SetPosition = setPositionFunc,
@@ -168,14 +170,16 @@ local function CreateControlCommon(isSpace, control, key, texture, x, y, z,  fac
         controlDebugString = "text label"
     end
 
-    CrutchAlerts.dbgSpam(string.format("Created %s key %s %s {%d, %d, %d} %s",
-        controlDebugString,
-        key,
-        isSpace and "Space" or "RenderSpace",
-        x,
-        y,
-        z,
-        control:GetName()))
+    if (not suppressDebug) then
+        CrutchAlerts.dbgSpam(string.format("Created %s key %s %s {%d, %d, %d} %s",
+            controlDebugString,
+            key,
+            isSpace and "Space" or "RenderSpace",
+            x,
+            y,
+            z,
+            control:GetName()))
+    end
 end
 Draw.CreateControlCommon = CreateControlCommon
 
@@ -206,10 +210,12 @@ Draw.CreateControlCommon = CreateControlCommon
 -- Since this is called many times a second, the caller should take
 -- care to make it performant, e.g. do not create tables or functions
 -- on every call.
+-- @param extraData - a value (can be a table) that can be accessed
+-- in the updateFunc through icon.extraData
 ---------------------------------------------------------------------
 local orientationTable = {}
 
-local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc)
+local function CreateWorldTexture(texture, x, y, z, width, height, color, useDepthBuffer, faceCamera, orientation, updateFunc, extraData, suppressDebug)
     orientation = orientation or C.ZERO_ORIENTATION
     local pitch, yaw, roll = ConvertToPitchYawRollIfNeeded(unpack(orientation))
     orientationTable[1] = pitch
@@ -233,6 +239,8 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
         faceCamera,
         pitch, yaw, roll,
         updateFunc,
+        extraData,
+        suppressDebug,
         SetPosition,
         SetOrientation,
         SetColor,
@@ -243,12 +251,14 @@ local function CreateWorldTexture(texture, x, y, z, width, height, color, useDep
 end
 Draw.CreateWorldTexture = CreateWorldTexture
 
-local function RemoveWorldTexture(key)
+local function RemoveWorldTexture(key, suppressDebug)
     if (not Draw.activeIcons[key]) then
         CrutchAlerts.dbgOther("|cFF0000Icon \"" .. tostring(key) .. "\" does not exist")
         return
     end
-    CrutchAlerts.dbgSpam("Removing texture " .. tostring(key))
+    if (not suppressDebug) then
+        CrutchAlerts.dbgSpam("Removing texture " .. tostring(key))
+    end
 
     local icon = Draw.activeIcons[key]
 

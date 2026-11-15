@@ -107,10 +107,11 @@ Draw.RemovePlacedIcon = RemovePlacedIcon
 -- orientation: 3 orientation vectors(?) or 3 degrees of freedom, defaults to being flat on the ground. Either {{fX, fY, fZ}, {rX, rY, rZ}, {uX, uY, uZ}} or {pitch, yaw, roll}. {pitch, yaw, roll} is preferred for slightly less math
 -- updateFunc: a function that gets called every update tick, can be used to update position, etc. See Drawing.lua:CreateWorldTexture for the params provided
 -- useDepthBuffers: yes it's kinda out of order, I added it later
+-- extraData: yes it's kinda out of order, I added it later. See documentation for CreateWorldTexture()
 --
 -- @returns key: you must use this key to remove the texture later
 ---------------------------------------------------------------------
-local function CreateOrientedTexture(texture, x, y, z, size, color, orientation, updateFunc, useDepthBuffers)
+local function CreateOrientedTexture(texture, x, y, z, size, color, orientation, updateFunc, useDepthBuffers, extraData)
     local _
     if (not x) then
         _, x, y, z = GetUnitRawWorldPosition("player")
@@ -146,7 +147,8 @@ local function CreateOrientedTexture(texture, x, y, z, size, color, orientation,
         useDepthBuffers,
         false,
         orientation,
-        updateFunc)
+        updateFunc,
+        extraData)
 end
 Draw.CreateOrientedTexture = CreateOrientedTexture
 

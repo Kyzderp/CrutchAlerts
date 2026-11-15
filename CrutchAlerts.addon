@@ -136,3 +136,4 @@ drawing/SpaceAnimations.lua
 drawing/model/Model.xml
 drawing/model/Model.lua
 drawing/model/Present.lua
+drawing/model/Trail.lua

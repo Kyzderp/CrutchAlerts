@@ -703,6 +703,8 @@ local function Initialize()
     PrintTime("grave done")
     Crutch.Drawing.Model.InitializePresent()
     PrintTime("present done")
+    Crutch.Drawing.Trail.Initialize()
+    PrintTime("trail done")
 
     -- Boss health bar
     Crutch.BossHealthBar.Initialize()
