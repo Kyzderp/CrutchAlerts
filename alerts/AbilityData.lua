@@ -194,6 +194,9 @@ Crutch.testing = {
     [245208] = true, -- Seething Vile Leap
 
     [149531] = true, -- Blistering Smash
+
+    [237011] = true, -- Immolating Sphere
+    [237030] = true, -- Immolating Sphere
 }
 
 ---------------------------------------------------------------------
