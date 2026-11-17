@@ -105,14 +105,14 @@ local presentCoords = {
     [ 639] = "SO|106847,14627,188222,83234,20092,155520,120587,23780,94093,113491,23790,88746,111631,29312,80472", -- Sanctum Ophidia
     [ 725] = "MoL|", -- Maw of Lorkhaj
     [ 975] = "HoF|", -- Halls of Fabrication
-    [1000] = "AS|", -- Asylum Sanctorium
+    [1000] = "AS|74938,60219,101213,92243,65845,107952,96040,65875,100036,101093,65841,88848,100664,61450,96646", -- Asylum Sanctorium
     [1051] = "CR|152670,30523,71288,159398,31423,101037,167669,31445,92713,153329,31587,94847,159141,32851,103606", -- Cloudrest
     [1121] = "SS|", -- Sunspire
     [1196] = "KA|127276,25182,114645,115771,25027,115190,119672,29984,92948,94912,24969,51739,26677,7918,11111", -- Kyne's Aegis
     [1263] = "RG|", -- Rockgrove
     [1344] = "DSR|28849,15510,175113,155426,38747,162970,116057,37876,98053,47148,36825,29775,117053,40874,28838", -- Dreadsail Reef
     [1427] = "SE|108935,13899,23543,67016,22665,98759,144754,28077,156982,172372,32765,184498,198849,35313,78654", -- Sanity's Edge
-    [1478] = "LC|139502,34997,173352,97518,20872,116668,81213,17682,130453,149708,22860,91033,122181,33500,126048", -- Lucent Citadel
+    [1478] = "LC|139502,34997,173352,96534,20872,117051,81213,17682,130453,149708,22860,91033,122181,33500,126048", -- Lucent Citadel
     [1548] = "OC|25417,32748,25215,221016,32934,75966,108402,27677,127362,182482,39985,182316,46462,35808,185322", -- Ossein Cage
     -- [ 849] = "VV|218739,11576,508011,218920,11583,504866", -- Vvardenfell testing
     [ 849] = "VV|218739,11576,508011,218920,11583,504866,218474,11589,505594,218228,11579,505673,218287,11590,505453,218077,11580,505493,218269,11579,505727,218331,11586,505594,218214,11585,505511,218155,11586,505412,218052,11571,505607,218031,11560,505766,217867,11555,505726,217964,11567,505544", -- Vvardenfell testing
@@ -149,7 +149,7 @@ local function OpenPresent(index)
 
     -- shouldn't be possible to have more than 5; that probably means cheating
     if (num == NUM_TRIAL) then
-        Crutch.msg(zo_strformat("You found all <<1>> |t100%:100%:CrutchAlerts/assets/poop.dds|ts in <<2>>! Happy holidays and enjoy the little snowflakes while in <<3>> :) Effects can be turned off in CrutchAlerts > Miscellaneous > Enable fun effects", num, GetZoneNameById(zoneId), GetZoneNameById(zoneId)))
+        Crutch.msg(zo_strformat("You found all <<1>> |t100%:100%:CrutchAlerts/assets/poop.dds|ts in <<2>>! Happy holidays and enjoy the little snowflakes while in this zone :) Effects can be turned off in CrutchAlerts > Miscellaneous > Enable fun effects", num, GetZoneNameById(zoneId)))
         Crutch.Drawing.Trail.OnPlayerActivated()
     else
         Crutch.msg(zo_strformat("You found a |t100%:100%:CrutchAlerts/assets/poop.dds|t ! <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))
