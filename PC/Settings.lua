@@ -2378,29 +2378,27 @@ function Crutch:CreateSettingsMenu()
                     disabled = function() return not Crutch.savedOptions.bossHealthBar.enabled end,
                 },
                 {
-                    type = "checkbox",
+                    type = "dropdown",
                     name = "Show curse positioning icons",
-                    tooltip = "In the Jynorah + Skorkhif fight, shows icons in the world for close positioning",
-                    default = true,
-                    getFunc = function() return Crutch.savedOptions.osseincage.showTwinsIcons end,
+                    tooltip = "In the Jynorah + Skorkhif fight, shows icons in the world for close positioning during curse",
+                    choices = {"None", "Standard", "Asquart's OC Helper"},
+                    default = "None",
+                    getFunc = function()
+                        if (not Crutch.savedOptions.osseincage.showTwinsIcons) then return "None" end
+                        if (Crutch.savedOptions.osseincage.useAOCHIcons) then return "Asquart's OC Helper" end
+                        return "Standard"
+                    end,
                     setFunc = function(value)
-                        Crutch.savedOptions.osseincage.showTwinsIcons = value
+                        if (value == "None") then
+                            Crutch.savedOptions.osseincage.showTwinsIcons = false
+                        elseif (value == "Asquart's OC Helper") then
+                            Crutch.savedOptions.osseincage.useAOCHIcons = true
+                        else
+                            Crutch.savedOptions.osseincage.useAOCHIcons = false
+                        end
                         Crutch.OnPlayerActivated()
                     end,
                     width = "full",
-                },
-                {
-                    type = "checkbox",
-                    name = "    Match AOCH icons",
-                    tooltip = "Use icons that match Asquart's Ossein Cage Helper's icons",
-                    default = false,
-                    getFunc = function() return Crutch.savedOptions.osseincage.useAOCHIcons end,
-                    setFunc = function(value)
-                        Crutch.savedOptions.osseincage.useAOCHIcons = value
-                        Crutch.OnPlayerActivated()
-                    end,
-                    width = "full",
-                    disabled = function() return not Crutch.savedOptions.osseincage.showTwinsIcons end,
                 },
                 {
                     type = "checkbox",

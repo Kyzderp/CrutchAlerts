@@ -631,6 +631,7 @@ local function Initialize()
         Crutch.savedOptions.prominentV2FirstTime = false
     end
 
+    -- migrate console used to be a single toggle
     if (ZO_IsConsoleOrGameCoreUI() and not Crutch.savedOptions.prominentsMigrated) then
         Crutch.MigrateConsoleProminents()
         Crutch.savedOptions.prominentsMigrated = true
