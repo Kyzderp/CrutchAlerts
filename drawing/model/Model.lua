@@ -689,7 +689,7 @@ end
 -- Enable if it was deliberately turned on; if involuntary, only allow with depth buffers
 local function AreGravesEnabled()
     if (not Crutch.savedOptions.general.showSpeshul) then return false end
-    if (Crutch.savedOptions.experimental or Crutch.savedOptions.memes.graves) then return true end
+    if (Crutch.savedOptions.memes.graves) then return true end
     return Crutch.GetSpeshulDate() == 1031 and AreDepthBuffersSupported()
 end
 M.AreGravesEnabled = AreGravesEnabled

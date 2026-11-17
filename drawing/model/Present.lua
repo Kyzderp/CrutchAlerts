@@ -26,7 +26,6 @@ local trials = {
 }
 
 local found = {} -- {0x1F, 0x00}
-M.found = found
 
 local function TrialsFoundToString()
     local result = ""
@@ -219,17 +218,17 @@ end
 
 
 ---------------------------------------------------------------------
-local function IsPresentSeason()
+function M.IsPresentSeason()
     local speshulDate = Crutch.GetSpeshulDate()
     return speshulDate >= 1224 and speshulDate <= 1231
 end
-M.IsPresentSeason = IsPresentSeason
+-- /script CrutchAlerts.Drawing.Model.IsPresentSeason = function() return true end
 
 -- Enable if it was deliberately turned on; if involuntary, only allow with depth buffers
 local function ArePresentsEnabled()
     if (not Crutch.savedOptions.general.showSpeshul) then return false end
-    if (Crutch.savedOptions.experimental or Crutch.savedOptions.memes.presents) then return true end
-    return IsPresentSeason() and M.AreDepthBuffersSupported()
+    if (Crutch.savedOptions.memes.presents) then return true end
+    return M.IsPresentSeason() and M.AreDepthBuffersSupported()
 end
 M.ArePresentsEnabled = ArePresentsEnabled
 
@@ -237,14 +236,27 @@ M.ArePresentsEnabled = ArePresentsEnabled
 ---------------------------------------------------------------------
 -- Init
 ---------------------------------------------------------------------
+local function Serialize()
+    Crutch.savedOptions.general.presents = TrialsFoundToString()
+end
+
+local deserialized
+local function Deserialize()
+    if (deserialized) then return end
+    TrialsStringToFound(Crutch.savedOptions.general.presents)
+    deserialized = true
+end
+
 function M.InitializePresent()
     EVENT_MANAGER:UnregisterForEvent(Crutch.name .. "PresentPlayerActivated", EVENT_PLAYER_ACTIVATED)
 
     ClearPresents()
 
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GamepadUnload", EVENT_GUI_UNLOADING, Serialize)
+
     if (not ArePresentsEnabled()) then return end
 
+    Deserialize()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PresentPlayerActivated", EVENT_PLAYER_ACTIVATED, PlacePresents)
     PlacePresents()
 end
--- /script CrutchAlerts.Drawing.Model.InitializePresent()

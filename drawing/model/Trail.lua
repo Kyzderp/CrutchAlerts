@@ -58,7 +58,8 @@ local function AreTrailsEnabled()
 
     local zoneId = GetZoneId(GetUnitZoneIndex("player"))
     if (not Crutch.Drawing.Model.DoesZoneHavePresents(zoneId)) then
-        return Crutch.savedOptions.experimental
+        return false
+        -- return Crutch.savedOptions.experimental
     end
 
     if (not Crutch.Drawing.Model.IsPresentSeason() and not Crutch.savedOptions.general.showEffectsOutOfSeason) then return false end
