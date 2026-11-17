@@ -7,24 +7,32 @@ local C = Crutch.Constants
 -- Immolating Sphere
 ---------------------------------------------------------------------
 -- there's a 237011 begin cast where the target is already known, then gained with hitvalue > 1. it fades before the damage hits
--- 237030 is accurate for the remove effect
+-- 237030 is accurate for the remove effect, but we still need 237011 fade in case of caster dying
 -- probably no need to draw for the begin cast
 -- TODO: probably need to track; 237030 gains before 237011 fades
-local IMMOLATING_GAINED_ID = 237011
-local IMMOLATING_FADED_ID = 237030
+local IMMOLATING_FIRST_ID = 237011
+local IMMOLATING_SECOND_ID = 237030
 local immolatingCircles = {}
+local immolatingSecondPart = {} -- track 237030
 
 local function RemoveImmolatingCircle(unitTag)
     if (not immolatingCircles[unitTag]) then return end
     Crutch.Drawing.RemoveWorldTexture(immolatingCircles[unitTag])
     immolatingCircles[unitTag] = nil
+    immolatingSecondPart[unitTag] = nil
 end
 
-local function OnImmolatingSphereGained(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId)
-    if (hitValue <= 1) then return end
+local function OnImmolatingSphereGained(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId, abilityId)
+    if (abilityId == IMMOLATING_FIRST_ID and hitValue <= 1) then return end
 
     local unitTag = Crutch.groupIdToTag[targetUnitId]
     if (not unitTag) then Crutch.dbgOther("|cFF0000couldn't find target for immolating " .. targetUnitId) return end
+
+    if (abilityId == IMMOLATING_SECOND_ID) then
+        -- there should already be a circle; just track this so that first id faded doesn't remove circle
+        immolatingSecondPart[unitTag] = true
+        return
+    end
 
     local function ImmolatingFunc(icon)
         local _, x, y, z = GetUnitRawWorldPosition(unitTag)
@@ -45,9 +53,14 @@ local function OnImmolatingSphereGained(_, _, _, _, _, _, _, _, _, _, hitValue, 
     immolatingCircles[unitTag] = key
 end
 
-local function OnImmolatingSphereFaded(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId)
+local function OnImmolatingSphereFaded(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId, abilityId)
     local unitTag = Crutch.groupIdToTag[targetUnitId]
     if (not unitTag) then Crutch.dbgOther("|cFF0000couldn't find faded target for immolating " .. targetUnitId) return end
+
+    if (abilityId == IMMOLATING_FIRST_ID and immolatingSecondPart[unitTag]) then
+        -- if second part is already active, then fading first part should not remove circle
+        return
+    end
 
     RemoveImmolatingCircle(unitTag)
 end
@@ -193,8 +206,10 @@ function Crutch.RegisterOsseinCage()
 
     -- Immolating Sphere
     if (Crutch.savedOptions.osseincage.showImmolating) then
-        Crutch.RegisterForCombatEvent("ImmolatingGained", OnImmolatingSphereGained, ACTION_RESULT_EFFECT_GAINED, IMMOLATING_GAINED_ID)
-        Crutch.RegisterForCombatEvent("ImmolatingFaded", OnImmolatingSphereFaded, ACTION_RESULT_EFFECT_FADED, IMMOLATING_FADED_ID)
+        Crutch.RegisterForCombatEvent("ImmolatingGained1", OnImmolatingSphereGained, ACTION_RESULT_EFFECT_GAINED, IMMOLATING_FIRST_ID)
+        Crutch.RegisterForCombatEvent("ImmolatingGained2", OnImmolatingSphereGained, ACTION_RESULT_EFFECT_GAINED, IMMOLATING_SECOND_ID)
+        Crutch.RegisterForCombatEvent("ImmolatingFaded1", OnImmolatingSphereFaded, ACTION_RESULT_EFFECT_FADED, IMMOLATING_FIRST_ID)
+        Crutch.RegisterForCombatEvent("ImmolatingFaded2", OnImmolatingSphereFaded, ACTION_RESULT_EFFECT_FADED, IMMOLATING_SECOND_ID)
     end
 
     -- Stricken (tank swap)
@@ -215,8 +230,10 @@ function Crutch.UnregisterOsseinCage(isSameZone)
     Crutch.OsseinCage.UnregisterCarrion()
     Crutch.OsseinCage.UnregisterOCZoneTwins()
 
-    Crutch.UnregisterForCombatEvent("ImmolatingGained")
-    Crutch.UnregisterForCombatEvent("ImmolatingFaded")
+    Crutch.UnregisterForCombatEvent("ImmolatingGained1")
+    Crutch.UnregisterForCombatEvent("ImmolatingGained2")
+    Crutch.UnregisterForCombatEvent("ImmolatingFaded1")
+    Crutch.UnregisterForCombatEvent("ImmolatingFaded2")
     Crutch.UnregisterForEffectChanged("Stricken")
     Crutch.UnregisterForEffectChanged("ChainsInitial1")
     Crutch.UnregisterForEffectChanged("ChainsInitial2")
