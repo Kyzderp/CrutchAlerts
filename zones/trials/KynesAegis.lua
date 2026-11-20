@@ -21,6 +21,19 @@ local function OnExplodingSpearBegin(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _
     end
 end
 
+
+---------------------------------------------------------------------
+-- Yandir
+---------------------------------------------------------------------
+local CHAURUS_INDEX = 1
+local CHAURUS_ID = 133559
+local CHAURUS_PREFIX = zo_strformat("|c64c200<<C:1>>: ", GetAbilityName(CHAURUS_ID))
+
+local function OnChaurusBile()
+    Crutch.InfoPanel.CountDownDuration(CHAURUS_INDEX, CHAURUS_PREFIX, 30000)
+end
+
+
 ---------------------------------------------------------------------
 -- Falgravn
 ---------------------------------------------------------------------

@@ -222,7 +222,7 @@ function M.IsPresentSeason()
     local speshulDate = Crutch.GetSpeshulDate()
     return speshulDate >= 1224 and speshulDate <= 1231
 end
--- /script CrutchAlerts.Drawing.Model.IsPresentSeason = function() return true end
+-- /script CrutchAlerts.Drawing.Model.IsPresentSeason = function() return true end CrutchAlerts.Drawing.Model.InitializePresent()
 
 -- Enable if it was deliberately turned on; if involuntary, only allow with depth buffers
 local function ArePresentsEnabled()
