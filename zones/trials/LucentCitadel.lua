@@ -1,6 +1,18 @@
 local Crutch = CrutchAlerts
 local C = Crutch.Constants
 
+
+---------------------------------------------------------------------
+-- Fate Sealer info panel
+---------------------------------------------------------------------
+local PANEL_FATE_SEALER_INDEX = 1
+local FATE_SEALER_ID = 214136
+local FATE_SEALER_PREFIX = zo_strformat("|cff00ff<<C:1>>: ", GetAbilityName(FATE_SEALER_ID))
+local function OnFateSealer()
+    Crutch.InfoPanel.CountDownDuration(PANEL_FATE_SEALER_INDEX, FATE_SEALER_PREFIX, 48000)
+end
+
+
 ---------------------------------------------------------------------
 -- Icons for Arcane Conveyance
 ---------------------------------------------------------------------
@@ -259,6 +271,12 @@ Crutch.ToggleTempestIcons = ToggleTempestIcons
 ---------------------------------------------------------------------
 -- Register/Unregister
 ---------------------------------------------------------------------
+local function CleanUp()
+    RemoveArcaneConveyance()
+    ZO_ClearTable(tethered)
+    Crutch.InfoPanel.StopCount(PANEL_FATE_SEALER_INDEX)
+end
+
 local function GetUnitNameIfExists(unitTag)
     if (DoesUnitExist(unitTag)) then
         return GetUnitName(unitTag)
@@ -268,7 +286,7 @@ end
 function Crutch.RegisterLucentCitadel()
     Crutch.dbgOther("|c88FFFF[CT]|r Registered Lucent Citadel")
 
-    Crutch.RegisterExitedGroupCombatListener("CrutchLucentCitadelExitedCombat", RemoveArcaneConveyance)
+    Crutch.RegisterExitedGroupCombatListener("CrutchLucentCitadelExitedCombat", CleanUp)
 
     local showCavot = Crutch.savedOptions.lucentcitadel.showCavotIcon
     local showOrphic = Crutch.savedOptions.lucentcitadel.showOrphicIcons
@@ -312,6 +330,11 @@ function Crutch.RegisterLucentCitadel()
         end)
     end
 
+    -- Info panel for Fate Sealer
+    if (Crutch.savedOptions.lucentcitadel.infoPanel.showFateSealer) then
+        Crutch.RegisterForCombatEvent("FateSealer", OnFateSealer, ACTION_RESULT_BEGIN, FATE_SEALER_ID)
+    end
+
     -- Icons/line for Arcane Conveyance
     if (Crutch.savedOptions.lucentcitadel.showArcaneConveyance) then
         Crutch.RegisterForEffectChanged("ArcaneConveyanceInitial1",  OnArcaneConveyanceInitial, 223028, "group")
@@ -329,6 +352,7 @@ function Crutch.UnregisterLucentCitadel()
     Crutch.UnregisterBossChangedListener("CrutchLucentCitadel")
     Crutch.UnregisterExitedGroupCombatListener("CrutchLucentCitadelExitedCombat")
 
+    Crutch.UnregisterForCombatEvent("FateSealer")
     Crutch.UnregisterForEffectChanged("ArcaneConveyanceInitial1")
     Crutch.UnregisterForEffectChanged("ArcaneConveyanceInitial2")
     Crutch.UnregisterForEffectChanged("ArcaneConveyanceTether")
@@ -342,9 +366,7 @@ function Crutch.UnregisterLucentCitadel()
     mirrorsEnabled = false
     tempestEnabled = false
 
-    tethered = {}
-
-    RemoveArcaneConveyance()
+    CleanUp()
 
     -- Clean up in case of PTE; unit tags may change
     Crutch.RemoveAllAttachedIcons(CONVEYANCE_UNIQUE_NAME)

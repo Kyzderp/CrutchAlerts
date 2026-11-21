@@ -2212,6 +2212,24 @@ function Crutch:CreateSettingsMenu()
                     end,
                     disabled = function() return not Crutch.savedOptions.lucentcitadel.showTempestIcons end,
                 },
+                {
+                    type = "description",
+                    title = "|c08BD1DInfo Panel|r",
+                    text = "Shows timers or other info in a consolidated panel. Unlock the UI or |c99FF99/crutch unlock|r to reposition the info panel.",
+                    width = "full",
+                },
+                {
+                    type = "checkbox",
+                    name = "Show Fate Sealer timer",
+                    tooltip = "Shows a timer in the info panel for when Fate Sealer may next occur",
+                    default = false,
+                    getFunc = function() return Crutch.savedOptions.lucentcitadel.infoPanel.showFateSealer end,
+                    setFunc = function(value)
+                        Crutch.savedOptions.lucentcitadel.infoPanel.showFateSealer = value
+                        Crutch.OnPlayerActivated()
+                    end,
+                    width = "full",
+                },
             })),
         },
         {

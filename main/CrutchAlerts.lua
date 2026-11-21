@@ -260,6 +260,9 @@ local defaultOptions = {
         tempestIconsSize = 150,
         showArcaneConveyance = true,
         showArcaneConveyanceTether = true,
+        infoPanel = {
+            showFateSealer = false,
+        },
     },
     opulentordeal = {
         showAffinityIcons = true,

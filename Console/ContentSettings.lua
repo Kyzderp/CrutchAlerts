@@ -689,6 +689,22 @@ function Crutch.CreateConsoleContentSettingsMenu()
             end,
             disable = function() return not Crutch.savedOptions.lucentcitadel.showTempestIcons end,
         },
+        DIVIDER,
+        {
+            type = LibHarvensAddonSettings.ST_LABEL,
+            label = "Info Panel",
+        },
+        {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Show Fate Sealer timer",
+            tooltip = "Shows a timer in the info panel for when Fate Sealer may next occur",
+            default = false,
+            getFunction = function() return Crutch.savedOptions.lucentcitadel.infoPanel.showFateSealer end,
+            setFunction = function(value)
+                Crutch.savedOptions.lucentcitadel.infoPanel.showFateSealer = value
+                Crutch.OnPlayerActivated()
+            end,
+        },
     })))
 
     settings:AddSettings(Crutch.GetProminentSettingsConsole(725, Crutch.GetEffectSettingsConsole(725, {
