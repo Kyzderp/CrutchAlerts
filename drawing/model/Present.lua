@@ -87,6 +87,7 @@ local function SetCompleted(zoneId, i, v)
     return newVal
 end
 M.SetCompleted = SetCompleted
+-- /script CrutchAlerts.Drawing.Model.SetCompleted(GetZoneId(GetUnitZoneIndex("player")), 5, false)
 
 
 ---------------------------------------------------------------------
@@ -102,8 +103,8 @@ local presentCoords = {
     [ 636] = "HRC|63000,21251,31790,92758,25508,76640,82584,24902,86550,88731,28386,87583,92522,37121,93983", -- Hel Ra Citadel
     [ 638] = "AA|81733,9472,76452,113014,14691,74865,98785,13625,103688,95544,13765,137753,129628,39378,184150", -- Aetherian Archive
     [ 639] = "SO|106847,14627,188222,83234,20092,155520,120587,23780,94093,113491,23790,88746,111631,29312,80472", -- Sanctum Ophidia
-    [ 725] = "MoL|", -- Maw of Lorkhaj
-    [ 975] = "HoF|", -- Halls of Fabrication
+    [ 725] = "MoL|111197,42202,139487,101903,45925,129986,89335,44941,140042,55726,61550,188917,32807,61544,190549", -- Maw of Lorkhaj
+    [ 975] = "HoF|3120,51089,31569,44242,49976,23616,84458,52514,13094,20781,55663,71547,74996,54915,60551", -- Halls of Fabrication
     [1000] = "AS|74938,60219,101213,92243,65845,107952,96040,65875,100036,101093,65841,88848,100664,61450,96646", -- Asylum Sanctorium
     [1051] = "CR|152670,30523,71288,159398,31423,101037,167669,31445,92713,153329,31587,94847,159141,32851,103606", -- Cloudrest
     [1121] = "SS|", -- Sunspire
@@ -222,7 +223,7 @@ function M.IsPresentSeason()
     local speshulDate = Crutch.GetSpeshulDate()
     return speshulDate >= 1224 and speshulDate <= 1231
 end
--- /script CrutchAlerts.Drawing.Model.IsPresentSeason = function() return true end CrutchAlerts.Drawing.Model.InitializePresent()
+-- /script CrutchAlerts.Drawing.Model.IsPresentSeason = function() return true end CrutchAlerts.Drawing.Model.InitializePresent() CrutchAlerts.Drawing.Trail.OnPlayerActivated()
 
 -- Enable if it was deliberately turned on; if involuntary, only allow with depth buffers
 local function ArePresentsEnabled()
