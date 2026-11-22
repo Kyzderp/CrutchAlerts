@@ -35,6 +35,7 @@ local function TrialsFoundToString()
     return result
 end
 M.TrialsFoundToString = TrialsFoundToString
+-- /script d(CrutchAlerts.Drawing.Model.TrialsFoundToString())
 
 local function TrialsStringToFound(str)
     ZO_ClearTable(found)
@@ -253,11 +254,12 @@ function M.InitializePresent()
 
     ClearPresents()
 
-    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GamepadUnload", EVENT_GUI_UNLOADING, Serialize)
+    EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GuiUnload", EVENT_GUI_UNLOADING, Serialize)
+
+    Deserialize() -- this needs to go before enabled check, because trails could be enabled without presents
 
     if (not ArePresentsEnabled()) then return end
 
-    Deserialize()
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "PresentPlayerActivated", EVENT_PLAYER_ACTIVATED, PlacePresents)
     PlacePresents()
 end

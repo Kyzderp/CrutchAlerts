@@ -348,6 +348,53 @@ Crutch.TryEnablingTaleriaCleave = TryEnablingTaleriaCleave
 
 
 ---------------------------------------------------------------------
+-- Crashing Wave
+---------------------------------------------------------------------
+local CRASHING_ID_1 = 174937
+local CRASHING_ID_2 = 174942
+
+local function GetRectPoints(unitTag)
+    local _, x, _, z = GetUnitRawWorldPosition(unitTag)
+    -- Get the angle of player, then extend it to radius
+    local theta = math.atan2(z - CENTER_Z, x - CENTER_X)
+    return CENTER_X + math.cos(theta) * CLEAVE_RADIUS,
+        CLEAVE_Y + 5,
+        CENTER_Z + math.sin(theta) * CLEAVE_RADIUS,
+        CENTER_X + math.cos(theta) * INNER_RADIUS,
+        CLEAVE_Y + 5,
+        CENTER_Z + math.sin(theta) * INNER_RADIUS
+end
+
+local crashingKeys = {} -- {[unitTag] = 1,}
+
+local function RemoveCrashingWaveRect(unitTag)
+    if (not crashingKeys[unitTag]) then return end
+    Crutch.Drawing.RemoveLine(crashingKeys[unitTag])
+    crashingKeys[unitTag] = nil
+end
+
+local function DrawCrashingWaveRect(unitTag)
+    local x1, y1, z1, x2, y2, z2 = GetRectPoints(unitTag)
+    local key = Crutch.Drawing.CreateLine(x1, y1, z1, x2, y2, z2, 12, {1, 0, 0, 0.2}, true, nil, function()
+        local x1, y1, z1, x2, y2, z2 = GetRectPoints(unitTag)
+        return x1, y1, z1, x2, y2, z2
+    end)
+    crashingKeys[unitTag] = key
+end
+
+local function OnCrashingWaveGained(_, changeType, _, _, unitTag)
+    if (changeType == EFFECT_RESULT_GAINED) then
+        DrawCrashingWaveRect(unitTag)
+    elseif (changeType == EFFECT_RESULT_FADED) then
+        RemoveCrashingWaveRect(unitTag)
+    end
+end
+Crutch.OnCrashingWaveGained = OnCrashingWaveGained
+-- /script CrutchAlerts.OnCrashingWaveGained(nil, EFFECT_RESULT_GAINED, nil, nil, "player")
+-- /script CrutchAlerts.savedOptions.dreadsailreef.telegraphCrashingWave = true CrutchAlerts.OnPlayerActivated()
+
+
+---------------------------------------------------------------------
 -- Taleria Info Panel
 ---------------------------------------------------------------------
 local PANEL_MAELSTROM_INDEX = 3
@@ -454,6 +501,11 @@ local function CleanUp()
     Crutch.InfoPanel.StopCount(PANEL_BEHEMOTH_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_WINTER_STORM_INDEX)
     Crutch.InfoPanel.StopCount(PANEL_SIREN_INDEX)
+
+    for unitTag, _ in pairs(crashingKeys) do
+        RemoveCrashingWaveRect(unitTag)
+        crashingKeys[unitTag] = nil
+    end
 end
 
 local function GetUnitNameIfExists(unitTag)
@@ -520,6 +572,12 @@ function Crutch.RegisterDreadsailReef()
     Crutch.RegisterBossChangedListener("CrutchDreadsailReef", TryEnablingTaleriaCleave)
     TryEnablingTaleriaCleave()
 
+    -- Crashing Wave
+    if (Crutch.savedOptions.dreadsailreef.telegraphCrashingWave) then
+        Crutch.RegisterForEffectChanged("DSRCrashingWave1", OnCrashingWaveGained, CRASHING_ID_1, "group")
+        Crutch.RegisterForEffectChanged("DSRCrashingWave2", OnCrashingWaveGained, CRASHING_ID_2, "group")
+    end
+
     -- Taleria info panel
     if (Crutch.savedOptions.dreadsailreef.infoPanel.showMaelstrom) then
         Crutch.RegisterForCombatEvent("DSRMaelstrom", OnMaelstromGainedDuration, ACTION_RESULT_EFFECT_GAINED_DURATION, MAELSTROM_ID)
@@ -583,6 +641,10 @@ function Crutch.UnregisterDreadsailReef()
     if (cleaveEnabled) then
         Uncleave()
     end
+
+    -- Crashing Wave
+    Crutch.UnregisterForEffectChanged("DSRCrashingWave1")
+    Crutch.UnregisterForEffectChanged("DSRCrashingWave2")
 
     -- Taleria info panel
     Crutch.UnregisterForCombatEvent("DSRMaelstrom")
