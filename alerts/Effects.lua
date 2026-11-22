@@ -18,7 +18,7 @@ local effectData = {
             },
             settings = {
                 name = "effectMagmaShell",
-                title = "Show Magma Shell Timer",
+                title = "Show Magma Shell duration",
                 description = "Shows an \"alert\" timer for when your Magma Shell will expire",
             },
         },
@@ -30,7 +30,7 @@ local effectData = {
             },
             settings = {
                 name = "effectMagmaShell",
-                title = "Show Magma Shell Timer",
+                title = "Show Magma Shell duration",
                 description = "Shows an \"alert\" timer for when your Magma Shell will expire",
             },
         },
@@ -42,7 +42,7 @@ local effectData = {
             },
             settings = {
                 name = "effectMagmaShell",
-                title = "Show Magma Shell Timer",
+                title = "Show Magma Shell duration",
                 description = "Shows an \"alert\" timer for when your Magma Shell will expire",
             },
         },
@@ -54,7 +54,7 @@ local effectData = {
             },
             settings = {
                 name = "effectParry",
-                title = "Show Fencer's Parry",
+                title = "Show Fencer's Parry duration",
                 description = "Shows an \"alert\" timer for your Fencer's Parry duration, along with when it is removed",
             },
         },
@@ -66,7 +66,7 @@ local effectData = {
             },
             settings = {
                 name = "effectParry",
-                title = "Show Fencer's Parry",
+                title = "Show Fencer's Parry duration",
                 description = "Shows an \"alert\" timer for your Fencer's Parry duration, along with when it is removed",
             },
         },
@@ -78,7 +78,7 @@ local effectData = {
             },
             settings = {
                 name = "effectParry",
-                title = "Show Fencer's Parry",
+                title = "Show Fencer's Parry duration",
                 description = "Shows an \"alert\" timer for your Fencer's Parry duration, along with when it is removed",
             },
         },
@@ -100,7 +100,7 @@ local effectData = {
             },
             settings = {
                 name = "effectVoltaicOverload",
-                title = "Show Voltaic Overload Timer",
+                title = "Show Voltaic Overload duration",
                 description = "Shows an \"alert\" timer for the duration of Voltaic Overload (barswap mechanic). Note that you still need \"Show Voltaic Current timer\" enabled to see Voltaic Current, which is the warning you get before Overload",
             },
         },
@@ -117,7 +117,7 @@ local effectData = {
             },
             settings = {
                 name = "effectFateSealer",
-                title = "Show Fate Sealer Timer",
+                title = "Show Fate Sealer duration",
                 description = "Shows an \"alert\" timer for when Fate Sealer will seal your group's fate",
             },
         },
@@ -139,7 +139,7 @@ local effectData = {
             end,
             settings = {
                 name = "showKnotTimer",
-                title = "Show Arcane Knot Timer",
+                title = "Show Arcane Knot duration",
                 description = "Shows an \"alert\" timer for the currently held Arcane Knot",
             },
         },
@@ -156,7 +156,7 @@ local effectData = {
             },
             settings = {
                 name = "effectShattered",
-                title = "Show Shattered Timer",
+                title = "Show Shattered duration",
                 description = "Shows an \"alert\" timer for how long your armor is shattered",
             },
         },
@@ -173,7 +173,7 @@ local effectData = {
             },
             settings = {
                 name = "effectRadiantLamplight",
-                title = "Show Radiant Lamplight Timer",
+                title = "Show Radiant Lamplight duration",
                 description = "Shows an \"alert\" timer for when your nightlight will go out",
             },
         },
@@ -190,7 +190,7 @@ local effectData = {
             },
             settings = {
                 name = "effectDeathTouch",
-                title = "Show Death Touch Timer",
+                title = "Show Death Touch duration",
                 description = "Shows an \"alert\" timer for when your Bahsei curse will explode",
             },
         },
