@@ -99,6 +99,7 @@ bosshealthbar/BossSpoofing.lua
 bosshealthbar/BossHealthBarAPI.lua
 bosshealthbar/BossHealthBar.xml
 bosshealthbar/AttributeVisualizers.lua
+bosshealthbar/ExtraInfo.lua
 bosshealthbar/TrialThresholds.lua
 bosshealthbar/DungeonThresholds.lua
 bosshealthbar/ArenaThresholds.lua

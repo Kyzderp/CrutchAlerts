@@ -2,6 +2,7 @@ local Crutch = CrutchAlerts
 local BHB = Crutch.BossHealthBar
 
 
+local maxBarsIndex = BOSS_RANK_ITERATION_END
 ---------------------------------------------------------------------------------------------------
 -- Threshold overrides, to be used when threshold determination is
 -- more complicated than just a name match
@@ -178,7 +179,7 @@ end
 
 -- It is possible for boss1 to die and have its health bar disappear
 local function GetFirstValidBossTag()
-    for i = 1, BOSS_RANK_ITERATION_END do
+    for i = 1, maxBarsIndex do
         local unitTag = "boss" .. tostring(i)
         if (DoesUnitExist(unitTag)) then
             return unitTag
@@ -267,7 +268,7 @@ end
 local function UpdateStagesWithBossHealth()
     -- Use the maximum health
     local highestHealth = 0
-    for i = 1, BOSS_RANK_ITERATION_END do
+    for i = 1, maxBarsIndex do
         local hp = GetBossHealthFraction(i)
         if (hp > highestHealth) then
             highestHealth = hp
@@ -433,7 +434,7 @@ local function RedrawStages(optionalBossName)
     -- For encounters that have different stages for each boss, care only about the individual stages
     -- TODO: or are there encounters where we do care about both kinds?
     local isMulti = false
-    for i = 1, BOSS_RANK_ITERATION_END do
+    for i = 1, maxBarsIndex do
         local unitTag = "boss" .. tostring(i)
         if (data[unitTag]) then
             isMulti = true
@@ -564,6 +565,10 @@ local function GetOrCreateStatusBar(index)
             "") -- suffix
         Crutch.SetBarColors(index, nil, nil)
         dbg("Created new control Bar" .. tostring(index))
+
+        if (index > maxBarsIndex) then
+            maxBarsIndex = index
+        end
     end
     -- Scale-related changes
     statusBar:SetWidth(30 * GetScale())
@@ -605,6 +610,18 @@ local function GetOrCreateStatusBar(index)
         statusBar:GetNamedChild("AttachedPercent"):SetTransformRotationZ(0)
     end
 
+    statusBar:GetNamedChild("ExtraInfo"):SetFont(GetScaledFont(20))
+    statusBar:GetNamedChild("ExtraInfo"):SetWidth(40 * GetScale())
+    statusBar:GetNamedChild("ExtraInfo"):SetHeight(22 * GetScale())
+    statusBar:GetNamedChild("ExtraInfo"):ClearAnchors()
+    if (Crutch.savedOptions.bossHealthBar.horizontal) then
+        statusBar:GetNamedChild("ExtraInfo"):SetAnchor(BOTTOM, statusBar, TOP, 0, -18 * GetScale())
+        statusBar:GetNamedChild("ExtraInfo"):SetTransformRotationZ(math.pi / 2)
+    else
+        statusBar:GetNamedChild("ExtraInfo"):SetAnchor(BOTTOM, statusBar, TOP, 0, -18 * GetScale())
+        statusBar:GetNamedChild("ExtraInfo"):SetTransformRotationZ(0)
+    end
+
     statusBar:SetHidden(false)
 
     return statusBar
@@ -618,7 +635,7 @@ end
 local function ShowOrHideBars(showAllForMoving, onlyReanchorStages, forcedIndex)
     local highestTag = 0
 
-    for i = 1, math.max(BOSS_RANK_ITERATION_END, forcedIndex or 0) do
+    for i = 1, math.max(maxBarsIndex, forcedIndex or 0) do
         local unitTag = "boss" .. tostring(i)
         local name = GetUnitNameIfExists(unitTag)
         if (showAllForMoving) then

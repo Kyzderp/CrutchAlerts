@@ -320,22 +320,24 @@ end
 ---------------------------------------------------------------------
 -- Abom spoofing
 ---------------------------------------------------------------------
-local trackedAboms = {} -- {unitId = ?}
+local trackedAboms = {} -- {unitId = index}
 local numAboms = 0
 local ABOM_MAX_HP = 7044070 -- TODO: other difficulties
 local ABOM_SUMMONED_ID = 150030
 local function OnAbomSummoned(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     numAboms = numAboms + 1
-    Crutch.TrackUnitForSpoofing(targetUnitId, "Abomination", "boss" .. (numAboms + 1), ABOM_MAX_HP)
-    trackedAboms[targetUnitId] = GetGameTimeMilliseconds()
+    Crutch.TrackUnitForSpoofing(targetUnitId, "Abomination " .. numAboms, "boss" .. (numAboms + 1), ABOM_MAX_HP)
+    trackedAboms[targetUnitId] = numAboms + 1
+    Crutch.BossHealthBar.CountDownExtraInfoDuration(numAboms + 1, 0)
     Crutch.dbgOther("abom " .. numAboms .. " summoned " .. targetUnitId)
 end
 
 local function OnUnitDied(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
     if (trackedAboms[targetUnitId]) then
         Crutch.UntrackUnitForSpoofing(targetUnitId)
+        Crutch.BossHealthBar.StopExtraInfoCount(trackedAboms[targetUnitId])
+        Crutch.dbgOther("abom " .. trackedAboms[targetUnitId] .. " died " .. targetUnitId)
         trackedAboms[targetUnitId] = nil
-        Crutch.dbgOther("abom " .. numAboms .. " died " .. targetUnitId)
     end
 end
 
@@ -344,6 +346,16 @@ local function UntrackAllAboms()
         Crutch.UntrackUnitForSpoofing(unitId)
         trackedAboms[unitId] = nil
     end
+end
+
+-- TODO: 19.416, 21.471, 20.681
+local function OnAbomSlam(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, targetUnitId)
+    if (not trackedAboms[targetUnitId]) then
+        Crutch.dbgOther("|cFF0000not an abom? " .. targetUnitId)
+        return
+    end
+
+    Crutch.BossHealthBar.CountDownExtraInfoDuration(trackedAboms[targetUnitId], 19400)
 end
 
 
@@ -405,8 +417,10 @@ function Crutch.RegisterRockgrove()
 
     -- Abom spoofing
     if (Crutch.savedOptions.experimental) then
-        Crutch.RegisterForCombatEvent("AbomSummoned", OnAbomSummoned, ACTION_RESULT_EFFECT_GAINED_DURATION, ABOM_SUMMONED_ID)
+        -- gained duration fires with a different id when coming back from portal. probably best to just remove an abom when there haven't been any events for it in X seconds
+        Crutch.RegisterForCombatEvent("AbomSummoned", OnAbomSummoned, ACTION_RESULT_EFFECT_GAINED, ABOM_SUMMONED_ID)
         Crutch.RegisterForCombatEvent("AbomDied", OnUnitDied, ACTION_RESULT_DIED)
+        Crutch.RegisterForCombatEvent("AbomSlam", OnAbomSlam, ACTION_RESULT_BEGIN, 149922)
     end
 end
 
@@ -433,6 +447,7 @@ function Crutch.UnregisterRockgrove()
     Crutch.UnregisterForCombatEvent("Scythe")
     Crutch.UnregisterForCombatEvent("AbomSummoned")
     Crutch.UnregisterForCombatEvent("AbomDied")
+    Crutch.UnregisterForCombatEvent("AbomSlam")
 
     Crutch.dbgOther("|c88FFFF[CT]|r Unregistered Rockgrove")
 end

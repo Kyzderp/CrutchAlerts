@@ -38,6 +38,7 @@ M.TrialsFoundToString = TrialsFoundToString
 -- /script d(CrutchAlerts.Drawing.Model.TrialsFoundToString())
 
 local function TrialsStringToFound(str)
+    str = str or ""
     ZO_ClearTable(found)
     for i = 1, #str / 2 do
         -- Start at the end of the string and work way up
@@ -108,7 +109,7 @@ local presentCoords = {
     [ 975] = "HoF|3120,51089,31569,44242,49976,23616,84458,52514,13094,20781,55663,71547,74996,54915,60551", -- Halls of Fabrication
     [1000] = "AS|74938,60219,101213,92243,65845,107952,96040,65875,100036,101093,65841,88848,100664,61450,96646", -- Asylum Sanctorium
     [1051] = "CR|152670,30523,71288,159398,31423,101037,167669,31445,92713,153329,31587,94847,159141,32851,103606", -- Cloudrest
-    [1121] = "SS|", -- Sunspire
+    [1121] = "SS|107508,52662,47177,175267,47255,174683,101191,49856,105114,105338,53922,70661,105960,54749,114984", -- Sunspire
     [1196] = "KA|127276,25182,114645,115771,25027,115190,119672,29984,92948,94912,24969,51739,26677,7918,11111", -- Kyne's Aegis
     [1263] = "RG|", -- Rockgrove
     [1344] = "DSR|28849,15510,175113,155426,38747,162970,116057,37876,98053,47148,36825,29775,117053,40874,28838", -- Dreadsail Reef
@@ -256,7 +257,7 @@ function M.InitializePresent()
 
     EVENT_MANAGER:RegisterForEvent(Crutch.name .. "GuiUnload", EVENT_GUI_UNLOADING, Serialize)
 
-    Deserialize() -- this needs to go before enabled check, because trails could be enabled without presents
+    Deserialize() -- this needs to go before enabled check, because trails could be enabled without presents, and also we need to load it anyway because serialize will always run
 
     if (not ArePresentsEnabled()) then return end
 

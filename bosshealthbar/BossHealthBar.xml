@@ -61,6 +61,10 @@
                         self.slide = self.slideAnimation:GetFirstAnimation()
                     </OnInitialized>
                 </Label>
+                <Label name="$(parent)ExtraInfo" color="CCCCCC" text="8.0" verticalAlignment="CENTER" horizontalAlignment="CENTER" hidden="true">
+                    <Dimensions x="40" y="16"/>
+                    <Anchor point="BOTTOM" relativeTo="$(parent)" relativePoint="TOP" offsetY="-10"/>
+                </Label>
             </Controls>
         </StatusBar>
     </Controls>
