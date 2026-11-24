@@ -16,10 +16,11 @@ local immolatingCircles = {}
 local immolatingSecondPart = {} -- track 237030
 
 local function RemoveImmolatingCircle(unitTag)
-    if (not immolatingCircles[unitTag]) then return end
-    Crutch.Drawing.RemoveWorldTexture(immolatingCircles[unitTag])
-    immolatingCircles[unitTag] = nil
-    immolatingSecondPart[unitTag] = nil
+    if (immolatingCircles[unitTag]) then
+        Crutch.Drawing.RemoveWorldTexture(immolatingCircles[unitTag])
+        immolatingCircles[unitTag] = nil
+    end
+    immolatingSecondPart[unitTag] = nil -- always do this, in case of unit tag changes
 end
 
 local function OnImmolatingSphereGained(_, _, _, _, _, _, _, _, _, _, hitValue, _, _, _, _, targetUnitId, abilityId)
@@ -247,8 +248,8 @@ function Crutch.UnregisterOsseinCage(isSameZone)
 
     -- Might be possible for someone to have incoming, but then player steps through a portal and has loadscreen?
     if (not isSameZone) then
-        for unitTag, _ in pairs(immolatingCircles) do
-            RemoveImmolatingCircle(unitTag)
+        for i = 1, MAX_GROUP_SIZE_THRESHOLD do
+            RemoveImmolatingCircle("group" .. i)
         end
     end
 
