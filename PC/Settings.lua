@@ -1411,10 +1411,10 @@ function Crutch:CreateSettingsMenu()
                     tooltip = function()
                         local hint = ""
                         if (Crutch.Drawing.Model.AreGravesEnabled()) then
-                            hint = "\n\nHint: if your friends are wondering why they don't see graves, it might not be Halloween for them yet, or they are on console, or they don't have SubSampling set to high. To disregard and show graves anyway, use\n/crutch meme graves"
+                            hint = hint .. "\n\nHint: if your friends are wondering why they don't see graves, it might not be Halloween for them yet, or they are on console, or they don't have SubSampling set to high. To disregard and show graves anyway, use\n/crutch meme graves"
                         end
                         if (Crutch.Drawing.Model.ArePresentsEnabled()) then
-                            hint = "\n\nHint: if your friends are wondering why they don't see presents, it might not be December 24~31 for them, or they are on console, or they don't have SubSampling set to high. To disregard and show presents anyway, use\n/crutch meme presents"
+                            hint = hint .. "\n\nHint: if your friends are wondering why they don't see presents, it might not be December 24~31 for them, or they are on console, or they don't have SubSampling set to high. To disregard and show presents anyway, use\n/crutch meme presents"
                         end
                         return "This is where I'd put my Easter eggs... if I had any! To revisit previous or never-released shenanigans, check out /crutch meme" .. hint
                     end,
