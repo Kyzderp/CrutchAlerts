@@ -122,7 +122,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
             tooltip = "Whether to set the texture's color using the group member's tank / healer / dps color. The opacity is based on the opacity you choose in the following \"Texture color\" option",
             default = false,
             getFunction = function()
-                if (selectedIndividual) then
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
                     return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor
                 end
             end,
@@ -183,13 +183,18 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
             tooltip = "Whether to set the text's color using the group member's tank / healer / dps color. The opacity is based on the opacity you choose in the following \"Text color\" option",
             default = false,
             getFunction = function()
-                if (selectedIndividual) then
+                if (selectedIndividual and Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then
                     return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColorText
                 end
             end,
             setFunction = function(value)
                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColorText = value
                 Crutch.Drawing.RefreshGroup()
+            end,
+            disable = function()
+                if (not selectedIndividual or not Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then return true end
+                local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                return text == nil or text == ""
             end,
         },
         {
@@ -596,6 +601,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
 
                 if (not Crutch.savedOptions.drawing.attached.individualIcons[name]) then
                     Crutch.AddIndividualIcon(name)
+                    Crutch.Drawing.RefreshGroup()
 
                     individualPlayerSubmenus[name] = individualPlayerSubmenus[name] or CreateNewIndividualIconSubmenuButtonTable(name)
 

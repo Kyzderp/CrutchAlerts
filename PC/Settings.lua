@@ -928,6 +928,7 @@ function Crutch:CreateSettingsMenu()
 
                                         if (not Crutch.savedOptions.drawing.attached.individualIcons[name]) then
                                             Crutch.AddIndividualIcon(name)
+                                            Crutch.Drawing.RefreshGroup()
                                         end
 
                                         selectedIndividual = name
