@@ -1077,7 +1077,7 @@ function Crutch:CreateSettingsMenu()
                                 },
                                 {
                                     type = "divider",
-                                    width = "half",
+                                    width = "full",
                                 },
                                 {
                                     type = "editbox",
@@ -1098,6 +1098,27 @@ function Crutch:CreateSettingsMenu()
                                     disabled = function() return selectedIndividual == nil end,
                                 },
                                 {
+                                    type = "checkbox",
+                                    name = "Use role colors",
+                                    tooltip = "Whether to set the text's color using the group member's tank / healer / dps color",
+                                    default = false,
+                                    getFunc = function()
+                                        if (selectedIndividual) then
+                                            return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColorText
+                                        end
+                                    end,
+                                    setFunc = function(value)
+                                        Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColorText = value
+                                        Crutch.Drawing.RefreshGroup()
+                                    end,
+                                    width = "half",
+                                    disabled = function()
+                                        if (selectedIndividual == nil) then return true end
+                                        local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
+                                        return text == nil or text == ""
+                                    end,
+                                },
+                                {
                                     type = "colorpicker",
                                     name = "Text color",
                                     tooltip = "Color of the text",
@@ -1114,7 +1135,8 @@ function Crutch:CreateSettingsMenu()
                                     disabled = function()
                                         if (selectedIndividual == nil) then return true end
                                         local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
-                                        return text == nil or text == ""
+                                        if (text == nil or text == "") then return true end
+                                        return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColorText
                                     end,
                                 },
                                 {

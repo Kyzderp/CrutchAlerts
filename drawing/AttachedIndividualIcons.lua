@@ -80,6 +80,22 @@ local function MaybeSetIndividualIcon(unitTag)
         ZO_ClearTable(spaceOptions.texture)
         ZO_ClearTable(spaceOptions.label)
 
+        -- role colors if applicable
+        local roleColor
+        if (iconData.useRoleColor or iconData.useRoleColorText) then
+            local role
+            if (AreUnitsEqual("player", unitTag)) then
+                role = GetSelectedLFGRole()
+            else
+                role = GetGroupMemberSelectedRole(unitTag)
+            end
+            if (role and role ~= LFG_ROLE_INVALID) then
+                roleColor = Draw.ROLE_SETTINGS[role].color()
+            else
+                roleColor = C.WHITE
+            end
+        end
+
         local texture, left, right, top, bottom = GetIconTexture(name, iconData)
         if (texture) then
             spaceOptions.texture.path = texture
@@ -87,17 +103,7 @@ local function MaybeSetIndividualIcon(unitTag)
 
             -- inherit role color, shouldn't need to be dynamic because icons are remade if roles change
             if (iconData.useRoleColor) then
-                local role
-                if (AreUnitsEqual("player", unitTag)) then
-                    role = GetSelectedLFGRole()
-                else
-                    role = GetGroupMemberSelectedRole(unitTag)
-                end
-                if (role) then
-                    spaceOptions.texture.color = Draw.ROLE_SETTINGS[role].color()
-                else
-                    spaceOptions.texture.color = C.WHITE
-                end
+                spaceOptions.texture.color = roleColor
             else
                 spaceOptions.texture.color = iconData.color
             end
@@ -112,7 +118,12 @@ local function MaybeSetIndividualIcon(unitTag)
         if (iconData.text) then
             spaceOptions.label.text = iconData.text
             spaceOptions.label.size = iconData.textSize
-            spaceOptions.label.color = iconData.textColor
+
+            if (iconData.useRoleColorText) then
+                spaceOptions.label.color = roleColor
+            else
+                spaceOptions.label.color = iconData.textColor
+            end
         end
 
         -- SetIconForUnit(unitTag, uniqueName, priority, texture, size, color, yOffset, persistOutsideCombat, callback, spaceOptions)
@@ -133,7 +144,7 @@ Draw.MaybeSetIndividualIcon = MaybeSetIndividualIcon
 ---------------------------------------------------------------------
 -- Adding individual icons API, persisted
 ---------------------------------------------------------------------
-local function AddIndividualIcon(atName, type, custom, size, color, text, textSize, textColor, useRoleColor)
+local function AddIndividualIcon(atName, type, custom, size, color, text, textSize, textColor, useRoleColor, useRoleColorText)
     Crutch.dbgSpam("Adding individual icon for " .. atName)
     local data = Crutch.savedOptions.drawing.attached.individualIcons[atName]
     if (not data) then
@@ -152,6 +163,7 @@ local function AddIndividualIcon(atName, type, custom, size, color, text, textSi
     data.textSize = textSize or 40
     if (textColor) then data.textColor = textColor end
     data.useRoleColor = useRoleColor
+    data.useRoleColorText = useRoleColorText
 
     Crutch.savedOptions.drawing.attached.individualIcons[atName] = data
 end
