@@ -1024,6 +1024,23 @@ function Crutch:CreateSettingsMenu()
                                     disabled = function() return selectedIndividual == nil or Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type ~= C.CUSTOM end,
                                 },
                                 {
+                                    type = "checkbox",
+                                    name = "Use role colors",
+                                    tooltip = "Whether to set the texture's color using the group member's tank / healer / dps color",
+                                    default = false,
+                                    getFunc = function()
+                                        if (selectedIndividual) then
+                                            return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor
+                                        end
+                                    end,
+                                    setFunc = function(value)
+                                        Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor = value
+                                        Crutch.Drawing.RefreshGroup()
+                                    end,
+                                    width = "half",
+                                    disabled = function() return selectedIndividual == nil end,
+                                },
+                                {
                                     type = "colorpicker",
                                     name = "Texture color",
                                     tooltip = "Color of the icon texture",
@@ -1037,7 +1054,7 @@ function Crutch:CreateSettingsMenu()
                                         Crutch.Drawing.RefreshGroup()
                                     end,
                                     width = "half",
-                                    disabled = function() return selectedIndividual == nil end,
+                                    disabled = function() return selectedIndividual == nil or Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor end,
                                 },
                                 {
                                     type = "slider",

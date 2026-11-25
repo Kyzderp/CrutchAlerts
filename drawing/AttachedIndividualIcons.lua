@@ -84,7 +84,23 @@ local function MaybeSetIndividualIcon(unitTag)
         if (texture) then
             spaceOptions.texture.path = texture
             spaceOptions.texture.size = iconData.size
-            spaceOptions.texture.color = iconData.color
+
+            -- inherit role color, shouldn't need to be dynamic because icons are remade if roles change
+            if (iconData.useRoleColor) then
+                local role
+                if (AreUnitsEqual("player", unitTag)) then
+                    role = GetSelectedLFGRole()
+                else
+                    role = GetGroupMemberSelectedRole(unitTag)
+                end
+                if (role) then
+                    spaceOptions.texture.color = Draw.ROLE_SETTINGS[role].color()
+                else
+                    spaceOptions.texture.color = C.WHITE
+                end
+            else
+                spaceOptions.texture.color = iconData.color
+            end
 
             -- Texture coords
             spaceOptions.texture.left = left
@@ -117,7 +133,7 @@ Draw.MaybeSetIndividualIcon = MaybeSetIndividualIcon
 ---------------------------------------------------------------------
 -- Adding individual icons API, persisted
 ---------------------------------------------------------------------
-local function AddIndividualIcon(atName, type, custom, size, color, text, textSize, textColor)
+local function AddIndividualIcon(atName, type, custom, size, color, text, textSize, textColor, useRoleColor)
     Crutch.dbgSpam("Adding individual icon for " .. atName)
     local data = Crutch.savedOptions.drawing.attached.individualIcons[atName]
     if (not data) then
@@ -135,6 +151,7 @@ local function AddIndividualIcon(atName, type, custom, size, color, text, textSi
     data.text = text
     data.textSize = textSize or 40
     if (textColor) then data.textColor = textColor end
+    data.useRoleColor = useRoleColor
 
     Crutch.savedOptions.drawing.attached.individualIcons[atName] = data
 end

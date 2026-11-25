@@ -327,6 +327,7 @@ local ROLE_SETTINGS = {
         show = function() return Crutch.savedOptions.drawing.attached.showTank end,
     },
 }
+Draw.ROLE_SETTINGS = ROLE_SETTINGS
 
 local tagsToDo = {}
 local function CreateGroupRoleIcons()

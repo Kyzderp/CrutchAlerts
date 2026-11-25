@@ -117,6 +117,21 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
             disable = function() return selectedIndividual == nil or not Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual] or Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].type ~= C.CUSTOM end,
         },
         {
+            type = LibHarvensAddonSettings.ST_CHECKBOX,
+            label = "Use role colors",
+            tooltip = "Whether to set the texture's color using the group member's tank / healer / dps color",
+            default = false,
+            getFunction = function()
+                if (selectedIndividual) then
+                    return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor
+                end
+            end,
+            setFunction = function(value)
+                Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor = value
+                Crutch.Drawing.RefreshGroup()
+            end,
+        },
+        {
             type = LibHarvensAddonSettings.ST_COLOR,
             label = "Texture color",
             tooltip = "Color of the icon texture",
@@ -129,6 +144,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b, a}
                 Crutch.Drawing.RefreshGroup()
             end,
+            disable = function() return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor end,
         },
         {
             type = LibHarvensAddonSettings.ST_SLIDER,
