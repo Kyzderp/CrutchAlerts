@@ -1026,7 +1026,7 @@ function Crutch:CreateSettingsMenu()
                                 {
                                     type = "checkbox",
                                     name = "Use role colors",
-                                    tooltip = "Whether to set the texture's color using the group member's tank / healer / dps color",
+                                    tooltip = "Whether to set the texture's color using the group member's tank / healer / dps color. The opacity is based on the opacity you choose in the following \"Texture color\" option",
                                     default = false,
                                     getFunc = function()
                                         if (selectedIndividual) then
@@ -1054,7 +1054,7 @@ function Crutch:CreateSettingsMenu()
                                         Crutch.Drawing.RefreshGroup()
                                     end,
                                     width = "half",
-                                    disabled = function() return selectedIndividual == nil or Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor end,
+                                    disabled = function() return selectedIndividual == nil end,
                                 },
                                 {
                                     type = "slider",
@@ -1100,7 +1100,7 @@ function Crutch:CreateSettingsMenu()
                                 {
                                     type = "checkbox",
                                     name = "Use role colors",
-                                    tooltip = "Whether to set the text's color using the group member's tank / healer / dps color",
+                                    tooltip = "Whether to set the text's color using the group member's tank / healer / dps color. The opacity is based on the opacity you choose in the following \"Text color\" option",
                                     default = false,
                                     getFunc = function()
                                         if (selectedIndividual) then
@@ -1135,8 +1135,7 @@ function Crutch:CreateSettingsMenu()
                                     disabled = function()
                                         if (selectedIndividual == nil) then return true end
                                         local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
-                                        if (text == nil or text == "") then return true end
-                                        return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColorText
+                                        return text == nil or text == ""
                                     end,
                                 },
                                 {

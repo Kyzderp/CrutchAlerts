@@ -119,7 +119,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Use role colors",
-            tooltip = "Whether to set the texture's color using the group member's tank / healer / dps color",
+            tooltip = "Whether to set the texture's color using the group member's tank / healer / dps color. The opacity is based on the opacity you choose in the following \"Texture color\" option",
             default = false,
             getFunction = function()
                 if (selectedIndividual) then
@@ -144,7 +144,6 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
                 Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].color = {r, g, b, a}
                 Crutch.Drawing.RefreshGroup()
             end,
-            disable = function() return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColor end,
         },
         {
             type = LibHarvensAddonSettings.ST_SLIDER,
@@ -181,7 +180,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
         {
             type = LibHarvensAddonSettings.ST_CHECKBOX,
             label = "Use role colors",
-            tooltip = "Whether to set the text's color using the group member's tank / healer / dps color",
+            tooltip = "Whether to set the text's color using the group member's tank / healer / dps color. The opacity is based on the opacity you choose in the following \"Text color\" option",
             default = false,
             getFunction = function()
                 if (selectedIndividual) then
@@ -209,8 +208,7 @@ function Crutch.CreateConsoleDrawingSettingsMenu()
             disable = function()
                 if (not selectedIndividual or not Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual]) then return true end
                 local text = Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].text
-                if (text == nil or text == "") then return true end
-                return Crutch.savedOptions.drawing.attached.individualIcons[selectedIndividual].useRoleColorText
+                return text == nil or text == ""
             end,
         },
         {

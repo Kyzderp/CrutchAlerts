@@ -103,7 +103,8 @@ local function MaybeSetIndividualIcon(unitTag)
 
             -- inherit role color, shouldn't need to be dynamic because icons are remade if roles change
             if (iconData.useRoleColor) then
-                spaceOptions.texture.color = roleColor
+                local r, g, b = unpack(roleColor)
+                spaceOptions.texture.color = {r, g, b, iconData.color[4]}
             else
                 spaceOptions.texture.color = iconData.color
             end
@@ -120,7 +121,8 @@ local function MaybeSetIndividualIcon(unitTag)
             spaceOptions.label.size = iconData.textSize
 
             if (iconData.useRoleColorText) then
-                spaceOptions.label.color = roleColor
+                local r, g, b = unpack(roleColor)
+                spaceOptions.label.color = {r, g, b, iconData.textColor[4]}
             else
                 spaceOptions.label.color = iconData.textColor
             end
