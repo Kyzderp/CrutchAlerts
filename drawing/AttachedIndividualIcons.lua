@@ -72,6 +72,10 @@ Draw.DestroyIndividualIcons = DestroyIndividualIcons
 
 -- To be called from group refresh
 local function MaybeSetIndividualIcon(unitTag)
+    if (not Crutch.savedOptions.drawing.attached.showSelfRole and AreUnitsEqual(unitTag, "player")) then
+        return
+    end
+
     local name = GetUnitDisplayName(unitTag)
     local iconData = Crutch.savedOptions.drawing.attached.individualIcons[name]
     if (iconData) then
