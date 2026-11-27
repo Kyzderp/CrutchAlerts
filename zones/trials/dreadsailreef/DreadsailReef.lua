@@ -375,7 +375,7 @@ end
 
 local function DrawCrashingWaveRect(unitTag)
     local x1, y1, z1, x2, y2, z2 = GetRectPoints(unitTag)
-    local key = Crutch.Drawing.CreateLine(x1, y1, z1, x2, y2, z2, 12, {1, 0, 0, 0.2}, true, nil, function()
+    local key = Crutch.Drawing.CreateLine(x1, y1, z1, x2, y2, z2, 16, {1, 0, 0, 0.2}, true, nil, function()
         local x1, y1, z1, x2, y2, z2 = GetRectPoints(unitTag)
         return x1, y1, z1, x2, y2, z2
     end)

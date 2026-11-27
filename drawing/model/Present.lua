@@ -150,7 +150,7 @@ local function OpenPresent(index)
 
     -- shouldn't be possible to have more than 5; that probably means cheating
     if (num == NUM_TRIAL) then
-        Crutch.msg(zo_strformat("You found all <<1>> |t100%:100%:CrutchAlerts/assets/poop.dds|ts in <<2>>! Happy holidays and enjoy the little snowflakes while in this zone :) Effects can be turned off in CrutchAlerts > Miscellaneous > Enable fun effects", num, GetZoneNameById(zoneId)))
+        Crutch.msg(zo_strformat("You found all <<1>> |t100%:100%:CrutchAlerts/assets/poop.dds|t in <<2>>! Happy holidays and enjoy the little snowflakes while in this zone :) Effects can be turned off in CrutchAlerts > Miscellaneous > Enable fun effects", num, GetZoneNameById(zoneId)))
         Crutch.Drawing.Trail.OnPlayerActivated()
     else
         Crutch.msg(zo_strformat("You found a |t100%:100%:CrutchAlerts/assets/poop.dds|t ! <<1>>/<<2>> collected in <<3>>.", num, NUM_TRIAL, GetZoneNameById(zoneId)))

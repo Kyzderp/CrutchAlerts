@@ -197,6 +197,8 @@ Crutch.testing = {
 
     [237011] = true, -- Immolating Sphere
     [237030] = true, -- Immolating Sphere
+
+    [153561] = true, -- Ray of Hope
 }
 
 ---------------------------------------------------------------------
